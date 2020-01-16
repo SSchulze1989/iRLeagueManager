@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="iRLeagueManager.Views.UserLoginControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iRLeagueManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" Height="auto">
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Azure" Stroke="DarkBlue"/>
+        <StackPanel HorizontalAlignment="Stretch">
+            <TextBlock HorizontalAlignment="Left" Margin="5,5,5,2" Text="Username:" />
+            <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5,2"/>
+            <TextBlock HorizontalAlignment="Left" Margin="5,2" Text="Passwort:" />
+            <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5" />
+            <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" Margin="5" Foreground="Red" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="SubmitButton" Grid.Column="0" Command="{Binding SubmitButtonCommand}" Margin="5,20,5,10" Content="Submit" />
+                <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,20,5,10" Content="Cancel"/>
+            </Grid>
+            <TextBlock Margin="5">
+                <Hyperlink Command="{Binding RegisterUserCommand}">Register new User</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<Window x:Class="iRLeagueManager.Views.ModalOkCancelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:iRLeagueManager.Views"
+        mc:Ignorable="d"
+        Title="ModalOkCancelWindow" Height="Auto" Width="Auto">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ContentControl Grid.Row="0" x:Name="ModalContent" />
+        <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Ok" x:Name="OkButton" Click="OkButton_Click"/>
+            <Button Content="Cancel" x:Name="CancelButton" Click="CancelButton_Click"/>
+            <StackPanel.Resources>
+                <Style TargetType="Button" >
+                    <Setter Property="Padding" Value="10,5" />
+                    <Setter Property="Margin" Value="10,5" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </StackPanel.Resources>
+        </StackPanel>
+    </Grid>
+</Window>

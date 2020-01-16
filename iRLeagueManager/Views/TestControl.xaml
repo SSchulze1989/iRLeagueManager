@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="iRLeagueManager.Views.TestControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iRLeagueManager.Views"
+             xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
+             xmlns:locations="clr-namespace:iRLeagueManager.Locations;assembly=Communication"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    
+    <UserControl.DataContext>
+        <vmodel:SessionViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <locations:LocationCollection x:Key="LocationCollection" />
+        <locations:TrackCollection x:Key="TrackCollection" />
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Vertical" TextBlock.FontSize="20">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="5">
+                <TextBlock Text="{Binding Schedule.Name}" />
+                <TextBlock Text=" - Session: " />
+                <TextBlock Text="{Binding SessionNumber}" />
+                <TextBlock Text=" of " />
+                <TextBlock Text="{Binding Schedule.SessionCount}" />
+            </StackPanel>
+
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Date: " />
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Date}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Duration: " />
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Duration}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Track: " />
+                <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{StaticResource TrackCollection}" SelectedIndex="{Binding TrackId}" DisplayMemberPath="TrackName"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Configuration: " />
+                <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Track.Configs}" SelectedIndex="{Binding ConfigId}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Laps:" />
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Laps}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="Practice Length" />
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding PracticeLength}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="Qualy Length: " />
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding QualyLength}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="Race Length:" />
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding RaceLength}" />
+
+                <Grid.Resources>
+                    <Style TargetType="TextBox" >
+                        <Setter Property="Margin" Value="5" />
+                    </Style>
+                    <Style TargetType="TextBox" >
+                        <Setter Property="Margin" Value="5" />
+                    </Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Margin" Value="5" />
+                    </Style>
+                </Grid.Resources>
+            </Grid>
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="Button" >
+                        <Setter Property="Margin" Value="10" />
+                        <Setter Property="Padding" Value="20,5" />
+                    </Style>
+                </Grid.Resources>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
