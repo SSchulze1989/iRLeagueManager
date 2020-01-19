@@ -58,18 +58,25 @@ namespace iRLeagueManager.ViewModels
         public RaceTrack Track => Locations.FirstOrDefault(x => x.GetTrackInfo().TrackId == TrackId)?.GetTrackInfo();
         public IEnumerable<TrackConfig> TrackConfigs => Track?.Configs;
         public TrackConfig Config => Track?.Configs.SingleOrDefault(x => x.ConfigId == ConfigId);
+        public Location Location => Locations.FirstOrDefault(x => x.LocationId == Model.LocationId);
 
-        public int? Laps { get => (Model as RaceSessionModel)?.Laps; set { if (Model is RaceSessionModel race) { race.Laps = value.Value; } } }
+        public int Laps { get => ((Model as RaceSessionModel)?.Laps).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.Laps = value; } } }
         public string IrResultLink { get => (Model as RaceSessionModel)?.IrResultLink; set { if (Model is RaceSessionModel race) { race.IrResultLink = value; } } }
         public string IrSessionId { get => (Model as RaceSessionModel)?.IrSessionId; set { if (Model is RaceSessionModel race) { race.IrSessionId = value; } } }
-        public TimeSpan? PracticeLength { get => (Model as RaceSessionModel)?.PracticeLength; set { if (Model is RaceSessionModel race) { race.PracticeLength = value.Value; } } }
+        public TimeSpan PracticeLength { get => ((Model as RaceSessionModel)?.PracticeLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeLength = value; } } }
         public TimeComponentVector PracticeLenghtComponents { get; }
-        public TimeSpan? QualyLength { get => (Model as RaceSessionModel)?.QualyLength; set { if (Model is RaceSessionModel race) { race.QualyLength = value.Value; } } }
+        public TimeSpan PracticeStart => TimeOfDay;
+        public TimeSpan PracticeEnd => TimeOfDay.Add(PracticeLength);
+        public TimeSpan QualyLength { get => ((Model as RaceSessionModel)?.QualyLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyLength = value; } } }
         public TimeComponentVector QualyLengthComponents { get; }
-        public TimeSpan? RaceLength { get => (Model as RaceSessionModel)?.RaceLength; set { if (Model is RaceSessionModel race) { race.RaceLength = value.Value; } } }
+        public TimeSpan QualyStart => PracticeStart.Add(PracticeLength);
+        public TimeSpan QualyEnd => QualyStart.Add(QualyLength);
+        public TimeSpan RaceLength { get => ((Model as RaceSessionModel)?.RaceLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.RaceLength = value; } } }
         public TimeComponentVector RaceLengthComponents { get; }
-        public bool? QualyAttached { get => (Model as RaceSessionModel)?.QualyAttached; set { if (Model is RaceSessionModel race) { race.QualyAttached = value.Value; } } }
-        public bool? PracticeAttached { get => (Model as RaceSessionModel)?.PracticeAttached; set { if (Model is RaceSessionModel race) { race.PracticeAttached = value.Value; } } }
+        public TimeSpan RaceStart => QualyStart.Add(QualyLength);
+        public TimeSpan RaceEnd => RaceStart.Add(RaceLength);
+        public bool QualyAttached { get => ((Model as RaceSessionModel)?.QualyAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyAttached = value; } } }
+        public bool PracticeAttached { get => ((Model as RaceSessionModel)?.PracticeAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeAttached = value; } } }
 
         public int? RaceId => (Model as RaceSessionModel)?.RaceId;
 
@@ -78,9 +85,9 @@ namespace iRLeagueManager.ViewModels
             SetSource(RaceSessionModel.GetTemplate());
             TimeOfDayComponents = new TimeComponentVector(() => TimeOfDay, x => TimeOfDay = x);
             DurationComponents = new TimeComponentVector(() => Duration, x => Duration = x);
-            PracticeLenghtComponents = new TimeComponentVector(() => PracticeLength.GetValueOrDefault(), x => PracticeLength = x);
-            QualyLengthComponents = new TimeComponentVector(() => QualyLength.GetValueOrDefault(), x => QualyLength = x);
-            RaceLengthComponents = new TimeComponentVector(() => RaceLength.GetValueOrDefault(), x => RaceLength = x);
+            PracticeLenghtComponents = new TimeComponentVector(() => PracticeLength, x => PracticeLength = x);
+            QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
+            RaceLengthComponents = new TimeComponentVector(() => RaceLength, x => RaceLength = x);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -97,8 +104,7 @@ namespace iRLeagueManager.ViewModels
 
             if (propertyName == nameof(Date))
             {
-                OnPropertyChanged(nameof(TimeOfDay));
-                OnPropertyChanged(nameof(TimeOfDayComponents));
+                OnPropertyChanged(null);
             }
             if (propertyName == nameof(Duration))
             {
@@ -107,14 +113,23 @@ namespace iRLeagueManager.ViewModels
             if (propertyName == nameof(PracticeLength))
             {
                 OnPropertyChanged(nameof(PracticeLenghtComponents));
+                OnPropertyChanged(nameof(PracticeEnd));
+                OnPropertyChanged(nameof(QualyStart));
+                OnPropertyChanged(nameof(QualyEnd));
+                OnPropertyChanged(nameof(RaceStart));
+                OnPropertyChanged(nameof(RaceEnd));
             }
             if (propertyName == nameof(QualyLength))
             {
                 OnPropertyChanged(nameof(QualyLengthComponents));
+                OnPropertyChanged(nameof(QualyEnd));
+                OnPropertyChanged(nameof(RaceStart));
+                OnPropertyChanged(nameof(RaceEnd));
             }
             if (propertyName == nameof(RaceLength))
             {
                 OnPropertyChanged(nameof(RaceLengthComponents));
+                OnPropertyChanged(nameof(RaceEnd));
             }
         }
     }

@@ -103,6 +103,29 @@ namespace iRLeagueManager.ViewModels
             ScheduleList.UpdateSource(schedules);
         }
 
+        public async void DeleteSchedule(ScheduleModel schedule)
+        {
+            if (schedule == null)
+                return;
+
+            try
+            {
+                Season.Schedules.Remove(Season.Schedules.SingleOrDefault(x => x.ScheduleId == schedule.ScheduleId));
+                IsLoading = true;
+                await LeagueContext.UpdateModelAsync(Season);
+                IsLoading = false;
+                Load(Season);
+            }
+            catch
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
         public IEnumerator<ScheduleViewModel> GetEnumerator()
         {
             return ((IEnumerable<ScheduleViewModel>)ScheduleList).GetEnumerator();

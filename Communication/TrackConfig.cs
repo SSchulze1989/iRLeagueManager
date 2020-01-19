@@ -25,7 +25,7 @@ namespace iRLeagueManager.Locations
         [XmlAttribute("night_lighting")]
         public bool HasNigtLigthing { get; set; }
         [XmlIgnore]
-        public string ShortName => ConfigName.Substring(0, 12);
+        public string ShortName => ConfigName.Substring(0, Math.Min(12, ConfigName.Length));
 
 
         public TrackConfig() { }

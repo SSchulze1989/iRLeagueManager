@@ -70,5 +70,16 @@ namespace iRLeagueManager.Views
                 }
             }
         }
+
+        private void ScheduleDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is SchedulerViewModel schedulerVM && sender is Button button && button.Tag is ScheduleViewModel scheduleVM)
+            {
+                if (MessageBox.Show("Would you really like to delete Schedule: " + scheduleVM.Name + "?\nThis action can not be undone!", "Delete Schedule", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    schedulerVM
+                }
+            }
+        }
     }
 }

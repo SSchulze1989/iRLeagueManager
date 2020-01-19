@@ -13,7 +13,7 @@ namespace iRLeagueManager.Locations
     {
         public int TrackId { get; set; }
         public string TrackName { get; set; }
-        public string ShortName => TrackName.Substring(0, 20);
+        public string ShortName => TrackName.Substring(0, Math.Min(20, TrackName.Length));
         public ObservableCollection<TrackConfig> Configs { get; set; }
         //Race track data
 

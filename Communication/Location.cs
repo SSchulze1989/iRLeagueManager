@@ -17,7 +17,7 @@ namespace iRLeagueManager.Locations
         public string TrackName { get => config.Track.TrackName; }
         public string ConfigName { get => config.ConfigName; }
         public string FullName { get => TrackName + " - " + ConfigName; }
-        public string ShortName { get => config.Track.ShortName + " - " + config.ShortName; }
+        public string ShortName { get => config.Track.ShortName + ((config.ShortName != "") ?  " - " + config.ShortName : ""); }
 
         public Location(TrackConfig confg)
         {

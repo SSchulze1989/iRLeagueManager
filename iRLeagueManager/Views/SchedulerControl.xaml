@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <UserControl.Resources>
@@ -28,8 +29,77 @@
                         <Grid Margin="2">
                             <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stroke="Black" StrokeThickness="2" RadiusX="5" RadiusY="5" />
                             <StackPanel Margin="5,2">
-                                <TextBlock Text="{Binding Name}" />
-                                <DataGrid ItemsSource="{Binding Sessions}" SelectedItem="{Binding SelectedSession}" SelectionMode="Extended" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="True">
+                                <DockPanel>
+                                    <Button Content="X" DockPanel.Dock="Right" Width="22" Height="22" x:Name="ScheduleDeleteButton"
+                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Click="ScheduleDeleteButton_Click"/>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DockPanel>
+                                <DataGrid ItemsSource="{Binding Sessions}" SelectedItem="{Binding SelectedSession}" SelectionMode="Extended" 
+                                          CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
+                                    <DataGrid.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Padding" Value="4"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.CellStyle>
+                                    <DataGrid.RowHeaderStyle>
+                                        <Style TargetType="DataGridRowHeader">
+                                            <Setter Property="Padding" Value="4"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.RowHeaderStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding RaceId}" Header="Race Nr:" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding Date, StringFormat=d, ConverterCulture=de-DE}" Header="Date:" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding Location.FullName}" Header="Track:" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding TimeOfDay}" Header="Session Start:" IsReadOnly="True"/>
+                                        <DataGridTextColumn Header="Practice:">
+                                            <DataGridTextColumn.Binding>
+                                                <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
+                                                    <Binding Path="PracticeStart.Hours" />
+                                                    <Binding Path="PracticeStart.Minutes"/>
+                                                    <Binding Path="PracticeEnd.Hours"/>
+                                                    <Binding Path="PracticeEnd.Minutes"/>
+                                                </MultiBinding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Qualy:">
+                                            <DataGridTextColumn.Binding>
+                                                <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
+                                                    <Binding Path="QualyStart.Hours"/>
+                                                    <Binding Path="QualyStart.Minutes"/>
+                                                    <Binding Path="QualyEnd.Hours"/>
+                                                    <Binding Path="QualyEnd.Minutes"/>
+                                                </MultiBinding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Race:">
+                                            <DataGridTextColumn.Binding>
+                                                <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
+                                                    <Binding Path="RaceStart.Hours"/>
+                                                    <Binding Path="RaceStart.Minutes"/>
+                                                    <Binding Path="RaceEnd.Hours"/>
+                                                    <Binding Path="RaceEnd.Minutes"/>
+                                                </MultiBinding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
                                 </DataGrid>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <TextBlock Text="Sessions: " Margin="5" />
