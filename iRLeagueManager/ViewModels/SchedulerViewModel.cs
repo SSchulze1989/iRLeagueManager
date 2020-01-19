@@ -116,8 +116,8 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = false;
                 Load(Season);
             }
-            catch
-            {
+            catch (Exception e)
+            { 
                 GlobalSettings.LogError(e);
             }
             finally

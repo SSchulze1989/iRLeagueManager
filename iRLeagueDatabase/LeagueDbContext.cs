@@ -18,7 +18,7 @@ namespace iRLeagueDatabase
         public virtual DbSet<SeasonEntity> Seasons { get; set; }
         public virtual DbSet<LeagueMemberEntity> Members { get; set; }
 
-        public LeagueDbContext() : base("Data Source=DESKTOP-UR27UMJ\\IRLEAGUEDB;Initial Catalog=LeagueDatabase;Integrated Security=True;Pooling=False")
+        public LeagueDbContext() : base("Data Source=DESKTOP-2GG5FLJ\\IRLEAGUEDB;Initial Catalog=LeagueDatabase;Integrated Security=True;Pooling=False")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<LeagueDbContext, iRLeagueDatabase.Migrations.Configuration>());
         }

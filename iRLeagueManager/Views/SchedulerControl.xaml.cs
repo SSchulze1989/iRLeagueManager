@@ -77,7 +77,7 @@ namespace iRLeagueManager.Views
             {
                 if (MessageBox.Show("Would you really like to delete Schedule: " + scheduleVM.Name + "?\nThis action can not be undone!", "Delete Schedule", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    schedulerVM
+                    
                 }
             }
         }

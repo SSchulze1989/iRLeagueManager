@@ -32,7 +32,7 @@ namespace iRLeagueManager.Locations
             //tracks[2].AddConfig(2, "GP");
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<RaceTrack>));
-            StreamReader streamReader = new StreamReader("C:/Users/simon/Documents/VisualStudio/iRLeagueManager_v0_2/iRLeagueManager_v0_2/bin/Debug/Tracks.xml");
+            StreamReader streamReader = new StreamReader("Tracks.xml");
             List<RaceTrack> tracks = xmlSerializer.Deserialize(streamReader) as List<RaceTrack>;
             foreach (var track in tracks)
             {
