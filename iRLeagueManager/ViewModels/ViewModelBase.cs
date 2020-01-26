@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace iRLeagueManager.ViewModels
 {
     /// <summary>
     /// Implements basic ViewModel functions:
-    /// --> NotifyPropertyChanged() Method
+    /// --> INotifyPropertyChanged
     /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {
@@ -19,7 +20,14 @@ namespace iRLeagueManager.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Refresh(String propertyName = "")
+        public ICommand RefreshCmd { get; }
+
+        public ViewModelBase()
+        {
+            RefreshCmd = new RelayCommand(o => Refresh(o?.ToString()), o => true);
+        }
+
+        public virtual void Refresh(String propertyName = "")
         {
             OnPropertyChanged(propertyName);
         }
@@ -29,33 +37,59 @@ namespace iRLeagueManager.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected virtual bool SetValue<TValue>(ref TValue targetProperty, TValue value, [CallerMemberName] string propertyName = "")
+        /// <summary>
+        /// Set field value and invoke property changed event for caller property
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="target">/param>
+        /// <param name="value"></param>
+        /// <param name="propertyName">Specify propertyname if it differs from caller</param>
+        /// <returns>True if value has changed</returns>
+        protected virtual bool SetValue<TValue>(ref TValue target, TValue value, [CallerMemberName] string propertyName = "")
         {
-            return SetValue(ref targetProperty, value, (t, v) => t.Equals(v), propertyName);
+            return SetValue(ref target, value, (t, v) => t.Equals(v), propertyName);
         }
 
-        protected virtual bool SetValue<TValue>(ref TValue targetProperty, TValue value, Func<TValue, TValue, bool> equalityComparer, [CallerMemberName] string propertyName = "")
+        /// <summary>
+        /// Set field value and invoke property changed event for caller property
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="target"></param>
+        /// <param name="value"></param>
+        /// <param name="equalityComparer">Func for comparing equal values. Used for determining wether a value hast changed.</param>
+        /// <param name="propertyName">Specify propertyname if it differs from caller</param>
+        /// <returns>True if value has changed</returns>
+        protected virtual bool SetValue<TValue>(ref TValue target, TValue value, Func<TValue, TValue, bool> equalityComparer, [CallerMemberName] string propertyName = "")
         {
-            if (targetProperty == null)
+            if (target == null)
             {
                 if (value != null)
                 {
-                    targetProperty = value;
+                    target = value;
                     OnPropertyChanged(propertyName);
                     return true;
                 }
                 return false;
             }
 
-            if (!equalityComparer(targetProperty, value))
+            if (!equalityComparer(target, value))
             {
-                targetProperty = value;
+                target = value;
                 OnPropertyChanged(propertyName);
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="getFunc"></param>
+        /// <param name="setFunc"></param>
+        /// <param name="value"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
         protected virtual bool SetValue<TValue>(Func<TValue> getFunc, Action<TValue> setFunc, TValue value , [CallerMemberName] string propertyName = "")
         {
             var target = getFunc.Invoke();

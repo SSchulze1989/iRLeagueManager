@@ -36,7 +36,7 @@ namespace iRLeagueManager.ViewModels
         private SeasonModel season;
         public SeasonModel Season { get => season; set => SetValue(ref season, value); }
 
-        public  ICommand CreateScheduleCmd { get; }
+        public ICommand CreateScheduleCmd { get; }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged
         {
@@ -134,6 +134,12 @@ namespace iRLeagueManager.ViewModels
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<ScheduleViewModel>)ScheduleList).GetEnumerator();
+        }
+
+        public override void Refresh(string propertyName = "")
+        {
+            Load(Season);
+            base.Refresh(propertyName);
         }
     }
 }

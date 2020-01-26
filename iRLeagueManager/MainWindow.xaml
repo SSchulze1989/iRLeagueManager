@@ -91,7 +91,7 @@
                         </StackPanel>
                     </StackPanel>
                     <Button Content="Standings" IsEnabled="False"/>
-                    <Button Content="Race Calendar" IsEnabled="False"/>
+                    <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <Button Content="Schedules" Click="SchedulesButton_Click" />
                     <Button Content="Results" IsEnabled="False"/>
                     <Button Content="Teams" IsEnabled="False"/>
@@ -113,6 +113,9 @@
             <Grid >
                 <ContentControl x:Name="MainContent">
                     <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type vmodel:CalendarViewModel}">
+                            <views:CalendarControl />
+                        </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:SchedulerViewModel}" >
                             <views:SchedulerControl />
                         </DataTemplate>

@@ -367,7 +367,7 @@
   </RaceTrack>
   <RaceTrack>
     <TrackId>43</TrackId>
-    <TrackName>Lime Rock Park</TrackName>
+    <TrackName>Lime Rock Park - 2007</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Chicane" length="2.478" turns="7" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="2" config_name="Full Course" length="2.462" turns="7" type="RoadCourse" night_lighting="false" />
@@ -815,6 +815,28 @@
       <TrackConfig config_id="1" config_name="Grand Prix" length="5.13" turns="18" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="2" config_name="International" length="3.62" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="3" config_name="National" length="2.64" turns="6" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>94</TrackId>
+    <TrackName>Lime Rock Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="2.46" turns="7" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Classic" length="2.46" turns="9" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Chicanes" length="2.46" turns="11" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="West Bend Chicane" length="2.46" turns="9" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>95</TrackId>
+    <TrackName>Circuit de Barcelona Catalunya</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.65" turns="16" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="National" length="2.98" turns="11" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Club" length="1.70" turns="6" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Grand Prix" length="2.46" turns="7" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Moto" length="4.65" turns="16" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Historic" length="4.73" turns="13" type="RoadCourse" night_lighting="true" />
     </Configs>
   </RaceTrack>
 </ArrayOfRaceTrack>

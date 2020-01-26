@@ -45,7 +45,17 @@ namespace iRLeagueManager
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
-                var vm = (MainContent.Content is SchedulerViewModel currentVm) ? currentVm : new SchedulerViewModel();
+                var vm = (MainContent.Content is SchedulerViewModel currentVM) ? currentVM : new SchedulerViewModel();
+                MainContent.Content = vm;
+                vm.Load(mainViewModel.CurrentSeason.Model);
+            }
+        }
+
+        private void RaceCalendarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel.CurrentSeason?.Schedules != null)
+            {
+                var vm = (MainContent.Content is CalendarViewModel currentVM) ? currentVM : new CalendarViewModel();
                 MainContent.Content = vm;
                 vm.Load(mainViewModel.CurrentSeason.Model);
             }

@@ -44,7 +44,7 @@ namespace iRLeagueManager.Locations
             //tracks.ForEach(x => x.Configs.ForEach(y => y.Track = x));
             List<TrackConfig> configs = tracks.Select(x => x.Configs.ToList()).Aggregate((x, y) => x.Concat(y).ToList());
 
-            locations = configs.Select(x => new Location(x)).ToList();
+            locations = configs.Select(x => new Location(x)).OrderBy(x => x.TrackName).ToList();
         }
 
         public int Count => ((ICollection<Location>)locations).Count;

@@ -40,6 +40,7 @@ namespace iRLeagueManager.ViewModels
         public int? SessionNumber => Schedule?.Sessions.IndexOf(this) + 1;
 
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
+        public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
         public DateTime Date { get => Model.Date.Date; set => Model.Date = value.Date.Add(Model.Date.TimeOfDay); }
         public TimeSpan TimeOfDay { get => Model.Date.TimeOfDay; set => Model.Date = Date.Date.Add(value); }
         public TimeComponentVector TimeOfDayComponents { get; }
@@ -52,6 +53,7 @@ namespace iRLeagueManager.ViewModels
         //public TrackConfig Config { get => Model.Location?.GetConfigInfo(); set => Model.Location = new Location(value); }
 
         public int TrackId { get => Model.TrackId; set => Model.TrackId = value; }
+        public int TrackIndex { get => TrackId - 1; set => TrackId = value + 1; }
         public int ConfigId { get => Model.ConfigId; set => Model.ConfigId = value; }
         public int ConfigIndex { get => ConfigId - 1; set => ConfigId = value + 1; }
 
@@ -97,9 +99,13 @@ namespace iRLeagueManager.ViewModels
             if (propertyName == nameof(Model.LocationId))
             {
                 OnPropertyChanged(nameof(Track));
+                OnPropertyChanged(nameof(TrackId));
+                OnPropertyChanged(nameof(TrackIndex));
                 OnPropertyChanged(nameof(TrackConfigs));
                 OnPropertyChanged(nameof(Config));
+                OnPropertyChanged(nameof(ConfigId));
                 OnPropertyChanged(nameof(ConfigIndex));
+                OnPropertyChanged(nameof(Location));
             }
 
             if (propertyName == nameof(Date))

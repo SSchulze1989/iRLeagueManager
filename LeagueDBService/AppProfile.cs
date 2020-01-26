@@ -127,8 +127,7 @@ namespace LeagueDBService
                 .ForMember(dest => dest.Schedule, opt => opt.Ignore())
                 //.ConstructUsing(source => GetMapping(source, DbContext.Schedules.Find(source.Schedule.ScheduleId).Sessions.Where(x => x is RaceSession).Cast<RaceSession>()))
                 //.ForMember(x => x.SessionResult, map => map.Condition(src => (src.SessionResult != null && src.SessionResult?.ResultId != 0)))
-                //.MapOnlyIfChanged()
-                ;
+                .MapOnlyIfChanged();
             CreateMap<SessionDataDTO, SessionBaseEntity>()
                 .ConstructUsing(source => GetMapping(source, DbContext.Set<SessionBaseEntity>()))
                 //.ConstructUsing(source => GetMapping(source, DbContext.Schedules.Find(source.Schedule.ScheduleId).Sessions))
@@ -140,8 +139,8 @@ namespace LeagueDBService
             CreateMap<ScheduleDataDTO, ScheduleEntity>()
                 .ConstructUsing(source => GetMapping(source, DbContext.Set<ScheduleEntity>()))
                 .EqualityComparison((src, dest) => src.ScheduleId == dest.ScheduleId)
-                .ForMember(dest => dest.Season, opt => opt.Ignore());
-                //.MapOnlyIfChanged();
+                .ForMember(dest => dest.Season, opt => opt.Ignore())
+                .MapOnlyIfChanged();
 
             CreateMap<LeagueMemberInfoDTO, LeagueMemberEntity>()
                 .IncludeAllDerived()
