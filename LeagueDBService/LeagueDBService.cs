@@ -574,5 +574,125 @@ namespace LeagueDBService
 
             return returnData;
         }
+
+        public StandingsRowDTO[] GetSeasonStandings(int seasonId, int? lastSessionId = null)
+        {
+            SeasonEntity seasonEntity;
+            List<StandingsRowDTO> standings = new List<StandingsRowDTO>();
+
+            using (var leagueDb = new LeagueDbContext())
+            {
+                seasonEntity = leagueDb.Seasons.Find(seasonId);
+
+                if (seasonEntity == null)
+                    return null;
+
+                IEnumerable<ResultEntity> results = leagueDb.Set<ResultEntity>().Where(x => x.Season.SeasonId == seasonId)
+                    .OrderBy(x => x.Session.Date);
+
+                if (lastSessionId != null)
+                {
+                    var lastSession = results.Select(x => x.Session).SingleOrDefault(x => x.SessionId == lastSessionId);
+                    results = results.Where(x => x.Session.Date <= lastSession.Date).OrderBy(x => x.Session.Date);
+                }
+
+                Func<ResultRowEntity, int> getPoints = new Func<ResultRowEntity, int>(x => x.TotalPoints);
+                int racesCounted = 8;
+
+                //Calculate standings
+                // Get different drivers in season
+                var drivers = results.Select(x => x.RawResults.Select(y => y.Member)).Aggregate((x, y) => x.Concat(y)).Distinct();
+                var lastRace = results.OrderBy(x => x.Session.Date).LastOrDefault();
+
+                Dictionary<StandingsRowDTO, IEnumerable<ResultRowEntity>> standingsList = new Dictionary<StandingsRowDTO, IEnumerable<ResultRowEntity>>();
+                Dictionary<StandingsRowDTO, ResultRowEntity> lastRaceList = new Dictionary<StandingsRowDTO, ResultRowEntity>();
+
+                foreach (var driver in drivers)
+                {
+                    var driverResults = results.Where(x => x.RawResults.Exists(y => y.Member.MemberId == driver.MemberId)).OrderBy(x => x.Session.Date).ToList();
+                    var driverResultRows = driverResults.Select(x => x.RawResults?.SingleOrDefault(y => y.Member.MemberId == driver.MemberId)).ToList();
+                    var driverResultsCounted = driverResultRows.OrderBy(x => x.TotalPoints).Where(x => x.ResultId != lastRace.ResultId).Take(racesCounted);
+                    var driverLastRaceResult = driverResultRows.SingleOrDefault(x => x.Result.Session.Date == lastRace.Session.Date);
+
+                    var driverStandingsRow = new StandingsRowDTO()
+                    {
+                        MemberId = driver.MemberId,
+                        Name = driver.Fullname,
+                        Wins = driverResultRows.Select(x => x.FinalPosition).Where(x => x == 1).Count(),
+                        Top3 = driverResultRows.Select(x => x.FinalPosition).Where(x => x <= 3).Count(),
+                        Top5 = driverResultRows.Select(x => x.FinalPosition).Where(x => x <= 5).Count(),
+                        Top10 = driverResultRows.Select(x => x.FinalPosition).Where(x => x <= 10).Count(),
+                        Top15 = driverResultRows.Select(x => x.FinalPosition).Where(x => x <= 15).Count(),
+                        Top20 = driverResultRows.Select(x => x.FinalPosition).Where(x => x <= 20).Count(),
+                        Poles = driverResultRows.Select(x => x.StartPosition).Where(x => x == 1).Count(),
+                        PenaltyPoints = driverResultRows.Select(x => x.PenaltyPoints).Aggregate((x, y) => x + y),
+                        FastestLaps = driverResults.Select(x => x.RawResults.OrderBy(y => y.FastestLapTime).First()).Where(x => x.Member.MemberId == driver.MemberId).Count(),
+                        RacesParticipated = driverResults.Count(),
+                        RacesCounted = driverResultsCounted.Count(),
+                        Change = 0,
+                        PointsChange = 0
+                    };
+
+                    KeyValuePair<StandingsRowDTO, IEnumerable<ResultRowEntity>> standingsPair = new KeyValuePair<StandingsRowDTO, IEnumerable<ResultRowEntity>>(driverStandingsRow, driverResultsCounted);
+                    KeyValuePair<StandingsRowDTO, ResultRowEntity> lastRacePair = new KeyValuePair<StandingsRowDTO, ResultRowEntity>(driverStandingsRow, driverLastRaceResult);
+                    standingsList.Add(standingsPair.Key, standingsPair.Value);
+                    lastRaceList.Add(lastRacePair.Key, lastRacePair.Value);
+                }
+
+                standings = CalcPoints(standingsList, getPoints).ToList();
+                standings = CalcPositions(standings).ToList();
+
+                foreach (var key in standingsList.Keys)
+                {
+                    if (lastRaceList[key] != null)
+                    {
+                        standingsList[key] = standingsList[key].Take(racesCounted - 1).Concat(new ResultRowEntity[] { lastRaceList[key] });
+                    }
+                }
+
+                standings = CalcPoints(standingsList, getPoints).ToList();
+                standings = CalcPositions(standings).ToList();
+            }
+
+            return standings.ToArray();
+        }
+
+        private IEnumerable<StandingsRowDTO> CalcPoints(IEnumerable<KeyValuePair<StandingsRowDTO, IEnumerable<ResultRowEntity>>> results, Func<ResultRowEntity, int> getPoints)
+        {
+            foreach (var entry in results)
+            {
+                var standingsRow = entry.Key;
+                var resultRows = entry.Value;
+
+                standingsRow.PointsChange = 0;
+
+                foreach (var resultRow in resultRows)
+                {
+                    var racePoints = getPoints(resultRow);
+                    standingsRow.Points += racePoints;
+                    standingsRow.PointsChange = racePoints;
+                }
+            }
+            return results.Select(x => x.Key);
+        }
+
+        private IEnumerable<StandingsRowDTO> CalcPositions(IEnumerable<StandingsRowDTO> standingsRows)
+        {
+            standingsRows = standingsRows.OrderBy(x => x.PenaltyPoints).OrderByDescending(x => x.Top3).OrderByDescending(x => x.Wins).OrderByDescending(x => x.Points);
+
+            for (int i = 0; i < standingsRows.Count(); i++)
+            {
+                var row = standingsRows.ElementAt(i);
+                row.Change = row.Pos - (i + 1);
+                row.Pos = i + 1;
+            }
+
+            return standingsRows;
+        }
+
+        public StandingsRowDTO[] GetTeamStandings(int seasonId, int? lastSessionId)
+        {
+            return null;
+        }
     }
 }

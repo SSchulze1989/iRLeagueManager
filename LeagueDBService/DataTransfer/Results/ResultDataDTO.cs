@@ -28,8 +28,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         //public int SessionId { get; set; }
         [DataMember]
         public SeasonInfoDTO Season { get; set; }
-        [DataMember]
-        public SessionInfoDTO Session { get; set; }
+        //[DataMember]
+        //public SessionInfoDTO Session { get; set; }
         [DataMember]
         public IEnumerable<ResultRowDataDTO> RawResults { get; set; }
         [DataMember]

@@ -81,5 +81,10 @@ namespace iRLeagueManager.Views
                 }
             }
         }
+
+        private void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -90,7 +90,7 @@
                             </StackPanel.Style>
                         </StackPanel>
                     </StackPanel>
-                    <Button Content="Standings" IsEnabled="False"/>
+                    <Button Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
                     <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <Button Content="Schedules" Click="SchedulesButton_Click" />
                     <Button Content="Results" IsEnabled="False"/>

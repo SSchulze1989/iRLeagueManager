@@ -42,7 +42,8 @@ namespace iRLeagueManager.ViewModels
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
         public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
         public DateTime Date { get => Model.Date.Date; set => Model.Date = value.Date.Add(Model.Date.TimeOfDay); }
-        public TimeSpan TimeOfDay { get => Model.Date.TimeOfDay; set => Model.Date = Date.Date.Add(value); }
+        public TimeSpan SessionStart { get => Model.Date.TimeOfDay; set => Model.Date = Date.Date.Add(value); }
+        public TimeSpan SessionEnd => SessionStart.Add(Duration);
         public TimeComponentVector TimeOfDayComponents { get; }
 
         public TimeSpan Duration { get => Model.Duration; set => Model.Duration = value; }
@@ -67,8 +68,8 @@ namespace iRLeagueManager.ViewModels
         public string IrSessionId { get => (Model as RaceSessionModel)?.IrSessionId; set { if (Model is RaceSessionModel race) { race.IrSessionId = value; } } }
         public TimeSpan PracticeLength { get => ((Model as RaceSessionModel)?.PracticeLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeLength = value; } } }
         public TimeComponentVector PracticeLenghtComponents { get; }
-        public TimeSpan PracticeStart => TimeOfDay;
-        public TimeSpan PracticeEnd => TimeOfDay.Add(PracticeLength);
+        public TimeSpan PracticeStart => SessionStart;
+        public TimeSpan PracticeEnd => SessionStart.Add(PracticeLength);
         public TimeSpan QualyLength { get => ((Model as RaceSessionModel)?.QualyLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyLength = value; } } }
         public TimeComponentVector QualyLengthComponents { get; }
         public TimeSpan QualyStart => PracticeStart.Add(PracticeLength);
@@ -85,7 +86,7 @@ namespace iRLeagueManager.ViewModels
         public SessionViewModel() : base()
         {
             SetSource(RaceSessionModel.GetTemplate());
-            TimeOfDayComponents = new TimeComponentVector(() => TimeOfDay, x => TimeOfDay = x);
+            TimeOfDayComponents = new TimeComponentVector(() => SessionStart, x => SessionStart = x);
             DurationComponents = new TimeComponentVector(() => Duration, x => Duration = x);
             PracticeLenghtComponents = new TimeComponentVector(() => PracticeLength, x => PracticeLength = x);
             QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
@@ -106,6 +107,11 @@ namespace iRLeagueManager.ViewModels
                 OnPropertyChanged(nameof(ConfigId));
                 OnPropertyChanged(nameof(ConfigIndex));
                 OnPropertyChanged(nameof(Location));
+            }
+
+            if (propertyName == nameof(Duration))
+            {
+                OnPropertyChanged(nameof(SessionEnd));
             }
 
             if (propertyName == nameof(Date))

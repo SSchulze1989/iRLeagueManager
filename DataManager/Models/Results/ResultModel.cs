@@ -15,8 +15,6 @@ namespace iRLeagueManager.Models.Results
 {
     public class ResultModel : ResultInfo, IResult, IHierarchicalModel
     {
-        //public int SessionId { get; internal set; }
-
         //private SessionModel session;
         //public SessionModel Session { get => session; set => SetValue(ref session, value);  }
         //ISession IResult.Session => Session;

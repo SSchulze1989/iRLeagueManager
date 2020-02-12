@@ -76,6 +76,12 @@ namespace LeagueDBService
         ResultDataDTO PutResult(ResultDataDTO result);
 
         [OperationContract]
+        StandingsRowDTO[] GetSeasonStandings(int seasonId, int? lastSessionId);
+
+        [OperationContract]
+        StandingsRowDTO[] GetTeamStandings(int seasonId, int? lastSessionId);
+
+        [OperationContract]
         void CleanUpSessions();
 
         // TODO: Hier Dienstvorgänge hinzufügen

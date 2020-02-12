@@ -94,6 +94,7 @@
     <Compile Include="DataTransfer\Results\ScoringInfoDTO.cs" />
     <Compile Include="DataTransfer\Results\ScoringRuleBaseDTO.cs" />
     <Compile Include="DataTransfer\Results\StandardScoringRuleDTO.cs" />
+    <Compile Include="DataTransfer\Results\StandingsRowDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentInfoDTO.cs" />
     <Compile Include="DataTransfer\Reviews\IncidentReviewDataDTO.cs" />

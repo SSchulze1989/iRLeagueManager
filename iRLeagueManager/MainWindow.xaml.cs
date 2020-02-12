@@ -45,7 +45,7 @@ namespace iRLeagueManager
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
-                var vm = (MainContent.Content is SchedulerViewModel currentVM) ? currentVM : new SchedulerViewModel();
+                var vm = (MainContent.Content?.GetType().Equals(typeof(SchedulerViewModel))).GetValueOrDefault() ? MainContent.Content as SchedulerViewModel : new SchedulerViewModel();
                 MainContent.Content = vm;
                 vm.Load(mainViewModel.CurrentSeason.Model);
             }
@@ -55,10 +55,15 @@ namespace iRLeagueManager
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
-                var vm = (MainContent.Content is CalendarViewModel currentVM) ? currentVM : new CalendarViewModel();
+                var vm = (MainContent.Content?.GetType().Equals(typeof(CalendarViewModel))).GetValueOrDefault() ? MainContent.Content as CalendarViewModel : new CalendarViewModel();
                 MainContent.Content = vm;
                 vm.Load(mainViewModel.CurrentSeason.Model);
             }
+        }
+
+        private void StandingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

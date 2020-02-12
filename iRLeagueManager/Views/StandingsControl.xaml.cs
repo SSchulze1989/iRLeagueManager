@@ -13,16 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using iRLeagueManager.ViewModels;
-
 namespace iRLeagueManager.Views
 {
     /// <summary>
-    /// Interaktionslogik für CalendarControl.xaml
+    /// Interaktionslogik für StandingsControl.xaml
     /// </summary>
-    public partial class CalendarControl : UserControl
+    public partial class StandingsControl : UserControl
     {
-        public CalendarControl()
+        public StandingsControl()
         {
             InitializeComponent();
         }

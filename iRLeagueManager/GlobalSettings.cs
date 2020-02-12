@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+
 using iRLeagueManager.Data;
 using iRLeagueManager.User;
 
@@ -25,7 +27,8 @@ namespace iRLeagueManager
 
         public static void LogError(Exception e)
         {
-            throw e;
+            if (MessageBox.Show(e.Message, "Error", MessageBoxButton.OKCancel, MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.Cancel)
+                throw e;
         }
     }
 }

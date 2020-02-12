@@ -65,6 +65,7 @@ namespace iRLeagueManager.Models.Sessions
                 if (SetValue(ref practiceLength, value))
                 {
                     OnPropertyChanged();
+                    SetDuration();
                     OnPropertyChanged(nameof(RaceStart));
                 }
                 if (practiceLength == TimeSpan.Zero)
@@ -89,6 +90,7 @@ namespace iRLeagueManager.Models.Sessions
                 if (SetValue(ref qualyLength, value))
                 {
                     OnPropertyChanged();
+                    SetDuration();
                     OnPropertyChanged(nameof(RaceStart));
                 }
                 if (qualyLength == TimeSpan.Zero)
@@ -113,6 +115,7 @@ namespace iRLeagueManager.Models.Sessions
                 if (SetValue(ref raceLength, value))
                 {
                     OnPropertyChanged();
+                    SetDuration();
                     OnPropertyChanged(nameof(RaceStart));
                 }
             }
@@ -209,6 +212,11 @@ namespace iRLeagueManager.Models.Sessions
             //    var test = Schedule.Sessions.Where(x => x.SessionType == SessionType.Race);
             //    RaceId = Schedule.Sessions.Where(x => x.SessionType == SessionType.Race).Cast<RaceSessionModel>().Select(x => x.RaceId).Max() + 1;
             //}
+        }
+
+        private void SetDuration()
+        {
+            Duration = PracticeLength + QualyLength + RaceLength;
         }
 
         public new static RaceSessionModel GetTemplate()

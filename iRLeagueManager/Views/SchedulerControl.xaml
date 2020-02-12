@@ -16,22 +16,22 @@
         </Style>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}" />
     </UserControl.Resources>
-    
+
+    <!--<UserControl.DataContext>
+        <vmodel:SchedulerViewModel/>
+    </UserControl.DataContext>-->
+
     <Grid >
         <DockPanel>
             <TextBox Text="Season Schedules:" DockPanel.Dock="Top" />
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="RightToLeft">
                 <Button Content="New Schedule" Command="{Binding CreateScheduleCmd}"/>
                 <Button Command="{Binding RefreshCmd}" Height="30" Width="30" Padding="1">
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage UriSource="/Graphics/Refresh.png"/>
-                        </Image.Source>
-                    </Image>
+                    <Image Source="/Graphics/Refresh.png"/>
                 </Button>
             </StackPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
-                <ItemsControl ItemsSource="{Binding}">
+                <ItemsControl ItemsSource="{Binding Schedules}">
                     <ItemsControl.Resources>
                         <DataTemplate DataType="{x:Type vmodel:ScheduleViewModel}">
                             <Grid Margin="2">
@@ -56,6 +56,7 @@
                                                         </ControlTemplate>
                                                     </Setter.Value>
                                                 </Setter>
+                                                <Setter Property="IsManipulationEnabled" Value="False"/>
                                             </Style>
                                         </DataGrid.CellStyle>
                                         <DataGrid.RowHeaderStyle>
@@ -77,8 +78,8 @@
                                             <DataGridTextColumn Binding="{Binding Date, StringFormat=d, ConverterCulture=de-DE}" Header="Date:" IsReadOnly="True"/>
                                             <DataGridTextColumn Binding="{Binding Location.FullName}" Header="Track:" IsReadOnly="True"/>
                                             <DataGridTextColumn Binding="{Binding Laps}" Header="Laps:" IsReadOnly="True" />
-                                            <DataGridTextColumn Binding="{Binding TimeOfDay}" Header="Session Start:" IsReadOnly="True"/>
-                                            <DataGridTextColumn Header="Practice:">
+                                            <DataGridTextColumn Binding="{Binding SessionStart}" Header="Session Start:" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Practice:" IsReadOnly="True">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
                                                         <Binding Path="PracticeStart.Hours" />
@@ -88,7 +89,7 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Qualy:">
+                                            <DataGridTextColumn Header="Qualy:" IsReadOnly="True">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
                                                         <Binding Path="QualyStart.Hours"/>
@@ -98,7 +99,7 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Race:">
+                                            <DataGridTextColumn Header="Race:" IsReadOnly="True">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
                                                         <Binding Path="RaceStart.Hours"/>
@@ -108,6 +109,13 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
+                                            <DataGridTemplateColumn>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate DataType="DataGridCell">
+                                                        <Button Content="Upl." Click="UploadButton_Click" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

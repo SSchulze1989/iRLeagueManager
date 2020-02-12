@@ -25,6 +25,8 @@ namespace iRLeagueDatabase.Entities.Results
         public int ResultId { get; set; }
         public virtual ResultEntity Result { get; set; }
 
+        public DateTime? Date => Result?.Session?.Date;
+
         public int FinalPosition { get; set; }
 
         public int StartPosition { get; set; }
@@ -56,6 +58,11 @@ namespace iRLeagueDatabase.Entities.Results
         public int RacePoints { get; set; }
         
         public int BonusPoints { get; set; }
+
+        public int PenaltyPoints { get; set; }
+
+        [NotMapped]
+        public int TotalPoints => RacePoints + BonusPoints - PenaltyPoints;
 
         public long QualifyingTime { get; set; }
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Models;
+using iRLeagueManager.Models.Sessions;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -12,5 +13,7 @@ namespace iRLeagueManager.Models.Results
     {
         public int ResultId { get; internal set; }
 
+        private SessionInfo session;
+        public SessionInfo Session { get => session; set => SetValue(ref session, value); }
     }
 }

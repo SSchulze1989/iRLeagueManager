@@ -12,7 +12,7 @@ namespace iRLeagueManager.Models.Members
     /// This class manages information considering the member's iracing user profile
     /// </summary>
     [Serializable()]
-    public class LeagueMember : ILeagueMember, IAdmin
+    public class LeagueMember : ModelBase, ILeagueMember, IAdmin
     {
         public int MemberId { get; } = 0;
         public string Firstname { get; set; } = "Firstname";

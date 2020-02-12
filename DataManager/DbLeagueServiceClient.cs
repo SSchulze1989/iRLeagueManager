@@ -104,7 +104,7 @@ namespace iRLeagueManager.Data
             return ((ILeagueDBService)DbClient).GetMembers(memberId);
         }
 
-        public async Task<LeagueMemberDataDTO[]> GetMembersAsync(int[] memberId)
+        public async Task<LeagueMemberDataDTO[]> GetMembersAsync(int[] memberId = null)
         {
             await StartUpdateWhenReady(UpdateKind.Loading);
             var retVal = await ((ILeagueDBService)DbClient).GetMembersAsync(memberId);

@@ -7,26 +7,30 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.IO;
+using Microsoft.Win32;
 
 using iRLeagueManager;
 using iRLeagueManager.Models;
+using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Data;
+using iRLeagueManager.Services;
 using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
+    public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
     {
         private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
-        private ObservableModelCollection<ScheduleViewModel, ScheduleModel> scheduleList;
-        private ObservableModelCollection<ScheduleViewModel, ScheduleModel> ScheduleList
+        private ObservableModelCollection<ScheduleViewModel, ScheduleModel> schedules;
+        public ObservableModelCollection<ScheduleViewModel, ScheduleModel> Schedules
         {
-            get => scheduleList;
-            set
+            get => schedules;
+            protected set
             {
-                if (SetValue(ref scheduleList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
+                if (SetValue(ref schedules, value, (t, v) => t.GetSource().Equals(v.GetSource())))
                 {
                     OnPropertyChanged(null);
                 }
@@ -34,27 +38,45 @@ namespace iRLeagueManager.ViewModels
         }
 
         private SeasonModel season;
-        public SeasonModel Season { get => season; set => SetValue(ref season, value); }
+        public SeasonModel Season { get => season; protected set => SetValue(ref season, value); }
 
-        public ICommand CreateScheduleCmd { get; }
+        private ResultModel currentResult;
+        public ResultModel CurrentResult { get => currentResult; set => SetValue(ref currentResult, value); }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged
-        {
-            add
-            {
-                ((INotifyCollectionChanged)ScheduleList).CollectionChanged += value;
-            }
+        public ICommand UploadFileCmd { get; protected set; }
+        public ICommand CreateScheduleCmd { get; protected set; }
 
-            remove
-            {
-                ((INotifyCollectionChanged)ScheduleList).CollectionChanged -= value;
-            }
-        }
+        //public event NotifyCollectionChangedEventHandler CollectionChanged
+        //{
+        //    add
+        //    {
+        //        ((INotifyCollectionChanged)Schedules).CollectionChanged += value;
+        //    }
+
+        //    remove
+        //    {
+        //        ((INotifyCollectionChanged)Schedules).CollectionChanged -= value;
+        //    }
+        //}
 
         public SchedulerViewModel()
         {
-            ScheduleList = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>(new ScheduleModel[] { ScheduleModel.GetTemplate() });
+            Schedules = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>(new ScheduleModel[] { ScheduleModel.GetTemplate() });
             CreateScheduleCmd = new RelayCommand(o => CreateSchedule(), o => Season != null);
+
+            //UploadFileCmd = new RelayCommand(o =>
+            //{
+            //    OpenFileDialog openDialog = new OpenFileDialog
+            //    {
+            //        Filter = "CSV Dateien (*.csv)|*.csv",
+            //        Multiselect = false
+            //    };
+            //    if (openDialog.ShowDialog() == true)
+            //    {
+            //        UploadFile(CurrentResult.Session, openDialog.FileName);
+            //    }
+            //}, o => CurrentResult?.Session != null);
+            UploadFileCmd = new RelayCommand(o => { }, o => false);
         }
 
         public async void CreateSchedule()
@@ -75,12 +97,12 @@ namespace iRLeagueManager.ViewModels
             Season = season;
             if (season == null || season.Schedules.Count == 0)
             {
-                ScheduleList.UpdateSource(new ScheduleModel[] { ScheduleModel.GetTemplate() });
+                Schedules.UpdateSource(new ScheduleModel[] { ScheduleModel.GetTemplate() });
                 return;
             }
             else
             {
-                loadedModels = ScheduleList.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
+                loadedModels = Schedules.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
             }
 
             var newIds = season.Schedules.Select(x => x.ScheduleId.Value).Except(loadedModels.Select(x => x.ScheduleId.Value)).ToList();
@@ -100,7 +122,8 @@ namespace iRLeagueManager.ViewModels
             //schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(scheduleIds);
             schedules = schedules.OrderBy(x => x.ScheduleId).ToList();
 
-            ScheduleList.UpdateSource(schedules);
+            Schedules.UpdateSource(schedules);
+            OnPropertyChanged(null);
         }
 
         public async void DeleteSchedule(ScheduleModel schedule)
@@ -126,15 +149,53 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public IEnumerator<ScheduleViewModel> GetEnumerator()
+        public async void UploadFile(SessionModel session, string fileName)
         {
-            return ((IEnumerable<ScheduleViewModel>)ScheduleList).GetEnumerator();
+            Stream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+            ResultParserService parserService = new ResultParserService(GlobalSettings.LeagueContext);
+            var lines = parserService.ParseCSV(new StreamReader(stream));
+            stream.Dispose();
+
+            //Update LeagueMember database
+            var newMembers = parserService.GetNewMemberList(lines);
+            foreach (var member in newMembers)
+            {
+                await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
+            }
+            //var sessionModel = season.GetSessions().SingleOrDefault(x => x.SessionId == session.SessionId);
+            if (session == null)
+                return;
+
+            var resultRows = parserService.GetResultRows(lines);
+            ResultModel result;
+            if (season.Results.ToList().Exists(x => x.Session.SessionId == session.SessionId))
+            {
+                result = await LeagueContext.GetModelAsync<ResultModel>(season.Results.SingleOrDefault(x => x.Session.SessionId == session.SessionId).ResultId);
+                result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+                await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+            }
+            else
+            {
+                //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
+                result = new ResultModel(session);
+                season.Results.Add(result);
+                result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+                await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                await GlobalSettings.LeagueContext.UpdateModelAsync(session);
+                await GlobalSettings.LeagueContext.UpdateModelAsync(season);
+            }
+            CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<ScheduleViewModel>)ScheduleList).GetEnumerator();
-        }
+        //public IEnumerator<ScheduleViewModel> GetEnumerator()
+        //{
+        //    return ((IEnumerable<ScheduleViewModel>)Schedules).GetEnumerator();
+        //}
+
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return ((IEnumerable<ScheduleViewModel>)Schedules).GetEnumerator();
+        //}
 
         public override void Refresh(string propertyName = "")
         {
