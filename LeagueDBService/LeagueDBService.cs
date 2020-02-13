@@ -56,6 +56,11 @@ namespace LeagueDBService
             //}
         }
 
+        public string Test(string name)
+        {
+            return "Hallo " + name + "!";
+        }
+
         public LeagueMemberDataDTO GetMember(int memberId)
         {
             LeagueMemberDataDTO leagueMember;

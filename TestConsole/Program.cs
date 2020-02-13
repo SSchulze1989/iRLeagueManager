@@ -10,9 +10,9 @@ using System.Runtime.CompilerServices;
 //using iRLeagueDatabase;
 //using iRLeagueDatabase.Entities;
 using iRLeagueManager;
-using iRLeagueManager.Data;
-using iRLeagueManager.Models;
-using iRLeagueManager.Models.Sessions;
+//using iRLeagueManager.Data;
+//using iRLeagueManager.Models;
+//using iRLeagueManager.Models.Sessions;
 
 namespace TestConsole
 {
@@ -20,6 +20,13 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
+            var client = new LeagueDBServiceRef.LeagueDBServiceClient();
+
+            var test = client.Test("Horst");
+
+            Console.WriteLine(test);
+            Console.Read();
+
             //var dbContext = new LeagueDbContext();
 
             //var season = new SeasonEntity()
@@ -30,20 +37,20 @@ namespace TestConsole
             //dbContext.Seasons.Add(season);
             //dbContext.SaveChanges();
 
-            Derived derived = new Derived()
-            {
-                Property = "Property",
-                DerivedProperty = "DerivedProperty"
-            };
-            derived.PropertyChanged += NotifyDirect;
+            //Derived derived = new Derived()
+            //{
+            //    Property = "Property",
+            //    DerivedProperty = "DerivedProperty"
+            //};
+            //derived.PropertyChanged += NotifyDirect;
 
-            var container = new Container()
-            {
-                Derived = derived
-            };
-            container.PropertyChanged += NotifyContainer;
+            //var container = new Container()
+            //{
+            //    Derived = derived
+            //};
+            //container.PropertyChanged += NotifyContainer;
 
-            derived.Property = "change";
+            //derived.Property = "change";
 
             //var context = new LeagueContext();
 

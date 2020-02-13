@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueDatabase", "iRLeagueDatabase\iRLeagueDatabase.csproj", "{AAAC06DB-63AC-4002-9F30-2AC330F64B33}"
 EndProject
@@ -14,6 +14,27 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManager", "DataManager\DataManager.csproj", "{65822B2C-229C-4E8C-A38C-6CF87F16D8FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueManager", "iRLeagueManager\iRLeagueManager.csproj", "{B09E6632-E34F-4949-B331-40912B7689DE}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LeagueDBService_IIS(1)", "..\..\..\..\..\LeagueDBService_IIS\", "{152A0617-6BBA-4E11-A007-9543539BFCCB}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50573"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\LeagueDBService_IIS\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50573\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50573"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\LeagueDBService_IIS\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50573\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50573"
+		SlnRelativePath = "..\..\..\..\..\LeagueDBService_IIS\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +66,10 @@ Global
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

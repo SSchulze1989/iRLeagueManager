@@ -19,6 +19,9 @@ namespace LeagueDBService
     public interface ILeagueDBService
     {
         [OperationContract]
+        string Test(string name);
+
+        [OperationContract]
         SeasonDataDTO GetSeason(int seasonId);
 
         [OperationContract]
