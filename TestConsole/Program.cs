@@ -24,6 +24,10 @@ namespace TestConsole
 
             var test = client.Test("Horst");
 
+            Console.WriteLine(Environment.MachineName);
+
+            var test2 = client.GetSeasons(null);
+
             Console.WriteLine(test);
             Console.Read();
 

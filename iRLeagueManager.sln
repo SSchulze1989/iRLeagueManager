@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "Communication\Communication.csproj", "{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{6D5EE632-6FBE-4F80-92B2-EB6953E56CE6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0} = {C7B2EEAA-632C-4519-89AD-56377AFCD1A0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeagueDBService", "LeagueDBService\LeagueDBService.csproj", "{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}"
 EndProject
@@ -15,25 +18,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManager", "DataManager\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueManager", "iRLeagueManager\iRLeagueManager.csproj", "{B09E6632-E34F-4949-B331-40912B7689DE}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LeagueDBService_IIS(1)", "..\..\..\..\..\LeagueDBService_IIS\", "{152A0617-6BBA-4E11-A007-9543539BFCCB}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LeagueDBService_IIS", "LeagueDBService_IIS\", "{34F742F4-FB7D-4747-A303-D5E09751F8B6}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_50573"
-		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\..\LeagueDBService_IIS\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50573\"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50316"
+		Debug.AspNetCompiler.PhysicalPath = "LeagueDBService_IIS\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50316\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_50573"
-		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\..\LeagueDBService_IIS\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50573\"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50316"
+		Release.AspNetCompiler.PhysicalPath = "LeagueDBService_IIS\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50316\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "50573"
-		SlnRelativePath = "..\..\..\..\..\LeagueDBService_IIS\"
+		VWDPort = "50316"
 	EndProjectSection
 EndProject
 Global
@@ -66,10 +68,10 @@ Global
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{152A0617-6BBA-4E11-A007-9543539BFCCB}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
