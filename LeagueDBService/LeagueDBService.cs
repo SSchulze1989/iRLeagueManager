@@ -656,7 +656,7 @@ namespace LeagueDBService
                 }
 
                 standings = CalcPoints(standingsList, getPoints).ToList();
-                standings = CalcPositions(standings).ToList();
+                standings = CalcPositions(standings).OrderBy(x => x.Pos).ToList();
             }
 
             return standings.ToArray();

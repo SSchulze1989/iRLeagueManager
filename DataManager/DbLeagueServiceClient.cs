@@ -47,6 +47,10 @@ namespace iRLeagueManager.Data
             EndpointConfigurationName = endpointConfigurationName;
         }
 
+        protected override void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
+        {
+            base.SetDatabaseStatus(token, status, DbClient.Endpoint.Address.Uri.AbsoluteUri);
+        }
 
         public void CleanUpSessions()
         {
@@ -305,6 +309,46 @@ namespace iRLeagueManager.Data
             var retVal = await ((ILeagueDBService)DbClient).UpdateMemberListAsync(members);
             EndUpdate();
             return retVal;
+        }
+
+        public string TestDB()
+        {
+            return ((ILeagueDBService)DbClient).TestDB();
+        }
+
+        public Task<string> TestDBAsync()
+        {
+            return ((ILeagueDBService)DbClient).TestDBAsync();
+        }
+
+        public string Test(string name)
+        {
+            return ((ILeagueDBService)DbClient).Test(name);
+        }
+
+        public Task<string> TestAsync(string name)
+        {
+            return ((ILeagueDBService)DbClient).TestAsync(name);
+        }
+
+        public StandingsRowDTO[] GetSeasonStandings(int seasonId, int? lastSessionId)
+        {
+            return ((ILeagueDBService)DbClient).GetSeasonStandings(seasonId, lastSessionId);
+        }
+
+        public Task<StandingsRowDTO[]> GetSeasonStandingsAsync(int seasonId, int? lastSessionId)
+        {
+            return ((ILeagueDBService)DbClient).GetSeasonStandingsAsync(seasonId, lastSessionId);
+        }
+
+        public StandingsRowDTO[] GetTeamStandings(int seasonId, int? lastSessionId)
+        {
+            return ((ILeagueDBService)DbClient).GetTeamStandings(seasonId, lastSessionId);
+        }
+
+        public Task<StandingsRowDTO[]> GetTeamStandingsAsync(int seasonId, int? lastSessionId)
+        {
+            return ((ILeagueDBService)DbClient).GetTeamStandingsAsync(seasonId, lastSessionId);
         }
     }
 }

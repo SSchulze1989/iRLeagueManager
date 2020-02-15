@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueDatabase", "iRLeagueDatabase\iRLeagueDatabase.csproj", "{AAAC06DB-63AC-4002-9F30-2AC330F64B33}"
 EndProject
@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueManager", "iRLeague
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LeagueDBService_IIS", "LeagueDBService_IIS\", "{34F742F4-FB7D-4747-A303-D5E09751F8B6}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50316"
 		Debug.AspNetCompiler.PhysicalPath = "LeagueDBService_IIS\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50316\"
@@ -36,6 +36,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LeagueDBService_IIS", "Leag
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "50316"
+		SlnRelativePath = "LeagueDBService_IIS\"
 	EndProjectSection
 EndProject
 Global

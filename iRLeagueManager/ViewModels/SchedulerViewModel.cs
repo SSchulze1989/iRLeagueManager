@@ -64,19 +64,11 @@ namespace iRLeagueManager.ViewModels
             Schedules = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>(new ScheduleModel[] { ScheduleModel.GetTemplate() });
             CreateScheduleCmd = new RelayCommand(o => CreateSchedule(), o => Season != null);
 
-            //UploadFileCmd = new RelayCommand(o =>
-            //{
-            //    OpenFileDialog openDialog = new OpenFileDialog
-            //    {
-            //        Filter = "CSV Dateien (*.csv)|*.csv",
-            //        Multiselect = false
-            //    };
-            //    if (openDialog.ShowDialog() == true)
-            //    {
-            //        UploadFile(CurrentResult.Session, openDialog.FileName);
-            //    }
-            //}, o => CurrentResult?.Session != null);
-            UploadFileCmd = new RelayCommand(o => { }, o => false);
+            UploadFileCmd = new RelayCommand(o =>
+            {
+
+            }, o => CurrentResult?.Session != null);
+            //UploadFileCmd = new RelayCommand(o => { }, o => false);
         }
 
         public async void CreateSchedule()
@@ -147,44 +139,6 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-        }
-
-        public async void UploadFile(SessionModel session, string fileName)
-        {
-            Stream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-            ResultParserService parserService = new ResultParserService(GlobalSettings.LeagueContext);
-            var lines = parserService.ParseCSV(new StreamReader(stream));
-            stream.Dispose();
-
-            //Update LeagueMember database
-            var newMembers = parserService.GetNewMemberList(lines);
-            foreach (var member in newMembers)
-            {
-                await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
-            }
-            //var sessionModel = season.GetSessions().SingleOrDefault(x => x.SessionId == session.SessionId);
-            if (session == null)
-                return;
-
-            var resultRows = parserService.GetResultRows(lines);
-            ResultModel result;
-            if (season.Results.ToList().Exists(x => x.Session.SessionId == session.SessionId))
-            {
-                result = await LeagueContext.GetModelAsync<ResultModel>(season.Results.SingleOrDefault(x => x.Session.SessionId == session.SessionId).ResultId);
-                result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
-                await GlobalSettings.LeagueContext.UpdateModelAsync(result);
-            }
-            else
-            {
-                //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
-                result = new ResultModel(session);
-                season.Results.Add(result);
-                result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
-                await GlobalSettings.LeagueContext.UpdateModelAsync(result);
-                await GlobalSettings.LeagueContext.UpdateModelAsync(session);
-                await GlobalSettings.LeagueContext.UpdateModelAsync(season);
-            }
-            CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
         }
 
         //public IEnumerator<ScheduleViewModel> GetEnumerator()

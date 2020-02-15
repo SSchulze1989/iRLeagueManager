@@ -28,6 +28,8 @@ namespace iRLeagueManager.ViewModels
         private SessionViewModel selectedRace;
         public SessionViewModel SelectedRace { get => selectedRace; set => SetValue(ref selectedRace, value); }
 
+        public IEnumerable<SessionViewModel> UpcomingSessions => Sessions.Where(x => x.FullDate >= DateTime.Now);
+
         public CalendarViewModel()
         {
             SelectedRace = Races.FirstOrDefault();

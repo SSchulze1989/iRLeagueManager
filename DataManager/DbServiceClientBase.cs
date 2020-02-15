@@ -96,12 +96,12 @@ namespace iRLeagueManager.Data
             }
         }
 
-        protected virtual void SetDatabaseStatus(IToken token, DatabaseStatusEnum status)
+        protected virtual void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
         {
             UpdateStatus = status;
             foreach (var statusItem in StatusArray)
             {
-                statusItem.SetDatabaseStatus(token, status);
+                statusItem.SetDatabaseStatus(token, status, endpointAddress);
             }
         }
 

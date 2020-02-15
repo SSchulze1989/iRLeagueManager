@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
+  <xs:complexType name="ArrayOfIncidentReviewInfoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="IncidentReviewInfoDTO" nillable="true" type="tns:IncidentReviewInfoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfIncidentReviewInfoDTO" nillable="true" type="tns:ArrayOfIncidentReviewInfoDTO" />
+  <xs:complexType name="IncidentReviewInfoDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ReviewId" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="IncidentReviewInfoDTO" nillable="true" type="tns:IncidentReviewInfoDTO" />
+  <xs:complexType name="IncidentReviewDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IncidentReviewInfoDTO">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Author" nillable="true" type="q2:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="Comments" nillable="true" type="tns:ArrayOfReviewCommentDataDTO" />
+          <xs:element minOccurs="0" name="Corner" type="xs:int" />
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="InvolvedMembers" nillable="true" type="q3:ArrayOfLeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="OnLap" type="xs:int" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Session" nillable="true" type="q4:SessionInfoDTO" />
+          <xs:element minOccurs="0" name="TimeStamp" type="ser:duration" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="IncidentReviewDataDTO" nillable="true" type="tns:IncidentReviewDataDTO" />
+  <xs:complexType name="ArrayOfReviewCommentDataDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReviewCommentDataDTO" nillable="true" type="tns:ReviewCommentDataDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReviewCommentDataDTO" nillable="true" type="tns:ArrayOfReviewCommentDataDTO" />
+  <xs:complexType name="ReviewCommentDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:CommentDataDTO">
+        <xs:sequence>
+          <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MemberAtFault" nillable="true" type="q5:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" minOccurs="0" name="Vote" type="q6:VoteEnum" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ReviewCommentDataDTO" nillable="true" type="tns:ReviewCommentDataDTO" />
+  <xs:complexType name="CommentDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:CommentInfoDTO">
+        <xs:sequence>
+          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Author" nillable="true" type="q7:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="Date" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CommentDataDTO" nillable="true" type="tns:CommentDataDTO" />
+  <xs:complexType name="CommentInfoDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q8:VersionInfoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CommentId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CommentInfoDTO" nillable="true" type="tns:CommentInfoDTO" />
+</xs:schema>

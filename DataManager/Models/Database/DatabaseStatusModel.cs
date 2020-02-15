@@ -20,6 +20,9 @@ namespace iRLeagueManager.Models.Database
         private Dictionary<IToken, DatabaseStatusEnum> databaseStatus;
         public DatabaseStatusEnum UpdateStatus { get => GetDatabaseStatus(); }
 
+        private string endpointAddress;
+        public string EndpointAddress { get => endpointAddress; protected set => SetValue(ref endpointAddress, value); }
+
         public DatabaseStatusModel()
         {
             databaseStatus = new Dictionary<IToken, DatabaseStatusEnum>();
@@ -68,6 +71,12 @@ namespace iRLeagueManager.Models.Database
                 databaseStatus.Add(token, status);
             }
             OnPropertyChanged(nameof(UpdateStatus));
+        }
+
+        public void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress)
+        {
+            SetDatabaseStatus(token, status);
+            EndpointAddress = endpointAddress;
         }
     }
 }

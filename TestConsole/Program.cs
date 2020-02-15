@@ -26,9 +26,10 @@ namespace TestConsole
 
             Console.WriteLine(Environment.MachineName);
 
-            var test2 = client.GetSeasons(null);
+            var test2 = client.TestDB();
 
             Console.WriteLine(test);
+            Console.WriteLine(test2);
             Console.Read();
 
             //var dbContext = new LeagueDbContext();

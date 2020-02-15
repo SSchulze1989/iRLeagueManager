@@ -59,7 +59,18 @@
 
             </Grid>
             <Grid DockPanel.Dock="Bottom" Height="30" Background="Gray">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="5" Grid.Column="0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Connected to: {0}">
+                            <Binding Path="DbStatus.EndpointAddress" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                     <TextBlock Text="{Binding DbStatus.UpdateStatus}" />
                 </StackPanel>
             </Grid>
