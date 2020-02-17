@@ -52,6 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202002172138422_InitialCreate.cs" />
+    <Compile Include="Migrations\202002172138422_InitialCreate.designer.cs">
+      <DependentUpon>202002172138422_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Session.cs" />
     <Compile Include="TestDbContext.cs" />
     <Compile Include="LeagueDbContext.cs" />
@@ -90,6 +94,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202002172138422_InitialCreate.resx">
+      <DependentUpon>202002172138422_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

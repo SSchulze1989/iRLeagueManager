@@ -162,11 +162,11 @@ namespace iRLeagueManager.ViewModels
                 //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
                 result = new ResultModel(session);
                 session.SessionResult = result;
-                result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);
-                session = await GlobalSettings.LeagueContext.UpdateModelAsync(session);
+                //result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                //session = await GlobalSettings.LeagueContext.UpdateModelAsync(session);
                 result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
 
-                await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                //await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                 await GlobalSettings.LeagueContext.UpdateModelAsync(session);
             }
             //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
