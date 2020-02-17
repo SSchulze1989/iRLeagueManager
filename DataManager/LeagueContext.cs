@@ -71,6 +71,13 @@ namespace iRLeagueManager.Data
             return await GetModelsAsync<SeasonModel>(null);
         }
 
+        public async void UpdateMemberList()
+        {
+            var mapper = MapperConfiguration.CreateMapper();
+            var memberData = await DbContext.GetMembersAsync();
+            mapper.Map(memberData, MemberList);
+        }
+
         public LeagueContext(IDatabaseStatus status) : this()
         {
             DbContext = new DbLeagueServiceClient(status);
@@ -155,7 +162,7 @@ namespace iRLeagueManager.Data
             return model;
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<int> modelIds) where T : ModelBase
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<int> modelIds = null) where T : ModelBase
         {
             object[] data = null;
             List<T> modelList = new List<T>();
@@ -163,6 +170,10 @@ namespace iRLeagueManager.Data
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
                 data = await DbContext.GetSeasonsAsync(modelIds?.ToArray());
+            }
+            else if (typeof(T).Equals(typeof(LeagueMember)))
+            {
+                data = await DbContext.GetMembersAsync(modelIds?.ToArray());
             }
             else if (typeof(T).Equals(typeof(ScheduleModel)))
             {
@@ -320,7 +331,7 @@ namespace iRLeagueManager.Data
             return modelList;
         }
     }
-
+    
     public class UnknownModelTypeException : Exception
     {
         public UnknownModelTypeException() : base() { }

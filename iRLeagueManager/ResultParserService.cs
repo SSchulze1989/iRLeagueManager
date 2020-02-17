@@ -18,6 +18,7 @@ namespace iRLeagueManager.Services
         //public ILeague LeagueClient { get; set; }
 
         public LeagueContext LeagueContext { get; set; }
+        public IEnumerable<LeagueMember> MemberList { get; set; }
 
         public char Delimiter { get; set; } = ',';
 
@@ -66,10 +67,10 @@ namespace iRLeagueManager.Services
             foreach (var line in dataLines)
             {
                 IRacingResultRow row = new IRacingResultRow();
-                if (!LeagueContext.MemberList.Any(x => x.IRacingId == line["CustID"]))
+                if (!MemberList.Any(x => x.IRacingId == line["CustID"]))
                 {
                     //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
-                    var newMember = new LeagueMember(0, line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
+                    var newMember = new LeagueMember(0, line["Name"].Split(' ').First(), line["Name"].Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
                     //LeagueContext.MemberList.Add(newMember);
                     newMember.IRacingId = line["CustID"];
                     //row.MemberId = newMember.MemberId;
@@ -108,9 +109,9 @@ namespace iRLeagueManager.Services
                     QualifyingTime = new LapTime(TimeSpan.Zero)
                 };
                 //if (!LeagueClient.LeagueMembers.ToList().Exists(x => x.IRacingId == row.IRacingId))
-                if (LeagueContext.MemberList.Any(x => x.IRacingId == line["CustID"]))
+                if (MemberList.Any(x => x.IRacingId == line["CustID"]))
                 {
-                    row.Member = LeagueContext.MemberList.SingleOrDefault(x => x.IRacingId == line["CustID"]);
+                    row.Member = MemberList.SingleOrDefault(x => x.IRacingId == line["CustID"]);
                 }
                 //row.Interval = new LapInterval(
                 //    TimeSpan.TryParse("0:" + line["Interval"].Replace("-",""), culture, out TimeSpan intvTime) ? intvTime : TimeSpan.Zero,

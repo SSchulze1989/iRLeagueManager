@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Session.cs" />
+    <Compile Include="TestDbContext.cs" />
     <Compile Include="LeagueDbContext.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\MappableEntity.cs" />
@@ -84,6 +87,9 @@
       <Project>{0afd7545-de7f-44d0-a3b0-daf3a1e0844f}</Project>
       <Name>Communication</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

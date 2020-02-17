@@ -7,12 +7,12 @@ using System.Data.Entity;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-//using iRLeagueDatabase;
+using iRLeagueDatabase;
 //using iRLeagueDatabase.Entities;
 using iRLeagueManager;
-//using iRLeagueManager.Data;
-//using iRLeagueManager.Models;
-//using iRLeagueManager.Models.Sessions;
+using iRLeagueManager.Data;
+using iRLeagueManager.Models;
+using iRLeagueManager.Models.Sessions;
 
 namespace TestConsole
 {
@@ -20,54 +20,20 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var client = new LeagueDBServiceRef.LeagueDBServiceClient();
+            //var dbContext = new TestDbContext();
 
-            var test = client.Test("Horst");
-
-            Console.WriteLine(Environment.MachineName);
-
-            var test2 = client.TestDB();
-
-            Console.WriteLine(test);
-            Console.WriteLine(test2);
-            Console.Read();
-
-            //var dbContext = new LeagueDbContext();
-
-            //var season = new SeasonEntity()
+            //var Session = new Session()
             //{
-            //    SeasonName = "TestSeason"
+            //    Result = new Result()
             //};
+            ////dbContext.Sessions.Add(Session);
+            ////dbContext.SaveChanges();
+            //Session = dbContext.Sessions.Find(2);
 
-            //dbContext.Seasons.Add(season);
-            //dbContext.SaveChanges();
+            var client = new LeagueContext();
 
-            //Derived derived = new Derived()
-            //{
-            //    Property = "Property",
-            //    DerivedProperty = "DerivedProperty"
-            //};
-            //derived.PropertyChanged += NotifyDirect;
+            var session = client.GetModelAsync<SessionModel>(1).Result;
 
-            //var container = new Container()
-            //{
-            //    Derived = derived
-            //};
-            //container.PropertyChanged += NotifyContainer;
-
-            //derived.Property = "change";
-
-            //var context = new LeagueContext();
-
-            //var season = context.GetModelAsync<SeasonModel>(1).Result;
-            //var schedule = new ScheduleModel();
-
-            //season.Schedules.Add(schedule);
-            //context.UpdateModelAsync(schedule).Wait();
-
-            //context.UpdateModelAsync(season).Wait();
-
-            //Console.WriteLine(season.SeasonName);
             Console.ReadKey();
         }
 

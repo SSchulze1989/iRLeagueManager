@@ -150,34 +150,34 @@
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\item8.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LeagueDBServiceRef\LeagueDBService1.wsdl" />
-    <None Include="Connected Services\LeagueDBServiceRef\Service210.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service211.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service212.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service213.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service214.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service215.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service216.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service217.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service29.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\UserDBServiceRef\iRLeagueManager.UserDBServiceRef.UserDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -230,7 +230,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LeagueDBServiceRef\Service1.disco" />
+    <None Include="Connected Services\LeagueDBServiceRef\item.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

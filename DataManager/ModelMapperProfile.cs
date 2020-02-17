@@ -179,29 +179,30 @@ namespace iRLeagueManager
                 .Include<RaceSessionModel, RaceSessionDataDTO>();
             CreateMap<RaceSessionModel, RaceSessionDataDTO>();
                 //.ForMember(dest => dest.LocationId, opt => opt.MapFrom(source => source.Location));
-            CreateMap<SessionInfoDTO, SessionModel>()
-                .BeforeMap((src, dest) =>
-                {
-                    if (CurrentSessions == null)
-                    {
-                        CurrentSessions = new SessionModel[0];
-                    }
-                })
-                .ConstructUsing(source => new SessionModel(source.SessionId, source.SessionType))
+            CreateMap<SessionInfoDTO, SessionInfo>()
+                //.BeforeMap((src, dest) =>
+                //{
+                //    if (CurrentSessions == null)
+                //    {
+                //        CurrentSessions = new SessionInfo[0];
+                //    }
+                //})
+                .ConstructUsing(source => new SessionInfo(source.SessionId, source.SessionType))
                 .ReverseMap();
 
             // Mapping result data
             CreateMap<ResultDataDTO, ResultModel>()
-                .ConstructUsing(source => new ResultModel(source.ResultId))
+                .ConstructUsing(source => new ResultModel(source.ResultId.GetValueOrDefault()))
                 //.ForMember(dest => dest.Season, opt => opt.Ignore())
                 .EqualityComparison((src, dest) => src.ResultId == dest.ResultId)
                 .ReverseMap();
-                //.ForMember(dest => dest.RawResults, opt => opt.Ignore())
-                //.ForMember(dest => dest.FinalResults, opt => opt.Ignore())
-                //.ForMember(dest => dest.Reviews, opt => opt.Ignore());
-            CreateMap<ResultInfoDTO, ResultModel>()
-                .ConstructUsing(source => new ResultModel(source.ResultId))
-                .ReverseMap();
+            //.ForMember(dest => dest.RawResults, opt => opt.Ignore())
+            //.ForMember(dest => dest.FinalResults, opt => opt.Ignore())
+            //.ForMember(dest => dest.Reviews, opt => opt.Ignore());
+            CreateMap<ResultInfoDTO, ResultInfo>()
+                .ConstructUsing(source => new ResultInfo(source.ResultId.GetValueOrDefault()))
+                .ReverseMap()
+                .Include<ResultModel, ResultDataDTO>();
 
             CreateMap<ResultRowDataDTO, ResultRowModel>()
                 .ConstructUsing(source => new ResultRowModel(source.ResultRowId))

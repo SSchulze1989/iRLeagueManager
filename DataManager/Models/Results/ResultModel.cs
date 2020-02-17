@@ -45,7 +45,7 @@ namespace iRLeagueManager.Models.Results
         //private List<ResultRow> finalResults;
         //public List<ResultRow> FinalResults { get => finalResults; set { finalResults = value; OnPropertyChanged(); } }
 
-        public ResultModel()
+        public ResultModel() : base(0)
         {
             ResultId = 0;
             RawResults = new ObservableCollection<ResultRowModel>();
@@ -57,6 +57,8 @@ namespace iRLeagueManager.Models.Results
         {
             //Session = session;
             //session.SessionResult = this;
+            Session = session;
+            ResultId = Session.SessionId;
             session.SessionResult = this;
         }
 

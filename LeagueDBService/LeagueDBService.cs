@@ -61,6 +61,16 @@ namespace LeagueDBService
             return "Hallo " + name + "!";
         }
 
+        public string TestDB()
+        {
+            string result;
+            using (var leagueDb = new LeagueDbContext())
+            {
+                result = leagueDb.Seasons.First().SeasonName;
+            }
+            return result;
+        }
+
         public LeagueMemberDataDTO GetMember(int memberId)
         {
             LeagueMemberDataDTO leagueMember;
@@ -592,7 +602,7 @@ namespace LeagueDBService
                 if (seasonEntity == null)
                     return null;
 
-                IEnumerable<ResultEntity> results = leagueDb.Set<ResultEntity>().Where(x => x.Season.SeasonId == seasonId)
+                IEnumerable<ResultEntity> results = leagueDb.Set<ResultEntity>().Where(x => x.Session.Schedule.Season.SeasonId == seasonId)
                     .OrderBy(x => x.Session.Date);
 
                 if (lastSessionId != null)

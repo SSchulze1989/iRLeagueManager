@@ -21,8 +21,8 @@ namespace iRLeagueDatabase.Entities.Sessions
         //[Key]
         //[ForeignKey(nameof(Schedule))]
         //public int? ScheduleId { get; set; }
-        [Key, ForeignKey(nameof(Schedule)), Column(Order = 2)]
-        public int ScheduleId { get; set; }
+        //[Key, ForeignKey(nameof(Schedule)), Column(Order = 2)]
+        //public int ScheduleId { get; set; }
         [Required]
         public virtual ScheduleEntity Schedule { get; set; }
 
@@ -31,8 +31,8 @@ namespace iRLeagueDatabase.Entities.Sessions
         /// <summary>
         /// Unique Session Id for League Session
         /// </summary>
-        [Key, Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SessionId { get; set; }
 
         public string SessionTitle { get; set; }
@@ -61,7 +61,7 @@ namespace iRLeagueDatabase.Entities.Sessions
         /// <summary>
         /// Result of the session
         /// </summary>
-        public ResultEntity SessionResult { get; set; }
+        public virtual ResultEntity SessionResult { get; set; }
 
         //[InverseProperty(nameof(IncidentReview.Session))]
         //public virtual List<IncidentReview> Reviews { get; set; }

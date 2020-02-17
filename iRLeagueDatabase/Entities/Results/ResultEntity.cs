@@ -16,14 +16,21 @@ namespace iRLeagueDatabase.Entities.Results
 {
     public class ResultEntity : Revision
     {
-        [Key]
-        public int ResultId { get; set; }
-
-        public virtual SeasonEntity Season { get; set; }
+        //[Key, ForeignKey(nameof(Session)), Column(Order = 1)]
+        //[Key, Column(Order = 1)]
+        //public int ResultId { get; set; }
 
         //[ForeignKey(nameof(Session))]
         //public int SessionId { get; set; }
+
+        //public virtual SeasonEntity Season { get; set; }
+
+        [Key, ForeignKey(nameof(Session))]
+        public virtual int ResultId { get; set; }
+        [Required]
         public virtual SessionBaseEntity Session { get; set; }
+
+        //public int Test { get; set; }
 
         public override object MappingId => ResultId;
 

@@ -19,19 +19,19 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8080/LeagueDBService/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a8de24d2-e6a9-4118-a336-2bb5fc2fe78f" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9574a6df-ed2a-4ced-b981-43b006a35b6d" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Sessions.xsd" MetadataType="Schema" ID="0f669f65-af71-478c-9536-ef30bcbeb6e1" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.xsd" MetadataType="Schema" ID="22de4408-c795-4fe3-b74a-4f4389197695" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="iRLeagueManager.Enums.xsd" MetadataType="Schema" ID="6a1e240b-29d3-42e8-949b-4f462f5bf88d" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Members.xsd" MetadataType="Schema" ID="add809a0-60dd-4a23-9a36-0b5e71590826" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Results.xsd" MetadataType="Schema" ID="a9882ca4-b04b-4493-b0a2-eb695d58acd6" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Reviews.xsd" MetadataType="Schema" ID="898c1e62-8f71-4310-b97c-a21686ffca0c" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="51f09166-e05c-4161-aa40-1d79ab2f1156" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
-    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="b344b303-1004-4c31-b402-be4e1510900e" SourceId="1" SourceUrl="http://localhost:8080/LeagueDBService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="2b0a1d4d-fc87-4e28-8d47-1861e6e053b9" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="02515797-e08b-4cd7-9101-85738a417d8b" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Sessions1.xsd" MetadataType="Schema" ID="c66971d0-f589-4102-8ae0-ac3f7d7bced0" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="iRLeagueDatabase.DataTransfer1.xsd" MetadataType="Schema" ID="94f98fd9-72ee-4151-8e11-6484e3c19bbb" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="iRLeagueManager.Enums1.xsd" MetadataType="Schema" ID="8a0c201f-850d-4d3f-810e-4b44dfaf3d2e" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Members1.xsd" MetadataType="Schema" ID="e2999cf4-9cbb-4f34-b4d3-e0920e96510a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Results1.xsd" MetadataType="Schema" ID="92f53125-9709-4fb6-bf31-1740a5b04a8b" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="iRLeagueDatabase.DataTransfer.Reviews1.xsd" MetadataType="Schema" ID="ba84c498-92a9-428f-bfb0-da00116cf25b" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="ccda65f5-98d5-4ca7-a24b-9c2adcda05ad" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
+    <MetadataFile FileName="Arrays1.xsd" MetadataType="Schema" ID="8164bd95-0d53-47cb-b53d-85d5555b192a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

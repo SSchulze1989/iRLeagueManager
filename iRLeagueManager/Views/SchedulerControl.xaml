@@ -112,7 +112,7 @@
                                             <DataGridTemplateColumn>
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate DataType="DataGridCell">
-                                                        <Button Content="Upl." Command="{Binding Schedule}" />
+                                                        <Button Content="Upl." Command="{Binding UploadFileCmd}" CommandParameter="{Binding}" />
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>

@@ -1,16 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
-  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
   <xs:complexType name="ResultInfoDTO">
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="ResultId" type="xs:int" />
+          <xs:element minOccurs="0" name="ResultId" nillable="true" type="xs:int" />
           <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Session" nillable="true" type="q2:SessionInfoDTO" />
         </xs:sequence>
       </xs:extension>

@@ -13,7 +13,7 @@ namespace iRLeagueDatabase.DataTransfer.Results
     public class ResultInfoDTO : VersionInfoDTO, IMappableDTO
     {
         [DataMember]
-        public int ResultId { get; set; }
+        public int? ResultId { get; set; }
         [DataMember]
         public SessionInfoDTO Session { get; set; }
 

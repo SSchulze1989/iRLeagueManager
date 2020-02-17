@@ -13,6 +13,12 @@
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="ILeagueDBService_TestDB_InputMessage">
+    <wsdl:part name="parameters" element="tns:TestDB" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_TestDB_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TestDBResponse" />
+  </wsdl:message>
   <wsdl:message name="ILeagueDBService_Test_InputMessage">
     <wsdl:part name="parameters" element="tns:Test" />
   </wsdl:message>
@@ -152,6 +158,10 @@
     <wsdl:part name="parameters" element="tns:CleanUpSessionsResponse" />
   </wsdl:message>
   <wsdl:portType name="ILeagueDBService">
+    <wsdl:operation name="TestDB">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/TestDB" message="tns:ILeagueDBService_TestDB_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/TestDBResponse" message="tns:ILeagueDBService_TestDB_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="Test">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/Test" message="tns:ILeagueDBService_Test_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/TestResponse" message="tns:ILeagueDBService_Test_OutputMessage" />
@@ -247,6 +257,15 @@
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ILeagueDBService" type="tns:ILeagueDBService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TestDB">
+      <soap:operation soapAction="http://tempuri.org/ILeagueDBService/TestDB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Test">
       <soap:operation soapAction="http://tempuri.org/ILeagueDBService/Test" style="document" />
       <wsdl:input>
@@ -457,7 +476,7 @@
   </wsdl:binding>
   <wsdl:service name="LeagueDBService">
     <wsdl:port name="BasicHttpBinding_ILeagueDBService" binding="tns:BasicHttpBinding_ILeagueDBService">
-      <soap:address location="http://localhost:8080/LeagueDBService/LeagueDBService" />
+      <soap:address location="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

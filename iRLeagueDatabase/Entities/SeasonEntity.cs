@@ -28,7 +28,8 @@ namespace iRLeagueDatabase.Entities
 
         //public virtual List<IncidentReviewEntity> Reviews { get; set; }
 
-        public virtual List<ResultEntity> Results { get; set; }
+        [NotMapped]
+        public virtual IEnumerable<ResultEntity> Results => null; /*Schedules.Select(x => x.Sessions.Select(y => y.SessionResult)).Aggregate((x, y) => x.Concat(y));*/
 
         //[ForeignKey(nameof(MainScoring))]
         //public int? MainScoringId { get; set; }
@@ -37,14 +38,13 @@ namespace iRLeagueDatabase.Entities
         [NotMapped]
         public DateTime? SeasonStart => Schedules.Select(x => x.ScheduleStart).Min();
         [NotMapped]
-        public DateTime? SeasonEnd => Schedules.Select(x => x.ScheduleEnd).Max();
+        public DateTime? SeasonEnd => Schedules.Select(x => x.ScheduleEnd)?.Max();
 
         public SeasonEntity()
         {
             Schedules = new List<ScheduleEntity>();
             //Scorings = new List<ScoringEntity>();
             //Reviews = new List<IncidentReviewEntity>();
-            Results = new List<ResultEntity>();
         }
     }
 }

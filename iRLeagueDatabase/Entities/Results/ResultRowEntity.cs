@@ -21,8 +21,8 @@ namespace iRLeagueDatabase.Entities.Results
 
         public override object MappingId => ResultRowId;
 
-        [Key, Column(Order = 1)]
-        public int ResultId { get; set; }
+        [Key, ForeignKey(nameof(Result)), Column(Order = 1)]
+        public int? ResultId { get; set; }
         public virtual ResultEntity Result { get; set; }
 
         public DateTime? Date => Result?.Session?.Date;

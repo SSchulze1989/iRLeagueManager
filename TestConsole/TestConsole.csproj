@@ -140,64 +140,56 @@
     <None Include="Connected Services\LeagueDBServiceRef\TestConsole.LeagueDBServiceRef.StandingsRowDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\Arrays.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\Arrays1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Members.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Members1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Results.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Results1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Reviews.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Reviews1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Sessions.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.Sessions1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\iRLeagueDatabase.DataTransfer1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\iRLeagueManager.Enums.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\iRLeagueManager.Enums1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\service.wsdl" />
-    <None Include="Connected Services\LeagueServiceDebug\service.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\service1.wsdl" />
+    <None Include="Connected Services\LeagueServiceDebug\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueServiceDebug\service1.xsd">
+    <None Include="Connected Services\LeagueServiceDebug\service21.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.CommentDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.IncidentReviewDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.LeagueMemberDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.ResultDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.ScheduleDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.SeasonDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.SessionDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueServiceDebug\TestConsole.LeagueServiceDebug.StandingsRowDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.CommentDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.ResultDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.SessionDataDTO.datasource" />
+    <None Include="Properties\DataSources\iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO.datasource" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.csproj">
       <Project>{0afd7545-de7f-44d0-a3b0-daf3a1e0844f}</Project>
       <Name>Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataManager\DataManager.csproj">
+      <Project>{65822b2c-229c-4e8c-a38c-6cf87f16d8fe}</Project>
+      <Name>DataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iRLeagueDatabase\iRLeagueDatabase.csproj">
+      <Project>{aaac06db-63ac-4002-9f30-2ac330f64b33}</Project>
+      <Name>iRLeagueDatabase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +237,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LeagueDBServiceRef\Service11.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tracks.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

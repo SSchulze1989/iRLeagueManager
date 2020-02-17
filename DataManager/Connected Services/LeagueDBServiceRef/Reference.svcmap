@@ -19,20 +19,20 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://144.91.113.195:5051/Service.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service29.xsd" MetadataType="Schema" ID="75b6769d-2e68-4e69-8597-e29550803fec" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd5" />
-    <MetadataFile FileName="Service1.disco" MetadataType="Disco" ID="e077e181-8dfe-408b-84d5-1ea6d628b7a8" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?disco" />
-    <MetadataFile FileName="Service210.xsd" MetadataType="Schema" ID="c0aa7604-a271-406d-a8a1-3d4321967a49" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd8" />
-    <MetadataFile FileName="Service211.xsd" MetadataType="Schema" ID="b8c967e9-b790-46bd-9975-9d46950b000c" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd0" />
-    <MetadataFile FileName="Service212.xsd" MetadataType="Schema" ID="56f8a9f3-2447-45bb-ae1e-0b335a8ba3cf" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd6" />
-    <MetadataFile FileName="Service213.xsd" MetadataType="Schema" ID="66f75169-acb3-4053-86b6-1e4435ced244" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd1" />
-    <MetadataFile FileName="Service214.xsd" MetadataType="Schema" ID="1a118c93-d519-4aab-9277-8672cee84d04" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd7" />
-    <MetadataFile FileName="Service215.xsd" MetadataType="Schema" ID="482922d9-0e86-4234-8f10-a7884277976f" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd3" />
-    <MetadataFile FileName="Service216.xsd" MetadataType="Schema" ID="e2a39ce5-55c9-4d32-b068-26188d4cf829" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd4" />
-    <MetadataFile FileName="Service217.xsd" MetadataType="Schema" ID="2be99a8f-77d5-49eb-9e09-1d2e7bf22b31" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd2" />
-    <MetadataFile FileName="LeagueDBService1.wsdl" MetadataType="Wsdl" ID="22aa6413-4f7a-43a9-980b-88c948561d8e" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?wsdl" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="42450b58-6f2a-4b04-a6cf-848998c2c597" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd1" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="f2cb435d-96d0-430e-8662-45bf94a5735a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd2" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="4f4aed96-bca7-402c-a5ed-a47cd759f4ca" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?disco" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="67aceeed-b467-4e0e-83ec-6007bbc46673" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd4" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="e65c0ecc-b5e4-45b2-b90e-14f6b3849b6e" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd5" />
+    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="763c8f71-428a-459f-91e1-e80ea7a59e07" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd3" />
+    <MetadataFile FileName="item5.xsd" MetadataType="Schema" ID="89174a64-c73a-4c22-8e34-25f029a03d49" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd7" />
+    <MetadataFile FileName="item6.xsd" MetadataType="Schema" ID="3ab685cf-89a5-4b42-b32b-c424a8f135a3" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd6" />
+    <MetadataFile FileName="item7.xsd" MetadataType="Schema" ID="f84b0454-7f56-4d1d-876a-4bd3d702d782" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd8" />
+    <MetadataFile FileName="LeagueDBService1.wsdl" MetadataType="Wsdl" ID="a61352b3-2ca8-4714-8455-8ffa3437c9cc" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?wsdl" />
+    <MetadataFile FileName="item8.xsd" MetadataType="Schema" ID="d7bc4d70-ef94-4116-b4a3-80c5eaf5d6e0" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

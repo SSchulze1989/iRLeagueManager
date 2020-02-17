@@ -12,7 +12,7 @@ namespace iRLeagueManager.Interfaces
     public interface IResult : INotifyPropertyChanged
     {
         [EqualityCheckProperty]
-        int ResultId { get; }
+        int? ResultId { get; }
         //ISession Session { get; }
         IEnumerable<IResultRow> RawResults { get; }
         IEnumerable<IReviewInfo> Reviews { get; }

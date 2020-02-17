@@ -89,9 +89,10 @@ namespace iRLeagueManager.Models.Sessions
 
         IEnumerable<object> IHierarchicalModel.Children => new object[0];
 
-        public  SessionInfo(int? sessionId)
+        public  SessionInfo(int? sessionId, SessionType sessionType)
         {
             SessionId = sessionId;
+            SessionType = sessionType;
         }
     }
 }

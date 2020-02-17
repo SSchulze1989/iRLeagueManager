@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:8733/Design_Time_Addresses/LeagueDBService/DataTransfer/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
   <xs:complexType name="ArrayOfIncidentReviewInfoDTO">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="IncidentReviewInfoDTO" nillable="true" type="tns:IncidentReviewInfoDTO" />

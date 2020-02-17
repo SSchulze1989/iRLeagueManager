@@ -15,6 +15,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeagueDBService", "LeagueDBService\LeagueDBService.csproj", "{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManager", "DataManager\DataManager.csproj", "{65822B2C-229C-4E8C-A38C-6CF87F16D8FE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0} = {C7B2EEAA-632C-4519-89AD-56377AFCD1A0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueManager", "iRLeagueManager\iRLeagueManager.csproj", "{B09E6632-E34F-4949-B331-40912B7689DE}"
 EndProject

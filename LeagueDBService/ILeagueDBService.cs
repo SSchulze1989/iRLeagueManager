@@ -19,6 +19,9 @@ namespace LeagueDBService
     public interface ILeagueDBService
     {
         [OperationContract]
+        string TestDB();
+
+        [OperationContract]
         string Test(string name);
 
         [OperationContract]

@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfRaceTrack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RaceTrack>
+    <TrackId>1</TrackId>
+    <TrackName>Atlanta Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Legends Oval" length="0.402" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Oval" length="2.478" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Rallycross Long" length="1.561" turns="8" type="Rallycross" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Rallycross Short" length="1.094" turns="8" type="Rallycross" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Road Course" length="4.104" turns="12" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>2</TrackId>
+    <TrackName>Autódromo José Carlos Pace</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.307" turns="15" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Moto" length="4.307" turns="16" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>3</TrackId>
+    <TrackName>Auto Club Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Competition" length="4.506" turns="19" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Interior" length="2.334" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Moto" length="3.798" turns="21" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Oval" length="3.219" turns="4" type="Speedway" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>4</TrackId>
+    <TrackName>Autodromo Internazionale Enzo e Dino Ferrari</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.908" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Moto" length="4.941" turns="22" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>5</TrackId>
+    <TrackName>Autodromo Nazionale Monza</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Combined" length="9.999" turns="15" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Combined without chicanes" length="9.999" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Combined without first chicane" length="9.999" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="GP without chicanes" length="5.633" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="GP without first chicane" length="5.633" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Grand Prix" length="5.794" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="7" config_name="Junior" length="2.404" turns="4" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="8" config_name="Oval - Left turning" length="4.25" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="9" config_name="Oval - Right turning" length="4.25" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>6</TrackId>
+    <TrackName>Barber Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Full Course" length="3.83" turns="16" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Short A" length="2.334" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Short B" length="1.207" turns="5" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>7</TrackId>
+    <TrackName>Brands Hatch Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="3.703" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Indy" length="1.928" turns="6" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>8</TrackId>
+    <TrackName>Bristol Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.858" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>9</TrackId>
+    <TrackName>Canadian Tire Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="3.957" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>10</TrackId>
+    <TrackName>Charlotte Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Legends Oval" length="0.402" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Legends RC Long" length="3.219" turns="10" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Legends RC Medium" length="3.219" turns="10" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="4" config_name="Legends RC Short" length="3.219" turns="10" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="5" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="6" config_name="Roval" length="3.669" turns="17" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="7" config_name="Roval Long" length="3.219" turns="10" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>11</TrackId>
+    <TrackName>Charlotte Motor Speedway - 2016</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Infield Road Course" length="1.159" turns="12" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Legends Oval" length="0.402" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="4" config_name="Road Course" length="3.621" turns="12" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>12</TrackId>
+    <TrackName>Chicagoland Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="2.414" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>13</TrackId>
+    <TrackName>Chili Bowl</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.322" turns="4" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>14</TrackId>
+    <TrackName>Circuit de Spa-Francorchamps</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Classic Pits" length="7.001" turns="19" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Endurance" length="7.001" turns="19" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Grand Prix Pits" length="7.001" turns="19" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>15</TrackId>
+    <TrackName>Circuit des 24 Heures du Mans</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="24 Heures du Mans" length="13.631" turns="33" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Historic" length="13.631" turns="31" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>16</TrackId>
+    <TrackName>Circuit Gilles Villeneuve</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="4.361" turns="13" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>17</TrackId>
+    <TrackName>Circuit of the Americas</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="East" length="2.414" turns="6" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="5.515" turns="20" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="West" length="4.184" turns="18" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>18</TrackId>
+    <TrackName>Circuit Park Zandvoort</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Chicane" length="4.313" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Club" length="2.575" turns="8" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Grand Prix" length="4.299" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="National" length="2.897" turns="8" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Oostelijk" length="1.448" turns="6" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>19</TrackId>
+    <TrackName>Circuit Zolder</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Alternate" length="4.01" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="4.01" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>20</TrackId>
+    <TrackName>Concord Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.805" turns="3" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>21</TrackId>
+    <TrackName>Darlington Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="2.198" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>22</TrackId>
+    <TrackName>Daytona International Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Moto" length="4.748" turns="12" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Oval" length="4.023" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Road Course" length="5.729" turns="12" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="4" config_name="Short" length="1.674" turns="5" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>23</TrackId>
+    <TrackName>Daytona International Speedway - 2007</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Moto" length="4.748" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Oval" length="4.023" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Rallycross Long" length="1.384" turns="8" type="Rallycross" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Rallycross Short" length="1.143" turns="9" type="Rallycross" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Road Course" length="5.729" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Short" length="1.674" turns="5" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>24</TrackId>
+    <TrackName>Detroit Grand Prix at Belle Isle</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Belle Isle" length="3.782" turns="14" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>25</TrackId>
+    <TrackName>Donington Park Racing Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.02" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="National" length="3.149" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>26</TrackId>
+    <TrackName>Dover International Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="1.609" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>27</TrackId>
+    <TrackName>Eldora Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.805" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>28</TrackId>
+    <TrackName>Five Flags Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.805" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>29</TrackId>
+    <TrackName>Gateway Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Oval" length="2.012" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Road Course" length="2.575" turns="8" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>30</TrackId>
+    <TrackName>Homestead Miami Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Road Course A" length="3.557" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Road Course B" length="3.701" turns="11" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>31</TrackId>
+    <TrackName>Indianapolis Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Bike" length="4.218" turns="16" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="IndyCar Oval" length="4.023" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Oval" length="4.023" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Road Course" length="4.192" turns="13" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>32</TrackId>
+    <TrackName>Iowa Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Infield Legends" length="0.402" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Legends" length="0.322" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Oval" length="1.408" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="4" config_name="Rallycross" length="1.062" turns="8" type="Rallycross" night_lighting="true" />
+      <TrackConfig config_id="5" config_name="Road Course" length="2.092" turns="10" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>33</TrackId>
+    <TrackName>Irwindale Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Figure Eight" length="0.531" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Inner" length="0.531" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Outer" length="0.805" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Outer - Inner" length="0.644" turns="4" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>34</TrackId>
+    <TrackName>ISM Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Oval" length="1.609" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Oval w/open dogleg" length="1.609" turns="4" type="Speedway" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>35</TrackId>
+    <TrackName>Kansas Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Infield Road Course" length="1.384" turns="5" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Road Course" length="3.814" turns="6" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>36</TrackId>
+    <TrackName>Kentucky Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Legends" length="0.402" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>37</TrackId>
+    <TrackName>Knoxville Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.805" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>38</TrackId>
+    <TrackName>Kokomo Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.402" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>39</TrackId>
+    <TrackName>Langley Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.636" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>40</TrackId>
+    <TrackName>Lanier National Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.604" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Dirt" length="0.612" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>41</TrackId>
+    <TrackName>Las Vegas Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Infield Legends Oval" length="0.547" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Legends Oval" length="0.402" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Road Course Combined" length="3.541" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Road Course Long" length="1.722" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Road Course Short" length="1.207" turns="6" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>42</TrackId>
+    <TrackName>Limaland Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.402" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>43</TrackId>
+    <TrackName>Lime Rock Park - 2007</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Chicane" length="2.478" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Full Course" length="2.462" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="School" length="2.462" turns="7" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>44</TrackId>
+    <TrackName>Long Beach Street Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="3.167" turns="11" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>45</TrackId>
+    <TrackName>Lucas Oil Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Oval" length="1.104" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Rallycross" length="1.271" turns="5" type="Rallycross" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>46</TrackId>
+    <TrackName>Martinsville Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.847" turns="4" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>47</TrackId>
+    <TrackName>Michigan International Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="3.219" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>48</TrackId>
+    <TrackName>Michigan International Speedway - 2014</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="3.219" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>49</TrackId>
+    <TrackName>Mid-Ohio Sports Car Course</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Alt Oval" length="0.805" turns="4" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Chicane" length="3.862" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Full Course" length="3.621" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Oval" length="0.805" turns="2" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Short" length="3.219" turns="13" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>50</TrackId>
+    <TrackName>Mount Panorama Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="6.437" turns="23" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>51</TrackId>
+    <TrackName>Myrtle Beach Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.869" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>52</TrackId>
+    <TrackName>Nürburgring Combined</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Gesamtstrecke 24h" length="25.379" turns="170" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Gesamtstrecke Long" length="25.878" turns="169" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Gesamtstrecke Short w/out Arena" length="23.867" turns="164" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Gesamtstrecke VLN" length="24.365" turns="165" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>53</TrackId>
+    <TrackName>Nürburgring Grand-Prix-Strecke</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="BES/WEC" length="5.15" turns="16" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="5.15" turns="16" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Grand Prix w/out Arena" length="3.122" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Kurzanbindung w/out Arena" length="3.122" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Müllenbachschleife" length="1.497" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Sprintstrecke" length="3.621" turns="11" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>54</TrackId>
+    <TrackName>Nürburgring Nordschleife</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Industriefahrten" length="20.825" turns="154" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Touristenfahrten" length="19.103" turns="154" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>55</TrackId>
+    <TrackName>New Hampshire Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Legends" length="0.402" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Oval" length="1.609" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Road Course" length="2.462" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Road Course with North Oval" length="2.559" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Road Course with South Oval" length="2.494" turns="13" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>56</TrackId>
+    <TrackName>New Jersey Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Thunderbolt" length="3.621" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Thunderbolt w/both chicanes" length="3.621" turns="18" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Thunderbolt w/first chicane" length="3.621" turns="16" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Thunderbolt w/second chicane" length="3.621" turns="16" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>57</TrackId>
+    <TrackName>New Smyrna Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.772" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>58</TrackId>
+    <TrackName>Okayama International Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Full Course" length="3.724" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Short" length="2.092" turns="7" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>59</TrackId>
+    <TrackName>Oran Park Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="2.607" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Moto" length="2.607" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="North" length="1.062" turns="6" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="North A" length="1.062" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="North B" length="1.062" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="South" length="1.96" turns="8" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>60</TrackId>
+    <TrackName>Oulton Park Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Fosters" length="2.672" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Fosters w/Hislop" length="2.672" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="International" length="4.332" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Intl w/no Chicanes" length="4.184" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Intl w/out Brittens" length="4.332" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Intl w/out Hislop" length="4.332" turns="15" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="7" config_name="Island" length="3.637" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="8" config_name="Island Historic" length="3.637" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>61</TrackId>
+    <TrackName>Oxford Plains Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.604" turns="4" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>62</TrackId>
+    <TrackName>Phillip Island Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="4.445" turns="12" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>63</TrackId>
+    <TrackName>Phoenix International Raceway - 2008</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Oval" length="1.609" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Rallycross" length="1.223" turns="9" type="Rallycross" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Road Course" length="2.43" turns="13" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>64</TrackId>
+    <TrackName>Pocono Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="4.023" turns="3" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>65</TrackId>
+    <TrackName>Pocono Raceway - 2011</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="East" length="2.253" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="International" length="4.023" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="North" length="2.414" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Oval" length="4.023" turns="3" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="South" length="1.609" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>66</TrackId>
+    <TrackName>Richmond Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="1.207" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>67</TrackId>
+    <TrackName>Road America</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Bend" length="6.515" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Full Course" length="6.515" turns="14" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>68</TrackId>
+    <TrackName>Road Atlanta</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Club" length="2.913" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Full Course" length="4.088" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Short" length="2.832" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>69</TrackId>
+    <TrackName>Rockingham Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Infield Road Course" length="0.805" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Oval" length="1.609" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Road Course" length="2.414" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Short Road Course" length="0.402" turns="8" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>70</TrackId>
+    <TrackName>Sebring International Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Club" length="2.816" turns="11" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="International" length="5.955" turns="17" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Modified" length="3.17" turns="9" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>71</TrackId>
+    <TrackName>Silverstone Circuit - 2011</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="5.14" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Historical Grand Prix" length="5.057" turns="16" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="International" length="3.619" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="National" length="2.638" turns="6" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Southern" length="3.169" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>72</TrackId>
+    <TrackName>Snetterton Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="100" length="1.577" turns="6" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="200" length="3.219" turns="8" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="300" length="4.796" turns="13" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>73</TrackId>
+    <TrackName>Sonoma Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Cup" length="3.203" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="IRL" length="3.573" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="IRL 2007" length="3.573" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Long" length="4.072" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Rallycross" length="1.497" turns="6" type="Rallycross" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>74</TrackId>
+    <TrackName>South Boston Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.644" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>75</TrackId>
+    <TrackName>Southern National Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.644" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>76</TrackId>
+    <TrackName>Stafford Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Full Course" length="0.805" turns="4" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>77</TrackId>
+    <TrackName>Summit Point Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Jefferson Circuit" length="1.786" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Jefferson Reverse" length="1.786" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="School" length="3.186" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Short" length="2.35" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Summit Point Raceway" length="3.186" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>78</TrackId>
+    <TrackName>Suzuka International Racing Course</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="East" length="2.243" turns="9" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="5.808" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Moto" length="5.821" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="West" length="3.467" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="West w/chicane" length="3.467" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>79</TrackId>
+    <TrackName>Talladega Superspeedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="4.281" turns="4" type="ShortTrack" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>80</TrackId>
+    <TrackName>Texas Motor Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Legends Oval" length="0.386" turns="4" type="ShortTrack" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Oval" length="2.414" turns="4" type="Speedway" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Road Course Combined" length="3.669" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Road Course Long" length="1.4" turns="8" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Road Course Short A" length="0.66" turns="5" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Road Course Short B" length="0.772" turns="7" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>81</TrackId>
+    <TrackName>The Bullring</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.612" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>82</TrackId>
+    <TrackName>The Dirt Track at Charlotte</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.644" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>83</TrackId>
+    <TrackName>The Milwaukee Mile</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="1.609" turns="4" type="Speedway" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>84</TrackId>
+    <TrackName>Thompson Speedway Motorsports Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Oval" length="1.006" turns="4" type="ShortTrack" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>85</TrackId>
+    <TrackName>Tsukuba Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="1000 Chicane" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="1000 Full" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="1000 Full Reverse" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="1000 Outer" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="2000 Full" length="3.331" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="2000 Moto" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="7" config_name="2000 Short" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>86</TrackId>
+    <TrackName>Twin Ring Motegi</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="East" length="3.399" turns="11" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="4.801" turns="14" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="3" config_name="Oval" length="2.493" turns="4" type="Speedway" night_lighting="true" />
+      <TrackConfig config_id="4" config_name="West" length="1.399" turns="6" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>87</TrackId>
+    <TrackName>USA International Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="1.207" turns="4" type="ShortTrack" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Dirt" length="1.207" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>88</TrackId>
+    <TrackName>Virginia International Raceway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Full Course" length="5.263" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand East" length="6.55" turns="29" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Grand West" length="6.389" turns="26" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="North" length="3.621" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Patriot" length="1.77" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="6" config_name="Patriot Reverse" length="1.77" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="7" config_name="South" length="3.621" turns="17" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>89</TrackId>
+    <TrackName>Volusia Speedway Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.805" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>90</TrackId>
+    <TrackName>Watkins Glen International</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Boot" length="5.472" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Classic" length="3.943" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Classic Boot" length="5.472" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="Cup" length="3.943" turns="8" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>91</TrackId>
+    <TrackName>WeatherTech Raceway at Laguna Seca</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Full Course" length="3.602" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="School" length="3.602" turns="11" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>92</TrackId>
+    <TrackName>Williams Grove Speedway</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="" length="0.805" turns="4" type="DirtOval" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>93</TrackId>
+    <TrackName>Silverstone Circuit</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="5.13" turns="18" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="International" length="3.62" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="National" length="2.64" turns="6" type="RoadCourse" night_lighting="false" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>94</TrackId>
+    <TrackName>Lime Rock Park</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="2.46" turns="7" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Classic" length="2.46" turns="9" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Chicanes" length="2.46" turns="11" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="West Bend Chicane" length="2.46" turns="9" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+  <RaceTrack>
+    <TrackId>95</TrackId>
+    <TrackName>Circuit de Barcelona Catalunya</TrackName>
+    <Configs>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.65" turns="16" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="National" length="2.98" turns="11" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Club" length="1.70" turns="6" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Grand Prix" length="2.46" turns="7" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Moto" length="4.65" turns="16" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Historic" length="4.73" turns="13" type="RoadCourse" night_lighting="true" />
+    </Configs>
+  </RaceTrack>
+</ArrayOfRaceTrack>
