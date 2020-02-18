@@ -3,45 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueDatabase", "iRLeagueDatabase\iRLeagueDatabase.csproj", "{AAAC06DB-63AC-4002-9F30-2AC330F64B33}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "Communication\Communication.csproj", "{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{6D5EE632-6FBE-4F80-92B2-EB6953E56CE6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0} = {C7B2EEAA-632C-4519-89AD-56377AFCD1A0}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeagueDBService", "LeagueDBService\LeagueDBService.csproj", "{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManager", "DataManager\DataManager.csproj", "{65822B2C-229C-4E8C-A38C-6CF87F16D8FE}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0} = {C7B2EEAA-632C-4519-89AD-56377AFCD1A0}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRLeagueManager", "iRLeagueManager\iRLeagueManager.csproj", "{B09E6632-E34F-4949-B331-40912B7689DE}"
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LeagueDBService_IIS", "LeagueDBService_IIS\", "{34F742F4-FB7D-4747-A303-D5E09751F8B6}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
-		ProjectReferences = "{aaac06db-63ac-4002-9f30-2ac330f64b33}|iRLeagueDatabase.dll;{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}|Communication.dll;{c7b2eeaa-632c-4519-89ad-56377afcd1a0}|LeagueDBService.dll;"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_50316"
-		Debug.AspNetCompiler.PhysicalPath = "LeagueDBService_IIS\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50316\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_50316"
-		Release.AspNetCompiler.PhysicalPath = "LeagueDBService_IIS\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50316\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "50316"
-		SlnRelativePath = "LeagueDBService_IIS\"
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,22 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AAAC06DB-63AC-4002-9F30-2AC330F64B33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAAC06DB-63AC-4002-9F30-2AC330F64B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAAC06DB-63AC-4002-9F30-2AC330F64B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAAC06DB-63AC-4002-9F30-2AC330F64B33}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AFD7545-DE7F-44D0-A3B0-DAF3A1E0844F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D5EE632-6FBE-4F80-92B2-EB6953E56CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D5EE632-6FBE-4F80-92B2-EB6953E56CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D5EE632-6FBE-4F80-92B2-EB6953E56CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D5EE632-6FBE-4F80-92B2-EB6953E56CE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7B2EEAA-632C-4519-89AD-56377AFCD1A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{65822B2C-229C-4E8C-A38C-6CF87F16D8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65822B2C-229C-4E8C-A38C-6CF87F16D8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65822B2C-229C-4E8C-A38C-6CF87F16D8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,10 +27,6 @@ Global
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B09E6632-E34F-4949-B331-40912B7689DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{34F742F4-FB7D-4747-A303-D5E09751F8B6}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
