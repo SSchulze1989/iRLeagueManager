@@ -10,7 +10,7 @@ namespace iRLeagueManager.Interfaces
     public interface ILeagueMember
     {
         [EqualityCheckProperty]
-        int MemberId { get; }
+        long MemberId { get; }
         string Firstname { get; set; }
         string Lastname { get; set; }
         string FullName { get; }

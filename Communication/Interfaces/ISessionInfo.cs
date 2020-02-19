@@ -12,7 +12,7 @@ namespace iRLeagueManager.Interfaces
     public interface ISessionInfo : INotifyPropertyChanged
     {
         [EqualityCheckProperty]
-        int? SessionId { get; }
+        long? SessionId { get; }
         [EqualityCheckProperty]
         SessionType SessionType { get; }
         DateTime Date { get; }

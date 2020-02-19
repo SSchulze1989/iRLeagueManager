@@ -11,7 +11,7 @@ namespace iRLeagueManager.Interfaces
     public interface ISeasonInfo : INotifyPropertyChanged
     {
         [EqualityCheckProperty]
-        int? SeasonId { get; }
+        long? SeasonId { get; }
         string SeasonName { get; }
 
         //int GetSessionCount();

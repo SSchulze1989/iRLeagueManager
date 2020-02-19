@@ -13,8 +13,8 @@ namespace iRLeagueManager.Models.Reviews
     [XmlInclude(typeof(ReviewCommentModel))]
     public class CommentBase : ModelBase, INotifyPropertyChanged
     {
-        private int commentId;
-        public int CommentId { get => commentId; internal set { commentId = value; OnPropertyChanged(); } }
+        private long commentId;
+        public long CommentId { get => commentId; internal set { commentId = value; OnPropertyChanged(); } }
 
         private SeasonModel season;
         public virtual SeasonModel Season { get => season; internal set { season = value; OnPropertyChanged(); } }
@@ -30,7 +30,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public CommentBase() { }
 
-        public CommentBase(int commentId)
+        public CommentBase(long commentId)
         {
             CommentId = commentId;
         }

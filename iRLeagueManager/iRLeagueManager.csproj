@@ -75,6 +75,8 @@
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
     <Compile Include="Interfaces\IModalViewModel.cs" />
+    <Compile Include="Logging\ExceptionLogMessage.cs" />
+    <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\ContainerEqualityComparer.cs" />
     <Compile Include="ViewModels\ContainerModelBase.cs" />

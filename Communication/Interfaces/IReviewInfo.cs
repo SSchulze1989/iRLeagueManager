@@ -11,7 +11,7 @@ namespace iRLeagueManager.Interfaces
     public interface IReviewInfo : INotifyPropertyChanged
     {
         [EqualityCheckProperty]
-        int? ReviewId { get; }
+        long? ReviewId { get; }
         [EqualityCheckProperty]
         IAdmin Author { get; }
     }

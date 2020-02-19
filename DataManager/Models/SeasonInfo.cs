@@ -12,9 +12,9 @@ namespace iRLeagueManager.Models
 {
     public class SeasonInfo : ModelBase, ISeasonInfo, INotifyPropertyChanged
     {
-        private int? seasonId;
+        private long? seasonId;
         [EqualityCheckProperty]
-        public int? SeasonId { get => seasonId; internal set { seasonId = value; OnPropertyChanged(); } }
+        public long? SeasonId { get => seasonId; internal set { seasonId = value; OnPropertyChanged(); } }
 
         private string seasonName;
         public string SeasonName { get => seasonName; set { seasonName = value; OnPropertyChanged(); } }

@@ -10,6 +10,6 @@ namespace iRLeagueManager.Interfaces
     public interface IAdmin
     {
         [EqualityCheckProperty]
-        int MemberId { get; }
+        long MemberId { get; }
     }
 }

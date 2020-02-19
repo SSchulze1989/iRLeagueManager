@@ -11,12 +11,12 @@ namespace iRLeagueManager.Models.Results
 {
     public class ResultInfo : ModelBase
     {
-        public int? ResultId { get; internal set; }
+        public long? ResultId { get; internal set; }
 
         private SessionInfo session;
         public SessionInfo Session { get => session; set => SetValue(ref session, value); }
 
-        public ResultInfo(int? resultId)
+        public ResultInfo(long? resultId)
         {
             ResultId = resultId;
         }

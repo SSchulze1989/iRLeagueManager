@@ -58,7 +58,7 @@ namespace iRLeagueManager.Models.Reviews
         //    Result = result;
         //}
 
-        public IncidentReviewModel(int? reviewId) : this()
+        public IncidentReviewModel(long? reviewId) : this()
         {
             ReviewId = reviewId;
         }

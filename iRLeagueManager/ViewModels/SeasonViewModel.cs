@@ -50,7 +50,7 @@ namespace iRLeagueManager.ViewModels
 
         public SeasonViewModel(SeasonModel source) : base(source) { }
 
-        public async void Load(int seasonId)
+        public async void Load(long seasonId)
         {
             if (Model != null && Model.SeasonId == seasonId)
             {

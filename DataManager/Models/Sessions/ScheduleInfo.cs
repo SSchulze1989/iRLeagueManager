@@ -11,7 +11,7 @@ namespace iRLeagueManager.Models.Sessions
     public class ScheduleInfo : ModelBase, IScheduleInfo
     {
         [EqualityCheckProperty]
-        public int? ScheduleId { get; internal set; }
+        public long? ScheduleId { get; internal set; }
 
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }
@@ -24,7 +24,7 @@ namespace iRLeagueManager.Models.Sessions
             ScheduleId = null;
         }
 
-        public ScheduleInfo(int? scheduleId) : base()
+        public ScheduleInfo(long? scheduleId) : base()
         {
             ScheduleId = scheduleId;
         }

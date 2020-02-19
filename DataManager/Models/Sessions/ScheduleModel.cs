@@ -51,7 +51,7 @@ namespace iRLeagueManager.Models.Sessions
             Sessions = new ObservableCollection<SessionModel>();
         }
 
-        public ScheduleModel(int? scheduleId) : base(scheduleId)
+        public ScheduleModel(long? scheduleId) : base(scheduleId)
         {
             Sessions = new ObservableCollection<SessionModel>();
         }

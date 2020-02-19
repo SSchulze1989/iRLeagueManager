@@ -16,7 +16,7 @@
           <xs:element minOccurs="0" name="PracticeLength" type="ser:duration" />
           <xs:element minOccurs="0" name="QualyAttached" type="xs:boolean" />
           <xs:element minOccurs="0" name="QualyLength" type="ser:duration" />
-          <xs:element minOccurs="0" name="RaceId" type="xs:int" />
+          <xs:element minOccurs="0" name="RaceId" type="xs:long" />
           <xs:element minOccurs="0" name="RaceLength" type="ser:duration" />
         </xs:sequence>
       </xs:extension>
@@ -43,7 +43,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q4:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="SessionId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="SessionId" nillable="true" type="xs:long" />
           <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" minOccurs="0" name="SessionType" type="q5:SessionType" />
         </xs:sequence>
       </xs:extension>
@@ -54,7 +54,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q6:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="ScheduleId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ScheduleId" nillable="true" type="xs:long" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

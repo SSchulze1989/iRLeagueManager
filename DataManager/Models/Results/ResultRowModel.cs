@@ -15,7 +15,7 @@ namespace iRLeagueManager.Models.Results
 {
     public class ResultRowModel : ModelBase, IResultRow
     {
-        public int? ResultRowId { get; }
+        public long? ResultRowId { get; }
 
         private int finalPosition;
         public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }
@@ -30,7 +30,7 @@ namespace iRLeagueManager.Models.Results
         public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
         ILeagueMember IResultRow.Member => Member;
 
-        public int? MemberId { get => Member?.MemberId; }
+        public long? MemberId { get => Member?.MemberId; }
 
         private int carNumber;
         public int CarNumber { get => carNumber; set { carNumber = value; OnPropertyChanged(); } }
@@ -85,7 +85,7 @@ namespace iRLeagueManager.Models.Results
             ResultRowId = null;
         }
 
-        public ResultRowModel(int? resultRowId)
+        public ResultRowModel(long? resultRowId)
         {
             ResultRowId = resultRowId;
         }

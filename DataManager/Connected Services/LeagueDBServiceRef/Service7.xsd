@@ -10,7 +10,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="ResultId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ResultId" nillable="true" type="xs:long" />
           <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Session" nillable="true" type="q2:SessionInfoDTO" />
         </xs:sequence>
       </xs:extension>
@@ -79,7 +79,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="Change" type="xs:int" />
       <xs:element minOccurs="0" name="FastestLaps" type="xs:int" />
-      <xs:element minOccurs="0" name="MemberId" type="xs:int" />
+      <xs:element minOccurs="0" name="MemberId" type="xs:long" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
       <xs:element minOccurs="0" name="Points" type="xs:int" />

@@ -62,7 +62,7 @@ namespace iRLeagueManager.Models.Results
             session.SessionResult = this;
         }
 
-        public ResultModel(int resultId) : this()
+        public ResultModel(long resultId) : this()
         {
             ResultId = resultId;
         }

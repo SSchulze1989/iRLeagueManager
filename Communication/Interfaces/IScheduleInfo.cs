@@ -12,7 +12,7 @@ namespace iRLeagueManager.Interfaces
     public interface IScheduleInfo
     {
         [EqualityCheckProperty]
-        int? ScheduleId { get; }
+        long? ScheduleId { get; }
         [EqualityCheckProperty]
         string Name { get; }
 

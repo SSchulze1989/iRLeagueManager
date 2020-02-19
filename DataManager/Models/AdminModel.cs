@@ -10,7 +10,7 @@ namespace iRLeagueManager.Models
 {
     public class AdminModel : ModelBase
     {
-        public int AdminId { get; }
+        public long AdminId { get; }
 
         private string leagueName;
         public string LeagueName { get => leagueName; set => SetValue(ref leagueName, value); }
@@ -21,7 +21,7 @@ namespace iRLeagueManager.Models
         private AdminRights rights;
         public AdminRights Rights { get => rights; set => SetValue(ref rights, value); }
 
-        public AdminModel(int adminId)
+        public AdminModel(long adminId)
         {
             AdminId = adminId;
         }

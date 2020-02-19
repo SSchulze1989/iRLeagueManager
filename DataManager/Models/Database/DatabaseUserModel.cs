@@ -14,8 +14,8 @@ namespace iRLeagueManager.Models.Database
         private int userId;
         public int UserId { get => userId; internal set => SetValue(ref userId, value); }
 
-        private int memberId;
-        public int MemberId { get => memberId; set => SetValue(ref memberId, value); }
+        private long memberId;
+        public long MemberId { get => memberId; set => SetValue(ref memberId, value); }
 
         private AdminRights rights;
         public AdminRights Rights { get => rights; set => SetValue(ref rights, value); }

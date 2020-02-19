@@ -35,9 +35,9 @@ namespace iRLeagueManager.ViewModels
 
         //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions { get; } = new ObservableModelCollection<SessionViewModel, SessionModel>();
 
-        public ObservableModelCollection<SessionViewModel, SessionModel> Sessions => new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions);
+        public ObservableModelCollection<SessionViewModel, SessionModel> Sessions => new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
 
-        public int? ScheduleId => Model?.ScheduleId;
+        public long? ScheduleId => Model?.ScheduleId;
 
         public string Name { get => Model?.Name; set => Model.Name = value; }
 

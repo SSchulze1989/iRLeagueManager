@@ -35,7 +35,7 @@
   <xs:element name="GetSeason">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="seasonId" type="xs:int" />
+        <xs:element minOccurs="0" name="seasonId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -49,7 +49,7 @@
   <xs:element name="GetSeasons">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="seasonIds" nillable="true" type="q2:ArrayOfint" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="seasonIds" nillable="true" type="q2:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -77,7 +77,7 @@
   <xs:element name="GetMember">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="memberId" type="xs:int" />
+        <xs:element minOccurs="0" name="memberId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -91,7 +91,7 @@
   <xs:element name="GetMembers">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="memberId" nillable="true" type="q7:ArrayOfint" />
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="memberId" nillable="true" type="q7:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -145,7 +145,7 @@
   <xs:element name="GetReview">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="reviewId" type="xs:int" />
+        <xs:element minOccurs="0" name="reviewId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -173,7 +173,7 @@
   <xs:element name="GetSession">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="sessionId" type="xs:int" />
+        <xs:element minOccurs="0" name="sessionId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -201,7 +201,7 @@
   <xs:element name="GetComment">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="commentId" type="xs:int" />
+        <xs:element minOccurs="0" name="commentId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -229,7 +229,7 @@
   <xs:element name="GetSchedule">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="scheduleId" type="xs:int" />
+        <xs:element minOccurs="0" name="scheduleId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -243,7 +243,7 @@
   <xs:element name="GetSchedules">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="scheduleIds" nillable="true" type="q24:ArrayOfint" />
+        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="scheduleIds" nillable="true" type="q24:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -271,7 +271,7 @@
   <xs:element name="GetResult">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="resultId" type="xs:int" />
+        <xs:element minOccurs="0" name="resultId" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -299,8 +299,8 @@
   <xs:element name="GetSeasonStandings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="seasonId" type="xs:int" />
-        <xs:element minOccurs="0" name="lastSessionId" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="seasonId" type="xs:long" />
+        <xs:element minOccurs="0" name="lastSessionId" nillable="true" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -314,8 +314,8 @@
   <xs:element name="GetTeamStandings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="seasonId" type="xs:int" />
-        <xs:element minOccurs="0" name="lastSessionId" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="seasonId" type="xs:long" />
+        <xs:element minOccurs="0" name="lastSessionId" nillable="true" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

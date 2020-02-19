@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Windows.Input;
-using System.IO;
-using Microsoft.Win32;
-
-using iRLeagueManager;
+﻿using iRLeagueManager.Data;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
-using iRLeagueManager.Data;
-using iRLeagueManager.Services;
-using System.Collections;
-
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Input;
+using System.Windows;
 namespace iRLeagueManager.ViewModels
 {
     public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
@@ -44,6 +34,7 @@ namespace iRLeagueManager.ViewModels
         public ResultModel CurrentResult { get => currentResult; set => SetValue(ref currentResult, value); }
 
         public ICommand UploadFileCmd { get; protected set; }
+        public ICommand DeleteScheduleCmd { get; protected set; }
         public ICommand CreateScheduleCmd { get; protected set; }
 
         //public event NotifyCollectionChangedEventHandler CollectionChanged
@@ -69,6 +60,7 @@ namespace iRLeagueManager.ViewModels
 
             }, o => CurrentResult?.Session != null);
             //UploadFileCmd = new RelayCommand(o => { }, o => false);
+            DeleteScheduleCmd = new RelayCommand(o => DeleteSchedule(o as ScheduleModel), o => o != null);
         }
 
         public async void CreateSchedule()
@@ -80,7 +72,7 @@ namespace iRLeagueManager.ViewModels
 
             Season.Schedules.Add(newSchedule);
             await LeagueContext.UpdateModelAsync(Season);
-            //Load(Season);
+            Load(Season);
         }
 
         public async void Load(SeasonModel season)
@@ -99,28 +91,80 @@ namespace iRLeagueManager.ViewModels
 
             var newIds = season.Schedules.Select(x => x.ScheduleId.Value).Except(loadedModels.Select(x => x.ScheduleId.Value)).ToList();
 
-            List<ScheduleModel> schedules = new List<ScheduleModel>();
+            List<ScheduleModel> updateSchedules = new List<ScheduleModel>();
 
-            if (loadedModels.Count() > 0)
+            try
             {
-                schedules.AddRange(await LeagueContext.UpdateModelsAsync(loadedModels));
+                IsLoading = true;
+                if (loadedModels.Count() > 0)
+                {
+                    var add = await LeagueContext.UpdateModelsAsync(loadedModels);
+                    updateSchedules.AddRange(add);
+                }
+                if (newIds.Count() > 0)
+                {
+                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds);
+                    updateSchedules.AddRange(add);
+                }
             }
-            if (newIds.Count() > 0)
+            catch (Exception e)
             {
-                schedules.AddRange(await LeagueContext.GetModelsAsync<ScheduleModel>(newIds));
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
             }
 
             //var scheduleIds = season.Schedules.Select(x => x.ScheduleId.Value);
             //schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(scheduleIds);
-            schedules = schedules.OrderBy(x => x.ScheduleId).ToList();
+            updateSchedules = updateSchedules.OrderBy(x => x.ScheduleId).ToList();
 
-            Schedules.UpdateSource(schedules);
+            Schedules.UpdateSource(updateSchedules);
             OnPropertyChanged(null);
         }
 
+        public async void MoveSessionToSchedule(SessionModel session, ScheduleModel sourceSchedule, ScheduleModel targetSchedule)
+        {
+            if (session == null || targetSchedule == null || sourceSchedule == null)
+                return;
+
+            //SessionModel copySession;
+            //if (session.SessionType == Enums.SessionType.Race)
+            //    copySession = new RaceSessionModel(targetSchedule);
+            //else
+            //    copySession = new SessionModel(targetSchedule, session.SessionType);
+            //copySession.CopyFrom(session);
+
+            //if (session.SessionResult != null)
+            //{
+            //    var result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
+            //    var copyResult = new ResultModel(copySession);
+                
+            //}
+            targetSchedule.Sessions.Add(session);
+            sourceSchedule.Sessions.Remove(session);
+
+            try
+            {
+                await LeagueContext.UpdateModelAsync(targetSchedule);
+                await LeagueContext.UpdateModelAsync(sourceSchedule);
+
+                //await LeagueContext.UpdateModelAsync(Season);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+
+            Load(Season);
+        }
         public async void DeleteSchedule(ScheduleModel schedule)
         {
             if (schedule == null)
+                return;
+
+            if (MessageBox.Show("Do you really want to delete Schedule: " + schedule.Name + "?\nThis Action can not be undone. All Sessions, Results and Reviews associated with this Schedule will be Deleted!", "Delete Schedule?", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 return;
 
             try
@@ -132,7 +176,7 @@ namespace iRLeagueManager.ViewModels
                 Load(Season);
             }
             catch (Exception e)
-            { 
+            {
                 GlobalSettings.LogError(e);
             }
             finally

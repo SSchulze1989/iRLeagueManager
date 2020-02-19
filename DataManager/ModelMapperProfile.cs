@@ -52,10 +52,10 @@ namespace iRLeagueManager
 
             // Mapping League member data
             CreateMap<LeagueMemberDataDTO, LeagueMember>()
-                .ConstructUsing(source => MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) : new LeagueMember(source.MemberId))
+                .ConstructUsing(source => (source != null) ? MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) : new LeagueMember(source.MemberId) : null)
                 .ReverseMap();
             CreateMap<LeagueMemberInfoDTO, LeagueMember>()
-                .ConvertUsing(source => MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) ?? new LeagueMember(source.MemberId) : new LeagueMember(source.MemberId));
+                .ConvertUsing(source => (source != null) ? MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) ?? new LeagueMember(source.MemberId) : new LeagueMember(source.MemberId) : null);
             //.ConstructUsing(source => new LeagueMember(source.MemberId));
             CreateMap<LeagueMember, LeagueMemberInfoDTO>();
 

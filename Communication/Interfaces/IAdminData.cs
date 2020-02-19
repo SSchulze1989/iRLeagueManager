@@ -12,7 +12,7 @@ namespace iRLeagueManager.Interfaces
     public interface IAdminData
     {
         [EqualityCheckProperty]
-        int MemberId { get; set; }
+        long MemberId { get; set; }
         AdminRights Rights { get; set; }
         bool IsOwner { get; set; }
     }

@@ -15,7 +15,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="ReviewId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="ReviewId" nillable="true" type="xs:long" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -70,7 +70,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q8:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="CommentId" type="xs:int" />
+          <xs:element minOccurs="0" name="CommentId" type="xs:long" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

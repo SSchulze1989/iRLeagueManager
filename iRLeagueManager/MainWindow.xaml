@@ -58,22 +58,34 @@
             <Grid DockPanel.Dock="Top" Height="50" Background="Black">
 
             </Grid>
-            <Grid DockPanel.Dock="Bottom" Height="30" Background="Gray">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Margin="5" Grid.Column="0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}Connected to: {0}">
-                            <Binding Path="DbStatus.EndpointAddress" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                    <TextBlock Text="{Binding DbStatus.UpdateStatus}" />
-                </StackPanel>
-            </Grid>
+            <DockPanel DockPanel.Dock="Bottom">
+                <TabControl DockPanel.Dock="Top" Height="200">
+                    <TabItem Header="Errors" TextElement.FontSize="10">
+                        <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time"/>
+                                <DataGridTextColumn Binding="{Binding Message}" Header="Message"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                </TabControl>
+                <Grid DockPanel.Dock="Bottom" Height="30" Background="Gray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5" Grid.Column="0">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}Connected to: {0}">
+                                <Binding Path="DbStatus.EndpointAddress" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                        <TextBlock Text="{Binding DbStatus.UpdateStatus}" />
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
             <Grid DockPanel.Dock="Left" Width="Auto" Background="Black" TextElement.Foreground="WhiteSmoke">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="350" />

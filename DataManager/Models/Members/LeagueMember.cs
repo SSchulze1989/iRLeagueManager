@@ -14,7 +14,7 @@ namespace iRLeagueManager.Models.Members
     [Serializable()]
     public class LeagueMember : ModelBase, ILeagueMember, IAdmin
     {
-        public int MemberId { get; } = 0;
+        public long MemberId { get; } = 0;
         public string Firstname { get; set; } = "Firstname";
         public string Lastname { get; set; } = "Lastname";
         [XmlIgnore]
@@ -26,12 +26,12 @@ namespace iRLeagueManager.Models.Members
 
         public LeagueMember() { }
 
-        public LeagueMember(int memberId)
+        public LeagueMember(long memberId)
         {
             MemberId = memberId;
         }
 
-        public LeagueMember(int memberId, string firstname, string lastname, string iRacingId = "", string danLisaId = "", string discordId = "")
+        public LeagueMember(long memberId, string firstname, string lastname, string iRacingId = "", string danLisaId = "", string discordId = "")
         {
             MemberId = memberId;
             Firstname = firstname;

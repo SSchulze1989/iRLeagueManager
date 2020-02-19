@@ -16,7 +16,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="SeasonId" type="xs:int" />
+          <xs:element minOccurs="0" name="SeasonId" type="xs:long" />
           <xs:element minOccurs="0" name="SeasonName" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:extension>

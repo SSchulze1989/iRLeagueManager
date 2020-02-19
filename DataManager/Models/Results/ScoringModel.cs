@@ -16,7 +16,7 @@ namespace iRLeagueManager.Models.Results
 {
     public class ScoringModel : ModelBase, IScoring
     {
-        public int ScoringNr { get; set; }
+        public long ScoringId { get; set; }
 
         public int DropWeeks { get; set; }
 

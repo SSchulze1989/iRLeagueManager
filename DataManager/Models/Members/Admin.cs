@@ -12,11 +12,11 @@ namespace iRLeagueManager.Models.Members
     [Serializable()]
     public class Admin : IAdmin
     {
-        public int MemberId { get; set; }
+        public long MemberId { get; set; }
         public AdminRights Rights { get; set; }
         public bool IsOwner => Rights.HasFlag(AdminRights.Owner);
 
-        public Admin(int memberId, AdminRights rights)
+        public Admin(long memberId, AdminRights rights)
         {
             MemberId = memberId;
             Rights = rights;

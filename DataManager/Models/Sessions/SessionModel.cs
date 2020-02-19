@@ -126,7 +126,7 @@ namespace iRLeagueManager.Models.Sessions
         //    SessionType = SessionType.Undefined;
         //}
 
-        public SessionModel(int? sessionId, SessionType sessionType) : base(sessionId, sessionType)
+        public SessionModel(long? sessionId, SessionType sessionType) : base(sessionId, sessionType)
         {
             Date = DateTime.Today;
             SessionType = sessionType;

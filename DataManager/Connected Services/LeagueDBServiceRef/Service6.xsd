@@ -5,7 +5,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="MemberId" type="xs:int" />
+          <xs:element minOccurs="0" name="MemberId" type="xs:long" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

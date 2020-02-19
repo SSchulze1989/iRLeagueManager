@@ -20,7 +20,7 @@ namespace iRLeagueManager.ViewModels
         //private SeasonModel season;
         //public SeasonModel Season { get => season; set => SetValue(ref season, value);
 
-        public IEnumerable<SessionViewModel> Sessions => Schedules.Select(x => x.Sessions.AsEnumerable()).Aggregate((x, y) => x.Concat(y));
+        public IEnumerable<SessionViewModel> Sessions => Schedules.Count() > 0 ? Schedules.Select(x => x.Sessions.AsEnumerable()).Aggregate((x, y) => x.Concat(y)) : new SessionViewModel[0];
         public IEnumerable<SessionViewModel> Races => Sessions.Where(x => x.SessionType == Enums.SessionType.Race);
 
         public SessionViewModel NextRace => Races.FirstOrDefault(x => x.FullDate.CompareTo(DateTime.Now) > 0);

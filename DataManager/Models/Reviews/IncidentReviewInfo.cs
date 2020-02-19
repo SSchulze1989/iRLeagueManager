@@ -12,8 +12,8 @@ namespace iRLeagueManager.Models.Reviews
 {
     public class IncidentReviewInfo : ModelBase, IReviewInfo, IHierarchicalModel
     {
-        private int? reviewId;
-        public int? ReviewId { get => reviewId; internal set { reviewId = value; OnPropertyChanged(); } }
+        private long? reviewId;
+        public long? ReviewId { get => reviewId; internal set { reviewId = value; OnPropertyChanged(); } }
 
         private LeagueMember author;
         public LeagueMember Author { get => author; internal set { author = value; OnPropertyChanged(); } }

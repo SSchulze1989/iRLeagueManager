@@ -13,6 +13,7 @@ using iRLeagueManager.ViewModels;
 using iRLeagueManager.Models.Database;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.User;
+using iRLeagueManager.Logging;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -22,6 +23,8 @@ namespace iRLeagueManager.ViewModels
         //public LeagueDatabase LeagueDb { get => _leagueDb; set { _leagueDb = value; NotifyPropertyChanged(); } }
         private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
         //public LeagueContext LeagueContext { get => leagueContext; private set { leagueContext = value; OnPropertyChanged(); } }
+
+        public ObservableCollection<ExceptionLogMessage> ErrorLog => GlobalSettings.ErrorLog;
 
         private UserContext UserContext => GlobalSettings.UserContext;
 

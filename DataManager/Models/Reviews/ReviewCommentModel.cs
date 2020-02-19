@@ -32,7 +32,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public ReviewCommentModel () { }
 
-        public ReviewCommentModel(int commentId) : base(commentId) { }
+        public ReviewCommentModel(long commentId) : base(commentId) { }
 
         public ReviewCommentModel(LeagueMember author) : base(author) { }
 

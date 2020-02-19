@@ -22,6 +22,10 @@ namespace iRLeagueManager.Data
 
         private string CurrentUpdateMethod { get; set; }
 
+        private Task QueuedTask { get; set; }
+
+        private int StackCount { get; set; }
+
         private bool IsBusy { get; set; }
 
         //private List<string> ActiveUpdates { get; } = new List<string>();
@@ -50,18 +54,25 @@ namespace iRLeagueManager.Data
                 StatusArray.Remove(statusItem);
         }
 
-        protected async Task StartUpdateWhenReady(UpdateKind updateKind, int timeoutMilliseconds = 60000, [CallerMemberName] string callName = "")
+        protected async Task<bool> StartUpdateWhenReady(UpdateKind updateKind, int timeoutMilliseconds = 10000, [CallerMemberName] string callName = "")
         {
             if (CurrentUpdateMethod != null && IsBusy)
             {
                 Task waitTask = new Task(() =>
                 {
-                    while (IsBusy) { }
+                    while (IsBusy && QueuedTask.Id == Task.CurrentId) { }
                 });
+                QueuedTask = waitTask;
+                waitTask.Start();
                 if (await Task.WhenAny(waitTask, Task.Delay(timeoutMilliseconds)) != waitTask)
                 {
                     throw new TimeoutException("Database request timed out on " + callName + ". Request was blocked by " + CurrentUpdateMethod + " - the procces was has not finished yet." + "\nTimeout: " + timeoutMilliseconds.ToString() + " ms");
                 }
+
+                if (waitTask != QueuedTask)
+                    return false;
+                else
+                    QueuedTask = null;
             }
 
             if (callName != "")
@@ -85,6 +96,7 @@ namespace iRLeagueManager.Data
                 }
                 IsBusy = true;
             }
+            return true;
         }
 
         protected virtual void SetConnectionStatus(IToken token, ConnectionStatusEnum status)
@@ -113,6 +125,11 @@ namespace iRLeagueManager.Data
                 //UpdateStatus = DatabaseStatusEnum.Idle;
                 SetDatabaseStatus(Token, DatabaseStatusEnum.Idle);
                 IsBusy = false;
+
+                if (StackCount > 0)
+                {
+                    StackCount -= 1;
+                }
             }
             else if (IsBusy)
             {

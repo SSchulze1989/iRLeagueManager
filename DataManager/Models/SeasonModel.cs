@@ -70,7 +70,7 @@ namespace iRLeagueManager.Models
             //Scorings = new ObservableCollection<IScoringInfo>();
         }
 
-        public SeasonModel(int? seasonId) : this()
+        public SeasonModel(long? seasonId) : this()
         {
             SeasonId = seasonId;
         }

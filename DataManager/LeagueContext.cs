@@ -71,7 +71,7 @@ namespace iRLeagueManager.Data
             return await GetModelsAsync<SeasonModel>(null);
         }
 
-        public async void UpdateMemberList()
+        public async Task UpdateMemberList()
         {
             var mapper = MapperConfiguration.CreateMapper();
             var memberData = await DbContext.GetMembersAsync();
@@ -98,7 +98,7 @@ namespace iRLeagueManager.Data
             DbContext.RemoveStatusItem(statusItem);
         }
 
-        public async Task<T> GetModelAsync<T>(int modelId) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(long modelId) where T : ModelBase
         {
             var mapper = MapperConfiguration.CreateMapper();
             object data = null;
@@ -156,13 +156,19 @@ namespace iRLeagueManager.Data
                 throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
             }
 
-            T model = mapper.Map<T>(data);
-            model.InitializeModel();
-
-            return model;
+            if (data != null)
+            {
+                T model = mapper.Map<T>(data);
+                model.InitializeModel();
+                return model;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<int> modelIds = null) where T : ModelBase
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds = null) where T : ModelBase
         {
             object[] data = null;
             List<T> modelList = new List<T>();
@@ -228,7 +234,10 @@ namespace iRLeagueManager.Data
             {
                 foreach (var modelId in modelIds)
                 {
-                    modelList.Add(await GetModelAsync<T>(modelId));
+                    var add = await GetModelAsync<T>(modelId);
+                    if (add == null)
+                        return new T[0];
+                    modelList.Add(add);
                 }
             }
             else

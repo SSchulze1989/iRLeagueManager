@@ -39,7 +39,8 @@
                                 <StackPanel Margin="5,2">
                                     <DockPanel>
                                         <Button Content="X" DockPanel.Dock="Right" Width="22" Height="22" x:Name="ScheduleDeleteButton"
-                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Click="ScheduleDeleteButton_Click"/>
+                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" 
+                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteScheduleCmd}" CommandParameter="{Binding Model}"/>
                                         <TextBox Text="{Binding Name}" />
                                     </DockPanel>
                                     <DataGrid ItemsSource="{Binding Sessions}" SelectedItem="{Binding SelectedSession}" SelectionMode="Extended" 
@@ -133,6 +134,18 @@
                                             </Button.Style>
                                         </Button>
                                         <Button Content="Edit" Click="EditButton_Click" Tag="{Binding SelectedSession}">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Content="Move" Click="MoveSessionButton_Click" Tag="{Binding SelectedSession}" Visibility="Visible">
                                             <Button.Style>
                                                 <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                                                     <Setter Property="IsEnabled" Value="True"/>

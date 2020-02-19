@@ -14,7 +14,7 @@ namespace iRLeagueManager.Models.Sessions
     public class SessionInfo : ModelBase, ISessionInfo, INotifyPropertyChanged, IHierarchicalModel
     {
         [EqualityCheckProperty]
-        public int? SessionId { get; }
+        public long? SessionId { get; }
 
         private SessionType sessionType;
         /// <summary>
@@ -89,7 +89,7 @@ namespace iRLeagueManager.Models.Sessions
 
         IEnumerable<object> IHierarchicalModel.Children => new object[0];
 
-        public  SessionInfo(int? sessionId, SessionType sessionType)
+        public  SessionInfo(long? sessionId, SessionType sessionType)
         {
             SessionId = sessionId;
             SessionType = sessionType;

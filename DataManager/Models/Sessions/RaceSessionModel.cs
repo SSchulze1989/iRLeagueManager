@@ -17,11 +17,11 @@ namespace iRLeagueManager.Models.Sessions
     [Serializable()]
     public class RaceSessionModel : SessionModel, INotifyPropertyChanged, IRaceSession
     {
-        private int raceId;
+        private long raceId;
         /// <summary>
         /// Unique race id for the league
         /// </summary>
-        public int RaceId { get => raceId; set => SetValue(ref raceId, value); }
+        public long RaceId { get => raceId; set => SetValue(ref raceId, value); }
 
         private int laps;
         /// <summary>
@@ -170,7 +170,7 @@ namespace iRLeagueManager.Models.Sessions
         //    PracticeAttached = session.PracticeAttached;
         //}
 
-        public RaceSessionModel(int? sessionId) : base(sessionId, SessionType.Race)
+        public RaceSessionModel(long? sessionId) : base(sessionId, SessionType.Race)
         {
             Date = DateTime.Today;
             //LocationId = "";
@@ -184,7 +184,7 @@ namespace iRLeagueManager.Models.Sessions
         /// Create a new RaceSession object.
         /// </summary>
         /// <param name="raceId"></param>
-        public RaceSessionModel(int? sessionId, int raceId) : base(sessionId, SessionType.Race)
+        public RaceSessionModel(long? sessionId, long raceId) : base(sessionId, SessionType.Race)
         {
             RaceId = raceId;
             Date = DateTime.Today;

@@ -43,9 +43,9 @@ namespace iRLeagueManager.ViewModels
         private ScheduleViewModel schedule;
         public ScheduleViewModel Schedule { get => schedule; set => SetValue(ref schedule, value); }
 
-        public int? SessionId => Model.SessionId;
+        public long? SessionId => Model.SessionId;
 
-        public int? SessionNumber => Schedule?.Sessions.IndexOf(this) + 1;
+        public int? SessionNumber => Schedule?.Sessions.IndexOf(Schedule?.Sessions.SingleOrDefault(x => x.SessionId == this.SessionId)) + 1;
 
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
         public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
@@ -89,7 +89,7 @@ namespace iRLeagueManager.ViewModels
         public bool QualyAttached { get => ((Model as RaceSessionModel)?.QualyAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyAttached = value; } } }
         public bool PracticeAttached { get => ((Model as RaceSessionModel)?.PracticeAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeAttached = value; } } }
 
-        public int? RaceId => (Model as RaceSessionModel)?.RaceId;
+        public long? RaceId => (Model as RaceSessionModel)?.RaceId;
 
         public SessionViewModel() : base()
         {
@@ -137,9 +137,10 @@ namespace iRLeagueManager.ViewModels
 
 
             //Update LeagueMember database
-            var memberList = (await LeagueContext.GetModelsAsync<LeagueMember>())?.ToList();
+            await LeagueContext.UpdateMemberList();
+            var memberList = LeagueContext.MemberList;
             parserService.MemberList = memberList;
-            var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Exists(y => y.IRacingId == x.IRacingId));
+            var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
 
             //foreach (var member in newMembers)
             //{
@@ -151,7 +152,7 @@ namespace iRLeagueManager.ViewModels
 
             var resultRows = parserService.GetResultRows(lines);
             ResultModel result;
-                if (session.SessionResult != null)
+            if (session.SessionResult != null)
             {
                 result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
                 result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);

@@ -11,6 +11,6 @@ namespace iRLeagueManager.Interfaces
     public interface IRaceSessionInfo : ISessionInfo, INotifyPropertyChanged
     {
         [EqualityCheckProperty]
-        int RaceId { get; }
+        long RaceId { get; }
     }
 }
