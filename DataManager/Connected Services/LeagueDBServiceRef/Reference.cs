@@ -1859,6 +1859,12 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LeagueDBServiceRef.ILeagueDBService")]
     public interface ILeagueDBService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/SetDatabaseName", ReplyAction="http://tempuri.org/ILeagueDBService/SetDatabaseNameResponse")]
+        void SetDatabaseName(string databaseName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/SetDatabaseName", ReplyAction="http://tempuri.org/ILeagueDBService/SetDatabaseNameResponse")]
+        System.Threading.Tasks.Task SetDatabaseNameAsync(string databaseName);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/TestDB", ReplyAction="http://tempuri.org/ILeagueDBService/TestDBResponse")]
         string TestDB();
         
@@ -2029,6 +2035,14 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         
         public LeagueDBServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public void SetDatabaseName(string databaseName) {
+            base.Channel.SetDatabaseName(databaseName);
+        }
+        
+        public System.Threading.Tasks.Task SetDatabaseNameAsync(string databaseName) {
+            return base.Channel.SetDatabaseNameAsync(databaseName);
         }
         
         public string TestDB() {

@@ -6,6 +6,18 @@
   <xs:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
   <xs:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
   <xs:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+  <xs:element name="SetDatabaseName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="databaseName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetDatabaseNameResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="TestDB">
     <xs:complexType>
       <xs:sequence />

@@ -42,6 +42,8 @@ namespace iRLeagueManager.Data
 
         public LocationCollection LocationCollection { get; } = new LocationCollection();
 
+        private string DatabaseName { get; } = "";
+
         //private ObservableCollection<SessionBase> sessions;
         //public ReadOnlyObservableCollection<SessionBase> Sessions => new ReadOnlyObservableCollection<SessionBase>(sessions);
 
@@ -53,6 +55,7 @@ namespace iRLeagueManager.Data
         {
             MapperProfile = new ModelMapperProfile();
             DbContext = new DbLeagueServiceClient();
+            DbContext.SetDatabaseName(DatabaseName);
             LocationMapperProfile = new LocationMapperProfile(LocationCollection);
             MapperProfile.LeagueContext = this;
             memberList = new ObservableCollection<LeagueMember>();

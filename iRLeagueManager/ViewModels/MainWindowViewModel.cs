@@ -24,7 +24,7 @@ namespace iRLeagueManager.ViewModels
         private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
         //public LeagueContext LeagueContext { get => leagueContext; private set { leagueContext = value; OnPropertyChanged(); } }
 
-        public ObservableCollection<ExceptionLogMessage> ErrorLog => GlobalSettings.ErrorLog;
+        public ReadOnlyObservableCollection<ExceptionLogMessage> ErrorLog => GlobalSettings.Logger.ErrorMessages;
 
         private UserContext UserContext => GlobalSettings.UserContext;
 

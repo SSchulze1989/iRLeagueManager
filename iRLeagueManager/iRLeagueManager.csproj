@@ -76,6 +76,7 @@
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
     <Compile Include="Interfaces\IModalViewModel.cs" />
     <Compile Include="Logging\ExceptionLogMessage.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\ContainerEqualityComparer.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ViewModels\ObservableModelCollection.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ModelCollectionViewModel.cs" />
+    <Compile Include="ViewModels\ResultRowViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />

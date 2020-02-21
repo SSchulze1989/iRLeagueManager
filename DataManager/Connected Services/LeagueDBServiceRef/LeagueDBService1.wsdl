@@ -21,6 +21,12 @@
       <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="ILeagueDBService_SetDatabaseName_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetDatabaseName" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_SetDatabaseName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetDatabaseNameResponse" />
+  </wsdl:message>
   <wsdl:message name="ILeagueDBService_TestDB_InputMessage">
     <wsdl:part name="parameters" element="tns:TestDB" />
   </wsdl:message>
@@ -166,6 +172,10 @@
     <wsdl:part name="parameters" element="tns:CleanUpSessionsResponse" />
   </wsdl:message>
   <wsdl:portType name="ILeagueDBService">
+    <wsdl:operation name="SetDatabaseName">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/SetDatabaseName" message="tns:ILeagueDBService_SetDatabaseName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/SetDatabaseNameResponse" message="tns:ILeagueDBService_SetDatabaseName_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="TestDB">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/TestDB" message="tns:ILeagueDBService_TestDB_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/TestDBResponse" message="tns:ILeagueDBService_TestDB_OutputMessage" />
@@ -266,6 +276,15 @@
   <wsdl:binding name="NetTcpBinding_ILeagueDBService" type="tns:ILeagueDBService">
     <wsp:PolicyReference URI="#NetTcpBinding_ILeagueDBService_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SetDatabaseName">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/SetDatabaseName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="TestDB">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/TestDB" style="document" />
       <wsdl:input>

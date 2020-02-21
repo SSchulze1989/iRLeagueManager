@@ -370,5 +370,15 @@ namespace iRLeagueManager.Data
         {
             return ((ILeagueDBService)DbClient).GetTeamStandingsAsync(seasonId, lastSessionId);
         }
+
+        public void SetDatabaseName(string databaseName)
+        {
+            ((ILeagueDBService)DbClient).SetDatabaseName(databaseName);
+        }
+
+        public Task SetDatabaseNameAsync(string databaseName)
+        {
+            return ((ILeagueDBService)DbClient).SetDatabaseNameAsync(databaseName);
+        }
     }
 }

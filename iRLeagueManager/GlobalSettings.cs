@@ -21,7 +21,7 @@ namespace iRLeagueManager
         private const int maxErrors = 10;
         private static int ErrorCount { get; set; }
         private static DateTime LastError { get; set; }
-        public static ObservableCollection<ExceptionLogMessage> ErrorLog { get; } = new ObservableCollection<ExceptionLogMessage>();
+        public static Logger Logger { get; } = new Logger();
 
         public static void SetGlobalLeagueContext(LeagueContext context)
         {
@@ -53,7 +53,7 @@ namespace iRLeagueManager
             if (debugErros && MessageBox.Show(e.Message, "Error", MessageBoxButton.OKCancel, MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.Cancel)
                 throw e;
             else
-                ErrorLog.Add(new ExceptionLogMessage(e));
+                Logger.ErrLog(new ExceptionLogMessage(e));
         }
     }
 }
