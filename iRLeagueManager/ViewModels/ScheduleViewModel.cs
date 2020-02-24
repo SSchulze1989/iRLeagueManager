@@ -20,18 +20,18 @@ namespace iRLeagueManager.ViewModels
 {
     public class ScheduleViewModel : LeagueContainerModel<ScheduleModel>
     {
-        public ScheduleModel Model
-        {
-            get => Source;
-            private set
-            {
-                if (SetSource(value))
-                {
-                    //Sessions.UpdateSource(Model.Sessions);
-                    OnPropertyChanged();
-                }
-            }
-        }
+        //public ScheduleModel Model
+        //{
+        //    get => Source;
+        //    private set
+        //    {
+        //        if (SetSource(value))
+        //        {
+        //            //Sessions.UpdateSource(Model.Sessions);
+        //            OnPropertyChanged();
+        //        }
+        //    }
+        //}
 
         //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions { get; } = new ObservableModelCollection<SessionViewModel, SessionModel>();
 
@@ -49,6 +49,8 @@ namespace iRLeagueManager.ViewModels
 
         private SessionViewModel selectedSession;
         public SessionViewModel SelectedSession { get => selectedSession; set => SetValue(ref selectedSession, value); }
+
+        protected override ScheduleModel Template => ScheduleModel.GetTemplate();
 
         public ScheduleViewModel() : base()
         {
@@ -115,27 +117,27 @@ namespace iRLeagueManager.ViewModels
             await LeagueContext.UpdateModelAsync(Model);
         }
 
-        public async void Load(int scheduleId)
-        {
-            if (Model?.ScheduleId == null || Model.ScheduleId != scheduleId )
-            {
-                Model = ScheduleModel.GetTemplate();
-            }
+        //public override async void Load(long scheduleId)
+        //{
+        //    if (Model?.ScheduleId == null || Model.ScheduleId != scheduleId )
+        //    {
+        //        Model = ScheduleModel.GetTemplate();
+        //    }
 
-            try
-            {
-                IsLoading = true;
-                Model = await LeagueContext.GetModelAsync<ScheduleModel>(scheduleId);
-            }
-            catch (Exception e)
-            {
-                GlobalSettings.LogError(e);
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
+        //    try
+        //    {
+        //        IsLoading = true;
+        //        Model = await LeagueContext.GetModelAsync<ScheduleModel>(scheduleId);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        GlobalSettings.LogError(e);
+        //    }
+        //    finally
+        //    {
+        //        IsLoading = false;
+        //    }
+        //}
 
         public async void UploadFile(SessionModel session)
         {

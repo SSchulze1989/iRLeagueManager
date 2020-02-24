@@ -17,20 +17,22 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="VersionInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer")]
     [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SessionDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScheduleInfoDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.RaceSessionDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.CommentInfoDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.CommentDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SessionDataDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScheduleInfoDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.RaceSessionDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO))]
     public partial class VersionInfoDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -108,116 +110,26 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="IncidentReviewInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResultInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
     [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO))]
-    public partial class IncidentReviewInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO))]
+    public partial class ResultInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<long> ReviewIdField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<long> ReviewId {
-            get {
-                return this.ReviewIdField;
-            }
-            set {
-                if ((this.ReviewIdField.Equals(value) != true)) {
-                    this.ReviewIdField = value;
-                    this.RaisePropertyChanged("ReviewId");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="IncidentReviewDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
-    [System.SerializableAttribute()]
-    public partial class IncidentReviewDataDTO : iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO AuthorField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO[] CommentsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int CornerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO[] InvolvedMembersField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int OnLapField;
+        private System.Nullable<long> ResultIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO SessionField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.TimeSpan TimeStampField;
-        
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO Author {
+        public System.Nullable<long> ResultId {
             get {
-                return this.AuthorField;
+                return this.ResultIdField;
             }
             set {
-                if ((object.ReferenceEquals(this.AuthorField, value) != true)) {
-                    this.AuthorField = value;
-                    this.RaisePropertyChanged("Author");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO[] Comments {
-            get {
-                return this.CommentsField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CommentsField, value) != true)) {
-                    this.CommentsField = value;
-                    this.RaisePropertyChanged("Comments");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Corner {
-            get {
-                return this.CornerField;
-            }
-            set {
-                if ((this.CornerField.Equals(value) != true)) {
-                    this.CornerField = value;
-                    this.RaisePropertyChanged("Corner");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO[] InvolvedMembers {
-            get {
-                return this.InvolvedMembersField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.InvolvedMembersField, value) != true)) {
-                    this.InvolvedMembersField = value;
-                    this.RaisePropertyChanged("InvolvedMembers");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int OnLap {
-            get {
-                return this.OnLapField;
-            }
-            set {
-                if ((this.OnLapField.Equals(value) != true)) {
-                    this.OnLapField = value;
-                    this.RaisePropertyChanged("OnLap");
+                if ((this.ResultIdField.Equals(value) != true)) {
+                    this.ResultIdField = value;
+                    this.RaisePropertyChanged("ResultId");
                 }
             }
         }
@@ -231,250 +143,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.SessionField, value) != true)) {
                     this.SessionField = value;
                     this.RaisePropertyChanged("Session");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.TimeSpan TimeStamp {
-            get {
-                return this.TimeStampField;
-            }
-            set {
-                if ((this.TimeStampField.Equals(value) != true)) {
-                    this.TimeStampField = value;
-                    this.RaisePropertyChanged("TimeStamp");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LeagueMemberInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO))]
-    public partial class LeagueMemberInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long MemberIdField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long MemberId {
-            get {
-                return this.MemberIdField;
-            }
-            set {
-                if ((this.MemberIdField.Equals(value) != true)) {
-                    this.MemberIdField = value;
-                    this.RaisePropertyChanged("MemberId");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LeagueMemberDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members")]
-    [System.SerializableAttribute()]
-    public partial class LeagueMemberDataDTO : iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DanLisaIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DiscordIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string FirstnameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string IRacingIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string LastnameField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string DanLisaId {
-            get {
-                return this.DanLisaIdField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DanLisaIdField, value) != true)) {
-                    this.DanLisaIdField = value;
-                    this.RaisePropertyChanged("DanLisaId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string DiscordId {
-            get {
-                return this.DiscordIdField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DiscordIdField, value) != true)) {
-                    this.DiscordIdField = value;
-                    this.RaisePropertyChanged("DiscordId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Firstname {
-            get {
-                return this.FirstnameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FirstnameField, value) != true)) {
-                    this.FirstnameField = value;
-                    this.RaisePropertyChanged("Firstname");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string IRacingId {
-            get {
-                return this.IRacingIdField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.IRacingIdField, value) != true)) {
-                    this.IRacingIdField = value;
-                    this.RaisePropertyChanged("IRacingId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Lastname {
-            get {
-                return this.LastnameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LastnameField, value) != true)) {
-                    this.LastnameField = value;
-                    this.RaisePropertyChanged("Lastname");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CommentInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.CommentDataDTO))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO))]
-    public partial class CommentInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long CommentIdField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long CommentId {
-            get {
-                return this.CommentIdField;
-            }
-            set {
-                if ((this.CommentIdField.Equals(value) != true)) {
-                    this.CommentIdField = value;
-                    this.RaisePropertyChanged("CommentId");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CommentDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO))]
-    public partial class CommentDataDTO : iRLeagueManager.LeagueDBServiceRef.CommentInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO AuthorField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<System.DateTime> DateField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TextField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO Author {
-            get {
-                return this.AuthorField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.AuthorField, value) != true)) {
-                    this.AuthorField = value;
-                    this.RaisePropertyChanged("Author");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<System.DateTime> Date {
-            get {
-                return this.DateField;
-            }
-            set {
-                if ((this.DateField.Equals(value) != true)) {
-                    this.DateField = value;
-                    this.RaisePropertyChanged("Date");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Text {
-            get {
-                return this.TextField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TextField, value) != true)) {
-                    this.TextField = value;
-                    this.RaisePropertyChanged("Text");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ReviewCommentDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
-    [System.SerializableAttribute()]
-    public partial class ReviewCommentDataDTO : iRLeagueManager.LeagueDBServiceRef.CommentDataDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MemberAtFaultField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.Enums.VoteEnum VoteField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MemberAtFault {
-            get {
-                return this.MemberAtFaultField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.MemberAtFaultField, value) != true)) {
-                    this.MemberAtFaultField = value;
-                    this.RaisePropertyChanged("MemberAtFault");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.Enums.VoteEnum Vote {
-            get {
-                return this.VoteField;
-            }
-            set {
-                if ((this.VoteField.Equals(value) != true)) {
-                    this.VoteField = value;
-                    this.RaisePropertyChanged("Vote");
                 }
             }
         }
@@ -643,6 +311,117 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LeagueMemberInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO))]
+    public partial class LeagueMemberInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long MemberIdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long MemberId {
+            get {
+                return this.MemberIdField;
+            }
+            set {
+                if ((this.MemberIdField.Equals(value) != true)) {
+                    this.MemberIdField = value;
+                    this.RaisePropertyChanged("MemberId");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LeagueMemberDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members")]
+    [System.SerializableAttribute()]
+    public partial class LeagueMemberDataDTO : iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DanLisaIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DiscordIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FirstnameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IRacingIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LastnameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DanLisaId {
+            get {
+                return this.DanLisaIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DanLisaIdField, value) != true)) {
+                    this.DanLisaIdField = value;
+                    this.RaisePropertyChanged("DanLisaId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DiscordId {
+            get {
+                return this.DiscordIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DiscordIdField, value) != true)) {
+                    this.DiscordIdField = value;
+                    this.RaisePropertyChanged("DiscordId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Firstname {
+            get {
+                return this.FirstnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FirstnameField, value) != true)) {
+                    this.FirstnameField = value;
+                    this.RaisePropertyChanged("Firstname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IRacingId {
+            get {
+                return this.IRacingIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IRacingIdField, value) != true)) {
+                    this.IRacingIdField = value;
+                    this.RaisePropertyChanged("IRacingId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Lastname {
+            get {
+                return this.LastnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LastnameField, value) != true)) {
+                    this.LastnameField = value;
+                    this.RaisePropertyChanged("Lastname");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ScheduleInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO))]
@@ -731,133 +510,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.SessionsField, value) != true)) {
                     this.SessionsField = value;
                     this.RaisePropertyChanged("Sessions");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResultInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO))]
-    public partial class ResultInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<long> ResultIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO SessionField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<long> ResultId {
-            get {
-                return this.ResultIdField;
-            }
-            set {
-                if ((this.ResultIdField.Equals(value) != true)) {
-                    this.ResultIdField = value;
-                    this.RaisePropertyChanged("ResultId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO Session {
-            get {
-                return this.SessionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SessionField, value) != true)) {
-                    this.SessionField = value;
-                    this.RaisePropertyChanged("Session");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResultDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
-    [System.SerializableAttribute()]
-    public partial class ResultDataDTO : iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CreatedByField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO LastModifiedByField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.ResultRowDataDTO[] RawResultsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO[] ReviewsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO SeasonField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CreatedBy {
-            get {
-                return this.CreatedByField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CreatedByField, value) != true)) {
-                    this.CreatedByField = value;
-                    this.RaisePropertyChanged("CreatedBy");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO LastModifiedBy {
-            get {
-                return this.LastModifiedByField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LastModifiedByField, value) != true)) {
-                    this.LastModifiedByField = value;
-                    this.RaisePropertyChanged("LastModifiedBy");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.ResultRowDataDTO[] RawResults {
-            get {
-                return this.RawResultsField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.RawResultsField, value) != true)) {
-                    this.RawResultsField = value;
-                    this.RaisePropertyChanged("RawResults");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO[] Reviews {
-            get {
-                return this.ReviewsField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ReviewsField, value) != true)) {
-                    this.ReviewsField = value;
-                    this.RaisePropertyChanged("Reviews");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO Season {
-            get {
-                return this.SeasonField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SeasonField, value) != true)) {
-                    this.SeasonField = value;
-                    this.RaisePropertyChanged("Season");
                 }
             }
         }
@@ -1016,6 +668,579 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResultDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
+    [System.SerializableAttribute()]
+    public partial class ResultDataDTO : iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CreatedByField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO LastModifiedByField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ResultRowDataDTO[] RawResultsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO[] ReviewsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO SeasonField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CreatedBy {
+            get {
+                return this.CreatedByField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CreatedByField, value) != true)) {
+                    this.CreatedByField = value;
+                    this.RaisePropertyChanged("CreatedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO LastModifiedBy {
+            get {
+                return this.LastModifiedByField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LastModifiedByField, value) != true)) {
+                    this.LastModifiedByField = value;
+                    this.RaisePropertyChanged("LastModifiedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ResultRowDataDTO[] RawResults {
+            get {
+                return this.RawResultsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RawResultsField, value) != true)) {
+                    this.RawResultsField = value;
+                    this.RaisePropertyChanged("RawResults");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO[] Reviews {
+            get {
+                return this.ReviewsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReviewsField, value) != true)) {
+                    this.ReviewsField = value;
+                    this.RaisePropertyChanged("Reviews");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO Season {
+            get {
+                return this.SeasonField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SeasonField, value) != true)) {
+                    this.SeasonField = value;
+                    this.RaisePropertyChanged("Season");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IncidentReviewInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO))]
+    public partial class IncidentReviewInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<long> ReviewIdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<long> ReviewId {
+            get {
+                return this.ReviewIdField;
+            }
+            set {
+                if ((this.ReviewIdField.Equals(value) != true)) {
+                    this.ReviewIdField = value;
+                    this.RaisePropertyChanged("ReviewId");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IncidentReviewDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
+    [System.SerializableAttribute()]
+    public partial class IncidentReviewDataDTO : iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO AuthorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO[] CommentsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CornerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO[] InvolvedMembersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int OnLapField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO SessionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.TimeSpan TimeStampField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO Author {
+            get {
+                return this.AuthorField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AuthorField, value) != true)) {
+                    this.AuthorField = value;
+                    this.RaisePropertyChanged("Author");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO[] Comments {
+            get {
+                return this.CommentsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CommentsField, value) != true)) {
+                    this.CommentsField = value;
+                    this.RaisePropertyChanged("Comments");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Corner {
+            get {
+                return this.CornerField;
+            }
+            set {
+                if ((this.CornerField.Equals(value) != true)) {
+                    this.CornerField = value;
+                    this.RaisePropertyChanged("Corner");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO[] InvolvedMembers {
+            get {
+                return this.InvolvedMembersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InvolvedMembersField, value) != true)) {
+                    this.InvolvedMembersField = value;
+                    this.RaisePropertyChanged("InvolvedMembers");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int OnLap {
+            get {
+                return this.OnLapField;
+            }
+            set {
+                if ((this.OnLapField.Equals(value) != true)) {
+                    this.OnLapField = value;
+                    this.RaisePropertyChanged("OnLap");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO Session {
+            get {
+                return this.SessionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SessionField, value) != true)) {
+                    this.SessionField = value;
+                    this.RaisePropertyChanged("Session");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.TimeSpan TimeStamp {
+            get {
+                return this.TimeStampField;
+            }
+            set {
+                if ((this.TimeStampField.Equals(value) != true)) {
+                    this.TimeStampField = value;
+                    this.RaisePropertyChanged("TimeStamp");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CommentInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.CommentDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO))]
+    public partial class CommentInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long CommentIdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long CommentId {
+            get {
+                return this.CommentIdField;
+            }
+            set {
+                if ((this.CommentIdField.Equals(value) != true)) {
+                    this.CommentIdField = value;
+                    this.RaisePropertyChanged("CommentId");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CommentDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO))]
+    public partial class CommentDataDTO : iRLeagueManager.LeagueDBServiceRef.CommentInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO AuthorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TextField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO Author {
+            get {
+                return this.AuthorField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AuthorField, value) != true)) {
+                    this.AuthorField = value;
+                    this.RaisePropertyChanged("Author");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Text {
+            get {
+                return this.TextField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TextField, value) != true)) {
+                    this.TextField = value;
+                    this.RaisePropertyChanged("Text");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ReviewCommentDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews")]
+    [System.SerializableAttribute()]
+    public partial class ReviewCommentDataDTO : iRLeagueManager.LeagueDBServiceRef.CommentDataDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MemberAtFaultField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.Enums.VoteEnum VoteField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MemberAtFault {
+            get {
+                return this.MemberAtFaultField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MemberAtFaultField, value) != true)) {
+                    this.MemberAtFaultField = value;
+                    this.RaisePropertyChanged("MemberAtFault");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.Enums.VoteEnum Vote {
+            get {
+                return this.VoteField;
+            }
+            set {
+                if ((this.VoteField.Equals(value) != true)) {
+                    this.VoteField = value;
+                    this.RaisePropertyChanged("Vote");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ScoringInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO))]
+    public partial class ScoringInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long ScoringIdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long ScoringId {
+            get {
+                return this.ScoringIdField;
+            }
+            set {
+                if ((this.ScoringIdField.Equals(value) != true)) {
+                    this.ScoringIdField = value;
+                    this.RaisePropertyChanged("ScoringId");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ScoringDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
+    [System.SerializableAttribute()]
+    public partial class ScoringDataDTO : iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int AverageRaceNrField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BasePointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BonusPointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DropWeeksField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IncPenaltyPointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MultiScoringFactorsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO[] MultiScoringResultsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long ScoringId1Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO SeasonField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long SeasonIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO[] SessionsField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int AverageRaceNr {
+            get {
+                return this.AverageRaceNrField;
+            }
+            set {
+                if ((this.AverageRaceNrField.Equals(value) != true)) {
+                    this.AverageRaceNrField = value;
+                    this.RaisePropertyChanged("AverageRaceNr");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BasePoints {
+            get {
+                return this.BasePointsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BasePointsField, value) != true)) {
+                    this.BasePointsField = value;
+                    this.RaisePropertyChanged("BasePoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BonusPoints {
+            get {
+                return this.BonusPointsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BonusPointsField, value) != true)) {
+                    this.BonusPointsField = value;
+                    this.RaisePropertyChanged("BonusPoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DropWeeks {
+            get {
+                return this.DropWeeksField;
+            }
+            set {
+                if ((this.DropWeeksField.Equals(value) != true)) {
+                    this.DropWeeksField = value;
+                    this.RaisePropertyChanged("DropWeeks");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IncPenaltyPoints {
+            get {
+                return this.IncPenaltyPointsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IncPenaltyPointsField, value) != true)) {
+                    this.IncPenaltyPointsField = value;
+                    this.RaisePropertyChanged("IncPenaltyPoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MultiScoringFactors {
+            get {
+                return this.MultiScoringFactorsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MultiScoringFactorsField, value) != true)) {
+                    this.MultiScoringFactorsField = value;
+                    this.RaisePropertyChanged("MultiScoringFactors");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO[] MultiScoringResults {
+            get {
+                return this.MultiScoringResultsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MultiScoringResultsField, value) != true)) {
+                    this.MultiScoringResultsField = value;
+                    this.RaisePropertyChanged("MultiScoringResults");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="ScoringId")]
+        public long ScoringId1 {
+            get {
+                return this.ScoringId1Field;
+            }
+            set {
+                if ((this.ScoringId1Field.Equals(value) != true)) {
+                    this.ScoringId1Field = value;
+                    this.RaisePropertyChanged("ScoringId1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO Season {
+            get {
+                return this.SeasonField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SeasonField, value) != true)) {
+                    this.SeasonField = value;
+                    this.RaisePropertyChanged("Season");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long SeasonId {
+            get {
+                return this.SeasonIdField;
+            }
+            set {
+                if ((this.SeasonIdField.Equals(value) != true)) {
+                    this.SeasonIdField = value;
+                    this.RaisePropertyChanged("SeasonId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.SessionInfoDTO[] Sessions {
+            get {
+                return this.SessionsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SessionsField, value) != true)) {
+                    this.SessionsField = value;
+                    this.RaisePropertyChanged("Sessions");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SeasonInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO))]
@@ -1074,6 +1299,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.ScheduleInfoDTO[] SchedulesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO[] ScoringsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime SeasonEndField;
@@ -1142,6 +1370,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.SchedulesField, value) != true)) {
                     this.SchedulesField = value;
                     this.RaisePropertyChanged("Schedules");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO[] Scorings {
+            get {
+                return this.ScoringsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ScoringsField, value) != true)) {
+                    this.ScoringsField = value;
+                    this.RaisePropertyChanged("Scorings");
                 }
             }
         }
@@ -1991,6 +2232,18 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutResult", ReplyAction="http://tempuri.org/ILeagueDBService/PutResultResponse")]
         System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResultDataDTO> PutResultAsync(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO result);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetScoring", ReplyAction="http://tempuri.org/ILeagueDBService/GetScoringResponse")]
+        iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO GetScoring(long scoringId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetScoring", ReplyAction="http://tempuri.org/ILeagueDBService/GetScoringResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> GetScoringAsync(long scoringId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutScoring", ReplyAction="http://tempuri.org/ILeagueDBService/PutScoringResponse")]
+        iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO PutScoring(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutScoring", ReplyAction="http://tempuri.org/ILeagueDBService/PutScoringResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> PutScoringAsync(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeasonStandings", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonStandingsResponse")]
         iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[] GetSeasonStandings(long seasonId, System.Nullable<long> lastSessionId);
         
@@ -2211,6 +2464,22 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         
         public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResultDataDTO> PutResultAsync(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO result) {
             return base.Channel.PutResultAsync(result);
+        }
+        
+        public iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO GetScoring(long scoringId) {
+            return base.Channel.GetScoring(scoringId);
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> GetScoringAsync(long scoringId) {
+            return base.Channel.GetScoringAsync(scoringId);
+        }
+        
+        public iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO PutScoring(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring) {
+            return base.Channel.PutScoring(scoring);
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> PutScoringAsync(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring) {
+            return base.Channel.PutScoringAsync(scoring);
         }
         
         public iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[] GetSeasonStandings(long seasonId, System.Nullable<long> lastSessionId) {

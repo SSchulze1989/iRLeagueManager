@@ -24,19 +24,21 @@ namespace iRLeagueManager.ViewModels
 {
     public class SessionViewModel : LeagueContainerModel<SessionModel>
     {
-        public SessionModel Model
-        {
-            get => Source;
-            protected set
-            {
-                if (SetSource(value))
-                {
-                    OnPropertyChanged(null);
-                }
-            }
-        }
+        //public SessionModel Model
+        //{
+        //    get => Source;
+        //    protected set
+        //    {
+        //        if (SetSource(value))
+        //        {
+        //            OnPropertyChanged(null);
+        //        }
+        //    }
+        //}
 
         public ICommand UploadFileCmd { get; }
+
+        protected override SessionModel Template => SessionModel.GetTemplate();
 
         private LocationCollection Locations { get; } = new LocationCollection();
 

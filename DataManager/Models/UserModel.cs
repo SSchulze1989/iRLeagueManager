@@ -13,6 +13,8 @@ namespace iRLeagueManager.Models
     {
         public int UserId { get; }
 
+        public override long? ModelId => UserId;
+
         private string userName;
         public string UserName { get => userName; set => SetValue(ref userName, value); }
 

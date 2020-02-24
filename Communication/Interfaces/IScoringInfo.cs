@@ -11,6 +11,6 @@ namespace iRLeagueManager.Interfaces
     public interface IScoringInfo : INotifyPropertyChanged
     {
         [EqualityCheckProperty]
-        long ScoringId { get; }
+        long? ScoringId { get; }
     }
 }

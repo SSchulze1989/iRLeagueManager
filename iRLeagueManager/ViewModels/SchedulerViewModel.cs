@@ -71,7 +71,19 @@ namespace iRLeagueManager.ViewModels
             };
 
             Season.Schedules.Add(newSchedule);
-            await LeagueContext.UpdateModelAsync(Season);
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.UpdateModelAsync(Season);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
             Load(Season);
         }
 
@@ -169,6 +181,8 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
+                schedule.Sessions.Clear();
+                await LeagueContext.UpdateModelAsync(schedule);
                 Season.Schedules.Remove(Season.Schedules.SingleOrDefault(x => x.ScheduleId == schedule.ScheduleId));
                 IsLoading = true;
                 await LeagueContext.UpdateModelAsync(Season);

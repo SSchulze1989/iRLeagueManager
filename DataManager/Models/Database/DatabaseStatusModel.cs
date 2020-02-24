@@ -23,6 +23,8 @@ namespace iRLeagueManager.Models.Database
         private string endpointAddress;
         public string EndpointAddress { get => endpointAddress; protected set => SetValue(ref endpointAddress, value); }
 
+        public override long? ModelId => null;
+
         public DatabaseStatusModel()
         {
             databaseStatus = new Dictionary<IToken, DatabaseStatusEnum>();

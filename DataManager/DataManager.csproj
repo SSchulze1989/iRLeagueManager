@@ -82,6 +82,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="DatabaseToken.cs" />
+    <Compile Include="Exceptions\ModelInitializeException.cs" />
     <Compile Include="LeagueContext.cs" />
     <Compile Include="LocationMapperProfile.cs" />
     <Compile Include="ModelMapperConfiguration.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Models\Results\ResultInfo.cs" />
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultRowModel.cs" />
+    <Compile Include="Models\Results\ScoredResultRowModel.cs" />
     <Compile Include="Models\Results\ScoringModel.cs" />
     <Compile Include="Models\Results\ScoringRuleBase.cs" />
     <Compile Include="Models\Results\StandardScoringRule.cs" />
@@ -141,6 +143,9 @@
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -151,31 +156,31 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\LeagueDBService1.wsdl" />
-    <None Include="Connected Services\LeagueDBServiceRef\Service.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service210.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service1.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service211.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service3.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service212.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service4.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service213.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service5.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service214.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service6.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service215.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service7.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service216.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service8.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service217.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service9.xsd">
+    <None Include="Connected Services\LeagueDBServiceRef\Service29.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\UserDBServiceRef\iRLeagueManager.UserDBServiceRef.UserDTO.datasource">

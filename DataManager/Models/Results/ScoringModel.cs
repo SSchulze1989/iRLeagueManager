@@ -11,39 +11,85 @@ using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
+using iRLeagueManager.Exceptions;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ScoringModel : ModelBase, IScoring
+    public class ScoringModel : ModelBase
     {
-        public long ScoringId { get; set; }
+        public long? ScoringId { get; internal set; }
 
-        public int DropWeeks { get; set; }
+        public override long? ModelId => ScoringId;
 
-        public int AverageRaceNr { get; set; }
+        private string name;
+        public string Name { get => name; set => SetValue(ref name, value); }
+
+        private int dropWeeks;
+        public int DropWeeks { get => dropWeeks; set => SetValue(ref dropWeeks, value); }
         
-        public IScheduleInfo Schedule { get; set; }
-        IScheduleInfo IScoring.Schedule { get => Schedule; set => Schedule = value as IScheduleInfo; }
+        private int averageRaceNr;
+        public int AverageRaceNr { get => averageRaceNr; set => SetValue(ref averageRaceNr, value); }
+        
+        private ObservableCollection<SessionInfo> sessions;
+        public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }
+        
+        private long seasonId;
+        public long SeasonId { get => seasonId; set => SetValue(ref seasonId, value); }
+        
+        private SeasonModel season;
+        public SeasonModel Season { get => season; set => SetValue(ref season, value); }
+        
+        private string basePoints;
+        public string BasePoints { get => basePoints; set => SetValue(ref basePoints, value); }
+        
+        private string bonusPoints;
+        public string BonusPoints { get => bonusPoints; set => SetValue(ref bonusPoints, value); }
+        
+        private string incPenaltyPoints;
+        public string IncPenaltyPoints { get => incPenaltyPoints; set => SetValue(ref incPenaltyPoints, value); }
+        
+        private string multiScoringFactors;
+        public string MultiScoringFactors { get => multiScoringFactors; set => SetValue(ref multiScoringFactors, value); }
+        
+        private ObservableCollection<ScoringModel> multiScoringResults;
+        public ObservableCollection<ScoringModel> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
 
-        [XmlIgnore]
-        public ObservableCollection<IRaceSessionInfo> Races { get; }
-        ReadOnlyObservableCollection<IRaceSessionInfo> IScoring.Races => new ReadOnlyObservableCollection<IRaceSessionInfo>(Races);
+        private ObservableCollection<StandingsRowModel> standings;
+        public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
 
-        //[XmlIgnore]
-        //public IEnumerable<Result> Results { get => (Races.Count() > 0) ? client.Results.Where(x => Races.ToList().Exists(y => y.RaceId == x.SessionId)) : new Result[0]; }
+        public ScoringModel()
+        {
+            ScoringId = null;
+            Sessions = new ObservableCollection<SessionInfo>();
+            MultiScoringResults = new ObservableCollection<ScoringModel>();
+            Standings = new ObservableCollection<StandingsRowModel>();
+        }
 
-        //[XmlArray("TotalScoringPoints")]
-        //[XmlArrayItem("Entry")]
-        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-        ////public XmlDictionary<uint, int> XmlScorinPoints { get => (TotalScoringPoints != null) ? TotalScoringPoints : new Dictionary<uint, int>(); }
-        //public XmlDictionaryRow<uint, int>[] XmlScoringPoints { get => TotalScoringPoints.Cast<XmlDictionaryRow<uint, int>>().ToArray(); set => TotalScoringPoints = value.ToDictionary(k => k.Key, v => v.Value); }
-        //public XmlDictionary<uint, int> XmlScoringPoints { get => TotalScoringPoints; set => TotalScoringPoints = value; }
-        [XmlIgnore]
-        public Dictionary<uint, int> TotalScoringPoints { get; set; }
+        public ScoringModel(long? scoringId) : this()
+        {
+            ScoringId = scoringId;
+        }
 
-        public ScoringRuleBase Rule { get; set; }
-
-        public ScoringModel() { }
+        internal override void InitializeModel()
+        {
+            if (Season != null)
+            {
+                for (int i = 0; i < MultiScoringResults.Count(); i++)
+                {
+                    var multiScoring = Season.Scorings.SingleOrDefault(x => x.ScoringId == MultiScoringResults.ElementAt(i).ScoringId);
+                    if (multiScoring != null)
+                    {
+                        MultiScoringResults[i] = multiScoring;
+                    }
+                    else
+                    {
+                        throw new ModelInitializeException("Error initializing Scoring Model. Could not find Scoring Model (ScoringId=" + MultiScoringResults.ElementAt(i).ScoringId + ") in Season.Scorings\n" +
+                            "Error in ScoringModel (ScoringId=" + ScoringId + ") - SeasonModel (SeasonId=" + Season.SeasonId, new NullReferenceException());
+                    }
+                }
+            }
+            base.InitializeModel();
+        }
 
         //public void CalculateScoringPoints()
         //{

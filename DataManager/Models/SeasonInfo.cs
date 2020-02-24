@@ -16,6 +16,8 @@ namespace iRLeagueManager.Models
         [EqualityCheckProperty]
         public long? SeasonId { get => seasonId; internal set { seasonId = value; OnPropertyChanged(); } }
 
+        public override long? ModelId => SeasonId;
+
         private string seasonName;
         public string SeasonName { get => seasonName; set { seasonName = value; OnPropertyChanged(); } }
     }

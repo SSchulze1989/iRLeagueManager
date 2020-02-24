@@ -11,7 +11,7 @@ namespace iRLeagueManager.Interfaces
 {
     public interface IResultRow
     {
-        int FinalPosition { get; set; }
+        //int FinalPosition { get; set; }
         int StartPosition { get; set; }
         int FinishPosition { get; set; }
         [EqualityCheckProperty]
@@ -27,12 +27,12 @@ namespace iRLeagueManager.Interfaces
         int FastLapNr { get; set; }
         int Incidents { get; set; }
         RaceStatusEnum Status { get; set; }
-        int RacePoints { get; set; }
-        int BonusPoints { get; set; }
+        //int RacePoints { get; set; }
+        //int BonusPoints { get; set; }
         LapTime QualifyingTime { get; set; }
         LapInterval Interval { get; set; }
         LapTime AvgLapTime { get; set; }
         LapTime FastestLapTime { get; set; }
-        int PositionChange { get; set; }
+        //int PositionChange { get; set; }
     }
 }

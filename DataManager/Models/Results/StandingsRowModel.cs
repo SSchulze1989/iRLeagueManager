@@ -8,6 +8,10 @@ namespace iRLeagueManager.Models.Results
 {
     public class StandingsRowModel : ModelBase
     {
+        public long? StandingsRowId { get; internal set; }
+
+        public override long? ModelId => StandingsRowId;
+
         private int pos;
         public int Pos { get => pos; internal set => SetValue(ref pos, value); }
 

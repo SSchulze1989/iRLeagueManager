@@ -69,7 +69,7 @@ namespace iRLeagueManager.Data
             //DbStatus.ConnectionStatus = ConnectionStatusEnum.Connected;
         }
 
-        public async Task<IEnumerable<SeasonInfo>> GetSeasonListAsync()
+        public async Task<IEnumerable<SeasonModel>> GetSeasonListAsync()
         {
             return await GetModelsAsync<SeasonModel>(null);
         }

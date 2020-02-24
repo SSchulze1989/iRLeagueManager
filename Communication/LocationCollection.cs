@@ -32,19 +32,26 @@ namespace iRLeagueManager.Locations
             //tracks[2].AddConfig(2, "GP");
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<RaceTrack>));
-            StreamReader streamReader = new StreamReader("Tracks.xml");
-            List<RaceTrack> tracks = xmlSerializer.Deserialize(streamReader) as List<RaceTrack>;
-            foreach (var track in tracks)
+            if (File.Exists("Tracks.xml"))
             {
-                foreach (var config in track.Configs)
+                StreamReader streamReader = new StreamReader("Tracks.xml");
+                List<RaceTrack> tracks = xmlSerializer.Deserialize(streamReader) as List<RaceTrack>;
+                foreach (var track in tracks)
                 {
-                    config.Track = track;
+                    foreach (var config in track.Configs)
+                    {
+                        config.Track = track;
+                    }
                 }
-            }
-            //tracks.ForEach(x => x.Configs.ForEach(y => y.Track = x));
-            List<TrackConfig> configs = tracks.Select(x => x.Configs.ToList()).Aggregate((x, y) => x.Concat(y).ToList());
+                //tracks.ForEach(x => x.Configs.ForEach(y => y.Track = x));
+                List<TrackConfig> configs = tracks.Select(x => x.Configs.ToList()).Aggregate((x, y) => x.Concat(y).ToList());
 
-            locations = configs.Select(x => new Location(x)).OrderBy(x => x.TrackName).ToList();
+                locations = configs.Select(x => new Location(x)).OrderBy(x => x.TrackName).ToList();
+            }
+            else
+            {
+                locations = new List<Location>();
+            }
         }
 
         public int Count => ((ICollection<Location>)locations).Count;

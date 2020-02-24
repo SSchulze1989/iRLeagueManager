@@ -83,6 +83,7 @@
     <Compile Include="ViewModels\ContainerModelBase.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\HoursCollection.cs" />
+    <Compile Include="ViewModels\IncidentReviewViewModel.cs" />
     <Compile Include="ViewModels\LeagueContainerModel.cs" />
     <Compile Include="ViewModels\LocationCollection.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -93,8 +94,10 @@
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ModelCollectionViewModel.cs" />
     <Compile Include="ViewModels\ResultRowViewModel.cs" />
+    <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="ViewModels\ScoredResultRowViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />

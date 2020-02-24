@@ -17,13 +17,13 @@ namespace iRLeagueManager.ViewModels
 
         public Action<ViewModelBase> SetContentViewModel { get; set; }
 
-        private ObservableCollection<SeasonInfo> seasonList;
-        public ObservableCollection<SeasonInfo> SeasonList { get => seasonList; set => SetValue(ref seasonList, value); }
+        private ObservableCollection<SeasonModel> seasonList;
+        public ObservableCollection<SeasonModel> SeasonList { get => seasonList; set => SetValue(ref seasonList, value); }
 
         public ICommand SchedulesButtonCmd { get; }
 
-        private SeasonInfo selectedSeason;
-        public SeasonInfo SelectedSeason
+        private SeasonModel selectedSeason;
+        public SeasonModel SelectedSeason
         {
             get => selectedSeason;
             set
@@ -39,7 +39,7 @@ namespace iRLeagueManager.ViewModels
 
         public MenuBarViewModel()
         {
-            SeasonList = new ObservableCollection<SeasonInfo>(new List<SeasonInfo>() { new SeasonInfo() { SeasonName = "Loading..." } });
+            SeasonList = new ObservableCollection<SeasonModel>(new List<SeasonModel>() { new SeasonModel() { SeasonName = "Loading..." } });
             SelectedSeason = SeasonList.First();
             CurrentSeason = new SeasonViewModel();
         }
@@ -47,7 +47,7 @@ namespace iRLeagueManager.ViewModels
         public async void Load()
         {
             selectedSeason = SeasonList.First();
-            SeasonList = new ObservableCollection<SeasonInfo>(await LeagueContext.GetSeasonListAsync());
+            SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetSeasonListAsync());
             SelectedSeason = SeasonList.First();
         }
     }

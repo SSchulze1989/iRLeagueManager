@@ -13,6 +13,8 @@ namespace iRLeagueManager.Models.Sessions
         [EqualityCheckProperty]
         public long? ScheduleId { get; internal set; }
 
+        public override long? ModelId => ScheduleId;
+
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }
 

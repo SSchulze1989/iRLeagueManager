@@ -17,8 +17,10 @@ namespace iRLeagueManager.Models.Results
     {
         public long? ResultRowId { get; }
 
-        private int finalPosition;
-        public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }
+        public override long? ModelId => ResultRowId;
+
+        //private int finalPosition;
+        //public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }
 
         private int startPosition;
         public int StartPosition { get => startPosition; set { startPosition = value; OnPropertyChanged(); } }
@@ -59,11 +61,11 @@ namespace iRLeagueManager.Models.Results
         private RaceStatusEnum status;
         public RaceStatusEnum Status { get => status; set { status = value; OnPropertyChanged(); } }
 
-        private int racePoints;
-        public int RacePoints { get => racePoints; set { racePoints = value; OnPropertyChanged(); } }
+        //private int racePoints;
+        //public int RacePoints { get => racePoints; set { racePoints = value; OnPropertyChanged(); } }
 
-        private int bonusPoints;
-        public int BonusPoints { get => bonusPoints; set { bonusPoints = value; OnPropertyChanged(); } }
+        //private int bonusPoints;
+        //public int BonusPoints { get => bonusPoints; set { bonusPoints = value; OnPropertyChanged(); } }
 
         private LapTime qualifyingTime = new LapTime();
         public LapTime QualifyingTime { get => qualifyingTime; set { qualifyingTime = value; OnPropertyChanged(); } }
@@ -77,8 +79,8 @@ namespace iRLeagueManager.Models.Results
         private LapTime fastestLapTime;
         public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
 
-        private int positionChange;
-        public int PositionChange { get => positionChange; set { positionChange = value; OnPropertyChanged(); } }
+        //private int positionChange;
+        public virtual int PositionChange => FinishPosition - StartPosition;
 
         public ResultRowModel()
         {

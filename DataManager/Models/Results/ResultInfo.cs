@@ -13,6 +13,8 @@ namespace iRLeagueManager.Models.Results
     {
         public long? ResultId { get; internal set; }
 
+        public override long? ModelId => ResultId;
+
         private SessionInfo session;
         public SessionInfo Session { get => session; set => SetValue(ref session, value); }
 

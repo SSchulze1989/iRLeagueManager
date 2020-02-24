@@ -13,6 +13,8 @@ namespace iRLeagueManager.Models
     {
         protected bool isInitialized;
 
+        public abstract long? ModelId { get; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private DateTime? createdOn;
@@ -109,7 +111,7 @@ namespace iRLeagueManager.Models
         protected bool SetNotifyCollection<T>(ref T targetCollection, T value, [CallerMemberName] string propertyName ="") where T : INotifyCollectionChanged
         {
             var last = targetCollection;
-            bool changed = SetValue(ref targetCollection, value);
+            bool changed = SetValue(ref targetCollection, value, propertyName);
 
             if (changed)
             {

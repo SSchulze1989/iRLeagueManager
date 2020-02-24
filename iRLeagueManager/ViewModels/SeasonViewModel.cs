@@ -33,9 +33,9 @@ namespace iRLeagueManager.ViewModels
 
         public ObservableCollection<ScheduleInfo> Schedules => Model?.Schedules;
 
-        public ObservableCollection<ResultInfo> Results => Model?.Results;
+        //public ObservableCollection<ResultInfo> Results => Model?.Results;
 
-        public ObservableCollection<IncidentReviewInfo> Reviews => Model?.Reviews;
+        //public ObservableCollection<IncidentReviewInfo> Reviews => Model?.Reviews;
 
         public DateTime? SeasonStart => Model?.SeasonStart;
 
@@ -87,7 +87,7 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async void Load(SeasonInfo season)
+        public async void Load(SeasonModel season)
         {
             if (Model == null || Model?.SeasonId != season?.SeasonId)
             {

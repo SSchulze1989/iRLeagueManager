@@ -10,15 +10,15 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd7" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
-      <xsd:import schemaLocation="http://vmd48609:5051/Service.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd7" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILeagueDBService_SetDatabaseName_InputMessage">
@@ -153,6 +153,18 @@
   <wsdl:message name="ILeagueDBService_PutResult_OutputMessage">
     <wsdl:part name="parameters" element="tns:PutResultResponse" />
   </wsdl:message>
+  <wsdl:message name="ILeagueDBService_GetScoring_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoring" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_GetScoring_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoringResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_PutScoring_InputMessage">
+    <wsdl:part name="parameters" element="tns:PutScoring" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_PutScoring_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PutScoringResponse" />
+  </wsdl:message>
   <wsdl:message name="ILeagueDBService_GetSeasonStandings_InputMessage">
     <wsdl:part name="parameters" element="tns:GetSeasonStandings" />
   </wsdl:message>
@@ -259,6 +271,14 @@
     <wsdl:operation name="PutResult">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutResult" message="tns:ILeagueDBService_PutResult_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutResultResponse" message="tns:ILeagueDBService_PutResult_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScoring">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoring" message="tns:ILeagueDBService_GetScoring_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoringResponse" message="tns:ILeagueDBService_GetScoring_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PutScoring">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutScoring" message="tns:ILeagueDBService_PutScoring_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutScoringResponse" message="tns:ILeagueDBService_PutScoring_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetSeasonStandings">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeasonStandings" message="tns:ILeagueDBService_GetSeasonStandings_InputMessage" />
@@ -467,6 +487,24 @@
     </wsdl:operation>
     <wsdl:operation name="PutResult">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutResult" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScoring">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetScoring" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PutScoring">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutScoring" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

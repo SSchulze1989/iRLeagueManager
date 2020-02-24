@@ -13,8 +13,16 @@ namespace iRLeagueManager.ViewModels
 {
     public class ResultRowViewModel : LeagueContainerModel<ResultRowModel>, IResultRow
     {
+        //public ResultRowModel Model
+        //{
+        //    get => Source;
+        //    set => SetSource(value);
+        //}
+
+        protected override ResultRowModel Template => new ResultRowModel();
+
         public long ResultRowId => Source.ResultRowId.GetValueOrDefault();
-        public int FinalPosition { get => Source.FinalPosition; set => Source.FinalPosition = value; }
+        //public int FinalPosition { get => Source.FinalPosition; set => Source.FinalPosition = value; }
         public int StartPosition { get => Source.StartPosition; set => Source.StartPosition = value; }
         public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
 
@@ -29,12 +37,12 @@ namespace iRLeagueManager.ViewModels
         public int FastLapNr { get => Source.FastLapNr; set => Source.FastLapNr = value; }
         public int Incidents { get => Source.Incidents; set => Source.Incidents = value; }
         public RaceStatusEnum Status { get => Source.Status; set => Source.Status = value; }
-        public int RacePoints { get => Source.RacePoints; set => Source.RacePoints = value; }
-        public int BonusPoints { get => Source.BonusPoints; set => Source.BonusPoints = value; }
+        //public int RacePoints { get => Source.RacePoints; set => Source.RacePoints = value; }
+        //public int BonusPoints { get => Source.BonusPoints; set => Source.BonusPoints = value; }
         public LapTime QualifyingTime { get => Source.QualifyingTime; set => Source.QualifyingTime = value; }
         public LapInterval Interval { get => Source.Interval; set => Source.Interval = value; }
         public LapTime AvgLapTime { get => Source.AvgLapTime; set => Source.AvgLapTime = value; }
         public LapTime FastestLapTime { get => Source.FastestLapTime; set => Source.FastestLapTime = value; }
-        public int PositionChange { get => Source.PositionChange; set => Source.PositionChange = value; }
+        public int PositionChange { get => Source.PositionChange; }
     }
 }

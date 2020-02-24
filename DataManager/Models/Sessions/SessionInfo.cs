@@ -16,6 +16,8 @@ namespace iRLeagueManager.Models.Sessions
         [EqualityCheckProperty]
         public long? SessionId { get; }
 
+        public override long? ModelId => SessionId;
+
         private SessionType sessionType;
         /// <summary>
         /// Type of this session. (Practice, Qualifying or Race)

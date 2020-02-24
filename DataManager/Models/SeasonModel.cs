@@ -25,16 +25,34 @@ namespace iRLeagueManager.Models
         }
         //ReadOnlyObservableCollection<IScheduleInfo> ISeason.Schedules => new ReadOnlyObservableCollection<IScheduleInfo>(Schedules);
 
-        //private ObservableCollection<ScoringModel> scorings;
-        //public ObservableCollection<ScoringModel> Scorings { get => scorings; internal set { scorings = value; OnPropertyChanged(); } }
+        private ObservableCollection<ScoringModel> scorings;
+        public ObservableCollection<ScoringModel> Scorings { get => scorings; internal set => SetNotifyCollection(ref scorings, value); }
         //ReadOnlyObservableCollection<IScoringInfo> ISeason.Scorings => new ReadOnlyObservableCollection<IScoringInfo>(Scorings);
 
-        private ObservableCollection<IncidentReviewInfo> reviews;
-        public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; internal set => SetNotifyCollection(ref reviews, value); }
+        private long? mainScoringId;
+        public ScoringModel MainScoring
+        {
+            get => Scorings.SingleOrDefault(x => x.ScoringId == mainScoringId);
+            set {
+                if (Scorings.Any(x => x.ScoringId == value.ScoringId))
+                {
+                    var index = Scorings.IndexOf(Scorings.SingleOrDefault(x => x.ScoringId == value.ScoringId));
+                    Scorings[index] = value;
+                }
+                else
+                {
+                    Scorings.Add(value);
+                }
+                SetValue(ref mainScoringId, value.ScoringId);
+            }
+        }
+
+        //private ObservableCollection<IncidentReviewInfo> reviews;
+        //public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; internal set => SetNotifyCollection(ref reviews, value); }
         //ReadOnlyObservableCollection<IncidentReview> ISeason.Reviews => new ReadOnlyObservableCollection<IReviewInfo>(Reviews);
 
-        private ObservableCollection<ResultInfo> results;
-        public ObservableCollection<ResultInfo> Results { get => results; internal set => SetNotifyCollection(ref results, value); }
+        //private ObservableCollection<ResultInfo> results;
+        //public ObservableCollection<ResultInfo> Results { get => results; internal set => SetNotifyCollection(ref results, value); }
 
         string IHierarchicalModel.Description => SeasonName;
 
@@ -44,9 +62,7 @@ namespace iRLeagueManager.Models
         private DateTime seasonEnd;
         public DateTime SeasonEnd { get => seasonEnd; internal set => SetValue(ref seasonEnd, value); }
 
-        IEnumerable<object> IHierarchicalModel.Children => new List<IEnumerable<object>> { Schedules.Cast<object>(), Results.Cast<object>() };
-
-        public IScoring MainScoring { get; set; }
+        IEnumerable<object> IHierarchicalModel.Children => new List<IEnumerable<object>> { Schedules.Cast<object>() };
 
         public IEnumerable<ResultModel> GetResults()
         {
@@ -65,8 +81,9 @@ namespace iRLeagueManager.Models
         public SeasonModel()
         {
             Schedules = new ObservableCollection<ScheduleInfo>();
-            Results = new ObservableCollection<ResultInfo>();
-            Reviews = new ObservableCollection<IncidentReviewInfo>();
+            Scorings = new ObservableCollection<ScoringModel>();
+            //Results = new ObservableCollection<ResultInfo>();
+            //Reviews = new ObservableCollection<IncidentReviewInfo>();
             //Scorings = new ObservableCollection<IScoringInfo>();
         }
 
@@ -119,16 +136,21 @@ namespace iRLeagueManager.Models
                     //schedule.Season = this;
                     schedule.InitializeModel();
                 }
-
-                foreach (var result in Results)
+                foreach (var scoring in Scorings)
                 {
-                    result.InitializeModel();
+                    scoring.Season = this;
+                    scoring.InitializeModel();
                 }
 
-                foreach (var review in Reviews)
-                {
-                    review.InitializeModel();
-                }
+                //foreach (var result in Results)
+                //{
+                //    result.InitializeModel();
+                //}
+
+                //foreach (var review in Reviews)
+                //{
+                //    review.InitializeModel();
+                //}
             }
             base.InitializeModel();
         }
@@ -142,7 +164,7 @@ namespace iRLeagueManager.Models
             };
         }
 
-        public static SeasonModel GetTemplate(SeasonInfo seasonInfo)
+        public static SeasonModel GetTemplate(SeasonModel seasonInfo)
         {
             return new SeasonModel(seasonInfo.SeasonId)
             {

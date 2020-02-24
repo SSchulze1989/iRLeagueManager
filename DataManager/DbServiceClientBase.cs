@@ -117,6 +117,15 @@ namespace iRLeagueManager.Data
             }
         }
 
+        protected bool IsUpdateRunning([CallerMemberName] string callName = "")
+        {
+            if (CurrentUpdateMethod == callName && IsBusy)
+            {
+                return true;
+            }
+            return false;
+        }
+
         protected void EndUpdate([CallerMemberName] string callName = "")
         {
             if (CurrentUpdateMethod == callName && IsBusy)
@@ -133,11 +142,11 @@ namespace iRLeagueManager.Data
             }
             else if (IsBusy)
             {
-                throw new InvalidOperationException("Database request " + callName + "Can not be finished! Another request is currently active on the database: " + CurrentUpdateMethod);
+                throw new InvalidOperationException("Database request " + callName + " can not be finished! Another request is currently active on the database: " + CurrentUpdateMethod);
             }
             else
             {
-                throw new InvalidOperationException("Database request " + callName + "Can not be finished! No active request on the database found.");
+                throw new InvalidOperationException("Database request " + callName + " can not be finished! No active request on the database found.");
             }
         }
 

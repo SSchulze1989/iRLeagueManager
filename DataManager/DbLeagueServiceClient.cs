@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.Models.Database;
@@ -52,6 +53,42 @@ namespace iRLeagueManager.Data
             base.SetDatabaseStatus(token, status, DbClient.Endpoint.Address.Uri.AbsoluteUri);
         }
 
+        public async Task ClientCallAsync(Func<Task> func, UpdateKind updateKind, [CallerMemberName] string callName = "")
+        {
+            await ClientGetAsync<object, Task>(null, x => { func(); return null; }, updateKind, callName: callName);
+        }
+
+        public async Task ClientCallAsync<TKey>(TKey key, Func<TKey, Task> func, UpdateKind updateKind, [CallerMemberName] string callName = "")
+        {
+            await ClientGetAsync<TKey, Task>(key, x => { func(x); return null; }, updateKind, callName: callName);
+        }
+
+        public async Task<TResult> ClientGetAsync<TResult>(Func<Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue = null, [CallerMemberName] string callName = "") where TResult : class
+        {
+            return await ClientGetAsync<object, TResult>(null, x => getFunc(), UpdateKind.Loading, defaultValue, callName);
+        }
+
+        public async Task<TResult> ClientGetAsync<TKey, TResult>(TKey key, Func<TKey, Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue = null, [CallerMemberName] string callName = "") where TResult : class
+        {
+            int timeOutMilliseconds = 10000;
+            TResult retVar = defaultValue;
+            try
+            {
+                if (await StartUpdateWhenReady(updateKind, timeOutMilliseconds, callName))
+                    retVar = await getFunc(key);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (IsUpdateRunning(callName))
+                    EndUpdate(callName);
+            }
+            return retVar;
+        }
+
         public void CleanUpSessions()
         {
             ((ILeagueDBService)DbClient).CleanUpSessions();
@@ -59,10 +96,7 @@ namespace iRLeagueManager.Data
 
         public async Task CleanUpSessionsAsync()
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Saving))
-                return;
-            await ((ILeagueDBService)DbClient).CleanUpSessionsAsync();
-            EndUpdate();
+            await ClientCallAsync(() => ((ILeagueDBService)DbClient).CleanUpSessionsAsync(), UpdateKind.Saving);
         }
 
         public CommentDataDTO GetComment(long commentId)
@@ -72,11 +106,7 @@ namespace iRLeagueManager.Data
 
         public async Task<CommentDataDTO> GetCommentAsync(long commentId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetCommentAsync(commentId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(commentId, x => ((ILeagueDBService)DbClient).GetCommentAsync(x), UpdateKind.Loading);
         }
 
         public LeagueMemberDataDTO GetLastMember()
@@ -86,11 +116,7 @@ namespace iRLeagueManager.Data
 
         public async Task<LeagueMemberDataDTO> GetLastMemberAsync()
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetLastMemberAsync();
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(() => ((ILeagueDBService)DbClient).GetLastMemberAsync(), UpdateKind.Loading);
         }
 
         public LeagueMemberDataDTO GetMember(long memberId)
@@ -100,11 +126,7 @@ namespace iRLeagueManager.Data
 
         public async Task<LeagueMemberDataDTO> GetMemberAsync(long memberId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetMemberAsync(memberId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(memberId, x => ((ILeagueDBService)DbClient).GetMemberAsync(x), UpdateKind.Loading);
         }
 
         public LeagueMemberDataDTO[] GetMembers(long[] memberId)
@@ -114,11 +136,7 @@ namespace iRLeagueManager.Data
 
         public async Task<LeagueMemberDataDTO[]> GetMembersAsync(long[] memberId = null)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return new LeagueMemberDataDTO[0];
-            var retVal = await ((ILeagueDBService)DbClient).GetMembersAsync(memberId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(memberId, x => ((ILeagueDBService)DbClient).GetMembersAsync(x), UpdateKind.Loading);
         }
 
         public ResultDataDTO GetResult(long resultId)
@@ -128,11 +146,7 @@ namespace iRLeagueManager.Data
 
         public async Task<ResultDataDTO> GetResultAsync(long resultId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetResultAsync(resultId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(resultId, x => ((ILeagueDBService)DbClient).GetResultAsync(x), UpdateKind.Loading);
         }
 
         public IncidentReviewDataDTO GetReview(long reviewId)
@@ -142,11 +156,7 @@ namespace iRLeagueManager.Data
 
         public async Task<IncidentReviewDataDTO> GetReviewAsync(long reviewId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetReviewAsync(reviewId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(reviewId, x => ((ILeagueDBService)DbClient).GetReviewAsync(x), UpdateKind.Loading);
         }
 
         public ScheduleDataDTO GetSchedule(long scheduleId)
@@ -156,11 +166,7 @@ namespace iRLeagueManager.Data
 
         public async Task<ScheduleDataDTO> GetScheduleAsync(long scheduleId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetScheduleAsync(scheduleId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(scheduleId, x => ((ILeagueDBService)DbClient).GetScheduleAsync(x), UpdateKind.Loading);
         }
 
         public ScheduleDataDTO[] GetSchedules(long[] scheduleIds)
@@ -170,11 +176,7 @@ namespace iRLeagueManager.Data
 
         public async Task<ScheduleDataDTO[]> GetSchedulesAsync(long[] scheduleIds)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return new ScheduleDataDTO[0];
-            var retVal = await ((ILeagueDBService)DbClient).GetSchedulesAsync(scheduleIds);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(scheduleIds, x => ((ILeagueDBService)DbClient).GetSchedulesAsync(x), UpdateKind.Loading);
         }
 
         public SeasonDataDTO GetSeason(long seasonId)
@@ -184,11 +186,8 @@ namespace iRLeagueManager.Data
 
         public async Task<SeasonDataDTO> GetSeasonAsync(long seasonId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetSeasonAsync(seasonId);
-            EndUpdate();
-            return retVal;
+            
+            return await ClientGetAsync(seasonId, x => ((ILeagueDBService)DbClient).GetSeasonAsync(x), UpdateKind.Loading);
         }
 
         public SeasonDataDTO[] GetSeasons(long[] seasonIds)
@@ -198,11 +197,7 @@ namespace iRLeagueManager.Data
 
         public async Task<SeasonDataDTO[]> GetSeasonsAsync(long[] seasonIds)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return new SeasonDataDTO[0];
-            var retVal = await ((ILeagueDBService)DbClient).GetSeasonsAsync(seasonIds);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(seasonIds, x => ((ILeagueDBService)DbClient).GetSeasonsAsync(x), UpdateKind.Loading);
         }
 
         public SessionDataDTO GetSession(long sessionId)
@@ -212,11 +207,7 @@ namespace iRLeagueManager.Data
 
         public async Task<SessionDataDTO> GetSessionAsync(long sessionId)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Loading))
-                return null;
-            var retVal = await ((ILeagueDBService)DbClient).GetSessionAsync(sessionId);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(sessionId, x => ((ILeagueDBService)DbClient).GetSessionAsync(x), UpdateKind.Loading);
         }
 
         public CommentDataDTO PutComment(ReviewCommentDataDTO comment)
@@ -226,11 +217,7 @@ namespace iRLeagueManager.Data
 
         public async Task<CommentDataDTO> PutCommentAsync(ReviewCommentDataDTO comment)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return comment;
-            var retVal = await ((ILeagueDBService)DbClient).PutCommentAsync(comment);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(comment, x => ((ILeagueDBService)DbClient).PutCommentAsync(x), UpdateKind.Updating, comment);
         }
 
         public LeagueMemberDataDTO PutMember(LeagueMemberDataDTO member)
@@ -240,11 +227,7 @@ namespace iRLeagueManager.Data
 
         public async Task<LeagueMemberDataDTO> PutMemberAsync(LeagueMemberDataDTO member)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return member;
-            var retVal = await ((ILeagueDBService)DbClient).PutMemberAsync(member);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(member, x => ((ILeagueDBService)DbClient).PutMemberAsync(x), UpdateKind.Updating, member);
         }
 
         public ResultDataDTO PutResult(ResultDataDTO result)
@@ -254,11 +237,7 @@ namespace iRLeagueManager.Data
 
         public async Task<ResultDataDTO> PutResultAsync(ResultDataDTO result)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return result;
-            var retVal = await ((ILeagueDBService)DbClient).PutResultAsync(result);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(result, x => ((ILeagueDBService)DbClient).PutResultAsync(x), UpdateKind.Updating, result);
         }
 
         public IncidentReviewDataDTO PutReview(IncidentReviewDataDTO review)
@@ -268,11 +247,7 @@ namespace iRLeagueManager.Data
 
         public async Task<IncidentReviewDataDTO> PutReviewAsync(IncidentReviewDataDTO review)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return review;
-            var retVal = await ((ILeagueDBService)DbClient).PutReviewAsync(review);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(review, x => ((ILeagueDBService)DbClient).PutReviewAsync(x), UpdateKind.Updating, review);
         }
 
         public ScheduleDataDTO PutSchedule(ScheduleDataDTO schedule)
@@ -282,11 +257,7 @@ namespace iRLeagueManager.Data
 
         public async Task<ScheduleDataDTO> PutScheduleAsync(ScheduleDataDTO schedule)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return schedule;
-            var retVal = await ((ILeagueDBService)DbClient).PutScheduleAsync(schedule);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(schedule, x => ((ILeagueDBService)DbClient).PutScheduleAsync(x), UpdateKind.Updating, schedule);
         }
 
         public SeasonDataDTO PutSeason(SeasonDataDTO season)
@@ -296,11 +267,7 @@ namespace iRLeagueManager.Data
 
         public async Task<SeasonDataDTO> PutSeasonAsync(SeasonDataDTO season)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return season;
-            var retVal = await ((ILeagueDBService)DbClient).PutSeasonAsync(season);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(season, x => ((ILeagueDBService)DbClient).PutSeasonAsync(x), UpdateKind.Updating, season);
         }
 
         public SessionDataDTO PutSession(SessionDataDTO session)
@@ -310,11 +277,7 @@ namespace iRLeagueManager.Data
 
         public async Task<SessionDataDTO> PutSessionAsync(SessionDataDTO session)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Saving))
-                return session;
-            var retVal = await ((ILeagueDBService)DbClient).PutSessionAsync(session);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(session, x => ((ILeagueDBService)DbClient).PutSessionAsync(x), UpdateKind.Updating, session);
         }
 
         public LeagueMemberDataDTO[] UpdateMemberList(LeagueMemberDataDTO[] members)
@@ -324,11 +287,7 @@ namespace iRLeagueManager.Data
 
         public async Task<LeagueMemberDataDTO[]> UpdateMemberListAsync(LeagueMemberDataDTO[] members)
         {
-            if (!await StartUpdateWhenReady(UpdateKind.Updating))
-                return members;
-            var retVal = await ((ILeagueDBService)DbClient).UpdateMemberListAsync(members);
-            EndUpdate();
-            return retVal;
+            return await ClientGetAsync(members, x => ((ILeagueDBService)DbClient).UpdateMemberListAsync(x), UpdateKind.Updating, members);
         }
 
         public string TestDB()
@@ -336,9 +295,9 @@ namespace iRLeagueManager.Data
             return ((ILeagueDBService)DbClient).TestDB();
         }
 
-        public Task<string> TestDBAsync()
+        public async Task<string> TestDBAsync()
         {
-            return ((ILeagueDBService)DbClient).TestDBAsync();
+            return await ClientGetAsync(() => ((ILeagueDBService)DbClient).TestDBAsync(), UpdateKind.Loading);
         }
 
         public string Test(string name)
@@ -346,9 +305,9 @@ namespace iRLeagueManager.Data
             return ((ILeagueDBService)DbClient).Test(name);
         }
 
-        public Task<string> TestAsync(string name)
+        public async Task<string> TestAsync(string name)
         {
-            return ((ILeagueDBService)DbClient).TestAsync(name);
+            return await ClientGetAsync(name, x => ((ILeagueDBService)DbClient).TestAsync(x), UpdateKind.Loading);
         }
 
         public StandingsRowDTO[] GetSeasonStandings(long seasonId, long? lastSessionId)
@@ -356,9 +315,9 @@ namespace iRLeagueManager.Data
             return ((ILeagueDBService)DbClient).GetSeasonStandings(seasonId, lastSessionId);
         }
 
-        public Task<StandingsRowDTO[]> GetSeasonStandingsAsync(long seasonId, long? lastSessionId)
+        public async Task<StandingsRowDTO[]> GetSeasonStandingsAsync(long seasonId, long? lastSessionId)
         {
-            return ((ILeagueDBService)DbClient).GetSeasonStandingsAsync(seasonId, lastSessionId);
+            return await ClientGetAsync(new { season = seasonId, lastSession = lastSessionId }, x => ((ILeagueDBService)DbClient).GetSeasonStandingsAsync(x.season, x.lastSession), UpdateKind.Loading);
         }
 
         public StandingsRowDTO[] GetTeamStandings(long seasonId, long? lastSessionId)
@@ -366,9 +325,9 @@ namespace iRLeagueManager.Data
             return ((ILeagueDBService)DbClient).GetTeamStandings(seasonId, lastSessionId);
         }
 
-        public Task<StandingsRowDTO[]> GetTeamStandingsAsync(long seasonId, long? lastSessionId)
+        public async Task<StandingsRowDTO[]> GetTeamStandingsAsync(long seasonId, long? lastSessionId)
         {
-            return ((ILeagueDBService)DbClient).GetTeamStandingsAsync(seasonId, lastSessionId);
+            return await ClientGetAsync(new { season = seasonId, lastSession = lastSessionId }, x => ((ILeagueDBService)DbClient).GetTeamStandingsAsync(x.season, x.lastSession), UpdateKind.Loading);
         }
 
         public void SetDatabaseName(string databaseName)
@@ -376,9 +335,29 @@ namespace iRLeagueManager.Data
             ((ILeagueDBService)DbClient).SetDatabaseName(databaseName);
         }
 
-        public Task SetDatabaseNameAsync(string databaseName)
+        public async Task SetDatabaseNameAsync(string databaseName)
         {
-            return ((ILeagueDBService)DbClient).SetDatabaseNameAsync(databaseName);
+            await ClientCallAsync(databaseName, x => ((ILeagueDBService)DbClient).SetDatabaseNameAsync(x), UpdateKind.Saving);
+        }
+
+        public ScoringDataDTO GetScoring(long scoringId)
+        {
+            return ((ILeagueDBService)DbClient).GetScoring(scoringId);
+        }
+
+        public async Task<ScoringDataDTO> GetScoringAsync(long scoringId)
+        {
+            return await ClientGetAsync(scoringId, x => ((ILeagueDBService)DbClient).GetScoringAsync(x), UpdateKind.Loading);
+        }
+
+        public ScoringDataDTO PutScoring(ScoringDataDTO scoring)
+        {
+            return ((ILeagueDBService)DbClient).PutScoring(scoring);
+        }
+
+        public async Task<ScoringDataDTO> PutScoringAsync(ScoringDataDTO scoring)
+        {
+            return await ClientGetAsync(scoring, x => ((ILeagueDBService)DbClient).PutScoringAsync(x), UpdateKind.Updating, scoring);
         }
     }
 }

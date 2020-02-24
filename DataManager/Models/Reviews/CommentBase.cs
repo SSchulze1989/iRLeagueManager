@@ -16,6 +16,8 @@ namespace iRLeagueManager.Models.Reviews
         private long commentId;
         public long CommentId { get => commentId; internal set { commentId = value; OnPropertyChanged(); } }
 
+        public override long? ModelId => CommentId;
+
         private SeasonModel season;
         public virtual SeasonModel Season { get => season; internal set { season = value; OnPropertyChanged(); } }
 

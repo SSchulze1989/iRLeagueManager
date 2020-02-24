@@ -15,6 +15,7 @@ namespace iRLeagueManager.Models.Members
     public class LeagueMember : ModelBase, ILeagueMember, IAdmin
     {
         public long MemberId { get; } = 0;
+        public override long? ModelId => MemberId;
         public string Firstname { get; set; } = "Firstname";
         public string Lastname { get; set; } = "Lastname";
         [XmlIgnore]

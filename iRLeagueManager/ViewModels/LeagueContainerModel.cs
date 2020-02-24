@@ -15,12 +15,38 @@ namespace iRLeagueManager.ViewModels
     {
         protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
+        public virtual TSource Model { get => Source; set => SetSource(value); }
+
         public LeagueContainerModel()
         {
         }
 
         public LeagueContainerModel(TSource source) : base(source)
         {
+        }
+
+        protected abstract TSource Template { get; }
+
+        public virtual async void Load(long modelId)
+        {
+            if (Model?.ModelId == null || Model.ModelId != modelId)
+            {
+                Model = Template;
+            }
+
+            try
+            {
+                IsLoading = true;
+                Model = await LeagueContext.GetModelAsync<TSource>(modelId);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         public virtual async void SaveChanges()

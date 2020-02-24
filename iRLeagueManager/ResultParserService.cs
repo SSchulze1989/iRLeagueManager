@@ -91,7 +91,7 @@ namespace iRLeagueManager.Services
             {
                 IRacingResultRow row = new IRacingResultRow
                 {
-                    FinalPosition = int.Parse(line["FinPos"]),
+                    //FinalPosition = int.Parse(line["FinPos"]),
                     StartPosition = int.Parse(line["StartPos"]),
                     IRacingId = line["CustID"],
                     FinishPosition = int.Parse(line["FinPos"]),
@@ -104,8 +104,6 @@ namespace iRLeagueManager.Services
                     FastLapNr = int.TryParse(line["FastLap#"], out int fastLapNr) ? fastLapNr : 0,
                     Incidents = int.Parse(line["Inc"]),
                     Status = (RaceStatusEnum)Enum.Parse(typeof(RaceStatusEnum), line["Out"]),
-                    RacePoints = 0,
-                    BonusPoints = 0,
                     QualifyingTime = new LapTime(TimeSpan.Zero)
                 };
                 //if (!LeagueClient.LeagueMembers.ToList().Exists(x => x.IRacingId == row.IRacingId))
@@ -121,7 +119,7 @@ namespace iRLeagueManager.Services
                 row.Interval = new LapInterval(GetTimeSpanFromString(line["Interval"]), int.TryParse(line["Interval"].Replace("L", ""), out int intvLaps) ? intvLaps : 0);
                 row.AvgLapTime = new LapTime(TimeSpan.TryParse("0:" + line["AverageLapTime"], culture, out TimeSpan avgLap) ? avgLap : TimeSpan.Zero);
                 row.FastestLapTime = new LapTime(TimeSpan.TryParse("0:" + line["FastestLapTime"], culture, out TimeSpan fastLap) ? fastLap : TimeSpan.Zero);
-                row.PositionChange = row.StartPosition - row.FinishPosition;
+                //row.PositionChange = row.StartPosition - row.FinishPosition;
                 resultRows.Add(row);
             }
             return resultRows;
