@@ -38,21 +38,19 @@ namespace iRLeagueManager.Models.Results
         
         private SeasonModel season;
         public SeasonModel Season { get => season; set => SetValue(ref season, value); }
+
+        private ObservableCollection<KeyValuePair<int, int>> basePoints;
+        //public string BasePoints { get => basePoints; set => SetValue(ref basePoints, value); }
+        public ObservableCollection<KeyValuePair<int, int>> BasePoints { get => basePoints; set => SetNotifyCollection(ref basePoints, value); }
         
-        private string basePoints;
-        public string BasePoints { get => basePoints; set => SetValue(ref basePoints, value); }
+        private ObservableCollection<KeyValuePair<string,int>> bonusPoints;
+        public ObservableCollection<KeyValuePair<string,int>> BonusPoints { get => bonusPoints; set => SetNotifyCollection(ref bonusPoints, value); }
         
-        private string bonusPoints;
-        public string BonusPoints { get => bonusPoints; set => SetValue(ref bonusPoints, value); }
+        private ObservableCollection<KeyValuePair<int,int>> incPenaltyPoints;
+        public ObservableCollection<KeyValuePair<int,int>> IncPenaltyPoints { get => incPenaltyPoints; set => SetNotifyCollection(ref incPenaltyPoints, value); }
         
-        private string incPenaltyPoints;
-        public string IncPenaltyPoints { get => incPenaltyPoints; set => SetValue(ref incPenaltyPoints, value); }
-        
-        private string multiScoringFactors;
-        public string MultiScoringFactors { get => multiScoringFactors; set => SetValue(ref multiScoringFactors, value); }
-        
-        private ObservableCollection<ScoringModel> multiScoringResults;
-        public ObservableCollection<ScoringModel> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
+        private ObservableCollection<KeyValuePair<ScoringModel, double>> multiScoringResults;
+        public ObservableCollection<KeyValuePair<ScoringModel, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
 
         private ObservableCollection<StandingsRowModel> standings;
         public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
@@ -61,7 +59,10 @@ namespace iRLeagueManager.Models.Results
         {
             ScoringId = null;
             Sessions = new ObservableCollection<SessionInfo>();
-            MultiScoringResults = new ObservableCollection<ScoringModel>();
+            BonusPoints = new ObservableCollection<KeyValuePair<string, int>>();
+            BasePoints = new ObservableCollection<KeyValuePair<int, int>>();
+            IncPenaltyPoints = new ObservableCollection<KeyValuePair<int, int>>();
+            MultiScoringResults = new ObservableCollection<KeyValuePair<ScoringModel, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
         }
 

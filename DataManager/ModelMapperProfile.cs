@@ -113,6 +113,7 @@ namespace iRLeagueManager
                 .ConstructUsing(source => new ScheduleModel(source.ScheduleId))
                 .AfterMap((src, dest) =>
                 {
+                    dest.InitReset();
                     CurrentSessions = null;
                     SortObservableCollection(dest.Sessions, x => x.Date);
                     int i = 1;
@@ -121,7 +122,6 @@ namespace iRLeagueManager
                         race.RaceId = i;
                         i++;
                     }
-                    dest.InitReset();
                 })
                 .ReverseMap();
             //CreateMap<ScheduleInfoDTO, ScheduleModel>()
@@ -137,7 +137,7 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.ScheduleId == dest.ScheduleId)
                 .ReverseMap()
                 .IncludeAllDerived();
-            
+
             // Mapping session data
             CreateMap<SessionDataDTO, SessionModel>()
                 .BeforeMap((src, dest) =>
@@ -150,7 +150,8 @@ namespace iRLeagueManager
                 //.ForMember(dest => dest.Season, opt => opt.Ignore())
                 //.ForMember(dest => dest.Schedule, opt => opt.Ignore())
                 //.ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.LocationId))
-                .EqualityComparison((src,dest) => src.SessionId == dest.SessionId)
+                .EqualityComparison((src, dest) => src.SessionId == dest.SessionId)
+                //.ConstructUsing(source => (source.SessionType == SessionType.Race) ? new RaceSessionModel(source.SessionId) : new SessionModel(source.SessionId, source.SessionType))
                 .ConstructUsing(source => new SessionModel(source.SessionId, source.SessionType))
                 .AfterMap((src, dest) =>
                 {
@@ -212,7 +213,18 @@ namespace iRLeagueManager
             CreateMap<ScoringDataDTO, ScoringModel>()
                 .ConstructUsing(source => new ScoringModel(source.ScoringId))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
-                .ReverseMap();
+                .ForMember(dest => dest.BasePoints, opt => opt.MapFrom((src, dest, result) =>
+                {
+                    string[] pointString = src.BasePoints.Split(' ');
+                    ObservableCollection<KeyValuePair<int, int>> pairs = new ObservableCollection<KeyValuePair<int, int>>();
+                    for (int i = 0; i < pointString.Count(); i++)
+                    {
+                        pairs.Add(new KeyValuePair<int, int>(i, int.Parse(pointString[i])));
+                    }
+                    return pairs;
+                }))
+                .ReverseMap()
+                .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y)));
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => new ScoringModel(source.ScoringId))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)

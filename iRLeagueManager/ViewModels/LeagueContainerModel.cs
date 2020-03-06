@@ -19,6 +19,7 @@ namespace iRLeagueManager.ViewModels
 
         public LeagueContainerModel()
         {
+            Model = Template;
         }
 
         public LeagueContainerModel(TSource source) : base(source)

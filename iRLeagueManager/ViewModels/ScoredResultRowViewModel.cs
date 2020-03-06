@@ -21,11 +21,14 @@ namespace iRLeagueManager.ViewModels
             set => base.Model = value;
         }
 
+        private ScoredResultRowModel ScoredModel => Model as ScoredResultRowModel;
+
         protected override ResultRowModel Template => new ScoredResultRowModel();
 
-        public int RacePoints { get => ((ScoredResultRowModel)Model).RacePoints; set => ((ScoredResultRowModel)Model).RacePoints = value; }
-        public int BonusPoints { get => ((ScoredResultRowModel)Model).BonusPoints; set => ((ScoredResultRowModel)Model).BonusPoints = value; }
-        public int PenaltyPoints { get => ((ScoredResultRowModel)Model).PenaltyPoints; set => ((ScoredResultRowModel)Model).PenaltyPoints = value; }
-        public int FinalPosition { get => ((ScoredResultRowModel)Model).FinalPosition; set => ((ScoredResultRowModel)Model).FinalPosition = value; }
+        public int RacePoints { get => ScoredModel.RacePoints; set => ScoredModel.RacePoints = value; }
+        public int BonusPoints { get => ScoredModel.BonusPoints; set => ScoredModel.BonusPoints = value; }
+        public int PenaltyPoints { get => ScoredModel.PenaltyPoints; set => ScoredModel.PenaltyPoints = value; }
+        public int FinalPosition { get => ScoredModel.FinalPosition; set => ScoredModel.FinalPosition = value; }
+        public int TotalPoints { get => ScoredModel.TotalPoints; }
     }
 }

@@ -15,19 +15,21 @@ using System.Windows.Input;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class SeasonViewModel : ContainerModelBase<SeasonModel>
+    public class SeasonViewModel : LeagueContainerModel<SeasonModel>
     {
-        public SeasonModel Model
-        {
-            get => Source;
-            private set
-            {
-                if (SetSource(value))
-                {
-                    OnPropertyChanged(null);
-                }
-            }
-        }
+        //public SeasonModel Model
+        //{
+        //    get => Source;
+        //    private set
+        //    {
+        //        if (SetSource(value))
+        //        {
+        //            OnPropertyChanged(null);
+        //        }
+        //    }
+        //}
+
+        protected override SeasonModel Template => SeasonModel.GetTemplate();
 
         public string SeasonName { get => Model?.SeasonName; set => Model.SeasonName = value; }
 
@@ -41,8 +43,6 @@ namespace iRLeagueManager.ViewModels
 
         public DateTime? SeasonEnd => Model?.SeasonEnd;
 
-        private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
-
         public SeasonViewModel() : base()
         {
             SeasonModel.GetTemplate();
@@ -50,7 +50,7 @@ namespace iRLeagueManager.ViewModels
 
         public SeasonViewModel(SeasonModel source) : base(source) { }
 
-        public async void Load(long seasonId)
+        public async override void Load(long seasonId)
         {
             if (Model != null && Model.SeasonId == seasonId)
             {
@@ -86,7 +86,6 @@ namespace iRLeagueManager.ViewModels
                 }
             }
         }
-
         public async void Load(SeasonModel season)
         {
             if (Model == null || Model?.SeasonId != season?.SeasonId)

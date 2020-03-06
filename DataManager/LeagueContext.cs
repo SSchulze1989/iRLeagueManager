@@ -186,7 +186,7 @@ namespace iRLeagueManager.Data
             }
             else if (typeof(T).Equals(typeof(ScheduleModel)))
             {
-                //data = await DbContext.GetScheduleAsync(modelId);
+                data = await DbContext.GetSchedulesAsync(modelIds.ToArray());
             }
             else if (typeof(T).Equals(typeof(SessionModel)))
             {
