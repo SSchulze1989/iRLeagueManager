@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Models.Results;
+using iRLeagueManager.Models.Members;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
@@ -26,7 +27,8 @@ namespace iRLeagueManager.ViewModels
         public int StartPosition { get => Source.StartPosition; set => Source.StartPosition = value; }
         public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
 
-        public ILeagueMember Member => Source.Member;
+        public LeagueMember Member => Source.Member;
+        ILeagueMember IResultRow.Member => Source.Member;
 
         public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
         public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }

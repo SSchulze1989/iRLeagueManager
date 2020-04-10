@@ -27,14 +27,14 @@ namespace iRLeagueManager.Models.Results
         /// Data rows of results table
         /// </summary>
         private ObservableCollection<ResultRowModel> rawResults;
-        public ObservableCollection<ResultRowModel> RawResults { get => rawResults; set => SetValue(ref rawResults, value); }
+        public ObservableCollection<ResultRowModel> RawResults { get => rawResults; set => SetNotifyCollection(ref rawResults, value); }
         IEnumerable<IResultRow> IResult.RawResults => RawResults;
 
         private ObservableCollection<IncidentReviewInfo> reviews;
-        public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; set => SetValue(ref reviews, value); }
+        public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; set => SetNotifyCollection(ref reviews, value); }
         IEnumerable<IReviewInfo> IResult.Reviews => Reviews;
 
-        IEnumerable<IResultRow> IResult.FinalResults => RawResults;
+        //IEnumerable<IResultRow> IResult.FinalResults => RawResults;
 
         public string Description { get; set; }
 

@@ -5,30 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Models.Results;
+using iRLeagueManager.Models.Members;
+using iRLeagueManager.Enums;
+using iRLeagueManager.Timing;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class ScoredResultRowViewModel : ResultRowViewModel
+    public class ScoredResultRowViewModel : LeagueContainerModel<ScoredResultRowModel>
     {
-        public override ResultRowModel Model
-        {
-            get
-            {
-                if (base.Model is ScoredResultRowModel model)
-                    return model;
-                return Template;
-            }
-            set => base.Model = value;
-        }
+        protected override ScoredResultRowModel Template => new ScoredResultRowModel();
 
-        private ScoredResultRowModel ScoredModel => Model as ScoredResultRowModel;
+        public long ResultRowId => Source.ResultRowId.GetValueOrDefault();
+        //public int FinalPosition { get => Source.FinalPosition; set => Source.FinalPosition = value; }
+        public int StartPosition { get => Source.StartPosition; set => Source.StartPosition = value; }
+        public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
 
-        protected override ResultRowModel Template => new ScoredResultRowModel();
+        public LeagueMember Member => Source.Member;
 
-        public int RacePoints { get => ScoredModel.RacePoints; set => ScoredModel.RacePoints = value; }
-        public int BonusPoints { get => ScoredModel.BonusPoints; set => ScoredModel.BonusPoints = value; }
-        public int PenaltyPoints { get => ScoredModel.PenaltyPoints; set => ScoredModel.PenaltyPoints = value; }
-        public int FinalPosition { get => ScoredModel.FinalPosition; set => ScoredModel.FinalPosition = value; }
-        public int TotalPoints { get => ScoredModel.TotalPoints; }
+        public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
+        public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }
+        public string Car { get => Source.Car; set => Source.Car = value; }
+        public string CarClass { get => Source.CarClass; set => Source.CarClass = value; }
+        public int CompletedLaps { get => Source.CompletedLaps; set => Source.CompletedLaps = value; }
+        public int LeadLaps { get => Source.LeadLaps; set => Source.LeadLaps = value; }
+        public int FastLapNr { get => Source.FastLapNr; set => Source.FastLapNr = value; }
+        public int Incidents { get => Source.Incidents; set => Source.Incidents = value; }
+        public RaceStatusEnum Status { get => Source.Status; set => Source.Status = value; }
+        //public int RacePoints { get => Source.RacePoints; set => Source.RacePoints = value; }
+        //public int BonusPoints { get => Source.BonusPoints; set => Source.BonusPoints = value; }
+        public LapTime QualifyingTime { get => Source.QualifyingTime; set => Source.QualifyingTime = value; }
+        public LapInterval Interval { get => Source.Interval; set => Source.Interval = value; }
+        public LapTime AvgLapTime { get => Source.AvgLapTime; set => Source.AvgLapTime = value; }
+        public LapTime FastestLapTime { get => Source.FastestLapTime; set => Source.FastestLapTime = value; }
+        public int PositionChange { get => Source.PositionChange; }
+
+        public int RacePoints { get => Model.RacePoints; set => Model.RacePoints = value; }
+        public int BonusPoints { get => Model.BonusPoints; set => Model.BonusPoints = value; }
+        public int PenaltyPoints { get => Model.PenaltyPoints; set => Model.PenaltyPoints = value; }
+        public int FinalPosition { get => Model.FinalPosition; set => Model.FinalPosition = value; }
+        public int TotalPoints { get => Model.TotalPoints; }
     }
 }

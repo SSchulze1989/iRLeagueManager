@@ -16,7 +16,7 @@ namespace iRLeagueManager.Interfaces
         //ISession Session { get; }
         IEnumerable<IResultRow> RawResults { get; }
         IEnumerable<IReviewInfo> Reviews { get; }
-        IEnumerable<IResultRow> FinalResults { get; }
+        //IEnumerable<IResultRow> FinalResults { get; }
 
         //IReview AddReview(IAdmin admin);
         //void RemoveReview(IReview review);

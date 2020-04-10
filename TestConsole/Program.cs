@@ -21,8 +21,11 @@ namespace TestConsole
             {
                 Name = "TestScoring",
                 AverageRaceNr = -1,
-                BasePoints = "20 19 18 17 16 15 14 13 12 11 10 09 08 07 06 05 04 03 02 01",
-                BonusPoints = "p1:5 p2:3 p3:1",
+                BasePoints = new System.Collections.ObjectModel.ObservableCollection<KeyValuePair<int, int>>(
+                    (new Dictionary<int, int>() { { 1, 20 }, { 2, 19 }, { 3, 18 }, { 4, 17 }, { 5, 16 }, { 6, 15 }, { 7, 14 }, { 8, 13 }, { 9, 12 }, { 10, 11 },
+                        { 11, 10 }, { 12, 9 }, { 13, 8 }, { 14, 7 }, { 15, 6 }, { 16, 5 }, { 17, 4 }, { 18, 3 }, { 19, 2 }, { 20, 1 } }).ToArray()),
+                BonusPoints = new System.Collections.ObjectModel.ObservableCollection<KeyValuePair<string, int>>(
+                    (new Dictionary<string, int>() { { "p1", 5 }, { "p2", 3 }, { "p3", 1 } }).ToArray()),
                 DropWeeks = 3,
                 Season = season
             };

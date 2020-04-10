@@ -15,12 +15,8 @@ using iRLeagueManager.Exceptions;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ScoringModel : ModelBase
+    public class ScoringModel : ScoringInfo
     {
-        public long? ScoringId { get; internal set; }
-
-        public override long? ModelId => ScoringId;
-
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }
 
@@ -77,14 +73,14 @@ namespace iRLeagueManager.Models.Results
             {
                 for (int i = 0; i < MultiScoringResults.Count(); i++)
                 {
-                    var multiScoring = Season.Scorings.SingleOrDefault(x => x.ScoringId == MultiScoringResults.ElementAt(i).ScoringId);
+                    var multiScoring = Season.Scorings.SingleOrDefault(x => x.ScoringId == MultiScoringResults.ElementAt(i).Key.ScoringId);
                     if (multiScoring != null)
                     {
-                        MultiScoringResults[i] = multiScoring;
+                        MultiScoringResults[i] = new KeyValuePair<ScoringModel, double>(multiScoring, MultiScoringResults[i].Value);
                     }
                     else
                     {
-                        throw new ModelInitializeException("Error initializing Scoring Model. Could not find Scoring Model (ScoringId=" + MultiScoringResults.ElementAt(i).ScoringId + ") in Season.Scorings\n" +
+                        throw new ModelInitializeException("Error initializing Scoring Model. Could not find Scoring Model (ScoringId=" + MultiScoringResults.ElementAt(i).Key.ScoringId + ") in Season.Scorings\n" +
                             "Error in ScoringModel (ScoringId=" + ScoringId + ") - SeasonModel (SeasonId=" + Season.SeasonId, new NullReferenceException());
                     }
                 }

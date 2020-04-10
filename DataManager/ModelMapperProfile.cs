@@ -18,6 +18,7 @@ using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
+using iRLeagueManager.Converters;
 
 namespace iRLeagueManager
 {
@@ -223,6 +224,9 @@ namespace iRLeagueManager
                     }
                     return pairs;
                 }))
+                .ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, string>())
+                .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
+                .ForMember(dest => dest.MultiScoringResults, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y)));
             CreateMap<ScoringInfoDTO, ScoringModel>()

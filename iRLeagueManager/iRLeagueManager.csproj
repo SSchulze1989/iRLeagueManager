@@ -98,6 +98,7 @@
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultRowViewModel.cs" />
+    <Compile Include="ViewModels\ScoredResultViewModel.cs" />
     <Compile Include="ViewModels\ScoringViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
@@ -112,6 +113,9 @@
     </Compile>
     <Compile Include="Views\SchedulerControl.xaml.cs">
       <DependentUpon>SchedulerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScoredResultControl.xaml.cs">
+      <DependentUpon>ScoredResultControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SessionEditControl.xaml.cs">
       <DependentUpon>SessionEditControl.xaml</DependentUpon>
@@ -144,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SchedulerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScoredResultControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
