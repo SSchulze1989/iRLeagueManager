@@ -16,6 +16,9 @@ namespace iRLeagueManager.Timing
         //private DateTime _time { get => DateTime.MinValue + Time; set => Time = value.TimeOfDay; }
 
         public TimeSpan Time { get; set; }
+        public int Minutes => Time.Minutes;
+        public int Seconds => Time.Seconds;
+        public int Milliseconds => Time.Milliseconds;
 
         public override string ToString()
         {

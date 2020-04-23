@@ -55,12 +55,27 @@ namespace iRLeagueManager.Data
 
         public async Task ClientCallAsync(Func<Task> func, UpdateKind updateKind, [CallerMemberName] string callName = "")
         {
-            await ClientGetAsync<object, Task>(null, x => { func(); return null; }, updateKind, callName: callName);
+            //await ClientGetAsync<object, object>(null, x => { func(); return null; }, updateKind, callName: callName);
+            await ClientCallAsync<object>(null, x => func(), updateKind, callName);
         }
 
         public async Task ClientCallAsync<TKey>(TKey key, Func<TKey, Task> func, UpdateKind updateKind, [CallerMemberName] string callName = "")
         {
-            await ClientGetAsync<TKey, Task>(key, x => { func(x); return null; }, updateKind, callName: callName);
+            int timeOutMilliseconds = 10000;
+            try
+            {
+                if (await StartUpdateWhenReady(updateKind, timeOutMilliseconds, callName))
+                    await func(key);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (IsUpdateRunning(callName))
+                    EndUpdate(callName);
+            }
         }
 
         public async Task<TResult> ClientGetAsync<TResult>(Func<Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue = null, [CallerMemberName] string callName = "") where TResult : class
@@ -358,6 +373,36 @@ namespace iRLeagueManager.Data
         public async Task<ScoringDataDTO> PutScoringAsync(ScoringDataDTO scoring)
         {
             return await ClientGetAsync(scoring, x => ((ILeagueDBService)DbClient).PutScoringAsync(x), UpdateKind.Updating, scoring);
+        }
+
+        public ScoredResultDataDTO GetScoredResult(long sessionId, long scoringId)
+        {
+            return ((ILeagueDBService)DbClient).GetScoredResult(sessionId, scoringId);
+        }
+
+        public async Task<ScoredResultDataDTO> GetScoredResultAsync(long sessionId, long scoringId)
+        {
+            return await ClientGetAsync(new { sessionId, scoringId }, x => ((ILeagueDBService)DbClient).GetScoredResultAsync(x.sessionId, x.scoringId), UpdateKind.Loading);
+        }
+
+        public void CalculateScoredResults(long sessionId)
+        {
+            ((ILeagueDBService)DbClient).CalculateScoredResults(sessionId);
+        }
+
+        public async Task CalculateScoredResultsAsync(long sessionId)
+        {
+            await ClientCallAsync(sessionId, x => ((ILeagueDBService)DbClient).CalculateScoredResultsAsync(x), UpdateKind.Saving);
+        }
+
+        public GetItemsResponse MessageTest(GetItemsRequest request)
+        {
+            return ((ILeagueDBService)DbClient).MessageTest(request);
+        }
+
+        public Task<GetItemsResponse> MessageTestAsync(GetItemsRequest request)
+        {
+            return ((ILeagueDBService)DbClient).MessageTestAsync(request);
         }
     }
 }

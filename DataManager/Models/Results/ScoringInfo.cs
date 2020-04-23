@@ -10,6 +10,15 @@ namespace iRLeagueManager.Models.Results
     {
         public long? ScoringId { get; internal set; }
 
+        public ScoringInfo() : base()
+        {
+            ScoringId = null;
+        }
+        public ScoringInfo(long? scoringId) : base()
+        {
+            ScoringId = scoringId;
+        }
+
         public override long? ModelId => ScoringId;
     }
 }

@@ -15,7 +15,7 @@ namespace iRLeagueManager.ViewModels
     {
         protected override ScoringModel Template => new ScoringModel();
 
-        public long? ScoringId { get; internal set; }
+        public long? ScoringId => Model?.ScoringId; 
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }

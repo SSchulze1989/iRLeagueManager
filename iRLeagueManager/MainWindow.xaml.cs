@@ -65,5 +65,26 @@ namespace iRLeagueManager
         {
 
         }
+
+        private async void ResultsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel.CurrentSeason?.Schedules != null)
+            {
+                var vm = (MainContent.Content?.GetType().Equals(typeof(ScoredResultViewModel))).GetValueOrDefault() ? MainContent.Content as ScoredResultViewModel : new ScoredResultViewModel();
+                MainContent.Content = vm;
+
+                var schedules = mainViewModel.CurrentSeason.Schedules;
+                if (schedules.Count > 0)
+                {
+                    var schedule = new ScheduleViewModel();
+                    await schedule.Load(schedules.First().ScheduleId.GetValueOrDefault());
+                    var session = schedule.Sessions.OrderBy(x => x.Date).LastOrDefault();
+                    var scoring = new ScoringViewModel();
+                    await scoring.Load(1);
+                    
+                    await vm.Load(session, scoring);
+                }
+            }
+        }
     }
 }

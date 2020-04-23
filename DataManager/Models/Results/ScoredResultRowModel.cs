@@ -22,6 +22,23 @@ namespace iRLeagueManager.Models.Results
 
         public int TotalPoints => RacePoints + BonusPoints - PenaltyPoints;
 
-        public override int PositionChange => FinalPosition - StartPosition;
+        public override int PositionChange => StartPosition - FinalPosition;
+
+        public ScoredResultRowModel() : base() { }
+
+        new public static ScoredResultRowModel GetTemplate()
+        {
+            var template = new ScoredResultRowModel
+            {
+                //template.CopyFrom(ResultRowModel.GetTemplate());
+                RacePoints = 0,
+                BonusPoints = 0,
+                PenaltyPoints = 0,
+                FinalPosition = 0,
+                Member = Members.LeagueMember.GetTemplate()
+            };
+
+            return template;
+        }
     }
 }

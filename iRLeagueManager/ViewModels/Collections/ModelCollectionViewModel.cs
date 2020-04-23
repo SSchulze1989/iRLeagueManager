@@ -12,7 +12,9 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Interfaces;
 using System.Windows.Input;
 
-namespace iRLeagueManager.ViewModels
+using iRLeagueManager.ViewModels;
+
+namespace iRLeagueManager.ViewModels.Collections
 {
     public class ModelCollectionViewModel<TViewModel, TModel> : ObservableModelCollection<TViewModel, TModel>, IMenuItemViewModel, INotifyPropertyChanged where TViewModel : ContainerModelBase<TModel>, new() where TModel : INotifyPropertyChanged
     {

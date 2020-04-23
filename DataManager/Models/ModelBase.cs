@@ -36,12 +36,14 @@ namespace iRLeagueManager.Models
         public virtual void CopyTo(ModelBase targetObject)
         {
             Type sourceType = this.GetType();
-            if (!targetObject.GetType().Equals(sourceType))
+            Type targetType = targetObject.GetType();
+
+            if (!(targetType.Equals(sourceType) || targetType.IsSubclassOf(sourceType) || sourceType.IsSubclassOf(targetType)))
                 return;
 
             targetObject.InitReset();
 
-            foreach(var property in sourceType.GetProperties())
+            foreach(var property in targetType.GetProperties())
             {
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
@@ -56,7 +58,9 @@ namespace iRLeagueManager.Models
         public virtual void CopyFrom(ModelBase sourceObject)
         {
             Type targetType = this.GetType();
-            if (!sourceObject.GetType().Equals(targetType))
+            Type sourceType = sourceObject.GetType();
+
+            if (!(sourceType.Equals(targetType) || sourceType.IsSubclassOf(targetType) || targetType.IsSubclassOf(sourceType)))
                 return;
 
             InitReset();

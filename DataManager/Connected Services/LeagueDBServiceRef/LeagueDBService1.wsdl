@@ -21,6 +21,22 @@
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="GetItemsRequest">
+    <wsdl:part name="parameters" element="tns:GetItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="GetItemsRequest_Headers">
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="password" element="tns:password" />
+    <wsdl:part name="requestResponse" element="tns:requestResponse" />
+    <wsdl:part name="userName" element="tns:userName" />
+  </wsdl:message>
+  <wsdl:message name="GetItemsResponse">
+    <wsdl:part name="parameters" element="tns:GetItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemsResponse_Headers">
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="status" element="tns:status" />
+  </wsdl:message>
   <wsdl:message name="ILeagueDBService_SetDatabaseName_InputMessage">
     <wsdl:part name="parameters" element="tns:SetDatabaseName" />
   </wsdl:message>
@@ -177,6 +193,18 @@
   <wsdl:message name="ILeagueDBService_GetTeamStandings_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetTeamStandingsResponse" />
   </wsdl:message>
+  <wsdl:message name="ILeagueDBService_GetScoredResult_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoredResult" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_GetScoredResult_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoredResultResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_CalculateScoredResults_InputMessage">
+    <wsdl:part name="parameters" element="tns:CalculateScoredResults" />
+  </wsdl:message>
+  <wsdl:message name="ILeagueDBService_CalculateScoredResults_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CalculateScoredResultsResponse" />
+  </wsdl:message>
   <wsdl:message name="ILeagueDBService_CleanUpSessions_InputMessage">
     <wsdl:part name="parameters" element="tns:CleanUpSessions" />
   </wsdl:message>
@@ -184,6 +212,10 @@
     <wsdl:part name="parameters" element="tns:CleanUpSessionsResponse" />
   </wsdl:message>
   <wsdl:portType name="ILeagueDBService">
+    <wsdl:operation name="MessageTest">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTest" name="GetItemsRequest" message="tns:GetItemsRequest" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTestResponse" name="GetItemsResponse" message="tns:GetItemsResponse" />
+    </wsdl:operation>
     <wsdl:operation name="SetDatabaseName">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/SetDatabaseName" message="tns:ILeagueDBService_SetDatabaseName_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/SetDatabaseNameResponse" message="tns:ILeagueDBService_SetDatabaseName_OutputMessage" />
@@ -288,6 +320,14 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetTeamStandings" message="tns:ILeagueDBService_GetTeamStandings_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetTeamStandingsResponse" message="tns:ILeagueDBService_GetTeamStandings_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetScoredResult">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoredResult" message="tns:ILeagueDBService_GetScoredResult_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoredResultResponse" message="tns:ILeagueDBService_GetScoredResult_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateScoredResults">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/CalculateScoredResults" message="tns:ILeagueDBService_CalculateScoredResults_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/CalculateScoredResultsResponse" message="tns:ILeagueDBService_CalculateScoredResults_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="CleanUpSessions">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/CleanUpSessions" message="tns:ILeagueDBService_CleanUpSessions_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/CleanUpSessionsResponse" message="tns:ILeagueDBService_CleanUpSessions_OutputMessage" />
@@ -296,6 +336,21 @@
   <wsdl:binding name="NetTcpBinding_ILeagueDBService" type="tns:ILeagueDBService">
     <wsp:PolicyReference URI="#NetTcpBinding_ILeagueDBService_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="MessageTest">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/MessageTest" style="document" />
+      <wsdl:input name="GetItemsRequest">
+        <soap12:header message="tns:GetItemsRequest_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:GetItemsRequest_Headers" part="password" use="literal" />
+        <soap12:header message="tns:GetItemsRequest_Headers" part="requestResponse" use="literal" />
+        <soap12:header message="tns:GetItemsRequest_Headers" part="userName" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetItemsResponse">
+        <soap12:header message="tns:GetItemsResponse_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:GetItemsResponse_Headers" part="status" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="SetDatabaseName">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/SetDatabaseName" style="document" />
       <wsdl:input>
@@ -523,6 +578,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetTeamStandings">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetTeamStandings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScoredResult">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetScoredResult" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateScoredResults">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/CalculateScoredResults" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

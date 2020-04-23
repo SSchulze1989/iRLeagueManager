@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+  <xs:element name="GetItemsRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="requestItemIds" nillable="true" type="q1:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="databaseName" nillable="true" type="xs:string" />
+  <xs:element name="password" nillable="true" type="xs:string" />
+  <xs:element name="requestResponse" type="xs:boolean" />
+  <xs:element name="userName" nillable="true" type="xs:string" />
+  <xs:element name="GetItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="Items" nillable="true" type="q2:ArrayOfMappableDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="status" nillable="true" type="xs:string" />
   <xs:element name="SetDatabaseName">
     <xs:complexType>
       <xs:sequence>
@@ -54,35 +73,35 @@
   <xs:element name="GetSeasonResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="GetSeasonResult" nillable="true" type="q1:SeasonDataDTO" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="GetSeasonResult" nillable="true" type="q3:SeasonDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetSeasons">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="seasonIds" nillable="true" type="q2:ArrayOflong" />
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="seasonIds" nillable="true" type="q4:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetSeasonsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="GetSeasonsResult" nillable="true" type="q3:ArrayOfSeasonDataDTO" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="GetSeasonsResult" nillable="true" type="q5:ArrayOfSeasonDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutSeason">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="season" nillable="true" type="q4:SeasonDataDTO" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="season" nillable="true" type="q6:SeasonDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutSeasonResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="PutSeasonResult" nillable="true" type="q5:SeasonDataDTO" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="PutSeasonResult" nillable="true" type="q7:SeasonDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -96,35 +115,35 @@
   <xs:element name="GetMemberResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="GetMemberResult" nillable="true" type="q6:LeagueMemberDataDTO" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="GetMemberResult" nillable="true" type="q8:LeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetMembers">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="memberId" nillable="true" type="q7:ArrayOflong" />
+        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="memberId" nillable="true" type="q9:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetMembersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="GetMembersResult" nillable="true" type="q8:ArrayOfLeagueMemberDataDTO" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="GetMembersResult" nillable="true" type="q10:ArrayOfLeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateMemberList">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="members" nillable="true" type="q9:ArrayOfLeagueMemberDataDTO" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="members" nillable="true" type="q11:ArrayOfLeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateMemberListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="UpdateMemberListResult" nillable="true" type="q10:ArrayOfLeagueMemberDataDTO" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="UpdateMemberListResult" nillable="true" type="q12:ArrayOfLeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -136,21 +155,21 @@
   <xs:element name="GetLastMemberResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="GetLastMemberResult" nillable="true" type="q11:LeagueMemberDataDTO" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="GetLastMemberResult" nillable="true" type="q13:LeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutMember">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="member" nillable="true" type="q12:LeagueMemberDataDTO" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="member" nillable="true" type="q14:LeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutMemberResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="PutMemberResult" nillable="true" type="q13:LeagueMemberDataDTO" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="PutMemberResult" nillable="true" type="q15:LeagueMemberDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -164,21 +183,21 @@
   <xs:element name="GetReviewResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="GetReviewResult" nillable="true" type="q14:IncidentReviewDataDTO" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="GetReviewResult" nillable="true" type="q16:IncidentReviewDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutReview">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="review" nillable="true" type="q15:IncidentReviewDataDTO" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="review" nillable="true" type="q17:IncidentReviewDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutReviewResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="PutReviewResult" nillable="true" type="q16:IncidentReviewDataDTO" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="PutReviewResult" nillable="true" type="q18:IncidentReviewDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -192,21 +211,21 @@
   <xs:element name="GetSessionResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="GetSessionResult" nillable="true" type="q17:SessionDataDTO" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="GetSessionResult" nillable="true" type="q19:SessionDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutSession">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="session" nillable="true" type="q18:SessionDataDTO" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="session" nillable="true" type="q20:SessionDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutSessionResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="PutSessionResult" nillable="true" type="q19:SessionDataDTO" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="PutSessionResult" nillable="true" type="q21:SessionDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -220,21 +239,21 @@
   <xs:element name="GetCommentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="GetCommentResult" nillable="true" type="q20:CommentDataDTO" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="GetCommentResult" nillable="true" type="q22:CommentDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutComment">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="comment" nillable="true" type="q21:ReviewCommentDataDTO" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="comment" nillable="true" type="q23:ReviewCommentDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutCommentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="PutCommentResult" nillable="true" type="q22:CommentDataDTO" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="PutCommentResult" nillable="true" type="q24:CommentDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -248,35 +267,35 @@
   <xs:element name="GetScheduleResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="GetScheduleResult" nillable="true" type="q23:ScheduleDataDTO" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="GetScheduleResult" nillable="true" type="q25:ScheduleDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetSchedules">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="scheduleIds" nillable="true" type="q24:ArrayOflong" />
+        <xs:element xmlns:q26="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="scheduleIds" nillable="true" type="q26:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetSchedulesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="GetSchedulesResult" nillable="true" type="q25:ArrayOfScheduleDataDTO" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="GetSchedulesResult" nillable="true" type="q27:ArrayOfScheduleDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutSchedule">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="schedule" nillable="true" type="q26:ScheduleDataDTO" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="schedule" nillable="true" type="q28:ScheduleDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutScheduleResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="PutScheduleResult" nillable="true" type="q27:ScheduleDataDTO" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="PutScheduleResult" nillable="true" type="q29:ScheduleDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -290,21 +309,21 @@
   <xs:element name="GetResultResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetResultResult" nillable="true" type="q28:ResultDataDTO" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetResultResult" nillable="true" type="q30:ResultDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutResult">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="result" nillable="true" type="q29:ResultDataDTO" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="result" nillable="true" type="q31:ResultDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutResultResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="PutResultResult" nillable="true" type="q30:ResultDataDTO" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="PutResultResult" nillable="true" type="q32:ResultDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -318,21 +337,21 @@
   <xs:element name="GetScoringResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetScoringResult" nillable="true" type="q31:ScoringDataDTO" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetScoringResult" nillable="true" type="q33:ScoringDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutScoring">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="scoring" nillable="true" type="q32:ScoringDataDTO" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="scoring" nillable="true" type="q34:ScoringDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PutScoringResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="PutScoringResult" nillable="true" type="q33:ScoringDataDTO" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="PutScoringResult" nillable="true" type="q35:ScoringDataDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -347,7 +366,7 @@
   <xs:element name="GetSeasonStandingsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetSeasonStandingsResult" nillable="true" type="q34:ArrayOfStandingsRowDTO" />
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetSeasonStandingsResult" nillable="true" type="q36:ArrayOfStandingsRowDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -362,8 +381,35 @@
   <xs:element name="GetTeamStandingsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetTeamStandingsResult" nillable="true" type="q35:ArrayOfStandingsRowDTO" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetTeamStandingsResult" nillable="true" type="q37:ArrayOfStandingsRowDTO" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScoredResult">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionId" type="xs:long" />
+        <xs:element minOccurs="0" name="scoringId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetScoredResultResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="GetScoredResultResult" nillable="true" type="q38:ScoredResultDataDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CalculateScoredResults">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CalculateScoredResultsResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="CleanUpSessions">

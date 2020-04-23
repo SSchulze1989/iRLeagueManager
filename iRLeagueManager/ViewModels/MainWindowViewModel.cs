@@ -77,8 +77,20 @@ namespace iRLeagueManager.ViewModels
             LeagueContext.AddStatusItem(DbStatus);
 
             //LeagueContext.AddStatusItem(DbStatus);
-            SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetSeasonListAsync());
-            SelectedSeason = SeasonList.FirstOrDefault();
+            try
+            {
+                IsLoading = true;
+                SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetSeasonListAsync());
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            SelectedSeason = SeasonList?.FirstOrDefault();
         }
 
         public void LogInOut()

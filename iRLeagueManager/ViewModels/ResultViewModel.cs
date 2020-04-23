@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.ViewModels.Collections;
 
 namespace iRLeagueManager.ViewModels
 {

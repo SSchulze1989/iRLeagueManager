@@ -51,7 +51,7 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<StandingsRowModel> standings;
         public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
 
-        public ScoringModel()
+        public ScoringModel() : base()
         {
             ScoringId = null;
             Sessions = new ObservableCollection<SessionInfo>();

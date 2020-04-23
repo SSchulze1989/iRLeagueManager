@@ -28,7 +28,11 @@ namespace iRLeagueManager.ViewModels
 
         protected abstract TSource Template { get; }
 
-        public virtual async void Load(long modelId)
+        public virtual async Task Load(long modelId)
+        {
+            await Load(modelId, 0);
+        }
+        public virtual async Task Load(long modelId, long modelId2nd)
         {
             if (Model?.ModelId == null || Model.ModelId != modelId)
             {
@@ -38,7 +42,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                Model = await LeagueContext.GetModelAsync<TSource>(modelId);
+                Model = await LeagueContext.GetModelAsync<TSource>(modelId, modelId2nd);
             }
             catch (Exception e)
             {

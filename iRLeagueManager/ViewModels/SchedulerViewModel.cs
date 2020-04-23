@@ -8,14 +8,17 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows;
+
+using iRLeagueManager.ViewModels.Collections;
+
 namespace iRLeagueManager.ViewModels
 {
     public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
     {
         private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
-        private ObservableModelCollection<ScheduleViewModel, ScheduleModel> schedules;
-        public ObservableModelCollection<ScheduleViewModel, ScheduleModel> Schedules
+        private ScheduleVMCollection schedules;
+        public ScheduleVMCollection Schedules
         {
             get => schedules;
             protected set
@@ -52,7 +55,7 @@ namespace iRLeagueManager.ViewModels
 
         public SchedulerViewModel()
         {
-            Schedules = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>(new ScheduleModel[] { ScheduleModel.GetTemplate() });
+            Schedules = new ScheduleVMCollection();
             CreateScheduleCmd = new RelayCommand(o => CreateSchedule(), o => Season != null);
 
             UploadFileCmd = new RelayCommand(o =>

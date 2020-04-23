@@ -80,7 +80,7 @@ namespace iRLeagueManager.Models.Results
         public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
 
         //private int positionChange;
-        public virtual int PositionChange => FinishPosition - StartPosition;
+        public virtual int PositionChange => StartPosition - FinishPosition;
 
         public ResultRowModel()
         {
@@ -90,6 +90,31 @@ namespace iRLeagueManager.Models.Results
         public ResultRowModel(long? resultRowId)
         {
             ResultRowId = resultRowId;
+        }
+
+        public static ResultRowModel GetTemplate()
+        {
+            var template = new ResultRowModel()
+            {
+                AvgLapTime = new LapTime(TimeSpan.FromMinutes(1.5)),
+                Car = "DemoCar",
+                CarClass = "Fast cars",
+                CarNumber = 281,
+                ClassId = 1,
+                CompletedLaps = 10,
+                FastestLapTime = new LapTime(TimeSpan.FromMinutes(1.4)),
+                FastLapNr = 5,
+                FinishPosition = 1,
+                Incidents = 4,
+                Interval = new LapInterval(TimeSpan.Zero),
+                LeadLaps = 5,
+                Member = LeagueMember.GetTemplate(),
+                QualifyingTime = new LapTime(TimeSpan.FromMinutes(1.3)),
+                StartPosition = 5
+            };
+            template.InitializeModel();
+            
+            return template;
         }
     }
 }

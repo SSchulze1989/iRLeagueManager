@@ -53,10 +53,10 @@ namespace iRLeagueManager
 
             // Mapping League member data
             CreateMap<LeagueMemberDataDTO, LeagueMember>()
-                .ConstructUsing(source => (source != null) ? MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) : new LeagueMember(source.MemberId) : null)
+                .ConstructUsing(source => (source != null) ? MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) : new LeagueMember(source.MemberId.GetValueOrDefault()) : null)
                 .ReverseMap();
             CreateMap<LeagueMemberInfoDTO, LeagueMember>()
-                .ConvertUsing(source => (source != null) ? MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) ?? new LeagueMember(source.MemberId) : new LeagueMember(source.MemberId) : null);
+                .ConvertUsing(source => (source != null) ? MemberList.Any(x => x.MemberId == source.MemberId) ? MemberList.FirstOrDefault(x => x.MemberId == source.MemberId) ?? new LeagueMember(source.MemberId.GetValueOrDefault()) : new LeagueMember(source.MemberId.GetValueOrDefault()) : null);
             //.ConstructUsing(source => new LeagueMember(source.MemberId));
             CreateMap<LeagueMember, LeagueMemberInfoDTO>();
 
@@ -78,21 +78,21 @@ namespace iRLeagueManager
 
             // Mapping comment data
             CreateMap<ReviewCommentDataDTO, ReviewCommentModel>()
-                .ConstructUsing(source => new ReviewCommentModel(source.CommentId))
+                .ConstructUsing(source => new ReviewCommentModel(source.CommentId.GetValueOrDefault()))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
                 })
                 .ReverseMap();
             CreateMap<CommentDataDTO, CommentBase>()
-                .ConstructUsing(source => new CommentBase(source.CommentId))
+                .ConstructUsing(source => new CommentBase(source.CommentId.GetValueOrDefault()))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
                 })
                 .ReverseMap();
             CreateMap<CommentInfoDTO, CommentBase>()
-                .ConstructUsing(source => new CommentBase(source.CommentId))
+                .ConstructUsing(source => new CommentBase(source.CommentId.GetValueOrDefault()))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
@@ -234,6 +234,15 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
                 .ForAllMembers(opt => opt.Ignore());
             CreateMap<ScoringModel, ScoringInfoDTO>();
+            CreateMap<ScoringInfoDTO, ScoringInfo>()
+                .ConstructUsing(source => new ScoringInfo(source.ScoringId))
+                .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId);
+            CreateMap<ScoredResultRowDataDTO, ScoredResultRowModel>()
+                .EqualityComparison((src, dest) => src.ResultRowId == dest.ResultRowId);
+
+            CreateMap<ScoredResultDataDTO, ScoredResultModel>()
+                .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId)
+                .ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.ScoredResults));
 
             CreateMap<UserDTO, UserModel>()
                 .ConstructUsing(src => new UserModel(src.UserId));

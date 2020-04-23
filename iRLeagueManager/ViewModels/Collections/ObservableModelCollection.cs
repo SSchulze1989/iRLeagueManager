@@ -9,8 +9,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using iRLeagueManager.Interfaces;
+using iRLeagueManager.ViewModels;
 
-namespace iRLeagueManager.ViewModels
+namespace iRLeagueManager.ViewModels.Collections
 {
     public class ObservableModelCollection<TModel, TSource> : ObservableCollection<TModel> where TModel : ContainerModelBase<TSource>, new() where TSource : INotifyPropertyChanged
     {

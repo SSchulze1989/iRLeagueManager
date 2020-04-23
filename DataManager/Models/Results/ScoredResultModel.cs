@@ -14,5 +14,18 @@ namespace iRLeagueManager.Models.Results
 
         private ObservableCollection<ScoredResultRowModel> finalResults;
         public ObservableCollection<ScoredResultRowModel> FinalResults { get => finalResults; set => SetNotifyCollection(ref finalResults, value); }
+
+        public  ScoredResultModel() : base()
+        {
+            FinalResults = new ObservableCollection<ScoredResultRowModel>();
+        }
+
+        public static ScoredResultModel GetTemplate()
+        {
+            var template = new ScoredResultModel();
+            template.FinalResults.Add(ScoredResultRowModel.GetTemplate());
+
+            return template;
+        }
     }
 }

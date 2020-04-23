@@ -52,6 +52,20 @@ namespace iRLeagueManager.Models.Members
             DiscordId = data.DiscordId;
         }
 
+        public static LeagueMember GetTemplate()
+        {
+            var template = new LeagueMember
+            {
+                DanLisaId = "danlisa-id",
+                DiscordId = "discord-id",
+                Firstname = "Template",
+                Lastname = "Member",
+                IRacingId = "iracing-id"
+            };
+            template.InitializeModel();
+
+            return template;
+        }
         public override string ToString()
         {
             return FullName;

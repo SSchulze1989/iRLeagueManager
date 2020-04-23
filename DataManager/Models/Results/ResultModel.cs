@@ -49,7 +49,7 @@ namespace iRLeagueManager.Models.Results
         {
             ResultId = 0;
             RawResults = new ObservableCollection<ResultRowModel>();
-            //Reviews = new ObservableCollection<IncidentReviewModel>();
+            Reviews = new ObservableCollection<IncidentReviewInfo>();
             //FinalResults = new List<ResultRow>();
         }
 

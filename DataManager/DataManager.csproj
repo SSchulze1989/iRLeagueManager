@@ -134,16 +134,25 @@
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.CommentDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.GetItemsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.MappableDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ResultDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO.datasource">

@@ -30,7 +30,7 @@ namespace iRLeagueManager.Data
 
         public UserModel CurrentUser { get; internal set; }
 
-        private DbLeagueServiceClient DbContext { get; }
+        public DbLeagueServiceClient DbContext { get; }
 
         private ObservableCollection<LeagueMember> memberList;
         public ObservableCollection<LeagueMember> MemberList => memberList;
@@ -101,7 +101,7 @@ namespace iRLeagueManager.Data
             DbContext.RemoveStatusItem(statusItem);
         }
 
-        public async Task<T> GetModelAsync<T>(long modelId) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(long modelId, long modelId2nd = 0) where T : ModelBase
         {
             var mapper = MapperConfiguration.CreateMapper();
             object data = null;
@@ -148,11 +148,15 @@ namespace iRLeagueManager.Data
             }
             else if (typeof(T).Equals(typeof(ScoringModel)))
             {
-                throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
+                data = await DbContext.GetScoringAsync(modelId);
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
+            }
+            else if (typeof(T).Equals(typeof(ScoredResultModel)))
+            {
+                data = await DbContext.GetScoredResultAsync(modelId, modelId2nd);
             }
             else
             {
@@ -167,7 +171,7 @@ namespace iRLeagueManager.Data
             }
             else
             {
-                return null;
+                throw new Exception("Could not load model of type " + typeof(T).ToString() + " with ID: " + modelId + " | " + modelId2nd + ". Database response was NULL. (No matching element found)");
             }
         }
 

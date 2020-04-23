@@ -11,7 +11,7 @@
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         mc:Ignorable="d" FontSize="18"
-        Title="iRLeagueManager v0.1 - ***WIP***" WindowState="Maximized" >
+        Title="iRLeagueManager v0.1 - ***WIP***" WindowState="Maximized" Height="863" Width="1568" >
 
     <Window.Resources>
         <sys:String x:Key="ApplicationName">iRLeagueManager v0.1</sys:String>
@@ -63,8 +63,8 @@
                     <TabItem Header="Errors" TextElement.FontSize="10">
                         <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time"/>
-                                <DataGridTextColumn Binding="{Binding Message}" Header="Message"/>
+                                <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time" IsReadOnly="True" Width="75"/>
+                                <DataGridTextColumn Binding="{Binding Message}" Header="Message" IsReadOnly="True" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
@@ -116,7 +116,7 @@
                     <Button Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
                     <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <Button Content="Schedules" Click="SchedulesButton_Click" />
-                    <Button Content="Results" IsEnabled="False"/>
+                    <Button Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
                     <Button Content="Teams" IsEnabled="False"/>
                     <Button Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
@@ -137,10 +137,13 @@
                 <ContentControl x:Name="MainContent">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type vmodel:CalendarViewModel}">
-                            <views:CalendarControl />
+                            <views:CalendarControl/>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type vmodel:SchedulerViewModel}" >
-                            <views:SchedulerControl />
+                        <DataTemplate DataType="{x:Type vmodel:SchedulerViewModel}">
+                            <views:SchedulerControl/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:ScoredResultViewModel}">
+                            <views:ScoredResultControl Grid.Row="0"/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

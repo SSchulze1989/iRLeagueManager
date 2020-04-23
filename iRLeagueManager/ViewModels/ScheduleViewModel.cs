@@ -15,6 +15,7 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Services;
+using iRLeagueManager.ViewModels.Collections;
 
 namespace iRLeagueManager.ViewModels
 {

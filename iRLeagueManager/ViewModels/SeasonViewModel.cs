@@ -50,7 +50,7 @@ namespace iRLeagueManager.ViewModels
 
         public SeasonViewModel(SeasonModel source) : base(source) { }
 
-        public async override void Load(long seasonId)
+        public override async Task Load(long seasonId)
         {
             if (Model != null && Model.SeasonId == seasonId)
             {
@@ -107,7 +107,7 @@ namespace iRLeagueManager.ViewModels
             }
             else
             {
-                Load(season.SeasonId.Value);
+                await Load(season.SeasonId.Value);
             }
         }
     }
