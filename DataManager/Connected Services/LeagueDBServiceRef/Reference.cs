@@ -2244,6 +2244,13 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/MessageTest", ReplyAction="http://tempuri.org/ILeagueDBService/MessageTestResponse")]
         System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> MessageTestAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
         
+        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Wrappername (GetItemsRequest) von Nachricht "GetItemsRequest" nicht mit dem Standardwert (GetFromDatabase) übereinstimmt.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetFromDatabase", ReplyAction="http://tempuri.org/ILeagueDBService/GetFromDatabaseResponse")]
+        iRLeagueManager.LeagueDBServiceRef.GetItemsResponse GetFromDatabase(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetFromDatabase", ReplyAction="http://tempuri.org/ILeagueDBService/GetFromDatabaseResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> GetFromDatabaseAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/SetDatabaseName", ReplyAction="http://tempuri.org/ILeagueDBService/SetDatabaseNameResponse")]
         void SetDatabaseName(string databaseName);
         
@@ -2438,17 +2445,21 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         public string userName;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public long[] requestItemIds;
+        public long[][] requestItemIds;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string requestItemType;
         
         public GetItemsRequest() {
         }
         
-        public GetItemsRequest(string databaseName, string password, bool requestResponse, string userName, long[] requestItemIds) {
+        public GetItemsRequest(string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType) {
             this.databaseName = databaseName;
             this.password = password;
             this.requestResponse = requestResponse;
             this.userName = userName;
             this.requestItemIds = requestItemIds;
+            this.requestItemType = requestItemType;
         }
     }
     
@@ -2509,13 +2520,14 @@ namespace iRLeagueManager.LeagueDBServiceRef {
             return base.Channel.MessageTest(request);
         }
         
-        public string MessageTest(ref string databaseName, string password, bool requestResponse, string userName, long[] requestItemIds, out iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items) {
+        public string MessageTest(ref string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType, out iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items) {
             iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
             inValue.databaseName = databaseName;
             inValue.password = password;
             inValue.requestResponse = requestResponse;
             inValue.userName = userName;
             inValue.requestItemIds = requestItemIds;
+            inValue.requestItemType = requestItemType;
             iRLeagueManager.LeagueDBServiceRef.GetItemsResponse retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).MessageTest(inValue);
             databaseName = retVal.databaseName;
             Items = retVal.Items;
@@ -2527,14 +2539,50 @@ namespace iRLeagueManager.LeagueDBServiceRef {
             return base.Channel.MessageTestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> MessageTestAsync(string databaseName, string password, bool requestResponse, string userName, long[] requestItemIds) {
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> MessageTestAsync(string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType) {
             iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
             inValue.databaseName = databaseName;
             inValue.password = password;
             inValue.requestResponse = requestResponse;
             inValue.userName = userName;
             inValue.requestItemIds = requestItemIds;
+            inValue.requestItemType = requestItemType;
             return ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).MessageTestAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        iRLeagueManager.LeagueDBServiceRef.GetItemsResponse iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.GetFromDatabase(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request) {
+            return base.Channel.GetFromDatabase(request);
+        }
+        
+        public string GetFromDatabase(ref string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType, out iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items) {
+            iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
+            inValue.databaseName = databaseName;
+            inValue.password = password;
+            inValue.requestResponse = requestResponse;
+            inValue.userName = userName;
+            inValue.requestItemIds = requestItemIds;
+            inValue.requestItemType = requestItemType;
+            iRLeagueManager.LeagueDBServiceRef.GetItemsResponse retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).GetFromDatabase(inValue);
+            databaseName = retVal.databaseName;
+            Items = retVal.Items;
+            return retVal.status;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.GetFromDatabaseAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request) {
+            return base.Channel.GetFromDatabaseAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> GetFromDatabaseAsync(string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType) {
+            iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
+            inValue.databaseName = databaseName;
+            inValue.password = password;
+            inValue.requestResponse = requestResponse;
+            inValue.userName = userName;
+            inValue.requestItemIds = requestItemIds;
+            inValue.requestItemType = requestItemType;
+            return ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).GetFromDatabaseAsync(inValue);
         }
         
         public void SetDatabaseName(string databaseName) {

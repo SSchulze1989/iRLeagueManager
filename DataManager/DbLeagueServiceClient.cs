@@ -404,5 +404,15 @@ namespace iRLeagueManager.Data
         {
             return ((ILeagueDBService)DbClient).MessageTestAsync(request);
         }
+
+        public GetItemsResponse GetFromDatabase(GetItemsRequest request)
+        {
+            return ((ILeagueDBService)DbClient).GetFromDatabase(request);
+        }
+
+        public Task<GetItemsResponse> GetFromDatabaseAsync(GetItemsRequest request)
+        {
+            return ((ILeagueDBService)DbClient).GetFromDatabaseAsync(request);
+        }
     }
 }

@@ -41,9 +41,10 @@ namespace TestConsole
                 password = "123456",
                 databaseName = "TestDatabase",
                 requestResponse = true,
-                requestItemIds = new long[] { 1 }
+                requestItemType = typeof(SessionDataDTO).Name,
+                requestItemIds = new long[][] { new long[] { 1 } }
             };
-            var response = dbClient.MessageTest(request);
+            var response = dbClient.GetFromDatabaseAsync(request).Result;
 
             Console.Read();
         }
