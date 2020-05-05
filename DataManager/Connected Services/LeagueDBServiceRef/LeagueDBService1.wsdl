@@ -10,7 +10,7 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd7" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
@@ -18,22 +18,97 @@
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Messages" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd9" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="GetItemsRequest">
-    <wsdl:part name="parameters" element="tns:GetItemsRequest" />
+  <wsdl:message name="RequestMessage">
+    <wsdl:part name="parameters" element="tns:RequestMessage" />
   </wsdl:message>
-  <wsdl:message name="GetItemsRequest_Headers">
+  <wsdl:message name="RequestMessage_Headers">
     <wsdl:part name="databaseName" element="tns:databaseName" />
     <wsdl:part name="password" element="tns:password" />
+    <wsdl:part name="requestItemType" element="tns:requestItemType" />
     <wsdl:part name="requestResponse" element="tns:requestResponse" />
     <wsdl:part name="userName" element="tns:userName" />
   </wsdl:message>
-  <wsdl:message name="GetItemsResponse">
-    <wsdl:part name="parameters" element="tns:GetItemsResponse" />
+  <wsdl:message name="ResponseMessage">
+    <wsdl:part name="parameters" element="tns:ResponseMessage" />
   </wsdl:message>
-  <wsdl:message name="GetItemsResponse_Headers">
+  <wsdl:message name="ResponseMessage_Headers">
+    <wsdl:part name="Username" element="tns:Username" />
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="status" element="tns:status" />
+  </wsdl:message>
+  <wsdl:message name="POSTItemsRequestMessage">
+    <wsdl:part name="parameters" element="tns:POSTItemsRequestMessage" />
+  </wsdl:message>
+  <wsdl:message name="POSTItemsRequestMessage_Headers">
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="password" element="tns:password" />
+    <wsdl:part name="requestItemType" element="tns:requestItemType" />
+    <wsdl:part name="requestResponse" element="tns:requestResponse" />
+    <wsdl:part name="userName" element="tns:userName" />
+  </wsdl:message>
+  <wsdl:message name="POSTItemsResponseMessage">
+    <wsdl:part name="parameters" element="tns:POSTItemsResponseMessage" />
+  </wsdl:message>
+  <wsdl:message name="POSTItemsResponseMessage_Headers">
+    <wsdl:part name="Username" element="tns:Username" />
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="status" element="tns:status" />
+  </wsdl:message>
+  <wsdl:message name="GETItemsRequestMessage">
+    <wsdl:part name="parameters" element="tns:GETItemsRequestMessage" />
+  </wsdl:message>
+  <wsdl:message name="GETItemsRequestMessage_Headers">
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="password" element="tns:password" />
+    <wsdl:part name="requestItemType" element="tns:requestItemType" />
+    <wsdl:part name="requestResponse" element="tns:requestResponse" />
+    <wsdl:part name="userName" element="tns:userName" />
+  </wsdl:message>
+  <wsdl:message name="GETItemsResponseMessage">
+    <wsdl:part name="parameters" element="tns:GETItemsResponseMessage" />
+  </wsdl:message>
+  <wsdl:message name="GETItemsResponseMessage_Headers">
+    <wsdl:part name="Username" element="tns:Username" />
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="status" element="tns:status" />
+  </wsdl:message>
+  <wsdl:message name="PUTItemsRequestMessage">
+    <wsdl:part name="parameters" element="tns:PUTItemsRequestMessage" />
+  </wsdl:message>
+  <wsdl:message name="PUTItemsRequestMessage_Headers">
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="password" element="tns:password" />
+    <wsdl:part name="requestItemType" element="tns:requestItemType" />
+    <wsdl:part name="requestResponse" element="tns:requestResponse" />
+    <wsdl:part name="userName" element="tns:userName" />
+  </wsdl:message>
+  <wsdl:message name="PUTItemsResponseMessage">
+    <wsdl:part name="parameters" element="tns:PUTItemsResponseMessage" />
+  </wsdl:message>
+  <wsdl:message name="PUTItemsResponseMessage_Headers">
+    <wsdl:part name="Username" element="tns:Username" />
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="status" element="tns:status" />
+  </wsdl:message>
+  <wsdl:message name="DELItemsRequestMessage">
+    <wsdl:part name="parameters" element="tns:DELItemsRequestMessage" />
+  </wsdl:message>
+  <wsdl:message name="DELItemsRequestMessage_Headers">
+    <wsdl:part name="databaseName" element="tns:databaseName" />
+    <wsdl:part name="password" element="tns:password" />
+    <wsdl:part name="requestItemType" element="tns:requestItemType" />
+    <wsdl:part name="requestResponse" element="tns:requestResponse" />
+    <wsdl:part name="userName" element="tns:userName" />
+  </wsdl:message>
+  <wsdl:message name="DELItemsResponseMessage">
+    <wsdl:part name="parameters" element="tns:DELItemsResponseMessage" />
+  </wsdl:message>
+  <wsdl:message name="DELItemsResponseMessage_Headers">
+    <wsdl:part name="Username" element="tns:Username" />
     <wsdl:part name="databaseName" element="tns:databaseName" />
     <wsdl:part name="status" element="tns:status" />
   </wsdl:message>
@@ -55,150 +130,6 @@
   <wsdl:message name="ILeagueDBService_Test_OutputMessage">
     <wsdl:part name="parameters" element="tns:TestResponse" />
   </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSeason_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetSeason" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSeason_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetSeasonResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSeasons_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetSeasons" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSeasons_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetSeasonsResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutSeason_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutSeason" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutSeason_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutSeasonResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetMember_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMember" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetMember_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMemberResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetMembers_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMembers" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetMembers_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMembersResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_UpdateMemberList_InputMessage">
-    <wsdl:part name="parameters" element="tns:UpdateMemberList" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_UpdateMemberList_OutputMessage">
-    <wsdl:part name="parameters" element="tns:UpdateMemberListResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetLastMember_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetLastMember" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetLastMember_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetLastMemberResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutMember_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutMember" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutMember_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutMemberResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetReview_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetReview" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetReview_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetReviewResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutReview_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutReview" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutReview_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutReviewResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSession_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetSession" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSession_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetSessionResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutSession_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutSession" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutSession_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutSessionResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetComment_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetComment" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetComment_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetCommentResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutComment_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutComment" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutComment_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutCommentResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSchedule_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetSchedule" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSchedule_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetScheduleResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSchedules_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetSchedules" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSchedules_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetSchedulesResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutSchedule_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutSchedule" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutSchedule_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutScheduleResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetResult_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetResult" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetResult_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetResultResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutResult_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutResult" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutResult_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutResultResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetScoring_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetScoring" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetScoring_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetScoringResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutScoring_InputMessage">
-    <wsdl:part name="parameters" element="tns:PutScoring" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_PutScoring_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PutScoringResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSeasonStandings_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetSeasonStandings" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetSeasonStandings_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetSeasonStandingsResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetTeamStandings_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetTeamStandings" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetTeamStandings_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetTeamStandingsResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetScoredResult_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetScoredResult" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_GetScoredResult_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetScoredResultResponse" />
-  </wsdl:message>
   <wsdl:message name="ILeagueDBService_CalculateScoredResults_InputMessage">
     <wsdl:part name="parameters" element="tns:CalculateScoredResults" />
   </wsdl:message>
@@ -213,12 +144,24 @@
   </wsdl:message>
   <wsdl:portType name="ILeagueDBService">
     <wsdl:operation name="MessageTest">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTest" name="GetItemsRequest" message="tns:GetItemsRequest" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTestResponse" name="GetItemsResponse" message="tns:GetItemsResponse" />
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTest" name="RequestMessage" message="tns:RequestMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTestResponse" name="ResponseMessage" message="tns:ResponseMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetFromDatabase">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetFromDatabase" name="GetItemsRequest" message="tns:GetItemsRequest" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetFromDatabaseResponse" name="GetItemsResponse" message="tns:GetItemsResponse" />
+    <wsdl:operation name="DatabasePOST">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/DatabasePOST" name="POSTItemsRequestMessage" message="tns:POSTItemsRequestMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/DatabasePOSTResponse" name="POSTItemsResponseMessage" message="tns:POSTItemsResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DatabaseGET">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/DatabaseGET" name="GETItemsRequestMessage" message="tns:GETItemsRequestMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/DatabaseGETResponse" name="GETItemsResponseMessage" message="tns:GETItemsResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DatabasePUT">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/DatabasePUT" name="PUTItemsRequestMessage" message="tns:PUTItemsRequestMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/DatabasePUTResponse" name="PUTItemsResponseMessage" message="tns:PUTItemsResponseMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DatabaseDEL">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/DatabaseDEL" name="DELItemsRequestMessage" message="tns:DELItemsRequestMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/DatabaseDELResponse" name="DELItemsResponseMessage" message="tns:DELItemsResponseMessage" />
     </wsdl:operation>
     <wsdl:operation name="SetDatabaseName">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/SetDatabaseName" message="tns:ILeagueDBService_SetDatabaseName_InputMessage" />
@@ -231,102 +174,6 @@
     <wsdl:operation name="Test">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/Test" message="tns:ILeagueDBService_Test_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/TestResponse" message="tns:ILeagueDBService_Test_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSeason">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeason" message="tns:ILeagueDBService_GetSeason_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeasonResponse" message="tns:ILeagueDBService_GetSeason_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSeasons">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeasons" message="tns:ILeagueDBService_GetSeasons_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeasonsResponse" message="tns:ILeagueDBService_GetSeasons_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutSeason">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutSeason" message="tns:ILeagueDBService_PutSeason_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutSeasonResponse" message="tns:ILeagueDBService_PutSeason_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetMember">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetMember" message="tns:ILeagueDBService_GetMember_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetMemberResponse" message="tns:ILeagueDBService_GetMember_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetMembers">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetMembers" message="tns:ILeagueDBService_GetMembers_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetMembersResponse" message="tns:ILeagueDBService_GetMembers_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="UpdateMemberList">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/UpdateMemberList" message="tns:ILeagueDBService_UpdateMemberList_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/UpdateMemberListResponse" message="tns:ILeagueDBService_UpdateMemberList_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetLastMember">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetLastMember" message="tns:ILeagueDBService_GetLastMember_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetLastMemberResponse" message="tns:ILeagueDBService_GetLastMember_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutMember">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutMember" message="tns:ILeagueDBService_PutMember_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutMemberResponse" message="tns:ILeagueDBService_PutMember_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetReview">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetReview" message="tns:ILeagueDBService_GetReview_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetReviewResponse" message="tns:ILeagueDBService_GetReview_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutReview">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutReview" message="tns:ILeagueDBService_PutReview_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutReviewResponse" message="tns:ILeagueDBService_PutReview_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSession">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSession" message="tns:ILeagueDBService_GetSession_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetSessionResponse" message="tns:ILeagueDBService_GetSession_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutSession">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutSession" message="tns:ILeagueDBService_PutSession_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutSessionResponse" message="tns:ILeagueDBService_PutSession_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetComment">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetComment" message="tns:ILeagueDBService_GetComment_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetCommentResponse" message="tns:ILeagueDBService_GetComment_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutComment">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutComment" message="tns:ILeagueDBService_PutComment_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutCommentResponse" message="tns:ILeagueDBService_PutComment_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSchedule">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSchedule" message="tns:ILeagueDBService_GetSchedule_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetScheduleResponse" message="tns:ILeagueDBService_GetSchedule_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSchedules">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSchedules" message="tns:ILeagueDBService_GetSchedules_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetSchedulesResponse" message="tns:ILeagueDBService_GetSchedules_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutSchedule">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutSchedule" message="tns:ILeagueDBService_PutSchedule_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutScheduleResponse" message="tns:ILeagueDBService_PutSchedule_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetResult">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetResult" message="tns:ILeagueDBService_GetResult_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetResultResponse" message="tns:ILeagueDBService_GetResult_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutResult">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutResult" message="tns:ILeagueDBService_PutResult_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutResultResponse" message="tns:ILeagueDBService_PutResult_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetScoring">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoring" message="tns:ILeagueDBService_GetScoring_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoringResponse" message="tns:ILeagueDBService_GetScoring_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="PutScoring">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/PutScoring" message="tns:ILeagueDBService_PutScoring_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/PutScoringResponse" message="tns:ILeagueDBService_PutScoring_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetSeasonStandings">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeasonStandings" message="tns:ILeagueDBService_GetSeasonStandings_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetSeasonStandingsResponse" message="tns:ILeagueDBService_GetSeasonStandings_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetTeamStandings">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetTeamStandings" message="tns:ILeagueDBService_GetTeamStandings_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetTeamStandingsResponse" message="tns:ILeagueDBService_GetTeamStandings_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="GetScoredResult">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoredResult" message="tns:ILeagueDBService_GetScoredResult_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/GetScoredResultResponse" message="tns:ILeagueDBService_GetScoredResult_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="CalculateScoredResults">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/CalculateScoredResults" message="tns:ILeagueDBService_CalculateScoredResults_InputMessage" />
@@ -342,31 +189,86 @@
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="MessageTest">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/MessageTest" style="document" />
-      <wsdl:input name="GetItemsRequest">
-        <soap12:header message="tns:GetItemsRequest_Headers" part="databaseName" use="literal" />
-        <soap12:header message="tns:GetItemsRequest_Headers" part="password" use="literal" />
-        <soap12:header message="tns:GetItemsRequest_Headers" part="requestResponse" use="literal" />
-        <soap12:header message="tns:GetItemsRequest_Headers" part="userName" use="literal" />
+      <wsdl:input name="RequestMessage">
+        <soap12:header message="tns:RequestMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:RequestMessage_Headers" part="password" use="literal" />
+        <soap12:header message="tns:RequestMessage_Headers" part="requestItemType" use="literal" />
+        <soap12:header message="tns:RequestMessage_Headers" part="requestResponse" use="literal" />
+        <soap12:header message="tns:RequestMessage_Headers" part="userName" use="literal" />
         <soap12:body use="literal" />
       </wsdl:input>
-      <wsdl:output name="GetItemsResponse">
-        <soap12:header message="tns:GetItemsResponse_Headers" part="databaseName" use="literal" />
-        <soap12:header message="tns:GetItemsResponse_Headers" part="status" use="literal" />
+      <wsdl:output name="ResponseMessage">
+        <soap12:header message="tns:ResponseMessage_Headers" part="Username" use="literal" />
+        <soap12:header message="tns:ResponseMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:ResponseMessage_Headers" part="status" use="literal" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFromDatabase">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetFromDatabase" style="document" />
-      <wsdl:input name="GetItemsRequest">
-        <soap12:header message="tns:GetItemsRequest_Headers" part="databaseName" use="literal" />
-        <soap12:header message="tns:GetItemsRequest_Headers" part="password" use="literal" />
-        <soap12:header message="tns:GetItemsRequest_Headers" part="requestResponse" use="literal" />
-        <soap12:header message="tns:GetItemsRequest_Headers" part="userName" use="literal" />
+    <wsdl:operation name="DatabasePOST">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/DatabasePOST" style="document" />
+      <wsdl:input name="POSTItemsRequestMessage">
+        <soap12:header message="tns:POSTItemsRequestMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:POSTItemsRequestMessage_Headers" part="password" use="literal" />
+        <soap12:header message="tns:POSTItemsRequestMessage_Headers" part="requestItemType" use="literal" />
+        <soap12:header message="tns:POSTItemsRequestMessage_Headers" part="requestResponse" use="literal" />
+        <soap12:header message="tns:POSTItemsRequestMessage_Headers" part="userName" use="literal" />
         <soap12:body use="literal" />
       </wsdl:input>
-      <wsdl:output name="GetItemsResponse">
-        <soap12:header message="tns:GetItemsResponse_Headers" part="databaseName" use="literal" />
-        <soap12:header message="tns:GetItemsResponse_Headers" part="status" use="literal" />
+      <wsdl:output name="POSTItemsResponseMessage">
+        <soap12:header message="tns:POSTItemsResponseMessage_Headers" part="Username" use="literal" />
+        <soap12:header message="tns:POSTItemsResponseMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:POSTItemsResponseMessage_Headers" part="status" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DatabaseGET">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/DatabaseGET" style="document" />
+      <wsdl:input name="GETItemsRequestMessage">
+        <soap12:header message="tns:GETItemsRequestMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:GETItemsRequestMessage_Headers" part="password" use="literal" />
+        <soap12:header message="tns:GETItemsRequestMessage_Headers" part="requestItemType" use="literal" />
+        <soap12:header message="tns:GETItemsRequestMessage_Headers" part="requestResponse" use="literal" />
+        <soap12:header message="tns:GETItemsRequestMessage_Headers" part="userName" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GETItemsResponseMessage">
+        <soap12:header message="tns:GETItemsResponseMessage_Headers" part="Username" use="literal" />
+        <soap12:header message="tns:GETItemsResponseMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:GETItemsResponseMessage_Headers" part="status" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DatabasePUT">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/DatabasePUT" style="document" />
+      <wsdl:input name="PUTItemsRequestMessage">
+        <soap12:header message="tns:PUTItemsRequestMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:PUTItemsRequestMessage_Headers" part="password" use="literal" />
+        <soap12:header message="tns:PUTItemsRequestMessage_Headers" part="requestItemType" use="literal" />
+        <soap12:header message="tns:PUTItemsRequestMessage_Headers" part="requestResponse" use="literal" />
+        <soap12:header message="tns:PUTItemsRequestMessage_Headers" part="userName" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="PUTItemsResponseMessage">
+        <soap12:header message="tns:PUTItemsResponseMessage_Headers" part="Username" use="literal" />
+        <soap12:header message="tns:PUTItemsResponseMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:PUTItemsResponseMessage_Headers" part="status" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DatabaseDEL">
+      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/DatabaseDEL" style="document" />
+      <wsdl:input name="DELItemsRequestMessage">
+        <soap12:header message="tns:DELItemsRequestMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:DELItemsRequestMessage_Headers" part="password" use="literal" />
+        <soap12:header message="tns:DELItemsRequestMessage_Headers" part="requestItemType" use="literal" />
+        <soap12:header message="tns:DELItemsRequestMessage_Headers" part="requestResponse" use="literal" />
+        <soap12:header message="tns:DELItemsRequestMessage_Headers" part="userName" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="DELItemsResponseMessage">
+        <soap12:header message="tns:DELItemsResponseMessage_Headers" part="Username" use="literal" />
+        <soap12:header message="tns:DELItemsResponseMessage_Headers" part="databaseName" use="literal" />
+        <soap12:header message="tns:DELItemsResponseMessage_Headers" part="status" use="literal" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
@@ -390,222 +292,6 @@
     </wsdl:operation>
     <wsdl:operation name="Test">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/Test" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSeason">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetSeason" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSeasons">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetSeasons" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutSeason">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutSeason" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetMember">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetMember" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetMembers">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetMembers" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="UpdateMemberList">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/UpdateMemberList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetLastMember">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetLastMember" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutMember">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutMember" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetReview">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetReview" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutReview">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutReview" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSession">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetSession" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutSession">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutSession" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetComment">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetComment" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutComment">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutComment" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSchedule">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetSchedule" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSchedules">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetSchedules" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutSchedule">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutSchedule" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetResult">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetResult" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutResult">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutResult" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetScoring">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetScoring" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="PutScoring">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/PutScoring" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetSeasonStandings">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetSeasonStandings" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetTeamStandings">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetTeamStandings" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetScoredResult">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/GetScoredResult" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

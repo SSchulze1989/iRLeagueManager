@@ -115,35 +115,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="ResultRowDataDTO" nillable="true" type="tns:ResultRowDataDTO" />
-  <xs:complexType name="ArrayOfStandingsRowDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="StandingsRowDTO" nillable="true" type="tns:StandingsRowDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfStandingsRowDTO" nillable="true" type="tns:ArrayOfStandingsRowDTO" />
-  <xs:complexType name="StandingsRowDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Change" type="xs:int" />
-      <xs:element minOccurs="0" name="FastestLaps" type="xs:int" />
-      <xs:element minOccurs="0" name="MemberId" type="xs:long" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
-      <xs:element minOccurs="0" name="Points" type="xs:int" />
-      <xs:element minOccurs="0" name="PointsChange" type="xs:int" />
-      <xs:element minOccurs="0" name="Poles" type="xs:int" />
-      <xs:element minOccurs="0" name="Pos" type="xs:int" />
-      <xs:element minOccurs="0" name="RacesCounted" type="xs:int" />
-      <xs:element minOccurs="0" name="RacesParticipated" type="xs:int" />
-      <xs:element minOccurs="0" name="Team" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Top10" type="xs:int" />
-      <xs:element minOccurs="0" name="Top15" type="xs:int" />
-      <xs:element minOccurs="0" name="Top20" type="xs:int" />
-      <xs:element minOccurs="0" name="Top3" type="xs:int" />
-      <xs:element minOccurs="0" name="Top5" type="xs:int" />
-      <xs:element minOccurs="0" name="Wins" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="StandingsRowDTO" nillable="true" type="tns:StandingsRowDTO" />
   <xs:complexType name="ScoredResultDataDTO">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:ResultDataDTO">

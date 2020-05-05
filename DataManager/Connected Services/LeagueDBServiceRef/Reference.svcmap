@@ -31,8 +31,9 @@
     <MetadataFile FileName="Service214.xsd" MetadataType="Schema" ID="1fde4827-07f2-44e3-ba9f-a0c3ae31624f" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd7" />
     <MetadataFile FileName="Service215.xsd" MetadataType="Schema" ID="893b8364-6831-41ac-a378-66577cfd5aeb" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd3" />
     <MetadataFile FileName="Service216.xsd" MetadataType="Schema" ID="00759970-d5c0-4065-b1e2-e63aced79a6d" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd4" />
-    <MetadataFile FileName="Service217.xsd" MetadataType="Schema" ID="6a7458df-3a08-4bb3-ba0c-c9fdb1bf31d0" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd2" />
     <MetadataFile FileName="LeagueDBService1.wsdl" MetadataType="Wsdl" ID="665d7851-c194-482d-a82d-e13812b4d66d" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?wsdl" />
+    <MetadataFile FileName="Service217.xsd" MetadataType="Schema" ID="6a7458df-3a08-4bb3-ba0c-c9fdb1bf31d0" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service.xsd" MetadataType="Schema" ID="5bcf64c0-8291-4bf2-b795-c9a4b66988d4" SourceId="1" SourceUrl="http://144.91.113.195:5051/Service.svc?xsd=xsd9" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

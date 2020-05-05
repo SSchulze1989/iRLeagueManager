@@ -11,6 +11,12 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="LeagueMemberInfoDTO" nillable="true" type="tns:LeagueMemberInfoDTO" />
+  <xs:complexType name="ArrayOfLeagueMemberInfoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LeagueMemberInfoDTO" nillable="true" type="tns:LeagueMemberInfoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLeagueMemberInfoDTO" nillable="true" type="tns:ArrayOfLeagueMemberInfoDTO" />
   <xs:complexType name="LeagueMemberDataDTO">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:LeagueMemberInfoDTO">
@@ -25,16 +31,4 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="LeagueMemberDataDTO" nillable="true" type="tns:LeagueMemberDataDTO" />
-  <xs:complexType name="ArrayOfLeagueMemberDataDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="LeagueMemberDataDTO" nillable="true" type="tns:LeagueMemberDataDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfLeagueMemberDataDTO" nillable="true" type="tns:ArrayOfLeagueMemberDataDTO" />
-  <xs:complexType name="ArrayOfLeagueMemberInfoDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="LeagueMemberInfoDTO" nillable="true" type="tns:LeagueMemberInfoDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfLeagueMemberInfoDTO" nillable="true" type="tns:ArrayOfLeagueMemberInfoDTO" />
 </xs:schema>

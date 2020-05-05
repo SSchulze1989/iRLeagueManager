@@ -50,7 +50,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var schedules = await GlobalSettings.LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ScheduleId.GetValueOrDefault()).ToArray());
+                var schedules = await GlobalSettings.LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ScheduleId.GetValueOrDefault()));
                 ScheduleList.UpdateSource(schedules);
             }
             catch (Exception e)

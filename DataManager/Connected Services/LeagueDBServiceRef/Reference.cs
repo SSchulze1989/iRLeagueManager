@@ -1916,340 +1916,44 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="StandingsRowDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
-    [System.SerializableAttribute()]
-    public partial class StandingsRowDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ChangeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int FastestLapsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long MemberIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PenaltyPointsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PointsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PointsChangeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PolesField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PosField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int RacesCountedField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int RacesParticipatedField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TeamField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Top10Field;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Top15Field;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Top20Field;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Top3Field;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Top5Field;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int WinsField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Change {
-            get {
-                return this.ChangeField;
-            }
-            set {
-                if ((this.ChangeField.Equals(value) != true)) {
-                    this.ChangeField = value;
-                    this.RaisePropertyChanged("Change");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int FastestLaps {
-            get {
-                return this.FastestLapsField;
-            }
-            set {
-                if ((this.FastestLapsField.Equals(value) != true)) {
-                    this.FastestLapsField = value;
-                    this.RaisePropertyChanged("FastestLaps");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long MemberId {
-            get {
-                return this.MemberIdField;
-            }
-            set {
-                if ((this.MemberIdField.Equals(value) != true)) {
-                    this.MemberIdField = value;
-                    this.RaisePropertyChanged("MemberId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PenaltyPoints {
-            get {
-                return this.PenaltyPointsField;
-            }
-            set {
-                if ((this.PenaltyPointsField.Equals(value) != true)) {
-                    this.PenaltyPointsField = value;
-                    this.RaisePropertyChanged("PenaltyPoints");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Points {
-            get {
-                return this.PointsField;
-            }
-            set {
-                if ((this.PointsField.Equals(value) != true)) {
-                    this.PointsField = value;
-                    this.RaisePropertyChanged("Points");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PointsChange {
-            get {
-                return this.PointsChangeField;
-            }
-            set {
-                if ((this.PointsChangeField.Equals(value) != true)) {
-                    this.PointsChangeField = value;
-                    this.RaisePropertyChanged("PointsChange");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Poles {
-            get {
-                return this.PolesField;
-            }
-            set {
-                if ((this.PolesField.Equals(value) != true)) {
-                    this.PolesField = value;
-                    this.RaisePropertyChanged("Poles");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Pos {
-            get {
-                return this.PosField;
-            }
-            set {
-                if ((this.PosField.Equals(value) != true)) {
-                    this.PosField = value;
-                    this.RaisePropertyChanged("Pos");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int RacesCounted {
-            get {
-                return this.RacesCountedField;
-            }
-            set {
-                if ((this.RacesCountedField.Equals(value) != true)) {
-                    this.RacesCountedField = value;
-                    this.RaisePropertyChanged("RacesCounted");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int RacesParticipated {
-            get {
-                return this.RacesParticipatedField;
-            }
-            set {
-                if ((this.RacesParticipatedField.Equals(value) != true)) {
-                    this.RacesParticipatedField = value;
-                    this.RaisePropertyChanged("RacesParticipated");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Team {
-            get {
-                return this.TeamField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TeamField, value) != true)) {
-                    this.TeamField = value;
-                    this.RaisePropertyChanged("Team");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Top10 {
-            get {
-                return this.Top10Field;
-            }
-            set {
-                if ((this.Top10Field.Equals(value) != true)) {
-                    this.Top10Field = value;
-                    this.RaisePropertyChanged("Top10");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Top15 {
-            get {
-                return this.Top15Field;
-            }
-            set {
-                if ((this.Top15Field.Equals(value) != true)) {
-                    this.Top15Field = value;
-                    this.RaisePropertyChanged("Top15");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Top20 {
-            get {
-                return this.Top20Field;
-            }
-            set {
-                if ((this.Top20Field.Equals(value) != true)) {
-                    this.Top20Field = value;
-                    this.RaisePropertyChanged("Top20");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Top3 {
-            get {
-                return this.Top3Field;
-            }
-            set {
-                if ((this.Top3Field.Equals(value) != true)) {
-                    this.Top3Field = value;
-                    this.RaisePropertyChanged("Top3");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Top5 {
-            get {
-                return this.Top5Field;
-            }
-            set {
-                if ((this.Top5Field.Equals(value) != true)) {
-                    this.Top5Field = value;
-                    this.RaisePropertyChanged("Top5");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Wins {
-            get {
-                return this.WinsField;
-            }
-            set {
-                if ((this.WinsField.Equals(value) != true)) {
-                    this.WinsField = value;
-                    this.RaisePropertyChanged("Wins");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LeagueDBServiceRef.ILeagueDBService")]
     public interface ILeagueDBService {
         
-        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Wrappername (GetItemsRequest) von Nachricht "GetItemsRequest" nicht mit dem Standardwert (MessageTest) übereinstimmt.
+        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Wrappername (RequestMessage) von Nachricht "RequestMessage" nicht mit dem Standardwert (MessageTest) übereinstimmt.
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/MessageTest", ReplyAction="http://tempuri.org/ILeagueDBService/MessageTestResponse")]
-        iRLeagueManager.LeagueDBServiceRef.GetItemsResponse MessageTest(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
+        iRLeagueManager.LeagueDBServiceRef.ResponseMessage MessageTest(iRLeagueManager.LeagueDBServiceRef.RequestMessage request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/MessageTest", ReplyAction="http://tempuri.org/ILeagueDBService/MessageTestResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> MessageTestAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResponseMessage> MessageTestAsync(iRLeagueManager.LeagueDBServiceRef.RequestMessage request);
         
-        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Wrappername (GetItemsRequest) von Nachricht "GetItemsRequest" nicht mit dem Standardwert (GetFromDatabase) übereinstimmt.
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetFromDatabase", ReplyAction="http://tempuri.org/ILeagueDBService/GetFromDatabaseResponse")]
-        iRLeagueManager.LeagueDBServiceRef.GetItemsResponse GetFromDatabase(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabasePOST", ReplyAction="http://tempuri.org/ILeagueDBService/DatabasePOSTResponse")]
+        iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage DatabasePOST(iRLeagueManager.LeagueDBServiceRef.POSTItemsRequestMessage request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetFromDatabase", ReplyAction="http://tempuri.org/ILeagueDBService/GetFromDatabaseResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> GetFromDatabaseAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request);
+        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Vorgang mehrere Rückgabewerte aufweist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabasePOST", ReplyAction="http://tempuri.org/ILeagueDBService/DatabasePOSTResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage> DatabasePOSTAsync(iRLeagueManager.LeagueDBServiceRef.POSTItemsRequestMessage request);
+        
+        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Wrappername (GETItemsRequestMessage) von Nachricht "GETItemsRequestMessage" nicht mit dem Standardwert (DatabaseGET) übereinstimmt.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabaseGET", ReplyAction="http://tempuri.org/ILeagueDBService/DatabaseGETResponse")]
+        iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage DatabaseGET(iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabaseGET", ReplyAction="http://tempuri.org/ILeagueDBService/DatabaseGETResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage> DatabaseGETAsync(iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabasePUT", ReplyAction="http://tempuri.org/ILeagueDBService/DatabasePUTResponse")]
+        iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage DatabasePUT(iRLeagueManager.LeagueDBServiceRef.PUTItemsRequestMessage request);
+        
+        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Vorgang mehrere Rückgabewerte aufweist.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabasePUT", ReplyAction="http://tempuri.org/ILeagueDBService/DatabasePUTResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage> DatabasePUTAsync(iRLeagueManager.LeagueDBServiceRef.PUTItemsRequestMessage request);
+        
+        // CODEGEN: Der Nachrichtenvertrag wird generiert, da der Wrappername (DELItemsRequestMessage) von Nachricht "DELItemsRequestMessage" nicht mit dem Standardwert (DatabaseDEL) übereinstimmt.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabaseDEL", ReplyAction="http://tempuri.org/ILeagueDBService/DatabaseDELResponse")]
+        iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage DatabaseDEL(iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/DatabaseDEL", ReplyAction="http://tempuri.org/ILeagueDBService/DatabaseDELResponse")]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage> DatabaseDELAsync(iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/SetDatabaseName", ReplyAction="http://tempuri.org/ILeagueDBService/SetDatabaseNameResponse")]
         void SetDatabaseName(string databaseName);
@@ -2269,150 +1973,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/Test", ReplyAction="http://tempuri.org/ILeagueDBService/TestResponse")]
         System.Threading.Tasks.Task<string> TestAsync(string name);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeason", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonResponse")]
-        iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO GetSeason(long seasonId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeason", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO> GetSeasonAsync(long seasonId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeasons", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonsResponse")]
-        iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO[] GetSeasons(long[] seasonIds);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeasons", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonsResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO[]> GetSeasonsAsync(long[] seasonIds);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutSeason", ReplyAction="http://tempuri.org/ILeagueDBService/PutSeasonResponse")]
-        iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO PutSeason(iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO season);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutSeason", ReplyAction="http://tempuri.org/ILeagueDBService/PutSeasonResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO> PutSeasonAsync(iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO season);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetMember", ReplyAction="http://tempuri.org/ILeagueDBService/GetMemberResponse")]
-        iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO GetMember(long memberId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetMember", ReplyAction="http://tempuri.org/ILeagueDBService/GetMemberResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO> GetMemberAsync(long memberId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetMembers", ReplyAction="http://tempuri.org/ILeagueDBService/GetMembersResponse")]
-        iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] GetMembers(long[] memberId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetMembers", ReplyAction="http://tempuri.org/ILeagueDBService/GetMembersResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[]> GetMembersAsync(long[] memberId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/UpdateMemberList", ReplyAction="http://tempuri.org/ILeagueDBService/UpdateMemberListResponse")]
-        iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] UpdateMemberList(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] members);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/UpdateMemberList", ReplyAction="http://tempuri.org/ILeagueDBService/UpdateMemberListResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[]> UpdateMemberListAsync(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] members);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetLastMember", ReplyAction="http://tempuri.org/ILeagueDBService/GetLastMemberResponse")]
-        iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO GetLastMember();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetLastMember", ReplyAction="http://tempuri.org/ILeagueDBService/GetLastMemberResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO> GetLastMemberAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutMember", ReplyAction="http://tempuri.org/ILeagueDBService/PutMemberResponse")]
-        iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO PutMember(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO member);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutMember", ReplyAction="http://tempuri.org/ILeagueDBService/PutMemberResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO> PutMemberAsync(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO member);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetReview", ReplyAction="http://tempuri.org/ILeagueDBService/GetReviewResponse")]
-        iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO GetReview(long reviewId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetReview", ReplyAction="http://tempuri.org/ILeagueDBService/GetReviewResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO> GetReviewAsync(long reviewId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutReview", ReplyAction="http://tempuri.org/ILeagueDBService/PutReviewResponse")]
-        iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO PutReview(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO review);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutReview", ReplyAction="http://tempuri.org/ILeagueDBService/PutReviewResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO> PutReviewAsync(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO review);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSession", ReplyAction="http://tempuri.org/ILeagueDBService/GetSessionResponse")]
-        iRLeagueManager.LeagueDBServiceRef.SessionDataDTO GetSession(long sessionId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSession", ReplyAction="http://tempuri.org/ILeagueDBService/GetSessionResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SessionDataDTO> GetSessionAsync(long sessionId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutSession", ReplyAction="http://tempuri.org/ILeagueDBService/PutSessionResponse")]
-        iRLeagueManager.LeagueDBServiceRef.SessionDataDTO PutSession(iRLeagueManager.LeagueDBServiceRef.SessionDataDTO session);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutSession", ReplyAction="http://tempuri.org/ILeagueDBService/PutSessionResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SessionDataDTO> PutSessionAsync(iRLeagueManager.LeagueDBServiceRef.SessionDataDTO session);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetComment", ReplyAction="http://tempuri.org/ILeagueDBService/GetCommentResponse")]
-        iRLeagueManager.LeagueDBServiceRef.CommentDataDTO GetComment(long commentId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetComment", ReplyAction="http://tempuri.org/ILeagueDBService/GetCommentResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.CommentDataDTO> GetCommentAsync(long commentId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutComment", ReplyAction="http://tempuri.org/ILeagueDBService/PutCommentResponse")]
-        iRLeagueManager.LeagueDBServiceRef.CommentDataDTO PutComment(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO comment);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutComment", ReplyAction="http://tempuri.org/ILeagueDBService/PutCommentResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.CommentDataDTO> PutCommentAsync(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO comment);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSchedule", ReplyAction="http://tempuri.org/ILeagueDBService/GetScheduleResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO GetSchedule(long scheduleId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSchedule", ReplyAction="http://tempuri.org/ILeagueDBService/GetScheduleResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO> GetScheduleAsync(long scheduleId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSchedules", ReplyAction="http://tempuri.org/ILeagueDBService/GetSchedulesResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO[] GetSchedules(long[] scheduleIds);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSchedules", ReplyAction="http://tempuri.org/ILeagueDBService/GetSchedulesResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO[]> GetSchedulesAsync(long[] scheduleIds);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutSchedule", ReplyAction="http://tempuri.org/ILeagueDBService/PutScheduleResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO PutSchedule(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO schedule);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutSchedule", ReplyAction="http://tempuri.org/ILeagueDBService/PutScheduleResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO> PutScheduleAsync(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO schedule);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetResult", ReplyAction="http://tempuri.org/ILeagueDBService/GetResultResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ResultDataDTO GetResult(long resultId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetResult", ReplyAction="http://tempuri.org/ILeagueDBService/GetResultResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResultDataDTO> GetResultAsync(long resultId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutResult", ReplyAction="http://tempuri.org/ILeagueDBService/PutResultResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ResultDataDTO PutResult(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO result);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutResult", ReplyAction="http://tempuri.org/ILeagueDBService/PutResultResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResultDataDTO> PutResultAsync(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO result);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetScoring", ReplyAction="http://tempuri.org/ILeagueDBService/GetScoringResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO GetScoring(long scoringId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetScoring", ReplyAction="http://tempuri.org/ILeagueDBService/GetScoringResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> GetScoringAsync(long scoringId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutScoring", ReplyAction="http://tempuri.org/ILeagueDBService/PutScoringResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO PutScoring(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/PutScoring", ReplyAction="http://tempuri.org/ILeagueDBService/PutScoringResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> PutScoringAsync(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeasonStandings", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonStandingsResponse")]
-        iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[] GetSeasonStandings(long seasonId, System.Nullable<long> lastSessionId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetSeasonStandings", ReplyAction="http://tempuri.org/ILeagueDBService/GetSeasonStandingsResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[]> GetSeasonStandingsAsync(long seasonId, System.Nullable<long> lastSessionId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetTeamStandings", ReplyAction="http://tempuri.org/ILeagueDBService/GetTeamStandingsResponse")]
-        iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[] GetTeamStandings(long seasonId, System.Nullable<long> lastSessionId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetTeamStandings", ReplyAction="http://tempuri.org/ILeagueDBService/GetTeamStandingsResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[]> GetTeamStandingsAsync(long seasonId, System.Nullable<long> lastSessionId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetScoredResult", ReplyAction="http://tempuri.org/ILeagueDBService/GetScoredResultResponse")]
-        iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO GetScoredResult(long sessionId, long scoringId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/GetScoredResult", ReplyAction="http://tempuri.org/ILeagueDBService/GetScoredResultResponse")]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO> GetScoredResultAsync(long sessionId, long scoringId);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeagueDBService/CalculateScoredResults", ReplyAction="http://tempuri.org/ILeagueDBService/CalculateScoredResultsResponse")]
         void CalculateScoredResults(long sessionId);
         
@@ -2429,14 +1989,139 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetItemsRequest", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class GetItemsRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequestMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RequestMessage {
         
         [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public string databaseName;
         
         [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public string password;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string requestItemType;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public bool requestResponse;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string userName;
+        
+        public RequestMessage() {
+        }
+        
+        public RequestMessage(string databaseName, string password, string requestItemType, bool requestResponse, string userName) {
+            this.databaseName = databaseName;
+            this.password = password;
+            this.requestItemType = requestItemType;
+            this.requestResponse = requestResponse;
+            this.userName = userName;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ResponseMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class ResponseMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string Username;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string status;
+        
+        public ResponseMessage() {
+        }
+        
+        public ResponseMessage(string Username, string databaseName, string status) {
+            this.Username = Username;
+            this.databaseName = databaseName;
+            this.status = status;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="POSTItemsRequestMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class POSTItemsRequestMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string password;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string requestItemType;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public bool requestResponse;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string userName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items;
+        
+        public POSTItemsRequestMessage() {
+        }
+        
+        public POSTItemsRequestMessage(string databaseName, string password, string requestItemType, bool requestResponse, string userName, iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items) {
+            this.databaseName = databaseName;
+            this.password = password;
+            this.requestItemType = requestItemType;
+            this.requestResponse = requestResponse;
+            this.userName = userName;
+            this.items = items;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="POSTItemsResponseMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class POSTItemsResponseMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string Username;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string status;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items;
+        
+        public POSTItemsResponseMessage() {
+        }
+        
+        public POSTItemsResponseMessage(string Username, string databaseName, string status, iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items) {
+            this.Username = Username;
+            this.databaseName = databaseName;
+            this.status = status;
+            this.items = items;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GETItemsRequestMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GETItemsRequestMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string password;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string requestItemType;
         
         [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public bool requestResponse;
@@ -2447,27 +2132,27 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
         public long[][] requestItemIds;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
-        public string requestItemType;
-        
-        public GetItemsRequest() {
+        public GETItemsRequestMessage() {
         }
         
-        public GetItemsRequest(string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType) {
+        public GETItemsRequestMessage(string databaseName, string password, string requestItemType, bool requestResponse, string userName, long[][] requestItemIds) {
             this.databaseName = databaseName;
             this.password = password;
+            this.requestItemType = requestItemType;
             this.requestResponse = requestResponse;
             this.userName = userName;
             this.requestItemIds = requestItemIds;
-            this.requestItemType = requestItemType;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetItemsResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class GetItemsResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GETItemsResponseMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GETItemsResponseMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string Username;
         
         [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public string databaseName;
@@ -2476,15 +2161,146 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         public string status;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items;
+        public iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items;
         
-        public GetItemsResponse() {
+        public GETItemsResponseMessage() {
         }
         
-        public GetItemsResponse(string databaseName, string status, iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items) {
+        public GETItemsResponseMessage(string Username, string databaseName, string status, iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items) {
+            this.Username = Username;
             this.databaseName = databaseName;
             this.status = status;
-            this.Items = Items;
+            this.items = items;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PUTItemsRequestMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class PUTItemsRequestMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string password;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string requestItemType;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public bool requestResponse;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string userName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items;
+        
+        public PUTItemsRequestMessage() {
+        }
+        
+        public PUTItemsRequestMessage(string databaseName, string password, string requestItemType, bool requestResponse, string userName, iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items) {
+            this.databaseName = databaseName;
+            this.password = password;
+            this.requestItemType = requestItemType;
+            this.requestResponse = requestResponse;
+            this.userName = userName;
+            this.items = items;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PUTItemsResponseMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class PUTItemsResponseMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string Username;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string status;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items;
+        
+        public PUTItemsResponseMessage() {
+        }
+        
+        public PUTItemsResponseMessage(string Username, string databaseName, string status, iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items) {
+            this.Username = Username;
+            this.databaseName = databaseName;
+            this.status = status;
+            this.items = items;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DELItemsRequestMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class DELItemsRequestMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string password;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string requestItemType;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public bool requestResponse;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string userName;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public long[][] requestItemIds;
+        
+        public DELItemsRequestMessage() {
+        }
+        
+        public DELItemsRequestMessage(string databaseName, string password, string requestItemType, bool requestResponse, string userName, long[][] requestItemIds) {
+            this.databaseName = databaseName;
+            this.password = password;
+            this.requestItemType = requestItemType;
+            this.requestResponse = requestResponse;
+            this.userName = userName;
+            this.requestItemIds = requestItemIds;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DELItemsResponseMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class DELItemsResponseMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string Username;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string databaseName;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string status;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public bool success;
+        
+        public DELItemsResponseMessage() {
+        }
+        
+        public DELItemsResponseMessage(string Username, string databaseName, string status, bool success) {
+            this.Username = Username;
+            this.databaseName = databaseName;
+            this.status = status;
+            this.success = success;
         }
     }
     
@@ -2516,73 +2332,156 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iRLeagueManager.LeagueDBServiceRef.GetItemsResponse iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.MessageTest(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request) {
+        iRLeagueManager.LeagueDBServiceRef.ResponseMessage iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.MessageTest(iRLeagueManager.LeagueDBServiceRef.RequestMessage request) {
             return base.Channel.MessageTest(request);
         }
         
-        public string MessageTest(ref string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType, out iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items) {
-            iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
+        public string MessageTest(ref string databaseName, string password, string requestItemType, bool requestResponse, string userName, out string status) {
+            iRLeagueManager.LeagueDBServiceRef.RequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.RequestMessage();
             inValue.databaseName = databaseName;
             inValue.password = password;
+            inValue.requestItemType = requestItemType;
             inValue.requestResponse = requestResponse;
             inValue.userName = userName;
-            inValue.requestItemIds = requestItemIds;
-            inValue.requestItemType = requestItemType;
-            iRLeagueManager.LeagueDBServiceRef.GetItemsResponse retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).MessageTest(inValue);
+            iRLeagueManager.LeagueDBServiceRef.ResponseMessage retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).MessageTest(inValue);
             databaseName = retVal.databaseName;
-            Items = retVal.Items;
-            return retVal.status;
+            status = retVal.status;
+            return retVal.Username;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.MessageTestAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request) {
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResponseMessage> iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.MessageTestAsync(iRLeagueManager.LeagueDBServiceRef.RequestMessage request) {
             return base.Channel.MessageTestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> MessageTestAsync(string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType) {
-            iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResponseMessage> MessageTestAsync(string databaseName, string password, string requestItemType, bool requestResponse, string userName) {
+            iRLeagueManager.LeagueDBServiceRef.RequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.RequestMessage();
             inValue.databaseName = databaseName;
             inValue.password = password;
+            inValue.requestItemType = requestItemType;
             inValue.requestResponse = requestResponse;
             inValue.userName = userName;
-            inValue.requestItemIds = requestItemIds;
-            inValue.requestItemType = requestItemType;
             return ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).MessageTestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        iRLeagueManager.LeagueDBServiceRef.GetItemsResponse iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.GetFromDatabase(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request) {
-            return base.Channel.GetFromDatabase(request);
+        iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.DatabasePOST(iRLeagueManager.LeagueDBServiceRef.POSTItemsRequestMessage request) {
+            return base.Channel.DatabasePOST(request);
         }
         
-        public string GetFromDatabase(ref string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType, out iRLeagueManager.LeagueDBServiceRef.MappableDTO[] Items) {
-            iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
+        public string DatabasePOST(ref string databaseName, string password, string requestItemType, bool requestResponse, string userName, ref iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items, out string status) {
+            iRLeagueManager.LeagueDBServiceRef.POSTItemsRequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.POSTItemsRequestMessage();
             inValue.databaseName = databaseName;
             inValue.password = password;
+            inValue.requestItemType = requestItemType;
             inValue.requestResponse = requestResponse;
             inValue.userName = userName;
-            inValue.requestItemIds = requestItemIds;
-            inValue.requestItemType = requestItemType;
-            iRLeagueManager.LeagueDBServiceRef.GetItemsResponse retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).GetFromDatabase(inValue);
+            inValue.items = items;
+            iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).DatabasePOST(inValue);
             databaseName = retVal.databaseName;
-            Items = retVal.Items;
-            return retVal.status;
+            status = retVal.status;
+            items = retVal.items;
+            return retVal.Username;
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage> DatabasePOSTAsync(iRLeagueManager.LeagueDBServiceRef.POSTItemsRequestMessage request) {
+            return base.Channel.DatabasePOSTAsync(request);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.GetFromDatabaseAsync(iRLeagueManager.LeagueDBServiceRef.GetItemsRequest request) {
-            return base.Channel.GetFromDatabaseAsync(request);
+        iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.DatabaseGET(iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage request) {
+            return base.Channel.DatabaseGET(request);
         }
         
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GetItemsResponse> GetFromDatabaseAsync(string databaseName, string password, bool requestResponse, string userName, long[][] requestItemIds, string requestItemType) {
-            iRLeagueManager.LeagueDBServiceRef.GetItemsRequest inValue = new iRLeagueManager.LeagueDBServiceRef.GetItemsRequest();
+        public string DatabaseGET(ref string databaseName, string password, string requestItemType, bool requestResponse, string userName, long[][] requestItemIds, out string status, out iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items) {
+            iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage();
             inValue.databaseName = databaseName;
             inValue.password = password;
+            inValue.requestItemType = requestItemType;
             inValue.requestResponse = requestResponse;
             inValue.userName = userName;
             inValue.requestItemIds = requestItemIds;
+            iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).DatabaseGET(inValue);
+            databaseName = retVal.databaseName;
+            status = retVal.status;
+            items = retVal.items;
+            return retVal.Username;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage> iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.DatabaseGETAsync(iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage request) {
+            return base.Channel.DatabaseGETAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage> DatabaseGETAsync(string databaseName, string password, string requestItemType, bool requestResponse, string userName, long[][] requestItemIds) {
+            iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.GETItemsRequestMessage();
+            inValue.databaseName = databaseName;
+            inValue.password = password;
             inValue.requestItemType = requestItemType;
-            return ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).GetFromDatabaseAsync(inValue);
+            inValue.requestResponse = requestResponse;
+            inValue.userName = userName;
+            inValue.requestItemIds = requestItemIds;
+            return ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).DatabaseGETAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.DatabasePUT(iRLeagueManager.LeagueDBServiceRef.PUTItemsRequestMessage request) {
+            return base.Channel.DatabasePUT(request);
+        }
+        
+        public string DatabasePUT(ref string databaseName, string password, string requestItemType, bool requestResponse, string userName, ref iRLeagueManager.LeagueDBServiceRef.MappableDTO[] items, out string status) {
+            iRLeagueManager.LeagueDBServiceRef.PUTItemsRequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.PUTItemsRequestMessage();
+            inValue.databaseName = databaseName;
+            inValue.password = password;
+            inValue.requestItemType = requestItemType;
+            inValue.requestResponse = requestResponse;
+            inValue.userName = userName;
+            inValue.items = items;
+            iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).DatabasePUT(inValue);
+            databaseName = retVal.databaseName;
+            status = retVal.status;
+            items = retVal.items;
+            return retVal.Username;
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage> DatabasePUTAsync(iRLeagueManager.LeagueDBServiceRef.PUTItemsRequestMessage request) {
+            return base.Channel.DatabasePUTAsync(request);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.DatabaseDEL(iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage request) {
+            return base.Channel.DatabaseDEL(request);
+        }
+        
+        public string DatabaseDEL(ref string databaseName, string password, string requestItemType, bool requestResponse, string userName, long[][] requestItemIds, out string status, out bool success) {
+            iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage();
+            inValue.databaseName = databaseName;
+            inValue.password = password;
+            inValue.requestItemType = requestItemType;
+            inValue.requestResponse = requestResponse;
+            inValue.userName = userName;
+            inValue.requestItemIds = requestItemIds;
+            iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage retVal = ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).DatabaseDEL(inValue);
+            databaseName = retVal.databaseName;
+            status = retVal.status;
+            success = retVal.success;
+            return retVal.Username;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage> iRLeagueManager.LeagueDBServiceRef.ILeagueDBService.DatabaseDELAsync(iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage request) {
+            return base.Channel.DatabaseDELAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage> DatabaseDELAsync(string databaseName, string password, string requestItemType, bool requestResponse, string userName, long[][] requestItemIds) {
+            iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage inValue = new iRLeagueManager.LeagueDBServiceRef.DELItemsRequestMessage();
+            inValue.databaseName = databaseName;
+            inValue.password = password;
+            inValue.requestItemType = requestItemType;
+            inValue.requestResponse = requestResponse;
+            inValue.userName = userName;
+            inValue.requestItemIds = requestItemIds;
+            return ((iRLeagueManager.LeagueDBServiceRef.ILeagueDBService)(this)).DatabaseDELAsync(inValue);
         }
         
         public void SetDatabaseName(string databaseName) {
@@ -2607,198 +2506,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         
         public System.Threading.Tasks.Task<string> TestAsync(string name) {
             return base.Channel.TestAsync(name);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO GetSeason(long seasonId) {
-            return base.Channel.GetSeason(seasonId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO> GetSeasonAsync(long seasonId) {
-            return base.Channel.GetSeasonAsync(seasonId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO[] GetSeasons(long[] seasonIds) {
-            return base.Channel.GetSeasons(seasonIds);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO[]> GetSeasonsAsync(long[] seasonIds) {
-            return base.Channel.GetSeasonsAsync(seasonIds);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO PutSeason(iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO season) {
-            return base.Channel.PutSeason(season);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO> PutSeasonAsync(iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO season) {
-            return base.Channel.PutSeasonAsync(season);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO GetMember(long memberId) {
-            return base.Channel.GetMember(memberId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO> GetMemberAsync(long memberId) {
-            return base.Channel.GetMemberAsync(memberId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] GetMembers(long[] memberId) {
-            return base.Channel.GetMembers(memberId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[]> GetMembersAsync(long[] memberId) {
-            return base.Channel.GetMembersAsync(memberId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] UpdateMemberList(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] members) {
-            return base.Channel.UpdateMemberList(members);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[]> UpdateMemberListAsync(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO[] members) {
-            return base.Channel.UpdateMemberListAsync(members);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO GetLastMember() {
-            return base.Channel.GetLastMember();
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO> GetLastMemberAsync() {
-            return base.Channel.GetLastMemberAsync();
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO PutMember(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO member) {
-            return base.Channel.PutMember(member);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO> PutMemberAsync(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO member) {
-            return base.Channel.PutMemberAsync(member);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO GetReview(long reviewId) {
-            return base.Channel.GetReview(reviewId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO> GetReviewAsync(long reviewId) {
-            return base.Channel.GetReviewAsync(reviewId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO PutReview(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO review) {
-            return base.Channel.PutReview(review);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO> PutReviewAsync(iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO review) {
-            return base.Channel.PutReviewAsync(review);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.SessionDataDTO GetSession(long sessionId) {
-            return base.Channel.GetSession(sessionId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SessionDataDTO> GetSessionAsync(long sessionId) {
-            return base.Channel.GetSessionAsync(sessionId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.SessionDataDTO PutSession(iRLeagueManager.LeagueDBServiceRef.SessionDataDTO session) {
-            return base.Channel.PutSession(session);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.SessionDataDTO> PutSessionAsync(iRLeagueManager.LeagueDBServiceRef.SessionDataDTO session) {
-            return base.Channel.PutSessionAsync(session);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.CommentDataDTO GetComment(long commentId) {
-            return base.Channel.GetComment(commentId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.CommentDataDTO> GetCommentAsync(long commentId) {
-            return base.Channel.GetCommentAsync(commentId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.CommentDataDTO PutComment(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO comment) {
-            return base.Channel.PutComment(comment);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.CommentDataDTO> PutCommentAsync(iRLeagueManager.LeagueDBServiceRef.ReviewCommentDataDTO comment) {
-            return base.Channel.PutCommentAsync(comment);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO GetSchedule(long scheduleId) {
-            return base.Channel.GetSchedule(scheduleId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO> GetScheduleAsync(long scheduleId) {
-            return base.Channel.GetScheduleAsync(scheduleId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO[] GetSchedules(long[] scheduleIds) {
-            return base.Channel.GetSchedules(scheduleIds);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO[]> GetSchedulesAsync(long[] scheduleIds) {
-            return base.Channel.GetSchedulesAsync(scheduleIds);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO PutSchedule(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO schedule) {
-            return base.Channel.PutSchedule(schedule);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO> PutScheduleAsync(iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO schedule) {
-            return base.Channel.PutScheduleAsync(schedule);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ResultDataDTO GetResult(long resultId) {
-            return base.Channel.GetResult(resultId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResultDataDTO> GetResultAsync(long resultId) {
-            return base.Channel.GetResultAsync(resultId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ResultDataDTO PutResult(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO result) {
-            return base.Channel.PutResult(result);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ResultDataDTO> PutResultAsync(iRLeagueManager.LeagueDBServiceRef.ResultDataDTO result) {
-            return base.Channel.PutResultAsync(result);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO GetScoring(long scoringId) {
-            return base.Channel.GetScoring(scoringId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> GetScoringAsync(long scoringId) {
-            return base.Channel.GetScoringAsync(scoringId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO PutScoring(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring) {
-            return base.Channel.PutScoring(scoring);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO> PutScoringAsync(iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO scoring) {
-            return base.Channel.PutScoringAsync(scoring);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[] GetSeasonStandings(long seasonId, System.Nullable<long> lastSessionId) {
-            return base.Channel.GetSeasonStandings(seasonId, lastSessionId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[]> GetSeasonStandingsAsync(long seasonId, System.Nullable<long> lastSessionId) {
-            return base.Channel.GetSeasonStandingsAsync(seasonId, lastSessionId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[] GetTeamStandings(long seasonId, System.Nullable<long> lastSessionId) {
-            return base.Channel.GetTeamStandings(seasonId, lastSessionId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO[]> GetTeamStandingsAsync(long seasonId, System.Nullable<long> lastSessionId) {
-            return base.Channel.GetTeamStandingsAsync(seasonId, lastSessionId);
-        }
-        
-        public iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO GetScoredResult(long sessionId, long scoringId) {
-            return base.Channel.GetScoredResult(sessionId, scoringId);
-        }
-        
-        public System.Threading.Tasks.Task<iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO> GetScoredResultAsync(long sessionId, long scoringId) {
-            return base.Channel.GetScoredResultAsync(sessionId, scoringId);
         }
         
         public void CalculateScoredResults(long sessionId) {

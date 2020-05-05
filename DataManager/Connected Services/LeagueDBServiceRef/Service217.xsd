@@ -54,10 +54,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfMappableDTO" nillable="true" type="tns:ArrayOfMappableDTO" />
-  <xs:complexType name="ArrayOfSeasonDataDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="SeasonDataDTO" nillable="true" type="tns:SeasonDataDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfSeasonDataDTO" nillable="true" type="tns:ArrayOfSeasonDataDTO" />
 </xs:schema>

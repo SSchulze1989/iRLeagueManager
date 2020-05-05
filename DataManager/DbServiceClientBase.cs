@@ -28,6 +28,10 @@ namespace iRLeagueManager.Data
 
         private bool IsBusy { get; set; }
 
+        protected string username { get; set; }
+
+        protected string password { get; set; }
+
         //private List<string> ActiveUpdates { get; } = new List<string>();
         
         public DbServiceClientBase()

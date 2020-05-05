@@ -15,7 +15,6 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var LeagueContext = new LeagueContext();
             var dbClient = new DbLeagueServiceClient();
 
             //var season = LeagueContext.GetModelAsync<SeasonModel>(1).Result;
@@ -35,18 +34,28 @@ namespace TestConsole
             //season.MainScoring = scoring;
             //LeagueContext.UpdateModelAsync(season).Wait();
 
-            var request = new GetItemsRequest()
+            var request = new GETItemsRequestMessage()
             {
                 userName = "Test",
                 password = "123456",
                 databaseName = "TestDatabase",
                 requestResponse = true,
-                requestItemType = typeof(SessionDataDTO).Name,
-                requestItemIds = new long[][] { new long[] { 1 } }
+                requestItemType = typeof(ResultDataDTO).Name,
+                requestItemIds = new long[][] { new long[] { 50 } }
             };
-            var response = dbClient.GetFromDatabaseAsync(request).Result;
+            var response = dbClient.DatabaseGETAsync(request).Result;
 
-            Console.Read();
+            var res = dbClient.Test("Test");
+
+            //for (int i=0; i < 1000; i++)
+            //{
+            //    Task.Run(() =>
+            //    {
+            //        var temp = dbClient.GetFromDatabaseAsync(request);
+            //    });
+            //}
+
+            //response = dbClient.GetFromDatabaseAsync(request).Result;
         }
     }
 }

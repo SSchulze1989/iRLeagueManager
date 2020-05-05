@@ -91,10 +91,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfSessionInfoDTO" nillable="true" type="tns:ArrayOfSessionInfoDTO" />
-  <xs:complexType name="ArrayOfScheduleDataDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScheduleDataDTO" nillable="true" type="tns:ScheduleDataDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfScheduleDataDTO" nillable="true" type="tns:ArrayOfScheduleDataDTO" />
 </xs:schema>

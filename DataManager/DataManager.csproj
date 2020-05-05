@@ -131,43 +131,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.CommentDataDTO.datasource">
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.GetItemsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.IncidentReviewDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO.datasource">
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.MappableDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ResultDataDTO.datasource">
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScheduleDataDTO.datasource">
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ScoringDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.SeasonDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.SessionDataDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.StandingsRowDTO1.datasource">
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ResponseMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\LeagueDBService1.wsdl" />
+    <None Include="Connected Services\LeagueDBServiceRef\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LeagueDBServiceRef\Service210.xsd">
       <SubType>Designer</SubType>
     </None>
