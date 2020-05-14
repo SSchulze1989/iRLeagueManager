@@ -17,7 +17,7 @@ namespace iRLeagueManager.Models.Database
         private long memberId;
         public long MemberId { get => memberId; set => SetValue(ref memberId, value); }
 
-        public override long? ModelId => UserId;
+        public override long[] ModelId => new long[] { UserId };
 
         private AdminRights rights;
         public AdminRights Rights { get => rights; set => SetValue(ref rights, value); }

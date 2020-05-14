@@ -13,7 +13,7 @@ namespace iRLeagueManager.Models.Results
     {
         public long? ResultId { get; internal set; }
 
-        public override long? ModelId => ResultId;
+        public override long[] ModelId => new long[] { ResultId.GetValueOrDefault() };
 
         private SessionInfo session;
         public SessionInfo Session { get => session; set => SetValue(ref session, value); }

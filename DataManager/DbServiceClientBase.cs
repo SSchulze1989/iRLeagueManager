@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
@@ -13,6 +14,8 @@ namespace iRLeagueManager.Data
     public class DbServiceClientBase
     {
         protected List<IDatabaseStatus> StatusArray { get; }
+
+        protected Dictionary<IToken, UpdateKind> TaskStatus { get; } = new Dictionary<IToken, UpdateKind>();
 
         protected ConnectionStatusEnum ConnectionStatus { get; private set; }
 
@@ -58,47 +61,56 @@ namespace iRLeagueManager.Data
                 StatusArray.Remove(statusItem);
         }
 
-        protected async Task<bool> StartUpdateWhenReady(UpdateKind updateKind, int timeoutMilliseconds = 10000, [CallerMemberName] string callName = "")
+        protected async Task<bool> StartUpdateWhenReady(UpdateKind updateKind, IToken token, int timeoutMilliseconds = 10000, [CallerMemberName] string callName = "")
         {
-            if (CurrentUpdateMethod != null && IsBusy)
-            {
-                Task waitTask = new Task(() =>
-                {
-                    while (IsBusy && QueuedTask.Id == Task.CurrentId) { }
-                });
-                QueuedTask = waitTask;
-                waitTask.Start();
-                if (await Task.WhenAny(waitTask, Task.Delay(timeoutMilliseconds)) != waitTask)
-                {
-                    throw new TimeoutException("Database request timed out on " + callName + ". Request was blocked by " + CurrentUpdateMethod + " - the procces was has not finished yet." + "\nTimeout: " + timeoutMilliseconds.ToString() + " ms");
-                }
+            //if (CurrentUpdateMethod != null && IsBusy)
+            //{
+            //    Task waitTask = new Task(() =>
+            //    {
+            //        while (IsBusy && QueuedTask.Id == Task.CurrentId) { }
+            //    });
+            //    QueuedTask = waitTask;
+            //    waitTask.Start();
+            //    if (await Task.WhenAny(waitTask, Task.Delay(timeoutMilliseconds)) != waitTask)
+            //    {
+            //        throw new TimeoutException("Database request timed out on " + callName + ". Request was blocked by " + CurrentUpdateMethod + " - the procces was has not finished yet." + "\nTimeout: " + timeoutMilliseconds.ToString() + " ms");
+            //    }
 
-                if (waitTask != QueuedTask)
-                    return false;
-                else
-                    QueuedTask = null;
-            }
+            //    if (waitTask != QueuedTask)
+            //        return false;
+            //    else
+            //        QueuedTask = null;
+            //}
 
             if (callName != "")
             {
                 CurrentUpdateMethod = callName;
-                switch (updateKind)
+                //switch (updateKind)
+                //{
+                //    case UpdateKind.Loading:
+                //        //UpdateStatus = DatabaseStatusEnum.Loading;
+                //        SetDatabaseStatus(Token, DatabaseStatusEnum.Loading);
+                //        break;
+                //    case UpdateKind.Saving:
+                //        //UpdateStatus = DatabaseStatusEnum.Saving;
+                //        SetDatabaseStatus(Token, DatabaseStatusEnum.Saving);
+                //        break;
+                //    case UpdateKind.Updating:
+                //        SetDatabaseStatus(Token, DatabaseStatusEnum.Updating);
+                //        break;
+                //    default:
+                //        break;
+                //}
+                //IsBusy = true;
+                if (TaskStatus.ContainsKey(token))
                 {
-                    case UpdateKind.Loading:
-                        //UpdateStatus = DatabaseStatusEnum.Loading;
-                        SetDatabaseStatus(Token, DatabaseStatusEnum.Loading);
-                        break;
-                    case UpdateKind.Saving:
-                        //UpdateStatus = DatabaseStatusEnum.Saving;
-                        SetDatabaseStatus(Token, DatabaseStatusEnum.Saving);
-                        break;
-                    case UpdateKind.Updating:
-                        SetDatabaseStatus(Token, DatabaseStatusEnum.Updating);
-                        break;
-                    default:
-                        break;
+                    TaskStatus[token] = updateKind;
                 }
-                IsBusy = true;
+                else
+                {
+                    TaskStatus.Add(token, updateKind);
+                }
+                SetDatabaseStatus();
             }
             return true;
         }
@@ -112,6 +124,40 @@ namespace iRLeagueManager.Data
             }
         }
 
+        protected virtual void SetDatabaseStatus()
+        {
+            DatabaseStatusEnum status = DatabaseStatusEnum.Idle;
+            IsBusy = false;
+
+            foreach (var updateKind in TaskStatus.Values)
+            {
+                IsBusy = true;
+                switch (updateKind)
+                {
+                    case UpdateKind.Loading:
+                        //UpdateStatus = DatabaseStatusEnum.Loading;
+                        if (status == DatabaseStatusEnum.Idle)
+                            status = DatabaseStatusEnum.Loading;
+                        else
+                            status = DatabaseStatusEnum.Updating;
+                        break;
+                    case UpdateKind.Saving:
+                        //UpdateStatus = DatabaseStatusEnum.Saving;
+                        if (status == DatabaseStatusEnum.Idle)
+                            status = DatabaseStatusEnum.Saving;
+                        else
+                            status = DatabaseStatusEnum.Updating;
+                        break;
+                    case UpdateKind.Updating:
+                        status = DatabaseStatusEnum.Updating;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            SetDatabaseStatus(Token, status);
+        }
+
         protected virtual void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
         {
             UpdateStatus = status;
@@ -123,30 +169,37 @@ namespace iRLeagueManager.Data
 
         protected bool IsUpdateRunning([CallerMemberName] string callName = "")
         {
-            if (CurrentUpdateMethod == callName && IsBusy)
+            if (IsBusy)
             {
                 return true;
             }
             return false;
         }
 
-        protected void EndUpdate([CallerMemberName] string callName = "")
+        protected void EndUpdate(IToken token, [CallerMemberName] string callName = "")
         {
-            if (CurrentUpdateMethod == callName && IsBusy)
-            {
-                CurrentUpdateMethod = null;
-                //UpdateStatus = DatabaseStatusEnum.Idle;
-                SetDatabaseStatus(Token, DatabaseStatusEnum.Idle);
-                IsBusy = false;
 
-                if (StackCount > 0)
-                {
-                    StackCount -= 1;
-                }
-            }
-            else if (IsBusy)
+            //if (CurrentUpdateMethod == callName && IsBusy)
+            //{
+            //    CurrentUpdateMethod = null;
+            //    //UpdateStatus = DatabaseStatusEnum.Idle;
+            //    SetDatabaseStatus(Token, DatabaseStatusEnum.Idle);
+            //    IsBusy = false;
+
+            //    if (StackCount > 0)
+            //    {
+            //        StackCount -= 1;
+            //    }
+            //}
+            //else if (IsBusy)
+            //{
+            //    throw new InvalidOperationException("Database request " + callName + " can not be finished! Another request is currently active on the database: " + CurrentUpdateMethod);
+            //}
+
+            if (TaskStatus.ContainsKey(token))
             {
-                throw new InvalidOperationException("Database request " + callName + " can not be finished! Another request is currently active on the database: " + CurrentUpdateMethod);
+                TaskStatus.Remove(token);
+                SetDatabaseStatus();
             }
             else
             {

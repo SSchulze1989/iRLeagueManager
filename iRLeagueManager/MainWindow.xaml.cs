@@ -29,6 +29,10 @@ namespace iRLeagueManager
     {
         private MainWindowViewModel mainViewModel;
 
+        private SchedulerViewModel SchedulerViewModel { get; set; }// = new SchedulerViewModel();
+        private CalendarViewModel CalendarViewModel { get; set; }// = new CalendarViewModel();
+        private ResultsPageViewModel ResultsPageViewModel { get; set; }// = new ResultsPageViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,17 +49,22 @@ namespace iRLeagueManager
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
-                var vm = (MainContent.Content?.GetType().Equals(typeof(SchedulerViewModel))).GetValueOrDefault() ? MainContent.Content as SchedulerViewModel : new SchedulerViewModel();
+                var vm = (MainContent.Content?.GetType().Equals(typeof(SchedulerViewModel))).GetValueOrDefault() ? MainContent.Content as SchedulerViewModel : SchedulerViewModel;
+                if (vm == null)
+                    SchedulerViewModel = vm = new SchedulerViewModel();
                 MainContent.Content = vm;
                 vm.Load(mainViewModel.CurrentSeason.Model);
             }
+            //GC.Collect();
         }
 
         private void RaceCalendarButton_Click(object sender, RoutedEventArgs e)
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
-                var vm = (MainContent.Content?.GetType().Equals(typeof(CalendarViewModel))).GetValueOrDefault() ? MainContent.Content as CalendarViewModel : new CalendarViewModel();
+                var vm = (MainContent.Content?.GetType().Equals(typeof(CalendarViewModel))).GetValueOrDefault() ? MainContent.Content as CalendarViewModel : CalendarViewModel;
+                if (vm == null)
+                    CalendarViewModel = vm = new CalendarViewModel();
                 MainContent.Content = vm;
                 vm.Load(mainViewModel.CurrentSeason.Model);
             }
@@ -66,24 +75,27 @@ namespace iRLeagueManager
 
         }
 
-        private async void ResultsButton_Click(object sender, RoutedEventArgs e)
+        private void ResultsButton_Click(object sender, RoutedEventArgs e)
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
-                var vm = (MainContent.Content?.GetType().Equals(typeof(ScoredResultViewModel))).GetValueOrDefault() ? MainContent.Content as ScoredResultViewModel : new ScoredResultViewModel();
+                var vm = (MainContent.Content?.GetType().Equals(typeof(ResultsPageViewModel))).GetValueOrDefault() ? MainContent.Content as ResultsPageViewModel : ResultsPageViewModel;
+                if (vm == null)
+                    ResultsPageViewModel = vm = new ResultsPageViewModel();
                 MainContent.Content = vm;
+                vm.Load(mainViewModel.CurrentSeason.Model);
 
-                var schedules = mainViewModel.CurrentSeason.Schedules;
-                if (schedules.Count > 0)
-                {
-                    var schedule = new ScheduleViewModel();
-                    await schedule.Load(schedules.First().ScheduleId.GetValueOrDefault());
-                    var session = schedule.Sessions.OrderBy(x => x.Date).LastOrDefault();
-                    var scoring = new ScoringViewModel();
-                    await scoring.Load(1);
+                //var schedules = mainViewModel.CurrentSeason.Schedules;
+                //if (schedules.Count > 0)
+                //{
+                //    var schedule = new ScheduleViewModel();
+                //    await schedule.Load(schedules.First().ScheduleId.GetValueOrDefault());
+                //    var session = schedule.Sessions.OrderBy(x => x.Date).LastOrDefault();
+                //    var scoring = new ScoringViewModel();
+                //    await scoring.Load(1);
                     
-                    await vm.Load(session, scoring);
-                }
+                //    await vm.Load(session.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault());
+                //}
             }
         }
     }

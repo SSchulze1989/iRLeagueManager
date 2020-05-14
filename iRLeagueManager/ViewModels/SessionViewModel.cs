@@ -40,7 +40,7 @@ namespace iRLeagueManager.ViewModels
 
         protected override SessionModel Template => SessionModel.GetTemplate();
 
-        private LocationCollection Locations { get; } = new LocationCollection();
+        private LocationCollection Locations => GlobalSettings.Locations;
 
         private ScheduleViewModel schedule;
         public ScheduleViewModel Schedule { get => schedule; set => SetValue(ref schedule, value); }

@@ -16,7 +16,7 @@ namespace iRLeagueManager.Models.Sessions
         [EqualityCheckProperty]
         public long? SessionId { get; }
 
-        public override long? ModelId => SessionId;
+        public override long[] ModelId => new long[] { SessionId.GetValueOrDefault() };
 
         private SessionType sessionType;
         /// <summary>

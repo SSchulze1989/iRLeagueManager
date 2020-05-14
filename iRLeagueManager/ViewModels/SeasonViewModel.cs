@@ -50,9 +50,9 @@ namespace iRLeagueManager.ViewModels
 
         public SeasonViewModel(SeasonModel source) : base(source) { }
 
-        public override async Task Load(long seasonId)
+        public override async Task Load(params long[] modelId)
         {
-            if (Model != null && Model.SeasonId == seasonId)
+            if (Model != null && Model.ModelId == modelId)
             {
                 IsLoading = true;
                 try
@@ -74,7 +74,7 @@ namespace iRLeagueManager.ViewModels
                 try
                 {
                     Model = SeasonModel.GetTemplate();
-                    Model = await LeagueContext.GetModelAsync<SeasonModel>(seasonId);
+                    Model = await LeagueContext.GetModelAsync<SeasonModel>(modelId);
                 }
                 catch (Exception e)
                 {

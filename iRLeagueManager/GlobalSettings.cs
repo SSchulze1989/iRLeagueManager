@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using iRLeagueManager.Data;
 using iRLeagueManager.User;
 using iRLeagueManager.Logging;
+using iRLeagueManager.Locations;
 
 namespace iRLeagueManager
 {
@@ -16,7 +17,10 @@ namespace iRLeagueManager
     {
         private const bool debugErros = false;
         public static LeagueContext LeagueContext { get; private set; }
+        public static ModelManager ModelManager { get; private set; }
         public static UserContext UserContext { get; private set; }
+
+        public static LocationCollection Locations { get; } = new LocationCollection();
 
         private const int maxErrors = 10;
         private static int ErrorCount { get; set; }
@@ -26,6 +30,7 @@ namespace iRLeagueManager
         public static void SetGlobalLeagueContext(LeagueContext context)
         {
             LeagueContext = context;
+            //ModelManager = new ModelManager(LeagueContext);
         }
 
         public static void SetGlobalUserContext(UserContext context)

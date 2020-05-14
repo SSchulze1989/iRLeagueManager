@@ -19,6 +19,6 @@ namespace iRLeagueManager.Models.Results
             ScoringId = scoringId;
         }
 
-        public override long? ModelId => ScoringId;
+        public override long[] ModelId => new long[] { ScoringId.GetValueOrDefault() };
     }
 }

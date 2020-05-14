@@ -17,7 +17,9 @@ namespace iRLeagueManager.Models.Results
     {
         public long? ResultRowId { get; }
 
-        public override long? ModelId => ResultRowId;
+        public long ResultId { get; }
+
+        public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
 
         //private int finalPosition;
         //public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }

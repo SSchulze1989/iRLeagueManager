@@ -36,7 +36,17 @@ namespace iRLeagueManager.ViewModels
 
         //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions { get; } = new ObservableModelCollection<SessionViewModel, SessionModel>();
 
-        public ObservableModelCollection<SessionViewModel, SessionModel> Sessions => new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
+        //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions => new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
+        private readonly ObservableModelCollection<SessionViewModel, SessionModel> sessions;
+        public ObservableModelCollection<SessionViewModel, SessionModel> Sessions
+        {
+            get
+            {
+                if (sessions.GetSource() != Model?.Sessions)
+                    sessions.UpdateSource(Model?.Sessions);
+                return sessions;
+            }
+        }
 
         public long? ScheduleId => Model?.ScheduleId;
 
@@ -56,6 +66,7 @@ namespace iRLeagueManager.ViewModels
         public ScheduleViewModel() : base()
         {
             Model = ScheduleModel.GetTemplate();
+            sessions = new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
             Sessions.UpdateSource(new SessionModel[0]);
             AddSessionCmd = new RelayCommand(o => AddSession(), o => Model?.Sessions != null);
             DeleteSessionsCmd = new RelayCommand(o => DeleteSessions(o), o => SelectedSession != null);
@@ -65,6 +76,13 @@ namespace iRLeagueManager.ViewModels
         public ScheduleViewModel(ScheduleModel source) : this()
         {
             Model = source;
+        }
+
+        public override void OnUpdateSource()
+        {
+            //if (Sessions != null)
+            //    Sessions.UpdateSource(Model?.Sessions);
+            //base.OnUpdateSource();
         }
 
         public void AddSession()
@@ -116,6 +134,12 @@ namespace iRLeagueManager.ViewModels
             }
 
             await LeagueContext.UpdateModelAsync(Model);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Sessions.Dispose();
+            base.Dispose(disposing);
         }
 
         //public override async void Load(long scheduleId)

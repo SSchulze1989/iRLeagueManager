@@ -10,7 +10,7 @@ namespace iRLeagueManager.Models.Results
     {
         public long? StandingsRowId { get; internal set; }
 
-        public override long? ModelId => StandingsRowId;
+        public override long[] ModelId => new long[] { StandingsRowId.GetValueOrDefault() };
 
         private int pos;
         public int Pos { get => pos; internal set => SetValue(ref pos, value); }

@@ -13,7 +13,7 @@ using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
-    public class ObservableModelCollection<TModel, TSource> : ObservableCollection<TModel> where TModel : ContainerModelBase<TSource>, new() where TSource : INotifyPropertyChanged
+    public class ObservableModelCollection<TModel, TSource> : ObservableCollection<TModel>, IDisposable where TModel : ContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
     {
         private IEnumerable<TSource> _collectionSource;
         private IEnumerable<TSource> CollectionSource
@@ -57,7 +57,8 @@ namespace iRLeagueManager.ViewModels.Collections
             //_collectionSource = collection != null ? collection : new TSource[0];
             UpdateSource(collection);
             AutoUpdateItemsSources = updateItemSources;
-            UpdateCollection();
+            if (collection.Count() > 0)
+                UpdateCollection();
         }
 
         public ObservableModelCollection(Action<TModel> constructorAction, bool updateItemSources = true) : base()
@@ -74,7 +75,12 @@ namespace iRLeagueManager.ViewModels.Collections
             //_collectionSource = collection != null ? collection : new TSource[0];
             UpdateSource(collection);
             AutoUpdateItemsSources = updateItemSources;
-            UpdateCollection();
+            if (collection != null && collection.Count() > 0)
+                UpdateCollection();
+        }
+
+        ~ObservableModelCollection() {
+            Dispose(false);
         }
 
         public void UpdateSource(IEnumerable<TSource> collection)
@@ -83,7 +89,8 @@ namespace iRLeagueManager.ViewModels.Collections
             {
                 OnUpdateSource(_collectionSource, collection);
                 CollectionSource = collection;
-                UpdateCollection();
+                if (collection.Count() > 0 || this.Count() > 0)
+                    UpdateCollection();
                 if (AutoUpdateItemsSources)
                 {
                     foreach (TSource item in _collectionSource)
@@ -106,6 +113,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         private void OnSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (_collectionSource.Count() > 0 && this.Count > 0)
             UpdateCollection();
         }
 
@@ -122,6 +130,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
             foreach (TModel item in notInCollection)
             {
+                item.Dispose();
                 this.Remove(item);
             }
 
@@ -146,5 +155,42 @@ namespace iRLeagueManager.ViewModels.Collections
         protected virtual void OnUpdateSource(IEnumerable<TSource> oldSource, IEnumerable<TSource> newSource)
         {
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: verwalteten Zustand (verwaltete Objekte) entsorgen.
+                }
+
+                foreach (var item in Items)
+                {
+                    item.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: Finalizer nur überschreiben, wenn Dispose(bool disposing) weiter oben Code für die Freigabe nicht verwalteter Ressourcen enthält.
+        // ~ObservableModelCollection() {
+        //   // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in Dispose(bool disposing) weiter oben ein.
+        //   Dispose(false);
+        // }
+
+        // Dieser Code wird hinzugefügt, um das Dispose-Muster richtig zu implementieren.
+        public void Dispose()
+        {
+            // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in Dispose(bool disposing) weiter oben ein.
+            Dispose(true);
+            // TODO: Auskommentierung der folgenden Zeile aufheben, wenn der Finalizer weiter oben überschrieben wird.
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

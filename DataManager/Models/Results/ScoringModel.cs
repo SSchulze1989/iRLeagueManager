@@ -60,6 +60,7 @@ namespace iRLeagueManager.Models.Results
             IncPenaltyPoints = new ObservableCollection<KeyValuePair<int, int>>();
             MultiScoringResults = new ObservableCollection<KeyValuePair<ScoringModel, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
+            //Schedules = new ObservableCollection<ScheduleInfo>();
         }
 
         public ScoringModel(long? scoringId) : this()

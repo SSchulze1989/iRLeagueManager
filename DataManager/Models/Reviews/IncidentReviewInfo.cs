@@ -15,7 +15,7 @@ namespace iRLeagueManager.Models.Reviews
         private long? reviewId;
         public long? ReviewId { get => reviewId; internal set { reviewId = value; OnPropertyChanged(); } }
 
-        public override long? ModelId => ReviewId;
+        public override long[] ModelId => new long[] { ReviewId.GetValueOrDefault() };
 
         private LeagueMember author;
         public LeagueMember Author { get => author; internal set { author = value; OnPropertyChanged(); } }

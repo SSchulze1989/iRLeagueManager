@@ -142,7 +142,7 @@
                         <DataTemplate DataType="{x:Type vmodel:SchedulerViewModel}">
                             <views:SchedulerControl/>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type vmodel:ScoredResultViewModel}">
+                        <DataTemplate DataType="{x:Type vmodel:ResultsPageViewModel}">
                             <views:ScoredResultControl Grid.Row="0"/>
                         </DataTemplate>
                     </ContentControl.Resources>

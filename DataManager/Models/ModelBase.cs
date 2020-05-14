@@ -13,7 +13,7 @@ namespace iRLeagueManager.Models
     {
         protected bool isInitialized;
 
-        public abstract long? ModelId { get; }
+        public abstract long[] ModelId { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -112,6 +112,15 @@ namespace iRLeagueManager.Models
             return false;
         }
 
+        /// <summary>
+        /// Setter Method for mapping a collection property that implements INotifyCollectionChanged to a backing field and 
+        /// to register the Collection for the OnCollectionChanged handler; This i Required for LastModifiedOn and LastModifiedBy to be updated
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targetCollection"></param>
+        /// <param name="value"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
         protected bool SetNotifyCollection<T>(ref T targetCollection, T value, [CallerMemberName] string propertyName ="") where T : INotifyCollectionChanged
         {
             var last = targetCollection;

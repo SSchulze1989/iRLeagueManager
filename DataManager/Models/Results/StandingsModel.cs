@@ -13,7 +13,7 @@ namespace iRLeagueManager.Models.Results
         private string title;
         public string Title { get => title; set => SetValue(ref title, value); }
 
-        public override long? ModelId => 0;
+        public override long[] ModelId => new long[] { 0 };
 
         private ObservableCollection<StandingsRowModel> rows;
         public ObservableCollection<StandingsRowModel> Rows { get => rows; set => SetValue(ref rows, value); }

@@ -12,7 +12,7 @@ namespace iRLeagueManager.Models
     {
         public long AdminId { get; }
 
-        public override long? ModelId => AdminId;
+        public override long[] ModelId => new long[] { AdminId };
 
         private string leagueName;
         public string LeagueName { get => leagueName; set => SetValue(ref leagueName, value); }

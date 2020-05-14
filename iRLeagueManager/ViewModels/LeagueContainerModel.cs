@@ -12,7 +12,7 @@ using iRLeagueManager;
 namespace iRLeagueManager.ViewModels
 {
     public abstract class LeagueContainerModel<TSource> : ContainerModelBase<TSource> where TSource : ModelBase, INotifyPropertyChanged
-    {
+    { 
         protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
         public virtual TSource Model { get => Source; set => SetSource(value); }
@@ -28,13 +28,9 @@ namespace iRLeagueManager.ViewModels
 
         protected abstract TSource Template { get; }
 
-        public virtual async Task Load(long modelId)
-        {
-            await Load(modelId, 0);
-        }
-        public virtual async Task Load(long modelId, long modelId2nd)
-        {
-            if (Model?.ModelId == null || Model.ModelId != modelId)
+        public virtual async Task Load(params long[] modelId)
+        { 
+            if (Model?.ModelId == modelId)
             {
                 Model = Template;
             }
@@ -42,7 +38,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                Model = await LeagueContext.GetModelAsync<TSource>(modelId, modelId2nd);
+                Model = await LeagueContext.GetModelAsync<TSource>(modelId);
             }
             catch (Exception e)
             {

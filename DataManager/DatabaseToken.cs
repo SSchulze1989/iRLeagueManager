@@ -18,4 +18,6 @@ namespace iRLeagueManager.Data
             rnd = random.Next();
         }
     }
+
+    public class RequestToken : DatabaseToken { }
 }

@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 using iRLeagueManager.ViewModels.Collections;
 
@@ -16,6 +18,8 @@ namespace iRLeagueManager.ViewModels
     public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
     {
         private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
+
+        //private ObservableCollection<ScheduleModel> schedulesSource = new ObservableCollection<ScheduleModel>();
 
         private ScheduleVMCollection schedules;
         public ScheduleVMCollection Schedules
@@ -118,7 +122,7 @@ namespace iRLeagueManager.ViewModels
                 }
                 if (newIds.Count() > 0)
                 {
-                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds);
+                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds.ToArray());
                     updateSchedules.AddRange(add);
                 }
             }
@@ -216,6 +220,12 @@ namespace iRLeagueManager.ViewModels
         {
             Load(Season);
             base.Refresh(propertyName);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Schedules.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

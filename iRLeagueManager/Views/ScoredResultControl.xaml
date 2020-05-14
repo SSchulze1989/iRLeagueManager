@@ -10,7 +10,7 @@
     <!--<UserControl.DataContext>
         <vmodel:ScoredResultViewModel/>
     </UserControl.DataContext>-->
-    <Grid>
+    <Grid DataContext="{Binding CurrentResults[0]}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

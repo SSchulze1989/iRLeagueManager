@@ -9,6 +9,8 @@ using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.Sessions;
 using System.Windows.Input;
 
+using iRLeagueManager.Data;
+
 using iRLeagueManager.ViewModels.Collections;
 
 namespace iRLeagueManager.ViewModels
@@ -38,13 +40,31 @@ namespace iRLeagueManager.ViewModels
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(), o => (Session != null && Scoring != null));
         }
 
-        public async Task Load(SessionViewModel session, ScoringViewModel scoring)
+        //public async Task Load()
+        //{
+        //    try 
+        //    {
+        //        IsLoading = true;
+        //        await LeagueContext.UpdateMemberList();
+        //        await Load((session?.SessionId).GetValueOrDefault(), (scoring?.ScoringId).GetValueOrDefault());
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        GlobalSettings.LogError(e);
+        //    }
+        //    finally
+        //    {
+        //        IsLoading = false;
+        //    }
+        //    Session = session;
+        //    Scoring = scoring;
+        //}
+        public async override Task Load(params long[] modelId)
         {
-            try 
+            try
             {
                 IsLoading = true;
                 await LeagueContext.UpdateMemberList();
-                await Load((session?.SessionId).GetValueOrDefault(), (scoring?.ScoringId).GetValueOrDefault());
             }
             catch (Exception e)
             {
@@ -54,8 +74,7 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-            Session = session;
-            Scoring = scoring;
+            await base.Load(modelId);
         }
 
         public async void CalculateResults()

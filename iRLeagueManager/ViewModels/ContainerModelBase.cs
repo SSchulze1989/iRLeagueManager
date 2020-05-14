@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
-    public abstract class ContainerModelBase<TSource> : ViewModelBase where TSource : INotifyPropertyChanged
+    public abstract class ContainerModelBase<TSource> : ViewModelBase, IDisposable where TSource : class, INotifyPropertyChanged
     {
         private TSource _source;
         //[NotifyParentProperty(true)]
@@ -52,12 +52,26 @@ namespace iRLeagueManager.ViewModels
 
             OnPropertyChanged(null);
 
+            if (hasChanged)
+                OnUpdateSource();
+
             return hasChanged;
         }
 
         void FwdPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
+        }
+
+        public virtual void OnUpdateSource() { }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_source != null)
+            {
+                _source.PropertyChanged -= this.FwdPropertyChanged;
+            }
+            _source = null;
         }
     }
 }

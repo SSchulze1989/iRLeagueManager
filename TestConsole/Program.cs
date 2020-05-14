@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using iRLeagueManager;
 using iRLeagueManager.Data;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
@@ -15,7 +16,35 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var dbClient = new DbLeagueServiceClient();
+            var leagueContext = new LeagueContext();
+
+            //leagueContext.RegisterModelType(leaguContext.GetModelAsync<SeasonModel>, leagueContext.UpdateModelAsync<SeasonModel>);
+
+            //var season = leagueContext.GetModelAsync<SeasonModel>(1).Result;
+
+            //var season2 = leagueContext.GetModelAsync<SeasonModel>(1).Result;
+
+            var seasons = leagueContext.GetModelsAsync<SeasonModel>().Result;
+
+            seasons = null;
+
+            GC.Collect();
+
+            leagueContext.ModelManager.CleanReferences();
+
+            Console.ReadKey();
+
+            leagueContext.ModelManager.CleanReferences();
+
+            Console.ReadKey();
+
+            var season = leagueContext.GetModelAsync<SeasonModel>(1).Result;
+
+            leagueContext.ModelManager.CleanReferences();
+
+            Console.ReadKey();
+
+            //var dbClient = new DbLeagueServiceClient();
 
             //var season = LeagueContext.GetModelAsync<SeasonModel>(1).Result;
             //var scoring = new ScoringModel()
@@ -34,18 +63,18 @@ namespace TestConsole
             //season.MainScoring = scoring;
             //LeagueContext.UpdateModelAsync(season).Wait();
 
-            var request = new GETItemsRequestMessage()
-            {
-                userName = "Test",
-                password = "123456",
-                databaseName = "TestDatabase",
-                requestResponse = true,
-                requestItemType = typeof(ResultDataDTO).Name,
-                requestItemIds = new long[][] { new long[] { 50 } }
-            };
-            var response = dbClient.DatabaseGETAsync(request).Result;
+            //var request = new GETItemsRequestMessage()
+            //{
+            //    userName = "Test",
+            //    password = "123456",
+            //    databaseName = "TestDatabase",
+            //    requestResponse = true,
+            //    requestItemType = typeof(ResultDataDTO).Name,
+            //    requestItemIds = new long[][] { new long[] { 50 } }
+            //};
+            //var response = dbClient.DatabaseGETAsync(request).Result;
 
-            var res = dbClient.Test("Test");
+            //var res = dbClient.Test("Test");
 
             //for (int i=0; i < 1000; i++)
             //{

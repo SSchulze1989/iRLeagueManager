@@ -22,6 +22,7 @@ namespace iRLeagueManager.ViewModels
         //private LeagueDatabase _leagueDb;
         //public LeagueDatabase LeagueDb { get => _leagueDb; set { _leagueDb = value; NotifyPropertyChanged(); } }
         private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
+        //private ModelManager LeagueContext => GlobalSettings.ModelManager;
         //public LeagueContext LeagueContext { get => leagueContext; private set { leagueContext = value; OnPropertyChanged(); } }
 
         public ReadOnlyObservableCollection<ExceptionLogMessage> ErrorLog => GlobalSettings.Logger.ErrorMessages;
@@ -80,7 +81,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetSeasonListAsync());
+                SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetModelsAsync<SeasonModel>());
             }
             catch (Exception e)
             {

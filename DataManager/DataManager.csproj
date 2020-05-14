@@ -84,10 +84,15 @@
     <Compile Include="Converters\BonusPointsConverter.cs" />
     <Compile Include="DatabaseToken.cs" />
     <Compile Include="Exceptions\ModelInitializeException.cs" />
+    <Compile Include="IModelIdentifier.cs" />
     <Compile Include="LeagueContext.cs" />
     <Compile Include="LocationMapperProfile.cs" />
+    <Compile Include="ModelDictionary.cs" />
+    <Compile Include="ModelIdentifier.cs" />
+    <Compile Include="ModelManager.cs" />
     <Compile Include="ModelMapperConfiguration.cs" />
     <Compile Include="ModelMapperProfile.cs" />
+    <Compile Include="ModelRegister.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\Database\DatabaseStatusModel.cs" />
     <Compile Include="DbLeagueServiceClient.cs" />
