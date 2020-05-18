@@ -28,6 +28,9 @@ namespace iRLeagueManager.Models.Results
         
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }
+
+        private ObservableCollection<ResultInfo> results;
+        public ObservableCollection<ResultInfo> Results { get => results; set => SetNotifyCollection(ref results, value); }
         
         private long seasonId;
         public long SeasonId { get => seasonId; set => SetValue(ref seasonId, value); }

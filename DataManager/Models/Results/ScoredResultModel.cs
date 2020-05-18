@@ -15,6 +15,8 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<ScoredResultRowModel> finalResults;
         public ObservableCollection<ScoredResultRowModel> FinalResults { get => finalResults; set => SetNotifyCollection(ref finalResults, value); }
 
+        public override long[] ModelId => new long[] { ResultId.GetValueOrDefault(), Scoring.ScoringId.GetValueOrDefault() };
+
         public  ScoredResultModel() : base()
         {
             FinalResults = new ObservableCollection<ScoredResultRowModel>();

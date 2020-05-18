@@ -1485,6 +1485,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private string NameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO[] ResultsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.SeasonInfoDTO SeasonField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1619,6 +1622,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.NameField, value) != true)) {
                     this.NameField = value;
                     this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO[] Results {
+            get {
+                return this.ResultsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ResultsField, value) != true)) {
+                    this.ResultsField = value;
+                    this.RaisePropertyChanged("Results");
                 }
             }
         }

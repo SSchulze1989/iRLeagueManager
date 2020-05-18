@@ -94,7 +94,7 @@ namespace iRLeagueManager.ViewModels
             Load(Season);
         }
 
-        public async void Load(SeasonModel season)
+        public async Task Load(SeasonModel season)
         {
             var loadedModels = new List<ScheduleModel>();
             Season = season;

@@ -25,8 +25,8 @@ namespace iRLeagueManager.ViewModels
 
             EqualityCheckProperties.ForEach(p =>
             {
-                var xValue = p.GetValue(x)?.GetHashCode();
-                var yValue = p.GetValue(y)?.GetHashCode();
+                var xValue = (x != null) ? p.GetValue(x)?.GetHashCode() : null;
+                var yValue = (y != null) ? p.GetValue(y)?.GetHashCode() : null;
 
                 if (xValue != yValue || xValue == null || yValue == null)
                 {

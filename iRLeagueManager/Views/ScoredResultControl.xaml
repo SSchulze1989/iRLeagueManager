@@ -8,10 +8,11 @@
              mc:Ignorable="d"  
              d:DesignHeight="600" d:DesignWidth="800" Background="White">
     <!--<UserControl.DataContext>
-        <vmodel:ScoredResultViewModel/>
+        <vmodel:ResultsPageViewModel/>
     </UserControl.DataContext>-->
-    <Grid DataContext="{Binding CurrentResults[0]}">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -19,19 +20,42 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Session Results" FontSize="20" FontWeight="Bold"/>
-        <DockPanel Grid.Row="1" HorizontalAlignment="Stretch">
-            <Button Content="&lt;" Padding="5" DockPanel.Dock="Left"/>
-            <Button Content="&gt;" Padding="5" DockPanel.Dock="Right"/>
-            <TextBlock Margin="2">
+        <ComboBox Grid.Row="1" ItemsSource="{Binding ScheduleList}" SelectedItem="{Binding SelectedSchedule}" DisplayMemberPath="Name"/>
+        <DockPanel Grid.Row="2" HorizontalAlignment="Stretch">
+            <Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>
+            <Button Content="&gt;" Padding="5" DockPanel.Dock="Right" Command="{Binding NextSessionCmd}"/>
+            <!--<TextBlock Margin="2">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} - {1}">
                         <Binding Path="Session.Date" StringFormat="Date"/>
                         <Binding Path="Session.Location.FullName"/>
                     </MultiBinding>
                 </TextBlock.Text>
-            </TextBlock>
+            </TextBlock>-->
+            <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type ComboBoxItem}">
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} - {1} ({2})">
+                                    <Binding Path="Date" StringFormat="Date"/>
+                                    <Binding Path="Location.FullName"/>
+                                    <Binding Path="Schedule.Name"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter
+                    Property="IsEnabled"
+                    Value="{Binding ResultAvailable}" />
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>
         </DockPanel>
-        <DataGrid Grid.Row="2" ItemsSource="{Binding FinalResults}" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedResult.FinalResults}" AutoGenerateColumns="False" Height="Auto">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" IsReadOnly="True"/>
@@ -62,8 +86,20 @@
                 <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBox Grid.Row="3" Margin="10" Text="{Binding StatusMsg}" VerticalAlignment="Top">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Calculate" Command="{Binding CalculateResultsCmd}"/>
         </StackPanel>
     </Grid>

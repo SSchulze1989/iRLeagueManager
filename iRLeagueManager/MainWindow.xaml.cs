@@ -53,7 +53,7 @@ namespace iRLeagueManager
                 if (vm == null)
                     SchedulerViewModel = vm = new SchedulerViewModel();
                 MainContent.Content = vm;
-                vm.Load(mainViewModel.CurrentSeason.Model);
+                _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
             //GC.Collect();
         }
@@ -66,7 +66,7 @@ namespace iRLeagueManager
                 if (vm == null)
                     CalendarViewModel = vm = new CalendarViewModel();
                 MainContent.Content = vm;
-                vm.Load(mainViewModel.CurrentSeason.Model);
+                _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
         }
 
@@ -83,7 +83,7 @@ namespace iRLeagueManager
                 if (vm == null)
                     ResultsPageViewModel = vm = new ResultsPageViewModel();
                 MainContent.Content = vm;
-                vm.Load(mainViewModel.CurrentSeason.Model);
+                _ = vm.Load(mainViewModel.CurrentSeason.Model);
 
                 //var schedules = mainViewModel.CurrentSeason.Schedules;
                 //if (schedules.Count > 0)

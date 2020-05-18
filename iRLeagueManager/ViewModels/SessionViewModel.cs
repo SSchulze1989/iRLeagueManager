@@ -93,6 +93,8 @@ namespace iRLeagueManager.ViewModels
 
         public long? RaceId => (Model as RaceSessionModel)?.RaceId;
 
+        public bool ResultAvailable => Model?.SessionResult != null;
+
         public SessionViewModel() : base()
         {
             SetSource(RaceSessionModel.GetTemplate());
@@ -190,6 +192,9 @@ namespace iRLeagueManager.ViewModels
                 OnPropertyChanged(nameof(ConfigIndex));
                 OnPropertyChanged(nameof(Location));
             }
+
+            if (propertyName == nameof(Model.SessionResult))
+                OnPropertyChanged(nameof(ResultAvailable));
 
             if (propertyName == nameof(Duration))
             {

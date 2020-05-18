@@ -68,7 +68,10 @@ namespace iRLeagueManager.Data
             });
             seasons = new ObservableCollection<SeasonModel>();
             ModelManager = new ModelManager();
-            //DbStatus.ConnectionStatus = ConnectionStatusEnum.Connected;
+#pragma warning disable CS4014 // Da auf diesen Aufruf nicht gewartet wird, wird die Ausführung der aktuellen Methode vor Abschluss des Aufrufs fortgesetzt.
+            UpdateMemberList();
+#pragma warning restore CS4014 // Da auf diesen Aufruf nicht gewartet wird, wird die Ausführung der aktuellen Methode vor Abschluss des Aufrufs fortgesetzt.
+                              //DbStatus.ConnectionStatus = ConnectionStatusEnum.Connected;
         }
 
         public async Task<IEnumerable<SeasonModel>> GetSeasonListAsync()
@@ -81,6 +84,11 @@ namespace iRLeagueManager.Data
             var mapper = MapperConfiguration.CreateMapper();
             var memberData = await DbContext.GetAsync<LeagueMemberDataDTO>();
             var updateList = mapper.Map<IEnumerable<LeagueMember>>(memberData).ToArray();
+            foreach(var member in updateList)
+            {
+                ModelManager.PutOrGetModel(member);
+            }
+            memberList = new ObservableCollection<LeagueMember>(updateList);
         }
 
         public LeagueContext(IDatabaseStatus status) : this()
@@ -103,7 +111,7 @@ namespace iRLeagueManager.Data
             DbContext.RemoveStatusItem(statusItem);
         }
 
-        public async Task<T> GetModelAsync<T>(long[] modelId) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = false) where T : ModelBase
         {
             var mapper = MapperConfiguration.CreateMapper();
             object data = null;
@@ -111,7 +119,11 @@ namespace iRLeagueManager.Data
             T model = ModelManager.GetModel<T>(modelId);
 
             if (model != null)
+            {
+                if (update)
+                    _ = UpdateModelAsync(model);
                 return model;
+            }
 
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
@@ -184,7 +196,7 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public async Task<T> GetModelAsync<T>(long modelId, long? modelId2nd = null, long? modelId3rd = null) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(long modelId, long? modelId2nd = null, long? modelId3rd = null, bool update = false) where T : ModelBase
         {
             List<long> requestId = new List<long>();
             requestId.Add(modelId);
@@ -193,7 +205,7 @@ namespace iRLeagueManager.Data
             if (modelId3rd != null)
                 requestId.Add(modelId3rd.Value);
 
-            return await GetModelAsync<T>(requestId.ToArray());
+            return await GetModelAsync<T>(requestId.ToArray(), update);
         }
 
         public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : ModelBase
@@ -201,10 +213,11 @@ namespace iRLeagueManager.Data
             return await GetModelsAsync<T>(modelIds.Select(x => new long[] { x }));
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null) where T : ModelBase
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool reload = false) where T : ModelBase
         {
             object[] data = null;
             List<T> modelList = new List<T>();
+            List<T> updateList = new List<T>();
             List<long[]> getModelIds = new List<long[]>();
 
             if (modelIds != null)
@@ -213,7 +226,11 @@ namespace iRLeagueManager.Data
                 {
                     var loadedModel = ModelManager.GetModel<T>(modelId);
                     if (loadedModel != null)
+                    {
                         modelList.Add(loadedModel);
+                        if (reload)
+                            getModelIds.Add(modelId);
+                    }
                     else
                         getModelIds.Add(modelId);
                 }
@@ -269,6 +286,10 @@ namespace iRLeagueManager.Data
                 {
                     data = await DbContext.GetAsync<ScoringDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(ScoredResultModel)))
+                {
+                    data = await DbContext.GetAsync<ScoredResultDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
                 else if (typeof(T).Equals(typeof(ScoringRuleBase)))
                 {
                     throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -285,15 +306,25 @@ namespace iRLeagueManager.Data
                         var add = await GetModelAsync<T>(modelId.ToArray());
                         if (add == null)
                             return new T[0];
-                        modelList.Add(add);
+                        if (modelList.Any(x => x.ModelId == add.ModelId))
+                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
+                        else
+                            modelList.Add(add);
                     }
                 }
                 else
                 {
                     var mapper = MapperConfiguration.CreateMapper();
                     var addList = new List<T>();
-                    mapper.Map(data, addList);
-                    modelList.AddRange(addList);
+                    mapper.Map(data, modelList);
+                    //modelList.AddRange(addList);
+                    foreach (var add in addList)
+                    {
+                        if (modelList.Any(x => x.ModelId == add.ModelId))
+                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
+                        else
+                            modelList.Add(add);
+                    }
                 }
             }
 

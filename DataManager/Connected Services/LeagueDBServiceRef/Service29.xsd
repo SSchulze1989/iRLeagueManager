@@ -43,6 +43,7 @@
           <xs:element minOccurs="0" name="MultiScoringFactors" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="MultiScoringResults" nillable="true" type="tns:ArrayOfScoringInfoDTO" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Results" nillable="true" type="tns:ArrayOfResultInfoDTO" />
           <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="Season" nillable="true" type="q5:SeasonInfoDTO" />
           <xs:element minOccurs="0" name="SeasonId" type="xs:long" />
           <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Sessions" nillable="true" type="q6:ArrayOfSessionInfoDTO" />
