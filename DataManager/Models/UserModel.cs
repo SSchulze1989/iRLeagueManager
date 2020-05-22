@@ -20,7 +20,7 @@ namespace iRLeagueManager.Models
 
         private int? memberId;
         public int? MemberId { get => memberId; set => SetValue(ref memberId, value); }
-        long IAdmin.MemberId => (MemberId == null) ? 0 : (int)MemberId;
+        long? IAdmin.MemberId => (MemberId == null) ? 0 : (int)MemberId;
 
         private string firstname;
         public string Firstname

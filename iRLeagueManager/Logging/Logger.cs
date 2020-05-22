@@ -44,8 +44,8 @@ namespace iRLeagueManager.Logging
 
         public void ErrLog(ExceptionLogMessage e)
         {
-            errorMessages.Add(e);
             Log(e);
+            errorMessages.Add(e);
         }
     }
 }

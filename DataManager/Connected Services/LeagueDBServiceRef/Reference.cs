@@ -1686,20 +1686,20 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     public partial class ScoredResultDataDTO : iRLeagueManager.LeagueDBServiceRef.ResultDataDTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private iRLeagueManager.LeagueDBServiceRef.ScoredResultRowDataDTO[] ScoredResultsField;
+        private iRLeagueManager.LeagueDBServiceRef.ScoredResultRowDataDTO[] FinalResultsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO ScoringField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public iRLeagueManager.LeagueDBServiceRef.ScoredResultRowDataDTO[] ScoredResults {
+        public iRLeagueManager.LeagueDBServiceRef.ScoredResultRowDataDTO[] FinalResults {
             get {
-                return this.ScoredResultsField;
+                return this.FinalResultsField;
             }
             set {
-                if ((object.ReferenceEquals(this.ScoredResultsField, value) != true)) {
-                    this.ScoredResultsField = value;
-                    this.RaisePropertyChanged("ScoredResults");
+                if ((object.ReferenceEquals(this.FinalResultsField, value) != true)) {
+                    this.FinalResultsField = value;
+                    this.RaisePropertyChanged("FinalResults");
                 }
             }
         }

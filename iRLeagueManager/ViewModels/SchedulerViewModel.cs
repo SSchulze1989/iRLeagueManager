@@ -91,7 +91,7 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-            Load(Season);
+            await Load(Season);
         }
 
         public async Task Load(SeasonModel season)
@@ -176,7 +176,7 @@ namespace iRLeagueManager.ViewModels
                 GlobalSettings.LogError(e);
             }
 
-            Load(Season);
+            _ = Load(Season);
         }
         public async void DeleteSchedule(ScheduleModel schedule)
         {
@@ -188,13 +188,19 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
-                schedule.Sessions.Clear();
-                await LeagueContext.UpdateModelAsync(schedule);
+                if (schedule.Sessions.Count() > 0)
+                { 
+                    await LeagueContext.DeleteModelsAsync<SessionModel>(schedule.Sessions.ToArray());
+                    schedule.Sessions.Clear();
+                }
+                //await LeagueContext.UpdateModelAsync(schedule);
+                await LeagueContext.DeleteModelsAsync<ScheduleModel>(schedule);
                 Season.Schedules.Remove(Season.Schedules.SingleOrDefault(x => x.ScheduleId == schedule.ScheduleId));
+
                 IsLoading = true;
                 await LeagueContext.UpdateModelAsync(Season);
                 IsLoading = false;
-                Load(Season);
+                _ = Load(Season);
             }
             catch (Exception e)
             {
@@ -218,7 +224,7 @@ namespace iRLeagueManager.ViewModels
 
         public override void Refresh(string propertyName = "")
         {
-            Load(Season);
+            _ = Load(Season);
             base.Refresh(propertyName);
         }
 

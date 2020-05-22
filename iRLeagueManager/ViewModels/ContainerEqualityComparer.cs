@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using iRLeagueManager.Attributes;
 
+using iRLeagueManager.Models;
+
 namespace iRLeagueManager.ViewModels
 {
     public class ContainerModelEqualityComparer<I> : EqualityComparer<I>
@@ -13,6 +15,11 @@ namespace iRLeagueManager.ViewModels
         {
             bool isEqual = true;
             //EqualityCheckPropertyAttributes
+
+            if (x is ModelBase xModel && y is ModelBase yModel)
+            {
+                return xModel.ModelId.SequenceEqual(yModel.ModelId);
+            }
 
             var EqualityCheckProperties = typeof(I).GetProperties()
                 .Where(p => p.GetCustomAttributes(typeof(EqualityCheckPropertyAttribute), true).Count() > 0)

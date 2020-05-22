@@ -229,7 +229,9 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
                 .ForMember(dest => dest.MultiScoringResults, opt => opt.Ignore())
                 .ReverseMap()
-                .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y)));
+                .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y)))
+                .ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, IEnumerable<KeyValuePair<string, int>>>())
+                .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore());
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoringModel(source.ScoringId)))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
@@ -244,7 +246,8 @@ namespace iRLeagueManager
             CreateMap<ScoredResultDataDTO, ScoredResultModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoredResultModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), ResultId = source.ResultId}))
                 .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId)
-                .ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.ScoredResults));
+                //.ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.ScoredResults))
+                ;
 
             CreateMap<UserDTO, UserModel>()
                 .ConstructUsing(src => new UserModel(src.UserId));

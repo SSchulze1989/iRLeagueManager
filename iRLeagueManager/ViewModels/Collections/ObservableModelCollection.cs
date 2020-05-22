@@ -15,6 +15,8 @@ namespace iRLeagueManager.ViewModels.Collections
 {
     public class ObservableModelCollection<TModel, TSource> : ObservableCollection<TModel>, IDisposable where TModel : ContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
     {
+        private bool NotifyCollectionActv { get; set; }
+
         private IEnumerable<TSource> _collectionSource;
         private IEnumerable<TSource> CollectionSource
         {
@@ -24,12 +26,14 @@ namespace iRLeagueManager.ViewModels.Collections
                 if (_collectionSource != null && _collectionSource is INotifyCollectionChanged oldCollection)
                 {
                     oldCollection.CollectionChanged -= OnSourceCollectionChanged;
+                    NotifyCollectionActv = false;
                 }
                 _collectionSource = value;
                 OnPropertyChanged();
                 if (_collectionSource != null && _collectionSource is INotifyCollectionChanged newCollection)
                 {
                     newCollection.CollectionChanged += OnSourceCollectionChanged;
+                    NotifyCollectionActv = true;
                 }
             }
         }
@@ -55,6 +59,7 @@ namespace iRLeagueManager.ViewModels.Collections
         public ObservableModelCollection(IEnumerable<TSource> collection, bool updateItemSources = true) : base()
         {
             //_collectionSource = collection != null ? collection : new TSource[0];
+            NotifyCollectionActv = false;
             UpdateSource(collection);
             AutoUpdateItemsSources = updateItemSources;
             if (collection.Count() > 0)
@@ -63,6 +68,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(Action<TModel> constructorAction, bool updateItemSources = true) : base()
         {
+            NotifyCollectionActv = false;
             _constructorAction = constructorAction;
             //_collectionSource = new TSource[0];
             UpdateSource(new TSource[0]);
@@ -71,6 +77,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(IEnumerable<TSource> collection, Action<TModel> constructorAction, bool updateItemSources = true) : base()
         {
+            NotifyCollectionActv = false;
             _constructorAction = constructorAction;
             //_collectionSource = collection != null ? collection : new TSource[0];
             UpdateSource(collection);
@@ -80,6 +87,7 @@ namespace iRLeagueManager.ViewModels.Collections
         }
 
         ~ObservableModelCollection() {
+            NotifyCollectionActv = false;
             Dispose(false);
         }
 
@@ -113,8 +121,8 @@ namespace iRLeagueManager.ViewModels.Collections
 
         private void OnSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (_collectionSource.Count() > 0 && this.Count > 0)
-            UpdateCollection();
+            if (NotifyCollectionActv && !disposedValue)
+                UpdateCollection();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -124,6 +132,9 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public void UpdateCollection()
         {
+            if (disposedValue)
+                return;
+
             IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
             IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
             IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).ToList();
@@ -168,6 +179,7 @@ namespace iRLeagueManager.ViewModels.Collections
                     // TODO: verwalteten Zustand (verwaltete Objekte) entsorgen.
                 }
 
+                NotifyCollectionActv = false;
                 foreach (var item in Items)
                 {
                     item.Dispose();

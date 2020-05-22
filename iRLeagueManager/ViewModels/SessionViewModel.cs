@@ -146,10 +146,14 @@ namespace iRLeagueManager.ViewModels
             parserService.MemberList = memberList;
             var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
 
-            //foreach (var member in newMembers)
-            //{
-                await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
-            //}
+            newMembers = await LeagueContext.AddModelsAsync(newMembers.ToArray());
+            
+            foreach(var member in newMembers)
+            {
+                LeagueContext.MemberList.Add(member);
+            }
+
+            //await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
             //var sessionModel = season.GetSessions().SingleOrDefault(x => x.SessionId == session.SessionId);
             if (session == null)
                 return;
@@ -159,16 +163,22 @@ namespace iRLeagueManager.ViewModels
             if (session.SessionResult != null)
             {
                 result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
+                await LeagueContext.DeleteModelsAsync(result.RawResults.ToArray());
                 result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+                resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
+                await LeagueContext.AddModelsAsync(resultRows.ToArray());
                 await GlobalSettings.LeagueContext.UpdateModelAsync(result);
             }
             else
             {
                 //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
                 result = new ResultModel(session);
+                result = await LeagueContext.AddModelAsync(result);
                 session.SessionResult = result;
                 //result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                 //session = await GlobalSettings.LeagueContext.UpdateModelAsync(session);
+                resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
+                await LeagueContext.AddModelsAsync(resultRows.ToArray());
                 result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
 
                 //await GlobalSettings.LeagueContext.UpdateModelAsync(result);

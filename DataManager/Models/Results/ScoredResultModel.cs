@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
+using iRLeagueManager.Attributes;
+
 namespace iRLeagueManager.Models.Results
 {
     public class ScoredResultModel : ResultModel
@@ -12,10 +14,13 @@ namespace iRLeagueManager.Models.Results
         private ScoringInfo scoring;
         public ScoringInfo Scoring { get => scoring; set => SetValue(ref scoring, value); }
 
+        [EqualityCheckProperty]
+        public long? ScoringId => Scoring?.ScoringId;
+
         private ObservableCollection<ScoredResultRowModel> finalResults;
         public ObservableCollection<ScoredResultRowModel> FinalResults { get => finalResults; set => SetNotifyCollection(ref finalResults, value); }
 
-        public override long[] ModelId => new long[] { ResultId.GetValueOrDefault(), Scoring.ScoringId.GetValueOrDefault() };
+        public override long[] ModelId => new long[] { ResultId.GetValueOrDefault(), ScoringId.GetValueOrDefault() };
 
         public  ScoredResultModel() : base()
         {

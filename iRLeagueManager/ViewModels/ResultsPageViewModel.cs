@@ -11,6 +11,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -78,7 +79,7 @@ namespace iRLeagueManager.ViewModels
                     value = SessionList.Where(x => x.ResultAvailable).LastOrDefault();
                 if (SetValue(ref selectedSession, value))
                 {
-                    _ = LoadResults();
+                    //Task.Run(() => LoadResults());
                 }
             }
         }
@@ -121,6 +122,8 @@ namespace iRLeagueManager.ViewModels
         public ICommand NextSessionCmd { get; }
         public ICommand PreviousSessionCmd { get; }
 
+        public ICommand CalculateResultsCmd { get; }
+
         public ResultsPageViewModel() : base()
         {
             ScheduleList = new ScheduleVMCollection();
@@ -132,6 +135,7 @@ namespace iRLeagueManager.ViewModels
             SelectedResult = null;
             NextSessionCmd = new RelayCommand(o => SelectNextSession(), o => CanSelectNextSession());
             PreviousSessionCmd = new RelayCommand(o => SelectPreviousSession(), o => CanSelectPreviousSession());
+            CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -156,7 +160,7 @@ namespace iRLeagueManager.ViewModels
                 //var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(sessionModelIds);
 
                 if (SelectedSchedule == null)
-                    SessionList = new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions));
+                    SessionList = new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions).OrderBy(x => x.Date));
                 else
                     SessionList = SelectedSchedule.Sessions;
 
@@ -165,6 +169,8 @@ namespace iRLeagueManager.ViewModels
 
                 if (SelectedSession == null || !SessionList.Contains(SelectedSession))
                     SelectedSession = SessionList.Where(x => x.ResultAvailable).LastOrDefault();
+                else
+                    await LoadResults();
 
                 //// Load current Result
                 //var scoredResultModelIds = new List<long[]>();
@@ -235,6 +241,7 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 // Load current Result
                 var scoredResultModelIds = new List<long[]>();
+                SelectedResult = null;
                 foreach (var scoring in ScoringList)
                 {
                     var modelId = new long[] { SelectedSession.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault() };
@@ -242,7 +249,7 @@ namespace iRLeagueManager.ViewModels
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
                 CurrentResults.UpdateSource(scoredResultModels);
-                SelectedResult = CurrentResults.FirstOrDefault();
+                SelectedResult = CurrentResults.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
                 StatusMsg = "";
             }
             catch (Exception e)
@@ -252,6 +259,15 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        protected async override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            base.OnPropertyChanged(propertyName);
+            if (propertyName == nameof(SelectedSession))
+            {
+                await LoadResults();
             }
         }
 
@@ -299,6 +315,15 @@ namespace iRLeagueManager.ViewModels
                 return true;
 
             return false;
+        }
+
+        public async void CalculateResults(SessionViewModel session)
+        {
+            if (session == null)
+                return;
+
+            await LeagueContext.DbContext.CalculateScoredResultsAsync(session.SessionId.GetValueOrDefault());
+            await LoadResults();
         }
     }
 }

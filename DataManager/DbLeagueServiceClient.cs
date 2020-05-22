@@ -39,10 +39,16 @@ namespace iRLeagueManager.Data
 
         //public DatabaseStatusModel Status { get; }
 
-        public DbLeagueServiceClient() : base() { }
+        public DbLeagueServiceClient() : base()
+        {
+            username = "TestUser";
+            password = "12345678";
+        }
 
         public DbLeagueServiceClient(IDatabaseStatus status) : base(status)
         {
+            username = "TestUser";
+            password = "12345678";
             //Status = new DatabaseStatusModel();
         }
 
@@ -657,11 +663,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<ResponseMessage> MessageTestAsync(RequestMessage request)
+        public async Task<ResponseMessage> MessageTestAsync(RequestMessage request)
         {
             using (var DbClient = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)DbClient).MessageTestAsync(request);
+                return await ((ILeagueDBService)DbClient).MessageTestAsync(request);
             }
         }
 
@@ -673,11 +679,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
+        public async Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
         {
             using (var DbClient = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)DbClient).DatabasePOSTAsync(request);
+                return await ((ILeagueDBService)DbClient).DatabasePOSTAsync(request);
             }
         }
 

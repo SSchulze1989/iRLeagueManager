@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Sessions;
+using iRLeagueManager.Attributes;
 
 namespace iRLeagueManager.Models.Results
 {
     public class ResultInfo : ModelBase
     {
+        [EqualityCheckProperty]
         public long? ResultId { get; internal set; }
 
         public override long[] ModelId => new long[] { ResultId.GetValueOrDefault() };

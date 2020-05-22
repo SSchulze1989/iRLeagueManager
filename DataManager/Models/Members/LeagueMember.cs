@@ -14,8 +14,8 @@ namespace iRLeagueManager.Models.Members
     [Serializable()]
     public class LeagueMember : ModelBase, ILeagueMember, IAdmin
     {
-        public long MemberId { get; } = 0;
-        public override long[] ModelId => new long[] { MemberId };
+        public long? MemberId { get; } = null;
+        public override long[] ModelId => new long[] { MemberId.GetValueOrDefault() };
 
         public string Firstname { get; set; } = "Firstname";
         public string Lastname { get; set; } = "Lastname";

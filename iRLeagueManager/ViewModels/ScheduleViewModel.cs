@@ -117,23 +117,37 @@ namespace iRLeagueManager.ViewModels
         {
             if (Model == null)
                 return;
-
-            if (selection is SessionViewModel session) {
-                Model.Sessions.Remove(session.GetSource());
-            }
-            else if (selection is IEnumerable<SessionViewModel> sessions)
+            try
             {
-                foreach (var s in sessions)
-                {
-                    Model.Sessions.Remove(s.GetSource());
+                if (selection is SessionViewModel session) {
+                    await LeagueContext.DeleteModelsAsync(session.GetSource());
+                    //Model.Sessions.Remove(session.GetSource());
                 }
-            }
-            else if (selection == null)
-            {
-                Model.Sessions.Remove(SelectedSession.GetSource());
-            }
+                else if (selection is IEnumerable<SessionViewModel> sessions)
+                {
+                    await LeagueContext.DeleteModelsAsync(sessions.Select(x => x.GetSource()).ToArray());
+                    foreach (var s in sessions)
+                    {
+                        Model.Sessions.Remove(s.GetSource());
+                    }
+                }
+                else if (selection == null)
+                {
+                    await LeagueContext.DeleteModelsAsync(SelectedSession.GetSource());
+                    Model.Sessions.Remove(SelectedSession.GetSource());
+                }
 
-            await LeagueContext.UpdateModelAsync(Model);
+                IsLoading = true;
+                await LeagueContext.UpdateModelAsync(Model);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         protected override void Dispose(bool disposing)

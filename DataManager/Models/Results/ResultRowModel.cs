@@ -11,13 +11,16 @@ using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Members;
 
+using iRLeagueManager.Attributes;
+
 namespace iRLeagueManager.Models.Results
 {
     public class ResultRowModel : ModelBase, IResultRow
     {
-        public long? ResultRowId { get; }
-
-        public long ResultId { get; }
+        [EqualityCheckProperty]
+        public long? ResultRowId { get; internal set; }
+        [EqualityCheckProperty]
+        public long ResultId { get; set; }
 
         public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
 
