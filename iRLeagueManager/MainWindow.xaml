@@ -113,6 +113,7 @@
                             </StackPanel.Style>
                         </StackPanel>
                     </StackPanel>
+                    <Button Content="Settings" Click="SettingsButton_Click" IsEnabled="True"/>
                     <Button Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
                     <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <Button Content="Schedules" Click="SchedulesButton_Click" />
@@ -143,7 +144,10 @@
                             <views:SchedulerControl/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:ResultsPageViewModel}">
-                            <views:ScoredResultControl Grid.Row="0"/>
+                            <views:ScoredResultControl/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:SettingsPageViewModel}">
+                            <views:SettingsControl/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

@@ -6,7 +6,7 @@
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              mc:Ignorable="d"  
-             d:DesignHeight="600" d:DesignWidth="800" Background="White">
+             d:DesignHeight="600" d:DesignWidth="800" Background="White" FontSize="14">
     <!--<UserControl.DataContext>
         <vmodel:ResultsPageViewModel/>
     </UserControl.DataContext>-->
@@ -100,7 +100,7 @@
         </TextBox>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Calculate" Command="{Binding CalculateResultsCmd}"/>
+            <Button Content="Calculate" Command="{Binding CalculateResultsCmd}" FontSize="18"/>
         </StackPanel>
     </Grid>
 </UserControl>

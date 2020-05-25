@@ -83,6 +83,7 @@
     <Compile Include="Interfaces\ISourceModel.cs" />
     <Compile Include="Interfaces\ITeam.cs" />
     <Compile Include="Interfaces\IToken.cs" />
+    <Compile Include="MyKeyValuePair.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="LocationCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -17,10 +17,13 @@ namespace iRLeagueManager
 
         private readonly Dictionary<Type, ModelRegister> registeredModelTypes;
 
+        private readonly List<KeyValuePair<DateTime, object>> modelBuffer;
+
         public ModelManager()
         {
             referenceList = new ModelDictionary();
             registeredModelTypes = new Dictionary<Type, ModelRegister>();
+            modelBuffer = new List<KeyValuePair<DateTime, object>>();
             //this.leagueContext = leagueContext;
         }
 
@@ -35,6 +38,7 @@ namespace iRLeagueManager
                     referenceList.Remove(reference.Key);
                 }
             }
+            modelBuffer.RemoveAll(x => x.Key < DateTime.Now.Subtract(TimeSpan.FromMinutes(1)));
         }
 
         public T GetModel<T>(params long[] modelId) where T : ModelBase
@@ -60,6 +64,7 @@ namespace iRLeagueManager
             else
             {
                 referenceList.Add(model);
+                modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
                 return model;
             }
         }
@@ -75,6 +80,7 @@ namespace iRLeagueManager
             else
             {
                 referenceList.Add(model);
+                modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
             }
         }
 
@@ -89,103 +95,9 @@ namespace iRLeagueManager
             else
             {
                 referenceList.Add(model);
+                modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
             }
         }
-
-        //public async Task<T> GetModelAsync<T>(params long[] modelId) where T : ModelBase
-        //{
-        //    CleanReferences();
-        //    var identifier = new ModelIdentifier(typeof(T), modelId);
-        //    if (referenceList.ContainsKey(identifier))
-        //    {
-        //        T model = referenceList[identifier].Target as T;
-        //        //leagueContext.UpdateModelAsync(model);
-        //        return model;
-        //    }
-        //    else
-        //    {
-        //        T model = await leagueContext.GetModelAsync<T>(modelId);
-        //        referenceList.Add(identifier, new WeakReference(model));
-        //        return model;
-        //    }
-        //}
-
-        //public async Task<IEnumerable<T>> GetModelsAsync<T>(long[] modelIds) where T : ModelBase
-        //{
-        //    return await GetModelsAsync<T>(modelIds.Select(x => new long[] { x }).ToArray());
-        //}
-
-        //public async Task<IEnumerable<T>> GetModelsAsync<T>(long[][] modelIds = null) where T : ModelBase
-        //{
-        //    CleanReferences();
-        //    var modelList = new List<T>();
-        //    var loadModelIds = new List<long[]>();
-
-        //    if (modelIds != null && modelIds.Count() > 0)
-        //    {
-        //        foreach (var modelId in modelIds)
-        //        {
-        //            var identifier = new ModelIdentifier(typeof(T), modelId);
-
-        //            if (referenceList.ContainsKey(identifier))
-        //            {
-        //                T model = referenceList[identifier].Target as T;
-        //                modelList.Add(model);
-        //            }
-        //            else
-        //            {
-        //                loadModelIds.Add(modelId);
-        //            }
-        //        }
-
-        //        //await leagueContext.UpdateModelsAsync(modelList.ToList());
-        //        if (loadModelIds.Count > 0)
-        //        {
-        //            var addList = await leagueContext.GetModelsAsync<T>(loadModelIds);
-        //            modelList.AddRange(addList);
-        //            referenceList.AddRange(addList);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var updateList = new List<T>();
-        //        modelList.AddRange(await leagueContext.GetModelsAsync<T>());
-
-        //        foreach(var model in modelList.ToList())
-        //        {
-        //            var identifier = new ModelIdentifier(model);
-
-        //            if (referenceList.ContainsKey(identifier))
-        //            {
-        //                var index = modelList.IndexOf(model);
-        //                var loadedModel = referenceList[identifier].Target as T;
-        //                modelList.RemoveAt(index);
-        //                modelList.Insert(index, loadedModel);
-        //                updateList.Add(loadedModel);
-        //            }
-        //            else
-        //            {
-        //                referenceList.Add(model);
-        //            }
-        //        }
-        //        if (updateList.Count > 0)
-        //        {
-        //            //leagueContext.UpdateModelsAsync(updateList);
-        //        }
-        //    }
-
-        //    return modelList;
-        //}
-
-        //public async Task<T> UpdateModelAsync<T>(T model) where T : ModelBase
-        //{
-        //    return await leagueContext.UpdateModelAsync(model);
-        //}
-
-        //public async Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : ModelBase
-        //{
-        //    return await leagueContext.UpdateModelsAsync(models);
-        //}
 
         public void RegisterModelType<T>(Func<long[], Task<T>> getFunc, Func<T, Task<T>> updateFunc) where T : ModelBase
         {
@@ -203,44 +115,5 @@ namespace iRLeagueManager
                 registeredModelTypes.Add(type, new ModelRegister(type, getFuncAsync, updateFuncAsync));
             }
         }
-
-        //public async Task<T> GetModel<T>(params long[] modelId) where T : ModelBase
-        //{
-        //    var identifier = new ModelIdentifier(typeof(T), modelId);
-
-        //    if (registeredModelTypes.ContainsKey(typeof(T)))
-        //    {
-        //        var typeRegister = registeredModelTypes[typeof(T)];
-        //        if (referenceList.ContainsKey(identifier))
-        //        {
-        //            T model = referenceList[identifier].Target as T;
-        //            typeRegister.UpdateModelAsync(model);
-        //            return model;
-        //        }
-        //        else
-        //        {
-        //            T model = await typeRegister.GetModelAsync(modelId) as T;
-        //            referenceList.Add(identifier, new WeakReference(model));
-        //            return model;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        throw new Exception("Model type " + typeof(T).Name + " not registered.");
-        //    }
-        //}
-
-        //public async Task<T> UpdateModelAsync<T>(T model) where T : ModelBase
-        //{
-        //    if (registeredModelTypes.ContainsKey(typeof(T)))
-        //    {
-        //        var typeRegister = registeredModelTypes[typeof(T)];
-        //        return await typeRegister.UpdateModelAsync(model) as T;
-        //    }
-        //    else
-        //    {
-        //        throw new Exception("Model type " + typeof(T).Name + " not registered.");
-        //    }
-        //}
     }
 }

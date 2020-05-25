@@ -107,6 +107,7 @@
     <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ResultParserService.cs" />
     <Compile Include="Views\CalendarControl.xaml.cs">
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="Views\ModalOkCancelWindow.xaml.cs">
       <DependentUpon>ModalOkCancelWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PointsEditControl.xaml.cs">
+      <DependentUpon>PointsEditControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SchedulerControl.xaml.cs">
       <DependentUpon>SchedulerControl.xaml</DependentUpon>
@@ -123,6 +127,9 @@
     </Compile>
     <Compile Include="Views\SessionEditControl.xaml.cs">
       <DependentUpon>SessionEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StandingsControl.xaml.cs">
       <DependentUpon>StandingsControl.xaml</DependentUpon>
@@ -151,6 +158,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PointsEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SchedulerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SessionEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

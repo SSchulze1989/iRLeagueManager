@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
+using iRLeagueManager.Models.Results;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -20,17 +22,41 @@ namespace iRLeagueManager.ViewModels
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
         public ObservableCollection<SessionInfo> Sessions { get => Model.Sessions; }
-        public long SeasonId { get => Model.SeasonId; set => Model.SeasonId = value; }
+        public long SeasonId => Model.SeasonId;
         public SeasonModel Season { get => Model.Season; set => Model.Season = value; }
-        public ObservableCollection<KeyValuePair<int, int>> BasePoints => Model.BasePoints;
-        public ObservableCollection<KeyValuePair<string, int>> BonusPoints => Model.BonusPoints;
-        public ObservableCollection<KeyValuePair<int, int>> IncPenaltyPoints => Model.IncPenaltyPoints;
-        public ObservableCollection<KeyValuePair<ScoringModel, double>> MultiScoringResults => Model.MultiScoringResults;
+        public ObservableCollection<ScoringModel.BasePointsValue> BasePoints => Model.BasePoints;
+        public ObservableCollection<ScoringModel.BonusPointsValue> BonusPoints => Model.BonusPoints;
+        public ObservableCollection<ScoringModel.IncidentPointsValue> IncPenaltyPoints => Model.IncPenaltyPoints;
+        public ObservableCollection<MyKeyValuePair<ScoringModel, double>> MultiScoringResults => Model.MultiScoringResults;
         public ObservableCollection<StandingsRowModel> Standings { get => Model.Standings; }
+        public ScheduleInfo ConnectedSchedule
+        {
+            get
+            {
+                var schedule = Season?.Schedules?.SingleOrDefault(x => x.ScheduleId == Model?.ConnectedSchedule?.ScheduleId);
+                if (schedule == null)
+                    schedule = Model.ConnectedSchedule;
+                return schedule;
+            }
+            set => Model.ConnectedSchedule = value;
+        }
 
         public ScoringViewModel()
         {
             Model = Template;
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (propertyName == nameof(Season) || propertyName == null)
+            {
+                if (Season != null && ConnectedSchedule != null && Season.Schedules.Any(x => x.ScheduleId == ConnectedSchedule.ScheduleId))
+                {
+                    ConnectedSchedule = Season.Schedules.SingleOrDefault(x => x.ScheduleId == ConnectedSchedule.ScheduleId);
+                }
+            }
+
+            base.OnPropertyChanged(propertyName);
         }
     }
 }

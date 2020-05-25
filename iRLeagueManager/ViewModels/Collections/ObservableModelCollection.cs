@@ -13,9 +13,11 @@ using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
-    public class ObservableModelCollection<TModel, TSource> : ObservableCollection<TModel>, IDisposable where TModel : ContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
+    public class ObservableModelCollection<TModel, TSource> : ReadOnlyObservableCollection<TModel>, IDisposable where TModel : ContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
     {
         private bool NotifyCollectionActv { get; set; }
+
+        private ObservableCollection<TModel> TargetCollection { get; }
 
         private IEnumerable<TSource> _collectionSource;
         private IEnumerable<TSource> CollectionSource
@@ -26,14 +28,12 @@ namespace iRLeagueManager.ViewModels.Collections
                 if (_collectionSource != null && _collectionSource is INotifyCollectionChanged oldCollection)
                 {
                     oldCollection.CollectionChanged -= OnSourceCollectionChanged;
-                    NotifyCollectionActv = false;
                 }
                 _collectionSource = value;
                 OnPropertyChanged();
                 if (_collectionSource != null && _collectionSource is INotifyCollectionChanged newCollection)
                 {
                     newCollection.CollectionChanged += OnSourceCollectionChanged;
-                    NotifyCollectionActv = true;
                 }
             }
         }
@@ -45,8 +45,10 @@ namespace iRLeagueManager.ViewModels.Collections
 
         private ContainerModelEqualityComparer<TSource> comparer = new ContainerModelEqualityComparer<TSource>();
 
-        public ObservableModelCollection(bool updateItemSources = true) : base()
+        public ObservableModelCollection(bool updateItemSources = true) : base(new ObservableCollection<TModel>())
         {
+            NotifyCollectionActv = true;
+            TargetCollection = Items as ObservableCollection<TModel>;
             _collectionSource = new TSource[0];
             AutoUpdateItemsSources = updateItemSources;
         }
@@ -56,28 +58,28 @@ namespace iRLeagueManager.ViewModels.Collections
         /// </summary>
         /// <param name="collection">Source collection from which Model Collection is filled with data</param>
         /// <param name="updateItemSources">If true, sources of Items in the collection get automatically updated when calling UpdateSource<> Method</param>
-        public ObservableModelCollection(IEnumerable<TSource> collection, bool updateItemSources = true) : base()
+        public ObservableModelCollection(IEnumerable<TSource> collection, bool updateItemSources = true) : this(updateItemSources)
         {
             //_collectionSource = collection != null ? collection : new TSource[0];
-            NotifyCollectionActv = false;
+            NotifyCollectionActv = true;
             UpdateSource(collection);
             AutoUpdateItemsSources = updateItemSources;
             if (collection.Count() > 0)
                 UpdateCollection();
         }
 
-        public ObservableModelCollection(Action<TModel> constructorAction, bool updateItemSources = true) : base()
+        public ObservableModelCollection(Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
         {
-            NotifyCollectionActv = false;
+            NotifyCollectionActv = true;
             _constructorAction = constructorAction;
             //_collectionSource = new TSource[0];
             UpdateSource(new TSource[0]);
             AutoUpdateItemsSources = updateItemSources;
         }
 
-        public ObservableModelCollection(IEnumerable<TSource> collection, Action<TModel> constructorAction, bool updateItemSources = true) : base()
+        public ObservableModelCollection(IEnumerable<TSource> collection, Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
         {
-            NotifyCollectionActv = false;
+            NotifyCollectionActv = true;
             _constructorAction = constructorAction;
             //_collectionSource = collection != null ? collection : new TSource[0];
             UpdateSource(collection);
@@ -114,6 +116,12 @@ namespace iRLeagueManager.ViewModels.Collections
             OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(null));
         }
 
+        //protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (NotifyCollectionActv)
+        //        base.OnCollectionChanged(e);
+        //}
+
         public IEnumerable<TSource> GetSource()
         {
             return _collectionSource;
@@ -142,7 +150,7 @@ namespace iRLeagueManager.ViewModels.Collections
             foreach (TModel item in notInCollection)
             {
                 item.Dispose();
-                this.Remove(item);
+                TargetCollection.Remove(item);
             }
 
             foreach (TSource item in notInItems)
@@ -158,7 +166,7 @@ namespace iRLeagueManager.ViewModels.Collections
                     newItem.UpdateSource(item);
                     _constructorAction?.Invoke(newItem);
                 }
-                this.Add(newItem);
+                TargetCollection.Add(newItem);
                 //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
             }
         }
@@ -180,9 +188,11 @@ namespace iRLeagueManager.ViewModels.Collections
                 }
 
                 NotifyCollectionActv = false;
-                foreach (var item in Items)
+                for (int i=0; i<Items.Count(); i++)
                 {
+                    var item = TargetCollection.ElementAt(i);
                     item.Dispose();
+                    //TargetCollection.Remove(item);
                 }
 
                 disposedValue = true;

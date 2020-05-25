@@ -660,7 +660,23 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     public partial class ScheduleInfoDTO : iRLeagueManager.LeagueDBServiceRef.VersionInfoDTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<long> ScheduleIdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<long> ScheduleId {
@@ -689,9 +705,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO LastModifiedByField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.SessionDataDTO[] SessionsField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
@@ -716,19 +729,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.LastModifiedByField, value) != true)) {
                     this.LastModifiedByField = value;
                     this.RaisePropertyChanged("LastModifiedBy");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
                 }
             }
         }
@@ -1464,6 +1464,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private string BonusPointsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ScheduleInfoDTO ConnectedScheduleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CreatedByField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1531,6 +1534,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.BonusPointsField, value) != true)) {
                     this.BonusPointsField = value;
                     this.RaisePropertyChanged("BonusPoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ScheduleInfoDTO ConnectedSchedule {
+            get {
+                return this.ConnectedScheduleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ConnectedScheduleField, value) != true)) {
+                    this.ConnectedScheduleField = value;
+                    this.RaisePropertyChanged("ConnectedSchedule");
                 }
             }
         }

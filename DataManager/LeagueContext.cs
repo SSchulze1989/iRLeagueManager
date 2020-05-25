@@ -418,7 +418,8 @@ namespace iRLeagueManager.Data
             }
             else if (model is ScoringModel)
             {
-                throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
+                data = mapper.Map<ScoringDataDTO>(model);
+                data = await DbContext.PutAsync(data as ScoringDataDTO);
             }
             else if (model is ScoringRuleBase)
             {

@@ -31,9 +31,13 @@ namespace iRLeagueManager.ViewModels
 
         protected override SeasonModel Template => SeasonModel.GetTemplate();
 
+        public long SeasonId => (Model?.SeasonId).GetValueOrDefault();
+
         public string SeasonName { get => Model?.SeasonName; set => Model.SeasonName = value; }
 
         public ObservableCollection<ScheduleInfo> Schedules => Model?.Schedules;
+
+        public ObservableCollection<ScoringModel> Scorings => Model?.Scorings;
 
         //public ObservableCollection<ResultInfo> Results => Model?.Results;
 

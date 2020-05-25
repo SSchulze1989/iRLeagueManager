@@ -159,7 +159,7 @@ namespace iRLeagueManager.Models
         {
             return new SeasonModel()
             {
-                SeasonId = null,
+                SeasonId = 0,
                 SeasonName = "Season Name"
             };
         }

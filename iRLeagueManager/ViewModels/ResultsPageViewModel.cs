@@ -46,7 +46,7 @@ namespace iRLeagueManager.ViewModels
                 if (SetValue(ref selectedSchedule, value))
                 {
                     if (selectedSchedule == null || selectedSchedule.Model == null)
-                        SessionList = new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions));
+                        SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions)));
                     else
                         SessionList = selectedSchedule.Sessions;
                 }
@@ -55,8 +55,8 @@ namespace iRLeagueManager.ViewModels
         
         //private ObservableModelCollection<SessionViewModel, SessionModel> sessionList;
         //public ObservableModelCollection<SessionViewModel, SessionModel> SessionList { get => sessionList; set => SetValue(ref sessionList, value); }
-        private ObservableCollection<SessionViewModel> sessionList;
-        public ObservableCollection<SessionViewModel> SessionList
+        private ReadOnlyObservableCollection<SessionViewModel> sessionList;
+        public ReadOnlyObservableCollection<SessionViewModel> SessionList
         {
             get => sessionList;
             set
@@ -116,9 +116,6 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        private string statusMsg;
-        public string StatusMsg { get => statusMsg; set => SetValue(ref statusMsg, value); }
-
         public ICommand NextSessionCmd { get; }
         public ICommand PreviousSessionCmd { get; }
 
@@ -131,7 +128,7 @@ namespace iRLeagueManager.ViewModels
             CurrentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
-            SessionList = new ObservableCollection<SessionViewModel>();
+            SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
             SelectedResult = null;
             NextSessionCmd = new RelayCommand(o => SelectNextSession(), o => CanSelectNextSession());
             PreviousSessionCmd = new RelayCommand(o => SelectPreviousSession(), o => CanSelectPreviousSession());
@@ -160,7 +157,7 @@ namespace iRLeagueManager.ViewModels
                 //var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(sessionModelIds);
 
                 if (SelectedSchedule == null)
-                    SessionList = new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions).OrderBy(x => x.Date));
+                    SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions).OrderBy(x => x.Date)));
                 else
                     SessionList = SelectedSchedule.Sessions;
 

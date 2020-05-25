@@ -21,8 +21,8 @@ namespace iRLeagueManager.ViewModels
 
         //private ObservableCollection<ScheduleModel> schedulesSource = new ObservableCollection<ScheduleModel>();
 
-        private ScheduleVMCollection schedules;
-        public ScheduleVMCollection Schedules
+        private ObservableModelCollection<ScheduleViewModel, ScheduleModel> schedules;
+        public ObservableModelCollection<ScheduleViewModel, ScheduleModel> Schedules
         {
             get => schedules;
             protected set
@@ -59,7 +59,7 @@ namespace iRLeagueManager.ViewModels
 
         public SchedulerViewModel()
         {
-            Schedules = new ScheduleVMCollection();
+            Schedules = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>();
             CreateScheduleCmd = new RelayCommand(o => CreateSchedule(), o => Season != null);
 
             UploadFileCmd = new RelayCommand(o =>

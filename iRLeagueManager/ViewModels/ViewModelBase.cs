@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
+using iRLeagueManager.Data;
+
 namespace iRLeagueManager.ViewModels
 {
     /// <summary>
@@ -15,10 +17,15 @@ namespace iRLeagueManager.ViewModels
     /// </summary>
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
+        protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
+
         private bool isLoading = false;
         public bool IsLoading { get => isLoading; protected set => SetValue(ref isLoading, value); }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private string statusMsg;
+        public string StatusMsg { get => statusMsg; set => SetValue(ref statusMsg, value); }
 
         public ICommand RefreshCmd { get; }
 

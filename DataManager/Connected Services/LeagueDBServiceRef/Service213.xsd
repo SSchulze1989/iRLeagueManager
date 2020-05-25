@@ -54,6 +54,7 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q6:VersionInfoDTO">
         <xs:sequence>
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="ScheduleId" nillable="true" type="xs:long" />
         </xs:sequence>
       </xs:extension>
@@ -66,7 +67,6 @@
         <xs:sequence>
           <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q7:LeagueMemberInfoDTO" />
           <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q8:LeagueMemberInfoDTO" />
-          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Sessions" nillable="true" type="tns:ArrayOfSessionDataDTO" />
         </xs:sequence>
       </xs:extension>

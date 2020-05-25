@@ -31,37 +31,44 @@ namespace iRLeagueManager.Models.Results
 
         private ObservableCollection<ResultInfo> results;
         public ObservableCollection<ResultInfo> Results { get => results; set => SetNotifyCollection(ref results, value); }
-        
-        private long seasonId;
-        public long SeasonId { get => seasonId; set => SetValue(ref seasonId, value); }
+
+        //private long seasonId;
+        //public long SeasonId { get => seasonId; set => SetValue(ref seasonId, value); }
+        public long SeasonId => (Season?.SeasonId).GetValueOrDefault();
         
         private SeasonModel season;
         public SeasonModel Season { get => season; set => SetValue(ref season, value); }
 
-        private ObservableCollection<KeyValuePair<int, int>> basePoints;
+        private ObservableCollection<BasePointsValue> basePoints;
         //public string BasePoints { get => basePoints; set => SetValue(ref basePoints, value); }
-        public ObservableCollection<KeyValuePair<int, int>> BasePoints { get => basePoints; set => SetNotifyCollection(ref basePoints, value); }
+        public ObservableCollection<BasePointsValue> BasePoints { get => basePoints; set => SetNotifyCollection(ref basePoints, value); }
         
-        private ObservableCollection<KeyValuePair<string,int>> bonusPoints;
-        public ObservableCollection<KeyValuePair<string,int>> BonusPoints { get => bonusPoints; set => SetNotifyCollection(ref bonusPoints, value); }
+        private ObservableCollection<BonusPointsValue> bonusPoints;
+        public ObservableCollection<BonusPointsValue> BonusPoints { get => bonusPoints; set => SetNotifyCollection(ref bonusPoints, value); }
         
-        private ObservableCollection<KeyValuePair<int,int>> incPenaltyPoints;
-        public ObservableCollection<KeyValuePair<int,int>> IncPenaltyPoints { get => incPenaltyPoints; set => SetNotifyCollection(ref incPenaltyPoints, value); }
+        private ObservableCollection<IncidentPointsValue> incPenaltyPoints;
+        public ObservableCollection<IncidentPointsValue> IncPenaltyPoints { get => incPenaltyPoints; set => SetNotifyCollection(ref incPenaltyPoints, value); }
         
-        private ObservableCollection<KeyValuePair<ScoringModel, double>> multiScoringResults;
-        public ObservableCollection<KeyValuePair<ScoringModel, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
+        private ObservableCollection<MyKeyValuePair<ScoringModel, double>> multiScoringResults;
+        public ObservableCollection<MyKeyValuePair<ScoringModel, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
 
         private ObservableCollection<StandingsRowModel> standings;
         public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
 
+        private ScheduleInfo connectedschedule;
+        public ScheduleInfo ConnectedSchedule 
+        { 
+            get => connectedschedule; 
+            set => SetValue(ref connectedschedule, value); 
+        }
         public ScoringModel() : base()
         {
             ScoringId = null;
             Sessions = new ObservableCollection<SessionInfo>();
-            BonusPoints = new ObservableCollection<KeyValuePair<string, int>>();
-            BasePoints = new ObservableCollection<KeyValuePair<int, int>>();
-            IncPenaltyPoints = new ObservableCollection<KeyValuePair<int, int>>();
-            MultiScoringResults = new ObservableCollection<KeyValuePair<ScoringModel, double>>();
+            BonusPoints = new ObservableCollection<BonusPointsValue>();
+            BasePoints = new ObservableCollection<BasePointsValue>();
+            IncPenaltyPoints = new ObservableCollection<IncidentPointsValue>();
+            MultiScoringResults = new ObservableCollection<MyKeyValuePair<ScoringModel, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
             //Schedules = new ObservableCollection<ScheduleInfo>();
         }
@@ -80,7 +87,7 @@ namespace iRLeagueManager.Models.Results
                     var multiScoring = Season.Scorings.SingleOrDefault(x => x.ScoringId == MultiScoringResults.ElementAt(i).Key.ScoringId);
                     if (multiScoring != null)
                     {
-                        MultiScoringResults[i] = new KeyValuePair<ScoringModel, double>(multiScoring, MultiScoringResults[i].Value);
+                        MultiScoringResults[i] = new MyKeyValuePair<ScoringModel, double>(multiScoring, MultiScoringResults[i].Value);
                     }
                     else
                     {
@@ -90,6 +97,27 @@ namespace iRLeagueManager.Models.Results
                 }
             }
             base.InitializeModel();
+        }
+
+        public class BonusPointsValue : MyKeyValuePair<string, int>
+        {
+            public new string Key { get => base.Key; set { base.Key = value; } }
+
+            public BonusPointsValue() : this("", 0) { }
+            public BonusPointsValue(string identifier, int points) : base(identifier, points) { }
+        }
+
+        public class BasePointsValue : MyKeyValuePair<int, int>
+        {
+            public BasePointsValue(int place, int points) : base(place, points) { }
+        }
+
+        public class IncidentPointsValue : MyKeyValuePair<int, int>
+        {
+            public new int Key { get => base.Key; set { base.Key = value; } }
+            
+            public IncidentPointsValue() : this(0, 0) {}
+            public IncidentPointsValue(int incidents, int penaltyPoints) : base(incidents, penaltyPoints) { }
         }
 
         //public void CalculateScoringPoints()

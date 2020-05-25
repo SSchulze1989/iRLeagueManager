@@ -217,20 +217,35 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom((src, dest, result) =>
                 {
+                    if (src.BasePoints == null || src.BasePoints == "" || src.BasePoints == " ")
+                        return new ObservableCollection<ScoringModel.BasePointsValue>();
                     string[] pointString = src.BasePoints.Split(' ');
-                    ObservableCollection<KeyValuePair<int, int>> pairs = new ObservableCollection<KeyValuePair<int, int>>();
+                    ObservableCollection<ScoringModel.BasePointsValue> pairs = new ObservableCollection<ScoringModel.BasePointsValue>();
                     for (int i = 0; i < pointString.Count(); i++)
                     {
-                        pairs.Add(new KeyValuePair<int, int>(i, int.Parse(pointString[i])));
+                        pairs.Add(new ScoringModel.BasePointsValue(i + 1, int.Parse(pointString[i])));
                     }
                     return pairs;
                 }))
-                .ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, string>())
+                .ForMember(dest => dest.BonusPoints, opt => opt.MapFrom((src, dest, result) =>
+                {
+                    if (src.BonusPoints == null || src.BonusPoints == "" || src.BonusPoints == " ")
+                        return new ObservableCollection<ScoringModel.BonusPointsValue>();
+                    string[] pointString = src.BonusPoints.Split(' ');
+                    ObservableCollection<ScoringModel.BonusPointsValue> pairs = new ObservableCollection<ScoringModel.BonusPointsValue>();
+                    for (int i = 0; i < pointString.Count(); i++)
+                    {
+                        var stringPair = pointString[i].Split(':');
+                        pairs.Add(new ScoringModel.BonusPointsValue(stringPair.First(), int.Parse(stringPair.Last())));
+                    }
+                    return pairs;
+                }))
+                //.ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, string>())
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
                 .ForMember(dest => dest.MultiScoringResults, opt => opt.Ignore())
                 .ReverseMap()
-                .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y)))
-                .ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, IEnumerable<KeyValuePair<string, int>>>())
+                .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => (src.BasePoints.Count > 0) ? src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
+                .ForMember(dest => dest.BonusPoints, opt => opt.MapFrom(src => (src.BonusPoints.Count > 0) ? src.BonusPoints.Select(x => x.Key + ":" + x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore());
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoringModel(source.ScoringId)))

@@ -29,6 +29,7 @@ namespace iRLeagueManager
     {
         private MainWindowViewModel mainViewModel;
 
+        private SettingsPageViewModel SettingsPageViewModel { get; set; }
         private SchedulerViewModel SchedulerViewModel { get; set; }// = new SchedulerViewModel();
         private CalendarViewModel CalendarViewModel { get; set; }// = new CalendarViewModel();
         private ResultsPageViewModel ResultsPageViewModel { get; set; }// = new ResultsPageViewModel();
@@ -96,6 +97,20 @@ namespace iRLeagueManager
                     
                 //    await vm.Load(session.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault());
                 //}
+            }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel.CurrentSeason != null)
+            {
+                if (SettingsPageViewModel == null)
+                    SettingsPageViewModel = new SettingsPageViewModel();
+
+                var vm = SettingsPageViewModel;
+
+                MainContent.Content = vm;
+                _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
         }
     }
