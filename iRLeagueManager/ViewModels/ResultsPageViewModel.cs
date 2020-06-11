@@ -319,8 +319,15 @@ namespace iRLeagueManager.ViewModels
             if (session == null)
                 return;
 
-            await LeagueContext.DbContext.CalculateScoredResultsAsync(session.SessionId.GetValueOrDefault());
-            await LoadResults();
+            try
+            {
+                await LeagueContext.DbContext.CalculateScoredResultsAsync(session.SessionId.GetValueOrDefault());
+                await LoadResults();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
         }
     }
 }

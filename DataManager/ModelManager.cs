@@ -19,6 +19,8 @@ namespace iRLeagueManager
 
         private readonly List<KeyValuePair<DateTime, object>> modelBuffer;
 
+        private readonly int bufferKeepMinutes = 5;
+
         public ModelManager()
         {
             referenceList = new ModelDictionary();
@@ -38,7 +40,7 @@ namespace iRLeagueManager
                     referenceList.Remove(reference.Key);
                 }
             }
-            modelBuffer.RemoveAll(x => x.Key < DateTime.Now.Subtract(TimeSpan.FromMinutes(1)));
+            modelBuffer.RemoveAll(x => x.Key < DateTime.Now.Subtract(TimeSpan.FromMinutes(bufferKeepMinutes)));
         }
 
         public T GetModel<T>(params long[] modelId) where T : ModelBase

@@ -108,6 +108,9 @@
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\StandingsPageViewModel.cs" />
+    <Compile Include="ViewModels\StandingsRowViewModel.cs" />
+    <Compile Include="ViewModels\StandingsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ResultParserService.cs" />
     <Compile Include="Views\CalendarControl.xaml.cs">

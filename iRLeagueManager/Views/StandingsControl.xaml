@@ -10,14 +10,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Background="White">
     <Grid>
-        <TabControl>
-            <TabItem Header="League Standings" DataContext="{Binding LeagueStandings}">
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="1" ItemsSource="{Binding ScoringList}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DataGrid DataContext="{Binding Standings}" ItemsSource="{Binding StandingsRows}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+            <!--<TabItem Header="League Standings" DataContext="{Binding LeagueStandings}">
                 <DataGrid ItemsSource="{Binding}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Pos." Binding="{Binding}" />
                     </DataGrid.Columns>
                 </DataGrid>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </UserControl>

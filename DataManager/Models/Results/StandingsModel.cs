@@ -5,17 +5,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.Models.Results
 {
     public class StandingsModel : ModelBase
     {
-        private string title;
-        public string Title { get => title; set => SetValue(ref title, value); }
+        private ScoringInfo scoring;
+        public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
 
-        public override long[] ModelId => new long[] { 0 };
+        public override long[] ModelId => new long[] { (Scoring?.ScoringId).GetValueOrDefault() };
 
-        private ObservableCollection<StandingsRowModel> rows;
-        public ObservableCollection<StandingsRowModel> Rows { get => rows; set => SetValue(ref rows, value); }
+        private List<StandingsRowModel> standingsRows;
+        public List<StandingsRowModel> StandingsRows { get => standingsRows; internal set => SetValue(ref standingsRows, value); }
+
+        private LeagueMember mostWinsDriver;
+        public LeagueMember MostWinsDriver { get => mostWinsDriver; internal set => SetValue(ref mostWinsDriver, value); }
+
+        private LeagueMember mostPolesDriver;
+        public LeagueMember MostPolesDriver { get => mostPolesDriver; internal set => SetValue(ref mostPolesDriver, value); }
+
+        private LeagueMember cleanestDriver;
+        public LeagueMember CleanestDriver { get => cleanestDriver; internal set => SetValue(ref cleanestDriver, value); }
+
+        private LeagueMember mostPenaltiesDriver;
+        public LeagueMember MostPenaltiesDriver { get => mostPenaltiesDriver; internal set => SetValue(ref mostPenaltiesDriver, value); }
+
+        public StandingsModel()
+        {
+            StandingsRows = new List<StandingsRowModel>();
+        }
     }
 }

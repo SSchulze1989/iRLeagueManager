@@ -28,6 +28,11 @@ namespace iRLeagueManager.ViewModels
             Source = source;
         }
 
+        ~ContainerModelBase()
+        {
+            Dispose(false);
+        }
+
         public TSource GetSource()
         {
             return Source;

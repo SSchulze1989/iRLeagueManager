@@ -140,51 +140,61 @@ namespace iRLeagueManager.ViewModels
             }
 
 
-            //Update LeagueMember database
-            await LeagueContext.UpdateMemberList();
-            var memberList = LeagueContext.MemberList;
-            parserService.MemberList = memberList;
-            var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
-
-            newMembers = await LeagueContext.AddModelsAsync(newMembers.ToArray());
-            
-            foreach(var member in newMembers)
+            try
             {
-                LeagueContext.MemberList.Add(member);
+                //Update LeagueMember database
+                await LeagueContext.UpdateMemberList();
+                var memberList = LeagueContext.MemberList;
+                parserService.MemberList = memberList;
+                var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
+
+                newMembers = await LeagueContext.AddModelsAsync(newMembers.ToArray());
+
+                foreach (var member in newMembers)
+                {
+                    LeagueContext.MemberList.Add(member);
+                }
+
+                //await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
+                //var sessionModel = season.GetSessions().SingleOrDefault(x => x.SessionId == session.SessionId);
+                if (session == null)
+                    return;
+
+                var resultRows = parserService.GetResultRows(lines);
+                ResultModel result;
+                if (session.SessionResult != null)
+                {
+                    result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
+                    await LeagueContext.DeleteModelsAsync(result.RawResults.ToArray());
+                    resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
+                    resultRows = (await LeagueContext.AddModelsAsync(resultRows.ToArray()));
+                    result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+                    await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                }
+                else
+                {
+                    //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
+                    result = new ResultModel(session);
+                    result = await LeagueContext.AddModelAsync(result);
+                    session.SessionResult = result;
+                    //result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                    //session = await GlobalSettings.LeagueContext.UpdateModelAsync(session);
+                    resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
+                    await LeagueContext.AddModelsAsync(resultRows.ToArray());
+                    result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+
+                    //await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                    await GlobalSettings.LeagueContext.UpdateModelAsync(session);
+                }
+                //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
             }
-
-            //await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
-            //var sessionModel = season.GetSessions().SingleOrDefault(x => x.SessionId == session.SessionId);
-            if (session == null)
-                return;
-
-            var resultRows = parserService.GetResultRows(lines);
-            ResultModel result;
-            if (session.SessionResult != null)
+            catch (Exception e)
             {
-                result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
-                await LeagueContext.DeleteModelsAsync(result.RawResults.ToArray());
-                result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
-                resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
-                await LeagueContext.AddModelsAsync(resultRows.ToArray());
-                await GlobalSettings.LeagueContext.UpdateModelAsync(result);
+                GlobalSettings.LogError(e);
             }
-            else
+            finally
             {
-                //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
-                result = new ResultModel(session);
-                result = await LeagueContext.AddModelAsync(result);
-                session.SessionResult = result;
-                //result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);
-                //session = await GlobalSettings.LeagueContext.UpdateModelAsync(session);
-                resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
-                await LeagueContext.AddModelsAsync(resultRows.ToArray());
-                result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
-
-                //await GlobalSettings.LeagueContext.UpdateModelAsync(result);
-                await GlobalSettings.LeagueContext.UpdateModelAsync(session);
             }
-            //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")

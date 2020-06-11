@@ -30,7 +30,7 @@ namespace iRLeagueManager.ViewModels
 
         public virtual async Task Load(params long[] modelId)
         { 
-            if (Model?.ModelId == modelId)
+            if (Model == null || !Model.ModelId.SequenceEqual(modelId))
             {
                 Model = Template;
             }
@@ -39,6 +39,26 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = true;
                 Model = await LeagueContext.GetModelAsync<TSource>(modelId);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public virtual async Task Update()
+        {
+            if (Model == null || Model == Template)
+                return;
+
+            try
+            {
+                IsLoading = true;
+                Model = await LeagueContext.UpdateModelAsync(Model);
             }
             catch (Exception e)
             {

@@ -108,7 +108,7 @@ namespace iRLeagueManager.ViewModels
                 loadedModels = Schedules.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
             }
 
-            var newIds = season.Schedules.Select(x => x.ScheduleId.Value).Except(loadedModels.Select(x => x.ScheduleId.Value)).ToList();
+            var newIds = season.Schedules.Select(x => x.ScheduleId.GetValueOrDefault()).Except(loadedModels.Select(x => x.ScheduleId.GetValueOrDefault())).ToList();
 
             List<ScheduleModel> updateSchedules = new List<ScheduleModel>();
 

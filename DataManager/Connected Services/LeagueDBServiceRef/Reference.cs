@@ -39,6 +39,8 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScoredResultRowDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.StandingsDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.StandingsRowDataDTO))]
     public partial class MappableDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -1943,6 +1945,612 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.LastnameField, value) != true)) {
                     this.LastnameField = value;
                     this.RaisePropertyChanged("Lastname");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="StandingsDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
+    [System.SerializableAttribute()]
+    public partial class StandingsDataDTO : iRLeagueManager.LeagueDBServiceRef.MappableDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CleanestDriverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MostPenaltiesDriverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MostPolesDriverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MostWinsDriverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO ScoringField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.StandingsRowDataDTO[] StandingsRowsField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO CleanestDriver {
+            get {
+                return this.CleanestDriverField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CleanestDriverField, value) != true)) {
+                    this.CleanestDriverField = value;
+                    this.RaisePropertyChanged("CleanestDriver");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MostPenaltiesDriver {
+            get {
+                return this.MostPenaltiesDriverField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MostPenaltiesDriverField, value) != true)) {
+                    this.MostPenaltiesDriverField = value;
+                    this.RaisePropertyChanged("MostPenaltiesDriver");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MostPolesDriver {
+            get {
+                return this.MostPolesDriverField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MostPolesDriverField, value) != true)) {
+                    this.MostPolesDriverField = value;
+                    this.RaisePropertyChanged("MostPolesDriver");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MostWinsDriver {
+            get {
+                return this.MostWinsDriverField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MostWinsDriverField, value) != true)) {
+                    this.MostWinsDriverField = value;
+                    this.RaisePropertyChanged("MostWinsDriver");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO Scoring {
+            get {
+                return this.ScoringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ScoringField, value) != true)) {
+                    this.ScoringField = value;
+                    this.RaisePropertyChanged("Scoring");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.StandingsRowDataDTO[] StandingsRows {
+            get {
+                return this.StandingsRowsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StandingsRowsField, value) != true)) {
+                    this.StandingsRowsField = value;
+                    this.RaisePropertyChanged("StandingsRows");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="StandingsRowDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
+    [System.SerializableAttribute()]
+    public partial class StandingsRowDataDTO : iRLeagueManager.LeagueDBServiceRef.MappableDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CarClassField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ClassIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CompletedLapsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CompletedLapsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DroppedResultsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FastestLapsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FastestLapsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IncidentsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IncidentsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LastPositionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LeadLapsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int LeadLapsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO MemberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PenaltyPointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PenaltyPointsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PolePositionsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PolePositionsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PositionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PositionChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RacePointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RacePointsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RacesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RacesCountedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO ScoringField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Top10Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Top3Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Top5Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TotalPointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TotalPointsChangeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int WinsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int WinsChangeField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CarClass {
+            get {
+                return this.CarClassField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CarClassField, value) != true)) {
+                    this.CarClassField = value;
+                    this.RaisePropertyChanged("CarClass");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ClassId {
+            get {
+                return this.ClassIdField;
+            }
+            set {
+                if ((this.ClassIdField.Equals(value) != true)) {
+                    this.ClassIdField = value;
+                    this.RaisePropertyChanged("ClassId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CompletedLaps {
+            get {
+                return this.CompletedLapsField;
+            }
+            set {
+                if ((this.CompletedLapsField.Equals(value) != true)) {
+                    this.CompletedLapsField = value;
+                    this.RaisePropertyChanged("CompletedLaps");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CompletedLapsChange {
+            get {
+                return this.CompletedLapsChangeField;
+            }
+            set {
+                if ((this.CompletedLapsChangeField.Equals(value) != true)) {
+                    this.CompletedLapsChangeField = value;
+                    this.RaisePropertyChanged("CompletedLapsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DroppedResults {
+            get {
+                return this.DroppedResultsField;
+            }
+            set {
+                if ((this.DroppedResultsField.Equals(value) != true)) {
+                    this.DroppedResultsField = value;
+                    this.RaisePropertyChanged("DroppedResults");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int FastestLaps {
+            get {
+                return this.FastestLapsField;
+            }
+            set {
+                if ((this.FastestLapsField.Equals(value) != true)) {
+                    this.FastestLapsField = value;
+                    this.RaisePropertyChanged("FastestLaps");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int FastestLapsChange {
+            get {
+                return this.FastestLapsChangeField;
+            }
+            set {
+                if ((this.FastestLapsChangeField.Equals(value) != true)) {
+                    this.FastestLapsChangeField = value;
+                    this.RaisePropertyChanged("FastestLapsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Incidents {
+            get {
+                return this.IncidentsField;
+            }
+            set {
+                if ((this.IncidentsField.Equals(value) != true)) {
+                    this.IncidentsField = value;
+                    this.RaisePropertyChanged("Incidents");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IncidentsChange {
+            get {
+                return this.IncidentsChangeField;
+            }
+            set {
+                if ((this.IncidentsChangeField.Equals(value) != true)) {
+                    this.IncidentsChangeField = value;
+                    this.RaisePropertyChanged("IncidentsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LastPosition {
+            get {
+                return this.LastPositionField;
+            }
+            set {
+                if ((this.LastPositionField.Equals(value) != true)) {
+                    this.LastPositionField = value;
+                    this.RaisePropertyChanged("LastPosition");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LeadLaps {
+            get {
+                return this.LeadLapsField;
+            }
+            set {
+                if ((this.LeadLapsField.Equals(value) != true)) {
+                    this.LeadLapsField = value;
+                    this.RaisePropertyChanged("LeadLaps");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int LeadLapsChange {
+            get {
+                return this.LeadLapsChangeField;
+            }
+            set {
+                if ((this.LeadLapsChangeField.Equals(value) != true)) {
+                    this.LeadLapsChangeField = value;
+                    this.RaisePropertyChanged("LeadLapsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.LeagueMemberInfoDTO Member {
+            get {
+                return this.MemberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MemberField, value) != true)) {
+                    this.MemberField = value;
+                    this.RaisePropertyChanged("Member");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PenaltyPoints {
+            get {
+                return this.PenaltyPointsField;
+            }
+            set {
+                if ((this.PenaltyPointsField.Equals(value) != true)) {
+                    this.PenaltyPointsField = value;
+                    this.RaisePropertyChanged("PenaltyPoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PenaltyPointsChange {
+            get {
+                return this.PenaltyPointsChangeField;
+            }
+            set {
+                if ((this.PenaltyPointsChangeField.Equals(value) != true)) {
+                    this.PenaltyPointsChangeField = value;
+                    this.RaisePropertyChanged("PenaltyPointsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PolePositions {
+            get {
+                return this.PolePositionsField;
+            }
+            set {
+                if ((this.PolePositionsField.Equals(value) != true)) {
+                    this.PolePositionsField = value;
+                    this.RaisePropertyChanged("PolePositions");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PolePositionsChange {
+            get {
+                return this.PolePositionsChangeField;
+            }
+            set {
+                if ((this.PolePositionsChangeField.Equals(value) != true)) {
+                    this.PolePositionsChangeField = value;
+                    this.RaisePropertyChanged("PolePositionsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Position {
+            get {
+                return this.PositionField;
+            }
+            set {
+                if ((this.PositionField.Equals(value) != true)) {
+                    this.PositionField = value;
+                    this.RaisePropertyChanged("Position");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PositionChange {
+            get {
+                return this.PositionChangeField;
+            }
+            set {
+                if ((this.PositionChangeField.Equals(value) != true)) {
+                    this.PositionChangeField = value;
+                    this.RaisePropertyChanged("PositionChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RacePoints {
+            get {
+                return this.RacePointsField;
+            }
+            set {
+                if ((this.RacePointsField.Equals(value) != true)) {
+                    this.RacePointsField = value;
+                    this.RaisePropertyChanged("RacePoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RacePointsChange {
+            get {
+                return this.RacePointsChangeField;
+            }
+            set {
+                if ((this.RacePointsChangeField.Equals(value) != true)) {
+                    this.RacePointsChangeField = value;
+                    this.RaisePropertyChanged("RacePointsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Races {
+            get {
+                return this.RacesField;
+            }
+            set {
+                if ((this.RacesField.Equals(value) != true)) {
+                    this.RacesField = value;
+                    this.RaisePropertyChanged("Races");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RacesCounted {
+            get {
+                return this.RacesCountedField;
+            }
+            set {
+                if ((this.RacesCountedField.Equals(value) != true)) {
+                    this.RacesCountedField = value;
+                    this.RaisePropertyChanged("RacesCounted");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.ScoringInfoDTO Scoring {
+            get {
+                return this.ScoringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ScoringField, value) != true)) {
+                    this.ScoringField = value;
+                    this.RaisePropertyChanged("Scoring");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Top10 {
+            get {
+                return this.Top10Field;
+            }
+            set {
+                if ((this.Top10Field.Equals(value) != true)) {
+                    this.Top10Field = value;
+                    this.RaisePropertyChanged("Top10");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Top3 {
+            get {
+                return this.Top3Field;
+            }
+            set {
+                if ((this.Top3Field.Equals(value) != true)) {
+                    this.Top3Field = value;
+                    this.RaisePropertyChanged("Top3");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Top5 {
+            get {
+                return this.Top5Field;
+            }
+            set {
+                if ((this.Top5Field.Equals(value) != true)) {
+                    this.Top5Field = value;
+                    this.RaisePropertyChanged("Top5");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TotalPoints {
+            get {
+                return this.TotalPointsField;
+            }
+            set {
+                if ((this.TotalPointsField.Equals(value) != true)) {
+                    this.TotalPointsField = value;
+                    this.RaisePropertyChanged("TotalPoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TotalPointsChange {
+            get {
+                return this.TotalPointsChangeField;
+            }
+            set {
+                if ((this.TotalPointsChangeField.Equals(value) != true)) {
+                    this.TotalPointsChangeField = value;
+                    this.RaisePropertyChanged("TotalPointsChange");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Wins {
+            get {
+                return this.WinsField;
+            }
+            set {
+                if ((this.WinsField.Equals(value) != true)) {
+                    this.WinsField = value;
+                    this.RaisePropertyChanged("Wins");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int WinsChange {
+            get {
+                return this.WinsChangeField;
+            }
+            set {
+                if ((this.WinsChangeField.Equals(value) != true)) {
+                    this.WinsChangeField = value;
+                    this.RaisePropertyChanged("WinsChange");
                 }
             }
         }

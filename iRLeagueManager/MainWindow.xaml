@@ -149,6 +149,9 @@
                         <DataTemplate DataType="{x:Type vmodel:SettingsPageViewModel}">
                             <views:SettingsControl/>
                         </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:StandingsPageViewModel}">
+                            <views:StandingsControl/>
+                        </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
             </Grid>

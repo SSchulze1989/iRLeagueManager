@@ -149,4 +149,65 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="ScoredResultRowDataDTO" nillable="true" type="tns:ScoredResultRowDataDTO" />
+  <xs:complexType name="StandingsDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q16="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q16:MappableDTO">
+        <xs:sequence>
+          <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CleanestDriver" nillable="true" type="q17:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostPenaltiesDriver" nillable="true" type="q18:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostPolesDriver" nillable="true" type="q19:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostWinsDriver" nillable="true" type="q20:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+          <xs:element minOccurs="0" name="StandingsRows" nillable="true" type="tns:ArrayOfStandingsRowDataDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StandingsDataDTO" nillable="true" type="tns:StandingsDataDTO" />
+  <xs:complexType name="ArrayOfStandingsRowDataDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StandingsRowDataDTO" nillable="true" type="tns:StandingsRowDataDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStandingsRowDataDTO" nillable="true" type="tns:ArrayOfStandingsRowDataDTO" />
+  <xs:complexType name="StandingsRowDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q21="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q21:MappableDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CarClass" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ClassId" type="xs:int" />
+          <xs:element minOccurs="0" name="CompletedLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="CompletedLapsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="DroppedResults" type="xs:int" />
+          <xs:element minOccurs="0" name="FastestLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="FastestLapsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Incidents" type="xs:int" />
+          <xs:element minOccurs="0" name="IncidentsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="LastPosition" type="xs:int" />
+          <xs:element minOccurs="0" name="LeadLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="LeadLapsChange" type="xs:int" />
+          <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Member" nillable="true" type="q22:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="PenaltyPointsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="PolePositions" type="xs:int" />
+          <xs:element minOccurs="0" name="PolePositionsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Position" type="xs:int" />
+          <xs:element minOccurs="0" name="PositionChange" type="xs:int" />
+          <xs:element minOccurs="0" name="RacePoints" type="xs:int" />
+          <xs:element minOccurs="0" name="RacePointsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Races" type="xs:int" />
+          <xs:element minOccurs="0" name="RacesCounted" type="xs:int" />
+          <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+          <xs:element minOccurs="0" name="Top10" type="xs:int" />
+          <xs:element minOccurs="0" name="Top3" type="xs:int" />
+          <xs:element minOccurs="0" name="Top5" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalPointsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Wins" type="xs:int" />
+          <xs:element minOccurs="0" name="WinsChange" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StandingsRowDataDTO" nillable="true" type="tns:StandingsRowDataDTO" />
 </xs:schema>

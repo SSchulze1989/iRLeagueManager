@@ -28,7 +28,20 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<ScoringModel.BonusPointsValue> BonusPoints => Model.BonusPoints;
         public ObservableCollection<ScoringModel.IncidentPointsValue> IncPenaltyPoints => Model.IncPenaltyPoints;
         public ObservableCollection<MyKeyValuePair<ScoringModel, double>> MultiScoringResults => Model.MultiScoringResults;
-        public ObservableCollection<StandingsRowModel> Standings { get => Model.Standings; }
+
+        private StandingsViewModel standings = null;
+        public StandingsViewModel Standings
+        {
+            get
+            {
+                if (standings == null)
+                    standings = new StandingsViewModel();
+
+                _ = standings.Load(ScoringId.GetValueOrDefault());
+                return standings;
+            }
+        }
+
         public ScheduleInfo ConnectedSchedule
         {
             get

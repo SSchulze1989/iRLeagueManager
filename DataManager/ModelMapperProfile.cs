@@ -263,6 +263,12 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId)
                 //.ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.ScoredResults))
                 ;
+            CreateMap<StandingsDataDTO, StandingsModel>()
+                .ConstructUsing(source => ModelManager.PutOrGetModel(new StandingsModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId) }))
+                .EqualityComparison((src, dest) => src.Scoring.ScoringId == dest.Scoring.ScoringId);
+            CreateMap<StandingsRowDataDTO, StandingsRowModel>()
+                .ConstructUsing(source => ModelManager.PutOrGetModel(new StandingsRowModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), Member = new LeagueMember(source.Member.MemberId) }))
+                .EqualityComparison((src, dest) => src.Scoring.ScoringId == dest.Scoring.ScoringId && src.Member.MemberId == dest.Member.MemberId);
 
             CreateMap<UserDTO, UserModel>()
                 .ConstructUsing(src => new UserModel(src.UserId));

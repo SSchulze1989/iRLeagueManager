@@ -28,12 +28,12 @@ namespace iRLeagueManager.Models.Members
 
         public LeagueMember() { }
 
-        public LeagueMember(long memberId)
+        public LeagueMember(long? memberId)
         {
             MemberId = memberId;
         }
 
-        public LeagueMember(long memberId, string firstname, string lastname, string iRacingId = "", string danLisaId = "", string discordId = "")
+        public LeagueMember(long? memberId, string firstname, string lastname, string iRacingId = "", string danLisaId = "", string discordId = "")
         {
             MemberId = memberId;
             Firstname = firstname;

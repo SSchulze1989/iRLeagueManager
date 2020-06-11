@@ -33,6 +33,7 @@ namespace iRLeagueManager
         private SchedulerViewModel SchedulerViewModel { get; set; }// = new SchedulerViewModel();
         private CalendarViewModel CalendarViewModel { get; set; }// = new CalendarViewModel();
         private ResultsPageViewModel ResultsPageViewModel { get; set; }// = new ResultsPageViewModel();
+        private StandingsPageViewModel StandingsPageViewModel { get; set; }
 
         public MainWindow()
         {
@@ -73,7 +74,14 @@ namespace iRLeagueManager
 
         private void StandingsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (mainViewModel.CurrentSeason?.Schedules != null)
+            {
+                if (StandingsPageViewModel == null)
+                    StandingsPageViewModel = new StandingsPageViewModel();
+                var vm = StandingsPageViewModel;
+                MainContent.Content = vm;
+                _ = vm.Load(mainViewModel.CurrentSeason.Model);
+            }
         }
 
         private void ResultsButton_Click(object sender, RoutedEventArgs e)

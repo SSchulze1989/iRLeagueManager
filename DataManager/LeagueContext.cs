@@ -19,6 +19,7 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Database;
 using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.Locations;
+using System.Data;
 
 namespace iRLeagueManager.Data
 {
@@ -181,6 +182,10 @@ namespace iRLeagueManager.Data
             else if (typeof(T).Equals(typeof(ResultRowModel)))
             {
                 data = await DbContext.GetAsync<ResultRowDataDTO>(requestId);
+            }
+            else if (typeof(T).Equals(typeof(StandingsModel)))
+            {
+                data = await DbContext.GetAsync<StandingsDataDTO>(requestId);
             }
             else
             {
@@ -415,6 +420,10 @@ namespace iRLeagueManager.Data
             else if (model is ScoredResultModel)
             {
                 data = await DbContext.GetAsync<ScoredResultDataDTO>(model.ModelId);
+            }
+            else if (model is StandingsModel)
+            {
+                data = await DbContext.GetAsync<StandingsDataDTO>(model.ModelId);
             }
             else if (model is ScoringModel)
             {
