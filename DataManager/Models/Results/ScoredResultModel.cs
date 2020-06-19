@@ -11,6 +11,8 @@ namespace iRLeagueManager.Models.Results
 {
     public class ScoredResultModel : ResultModel
     {
+        public long? ScoredResultId { get; internal set; }
+
         private ScoringInfo scoring;
         public ScoringInfo Scoring { get => scoring; set => SetValue(ref scoring, value); }
 
@@ -21,6 +23,7 @@ namespace iRLeagueManager.Models.Results
         public ObservableCollection<ScoredResultRowModel> FinalResults { get => finalResults; set => SetNotifyCollection(ref finalResults, value); }
 
         public override long[] ModelId => new long[] { ResultId.GetValueOrDefault(), ScoringId.GetValueOrDefault() };
+        //public override long[] ModelId => new long[] { ScoredResultId.GetValueOrDefault() };
 
         public  ScoredResultModel() : base()
         {

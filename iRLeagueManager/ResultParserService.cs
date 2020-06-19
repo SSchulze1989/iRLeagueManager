@@ -134,9 +134,8 @@ namespace iRLeagueManager.Services
                 double seconds = double.Parse(components.Last(), System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.GetCultureInfo("en-EN"));
                 int minutes = ((components.Count() > 1) ? int.Parse(components.Reverse().ElementAt(1)) : 0);
                 int hours = ((components.Count() > 2) ? int.Parse(components.Reverse().ElementAt(2)) : 0);
-                int days = ((components.Count() > 3) ? int.Parse(components.Reverse().ElementAt(3)) : 0);
 
-                var timeSpan = new TimeSpan(days, hours, minutes);
+                var timeSpan = new TimeSpan(hours, minutes, 0);
                 timeSpan = timeSpan.Add(TimeSpan.FromSeconds(seconds));
                 if (negative)
                     timeSpan = timeSpan.Negate();

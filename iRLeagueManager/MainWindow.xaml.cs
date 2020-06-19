@@ -19,6 +19,7 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Interfaces;
+using System.Reflection;
 
 namespace iRLeagueManager
 {
@@ -39,6 +40,8 @@ namespace iRLeagueManager
         {
             InitializeComponent();
             mainViewModel = DataContext as MainWindowViewModel;
+            var assembly = Assembly.GetExecutingAssembly();
+            Title = "iRLeagueManager v" + assembly.GetName().Version.ToString(3);
             Load();
         }
 

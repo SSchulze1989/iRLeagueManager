@@ -34,6 +34,8 @@ namespace iRLeagueManager.ViewModels
 
         //private ObservableCollection<ScheduleInfo> scheduleList;
         //public ObservableCollection<ScheduleInfo> ScheduleList { get => scheduleList; set => SetValue(ref scheduleList, value); }
+        private SeasonModel season;
+
         private ScheduleVMCollection scheduleList;
         public ScheduleVMCollection ScheduleList { get => scheduleList; set => SetValue(ref scheduleList, value); }
 
@@ -137,6 +139,10 @@ namespace iRLeagueManager.ViewModels
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
         {
+            if (season == null)
+                return;
+            this.season = season;
+
             try
             {
                 IsLoading = true;
@@ -216,7 +222,7 @@ namespace iRLeagueManager.ViewModels
             //}
         }
 
-        private async Task LoadResults()
+        public async Task LoadResults()
         {
             if (SelectedSession == null)
             {
@@ -328,6 +334,12 @@ namespace iRLeagueManager.ViewModels
             {
                 GlobalSettings.LogError(e);
             }
+        }
+
+        public override void Refresh(string propertyName = "")
+        {
+            _ = Load(season);
+            base.Refresh(propertyName);
         }
     }
 }

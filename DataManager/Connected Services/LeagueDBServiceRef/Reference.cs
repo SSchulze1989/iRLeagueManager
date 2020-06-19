@@ -41,6 +41,7 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueMemberDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.StandingsDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.StandingsRowDataDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.AddPenaltyDTO))]
     public partial class MappableDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -1758,6 +1759,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private int RacePointsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<long> ScoredResultRowIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<long> ScoringIdField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
@@ -1821,6 +1825,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((this.RacePointsField.Equals(value) != true)) {
                     this.RacePointsField = value;
                     this.RaisePropertyChanged("RacePoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<long> ScoredResultRowId {
+            get {
+                return this.ScoredResultRowIdField;
+            }
+            set {
+                if ((this.ScoredResultRowIdField.Equals(value) != true)) {
+                    this.ScoredResultRowIdField = value;
+                    this.RaisePropertyChanged("ScoredResultRowId");
                 }
             }
         }
@@ -2551,6 +2568,45 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((this.WinsChangeField.Equals(value) != true)) {
                     this.WinsChangeField = value;
                     this.RaisePropertyChanged("WinsChange");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AddPenaltyDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
+    [System.SerializableAttribute()]
+    public partial class AddPenaltyDTO : iRLeagueManager.LeagueDBServiceRef.MappableDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PenaltyPointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<long> ScoredResultRowIdField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PenaltyPoints {
+            get {
+                return this.PenaltyPointsField;
+            }
+            set {
+                if ((this.PenaltyPointsField.Equals(value) != true)) {
+                    this.PenaltyPointsField = value;
+                    this.RaisePropertyChanged("PenaltyPoints");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<long> ScoredResultRowId {
+            get {
+                return this.ScoredResultRowIdField;
+            }
+            set {
+                if ((this.ScoredResultRowIdField.Equals(value) != true)) {
+                    this.ScoredResultRowIdField = value;
+                    this.RaisePropertyChanged("ScoredResultRowId");
                 }
             }
         }

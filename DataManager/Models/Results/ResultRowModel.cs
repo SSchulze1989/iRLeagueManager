@@ -22,7 +22,8 @@ namespace iRLeagueManager.Models.Results
         [EqualityCheckProperty]
         public long ResultId { get; set; }
 
-        public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
+        //public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
+        public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault() };
 
         //private int finalPosition;
         //public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }

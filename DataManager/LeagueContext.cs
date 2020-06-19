@@ -187,6 +187,10 @@ namespace iRLeagueManager.Data
             {
                 data = await DbContext.GetAsync<StandingsDataDTO>(requestId);
             }
+            else if (typeof(T).Equals(typeof(AddPenaltyModel)))
+            {
+                data = await DbContext.GetAsync<AddPenaltyDTO>(requestId);
+            }
             else
             {
                 throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -311,6 +315,10 @@ namespace iRLeagueManager.Data
                 {
                     data = await DbContext.GetAsync<ResultRowDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(AddPenaltyModel)))
+                {
+                    data = await DbContext.GetAsync<AddPenaltyDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
                 else if (typeof(T).Equals(typeof(ScoringRuleBase)))
                 {
                     throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -430,6 +438,11 @@ namespace iRLeagueManager.Data
                 data = mapper.Map<ScoringDataDTO>(model);
                 data = await DbContext.PutAsync(data as ScoringDataDTO);
             }
+            else if (model is AddPenaltyModel)
+            {
+                data = mapper.Map<AddPenaltyDTO>(model);
+                data = await DbContext.PutAsync(data as AddPenaltyDTO);
+            }
             else if (model is ScoringRuleBase)
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -535,54 +548,77 @@ namespace iRLeagueManager.Data
             return modelList;
         }
 
+
         public async Task<bool> DeleteModelsAsync<T>(params T[] models) where T : ModelBase
         {
             if (models.Count() == 0)
                 return true;
 
+            return await DeleteModelsAsync<T>(models.Select(x => x.ModelId.ToArray()).ToArray());
+        }
+
+        public async Task<bool> DeleteModelsAsync<T>(long[] modelid) where T : ModelBase
+        {
+            return await DeleteModelsAsync<T>(new long[][] { modelid });
+        }
+
+        public async Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : ModelBase
+        { 
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
-                return await DbContext.DelAsync<SeasonDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<SeasonDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(SessionModel)))
             {
-                return await DbContext.DelAsync<SessionDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<SessionDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(RaceSessionModel)))
             {
-                return await DbContext.DelAsync<RaceSessionDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<RaceSessionDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(ScheduleModel)))
             {
-                return await DbContext.DelAsync<ScheduleDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<ScheduleDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(IncidentReviewModel)))
             {
-                return await DbContext.DelAsync<IncidentReviewDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<IncidentReviewDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(CommentBase)))
             {
-                return await DbContext.DelAsync<CommentDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<CommentDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(ReviewCommentModel)))
             {
-                return await DbContext.DelAsync<ReviewCommentDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<ReviewCommentDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(ResultModel)))
             {
-                return await DbContext.DelAsync<ResultDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<ResultDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(LeagueMember)))
             {
-                return await DbContext.DelAsync<LeagueMemberDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<LeagueMemberDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(ScoringModel)))
             {
-                return await DbContext.DelAsync<ScoringDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<ScoringDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(ResultRowModel)))
             {
-                return await DbContext.DelAsync<ResultRowDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+                return await DbContext.DelAsync<ResultRowDataDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(AddPenaltyModel)))
+            {
+                return await DbContext.DelAsync<AddPenaltyDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(ScoredResultModel)))
+            {
+                return await DbContext.DelAsync<ScoredResultDataDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(ScoredResultRowModel)))
+            {
+                return await DbContext.DelAsync<ScoredResultRowDataDTO>(modelIds);
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
@@ -658,6 +694,11 @@ namespace iRLeagueManager.Data
             {
                 data = mapper.Map<IEnumerable<ResultRowDataDTO>>(models).ToArray();
                 data = await DbContext.PostAsync(data.Cast<ResultRowDataDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(AddPenaltyModel)))
+            {
+                data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
+                data = await DbContext.PostAsync(data.Cast<AddPenaltyDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {

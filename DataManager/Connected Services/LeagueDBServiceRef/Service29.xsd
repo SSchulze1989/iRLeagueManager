@@ -143,6 +143,7 @@
           <xs:element minOccurs="0" name="FinalPositionChange" type="xs:int" />
           <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
           <xs:element minOccurs="0" name="RacePoints" type="xs:int" />
+          <xs:element minOccurs="0" name="ScoredResultRowId" nillable="true" type="xs:long" />
           <xs:element minOccurs="0" name="ScoringId" nillable="true" type="xs:long" />
         </xs:sequence>
       </xs:extension>
@@ -210,4 +211,15 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="StandingsRowDataDTO" nillable="true" type="tns:StandingsRowDataDTO" />
+  <xs:complexType name="AddPenaltyDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q23="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q23:MappableDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="ScoredResultRowId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AddPenaltyDTO" nillable="true" type="tns:AddPenaltyDTO" />
 </xs:schema>

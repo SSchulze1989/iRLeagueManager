@@ -11,7 +11,7 @@
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         mc:Ignorable="d" FontSize="18"
-        Title="iRLeagueManager v0.1 - ***WIP***" WindowState="Maximized" Height="863" Width="1568" >
+        WindowState="Maximized" Height="863" Width="1568" >
 
     <Window.Resources>
         <sys:String x:Key="ApplicationName">iRLeagueManager v0.1</sys:String>

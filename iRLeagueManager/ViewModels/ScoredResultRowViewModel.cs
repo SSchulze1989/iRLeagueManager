@@ -8,6 +8,7 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
+using System.Windows.Input;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -15,7 +16,13 @@ namespace iRLeagueManager.ViewModels
     {
         protected override ScoredResultRowModel Template => new ScoredResultRowModel();
 
+        public ICommand AddPenaltyCmd { get; }
+        public ICommand StartEditPenaltyCmd { get; }
+        public ICommand EndEditPenaltyCmd { get; }
+        public ICommand DeletePenaltyCmd { get; }
+
         public long ResultRowId => Source.ResultRowId.GetValueOrDefault();
+        public long ScoredResultRowId => Source.ScoredResultRowId.GetValueOrDefault();
         //public int FinalPosition { get => Source.FinalPosition; set => Source.FinalPosition = value; }
         public int StartPosition { get => Source.StartPosition; set => Source.StartPosition = value; }
         public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
@@ -44,5 +51,101 @@ namespace iRLeagueManager.ViewModels
         public int PenaltyPoints { get => Model.PenaltyPoints; set => Model.PenaltyPoints = value; }
         public int FinalPosition { get => Model.FinalPosition; set => Model.FinalPosition = value; }
         public int TotalPoints { get => Model.TotalPoints; }
+
+        private AddPenaltyModel addPenalty;
+        public AddPenaltyModel AddPenalty { get => addPenalty; set => SetValue(ref addPenalty, value); }
+        private bool isPenaltyEdit;
+        public bool IsPenaltyEdit { get => isPenaltyEdit; set => SetValue(ref isPenaltyEdit, value); }
+
+        public ScoredResultRowViewModel()
+        {
+            AddPenaltyCmd = new RelayCommand(async o => { await AddPenaltyToRow(Model); StartEditRowPenalty(); }, o => Model != null);
+            StartEditPenaltyCmd = new RelayCommand(o => StartEditRowPenalty(), o => AddPenalty != null);
+            EndEditPenaltyCmd = new RelayCommand(async o => await EndEditRowPenalty(), o => AddPenalty != null);
+            DeletePenaltyCmd = new RelayCommand(async o => await DeleteRowPenalty(), o => AddPenalty != null);
+        }
+
+        public override async void OnUpdateSource()
+        {
+            if (Model.PenaltyPoints != 0)
+            {
+                try
+                {
+                    AddPenalty = await LeagueContext.GetModelAsync<AddPenaltyModel>(Model.ScoredResultRowId.GetValueOrDefault());
+                }
+                catch (Exception e)
+                {
+                    GlobalSettings.LogError(e);
+                }
+            }
+            base.OnUpdateSource();
+        }
+
+        public async Task AddPenaltyToRow(ScoredResultRowModel row)
+        {
+            if (row == null)
+                return;
+
+            try
+            {
+                var newPenalty = new AddPenaltyModel(row.ScoredResultRowId);
+                newPenalty = await LeagueContext.AddModelAsync(newPenalty);
+                AddPenalty = newPenalty;
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
+
+        public void StartEditRowPenalty()
+        {
+            IsPenaltyEdit = true;
+        }
+
+        public async Task EndEditRowPenalty()
+        {
+            if (AddPenalty == null)
+                return;
+
+            try
+            {
+                AddPenalty = await LeagueContext.UpdateModelAsync(AddPenalty);
+                await Load(Model.ModelId);
+                IsPenaltyEdit = false;
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
+
+        public async Task DeleteRowPenalty()
+        {
+            if (AddPenalty == null)
+                return;
+
+            try
+            {
+                await LeagueContext.DeleteModelsAsync(AddPenalty);
+                AddPenalty = null;
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
     }
 }

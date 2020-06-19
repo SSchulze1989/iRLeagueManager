@@ -256,7 +256,8 @@ namespace iRLeagueManager
                 .ConstructUsing(source => new ScoringInfo(source.ScoringId))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId);
             CreateMap<ScoredResultRowDataDTO, ScoredResultRowModel>()
-                .EqualityComparison((src, dest) => src.ResultRowId == dest.ResultRowId);
+                .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoredResultRowModel() { ScoredResultRowId = source.ScoredResultRowId}))
+                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId);
 
             CreateMap<ScoredResultDataDTO, ScoredResultModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoredResultModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), ResultId = source.ResultId}))
@@ -269,6 +270,11 @@ namespace iRLeagueManager
             CreateMap<StandingsRowDataDTO, StandingsRowModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new StandingsRowModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), Member = new LeagueMember(source.Member.MemberId) }))
                 .EqualityComparison((src, dest) => src.Scoring.ScoringId == dest.Scoring.ScoringId && src.Member.MemberId == dest.Member.MemberId);
+
+            CreateMap<AddPenaltyDTO, AddPenaltyModel>()
+                .ConstructUsing(source => ModelManager.PutOrGetModel(new AddPenaltyModel(source.ScoredResultRowId)))
+                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
+                .ReverseMap();
 
             CreateMap<UserDTO, UserModel>()
                 .ConstructUsing(src => new UserModel(src.UserId));
