@@ -10,10 +10,11 @@ using System.Runtime.CompilerServices;
 
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.ViewModels;
+using System.Security.Cryptography.X509Certificates;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
-    public class ObservableModelCollection<TModel, TSource> : ReadOnlyObservableCollection<TModel>, IDisposable where TModel : ContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
+    public class ObservableModelCollection<TModel, TSource> : ReadOnlyObservableCollection<TModel>, IDisposable where TModel : class, IContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
     {
         private bool NotifyCollectionActv { get; set; }
 
@@ -145,7 +146,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
             IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
             IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
-            IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).ToList();
+            IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
 
             foreach (TModel item in notInCollection)
             {
@@ -168,6 +169,34 @@ namespace iRLeagueManager.ViewModels.Collections
                 }
                 TargetCollection.Add(newItem);
                 //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            }
+
+            Sort();
+        }
+
+        public void Sort()
+        {
+            var sourceList = CollectionSource.ToList();
+            var compareList = CollectionSource.Zip(TargetCollection, (srcItem, trgItem) => new { srcItem, trgItem });
+
+            var changeList = new List<TModel>().Select(x => new { srcIndex = 0, trgItem = x }).ToList();
+
+            // Check for differences
+            foreach (var compare in compareList)
+            {
+                if (compare.srcItem != null && compare.srcItem != compare.trgItem.GetSource())
+                {
+                    var srcIndex = sourceList.IndexOf(compare.srcItem);
+                    var trgItem = TargetCollection.SingleOrDefault(x => x.GetSource() == compare.srcItem);
+
+                    changeList.Add(new { srcIndex, trgItem });
+                }
+            }
+
+            foreach(var change in changeList)
+            {
+                var trgIndex = TargetCollection.IndexOf(change.trgItem);
+                TargetCollection.Move(trgIndex, change.srcIndex);
             }
         }
 

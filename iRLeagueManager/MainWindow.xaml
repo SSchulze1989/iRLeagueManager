@@ -82,7 +82,8 @@
                         </TextBlock.Text>
                     </TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <TextBlock Text="{Binding DbStatus.UpdateStatus}" />
+                        <TextBlock Text="{Binding DbStatus.ConnectionStatus}" Margin="5,0"/>
+                        <TextBlock Text="{Binding DbStatus.UpdateStatus}" Margin="5,0"/>
                     </StackPanel>
                 </Grid>
             </DockPanel>
@@ -118,6 +119,7 @@
                     <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <Button Content="Schedules" Click="SchedulesButton_Click" />
                     <Button Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
+                    <Button Content="Reviews" Click="ReviewsButton_Click" IsEnabled="False"/>
                     <Button Content="Teams" IsEnabled="False"/>
                     <Button Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
@@ -139,6 +141,9 @@
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type vmodel:CalendarViewModel}">
                             <views:CalendarControl/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:ReviewsViewModel}">
+                            <views:ReviewsControl/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:SchedulerViewModel}">
                             <views:SchedulerControl/>

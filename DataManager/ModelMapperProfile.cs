@@ -19,6 +19,8 @@ using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Converters;
+using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager
 {
@@ -257,11 +259,13 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId);
             CreateMap<ScoredResultRowDataDTO, ScoredResultRowModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoredResultRowModel() { ScoredResultRowId = source.ScoredResultRowId}))
-                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId);
+                //.EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
+                ;
 
             CreateMap<ScoredResultDataDTO, ScoredResultModel>()
                 .ConstructUsing(source => ModelManager.PutOrGetModel(new ScoredResultModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), ResultId = source.ResultId}))
                 .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId)
+                //.AfterMap((src, dest) => dest.FinalResults = new ObservableCollection<ScoredResultRowModel>(dest.FinalResults.OrderBy(x => x.FinalPosition)))
                 //.ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.ScoredResults))
                 ;
             CreateMap<StandingsDataDTO, StandingsModel>()

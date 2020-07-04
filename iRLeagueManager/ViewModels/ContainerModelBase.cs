@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
-    public abstract class ContainerModelBase<TSource> : ViewModelBase, IDisposable where TSource : class, INotifyPropertyChanged
+    public abstract class ContainerModelBase<TSource> : ViewModelBase, IContainerModelBase<TSource>, IDisposable where TSource : class, INotifyPropertyChanged
     {
         private TSource _source;
         //[NotifyParentProperty(true)]
@@ -43,7 +43,7 @@ namespace iRLeagueManager.ViewModels
             return UpdateSource(source);
         }
 
-        internal virtual bool UpdateSource(TSource source)
+        public virtual bool UpdateSource(TSource source)
         {
             if (_source != null)
             {

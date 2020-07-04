@@ -6,29 +6,28 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using iRLeagueManager.Models.Members;
+using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.Models.Reviews
 {
-    [Serializable]
-    [XmlInclude(typeof(ReviewCommentModel))]
-    public class CommentBase : ModelBase, INotifyPropertyChanged
+    public class CommentBase : CommentInfo, INotifyPropertyChanged
     {
-        private long? commentId;
-        public long? CommentId { get => commentId; internal set { commentId = value; OnPropertyChanged(); } }
-
-        public override long[] ModelId => new long[] { CommentId.GetValueOrDefault() };
-
-        private SeasonModel season;
-        public virtual SeasonModel Season { get => season; internal set { season = value; OnPropertyChanged(); } }
+        //private SeasonModel season;
+        //public virtual SeasonModel Season { get => season; internal set { season = value; OnPropertyChanged(); } }
+        private CommentInfo replyTo;
+        public CommentInfo ReplyTo { get => replyTo; internal set => SetValue(ref replyTo, value); }
 
         private DateTime date;
-        public DateTime Date { get => date; internal set { date = value; OnPropertyChanged(); } }
+        public DateTime Date { get => date; internal set => SetValue(ref date, value); }
 
         private LeagueMember author;
-        public LeagueMember Author { get => author; internal set { author = value; OnPropertyChanged(); } }
+        public LeagueMember Author { get => author; internal set => SetValue(ref author, value); }
 
         private string text;
-        public string Text { get => text; set { text = value; OnPropertyChanged(); } }
+        public string Text { get => text; set => SetValue(ref text, value); }
+
+        private ObservableCollection<CommentBase> replys;
+        public ObservableCollection<CommentBase> Replys { get => replys; set => SetNotifyCollection(ref replys, value); }
 
         public CommentBase() { }
 
@@ -40,6 +39,11 @@ namespace iRLeagueManager.Models.Reviews
         public CommentBase(LeagueMember author)
         {
             Author = author;
+        }
+
+        public CommentBase(LeagueMember author, CommentInfo replyTo) : this(author)
+        {
+            ReplyTo = replyTo;
         }
 
         internal override void InitializeModel()

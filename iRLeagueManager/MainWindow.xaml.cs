@@ -111,6 +111,12 @@ namespace iRLeagueManager
             }
         }
 
+        private void ReviewsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = new ReviewsViewModel();
+            MainContent.Content = vm;
+        }
+
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             if (mainViewModel.CurrentSeason != null)

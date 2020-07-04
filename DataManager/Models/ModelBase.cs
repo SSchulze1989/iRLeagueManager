@@ -9,13 +9,11 @@ using System.Collections.Specialized;
 
 namespace iRLeagueManager.Models
 {
-    public abstract class ModelBase : INotifyPropertyChanged
+    public abstract class ModelBase : NotifyPropertyChangedBase, INotifyPropertyChanged
     {
         protected bool isInitialized;
 
         public abstract long[] ModelId { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private DateTime? createdOn;
         public DateTime? CreatedOn { get => createdOn; internal set { createdOn = value; OnPropertyChanged(); } }
@@ -77,11 +75,6 @@ namespace iRLeagueManager.Models
                 InitializeModel();
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         protected bool SetValue<T>(ref T targetProperty, T value, [CallerMemberName] string propertyName = "")
         {
             if (targetProperty == null)
@@ -114,7 +107,7 @@ namespace iRLeagueManager.Models
 
         /// <summary>
         /// Setter Method for mapping a collection property that implements INotifyCollectionChanged to a backing field and 
-        /// to register the Collection for the OnCollectionChanged handler; This i Required for LastModifiedOn and LastModifiedBy to be updated
+        /// to register the Collection for the OnCollectionChanged handler; This is Required for LastModifiedOn and LastModifiedBy to be updated
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="targetCollection"></param>

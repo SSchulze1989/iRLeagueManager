@@ -10,12 +10,32 @@ using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.Models.Database;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
+using System.Linq.Expressions;
+using System.ServiceModel.Configuration;
+using System.ComponentModel;
 
 namespace iRLeagueManager.Data
 {
-    public sealed class DbLeagueServiceClient : DbServiceClientBase, ILeagueDBService
+    public sealed class DbLeagueServiceClient : DbServiceClientBase/*, ILeagueDBService*/
     {
         private string EndpointConfigurationName { get; } = "";
+
+        private ILeagueDbServiceClient dbClient;
+        private ILeagueDbServiceClient DbClient
+        {
+            get => dbClient;
+            set
+            {
+                if (dbClient != value)
+                {
+                    if (dbClient != null)
+                        dbClient.PropertyChanged -= ClientPropertyChange;
+                    dbClient = value;
+                    if (dbClient != null)
+                        dbClient.PropertyChanged += ClientPropertyChange;
+                }
+            }
+        }
 
         private string DatabaseName { get; set; }
 
@@ -37,16 +57,34 @@ namespace iRLeagueManager.Data
         //    }
         //}
 
+        private void ClientPropertyChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(DbClient.ConnectionStatus))
+            {
+                UpdateConectionStatus();
+            }
+        }
+
+        private ILeagueDbServiceClient GetDbClient()
+        {
+            return DbClient;
+            //return new WCFLeagueDbClientWrapper();
+            //return new ASPRestAPIClientWrapper(new Uri("https://localhost:44369/api/Home"));
+            //return new ASPRestAPIClientWrapper(new Uri("http://144.91.113.195/iRLeagueRESTService/api/Home"));
+        }
+
         //public DatabaseStatusModel Status { get; }
 
         public DbLeagueServiceClient() : base()
         {
+            DbClient = new WCFLeagueDbClientWrapper();
             username = "TestUser";
             password = "12345678";
         }
 
         public DbLeagueServiceClient(IDatabaseStatus status) : base(status)
         {
+            DbClient = new WCFLeagueDbClientWrapper();
             username = "TestUser";
             password = "12345678";
             //Status = new DatabaseStatusModel();
@@ -57,12 +95,39 @@ namespace iRLeagueManager.Data
             EndpointConfigurationName = endpointConfigurationName;
         }
 
+        public DbLeagueServiceClient(ILeagueDbServiceClient client, IDatabaseStatus status) : this(status)
+        {
+            DbClient = client;
+        }
+
+        public DbLeagueServiceClient(ILeagueDbServiceClient client, IDatabaseStatus status, string endpointConfigurationName) : this(status, endpointConfigurationName)
+        {
+            DbClient = client;
+        }
+
+        public void UpdateConectionStatus()
+        {
+            if (DbClient != null)
+                SetConnectionStatus(Token, DbClient.ConnectionStatus);
+        }
+
+        public bool OpenConnection()
+        {
+            if (DbClient != null)
+                return DbClient.OpenConnection();
+            return false;
+        }
+
+        public bool CloseConnection()
+        {
+            if (DbClient != null)
+                return DbClient.CloseConnection();
+            return false;
+        }
+
         protected override void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
         {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                base.SetDatabaseStatus(token, status, DbClient.Endpoint.Address.Uri.AbsoluteUri);
-            }
+            base.SetDatabaseStatus(token, status, DbClient.ServiceAddress);
         }
 
         public async Task ClientCallAsync(Func<Task> func, UpdateKind updateKind, [CallerMemberName] string callName = "")
@@ -91,13 +156,26 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public async Task<TResult> ClientGetAsync<TResult>(Func<Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue = null, [CallerMemberName] string callName = "") where TResult : class
+        public async Task<TResult> ClientGetAsync<TResult>(Func<Task<TResult>> getFunc, UpdateKind updateKind, [CallerMemberName] string callName = "") where TResult : class
+        {
+            return await ClientGetAsync(getFunc, updateKind, null, callName);
+        }
+
+        public async Task<TResult> ClientGetAsync<TResult>(Func<Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue, [CallerMemberName] string callName = "")
         {
             return await ClientGetAsync<object, TResult>(null, x => getFunc(), UpdateKind.Loading, defaultValue, callName);
         }
 
-        public async Task<TResult> ClientGetAsync<TKey, TResult>(TKey key, Func<TKey, Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue = null, [CallerMemberName] string callName = "") where TResult : class
+        public async Task<TResult> ClientGetAsync<TKey, TResult>(TKey key, Func<TKey, Task<TResult>> getFunc, UpdateKind updateKind, [CallerMemberName] string callName = "") where TResult : class
         {
+            return await ClientGetAsync(key, getFunc, updateKind, null, callName);
+        }
+
+        public async Task<TResult> ClientGetAsync<TKey, TResult>(TKey key, Func<TKey, Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue, [CallerMemberName] string callName = "")
+        {
+            if (DbClient.ConnectionStatus != ConnectionStatusEnum.Connected)
+                return defaultValue;
+
             int timeOutMilliseconds = 10000;
             IToken token = new RequestToken();
             TResult retVar = defaultValue;
@@ -120,18 +198,12 @@ namespace iRLeagueManager.Data
 
         public void CleanUpSessions()
         {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                ((ILeagueDBService)DbClient).CleanUpSessions();
-            }
+            ((ILeagueDBService)DbClient).CleanUpSessions();
         }
 
         public async Task CleanUpSessionsAsync()
         {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                await ClientCallAsync(() => ((ILeagueDBService)DbClient).CleanUpSessionsAsync(), UpdateKind.Saving);
-            }
+            await ClientCallAsync(() => ((ILeagueDBService)DbClient).CleanUpSessionsAsync(), UpdateKind.Saving);
         }
 
         #region POST
@@ -142,17 +214,10 @@ namespace iRLeagueManager.Data
 
         public TTarget[] Post<TTarget>(TTarget[] items) where TTarget : MappableDTO
         {
-            POSTItemsRequestMessage requestMessage = new POSTItemsRequestMessage
+            using (var client = GetDbClient())
             {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
-
-            return DatabasePOST(requestMessage).items.Cast<TTarget>().ToArray();
+                return client.Post<TTarget>(items, username, password, DatabaseName);
+            }
         }
 
         public async Task<TTarget> PostAsync<TTarget>(TTarget item) where TTarget : MappableDTO
@@ -162,17 +227,10 @@ namespace iRLeagueManager.Data
 
         public async Task<TTarget[]> PostAsync<TTarget>(TTarget[] items) where TTarget : MappableDTO
         {
-            POSTItemsRequestMessage requestMessage = new POSTItemsRequestMessage
+            using (var client = GetDbClient())
             {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
-
-            return await ClientGetAsync(async () => (await DatabasePOSTAsync(requestMessage)).items.Cast<TTarget>().ToArray(), UpdateKind.Saving);
+                return await ClientGetAsync(async () => (await client.PostAsync(items, username, password, DatabaseName)), UpdateKind.Saving);
+            }
         }
         #endregion
 
@@ -184,17 +242,7 @@ namespace iRLeagueManager.Data
 
         public TTarget[] Get<TTarget>(long[][] requestIds = null) where TTarget : MappableDTO
         {
-            GETItemsRequestMessage requestMessage = new GETItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                requestItemIds = requestIds
-            };
-
-            return DatabaseGET(requestMessage).items.Cast<TTarget>().ToArray();
+            return DbClient.Get<TTarget>(requestIds, username, password, DatabaseName);
         }
 
         public async Task<TTarget> GetAsync<TTarget>(long[] requestId) where TTarget : MappableDTO
@@ -204,17 +252,8 @@ namespace iRLeagueManager.Data
 
         public async Task<TTarget[]> GetAsync<TTarget>(long[][] requestIds = null) where TTarget : MappableDTO
         {
-            GETItemsRequestMessage requestMessage = new GETItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                requestItemIds = requestIds
-            };
-
-            return await ClientGetAsync(async () => (await DatabaseGETAsync(requestMessage)).items.Cast<TTarget>().ToArray(), UpdateKind.Loading);
+            return await ClientGetAsync(async () => 
+                (await DbClient.GetAsync<TTarget>(requestIds, username, password, DatabaseName)), UpdateKind.Loading);
         }
         #endregion
 
@@ -226,17 +265,7 @@ namespace iRLeagueManager.Data
 
         public TTarget[] Put<TTarget>(TTarget[] items) where TTarget : MappableDTO
         {
-            PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
-
-            return DatabasePUT(requestMessage).items.Cast<TTarget>().ToArray();
+            return DbClient.Put(items, username, password, DatabaseName);
         }
 
         public async Task<TTarget> PutAsync<TTarget>(TTarget item) where TTarget : MappableDTO
@@ -246,38 +275,28 @@ namespace iRLeagueManager.Data
 
         public async Task<TTarget[]> PutAsync<TTarget>(TTarget[] items) where TTarget : MappableDTO
         {
-            PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
-
-            return await ClientGetAsync(async () => (await DatabasePUTAsync(requestMessage)).items.Cast<TTarget>().ToArray(), UpdateKind.Saving);
+            return await ClientGetAsync(async () => (await DbClient.PutAsync(items, username, password, DatabaseName)), UpdateKind.Saving);
         }
 
-        public async Task<object[]> PutAsync(object[] items, Type type)
-        {
-            if (!type.IsSubclassOf(typeof(MappableDTO)))
-            {
-                throw new ArgumentException("Could not finish Database request. Requestet type is not inherited from MappableDTO.");
-            }
+        //public async Task<object[]> PutAsync(object[] items, Type type)
+        //{
+        //    if (!type.IsSubclassOf(typeof(MappableDTO)))
+        //    {
+        //        throw new ArgumentException("Could not finish Database request. Requestet type is not inherited from MappableDTO.");
+        //    }
 
-            PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = type.Name,
-                requestResponse = true,
-                items = items.Select(x => x as MappableDTO).ToArray()
-            };
+        //    PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
+        //    {
+        //        databaseName = DatabaseName,
+        //        userName = username,
+        //        password = password,
+        //        requestItemType = type.Name,
+        //        requestResponse = true,
+        //        items = items.Select(x => x as MappableDTO).ToArray()
+        //    };
 
-            return await ClientGetAsync(async () => (await DatabasePUTAsync(requestMessage)).items.ToArray(), UpdateKind.Saving);
-        }
+        //    return await ClientGetAsync(async () => (await DatabasePUTAsync(requestMessage)).items.ToArray(), UpdateKind.Saving);
+        //}
         #endregion
 
         #region DEL
@@ -288,17 +307,7 @@ namespace iRLeagueManager.Data
 
         public bool Del<TTarget>(long[][] requestIds) where TTarget : MappableDTO
         {
-            DELItemsRequestMessage requestMessage = new DELItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                requestItemIds = requestIds
-            };
-
-            return DatabaseDEL(requestMessage).success;
+            return DbClient.Del<TTarget>(requestIds, username, password, DatabaseName);
         }
 
         public async Task<bool> DelAsync<TTarget>(long[] requestId) where TTarget : MappableDTO
@@ -308,17 +317,7 @@ namespace iRLeagueManager.Data
 
         public async Task<bool> DelAsync<TTarget>(long[][] requestIds) where TTarget : MappableDTO
         {
-            DELItemsRequestMessage requestMessage = new DELItemsRequestMessage
-            {
-                databaseName = DatabaseName,
-                userName = username,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                requestItemIds = requestIds
-            };
-
-            return (await ClientGetAsync(async () => await DatabaseDELAsync(requestMessage), UpdateKind.Saving)).success;
+            return (await ClientGetAsync(async () => (await DbClient.DelAsync<TTarget>(requestIds, username, password, DatabaseName)), UpdateKind.Saving, false));
         }
         #endregion
 
@@ -515,7 +514,7 @@ namespace iRLeagueManager.Data
 
         public string TestDB()
         {
-            using (var DbClient = new LeagueDBServiceClient())
+            using (var DbClient = GetDbClient())
             {
                 return ((ILeagueDBService)DbClient).TestDB();
             }
@@ -523,7 +522,7 @@ namespace iRLeagueManager.Data
 
         public async Task<string> TestDBAsync()
         {
-            using (var DbClient = new LeagueDBServiceClient())
+            using (var DbClient = GetDbClient())
             {
                 return await ClientGetAsync(() => ((ILeagueDBService)DbClient).TestDBAsync(), UpdateKind.Loading);
             }
@@ -531,7 +530,7 @@ namespace iRLeagueManager.Data
 
         public string Test(string name)
         {
-            using (var DbClient = new LeagueDBServiceClient())
+            using (var DbClient = GetDbClient())
             {
                 return ((ILeagueDBService)DbClient).Test(name);
             }
@@ -539,7 +538,7 @@ namespace iRLeagueManager.Data
 
         public async Task<string> TestAsync(string name)
         {
-            using (var DbClient = new LeagueDBServiceClient())
+            using (var DbClient = GetDbClient())
             {
                 return await ClientGetAsync(name, x => ((ILeagueDBService)DbClient).TestAsync(x), UpdateKind.Loading);
             }
@@ -607,15 +606,16 @@ namespace iRLeagueManager.Data
 
         public void CalculateScoredResults(long sessionId)
         {
-            using (var DbClient = new LeagueDBServiceClient())
+            using (var DbClient = GetDbClient())
             {
-                ((ILeagueDBService)DbClient).CalculateScoredResults(sessionId);
+                throw new NotImplementedException();
+                //((ILeagueDBService)DbClient).CalculateScoredResults(sessionId);
             }
         }
 
         public async Task CalculateScoredResultsAsync(long sessionId)
         {
-            using (var DbClient = new LeagueDBServiceClient())
+            using (var DbClient = GetDbClient())
             {
                 await ClientCallAsync(sessionId, x => ((ILeagueDBService)DbClient).CalculateScoredResultsAsync(x), UpdateKind.Saving);
             }
@@ -657,153 +657,76 @@ namespace iRLeagueManager.Data
 
         public ResponseMessage MessageTest(RequestMessage request)
         {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return ((ILeagueDBService)DbClient).MessageTest(request);
-            }
+            return ((ILeagueDBService)DbClient).MessageTest(request);
         }
 
         public async Task<ResponseMessage> MessageTestAsync(RequestMessage request)
         {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return await ((ILeagueDBService)DbClient).MessageTestAsync(request);
-            }
+            return await ((ILeagueDBService)DbClient).MessageTestAsync(request);
         }
 
-        public POSTItemsResponseMessage DatabasePOST(POSTItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return ((ILeagueDBService)DbClient).DatabasePOST(request);
-            }
-        }
+        //public POSTItemsResponseMessage DatabasePOST(POSTItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return DbClient.DatabasePOST(request);
+        //    }
+        //}
 
-        public async Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return await ((ILeagueDBService)DbClient).DatabasePOSTAsync(request);
-            }
-        }
+        //public async Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return await DbClient.DatabasePOSTAsync(request).ConfigureAwait(false);
+        //    }
+        //}
 
-        public GETItemsResponseMessage DatabaseGET(GETItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return ((ILeagueDBService)DbClient).DatabaseGET(request);
-            }
-        }
+        //public GETItemsResponseMessage DatabaseGET(GETItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return DbClient.DatabaseGET(request);
+        //    }
+        //}
 
-        public async Task<GETItemsResponseMessage> DatabaseGETAsync(GETItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return await ((ILeagueDBService)DbClient).DatabaseGETAsync(request).ConfigureAwait(false);
-            }
-        }
+        //public async Task<GETItemsResponseMessage> DatabaseGETAsync(GETItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return await DbClient.DatabaseGETAsync(request).ConfigureAwait(false);
+        //    }
+        //}
 
-        public PUTItemsResponseMessage DatabasePUT(PUTItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return ((ILeagueDBService)DbClient).DatabasePUT(request);
-            }
-        }
+        //public PUTItemsResponseMessage DatabasePUT(PUTItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return DbClient.DatabasePUT(request);
+        //    }
+        //}
 
-        public async Task<PUTItemsResponseMessage> DatabasePUTAsync(PUTItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return await ((ILeagueDBService)DbClient).DatabasePUTAsync(request).ConfigureAwait(false);
-            }
-        }
+        //public async Task<PUTItemsResponseMessage> DatabasePUTAsync(PUTItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return await DbClient.DatabasePUTAsync(request).ConfigureAwait(false);
+        //    }
+        //}
 
-        public DELItemsResponseMessage DatabaseDEL(DELItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return ((ILeagueDBService)DbClient).DatabaseDEL(request);
-            }
-        }
+        //public DELItemsResponseMessage DatabaseDEL(DELItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return DbClient.DatabaseDEL(request);
+        //    }
+        //}
 
-        public async Task<DELItemsResponseMessage> DatabaseDELAsync(DELItemsRequestMessage request)
-        {
-            using (var DbClient = new LeagueDBServiceClient())
-            {
-                return await ((ILeagueDBService)DbClient).DatabaseDELAsync(request).ConfigureAwait(false);
-            }
-        }
-    }
-}
-
-namespace iRLeagueManager.LeagueDBServiceRef
-{
-    partial class LeagueDBServiceClient : IDisposable
-    {
-
-        #region IDisposable Support
-        private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    try
-                    {
-                        if (State == CommunicationState.Faulted)
-                            Abort();
-                        else
-                        {
-                            try
-                            {
-                                Close();
-                            }
-                            catch (Exception closeException)
-                            {
-                                try
-                                {
-                                    Abort();
-                                }
-                                catch (Exception abortException)
-                                {
-                                    throw new AggregateException(closeException, abortException);
-                                }
-                                throw;
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        disposedValue = true;
-                    }
-                }
-
-                // TODO: nicht verwaltete Ressourcen (nicht verwaltete Objekte) freigeben und Finalizer weiter unten überschreiben.
-                // TODO: große Felder auf Null setzen.
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: Finalizer nur überschreiben, wenn Dispose(bool disposing) weiter oben Code für die Freigabe nicht verwalteter Ressourcen enthält.
-        // ~LeagueDBService()
-        // {
-        //   // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in Dispose(bool disposing) weiter oben ein.
-        //   Dispose(false);
-        // }
-
-        // Dieser Code wird hinzugefügt, um das Dispose-Muster richtig zu implementieren.
-        public void Dispose()
-        {
-            // Ändern Sie diesen Code nicht. Fügen Sie Bereinigungscode in Dispose(bool disposing) weiter oben ein.
-            Dispose(true);
-            // TODO: Auskommentierung der folgenden Zeile aufheben, wenn der Finalizer weiter oben überschrieben wird.
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
-
+        //public async Task<DELItemsResponseMessage> DatabaseDELAsync(DELItemsRequestMessage request)
+        //{
+        //    using (var DbClient = GetDbClient())
+        //    {
+        //        return await DbClient.DatabaseDELAsync(request).ConfigureAwait(false);
+        //    }
+        //}
     }
 }

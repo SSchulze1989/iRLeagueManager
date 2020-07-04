@@ -45,7 +45,6 @@ namespace iRLeagueManager.Data
 
         public DbServiceClientBase(IDatabaseStatus status) : this()
         {
-            
             StatusArray.Add(status);
         }
 

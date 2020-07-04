@@ -69,6 +69,7 @@ namespace iRLeagueManager.Data
             });
             seasons = new ObservableCollection<SeasonModel>();
             ModelManager = new ModelManager();
+            CurrentUser = new UserModel(0) { MemberId = 0 };
 #pragma warning disable CS4014 // Da auf diesen Aufruf nicht gewartet wird, wird die Ausführung der aktuellen Methode vor Abschluss des Aufrufs fortgesetzt.
             UpdateMemberList();
 #pragma warning restore CS4014 // Da auf diesen Aufruf nicht gewartet wird, wird die Ausführung der aktuellen Methode vor Abschluss des Aufrufs fortgesetzt.
@@ -112,7 +113,12 @@ namespace iRLeagueManager.Data
             DbContext.RemoveStatusItem(statusItem);
         }
 
-        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = false) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(params long[] modelId) where T : ModelBase
+        {
+            return await GetModelAsync<T>(modelId, true);
+        }
+
+        public async Task<T> GetModelAsync<T>(long[] modelId, bool update) where T : ModelBase
         {
             var mapper = MapperConfiguration.CreateMapper();
             object data = null;
@@ -330,12 +336,15 @@ namespace iRLeagueManager.Data
 
                 if (data == null)
                 {
+                    if (getModelIds == null)
+                        return null;
+
                     foreach (var modelId in getModelIds)
                     {
                         var add = await GetModelAsync<T>(modelId.ToArray());
                         if (add == null)
                             return new T[0];
-                        if (modelList.Any(x => x.ModelId == add.ModelId))
+                        if (modelList.Any(x => x.ModelId.SequenceEqual(add.ModelId)))
                             add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
                         else
                             modelList.Add(add);
@@ -345,11 +354,11 @@ namespace iRLeagueManager.Data
                 {
                     var mapper = MapperConfiguration.CreateMapper();
                     var addList = new List<T>();
-                    mapper.Map(data, modelList);
+                    mapper.Map(data.Where(x => x != null), addList);
                     //modelList.AddRange(addList);
                     foreach (var add in addList)
                     {
-                        if (modelList.Any(x => x.ModelId == add.ModelId))
+                        if (modelList.Any(x => x != null && x.ModelId.SequenceEqual(add.ModelId)))
                             add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
                         else
                             modelList.Add(add);
@@ -359,10 +368,16 @@ namespace iRLeagueManager.Data
 
             foreach(var model in modelList)
             {
-                model.InitializeModel();
+                if (model != null)
+                    model.InitializeModel();
             }
 
-            return modelList;
+            if (modelIds == null)
+                return modelList;
+            else
+            {
+                return modelIds.Select(x => modelList.SingleOrDefault(y => y != null && y.ModelId.SequenceEqual(x)));
+            }
         } 
 
         public async Task<T> UpdateModelAsync<T>(T model) where T : ModelBase

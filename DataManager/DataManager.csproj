@@ -15,6 +15,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,9 +56,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -70,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASPRestAPIClientWrapper.cs" />
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="Connected Services\LeagueDBServiceRef\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -83,7 +92,11 @@
     </Compile>
     <Compile Include="Converters\BonusPointsConverter.cs" />
     <Compile Include="DatabaseToken.cs" />
+    <Compile Include="DbHttpRESTClient.cs" />
     <Compile Include="Exceptions\ModelInitializeException.cs" />
+    <Compile Include="IClientUser.cs" />
+    <Compile Include="ICustomAuthenticationResult.cs" />
+    <Compile Include="ILeagueDbServiceClient.cs" />
     <Compile Include="IModelIdentifier.cs" />
     <Compile Include="LeagueContext.cs" />
     <Compile Include="LocationMapperProfile.cs" />
@@ -115,9 +128,11 @@
     <Compile Include="Models\Results\StandingsModel.cs" />
     <Compile Include="Models\Results\StandingsRowModel.cs" />
     <Compile Include="Models\Reviews\CommentBase.cs" />
+    <Compile Include="Models\Reviews\CommentInfo.cs" />
     <Compile Include="Models\Reviews\IncidentReviewInfo.cs" />
     <Compile Include="Models\Reviews\IncidentReviewModel.cs" />
     <Compile Include="Models\Reviews\ReviewCommentModel.cs" />
+    <Compile Include="Models\Reviews\VoteMemberAtFaultModel.cs" />
     <Compile Include="Models\SeasonModel.cs" />
     <Compile Include="Models\SeasonInfo.cs" />
     <Compile Include="DbServiceClientBase.cs" />
@@ -127,10 +142,13 @@
     <Compile Include="Models\Sessions\SessionModel.cs" />
     <Compile Include="Models\Sessions\SessionInfo.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RESTHttpClient.cs" />
     <Compile Include="SeasonContext.cs" />
     <Compile Include="UserContext.cs" />
     <Compile Include="DbUserServiceClient.cs" />
+    <Compile Include="WCFLeagueDbClientWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -240,6 +258,7 @@
   <ItemGroup>
     <None Include="Connected Services\LeagueDBServiceRef\Service1.disco" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

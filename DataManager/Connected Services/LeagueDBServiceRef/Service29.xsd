@@ -119,7 +119,7 @@
   <xs:element name="ResultRowDataDTO" nillable="true" type="tns:ResultRowDataDTO" />
   <xs:complexType name="ScoredResultDataDTO">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:ResultDataDTO">
+      <xs:extension base="tns:ResultInfoDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="FinalResults" nillable="true" type="tns:ArrayOfScoredResultRowDataDTO" />
           <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />

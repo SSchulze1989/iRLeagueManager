@@ -73,6 +73,7 @@ namespace iRLeagueManager.ViewModels
             if (LeagueContext == null)
             {
                 GlobalSettings.SetGlobalLeagueContext(new LeagueContext());
+                LeagueContext.DbContext.OpenConnection();
             }
 
             LeagueContext.AddStatusItem(DbStatus);

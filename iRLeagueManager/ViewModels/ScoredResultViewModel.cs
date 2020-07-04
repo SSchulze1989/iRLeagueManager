@@ -28,8 +28,19 @@ namespace iRLeagueManager.ViewModels
 
         private ScoringViewModel scoring;
         public ScoringViewModel Scoring { get => scoring; set => SetValue(ref scoring, value); }
-        public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults =>
-            new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>(Model?.FinalResults);
+        //public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults =>
+        //    new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>(Model?.FinalResults);
+
+        private readonly ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> finalResults;
+        public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
+        {
+            get
+            {
+                if (finalResults.GetSource() != Model?.FinalResults)
+                    finalResults.UpdateSource(Model?.FinalResults);
+                return finalResults;
+            }
+        }
 
         public ICommand CalculateResultsCmd { get; private set; }
 
@@ -38,6 +49,7 @@ namespace iRLeagueManager.ViewModels
             Model = Template;
             Session = new SessionViewModel();
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(), o => (Session != null && Scoring != null));
+            finalResults = new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
         }
 
         //public async Task Load()

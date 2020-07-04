@@ -109,16 +109,16 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True">
-                    <DataGridTextColumn.Binding>
-                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
-                            <Binding Path="AvgLapTime.Minutes"/>
-                            <Binding Path="AvgLapTime.Seconds"/>
-                            <Binding Path="AvgLapTime.Milliseconds"/>
-                        </MultiBinding>
-                    </DataGridTextColumn.Binding>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}"/>
+				<DataGridTextColumn Header="Avg. Lap" IsReadOnly="True">
+					<DataGridTextColumn.Binding>
+						<MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+							<Binding Path="AvgLapTime.Minutes"/>
+							<Binding Path="AvgLapTime.Seconds"/>
+							<Binding Path="AvgLapTime.Milliseconds"/>
+						</MultiBinding>
+					</DataGridTextColumn.Binding>
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}"/>
                 <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Penalty" Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;0;0}}" IsReadOnly="True"/>

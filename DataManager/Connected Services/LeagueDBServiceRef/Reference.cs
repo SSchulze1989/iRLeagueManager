@@ -905,7 +905,6 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ResultDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
     [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.ScoredResultDataDTO))]
     public partial class ResultDataDTO : iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1702,7 +1701,7 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ScoredResultDataDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results")]
     [System.SerializableAttribute()]
-    public partial class ScoredResultDataDTO : iRLeagueManager.LeagueDBServiceRef.ResultDataDTO {
+    public partial class ScoredResultDataDTO : iRLeagueManager.LeagueDBServiceRef.ResultInfoDTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.ScoredResultRowDataDTO[] FinalResultsField;

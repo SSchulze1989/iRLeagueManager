@@ -14,7 +14,7 @@ namespace iRLeagueManager.Models.Sessions
     public class SessionInfo : ModelBase, ISessionInfo, INotifyPropertyChanged, IHierarchicalModel
     {
         [EqualityCheckProperty]
-        public long? SessionId { get; }
+        public long? SessionId { get; internal set; }
 
         public override long[] ModelId => new long[] { SessionId.GetValueOrDefault() };
 

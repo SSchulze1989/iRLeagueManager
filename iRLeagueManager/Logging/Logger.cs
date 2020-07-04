@@ -16,15 +16,12 @@ namespace iRLeagueManager.Logging
         private ObservableCollection<ExceptionLogMessage> errorMessages = new ObservableCollection<ExceptionLogMessage>();
         public ReadOnlyObservableCollection<ExceptionLogMessage> ErrorMessages => new ReadOnlyObservableCollection<ExceptionLogMessage>(errorMessages);
         public string LogFilename { get; private set; }
+        public DateTime SessionStart { get; } =  DateTime.Now;
 
         public Logger()
         {
             //Create log file:
             LogFilename = DateTime.Now.ToString("dd_MM_yyyy-hh_mm_ss") + ".log";
-            using (var log = File.CreateText(LogFilename))
-            {
-                log.WriteLine("## Session startet: " + DateTime.Now.ToString() + " - Log Messages ##");
-            }
         }
 
         public void Log(string message, object tag = null)
@@ -35,6 +32,13 @@ namespace iRLeagueManager.Logging
 
         public void Log(LogMessage msg)
         {
+            if (!File.Exists(LogFilename))
+            {
+                using (var log = File.CreateText(LogFilename))
+                {
+                    log.WriteLine("## Session startet: " + DateTime.Now.ToString() + " - Log Messages ##");
+                }
+            }
             messages.Add(msg);
             using (var log = File.AppendText(LogFilename))
             {

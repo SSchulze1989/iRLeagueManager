@@ -107,10 +107,12 @@
     <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\Collections\ScheduleVMCollection.cs" />
+    <Compile Include="ViewModels\CommentViewModel.cs" />
     <Compile Include="ViewModels\ContainerEqualityComparer.cs" />
     <Compile Include="ViewModels\ContainerModelBase.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\HoursCollection.cs" />
+    <Compile Include="ViewModels\IContainerModelBase.cs" />
     <Compile Include="ViewModels\IncidentReviewViewModel.cs" />
     <Compile Include="ViewModels\LeagueContainerModel.cs" />
     <Compile Include="ViewModels\LocationCollection.cs" />
@@ -124,6 +126,8 @@
     <Compile Include="ViewModels\ResultRowViewModel.cs" />
     <Compile Include="ViewModels\ResultsPageViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
+    <Compile Include="ViewModels\ReviewCommentViewModel.cs" />
+    <Compile Include="ViewModels\ReviewsViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultRowViewModel.cs" />
@@ -146,6 +150,9 @@
     </Compile>
     <Compile Include="Views\PointsEditControl.xaml.cs">
       <DependentUpon>PointsEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReviewsControl.xaml.cs">
+      <DependentUpon>ReviewsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SchedulerControl.xaml.cs">
       <DependentUpon>SchedulerControl.xaml</DependentUpon>
@@ -187,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PointsEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

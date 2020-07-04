@@ -11,24 +11,21 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models;
 
 using iRLeagueManager.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.Models.Reviews
 {
     [Serializable]
     public class ReviewCommentModel : CommentBase, IReviewComment, INotifyPropertyChanged
     {
-        private IncidentReviewModel review;
-        public IncidentReviewModel Review { get => review; internal set { review = value; OnPropertyChanged(); } }
+        //private IncidentReviewModel review;
+        //public IncidentReviewModel Review { get => review; internal set { review = value; OnPropertyChanged(); } }
 
         //public ScheduleModel Schedule => Review?.Schedule;
 
         //public override SeasonModel Season => Schedule?.Season;
-
-        private VoteEnum vote;
-        public VoteEnum Vote { get => vote; set { vote = value; OnPropertyChanged(); } }
-
-        private LeagueMember memberAtFault;
-        public LeagueMember MemberAtFault { get => memberAtFault; set { memberAtFault = value; OnPropertyChanged(); } }
+        private ObservableCollection<VoteMemberAtFaultModel> votes;
+        public ObservableCollection<VoteMemberAtFaultModel> Votes { get => votes; set => SetNotifyCollection(ref votes, value); }
 
         public ReviewCommentModel () { }
 

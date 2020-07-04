@@ -22,6 +22,22 @@ using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.ViewModels
 {
+
+    public static class EnumerableExtensions
+    {
+        public static int IndexOf<T>(this IList<T> list, Func<T, bool> selector)
+        {
+            int i = 0;
+            foreach(var item in list)
+            {
+                if (selector(item))
+                    return i;
+                i++;
+            }
+            return -1;
+        }
+    }
+
     public class SessionViewModel : LeagueContainerModel<SessionModel>
     {
         //public SessionModel Model
@@ -47,7 +63,7 @@ namespace iRLeagueManager.ViewModels
 
         public long? SessionId => Model.SessionId;
 
-        public int? SessionNumber => Schedule?.Sessions.IndexOf(Schedule?.Sessions.SingleOrDefault(x => x.SessionId == this.SessionId)) + 1;
+        public int? SessionNumber => Schedule?.Sessions.IndexOf(x => x.SessionId == SessionId) + 1;
 
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
         public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
@@ -200,6 +216,15 @@ namespace iRLeagueManager.ViewModels
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(Schedule):
+                    OnPropertyChanged(nameof(SessionNumber));
+                    break;
+                default:
+                    break;
+            }
 
             if (propertyName == nameof(Model.LocationId))
             {

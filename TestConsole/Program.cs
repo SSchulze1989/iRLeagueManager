@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 using iRLeagueManager;
 using iRLeagueManager.Data;
 using iRLeagueManager.Models;
@@ -16,7 +17,15 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            //var dbClient = new DbLeagueServiceClient();
+            var dbClient = new DbLeagueServiceClient();
+            dbClient.SetDatabaseName("TestDatabase");
+
+            var test = dbClient.GetAsync<SessionDataDTO>(new long[][] { new long[] { 1 }, new long[] { 2 } });
+            test.Wait();
+
+            var entry = test.Result;
+
+            Console.WriteLine(entry);
 
             //var msg = new GETItemsRequestMessage()
             //{
@@ -31,10 +40,6 @@ namespace TestConsole
             //var response = dbClient.DatabaseGET(msg);
             //var scoringDto = response.items.First() as ScoringDataDTO;
 
-            var pair = new MyKeyValuePair<int, int>(1, 2);
-            Console.WriteLine(pair.Key + " - " + pair.Value);
-            MyKeyValuePair pair2 = pair;
-            Console.WriteLine((int)pair2.Key + " - " + (int)pair2.Value);
 
             Console.ReadKey();
         }

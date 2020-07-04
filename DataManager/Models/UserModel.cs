@@ -18,8 +18,8 @@ namespace iRLeagueManager.Models
         private string userName;
         public string UserName { get => userName; set => SetValue(ref userName, value); }
 
-        private int? memberId;
-        public int? MemberId { get => memberId; set => SetValue(ref memberId, value); }
+        private long? memberId;
+        public long? MemberId { get => memberId; set => SetValue(ref memberId, value); }
         long? IAdmin.MemberId => (MemberId == null) ? 0 : (int)MemberId;
 
         private string firstname;
