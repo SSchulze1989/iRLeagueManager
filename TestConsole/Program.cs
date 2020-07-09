@@ -17,10 +17,12 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var dbClient = new DbLeagueServiceClient();
+            var dbClient = new LeagueDBServiceClient();
             dbClient.SetDatabaseName("TestDatabase");
 
-            var test = dbClient.GetAsync<SessionDataDTO>(new long[][] { new long[] { 1 }, new long[] { 2 } });
+            byte[] pw = Encoding.UTF8.GetBytes("TestPasswort");
+
+            var test = dbClient.AuthenticateUserAsync("Master", pw, "TestDatabase");
             test.Wait();
 
             var entry = test.Result;

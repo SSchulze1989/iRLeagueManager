@@ -20,10 +20,11 @@ using iRLeagueManager.Models.Database;
 using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.Locations;
 using System.Data;
+using System.Collections;
 
 namespace iRLeagueManager.Data
 {
-    public class LeagueContext  //: ILeagueContext
+    public class LeagueContext
     {
         private ModelMapperProfile MapperProfile { get; }
         private LocationMapperProfile LocationMapperProfile { get; }
@@ -56,7 +57,8 @@ namespace iRLeagueManager.Data
         public LeagueContext() : base()
         {
             MapperProfile = new ModelMapperProfile();
-            DbContext = new DbLeagueServiceClient();
+            DbContext = new DbLeagueServiceClient(new WCFLeagueDbClientWrapper());
+            DbContext.OpenConnection();
             DbContext.SetDatabaseName(DatabaseName);
             LocationMapperProfile = new LocationMapperProfile(LocationCollection);
             MapperProfile.LeagueContext = this;
@@ -69,11 +71,8 @@ namespace iRLeagueManager.Data
             });
             seasons = new ObservableCollection<SeasonModel>();
             ModelManager = new ModelManager();
-            CurrentUser = new UserModel(0) { MemberId = 0 };
-#pragma warning disable CS4014 // Da auf diesen Aufruf nicht gewartet wird, wird die Ausführung der aktuellen Methode vor Abschluss des Aufrufs fortgesetzt.
-            UpdateMemberList();
-#pragma warning restore CS4014 // Da auf diesen Aufruf nicht gewartet wird, wird die Ausführung der aktuellen Methode vor Abschluss des Aufrufs fortgesetzt.
-                              //DbStatus.ConnectionStatus = ConnectionStatusEnum.Connected;
+            CurrentUser = UserModel.GetAnonymous();
+            _ = UpdateMemberList();
         }
 
         public async Task<IEnumerable<SeasonModel>> GetSeasonListAsync()
@@ -95,12 +94,34 @@ namespace iRLeagueManager.Data
 
         public LeagueContext(IDatabaseStatus status) : this()
         {
-            DbContext = new DbLeagueServiceClient(status);
+            DbContext.AddStatusItem(status);
         }
 
-        public void SetUser(UserModel user)
+        public async Task<bool> UserLoginAsync(string userName, byte[] password)
         {
-            CurrentUser = user;
+            var authResult = await DbContext.AuthenticateUserAsync(userName, password);
+
+            var mapper = MapperConfiguration.CreateMapper();
+            if (authResult.IsAuthenticated)
+            {
+                CurrentUser = mapper.Map<UserModel>(authResult.AuthenticatedUser);
+                return true;
+            }
+            else
+            {
+                CurrentUser = UserModel.GetAnonymous();
+            }
+
+            return false;
+        }
+
+        public void Reconnect()
+        {
+            if (DbContext != null)
+            {
+                DbContext.SetDbClient(new WCFLeagueDbClientWrapper());
+                CurrentUser = UserModel.GetAnonymous();
+            }
         }
 
         public void AddStatusItem(IDatabaseStatus statusItem)
@@ -118,121 +139,127 @@ namespace iRLeagueManager.Data
             return await GetModelAsync<T>(modelId, true);
         }
 
-        public async Task<T> GetModelAsync<T>(long[] modelId, bool update) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : ModelBase
         {
-            var mapper = MapperConfiguration.CreateMapper();
-            object data = null;
-            var requestId = modelId.ToArray();
-            T model = ModelManager.GetModel<T>(modelId);
+            return (await GetModelsAsync<T>(new long[][] { modelId }, update, reload)).FirstOrDefault();
+            //var mapper = MapperConfiguration.CreateMapper();
+            //object data = null;
+            //var requestId = modelId.ToArray();
+            //T model = ModelManager.GetModel<T>(modelId);
 
-            if (model != null)
-            {
-                if (update)
-                    _ = UpdateModelAsync(model);
-                return model;
-            }
+            //if (model != null)
+            //{
+            //    if (update)
+            //        _ = UpdateModelAsync(model);
+            //    return model;
+            //}
 
-            if (typeof(T).Equals(typeof(SeasonModel)))
-            {
-                data = await DbContext.GetAsync<SeasonDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(ScheduleModel)))
-            {
-                //data = await DbContext.GetScheduleAsync(modelId);
-                data = await DbContext.GetAsync<ScheduleDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(SessionModel)))
-            {
-                data = await DbContext.GetAsync<SessionDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(RaceSessionModel)))
-            {
-                data = await DbContext.GetAsync<RaceSessionDataDTO>(requestId);
-                if (((SessionModel)data).SessionType != SessionType.Race)
-                {
-                    throw new Exception("Could not load race session #" + modelId + ". Session has not the type \"Race\"");
-                }
-            }
-            else if (typeof(T).Equals(typeof(IncidentReviewModel)))
-            {
-                data = await DbContext.GetAsync<IncidentReviewDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(CommentBase)))
-            {
-                data = await DbContext.GetAsync<CommentDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(ReviewCommentModel)))
-            {
-                data = await DbContext.GetAsync<ReviewCommentDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(ResultModel)))
-            {
-                data = await DbContext.GetAsync<ResultDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(LeagueMember)))
-            {
-                data = await DbContext.GetAsync<LeagueMemberDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(ScoringModel)))
-            {
-                data = await DbContext.GetAsync<ScoringDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(ScoringRuleBase)))
-            {
-                throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
-            }
-            else if (typeof(T).Equals(typeof(ScoredResultModel)))
-            {
-                data = await DbContext.GetAsync<ScoredResultDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(ResultRowModel)))
-            {
-                data = await DbContext.GetAsync<ResultRowDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(StandingsModel)))
-            {
-                data = await DbContext.GetAsync<StandingsDataDTO>(requestId);
-            }
-            else if (typeof(T).Equals(typeof(AddPenaltyModel)))
-            {
-                data = await DbContext.GetAsync<AddPenaltyDTO>(requestId);
-            }
-            else
-            {
-                throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
-            }
+            ////if (typeof(T).Equals(typeof(SeasonModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<SeasonDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(ScheduleModel)))
+            ////{
+            ////    //data = await DbContext.GetScheduleAsync(modelId);
+            ////    data = await DbContext.GetAsync<ScheduleDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(SessionModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<SessionDataDTO>(requestId);
+            ////}
+            ////else 
+            //if (typeof(T).Equals(typeof(RaceSessionModel)))
+            //{
+            //    data = await DbContext.GetAsync<RaceSessionDataDTO>(requestId);
+            //    if (((SessionModel)data).SessionType != SessionType.Race)
+            //    {
+            //        throw new Exception("Could not load race session #" + modelId + ". Session has not the type \"Race\"");
+            //    }
+            //}
+            ////else if (typeof(T).Equals(typeof(IncidentReviewModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<IncidentReviewDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(CommentBase)))
+            ////{
+            ////    data = await DbContext.GetAsync<CommentDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(ReviewCommentModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<ReviewCommentDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(ResultModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<ResultDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(LeagueMember)))
+            ////{
+            ////    data = await DbContext.GetAsync<LeagueMemberDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(ScoringModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<ScoringDataDTO>(requestId);
+            ////}
+            //else if (typeof(T).Equals(typeof(ScoringRuleBase)))
+            //{
+            //    throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
+            //}
+            ////else if (typeof(T).Equals(typeof(ScoredResultModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<ScoredResultDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(ResultRowModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<ResultRowDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(StandingsModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<StandingsDataDTO>(requestId);
+            ////}
+            ////else if (typeof(T).Equals(typeof(AddPenaltyModel)))
+            ////{
+            ////    data = await DbContext.GetAsync<AddPenaltyDTO>(requestId);
+            ////}
+            ////else
+            ////{
+            ////    throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
+            ////}
+            //else
+            //{
+            //    data = DbContext.GetAsync(requestId, typeof(T)) as T;
+            //}
 
 
-            if (data != null)
-            {
-                model = mapper.Map<T>(data);
-                model.InitializeModel();
-                return model;
-            }
-            else
-            {
-                throw new Exception("Could not load model of type " + typeof(T).ToString() + " with ID: " + modelId.Select(x => x.ToString()).Aggregate((x,y) => x + " | " + y) + ". Database response was NULL. (No matching element found)");
-            }
+            //if (data != null)
+            //{
+            //    model = mapper.Map<T>(data);
+            //    model.InitializeModel();
+            //    return model;
+            //}
+            //else
+            //{
+            //    throw new Exception("Could not load model of type " + typeof(T).ToString() + " with ID: " + modelId.Select(x => x.ToString()).Aggregate((x,y) => x + " | " + y) + ". Database response was NULL. (No matching element found)");
+            //}
         }
 
-        public async Task<T> GetModelAsync<T>(long modelId, long? modelId2nd = null, long? modelId3rd = null, bool update = false) where T : ModelBase
-        {
-            List<long> requestId = new List<long>();
-            requestId.Add(modelId);
-            if (modelId2nd != null)
-                requestId.Add(modelId2nd.Value);
-            if (modelId3rd != null)
-                requestId.Add(modelId3rd.Value);
+        //public async Task<T> GetModelAsync<T>(long modelId, long? modelId2nd = null, long? modelId3rd = null, bool update = false) where T : ModelBase
+        //{
+        //    List<long> requestId = new List<long>();
+        //    requestId.Add(modelId);
+        //    if (modelId2nd != null)
+        //        requestId.Add(modelId2nd.Value);
+        //    if (modelId3rd != null)
+        //        requestId.Add(modelId3rd.Value);
 
-            return await GetModelAsync<T>(requestId.ToArray(), update);
-        }
+        //    return await GetModelAsync<T>(requestId.ToArray(), update);
+        //}
 
         public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : ModelBase
         {
-            return await GetModelsAsync<T>(modelIds.Select(x => new long[] { x }));
+            return await GetModelsAsync<T>(modelIds.Select(x => new long[] { x }).ToArray());
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool reload = false) where T : ModelBase
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : ModelBase
         {
             object[] data = null;
             List<T> modelList = new List<T>();
@@ -265,7 +292,8 @@ namespace iRLeagueManager.Data
             //{
             //    await UpdateModelsAsync(updateList.ToArray());
             //});
-            _ = UpdateModelsAsync(updateList.ToArray());
+            if (update)
+                _ = UpdateModelsAsync(updateList.ToArray());
 
             if (getModelIds == null || getModelIds.Count > 0)
             {
@@ -333,6 +361,7 @@ namespace iRLeagueManager.Data
                 {
                     throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
                 }
+                //data = await DbContext.GetAsync(getModelIds?.Select(x => x.ToArray()).ToArray(), typeof(T));
 
                 if (data == null)
                 {
@@ -382,94 +411,95 @@ namespace iRLeagueManager.Data
 
         public async Task<T> UpdateModelAsync<T>(T model) where T : ModelBase
         {
-            var mapper = MapperConfiguration.CreateMapper();
-            object data;
+            return (await UpdateModelsAsync<T>(new T[] { model })).FirstOrDefault();
+            //var mapper = MapperConfiguration.CreateMapper();
+            //object data;
             
-            if (model is SeasonModel)
-            {
-                data = mapper.Map<SeasonDataDTO>(model);
-                data = await DbContext.PutAsync(data as SeasonDataDTO);
-            }
-            else if (model is ScheduleModel)
-            {
-                data = mapper.Map<ScheduleDataDTO>(model);
-                data = await DbContext.PutAsync(data as ScheduleDataDTO);
-            }
-            else if (model is RaceSessionModel)
-            {
-                data = mapper.Map<RaceSessionDataDTO>(model);
-                data = await DbContext.PutAsync(data as RaceSessionDataDTO);
-                if (((SessionDataDTO)data).SessionType != SessionType.Race)
-                {
-                    throw new Exception("Could not load race session #" + (model as SessionModel).SessionId + ". Session has not the type \"Race\"");
-                }
-            }
-            else if (model is SessionModel)
-            {
-                data = mapper.Map<SessionDataDTO>(model);
-                data = await DbContext.PutAsync(data as SessionDataDTO);
-            }
-            else if (model is IncidentReviewModel)
-            {
-                data = mapper.Map<IncidentReviewDataDTO>(model);
-                data = await DbContext.PutAsync(data as IncidentReviewDataDTO);
-            }
-            else if (model is CommentBase)
-            {
-                //data = mapper.Map<CommentDataDTO>(model);
-                //data = await DbContext.PutComment(model as CommentDataDTO);
-                throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
-            }
-            else if (model is ReviewCommentModel)
-            {
-                data = mapper.Map<ReviewCommentDataDTO>(model);
-                data = await DbContext.PutAsync(data as ReviewCommentDataDTO);
-            }
-            else if (model is ResultModel)
-            {
-                data = mapper.Map<ResultDataDTO>(model);
-                data = await DbContext.PutAsync(data as ResultDataDTO);
-            }
-            else if (model is LeagueMember)
-            {
-                data = mapper.Map<LeagueMemberDataDTO>(model);
-                data = await DbContext.PutAsync(data as LeagueMemberDataDTO);
-            }
-            else if (model is ResultRowModel)
-            {
-                data = mapper.Map<ResultRowDataDTO>(model);
-                data = await DbContext.PutAsync(data as ResultRowDataDTO);
-            }
-            else if (model is ScoredResultModel)
-            {
-                data = await DbContext.GetAsync<ScoredResultDataDTO>(model.ModelId);
-            }
-            else if (model is StandingsModel)
-            {
-                data = await DbContext.GetAsync<StandingsDataDTO>(model.ModelId);
-            }
-            else if (model is ScoringModel)
-            {
-                data = mapper.Map<ScoringDataDTO>(model);
-                data = await DbContext.PutAsync(data as ScoringDataDTO);
-            }
-            else if (model is AddPenaltyModel)
-            {
-                data = mapper.Map<AddPenaltyDTO>(model);
-                data = await DbContext.PutAsync(data as AddPenaltyDTO);
-            }
-            else if (model is ScoringRuleBase)
-            {
-                throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
-            }
-            else
-            {
-                throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
-            }
+            //if (model is SeasonModel)
+            //{
+            //    data = mapper.Map<SeasonDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as SeasonDataDTO);
+            //}
+            //else if (model is ScheduleModel)
+            //{
+            //    data = mapper.Map<ScheduleDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as ScheduleDataDTO);
+            //}
+            //else if (model is RaceSessionModel)
+            //{
+            //    data = mapper.Map<RaceSessionDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as RaceSessionDataDTO);
+            //    if (((SessionDataDTO)data).SessionType != SessionType.Race)
+            //    {
+            //        throw new Exception("Could not load race session #" + (model as SessionModel).SessionId + ". Session has not the type \"Race\"");
+            //    }
+            //}
+            //else if (model is SessionModel)
+            //{
+            //    data = mapper.Map<SessionDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as SessionDataDTO);
+            //}
+            //else if (model is IncidentReviewModel)
+            //{
+            //    data = mapper.Map<IncidentReviewDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as IncidentReviewDataDTO);
+            //}
+            //else if (model is CommentBase)
+            //{
+            //    //data = mapper.Map<CommentDataDTO>(model);
+            //    //data = await DbContext.PutComment(model as CommentDataDTO);
+            //    throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
+            //}
+            //else if (model is ReviewCommentModel)
+            //{
+            //    data = mapper.Map<ReviewCommentDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as ReviewCommentDataDTO);
+            //}
+            //else if (model is ResultModel)
+            //{
+            //    data = mapper.Map<ResultDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as ResultDataDTO);
+            //}
+            //else if (model is LeagueMember)
+            //{
+            //    data = mapper.Map<LeagueMemberDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as LeagueMemberDataDTO);
+            //}
+            //else if (model is ResultRowModel)
+            //{
+            //    data = mapper.Map<ResultRowDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as ResultRowDataDTO);
+            //}
+            //else if (model is ScoredResultModel)
+            //{
+            //    data = await DbContext.GetAsync<ScoredResultDataDTO>(model.ModelId);
+            //}
+            //else if (model is StandingsModel)
+            //{
+            //    data = await DbContext.GetAsync<StandingsDataDTO>(model.ModelId);
+            //}
+            //else if (model is ScoringModel)
+            //{
+            //    data = mapper.Map<ScoringDataDTO>(model);
+            //    data = await DbContext.PutAsync(data as ScoringDataDTO);
+            //}
+            //else if (model is AddPenaltyModel)
+            //{
+            //    data = mapper.Map<AddPenaltyDTO>(model);
+            //    data = await DbContext.PutAsync(data as AddPenaltyDTO);
+            //}
+            //else if (model is ScoringRuleBase)
+            //{
+            //    throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
+            //}
+            //else
+            //{
+            //    throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
+            //}
 
-            mapper.Map(data, model);
-            model.InitializeModel();
-            return model;
+            //mapper.Map(data, model);
+            //model.InitializeModel();
+            //return model;
         }
 
         public async Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : ModelBase
@@ -477,7 +507,7 @@ namespace iRLeagueManager.Data
             List<T> modelList = models.ToList();
 
             var mapper = MapperConfiguration.CreateMapper();
-            object[] data = null;
+            object[] data = new object[0];
 
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
@@ -524,7 +554,7 @@ namespace iRLeagueManager.Data
                 data = mapper.Map<IEnumerable<LeagueMemberDataDTO>>(models).ToArray();
                 data = await DbContext.PutAsync(data.Cast<LeagueMemberDataDTO>().ToArray());
             }
-            else if(typeof(T).Equals(typeof(ScoringModel)))
+            else if (typeof(T).Equals(typeof(ScoringModel)))
             {
                 data = mapper.Map<IEnumerable<ScoringDataDTO>>(models).ToArray();
                 data = await DbContext.PutAsync(data.Cast<ScoringDataDTO>().ToArray());
@@ -534,7 +564,8 @@ namespace iRLeagueManager.Data
                 data = mapper.Map<IEnumerable<ResultRowDataDTO>>(models).ToArray();
                 data = await DbContext.PutAsync(data.Cast<ResultRowDataDTO>().ToArray());
             }
-            else if (typeof(T).Equals(typeof(ScoredResultModel)))
+            else
+            if (typeof(T).Equals(typeof(ScoredResultModel)))
             {
                 data = await DbContext.GetAsync<ScoredResultDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
             }
@@ -546,6 +577,9 @@ namespace iRLeagueManager.Data
             {
                 throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
             }
+
+            if (data == null)
+                return null;
 
             for (int i=0; i<modelList.Count; i++)
             {
@@ -738,6 +772,142 @@ namespace iRLeagueManager.Data
             }
 
             return modelList;
+        }
+
+        private Type GetModelDtoType(Type modelType)
+        {
+            if (modelType.Equals(typeof(SeasonModel)))
+            {
+                return typeof(SeasonDataDTO);
+            }
+            else if (modelType.Equals(typeof(SessionModel)))
+            {
+                return typeof(SessionDataDTO);
+            }
+            else if (modelType.Equals(typeof(RaceSessionModel)))
+            {
+                return typeof(RaceSessionDataDTO);
+            }
+            else if (modelType.Equals(typeof(ScheduleModel)))
+            {
+                return typeof(ScheduleDataDTO);
+            }
+            else if (modelType.Equals(typeof(IncidentReviewModel)))
+            {
+                return typeof(IncidentReviewDataDTO);
+            }
+            else if (modelType.Equals(typeof(CommentBase)))
+            {
+                return typeof(CommentDataDTO);
+            }
+            else if (modelType.Equals(typeof(ReviewCommentModel)))
+            {
+                return typeof(ReviewCommentDataDTO);
+            }
+            else if (modelType.Equals(typeof(ResultModel)))
+            {
+                return typeof(ResultDataDTO);
+            }
+            else if (modelType.Equals(typeof(LeagueMember)))
+            {
+                return typeof(LeagueMemberDataDTO);
+            }
+            else if (modelType.Equals(typeof(ScoringModel)))
+            {
+                return typeof(ScoringDataDTO);
+            }
+            else if (modelType.Equals(typeof(ResultRowModel)))
+            {
+                return typeof(ResultRowDataDTO);
+            }
+            else if (modelType.Equals(typeof(AddPenaltyModel)))
+            {
+                return typeof(AddPenaltyDTO);
+            }
+            else if (modelType.Equals(typeof(ScoredResultModel)))
+            {
+                return typeof(ScoredResultDataDTO);
+            }
+            else if (modelType.Equals(typeof(ScoredResultRowModel)))
+            {
+                return typeof(ScoredResultRowDataDTO);
+            }
+            else if (modelType.Equals(typeof(ScoringRuleBase)))
+            {
+                throw new NotImplementedException("Loading of model from type " + modelType.ToString() + " not yet supported.");
+            }
+            else
+            {
+                throw new UnknownModelTypeException("Could not load Model of type " + modelType.ToString() + ". Model type not known.");
+            }
+        }
+
+        private Type GetModelDtoEnumerable(Type modelType)
+        {
+            if (modelType.Equals(typeof(SeasonModel)))
+            {
+                return typeof(IEnumerable<SeasonDataDTO>);
+            }
+            else if (modelType.Equals(typeof(SessionModel)))
+            {
+                return typeof(IEnumerable<SessionDataDTO>);
+            }
+            else if (modelType.Equals(typeof(RaceSessionModel)))
+            {
+                return typeof(IEnumerable<RaceSessionDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ScheduleModel)))
+            {
+                return typeof(IEnumerable<ScheduleDataDTO>);
+            }
+            else if (modelType.Equals(typeof(IncidentReviewModel)))
+            {
+                return typeof(IEnumerable<IncidentReviewDataDTO>);
+            }
+            else if (modelType.Equals(typeof(CommentBase)))
+            {
+                return typeof(IEnumerable<CommentDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ReviewCommentModel)))
+            {
+                return typeof(IEnumerable<ReviewCommentDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ResultModel)))
+            {
+                return typeof(IEnumerable<ResultDataDTO>);
+            }
+            else if (modelType.Equals(typeof(LeagueMember)))
+            {
+                return typeof(IEnumerable<LeagueMemberDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ScoringModel)))
+            {
+                return typeof(IEnumerable<ScoringDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ResultRowModel)))
+            {
+                return typeof(IEnumerable<ResultRowDataDTO>);
+            }
+            else if (modelType.Equals(typeof(AddPenaltyModel)))
+            {
+                return typeof(IEnumerable<AddPenaltyDTO>);
+            }
+            else if (modelType.Equals(typeof(ScoredResultModel)))
+            {
+                return typeof(IEnumerable<ScoredResultDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ScoredResultRowModel)))
+            {
+                return typeof(IEnumerable<ScoredResultRowDataDTO>);
+            }
+            else if (modelType.Equals(typeof(ScoringRuleBase)))
+            {
+                throw new NotImplementedException("Loading of model from type " + modelType.ToString() + " not yet supported.");
+            }
+            else
+            {
+                throw new UnknownModelTypeException("Could not load Model of type " + modelType.ToString() + ". Model type not known.");
+            }
         }
     }
     

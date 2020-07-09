@@ -119,7 +119,7 @@ namespace iRLeagueManager.ViewModels
             PracticeLenghtComponents = new TimeComponentVector(() => PracticeLength, x => PracticeLength = x);
             QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
             RaceLengthComponents = new TimeComponentVector(() => RaceLength, x => RaceLength = x);
-            UploadFileCmd = new RelayCommand(o => UploadFile(Model), o => true);
+            UploadFileCmd = new RelayCommand(o => UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
         }
 
         public async void UploadFile(SessionModel session)

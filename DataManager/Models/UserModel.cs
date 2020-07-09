@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
 
 
@@ -11,9 +11,9 @@ namespace iRLeagueManager.Models
 {
     public class UserModel : ModelBase, IAdmin
     {
-        public int UserId { get; }
+        public long? UserId { get; internal set; }
 
-        public override long[] ModelId => new long[] { UserId };
+        public override long[] ModelId => new long[] { UserId.GetValueOrDefault() };
 
         private string userName;
         public string UserName { get => userName; set => SetValue(ref userName, value); }
@@ -21,6 +21,9 @@ namespace iRLeagueManager.Models
         private long? memberId;
         public long? MemberId { get => memberId; set => SetValue(ref memberId, value); }
         long? IAdmin.MemberId => (MemberId == null) ? 0 : (int)MemberId;
+
+        private AdminRights adminRights;
+        public AdminRights AdminRights { get => adminRights; internal set => SetValue(ref adminRights, value); }
 
         private string firstname;
         public string Firstname
@@ -52,12 +55,14 @@ namespace iRLeagueManager.Models
 
         public string FullName { get => Firstname + " " + Lastname;  }
 
-        //private AdminModel admin;
-        //public AdminModel Admin { get => admin; set => SetValue(ref admin, value); }
-
-        public UserModel(int userId)
+        public UserModel(long userId)
         {
             UserId = userId;
+        }
+
+        public static UserModel GetAnonymous()
+        {
+            return new UserModel(0) { UserName = "AnonymousUser", AdminRights = AdminRights.Member, Firstname = "Anonymous", Lastname = "User" };
         }
     }
 }

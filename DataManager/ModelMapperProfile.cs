@@ -280,6 +280,10 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
                 .ReverseMap();
 
+            CreateMap<LeagueUserDTO, UserModel>()
+                .ConstructUsing(source => ModelManager.PutOrGetModel(new UserModel(source.AdminId)))
+                .EqualityComparison((src, dest) => src.AdminId == dest.UserId);
+
             CreateMap<UserDTO, UserModel>()
                 .ConstructUsing(src => new UserModel(src.UserId));
                 //.ForMember(dest => dest.Admin, opt => opt.MapFrom(src => src));
@@ -300,19 +304,6 @@ namespace iRLeagueManager
                 .ConvertUsing<LapTimeConverter>();
             CreateMap<LapInterval, TimeSpan>()
                 .ConvertUsing<LapIntervalConverter>();
-        }
-
-        private static void SetCurrentSchedules (IEnumerable<ScheduleModel> schedules)
-        {
-            CurrentSchedules = schedules;
-        }
-
-        private static TDest ConditionalConstructor<TSource, TDest>(TSource source, IEnumerable<TDest> sourceCollection, Func<TDest, bool> comparer, Func<TDest> constructor)
-        {
-            TDest dest = sourceCollection.SingleOrDefault(x => comparer.Invoke(x));
-            if (dest != null)
-                return dest;
-            return constructor.Invoke();
         }
 
         private void SortObservableCollection<T, TKey>(ObservableCollection<T> collection, Func<T, TKey> key)

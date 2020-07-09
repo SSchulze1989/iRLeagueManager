@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,8 @@ namespace iRLeagueManager.Data
 
         public CommunicationState State => (client != null) ? client.State : CommunicationState.Closed;
 
-        public ConnectionStatusEnum ConnectionStatus => (client != null) ?  GetConnectionStatus(client.State) : ConnectionStatusEnum.Disconnected;
+        private ConnectionStatusEnum connectionStatus = ConnectionStatusEnum.Disconnected;
+        public ConnectionStatusEnum ConnectionStatus { get => connectionStatus; protected set { connectionStatus = value; OnPropertyChanged(); } }
 
         public string ServiceAddress => client?.Endpoint.Address.Uri.AbsoluteUri;
 
@@ -40,47 +42,39 @@ namespace iRLeagueManager.Data
 
         public bool OpenConnection()
         {
-            if (EndpointConfigurationName == "")
-                client = new LeagueDBServiceClient();
-            else
-                client = new LeagueDBServiceClient(EndpointConfigurationName);
+            //if (EndpointConfigurationName == "")
+            //    client = new LeagueDBServiceClient();
+            //else
+            //    client = new LeagueDBServiceClient(EndpointConfigurationName);
 
-            try
-            {
-                client.Open();
-            }
-            catch
-            {
-                return false;
-            }
-            OnPropertyChanged(nameof(ConnectionStatus));
+            //try
+            //{
+            //    client.Open();
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+            ConnectionStatus = ConnectionStatusEnum.Connected;
+            //OnPropertyChanged(nameof(ConnectionStatus));
             return true;
         }
 
         public bool CloseConnection()
         {
-            try
-            {
-                client.Close();
-                ((IDisposable)client).Dispose();
-            }
-            catch
-            {
-                return false;
-            }
-            client = null;
-            OnPropertyChanged(nameof(ConnectionStatus));
+            //try
+            //{
+            //    client.Close();
+            //    ((IDisposable)client).Dispose();
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+            //client = null;
+            //OnPropertyChanged(nameof(ConnectionStatus));
+            ConnectionStatus = ConnectionStatusEnum.Disconnected;
             return true;
-        }
-
-        public ICustomAuthenticationResult Authenticate(string userName, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IClientUser Register(string userName, string password)
-        {
-            throw new NotImplementedException();
         }
 
         private ConnectionStatusEnum GetConnectionStatus(CommunicationState communicationState)
@@ -104,234 +98,362 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public TTarget[] Get<TTarget>(long[][] requestIds, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //public TTarget[] Get<TTarget>(long[][] requestIds, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //{
+        //    return Get(requestIds, typeof(TTarget), userName, password, databaseName).Cast<TTarget>().ToArray();
+        //}
+
+        //public MappableDTO[] Get(long[][] requestIds, Type requestType, string userName, string password, string databaseName)
+        //{
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    GETItemsRequestMessage requestMessage = new GETItemsRequestMessage
+        //    {
+        //        databaseName = databaseName,
+        //        userName = userName,
+        //        password = password,
+        //        requestItemType = requestType.Name,
+        //        requestResponse = true,
+        //        requestItemIds = requestIds
+        //    };
+
+        //    var result = DatabaseGET(requestMessage).items;
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    return result;
+        //}
+
+        public async Task<TTarget[]> GetAsync<TTarget>(long[][] requestIds, string databaseName) where TTarget : MappableDTO
         {
+            return (await GetAsync(requestIds, typeof(TTarget), databaseName)).Cast<TTarget>().ToArray();
+        }
+
+        public async Task<MappableDTO[]> GetAsync(long[][] requestIds, Type requestType, string databaseName)
+        { 
             OnPropertyChanged(nameof(ConnectionStatus));
             GETItemsRequestMessage requestMessage = new GETItemsRequestMessage
             {
                 databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
+                userName = "",
+                password = "",
+                requestItemType = requestType.Name,
                 requestResponse = true,
                 requestItemIds = requestIds
             };
 
-            var result = DatabaseGET(requestMessage).items.Cast<TTarget>().ToArray();
+            var result = (await DatabaseGETAsync(requestMessage)).items;
             OnPropertyChanged(nameof(ConnectionStatus));
             return result;
         }
 
-        public async Task<TTarget[]> GetAsync<TTarget>(long[][] requestIds, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //public TTarget[] Post<TTarget>(TTarget[] items, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //{
+        //    return Post(items, typeof(TTarget), userName, password, databaseName).Cast<TTarget>().ToArray();
+        //}
+
+        //public MappableDTO[] Post(MappableDTO[] items, Type requestType, string userName, string password, string databaseName)
+        //{
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    POSTItemsRequestMessage requestMessage = new POSTItemsRequestMessage
+        //    {
+        //        databaseName = databaseName,
+        //        userName = userName,
+        //        password = password,
+        //        requestItemType = requestType.Name,
+        //        requestResponse = true,
+        //        items = items,
+        //    };
+
+        //    var result = DatabasePOST(requestMessage).items;
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    return result;
+        //}
+
+        public async Task<TTarget[]> PostAsync<TTarget>(TTarget[] items, string databaseName) where TTarget : MappableDTO
         {
+            return (await PostAsync(items, typeof(TTarget), databaseName)).Cast<TTarget>().ToArray();
+        }
+
+        public async Task<MappableDTO[]> PostAsync(MappableDTO[] items, Type requestType, string databaseName)
+        {   
             OnPropertyChanged(nameof(ConnectionStatus));
-            GETItemsRequestMessage requestMessage = new GETItemsRequestMessage
+            POSTItemsRequestMessage requestMessage = new POSTItemsRequestMessage
             {
                 databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
+                userName = "",
+                password = "",
+                requestItemType = requestType.Name,
                 requestResponse = true,
-                requestItemIds = requestIds
+                items = items,
             };
 
-            var result = (await DatabaseGETAsync(requestMessage)).items.Cast<TTarget>().ToArray();
+            var result = (await DatabasePOSTAsync(requestMessage)).items;
             OnPropertyChanged(nameof(ConnectionStatus));
             return result;
         }
 
-        public TTarget[] Post<TTarget>(TTarget[] items, string userName, string password, string databaseName) where TTarget : MappableDTO
-        {
-            POSTItemsRequestMessage requestMessage = new POSTItemsRequestMessage
-            {
-                databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
+        //public TTarget[] Put<TTarget>(TTarget[] items, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //{
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
+        //    {
+        //        databaseName = databaseName,
+        //        userName = userName,
+        //        password = password,
+        //        requestItemType = typeof(TTarget).Name,
+        //        requestResponse = true,
+        //        items = items,
+        //    };
 
-            return DatabasePOST(requestMessage).items.Cast<TTarget>().ToArray();
+        //    var result = DatabasePUT(requestMessage).items.Cast<TTarget>().ToArray();
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    return result;
+        //}
+
+        public async Task<TTarget[]> PutAsync<TTarget>(TTarget[] items, string databaseName) where TTarget : MappableDTO
+        {
+            return (await PutAsync(items, typeof(TTarget), databaseName)).Cast<TTarget>().ToArray();
         }
 
-        public async Task<TTarget[]> PostAsync<TTarget>(TTarget[] items, string userName, string password, string databaseName) where TTarget : MappableDTO
+        public async Task<MappableDTO[]> PutAsync(MappableDTO[] items, Type requestType,  string databaseName)
         {
-            POSTItemsRequestMessage requestMessage = new POSTItemsRequestMessage
-            {
-                databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
-
-            return (await DatabasePOSTAsync(requestMessage)).items.Cast<TTarget>().ToArray();
-        }
-
-        public TTarget[] Put<TTarget>(TTarget[] items, string userName, string password, string databaseName) where TTarget : MappableDTO
-        {
+            OnPropertyChanged(nameof(ConnectionStatus));
             PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
             {
                 databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
+                userName = "",
+                password = "",
+                requestItemType = requestType.Name,
                 requestResponse = true,
                 items = items,
             };
 
-            return DatabasePUT(requestMessage).items.Cast<TTarget>().ToArray();
+            var result = (await DatabasePUTAsync(requestMessage)).items;
+            OnPropertyChanged(nameof(ConnectionStatus));
+            return result;
         }
 
-        public async Task<TTarget[]> PutAsync<TTarget>(TTarget[] items, string userName, string password, string databaseName) where TTarget : MappableDTO
-        {
-            PUTItemsRequestMessage requestMessage = new PUTItemsRequestMessage
-            {
-                databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                items = items,
-            };
+        //public bool Del<TTarget>(long[][] requestIds, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //{
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    DELItemsRequestMessage requestMessage = new DELItemsRequestMessage
+        //    {
+        //        databaseName = databaseName,
+        //        userName = userName,
+        //        password = password,
+        //        requestItemType = typeof(TTarget).Name,
+        //        requestResponse = true,
+        //        requestItemIds = requestIds
+        //    };
 
-            return (await DatabasePUTAsync(requestMessage)).items.Cast<TTarget>().ToArray();
-        }
-        public bool Del<TTarget>(long[][] requestIds, string userName, string password, string databaseName) where TTarget : MappableDTO
+        //    var result = DatabaseDEL(requestMessage).success;
+        //    OnPropertyChanged(nameof(ConnectionStatus));
+        //    return result;
+        //}
+
+        public async Task<bool> DelAsync<TTarget>(long[][] requestIds, string databaseName) where TTarget : MappableDTO
         {
+            return await DelAsync(requestIds, typeof(TTarget), databaseName);
+        }
+
+        public async Task<bool> DelAsync(long[][] requestIds, Type requestType, string databaseName)
+        {
+            OnPropertyChanged(nameof(ConnectionStatus));
             DELItemsRequestMessage requestMessage = new DELItemsRequestMessage
             {
                 databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
+                userName = "",
+                password = "",
+                requestItemType = requestType.Name,
                 requestResponse = true,
                 requestItemIds = requestIds
             };
 
-            return DatabaseDEL(requestMessage).success;
-        }
-
-        public async Task<bool> DelAsync<TTarget>(long[][] requestIds, string userName, string password, string databaseName) where TTarget : MappableDTO
-        {
-            DELItemsRequestMessage requestMessage = new DELItemsRequestMessage
-            {
-                databaseName = databaseName,
-                userName = userName,
-                password = password,
-                requestItemType = typeof(TTarget).Name,
-                requestResponse = true,
-                requestItemIds = requestIds
-            };
-
-            return (await DatabaseDELAsync(requestMessage)).success;
+            var result = (await DatabaseDELAsync(requestMessage)).success;
+            OnPropertyChanged(nameof(ConnectionStatus));
+            return result;
         }
 
         public void CalculateScoredResults(long sessionId)
         {
-            ((ILeagueDBService)client).CalculateScoredResults(sessionId);
+            using (var client = new LeagueDBServiceClient())
+            {
+                ((ILeagueDBService)client).CalculateScoredResults(sessionId);
+            }
         }
 
-        public Task CalculateScoredResultsAsync(long sessionId)
+        public async Task CalculateScoredResultsAsync(long sessionId)
         {
-            return ((ILeagueDBService)client).CalculateScoredResultsAsync(sessionId);
+            using (var client = new LeagueDBServiceClient())
+            {
+                await ((ILeagueDBService)client).CalculateScoredResultsAsync(sessionId);
+            }
         }
 
         public void CleanUpSessions()
         {
-            ((ILeagueDBService)client).CleanUpSessions();
+            using (var client = new LeagueDBServiceClient())
+            {
+                ((ILeagueDBService)client).CleanUpSessions();
+            }
         }
 
-        public Task CleanUpSessionsAsync()
+        public async Task CleanUpSessionsAsync()
         {
-            return ((ILeagueDBService)client).CleanUpSessionsAsync();
+            using (var client = new LeagueDBServiceClient())
+            {
+                await ((ILeagueDBService)client).CleanUpSessionsAsync();
+            }
         }
 
         public DELItemsResponseMessage DatabaseDEL(DELItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabaseDEL(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabaseDEL(request);
+            }
         }
 
         public Task<DELItemsResponseMessage> DatabaseDELAsync(DELItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabaseDELAsync(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabaseDELAsync(request);
+            }
         }
 
         public GETItemsResponseMessage DatabaseGET(GETItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabaseGET(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabaseGET(request);
+            }
         }
 
         public Task<GETItemsResponseMessage> DatabaseGETAsync(GETItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabaseGETAsync(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabaseGETAsync(request);
+            }
         }
 
         public POSTItemsResponseMessage DatabasePOST(POSTItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabasePOST(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabasePOST(request);
+            }
         }
 
         public Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabasePOSTAsync(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabasePOSTAsync(request);
+            }
         }
 
         public PUTItemsResponseMessage DatabasePUT(PUTItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabasePUT(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabasePUT(request);
+            }
         }
 
         public Task<PUTItemsResponseMessage> DatabasePUTAsync(PUTItemsRequestMessage request)
         {
-            return ((ILeagueDBService)client).DatabasePUTAsync(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).DatabasePUTAsync(request);
+            }
         }
 
         public void Dispose()
         {
-            ((IDisposable)client).Dispose();
         }
 
         public ResponseMessage MessageTest(RequestMessage request)
         {
-            return ((ILeagueDBService)client).MessageTest(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).MessageTest(request);
+            }
         }
 
         public Task<ResponseMessage> MessageTestAsync(RequestMessage request)
         {
-            return ((ILeagueDBService)client).MessageTestAsync(request);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).MessageTestAsync(request);
+            }
         }
 
         public void SetDatabaseName(string databaseName)
         {
-            ((ILeagueDBService)client).SetDatabaseName(databaseName);
+            using (var client = new LeagueDBServiceClient())
+            {
+                ((ILeagueDBService)client).SetDatabaseName(databaseName);
+            }
         }
 
         public Task SetDatabaseNameAsync(string databaseName)
         {
-            return ((ILeagueDBService)client).SetDatabaseNameAsync(databaseName);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).SetDatabaseNameAsync(databaseName);
+            }
         }
 
-        public string Test(string name)
+        //public string Test(string name)
+        //{
+        //    return ((ILeagueDBService)client).Test(name);
+        //}
+
+        //public Task<string> TestAsync(string name)
+        //{
+        //    return ((ILeagueDBService)client).TestAsync(name);
+        //}
+
+        //public string TestDB()
+        //{
+        //    return ((ILeagueDBService)client).TestDB();
+        //}
+
+        //public Task<string> TestDBAsync()
+        //{
+        //    return ((ILeagueDBService)client).TestDBAsync();
+        //}
+
+        public AuthenticationResult AuthenticateUser(string userName, byte[] password, string databaseName)
         {
-            return ((ILeagueDBService)client).Test(name);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).AuthenticateUser(userName, password, databaseName);
+            }
         }
 
-        public Task<string> TestAsync(string name)
+        public Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName)
         {
-            return ((ILeagueDBService)client).TestAsync(name);
+            using (var client = new LeagueDBServiceClient())
+            {
+                return ((ILeagueDBService)client).AuthenticateUserAsync(userName, password, databaseName);
+            }
         }
 
-        public string TestDB()
+        public LeagueUserDTO RegisterUser(string userName, byte[] password, string databaseName)
         {
-            return ((ILeagueDBService)client).TestDB();
+            using (var client = new LeagueDBServiceClient())
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public Task<string> TestDBAsync()
+        public Task<LeagueUserDTO> RegisterUserAsync(string userName, byte[] password, string databaseName)
         {
-            return ((ILeagueDBService)client).TestDBAsync();
+            using (var client = new LeagueDBServiceClient())
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

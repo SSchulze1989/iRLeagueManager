@@ -68,8 +68,8 @@ namespace iRLeagueManager.ViewModels
             Model = ScheduleModel.GetTemplate();
             sessions = new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
             Sessions.UpdateSource(new SessionModel[0]);
-            AddSessionCmd = new RelayCommand(o => AddSession(), o => Model?.Sessions != null);
-            DeleteSessionsCmd = new RelayCommand(o => DeleteSessions(o), o => SelectedSession != null);
+            AddSessionCmd = new RelayCommand(o => AddSession(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
+            DeleteSessionsCmd = new RelayCommand(o => DeleteSessions(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
             UploadFileCmd = new RelayCommand(o => UploadFile(o as SessionModel), o => false);
         }
 

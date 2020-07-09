@@ -228,6 +228,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
+                                            <DataGridCheckBoxColumn Header="IsReadOnly" Binding="{Binding Model.IsReadOnly, Mode=OneWay}"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -239,6 +240,9 @@
                                                     <Setter Property="IsEnabled" Value="True"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Sessions}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
                                                             <Setter Property="IsEnabled" Value="False"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -262,6 +266,9 @@
                                                         <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
                                                             <Setter Property="IsEnabled" Value="False"/>
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Button.Style>
@@ -281,6 +288,9 @@
                                                     <Setter Property="IsEnabled" Value="True"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
                                                             <Setter Property="IsEnabled" Value="False"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -305,6 +315,15 @@
                                                     <TextBlock Text="Delete" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </Button.Content>
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
                                         </Button>
                                     </StackPanel>
                                 </StackPanel>

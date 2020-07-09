@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
   <xs:complexType name="VersionInfoDTO">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:MappableDTO">
         <xs:sequence>
+          <xs:element minOccurs="0" name="CreatedByUserId" nillable="true" type="xs:long" />
           <xs:element minOccurs="0" name="CreatedOn" nillable="true" type="xs:dateTime" />
           <xs:element minOccurs="0" name="LastModifiedOn" nillable="true" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Version" type="xs:int" />
@@ -20,17 +21,6 @@
     <xs:sequence />
   </xs:complexType>
   <xs:element name="MappableDTO" nillable="true" type="tns:MappableDTO" />
-  <xs:complexType name="SeasonInfoDTO">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:VersionInfoDTO">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="SeasonId" nillable="true" type="xs:long" />
-          <xs:element minOccurs="0" name="SeasonName" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="SeasonInfoDTO" nillable="true" type="tns:SeasonInfoDTO" />
   <xs:complexType name="SeasonDataDTO">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:SeasonInfoDTO">
@@ -48,6 +38,17 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="SeasonDataDTO" nillable="true" type="tns:SeasonDataDTO" />
+  <xs:complexType name="SeasonInfoDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:VersionInfoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SeasonId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="SeasonName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SeasonInfoDTO" nillable="true" type="tns:SeasonInfoDTO" />
   <xs:complexType name="ArrayOfMappableDTO">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="MappableDTO" nillable="true" type="tns:MappableDTO" />

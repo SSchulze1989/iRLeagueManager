@@ -140,6 +140,7 @@
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsRowViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ResultParserService.cs" />
     <Compile Include="Views\CalendarControl.xaml.cs">

@@ -13,6 +13,8 @@ namespace iRLeagueManager.Models
     {
         protected bool isInitialized;
 
+        private bool isReadOnly;
+        public bool IsReadOnly { get => isReadOnly; internal set => SetValue(ref isReadOnly, value); }
         public abstract long[] ModelId { get; }
 
         private DateTime? createdOn;

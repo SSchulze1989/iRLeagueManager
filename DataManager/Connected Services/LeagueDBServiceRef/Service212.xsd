@@ -1,79 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:complexType name="ArrayOfIncidentReviewInfoDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="IncidentReviewInfoDTO" nillable="true" type="tns:IncidentReviewInfoDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfIncidentReviewInfoDTO" nillable="true" type="tns:ArrayOfIncidentReviewInfoDTO" />
-  <xs:complexType name="IncidentReviewInfoDTO">
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
+  <xs:complexType name="ResultInfoDTO">
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="ReviewId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="ResultId" nillable="true" type="xs:long" />
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Session" nillable="true" type="q2:SessionInfoDTO" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="IncidentReviewInfoDTO" nillable="true" type="tns:IncidentReviewInfoDTO" />
-  <xs:complexType name="ReviewCommentDataDTO">
+  <xs:element name="ResultInfoDTO" nillable="true" type="tns:ResultInfoDTO" />
+  <xs:complexType name="ResultDataDTO">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:CommentDataDTO">
+      <xs:extension base="tns:ResultInfoDTO">
         <xs:sequence>
-          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MemberAtFault" nillable="true" type="q2:LeagueMemberInfoDTO" />
-          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" minOccurs="0" name="Vote" type="q3:VoteEnum" />
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q3:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q4:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="RawResults" nillable="true" type="tns:ArrayOfResultRowDataDTO" />
+          <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="Reviews" nillable="true" type="q5:ArrayOfIncidentReviewInfoDTO" />
+          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="Season" nillable="true" type="q6:SeasonInfoDTO" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="ReviewCommentDataDTO" nillable="true" type="tns:ReviewCommentDataDTO" />
-  <xs:complexType name="CommentDataDTO">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:CommentInfoDTO">
-        <xs:sequence>
-          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Author" nillable="true" type="q4:LeagueMemberInfoDTO" />
-          <xs:element minOccurs="0" name="Date" nillable="true" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="Text" nillable="true" type="xs:string" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="CommentDataDTO" nillable="true" type="tns:CommentDataDTO" />
-  <xs:complexType name="CommentInfoDTO">
-    <xs:complexContent mixed="false">
-      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q5:VersionInfoDTO">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="CommentId" nillable="true" type="xs:long" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="CommentInfoDTO" nillable="true" type="tns:CommentInfoDTO" />
-  <xs:complexType name="IncidentReviewDataDTO">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:IncidentReviewInfoDTO">
-        <xs:sequence>
-          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Author" nillable="true" type="q6:LeagueMemberInfoDTO" />
-          <xs:element minOccurs="0" name="Comments" nillable="true" type="tns:ArrayOfReviewCommentDataDTO" />
-          <xs:element minOccurs="0" name="Corner" type="xs:int" />
-          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="InvolvedMembers" nillable="true" type="q7:ArrayOfLeagueMemberInfoDTO" />
-          <xs:element minOccurs="0" name="OnLap" type="xs:int" />
-          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Session" nillable="true" type="q8:SessionInfoDTO" />
-          <xs:element minOccurs="0" name="TimeStamp" type="ser:duration" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="IncidentReviewDataDTO" nillable="true" type="tns:IncidentReviewDataDTO" />
-  <xs:complexType name="ArrayOfReviewCommentDataDTO">
+  <xs:element name="ResultDataDTO" nillable="true" type="tns:ResultDataDTO" />
+  <xs:complexType name="ArrayOfResultRowDataDTO">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReviewCommentDataDTO" nillable="true" type="tns:ReviewCommentDataDTO" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ResultRowDataDTO" nillable="true" type="tns:ResultRowDataDTO" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfReviewCommentDataDTO" nillable="true" type="tns:ArrayOfReviewCommentDataDTO" />
+  <xs:element name="ArrayOfResultRowDataDTO" nillable="true" type="tns:ArrayOfResultRowDataDTO" />
+  <xs:complexType name="ResultRowDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q7:MappableDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AvgLapTime" type="ser:duration" />
+          <xs:element minOccurs="0" name="Car" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CarClass" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CarNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="ClassId" type="xs:int" />
+          <xs:element minOccurs="0" name="CompletedLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="FastLapNr" type="xs:int" />
+          <xs:element minOccurs="0" name="FastestLapTime" type="ser:duration" />
+          <xs:element minOccurs="0" name="FinishPosition" type="xs:int" />
+          <xs:element minOccurs="0" name="Incidents" type="xs:int" />
+          <xs:element minOccurs="0" name="Interval" type="ser:duration" />
+          <xs:element minOccurs="0" name="LeadLaps" type="xs:int" />
+          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Member" nillable="true" type="q8:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="PositionChange" type="xs:int" />
+          <xs:element minOccurs="0" name="QualifyingTime" type="ser:duration" />
+          <xs:element minOccurs="0" name="ResultId" type="xs:long" />
+          <xs:element minOccurs="0" name="ResultRowId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="StartPosition" type="xs:int" />
+          <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" minOccurs="0" name="Status" type="q9:RaceStatusEnum" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResultRowDataDTO" nillable="true" type="tns:ResultRowDataDTO" />
+  <xs:complexType name="ScoredResultDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResultInfoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FinalResults" nillable="true" type="tns:ArrayOfScoredResultRowDataDTO" />
+          <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ScoredResultDataDTO" nillable="true" type="tns:ScoredResultDataDTO" />
+  <xs:complexType name="ArrayOfScoredResultRowDataDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScoredResultRowDataDTO" nillable="true" type="tns:ScoredResultRowDataDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScoredResultRowDataDTO" nillable="true" type="tns:ArrayOfScoredResultRowDataDTO" />
+  <xs:complexType name="ScoredResultRowDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResultRowDataDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BonusPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="FinalPosition" type="xs:int" />
+          <xs:element minOccurs="0" name="FinalPositionChange" type="xs:int" />
+          <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="RacePoints" type="xs:int" />
+          <xs:element minOccurs="0" name="ScoredResultRowId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="ScoringId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ScoredResultRowDataDTO" nillable="true" type="tns:ScoredResultRowDataDTO" />
+  <xs:complexType name="ScoringInfoDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q10:VersionInfoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ScoringId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ScoringInfoDTO" nillable="true" type="tns:ScoringInfoDTO" />
+  <xs:complexType name="ScoringDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ScoringInfoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AverageRaceNr" type="xs:int" />
+          <xs:element minOccurs="0" name="BasePoints" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="BonusPoints" nillable="true" type="xs:string" />
+          <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="ConnectedSchedule" nillable="true" type="q11:ScheduleInfoDTO" />
+          <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q12:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="DropWeeks" type="xs:int" />
+          <xs:element minOccurs="0" name="IncPenaltyPoints" nillable="true" type="xs:string" />
+          <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q13:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="MultiScoringFactors" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="MultiScoringResults" nillable="true" type="tns:ArrayOfScoringInfoDTO" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Results" nillable="true" type="tns:ArrayOfResultInfoDTO" />
+          <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="Season" nillable="true" type="q14:SeasonInfoDTO" />
+          <xs:element minOccurs="0" name="SeasonId" type="xs:long" />
+          <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Sessions" nillable="true" type="q15:ArrayOfSessionInfoDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ScoringDataDTO" nillable="true" type="tns:ScoringDataDTO" />
+  <xs:complexType name="ArrayOfScoringInfoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScoringInfoDTO" nillable="true" type="tns:ScoringInfoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScoringInfoDTO" nillable="true" type="tns:ArrayOfScoringInfoDTO" />
+  <xs:complexType name="ArrayOfResultInfoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ResultInfoDTO" nillable="true" type="tns:ResultInfoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfResultInfoDTO" nillable="true" type="tns:ArrayOfResultInfoDTO" />
+  <xs:complexType name="StandingsDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q16="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q16:MappableDTO">
+        <xs:sequence>
+          <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CleanestDriver" nillable="true" type="q17:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostPenaltiesDriver" nillable="true" type="q18:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostPolesDriver" nillable="true" type="q19:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostWinsDriver" nillable="true" type="q20:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+          <xs:element minOccurs="0" name="StandingsRows" nillable="true" type="tns:ArrayOfStandingsRowDataDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StandingsDataDTO" nillable="true" type="tns:StandingsDataDTO" />
+  <xs:complexType name="ArrayOfStandingsRowDataDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StandingsRowDataDTO" nillable="true" type="tns:StandingsRowDataDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStandingsRowDataDTO" nillable="true" type="tns:ArrayOfStandingsRowDataDTO" />
+  <xs:complexType name="StandingsRowDataDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q21="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q21:MappableDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CarClass" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ClassId" type="xs:int" />
+          <xs:element minOccurs="0" name="CompletedLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="CompletedLapsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="DroppedResults" type="xs:int" />
+          <xs:element minOccurs="0" name="FastestLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="FastestLapsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Incidents" type="xs:int" />
+          <xs:element minOccurs="0" name="IncidentsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="LastPosition" type="xs:int" />
+          <xs:element minOccurs="0" name="LeadLaps" type="xs:int" />
+          <xs:element minOccurs="0" name="LeadLapsChange" type="xs:int" />
+          <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="Member" nillable="true" type="q22:LeagueMemberInfoDTO" />
+          <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="PenaltyPointsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="PolePositions" type="xs:int" />
+          <xs:element minOccurs="0" name="PolePositionsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Position" type="xs:int" />
+          <xs:element minOccurs="0" name="PositionChange" type="xs:int" />
+          <xs:element minOccurs="0" name="RacePoints" type="xs:int" />
+          <xs:element minOccurs="0" name="RacePointsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Races" type="xs:int" />
+          <xs:element minOccurs="0" name="RacesCounted" type="xs:int" />
+          <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+          <xs:element minOccurs="0" name="Top10" type="xs:int" />
+          <xs:element minOccurs="0" name="Top3" type="xs:int" />
+          <xs:element minOccurs="0" name="Top5" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalPointsChange" type="xs:int" />
+          <xs:element minOccurs="0" name="Wins" type="xs:int" />
+          <xs:element minOccurs="0" name="WinsChange" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StandingsRowDataDTO" nillable="true" type="tns:StandingsRowDataDTO" />
+  <xs:complexType name="AddPenaltyDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q23="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q23:MappableDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PenaltyPoints" type="xs:int" />
+          <xs:element minOccurs="0" name="ScoredResultRowId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AddPenaltyDTO" nillable="true" type="tns:AddPenaltyDTO" />
+  <xs:complexType name="ArrayOfScoringDataDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScoringDataDTO" nillable="true" type="tns:ScoringDataDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScoringDataDTO" nillable="true" type="tns:ArrayOfScoringDataDTO" />
 </xs:schema>

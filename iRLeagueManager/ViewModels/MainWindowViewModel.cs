@@ -14,6 +14,7 @@ using iRLeagueManager.Models.Database;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.User;
 using iRLeagueManager.Logging;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -21,18 +22,29 @@ namespace iRLeagueManager.ViewModels
     {
         //private LeagueDatabase _leagueDb;
         //public LeagueDatabase LeagueDb { get => _leagueDb; set { _leagueDb = value; NotifyPropertyChanged(); } }
-        private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
+        //private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
         //private ModelManager LeagueContext => GlobalSettings.ModelManager;
         //public LeagueContext LeagueContext { get => leagueContext; private set { leagueContext = value; OnPropertyChanged(); } }
 
         public ReadOnlyObservableCollection<ExceptionLogMessage> ErrorLog => GlobalSettings.Logger.ErrorMessages;
 
-        private UserContext UserContext => GlobalSettings.UserContext;
+        //private UserContext UserContext => GlobalSettings.UserContext;
 
         private LoginViewModel userLogin;
         public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
 
-        public UserModel CurrentUser => UserContext?.CurrentUser;
+        private UserViewModel currentUser;
+        public UserViewModel CurrentUser
+        {
+            get
+            {
+                if (currentUser.Model == null || !currentUser.Model.Equals(LeagueContext?.CurrentUser))
+                {
+                    currentUser.UpdateSource(LeagueContext?.CurrentUser);
+                }
+                return currentUser;
+            }
+        }
 
         private DatabaseStatusModel dbStatus;
         public DatabaseStatusModel DbStatus { get => dbStatus; set => SetValue(ref dbStatus, value); }
@@ -66,6 +78,7 @@ namespace iRLeagueManager.ViewModels
             SeasonList = new ObservableCollection<SeasonModel>(new List<SeasonModel>() { new SeasonModel() { SeasonName = "Loading..." } });
             SelectedSeason = SeasonList.First();
             CurrentSeason = new SeasonViewModel();
+            currentUser = new UserViewModel();
         }
 
         public async void Load()
@@ -74,6 +87,7 @@ namespace iRLeagueManager.ViewModels
             {
                 GlobalSettings.SetGlobalLeagueContext(new LeagueContext());
                 LeagueContext.DbContext.OpenConnection();
+                await LeagueContext.UpdateMemberList();
             }
 
             LeagueContext.AddStatusItem(DbStatus);
@@ -93,13 +107,17 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = false;
             }
             SelectedSeason = SeasonList?.FirstOrDefault();
+
+            //await LeagueContext.UserLoginAsync("Master", Encoding.UTF8.GetBytes("TestPasswort"));
+            OnPropertyChanged(null);
         }
 
         public void LogInOut()
         {
             if (CurrentUser != null)
             {
-                UserContext.UserLogout();
+                LeagueContext.Reconnect();
+                //UserContext.UserLogout();
             }
             else
             {
@@ -108,12 +126,13 @@ namespace iRLeagueManager.ViewModels
             OnPropertyChanged(null);
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
             if (LeagueContext != null)
             {
                 LeagueContext.RemoveStatusItem(DbStatus);
             }
+            base.Dispose(disposing);
         }
     }
 }

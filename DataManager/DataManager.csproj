@@ -94,8 +94,6 @@
     <Compile Include="DatabaseToken.cs" />
     <Compile Include="DbHttpRESTClient.cs" />
     <Compile Include="Exceptions\ModelInitializeException.cs" />
-    <Compile Include="IClientUser.cs" />
-    <Compile Include="ICustomAuthenticationResult.cs" />
     <Compile Include="ILeagueDbServiceClient.cs" />
     <Compile Include="IModelIdentifier.cs" />
     <Compile Include="LeagueContext.cs" />
@@ -155,26 +153,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.MappableDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\LeagueDBServiceRef\LeagueDBService1.wsdl" />
     <None Include="Connected Services\LeagueDBServiceRef\Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\Service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LeagueDBServiceRef\Service210.xsd">

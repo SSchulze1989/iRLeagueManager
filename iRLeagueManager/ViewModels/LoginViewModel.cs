@@ -16,8 +16,6 @@ namespace iRLeagueManager.ViewModels
     {
         private MainWindowViewModel MainWindowVM { get; }
 
-        private UserContext UserContext => GlobalSettings.UserContext;
-
         //private UserModel loginUser;
         //public UserModel LoginUser { get => loginUser; set => SetValue(ref loginUser, value); }
 
@@ -55,6 +53,7 @@ namespace iRLeagueManager.ViewModels
                 IsOpen = false;
                 //MainWindowVM.Connect();
             }
+            MainWindowVM.Refresh("CurrentUser");
         }
 
         private void RegisterOpen()
@@ -92,7 +91,7 @@ namespace iRLeagueManager.ViewModels
                 return false;
             }
 
-            var result = await UserContext.UserLoginAsync(UserName, Pw);
+            var result = await LeagueContext.UserLoginAsync(UserName, Encoding.UTF8.GetBytes(pw));
             if (!result)
             {
                 StatusMessage = "Password or Username incorrect!";
