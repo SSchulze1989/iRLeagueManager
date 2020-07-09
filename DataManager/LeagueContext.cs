@@ -349,6 +349,10 @@ namespace iRLeagueManager.Data
                 {
                     data = await DbContext.GetAsync<ResultRowDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(StandingsModel)))
+                {
+                    data = await DbContext.GetAsync<StandingsDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
                 else if (typeof(T).Equals(typeof(AddPenaltyModel)))
                 {
                     data = await DbContext.GetAsync<AddPenaltyDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
@@ -564,10 +568,23 @@ namespace iRLeagueManager.Data
                 data = mapper.Map<IEnumerable<ResultRowDataDTO>>(models).ToArray();
                 data = await DbContext.PutAsync(data.Cast<ResultRowDataDTO>().ToArray());
             }
-            else
-            if (typeof(T).Equals(typeof(ScoredResultModel)))
+            else if (typeof(T).Equals(typeof(ScoredResultModel)))
             {
                 data = await DbContext.GetAsync<ScoredResultDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+            }
+            else if (typeof(T).Equals(typeof(StandingsModel)))
+            {
+                data = await DbContext.GetAsync<StandingsDataDTO>(models.Select(x => x.ModelId.ToArray()).ToArray());
+            }
+            else if (typeof(T).Equals(typeof(ScoringModel)))
+            {
+                data = mapper.Map<IEnumerable<ScoringDataDTO>>(models).ToArray();
+                data = await DbContext.PutAsync(data.Cast<ScoringDataDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(AddPenaltyModel)))
+            {
+                data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
+                data = await DbContext.PutAsync(data.Cast<AddPenaltyDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {

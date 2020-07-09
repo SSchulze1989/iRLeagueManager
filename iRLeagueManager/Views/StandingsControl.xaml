@@ -33,7 +33,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Pos.">
                                 <DataGridTextColumn.Binding>
-                                    <MultiBinding StringFormat="{}{0} ({1:+#;-#;'-'})">
+                                    <MultiBinding StringFormat="{}{0} ({1:-#;+#;'-'})">
                                         <Binding Path="Position"/>
                                         <Binding Path="PositionChange"/>
                                     </MultiBinding>

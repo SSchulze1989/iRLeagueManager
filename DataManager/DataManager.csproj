@@ -153,6 +153,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.AuthenticationResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.MappableDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\LeagueDBServiceRef\LeagueDBService1.wsdl" />
     <None Include="Connected Services\LeagueDBServiceRef\Service.xsd">
       <SubType>Designer</SubType>

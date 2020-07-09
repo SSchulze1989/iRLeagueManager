@@ -32,6 +32,7 @@ namespace iRLeagueManager.Data
 
         public WCFLeagueDbClientWrapper(string endpointConfigurationName)
         {
+            EndpointConfigurationName = endpointConfigurationName;
             client = null;
         }
 
@@ -312,11 +313,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<DELItemsResponseMessage> DatabaseDELAsync(DELItemsRequestMessage request)
+        public async Task<DELItemsResponseMessage> DatabaseDELAsync(DELItemsRequestMessage request)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).DatabaseDELAsync(request);
+                return await ((ILeagueDBService)client).DatabaseDELAsync(request);
             }
         }
 
@@ -328,11 +329,12 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<GETItemsResponseMessage> DatabaseGETAsync(GETItemsRequestMessage request)
+        public async Task<GETItemsResponseMessage> DatabaseGETAsync(GETItemsRequestMessage request)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).DatabaseGETAsync(request);
+                client.Open();
+                return await ((ILeagueDBService)client).DatabaseGETAsync(request);
             }
         }
 
@@ -360,11 +362,12 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<PUTItemsResponseMessage> DatabasePUTAsync(PUTItemsRequestMessage request)
+        public async Task<PUTItemsResponseMessage> DatabasePUTAsync(PUTItemsRequestMessage request)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).DatabasePUTAsync(request);
+                client.Open();
+                return await ((ILeagueDBService)client).DatabasePUTAsync(request);
             }
         }
 
@@ -380,11 +383,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<ResponseMessage> MessageTestAsync(RequestMessage request)
+        public async Task<ResponseMessage> MessageTestAsync(RequestMessage request)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).MessageTestAsync(request);
+                return await ((ILeagueDBService)client).MessageTestAsync(request);
             }
         }
 
@@ -396,11 +399,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task SetDatabaseNameAsync(string databaseName)
+        public async Task SetDatabaseNameAsync(string databaseName)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).SetDatabaseNameAsync(databaseName);
+                await ((ILeagueDBService)client).SetDatabaseNameAsync(databaseName);
             }
         }
 
@@ -432,11 +435,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName)
+        public async Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).AuthenticateUserAsync(userName, password, databaseName);
+                return await ((ILeagueDBService)client).AuthenticateUserAsync(userName, password, databaseName);
             }
         }
 

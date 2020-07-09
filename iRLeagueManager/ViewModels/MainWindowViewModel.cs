@@ -86,8 +86,8 @@ namespace iRLeagueManager.ViewModels
             if (LeagueContext == null)
             {
                 GlobalSettings.SetGlobalLeagueContext(new LeagueContext());
-                LeagueContext.DbContext.OpenConnection();
-                await LeagueContext.UpdateMemberList();
+                //LeagueContext.DbContext.OpenConnection();
+                //await LeagueContext.UpdateMemberList();
             }
 
             LeagueContext.AddStatusItem(DbStatus);
