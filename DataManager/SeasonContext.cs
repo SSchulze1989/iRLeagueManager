@@ -31,7 +31,7 @@ namespace iRLeagueManager
         internal SeasonContext(ILeagueDBService dBService, SeasonModel seasonModel)
         {
             leagueDBService = dBService;
-            MapperProfile = new ModelMapperProfile();
+            MapperProfile = new ModelMapperProfile(new ModelCache());
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(MapperProfile);

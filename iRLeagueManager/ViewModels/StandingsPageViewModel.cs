@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models;
+using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -31,6 +32,11 @@ namespace iRLeagueManager.ViewModels
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
         }
 
+        protected void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(e.PropertyName);
+        }
+
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
         {
             try
@@ -41,6 +47,11 @@ namespace iRLeagueManager.ViewModels
                 // Set scorings List
                 var scoringModels = await LeagueContext.GetModelsAsync<ScoringModel>(scoringsInfo.Select(x => x.ModelId));
                 ScoringList.UpdateSource(scoringModels);
+
+                //foreach(var scoring in ScoringList)
+                //{
+                //    _ = scoring.LoadSessions();
+                //}
             }
             catch (Exception e)
             {

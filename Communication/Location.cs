@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using iRLeagueManager.Interfaces;
+using System.Windows.Controls;
 
 
 namespace iRLeagueManager.Locations
@@ -16,7 +18,18 @@ namespace iRLeagueManager.Locations
         public string LocationId { get => config.Track.TrackId + "-" + config.ConfigId; }
         public string TrackName { get => config.Track.TrackName; }
         public string ConfigName { get => config.ConfigName; }
-        public string FullName { get => TrackName + " - " + ConfigName; }
+        public BitmapImage MapImage { get => config.MapImage; }
+        public string MapImageSrc { get => config.MapImageSrc; }
+        public string FullName
+        {
+            get
+            {
+                if (ConfigName != "")
+                    return TrackName + " - " + ConfigName;
+                else
+                    return TrackName;
+            }
+        }
         public string ShortName { get => config.Track.ShortName + ((config.ShortName != "") ?  " - " + config.ShortName : ""); }
 
         public Location(TrackConfig confg)

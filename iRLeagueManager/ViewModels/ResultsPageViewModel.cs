@@ -12,6 +12,7 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
 using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -30,7 +31,7 @@ namespace iRLeagueManager.ViewModels
         //    }
         //}
 
-        private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
+        //private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
         //private ObservableCollection<ScheduleInfo> scheduleList;
         //public ObservableCollection<ScheduleInfo> ScheduleList { get => scheduleList; set => SetValue(ref scheduleList, value); }
@@ -48,43 +49,32 @@ namespace iRLeagueManager.ViewModels
                 if (SetValue(ref selectedSchedule, value))
                 {
                     if (selectedSchedule == null || selectedSchedule.Model == null)
-                        SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions)));
+                        SessionSelect.SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions)));
                     else
-                        SessionList = selectedSchedule.Sessions;
+                        SessionSelect.SessionList = selectedSchedule.Sessions;
+                }
+            }
+        }
+
+        private SessionSelectViewModel sessionSelect;
+        public SessionSelectViewModel SessionSelect
+        {
+            get => sessionSelect;
+            set
+            {
+                var temp = sessionSelect;
+                if (SetValue(ref sessionSelect, value))
+                {
+                    if (temp != null)
+                        temp.PropertyChanged -= OnSessionSelectChanged;
+                    if (sessionSelect != null)
+                        sessionSelect.PropertyChanged += OnSessionSelectChanged;
                 }
             }
         }
         
         //private ObservableModelCollection<SessionViewModel, SessionModel> sessionList;
-        //public ObservableModelCollection<SessionViewModel, SessionModel> SessionList { get => sessionList; set => SetValue(ref sessionList, value); }
-        private ReadOnlyObservableCollection<SessionViewModel> sessionList;
-        public ReadOnlyObservableCollection<SessionViewModel> SessionList
-        {
-            get => sessionList;
-            set
-            {
-                if (SetValue(ref sessionList, value))
-                {
-                    if (SelectedSession == null)
-                        SelectedSession = null;
-                }
-            }
-        }
-
-        private SessionViewModel selectedSession;
-        public SessionViewModel SelectedSession
-        {
-            get => selectedSession;
-            set
-            {
-                if (value == null)
-                    value = SessionList.Where(x => x.ResultAvailable).LastOrDefault();
-                if (SetValue(ref selectedSession, value))
-                {
-                    //Task.Run(() => LoadResults());
-                }
-            }
-        }
+        //public ObservableModelCollection<SessionViewModel, SessionModel> SessionList { get => sessionList; set => SetValue(ref sessionList, value); 
 
         private ObservableCollection<ResultInfo> resultList;
         public ObservableCollection<ResultInfo> ResultList { get => resultList; set => SetValue(ref resultList, value); }
@@ -105,6 +95,8 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public SessionViewModel SelectedSession { get => SessionSelect?.SelectedSession; set => SessionSelect.SelectedSession = value; }
+
         private ObservableModelCollection<ScoringViewModel, ScoringModel> scoringList;
         public ObservableModelCollection<ScoringViewModel, ScoringModel> ScoringList
         {
@@ -118,9 +110,6 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public ICommand NextSessionCmd { get; }
-        public ICommand PreviousSessionCmd { get; }
-
         public ICommand CalculateResultsCmd { get; }
 
         public ResultsPageViewModel() : base()
@@ -130,10 +119,8 @@ namespace iRLeagueManager.ViewModels
             CurrentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
-            SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
+            SessionSelect = new SessionSelectViewModel();
             SelectedResult = null;
-            NextSessionCmd = new RelayCommand(o => SelectNextSession(), o => CanSelectNextSession());
-            PreviousSessionCmd = new RelayCommand(o => SelectPreviousSession(), o => CanSelectPreviousSession());
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
         }
 
@@ -141,6 +128,7 @@ namespace iRLeagueManager.ViewModels
         {
             if (season == null)
                 return;
+
             this.season = season;
 
             try
@@ -162,16 +150,18 @@ namespace iRLeagueManager.ViewModels
                 //var sessionModelIds = sessionsInfo.Select(x => x.ModelId);
                 //var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(sessionModelIds);
 
+                var lastSelectedSession = SelectedSession;
+
                 if (SelectedSchedule == null)
-                    SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions).OrderBy(x => x.Date)));
+                    SessionSelect.SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(ScheduleList.SelectMany(x => x.Sessions).OrderBy(x => x.Date)));
                 else
-                    SessionList = SelectedSchedule.Sessions;
+                    SessionSelect.SessionList = SelectedSchedule.Sessions;
 
                 // Set results List
                 //ResultList = new ObservableCollection<ResultInfo>(scoringModels.Select(x => x.Results.AsEnumerable()).Aggregate((x, y) => x.Concat(y)));
 
-                if (SelectedSession == null || !SessionList.Contains(SelectedSession))
-                    SelectedSession = SessionList.Where(x => x.ResultAvailable).LastOrDefault();
+                if (lastSelectedSession == null || !SessionSelect.SessionList.Contains(lastSelectedSession))
+                    SelectedSession = SessionSelect.SessionList.Where(x => x.ResultAvailable).LastOrDefault();
                 else
                     await LoadResults();
 
@@ -247,7 +237,7 @@ namespace iRLeagueManager.ViewModels
                 SelectedResult = null;
                 foreach (var scoring in ScoringList)
                 {
-                    var modelId = new long[] { SelectedSession.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault() };
+                    var modelId = new long[] { SelectedSession.SessionId, scoring.ScoringId.GetValueOrDefault() };
                     scoredResultModelIds.Add(modelId);
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
@@ -274,50 +264,9 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public void SelectNextSession()
+        protected void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
         {
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
-            if (currentSessionIndex == -1)
-                currentSessionIndex = 0;
-
-            currentSessionIndex++;
-            if (currentSessionIndex >= SessionList.Count())
-                SelectedSession = SessionList.LastOrDefault();
-            else
-                SelectedSession = SessionList.ElementAt(currentSessionIndex);
-        }
-
-        public bool CanSelectNextSession()
-        {
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
-
-            if (currentSessionIndex < SessionList.Count()-1 || currentSessionIndex == -1)
-                return true;
-
-            return false;
-        }
-
-        public void SelectPreviousSession()
-        {
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
-            if (currentSessionIndex == -1)
-                currentSessionIndex = SessionList.Count();
-
-            currentSessionIndex--;
-            if (currentSessionIndex < 0)
-                SelectedSession = SessionList.LastOrDefault();
-            else
-                SelectedSession = SessionList.ElementAt(currentSessionIndex);
-        }
-
-        public bool CanSelectPreviousSession()
-        {
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
-
-            if (currentSessionIndex > 0 || currentSessionIndex == -1)
-                return true;
-
-            return false;
+            OnPropertyChanged(e.PropertyName);
         }
 
         public async void CalculateResults(SessionViewModel session)
@@ -327,19 +276,29 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
-                await LeagueContext.DbContext.CalculateScoredResultsAsync(session.SessionId.GetValueOrDefault());
+                await LeagueContext.ModelContext.CalculateScoredResultsAsync(session.SessionId);
                 await LoadResults();
             }
             catch (Exception e)
             {
                 GlobalSettings.LogError(e);
             }
+            OnPropertyChanged(null);
         }
 
         public override void Refresh(string propertyName = "")
         {
             _ = Load(season);
             base.Refresh(propertyName);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            // Detach propertychanged events listened to
+            if (SessionSelect != null)
+                SessionSelect.PropertyChanged -= OnSessionSelectChanged;
+
+            base.Dispose(disposing);
         }
     }
 }

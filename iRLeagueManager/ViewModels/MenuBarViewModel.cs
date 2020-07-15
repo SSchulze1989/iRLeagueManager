@@ -13,8 +13,6 @@ namespace iRLeagueManager.ViewModels
 {
     public class MenuBarViewModel : ViewModelBase
     {
-        private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
-
         public Action<ViewModelBase> SetContentViewModel { get; set; }
 
         private ObservableCollection<SeasonModel> seasonList;

@@ -58,8 +58,8 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Session Results" FontSize="20" FontWeight="Bold"/>
-        <ComboBox Grid.Row="1" ItemsSource="{Binding ScheduleList}" SelectedItem="{Binding SelectedSchedule}" DisplayMemberPath="Name"/>
-        <DockPanel Grid.Row="2" HorizontalAlignment="Stretch">
+        <ComboBox Grid.Row="1" ItemsSource="{Binding ScheduleList}" SelectedItem="{Binding SelectedSchedule}" DisplayMemberPath="Name" IsEnabled="False"/>
+        <DockPanel Grid.Row="2" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
             <Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>
             <Button Content="&gt;" Padding="5" DockPanel.Dock="Right" Command="{Binding NextSessionCmd}"/>
             <!--<TextBlock Margin="2">
@@ -70,7 +70,7 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>-->
-            <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}">
+            <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type ComboBoxItem}">
                         <TextBlock>
@@ -127,22 +127,37 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" Width="25">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox">
+                                <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="" SelectedValuePath="Content" Width="45">
+                                    <ComboBox.Style>
+                                        <Style TargetType="ComboBox">
                                             <Setter Property="IsReadOnly" Value="True"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
                                             <Setter Property="Visibility" Value="Visible"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
                                                     <Setter Property="IsReadOnly" Value="False"/>
+                                                    <Setter Property="IsEnabled" Value="True"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBox.Style>
-                                </TextBox>
+                                    </ComboBox.Style>
+                                    <ComboBox.Items>
+                                        <ComboBoxItem>0</ComboBoxItem>
+                                        <ComboBoxItem>1</ComboBoxItem>
+                                        <ComboBoxItem>2</ComboBoxItem>
+                                        <ComboBoxItem>3</ComboBoxItem>
+                                        <ComboBoxItem>4</ComboBoxItem>
+                                        <ComboBoxItem>5</ComboBoxItem>
+                                        <ComboBoxItem>6</ComboBoxItem>
+                                        <ComboBoxItem>7</ComboBoxItem>
+                                        <ComboBoxItem>8</ComboBoxItem>
+                                        <ComboBoxItem>9</ComboBoxItem>
+                                        <ComboBoxItem>10</ComboBoxItem>
+                                    </ComboBox.Items>
+                                </ComboBox>
                                 <Button BorderBrush="Transparent" Background="Transparent">
                                     <Button.Style>
                                         <Style TargetType="Button">

@@ -9,14 +9,16 @@ using System.Runtime.CompilerServices;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
-using iRLeagueManager.Models.Results;
+using System.ComponentModel;
+using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueManager.ViewModels.Collections;
+using System.Security.Policy;
 
 namespace iRLeagueManager.ViewModels
 {
     public class ScoringViewModel : LeagueContainerModel<ScoringModel>
     {
         protected override ScoringModel Template => new ScoringModel();
-
         public long? ScoringId => Model?.ScoringId; 
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
@@ -29,7 +31,27 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<ScoringModel.IncidentPointsValue> IncPenaltyPoints => Model.IncPenaltyPoints;
         public ObservableCollection<MyKeyValuePair<ScoringModel, double>> MultiScoringResults => Model.MultiScoringResults;
 
-        private StandingsViewModel standings = null;
+        private SessionSelectViewModel sessionSelect;
+        public SessionSelectViewModel SessionSelect
+        {
+            get
+            {
+                return sessionSelect;
+            }
+            set
+            {
+                var temp = sessionSelect;
+                if (SetValue(ref sessionSelect, value))
+                {
+                    if (temp != null)
+                        temp.PropertyChanged -= OnSessionSelectChanged;
+                    if (sessionSelect != null)
+                        sessionSelect.PropertyChanged += OnSessionSelectChanged;
+                }
+            }
+        }
+
+        private StandingsViewModel standings = new StandingsViewModel();
         public StandingsViewModel Standings
         {
             get
@@ -37,7 +59,8 @@ namespace iRLeagueManager.ViewModels
                 if (standings == null)
                     standings = new StandingsViewModel();
 
-                _ = standings.Load(ScoringId.GetValueOrDefault());
+                //_ = standings.Load(ScoringId.GetValueOrDefault(), SessionSelect.SelectedSession.SessionId);
+                _ = LoadStandings();
                 return standings;
             }
         }
@@ -56,6 +79,7 @@ namespace iRLeagueManager.ViewModels
 
         public ScoringViewModel()
         {
+            SessionSelect = new SessionSelectViewModel();
             Model = Template;
         }
 
@@ -70,6 +94,55 @@ namespace iRLeagueManager.ViewModels
             }
 
             base.OnPropertyChanged(propertyName);
+        }
+
+        protected void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
+        {
+
+        }
+
+        //public async Task LoadSessions()
+        //{
+            //ObservableModelCollection<SessionViewModel, SessionModel> sessionCollection = SessionSelect.SessionList as ObservableModelCollection<SessionViewModel, SessionModel>;
+
+            //if (sessionCollection == null)
+            //    SessionSelect.SessionList = sessionCollection = new ObservableModelCollection<SessionViewModel, SessionModel>();
+
+            //IsLoading = true;
+            //var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(Sessions.Select(x => x.ModelId));
+
+            //var lastSelectedSession = SessionSelect.SelectedSession;
+
+            //sessionCollection.UpdateSource(sessionModels.OrderBy(x => x.Date));
+
+            //if (lastSelectedSession == null || !SessionSelect.SessionList.Contains(lastSelectedSession))
+            //    SessionSelect.SelectedSession = SessionSelect.SessionList.Where(x => x.ResultAvailable).LastOrDefault();
+
+            //await LoadStandings();
+        //}
+
+        public async Task LoadStandings()
+        {
+            try
+            {
+                await standings.Load(ScoringId.GetValueOrDefault());
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (SessionSelect != null)
+                SessionSelect.PropertyChanged -= OnSessionSelectChanged;
+
+            base.Dispose(disposing);
         }
     }
 }

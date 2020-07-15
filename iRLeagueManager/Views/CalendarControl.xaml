@@ -44,7 +44,7 @@
             <ScrollViewer VerticalScrollBarVisibility="Visible">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{Binding SelectedRace.SessionId}"/>
-                    <Grid HorizontalAlignment="Left">
+                    <Grid HorizontalAlignment="Left" Margin="10,0,10,10">
                         <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Black" StrokeThickness="2" RadiusX="5" RadiusY="5"/>
                         <StackPanel Margin="5">
                             <StackPanel.Style>
@@ -78,17 +78,16 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                            <Grid HorizontalAlignment="Left">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Track Preview" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                <Image Source="" Width="450" Height="300" HorizontalAlignment="Left"/>
-                                <TextBlock Text="{Binding Location.FullName}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold"
+                            <DockPanel HorizontalAlignment="Left">
+                                <TextBlock DockPanel.Dock="Bottom"  Text="{Binding Location.FullName}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold"
                                        Margin="5"/>
+                                <Grid DockPanel.Dock="Left">
+                                    <TextBlock Text="Track Preview" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#252525"/>
+                                    <Image Source="{Binding Location.MapImage}"  Width="450" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                                </Grid>
 
-                                <StackPanel Grid.Column="1" Orientation="Vertical">
+                                <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
                                     <TextBlock Text="Session Info:" Margin="5" FontSize="16" FontWeight="Bold"/>
                                     <TextBlock Margin="5">
                                         <TextBlock.Text>
@@ -121,10 +120,10 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </StackPanel>
-                            </Grid>
+                            </DockPanel>
                         </StackPanel>
                     </Grid>
-                    <Grid>
+                    <Grid Margin="10">
                         <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Black" StrokeThickness="2" RadiusX="5" RadiusY="5"/>
                         <StackPanel Orientation="Vertical" Margin="5">
                             <TextBlock Text="Upcoming Sessions" FontSize="20" FontWeight="Bold"/>

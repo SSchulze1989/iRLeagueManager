@@ -160,12 +160,12 @@
                                             </Style>
                                         </DataGrid.RowHeaderStyle>
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Binding="{Binding RaceId}" Header="Race Nr:" IsReadOnly="True"/>
-                                            <DataGridTextColumn Binding="{Binding Date, StringFormat=d, ConverterCulture=de-DE}" Header="Date:" IsReadOnly="True"/>
-                                            <DataGridTextColumn Binding="{Binding Location.FullName}" Header="Track:" IsReadOnly="True"/>
-                                            <DataGridTextColumn Binding="{Binding Laps}" Header="Laps:" IsReadOnly="True" />
-                                            <DataGridTextColumn Binding="{Binding SessionStart}" Header="Session Start:" IsReadOnly="True"/>
-                                            <DataGridTextColumn Header="Practice:" IsReadOnly="True">
+                                            <DataGridTextColumn Binding="{Binding RaceId}" Header="Race Nr:" IsReadOnly="True" MinWidth="70"/>
+                                            <DataGridTextColumn Binding="{Binding Date, StringFormat=d, ConverterCulture=de-DE}" Header="Date:" IsReadOnly="True" MinWidth="100"/>
+                                            <DataGridTextColumn Binding="{Binding Location.FullName}" Header="Track:" IsReadOnly="True" MinWidth="450"/>
+                                            <DataGridTextColumn Binding="{Binding Laps}" Header="Laps:" IsReadOnly="True" MinWidth="70"/>
+                                            <DataGridTextColumn Binding="{Binding SessionStart}" Header="Session Start:" IsReadOnly="True" MinWidth="110"/>
+                                            <DataGridTextColumn Header="Practice:" IsReadOnly="True" MinWidth="110">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
                                                         <Binding Path="PracticeStart.Hours" />
@@ -175,7 +175,7 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Qualy:" IsReadOnly="True">
+                                            <DataGridTextColumn Header="Qualy:" IsReadOnly="True" MinWidth="110">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
                                                         <Binding Path="QualyStart.Hours"/>
@@ -185,7 +185,7 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Race:" IsReadOnly="True">
+                                            <DataGridTextColumn Header="Race:" IsReadOnly="True" MinWidth="110">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
                                                         <Binding Path="RaceStart.Hours"/>
@@ -195,7 +195,7 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
-                                            <DataGridTemplateColumn Header="Results">
+                                            <DataGridTemplateColumn Header="Results"  MinWidth="150">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate DataType="DataGridCell">
                                                         <StackPanel Orientation="Horizontal">
@@ -224,11 +224,31 @@
                                                                     </Style>
                                                                 </ContentControl.Style>
                                                             </ContentControl>
+                                                            <Button Click="DeleteResultButton_Click" Background="Transparent" 
+                                                                    BorderBrush="Transparent"
+                                                                    VerticalAlignment="Center" Template="{DynamicResource IconButtonTemplate}"
+                                                                    Tag="{Binding}">
+                                                                <Button.Content>
+                                                                    <ContentControl Foreground="Red" Margin="5,0" VerticalAlignment="Center">
+                                                                        <StaticResource ResourceKey="closeThick"/>
+                                                                    </ContentControl>
+                                                                </Button.Content>
+                                                                <Button.Style>
+                                                                    <Style TargetType="Button">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding ResultAvailable}" Value="False">
+                                                                                <Setter Property="Visibility" Value="Hidden" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Button.Style>
+                                                            </Button>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <DataGridCheckBoxColumn Header="IsReadOnly" Binding="{Binding Model.IsReadOnly, Mode=OneWay}"/>
+                                            <!--<DataGridCheckBoxColumn Header="IsReadOnly" Binding="{Binding Model.IsReadOnly, Mode=OneWay}"/>-->
                                         </DataGrid.Columns>
                                     </DataGrid>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

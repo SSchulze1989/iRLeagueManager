@@ -27,6 +27,9 @@ namespace iRLeagueManager.ViewModels
         private string statusMsg;
         public string StatusMsg { get => statusMsg; set => SetValue(ref statusMsg, value); }
 
+        private bool suppressPropertyChangedEvent;
+        protected bool SuppressPropertyChangedEvent { get => suppressPropertyChangedEvent; set => SetValue(ref suppressPropertyChangedEvent, value); }
+
         public ICommand RefreshCmd { get; }
 
         public ViewModelBase()
@@ -140,6 +143,9 @@ namespace iRLeagueManager.ViewModels
 
                 // TODO: nicht verwaltete Ressourcen (nicht verwaltete Objekte) freigeben und Finalizer weiter unten überschreiben.
                 // TODO: große Felder auf Null setzen.
+
+                // Deatch all listeners to propertyChange event
+                PropertyChanged = null;
 
                 disposedValue = true;
             }

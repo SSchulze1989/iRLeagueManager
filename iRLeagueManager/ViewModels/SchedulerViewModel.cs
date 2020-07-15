@@ -17,10 +17,6 @@ namespace iRLeagueManager.ViewModels
 {
     public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
     {
-        private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
-
-        //private ObservableCollection<ScheduleModel> schedulesSource = new ObservableCollection<ScheduleModel>();
-
         private ObservableModelCollection<ScheduleViewModel, ScheduleModel> schedules;
         public ObservableModelCollection<ScheduleViewModel, ScheduleModel> Schedules
         {

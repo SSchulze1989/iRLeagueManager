@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using iRLeagueManager.Data;
 using iRLeagueManager.Models;
 
-namespace iRLeagueManager
+namespace iRLeagueManager.Models
 {
-    public class ModelManager
+    public class ModelCache : IModelCache
     {
         //private readonly LeagueContext leagueContext;
 
@@ -21,7 +21,7 @@ namespace iRLeagueManager
 
         private readonly int bufferKeepMinutes = 5;
 
-        public ModelManager()
+        public ModelCache()
         {
             referenceList = new ModelDictionary();
             registeredModelTypes = new Dictionary<Type, ModelRegister>();

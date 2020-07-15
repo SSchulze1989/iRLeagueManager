@@ -20,8 +20,10 @@ namespace iRLeagueManager.Models.Reviews
         private DateTime date;
         public DateTime Date { get => date; internal set => SetValue(ref date, value); }
 
-        private LeagueMember author;
-        public LeagueMember Author { get => author; internal set => SetValue(ref author, value); }
+        //private LeagueMember author;
+        //public LeagueMember Author { get => author; internal set => SetValue(ref author, value); }
+        private UserModel author;
+        public UserModel Author { get => author; internal set => SetValue(ref author, value); }
 
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }
@@ -36,12 +38,12 @@ namespace iRLeagueManager.Models.Reviews
             CommentId = commentId;
         }
 
-        public CommentBase(LeagueMember author)
+        public CommentBase(UserModel author)
         {
             Author = author;
         }
 
-        public CommentBase(LeagueMember author, CommentInfo replyTo) : this(author)
+        public CommentBase(UserModel author, CommentInfo replyTo) : this(author)
         {
             ReplyTo = replyTo;
         }

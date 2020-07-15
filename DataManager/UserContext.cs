@@ -30,7 +30,7 @@ namespace iRLeagueManager.User
 
         public UserContext(IDatabaseStatus status)
         {
-            ModelMapperProfile = new ModelMapperProfile();
+            ModelMapperProfile = new ModelMapperProfile(new ModelCache());
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(ModelMapperProfile);

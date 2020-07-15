@@ -36,7 +36,7 @@ namespace iRLeagueManager.Data
             EndpointConfigurationName = endpointConfigurationName;
         }
 
-        protected override void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
+        protected override void SetDatabaseStatus(Guid token, DatabaseStatusEnum status, string endpointAddress = "")
         {
             using (var DbClient = new RESTHttpClient())
             {
@@ -52,7 +52,7 @@ namespace iRLeagueManager.Data
 
         public async Task ClientCallAsync<TKey>(TKey key, Func<TKey, Task> func, UpdateKind updateKind, [CallerMemberName] string callName = "")
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             int timeOutMilliseconds = 10000;
             try
             {
@@ -78,7 +78,7 @@ namespace iRLeagueManager.Data
         public async Task<TResult> ClientGetAsync<TKey, TResult>(TKey key, Func<TKey, Task<TResult>> getFunc, UpdateKind updateKind, TResult defaultValue = null, [CallerMemberName] string callName = "") where TResult : class
         {
             int timeOutMilliseconds = 10000;
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             TResult retVar = defaultValue;
             try
             {

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using iRLeagueManager.Models;
 using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.ViewModels
@@ -16,14 +17,16 @@ namespace iRLeagueManager.ViewModels
 
         private IncidentReviewViewModel review;
         public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
-        public LeagueMember Author => Model?.Author;
+        //public LeagueMember Author => Model?.Author;
+        public UserModel Author => Model?.Author;
         public string Text { get => Model?.Text; set => Model.Text = value; }
         public DateTime Date => (Model?.Date).GetValueOrDefault();
-        protected override CommentBase Template => new ReviewCommentModel(new LeagueMember(0, "User", "Two"))
+        protected override CommentBase Template => new ReviewCommentModel(new UserModel(0) { UserName = "MemberTwo" })
         {
             Text = "This is a reply!\nAlso with a line break!"
         };
-        public bool IsUserAuthor => (LeagueContext.CurrentUser?.MemberId).GetValueOrDefault() == Author.MemberId.GetValueOrDefault();
+        //public bool IsUserAuthor => (LeagueContext.CurrentUser?.MemberId).GetValueOrDefault() == Author.MemberId.GetValueOrDefault();
+        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserName == Author.UserName;
 
         public ICommand EditCmd { get; private set; }
 
@@ -44,7 +47,8 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
-                if (LeagueContext.CurrentUser.MemberId != Author.MemberId)
+                //if (LeagueContext.CurrentUser.MemberId != Author.MemberId)
+                if (IsUserAuthor == false)
                     throw new UnauthorizedAccessException("Can not edit Comment text. Insufficient privileges!");
 
                 IsLoading = true;

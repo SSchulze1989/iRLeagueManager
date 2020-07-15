@@ -77,6 +77,13 @@ namespace iRLeagueManager.Services
                     row.Member = newMember;
                     memberList.Add(newMember);
                 }
+                else
+                {
+                    var member = MemberList.SingleOrDefault(x => x.IRacingId == line["CustID"]);
+                    var names = line["Name"].Split(' ');
+                    member.Firstname = names.First();
+                    member.Lastname = names.Skip(1).Aggregate((x, y) => x + " " + y);
+                }
             }
             return memberList;
         }

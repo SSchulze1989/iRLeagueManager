@@ -16,19 +16,13 @@
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Messages" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.User" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd10" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="ILeagueDBService_AuthenticateUser_InputMessage">
-    <wsdl:part name="parameters" element="tns:AuthenticateUser" />
-  </wsdl:message>
-  <wsdl:message name="ILeagueDBService_AuthenticateUser_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AuthenticateUserResponse" />
-  </wsdl:message>
   <wsdl:message name="RequestMessage">
     <wsdl:part name="parameters" element="tns:RequestMessage" />
   </wsdl:message>
@@ -138,10 +132,6 @@
     <wsdl:part name="parameters" element="tns:CleanUpSessionsResponse" />
   </wsdl:message>
   <wsdl:portType name="ILeagueDBService">
-    <wsdl:operation name="AuthenticateUser">
-      <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/AuthenticateUser" message="tns:ILeagueDBService_AuthenticateUser_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/AuthenticateUserResponse" message="tns:ILeagueDBService_AuthenticateUser_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="MessageTest">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTest" name="RequestMessage" message="tns:RequestMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeagueDBService/MessageTestResponse" name="ResponseMessage" message="tns:ResponseMessage" />
@@ -178,15 +168,6 @@
   <wsdl:binding name="NetTcpBinding_ILeagueDBService" type="tns:ILeagueDBService">
     <wsp:PolicyReference URI="#NetTcpBinding_ILeagueDBService_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
-    <wsdl:operation name="AuthenticateUser">
-      <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/AuthenticateUser" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="MessageTest">
       <soap12:operation soapAction="http://tempuri.org/ILeagueDBService/MessageTest" style="document" />
       <wsdl:input name="RequestMessage">

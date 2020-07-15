@@ -30,21 +30,24 @@ namespace iRLeagueManager.ViewModels
 
         //private UserContext UserContext => GlobalSettings.UserContext;
 
-        private LoginViewModel userLogin;
-        public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
+        //private LoginViewModel userLogin;
+        //public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
 
         private UserViewModel currentUser;
         public UserViewModel CurrentUser
         {
             get
             {
-                if (currentUser.Model == null || !currentUser.Model.Equals(LeagueContext?.CurrentUser))
+                if (currentUser.Model == null || !currentUser.Model.Equals(LeagueContext?.UserManager?.CurrentUser))
                 {
-                    currentUser.UpdateSource(LeagueContext?.CurrentUser);
+                    currentUser.UpdateSource(LeagueContext?.UserManager?.CurrentUser);
                 }
                 return currentUser;
             }
         }
+
+        //private bool isUserLoggedIn;
+        //public bool IsUserLoggedIn { get => isUserLoggedIn; set => SetValue(ref isUserLoggedIn, value); }
 
         private DatabaseStatusModel dbStatus;
         public DatabaseStatusModel DbStatus { get => dbStatus; set => SetValue(ref dbStatus, value); }
@@ -78,6 +81,7 @@ namespace iRLeagueManager.ViewModels
             SeasonList = new ObservableCollection<SeasonModel>(new List<SeasonModel>() { new SeasonModel() { SeasonName = "Loading..." } });
             SelectedSeason = SeasonList.First();
             CurrentSeason = new SeasonViewModel();
+            //UserLogin = new LoginViewModel(this);
             currentUser = new UserViewModel();
         }
 
@@ -92,10 +96,14 @@ namespace iRLeagueManager.ViewModels
 
             LeagueContext.AddStatusItem(DbStatus);
 
+            //UserLogin.Open();
+
             //LeagueContext.AddStatusItem(DbStatus);
             try
             {
                 IsLoading = true;
+                //await LeagueContext.UserLoginAsync("TestUser", "testuser");
+                await LeagueContext.UpdateMemberList();
                 SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetModelsAsync<SeasonModel>());
             }
             catch (Exception e)
@@ -106,7 +114,7 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-            SelectedSeason = SeasonList?.FirstOrDefault();
+            SelectedSeason = SeasonList?.LastOrDefault();
 
             //await LeagueContext.UserLoginAsync("Master", Encoding.UTF8.GetBytes("TestPasswort"));
             OnPropertyChanged(null);
@@ -116,12 +124,12 @@ namespace iRLeagueManager.ViewModels
         {
             if (CurrentUser != null)
             {
-                LeagueContext.Reconnect();
+                //LeagueContext.Reconnect();
                 //UserContext.UserLogout();
             }
             else
             {
-                UserLogin.Open();
+                //UserLogin.Open();
             }
             OnPropertyChanged(null);
         }

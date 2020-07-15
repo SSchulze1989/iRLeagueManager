@@ -14,7 +14,7 @@ namespace iRLeagueManager.ViewModels
 {
     public class LoginViewModel : ViewModelBase, IHasPassword
     {
-        private MainWindowViewModel MainWindowVM { get; }
+        //private MainWindowViewModel MainWindowVM { get; }
 
         //private UserModel loginUser;
         //public UserModel LoginUser { get => loginUser; set => SetValue(ref loginUser, value); }
@@ -22,11 +22,13 @@ namespace iRLeagueManager.ViewModels
         private string userName;
         public string UserName { get => userName; set => SetValue(ref userName, value); }
 
-        private string pw;
-        public string Pw { get => pw; set => SetValue(ref pw, value); }
+        private string password;
 
         private bool isOpen;
         public bool IsOpen { get => isOpen; set => SetValue(ref isOpen, value); }
+
+        private bool isLoggedIn;
+        public bool IsLoggedIn { get => isLoggedIn; set => SetValue(ref isLoggedIn, value); }
 
         private string statusMessage;
         public string StatusMessage { get => statusMessage; set => SetValue(ref statusMessage, value); }
@@ -35,31 +37,50 @@ namespace iRLeagueManager.ViewModels
         public ICommand CloseButtonCommand { get; }
         public ICommand RegisterUserCommand { get; }
 
-        public LoginViewModel(MainWindowViewModel mainVM)
+        public LoginViewModel()
         {
-            MainWindowVM = mainVM;
             UserName = "";
-            Pw = "";
+            password = "";
 
-            SubmitButtonCommand = new RelayCommand(o => Submit(), o => UserName != "" && Pw != "");
+            SubmitButtonCommand = new RelayCommand(async o => await SubmitAsync(), o => UserName != "" && password != "" && !IsLoading);
             CloseButtonCommand = new RelayCommand(o => Close(), o => true);
             RegisterUserCommand = new RelayCommand(o => RegisterOpen(), o => true);
         }
 
-        private async void Submit()
+        public void Load()
         {
-            if (await Login())
+            if (GlobalSettings.LeagueContext == null)
+                GlobalSettings.SetGlobalLeagueContext(new Data.LeagueContext());
+        }
+
+        public async Task SubmitAsync()
+        {
+            try
             {
-                IsOpen = false;
-                //MainWindowVM.Connect();
+                IsLoading = true;
+                if (await Login())
+                {
+                    IsOpen = false;
+                    IsLoggedIn = true;
+                    //MainWindowVM.Connect();
+                }
             }
-            MainWindowVM.Refresh("CurrentUser");
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            //MainWindowVM.Refresh("CurrentUser");
+            //MainWindowVM.Load();
         }
 
         private void RegisterOpen()
         {
-            var createUserVM = new CreateUserViewModel(MainWindowVM);
-            createUserVM.Open();
+            //var createUserVM = new CreateUserViewModel(MainWindowVM);
+            //createUserVM.Open();
         }
 
         public void Open()
@@ -84,24 +105,24 @@ namespace iRLeagueManager.ViewModels
                 return false;
             }
 
-            if (Pw == "")
+            if (password == "")
             {
                 //throw new UserValidationExeption("Passowrd is empty. Please enter a valid Password");
                 StatusMessage = "Passowrd is empty. Please enter a valid Password";
                 return false;
             }
 
-            var result = await LeagueContext.UserLoginAsync(UserName, Encoding.UTF8.GetBytes(pw));
-            if (!result)
+            var result = await LeagueContext.UserLoginAsync(UserName, password);
+            if (result == false)
             {
                 StatusMessage = "Password or Username incorrect!";
             }
             return result;
         }
 
-        public void SetPassword(string pw)
+        public void SetPassword(string password)
         {
-            Pw = pw;
+            this.password = password;
         }
     }
 

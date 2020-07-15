@@ -27,7 +27,7 @@
                 <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
             <ControlTemplate.Triggers>
-            <Trigger Property="Button.IsDefaulted" Value="True">
+                <Trigger Property="Button.IsDefaulted" Value="True">
                     <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -84,7 +84,7 @@
                         </TextBlock.Text>
                     </TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <TextBlock Text="{Binding DbStatus.ConnectionStatus}" Margin="5,0"/>
+                        <!--<TextBlock Text="{Binding DbStatus.ConnectionStatus}" Margin="5,0"/>-->
                         <TextBlock Text="{Binding DbStatus.UpdateStatus}" Margin="5,0"/>
                     </StackPanel>
                 </Grid>
@@ -121,7 +121,7 @@
                     <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <Button Content="Schedules" Click="SchedulesButton_Click" />
                     <Button Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
-                    <Button Content="Reviews" Click="ReviewsButton_Click" IsEnabled="False"/>
+                    <Button Content="Reviews" Click="ReviewsButton_Click" IsEnabled="True"/>
                     <Button Content="Teams" IsEnabled="False"/>
                     <Button Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
@@ -164,6 +164,7 @@
             </Grid>
         </DockPanel>
     </Grid>
+    
     <!--<Grid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

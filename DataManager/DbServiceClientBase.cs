@@ -15,13 +15,13 @@ namespace iRLeagueManager.Data
     {
         protected List<IDatabaseStatus> StatusArray { get; }
 
-        protected Dictionary<IToken, UpdateKind> TaskStatus { get; } = new Dictionary<IToken, UpdateKind>();
+        protected Dictionary<Guid, UpdateKind> TaskStatus { get; } = new Dictionary<Guid, UpdateKind>();
 
         protected ConnectionStatusEnum ConnectionStatus { get; private set; }
 
         protected DatabaseStatusEnum UpdateStatus { get; private set; }
 
-        protected DatabaseToken Token { get; }
+        protected Guid Token { get; }
 
         private string CurrentUpdateMethod { get; set; }
 
@@ -39,7 +39,7 @@ namespace iRLeagueManager.Data
         
         public DbServiceClientBase()
         {
-            Token = new DatabaseToken();
+            Token = Guid.NewGuid();
             StatusArray = new List<IDatabaseStatus>();
         }
 
@@ -60,7 +60,7 @@ namespace iRLeagueManager.Data
                 StatusArray.Remove(statusItem);
         }
 
-        protected async Task<bool> StartUpdateWhenReady(UpdateKind updateKind, IToken token, int timeoutMilliseconds = 10000, [CallerMemberName] string callName = "")
+        protected async Task<bool> StartUpdateWhenReady(UpdateKind updateKind, Guid token, int timeoutMilliseconds = 10000, [CallerMemberName] string callName = "")
         {
             //if (CurrentUpdateMethod != null && IsBusy)
             //{
@@ -114,7 +114,7 @@ namespace iRLeagueManager.Data
             return true;
         }
 
-        protected virtual void SetConnectionStatus(IToken token, ConnectionStatusEnum status)
+        protected virtual void SetConnectionStatus(Guid token, ConnectionStatusEnum status)
         {
             ConnectionStatus = status;
             foreach (var statusItem in StatusArray)
@@ -157,7 +157,7 @@ namespace iRLeagueManager.Data
             SetDatabaseStatus(Token, status);
         }
 
-        protected virtual void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
+        protected virtual void SetDatabaseStatus(Guid token, DatabaseStatusEnum status, string endpointAddress = "")
         {
             UpdateStatus = status;
             foreach (var statusItem in StatusArray)
@@ -175,7 +175,7 @@ namespace iRLeagueManager.Data
             return false;
         }
 
-        protected void EndUpdate(IToken token, [CallerMemberName] string callName = "")
+        protected void EndUpdate(Guid token, [CallerMemberName] string callName = "")
         {
 
             //if (CurrentUpdateMethod == callName && IsBusy)
@@ -204,13 +204,6 @@ namespace iRLeagueManager.Data
             {
                 throw new InvalidOperationException("Database request " + callName + " can not be finished! No active request on the database found.");
             }
-        }
-
-        public enum UpdateKind
-        {
-            Loading,
-            Saving,
-            Updating
         }
     }
 }

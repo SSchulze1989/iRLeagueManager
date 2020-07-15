@@ -26,7 +26,8 @@ namespace iRLeagueManager.ViewModels
 
         public string ProfileText { get => Model?.ProfileText; set => Model.ProfileText = value; }
 
-        public string FullName => Firstname + " " + Lastname;
+        //public string FullName => Firstname + " " + Lastname;
+        public string FullName => UserName;
 
         protected override UserModel Template => UserModel.GetAnonymous();
     }

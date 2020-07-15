@@ -95,7 +95,7 @@ namespace iRLeagueManager.Models.Results
 
         public ScoredResultRowModel() : base() { }
 
-        new public static ScoredResultRowModel GetTemplate()
+        public static ScoredResultRowModel GetTemplate()
         {
             var template = new ScoredResultRowModel
             {

@@ -67,7 +67,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -96,8 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\CompareNumericalConverter.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\DateHasPassedConverter.cs" />
+    <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\LapIntervalStringConverter.cs" />
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="ViewModels\ScoringViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
+    <Compile Include="ViewModels\SessionSelectViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
@@ -172,6 +175,12 @@
     </Compile>
     <Compile Include="Views\TestControl.xaml.cs">
       <DependentUpon>TestControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserLoginControl.xaml.cs">
+      <DependentUpon>UserLoginControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserLoginWindow.xaml.cs">
+      <DependentUpon>UserLoginWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -226,6 +235,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserLoginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserLoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -245,7 +262,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="iRLeagueManager_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -287,6 +303,44 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_BelleIsle_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Donington_National_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_LagunaSeca_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Montreal_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Mosport_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Nordschleife_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_PhilipIsland_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Spa_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_SummitPoint_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_VIR_North_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Zandvoort_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_Zolder_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

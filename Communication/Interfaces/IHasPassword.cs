@@ -8,7 +8,7 @@ namespace iRLeagueManager.Interfaces
 {
     public interface IHasPassword
     {
-        void SetPassword(string pw);
+        void SetPassword(string password);
     }
 }
     

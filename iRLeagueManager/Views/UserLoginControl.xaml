@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    <Grid HorizontalAlignment="Stretch" Height="auto">
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Azure" Stroke="DarkBlue"/>
+             d:DesignHeight="220" d:DesignWidth="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Height="Auto">
+    <Grid HorizontalAlignment="Stretch" Height="auto" Margin="10">
+        <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" Stroke="DarkBlue"/>-->
         <StackPanel HorizontalAlignment="Stretch">
             <TextBlock HorizontalAlignment="Left" Margin="5,5,5,2" Text="Username:" />
             <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5,2"/>

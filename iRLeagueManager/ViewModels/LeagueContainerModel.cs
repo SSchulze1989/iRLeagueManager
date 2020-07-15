@@ -13,8 +13,6 @@ namespace iRLeagueManager.ViewModels
 {
     public abstract class LeagueContainerModel<TSource> : ContainerModelBase<TSource> where TSource : ModelBase, INotifyPropertyChanged
     { 
-        protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
-
         public virtual TSource Model { get => Source; set => SetSource(value); }
 
         public LeagueContainerModel()

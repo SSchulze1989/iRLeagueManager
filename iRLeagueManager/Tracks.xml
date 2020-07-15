@@ -80,7 +80,7 @@
     <TrackId>9</TrackId>
     <TrackName>Canadian Tire Motorsports Park</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="3.957" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="" length="3.957" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Mosport_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -124,9 +124,9 @@
     <TrackId>14</TrackId>
     <TrackName>Circuit de Spa-Francorchamps</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Classic Pits" length="7.001" turns="19" type="RoadCourse" night_lighting="true" />
-      <TrackConfig config_id="2" config_name="Endurance" length="7.001" turns="19" type="RoadCourse" night_lighting="true" />
-      <TrackConfig config_id="3" config_name="Grand Prix Pits" length="7.001" turns="19" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="Classic Pits" length="7.001" turns="19" type="RoadCourse" night_lighting="true" map_img_src="Trackmap_Spa_t.png"/>
+      <TrackConfig config_id="2" config_name="Endurance" length="7.001" turns="19" type="RoadCourse" night_lighting="true" map_img_src="Trackmap_Spa_t.png"/>
+      <TrackConfig config_id="3" config_name="Grand Prix Pits" length="7.001" turns="19" type="RoadCourse" night_lighting="true" map_img_src="Trackmap_Spa_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -141,7 +141,7 @@
     <TrackId>16</TrackId>
     <TrackName>Circuit Gilles Villeneuve</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="4.361" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="" length="4.361" turns="13" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Montreal_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -159,7 +159,7 @@
     <Configs>
       <TrackConfig config_id="1" config_name="Chicane" length="4.313" turns="14" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="2" config_name="Club" length="2.575" turns="8" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="3" config_name="Grand Prix" length="4.299" turns="13" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Grand Prix" length="4.299" turns="13" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Zandvoort_t.png"/>
       <TrackConfig config_id="4" config_name="National" length="2.897" turns="8" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="5" config_name="Oostelijk" length="1.448" turns="6" type="RoadCourse" night_lighting="false" />
     </Configs>
@@ -169,7 +169,7 @@
     <TrackName>Circuit Zolder</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Alternate" length="4.01" turns="10" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="2" config_name="Grand Prix" length="4.01" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="4.01" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Zolder_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -212,7 +212,7 @@
     <TrackId>24</TrackId>
     <TrackName>Detroit Grand Prix at Belle Isle</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Belle Isle" length="3.782" turns="14" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Belle Isle" length="3.782" turns="14" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_BelleIsle_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -220,7 +220,7 @@
     <TrackName>Donington Park Racing Circuit</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Grand Prix" length="4.02" turns="12" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="2" config_name="National" length="3.149" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="National" length="3.149" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Donington_National_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -461,7 +461,7 @@
     <TrackId>54</TrackId>
     <TrackName>Nürburgring Nordschleife</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Industriefahrten" length="20.825" turns="154" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Industriefahrten" length="20.825" turns="154" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Nordschleife_t.png"/>
       <TrackConfig config_id="2" config_name="Touristenfahrten" length="19.103" turns="154" type="RoadCourse" night_lighting="false" />
     </Configs>
   </RaceTrack>
@@ -538,7 +538,7 @@
     <TrackId>62</TrackId>
     <TrackName>Phillip Island Circuit</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="4.445" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="" length="4.445" turns="12" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_PhilipIsland_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -671,7 +671,7 @@
       <TrackConfig config_id="2" config_name="Jefferson Reverse" length="1.786" turns="7" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="3" config_name="School" length="3.186" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="4" config_name="Short" length="2.35" turns="9" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="5" config_name="Summit Point Raceway" length="3.186" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="5" config_name="Summit Point Raceway" length="3.186" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_SummitPoint_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -770,7 +770,7 @@
       <TrackConfig config_id="1" config_name="Full Course" length="5.263" turns="17" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="2" config_name="Grand East" length="6.55" turns="29" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="3" config_name="Grand West" length="6.389" turns="26" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="4" config_name="North" length="3.621" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="4" config_name="North" length="3.621" turns="17" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_VIR_North_t.png"/>
       <TrackConfig config_id="5" config_name="Patriot" length="1.77" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="6" config_name="Patriot Reverse" length="1.77" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="7" config_name="South" length="3.621" turns="17" type="RoadCourse" night_lighting="false" />
@@ -797,7 +797,7 @@
     <TrackId>91</TrackId>
     <TrackName>WeatherTech Raceway at Laguna Seca</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Full Course" length="3.602" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Full Course" length="3.602" turns="11" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_LagunaSeca_t.png"/>
       <TrackConfig config_id="2" config_name="School" length="3.602" turns="11" type="RoadCourse" night_lighting="false" />
     </Configs>
   </RaceTrack>

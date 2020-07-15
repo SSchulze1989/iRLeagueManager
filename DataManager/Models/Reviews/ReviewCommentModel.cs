@@ -31,7 +31,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public ReviewCommentModel(long commentId) : base(commentId) { }
 
-        public ReviewCommentModel(LeagueMember author) : base(author) { }
+        public ReviewCommentModel(UserModel author) : base(author) { }
 
         internal override void InitializeModel()
         {

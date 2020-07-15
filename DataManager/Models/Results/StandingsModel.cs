@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.Models.Members;
+using System.ComponentModel.DataAnnotations;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -14,6 +15,9 @@ namespace iRLeagueManager.Models.Results
     {
         private ScoringInfo scoring;
         public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
+
+        private long? sessionId;
+        public long? SessionId { get => sessionId; internal set => SetValue(ref sessionId, value); }
 
         public override long[] ModelId => new long[] { (Scoring?.ScoringId).GetValueOrDefault() };
 

@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 
 namespace iRLeagueManager.Data
 {
-    public sealed class DbLeagueServiceClient : DbServiceClientBase, IDisposable
+    public sealed class DbLeagueServiceClient : DbServiceClientBase, IModelDataProvider, IActionProvider, IModelDataAndActionProvider , IDisposable
     {
         private string EndpointConfigurationName { get; } = "";
 
@@ -104,12 +104,12 @@ namespace iRLeagueManager.Data
             Dispose(false);
         }
 
-        public async Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password)
-        {
-            if (DbClient != null)
-                return await DbClient.AuthenticateUserAsync(userName, password, DatabaseName);
-            return new AuthenticationResult() { IsAuthenticated = false, AuthenticatedUser = null, Status = "No Client available" };
-        }
+        //public async Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password)
+        //{
+        //    if (DbClient != null)
+        //        return await DbClient.AuthenticateUserAsync(userName, password, DatabaseName);
+        //    return new AuthenticationResult() { IsAuthenticated = false, AuthenticatedUser = null, Status = "No Client available" };
+        //}
 
         public void UpdateConectionStatus()
         {
@@ -131,7 +131,7 @@ namespace iRLeagueManager.Data
             return false;
         }
 
-        protected override void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress = "")
+        protected override void SetDatabaseStatus(Guid token, DatabaseStatusEnum status, string endpointAddress = "")
         {
             base.SetDatabaseStatus(token, status, DbClient.ServiceAddress);
         }
@@ -148,7 +148,7 @@ namespace iRLeagueManager.Data
             if (DbClient.ConnectionStatus != ConnectionStatusEnum.Connected)
                 return;
 
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             int timeOutMilliseconds = 10000;
             try
             {
@@ -188,7 +188,7 @@ namespace iRLeagueManager.Data
                 return defaultValue;
 
             int timeOutMilliseconds = 10000;
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             TResult retVar = defaultValue;
             try
             {
@@ -339,15 +339,15 @@ namespace iRLeagueManager.Data
 
         public async Task<bool> DelAsync(long[] requestId, Type type)
         {
-            return await DelAsync(new long[][] { requestId }, type);
+            return await DeleteAsync(new long[][] { requestId }, type);
         }
 
         public async Task<bool> DelAsync<TTarget>(long[][] requestIds) where TTarget : MappableDTO
         {
-            return await DelAsync(requestIds, typeof(TTarget));
+            return await DeleteAsync(requestIds, typeof(TTarget));
         }
 
-        public async Task<bool> DelAsync(long[][] requestIds, Type type)
+        public async Task<bool> DeleteAsync(long[][] requestIds, Type type)
         {
             return (await ClientGetAsync(async () => (await DbClient.DelAsync(requestIds, type, DatabaseName)), UpdateKind.Saving, false));
         }

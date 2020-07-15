@@ -346,11 +346,11 @@ namespace iRLeagueManager.Data
             }
         }
 
-        public Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
+        public async Task<POSTItemsResponseMessage> DatabasePOSTAsync(POSTItemsRequestMessage request)
         {
             using (var client = new LeagueDBServiceClient())
             {
-                return ((ILeagueDBService)client).DatabasePOSTAsync(request);
+                return await ((ILeagueDBService)client).DatabasePOSTAsync(request);
             }
         }
 
@@ -427,21 +427,21 @@ namespace iRLeagueManager.Data
         //    return ((ILeagueDBService)client).TestDBAsync();
         //}
 
-        public AuthenticationResult AuthenticateUser(string userName, byte[] password, string databaseName)
-        {
-            using (var client = new LeagueDBServiceClient())
-            {
-                return ((ILeagueDBService)client).AuthenticateUser(userName, password, databaseName);
-            }
-        }
+        //public AuthenticationResult AuthenticateUser(string userName, byte[] password, string databaseName)
+        //{
+        //    using (var client = new LeagueDBServiceClient())
+        //    {
+        //        return ((ILeagueDBService)client).AuthenticateUser(userName, password, databaseName);
+        //    }
+        //}
 
-        public async Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName)
-        {
-            using (var client = new LeagueDBServiceClient())
-            {
-                return await ((ILeagueDBService)client).AuthenticateUserAsync(userName, password, databaseName);
-            }
-        }
+        //public async Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName)
+        //{
+        //    using (var client = new LeagueDBServiceClient())
+        //    {
+        //        return await ((ILeagueDBService)client).AuthenticateUserAsync(userName, password, databaseName);
+        //    }
+        //}
 
         public LeagueUserDTO RegisterUser(string userName, byte[] password, string databaseName)
         {

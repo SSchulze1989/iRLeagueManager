@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iRLeagueManager.ViewModels;
+using iRLeagueManager.Views;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,27 @@ namespace iRLeagueManager
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            var dialog = new UserLoginWindow();
+            var viewModel = new LoginViewModel();
+            dialog.DataContext = viewModel;
+            viewModel.Load();
+
+
+            if (dialog.ShowDialog() == true)
+            {
+                //var mainWindow = new MainWindow();
+                Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                //Current.MainWindow = mainWindow;
+                //MainWindow.Show();
+            }
+            else
+            {
+                Current.Shutdown(-1);
+            }
+        }
     }
 }

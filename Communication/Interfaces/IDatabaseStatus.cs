@@ -14,9 +14,9 @@ namespace iRLeagueManager.Interfaces
         ConnectionStatusEnum ConnectionStatus { get; }
         DatabaseStatusEnum UpdateStatus { get; }
 
-        void SetConnectionStatus(IToken token, ConnectionStatusEnum status);
+        void SetConnectionStatus(Guid token, ConnectionStatusEnum status);
 
-        void SetDatabaseStatus(IToken token, DatabaseStatusEnum status);
-        void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress);
+        void SetDatabaseStatus(Guid token, DatabaseStatusEnum status);
+        void SetDatabaseStatus(Guid token, DatabaseStatusEnum status, string endpointAddress);
     }
 }

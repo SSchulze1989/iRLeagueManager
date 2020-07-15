@@ -19,8 +19,8 @@ namespace iRLeagueManager.Data
         bool OpenConnection();
         LeagueUserDTO RegisterUser(string userName, byte[] password, string databaseName);
         Task<LeagueUserDTO> RegisterUserAsync(string userName, byte[] password, string databaseName);
-        AuthenticationResult AuthenticateUser(string userName, byte[] password, string databaseName);
-        Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName);
+        //AuthenticationResult AuthenticateUser(string userName, byte[] password, string databaseName);
+        //Task<AuthenticationResult> AuthenticateUserAsync(string userName, byte[] password, string databaseName);
         bool CloseConnection();
 
         //MappableDTO[] Get(long[][] requestIds, Type requestType, string userName, string password, string databaseName);

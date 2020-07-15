@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,7 +78,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ASPRestAPIClientWrapper.cs" />
+    <Compile Include="Data\DatabaseStatusService.cs" />
+    <Compile Include="Data\IDatabaseStatusService.cs" />
+    <Compile Include="Data\IModelActionProvider.cs" />
+    <Compile Include="Data\ASPRestAPIClientWrapper.cs" />
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="Connected Services\LeagueDBServiceRef\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -92,15 +95,27 @@
     </Compile>
     <Compile Include="Converters\BonusPointsConverter.cs" />
     <Compile Include="DatabaseToken.cs" />
+    <Compile Include="Data\IModelDatabase.cs" />
+    <Compile Include="Data\IUserCredentialsManager.cs" />
+    <Compile Include="Data\IUserDatabaseClient.cs" />
+    <Compile Include="Data\IUserManager.cs" />
+    <Compile Include="Data\UserCredentialsManager.cs" />
+    <Compile Include="Data\UserDatabaseClient.cs" />
+    <Compile Include="Data\UserManager.cs" />
     <Compile Include="DbHttpRESTClient.cs" />
     <Compile Include="Exceptions\ModelInitializeException.cs" />
+    <Compile Include="Data\ICredentialsProvider.cs" />
     <Compile Include="ILeagueDbServiceClient.cs" />
     <Compile Include="IModelIdentifier.cs" />
     <Compile Include="LeagueContext.cs" />
     <Compile Include="LocationMapperProfile.cs" />
     <Compile Include="ModelDictionary.cs" />
     <Compile Include="ModelIdentifier.cs" />
-    <Compile Include="ModelManager.cs" />
+    <Compile Include="Data\IActionProvider.cs" />
+    <Compile Include="Models\IModelCache.cs" />
+    <Compile Include="Models\IModelManager.cs" />
+    <Compile Include="Data\IModelDataProvider.cs" />
+    <Compile Include="Models\ModelCache.cs" />
     <Compile Include="ModelMapperConfiguration.cs" />
     <Compile Include="ModelMapperProfile.cs" />
     <Compile Include="ModelRegister.cs" />
@@ -112,6 +127,7 @@
     <Compile Include="Models\Members\LeagueMember.cs" />
     <Compile Include="Models\Members\Team.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Models\Results\AddPenaltyModel.cs" />
     <Compile Include="Models\Results\IRacingResultRow.cs" />
     <Compile Include="Models\Results\ResultInfo.cs" />
@@ -153,9 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.AuthenticationResult.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

@@ -49,7 +49,7 @@ namespace iRLeagueManager.Data
 
         public async Task<UserDTO> UserLoginAsync(string userName, string pw)
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Loading, token);
             var retVal = await ((IUserService)DbClient).UserLoginAsync(userName, pw);
             EndUpdate(token);
@@ -63,7 +63,7 @@ namespace iRLeagueManager.Data
 
         public async Task<bool> UserSetPwAsync(int userId, string oldPw, string newPw)
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Saving, token);
             var retVal = await ((IUserService)DbClient).UserSetPwAsync(userId, oldPw, newPw);
             EndUpdate(token);
@@ -77,7 +77,7 @@ namespace iRLeagueManager.Data
 
         public async Task<bool> IsUserNameAvailableAsync(string username)
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Loading, token);
             var retVal = await ((IUserService)DbClient).IsUserNameAvailableAsync(username);
             EndUpdate(token);
@@ -91,7 +91,7 @@ namespace iRLeagueManager.Data
 
         public async Task<UserDTO> CreateUserAsync(string userName, string initialPw)
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Saving, token);
             var retVal = await ((IUserService)DbClient).CreateUserAsync(userName, initialPw);
             EndUpdate(token);
@@ -118,7 +118,7 @@ namespace iRLeagueManager.Data
 
         public async Task<UserDTO> GetUserDataAsync(int userId)
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Loading, token);
             var retVal = await ((IUserService)DbClient).GetUserDataAsync(userId);
             EndUpdate(token);
@@ -132,7 +132,7 @@ namespace iRLeagueManager.Data
 
         public async Task<UserDTO[]> GetUserListAsync()
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Loading, token);
             var retVal = await ((IUserService)DbClient).GetUserListAsync();
             EndUpdate(token);
@@ -146,7 +146,7 @@ namespace iRLeagueManager.Data
 
         public async Task<UserDTO> PutUserDataAsync(UserDTO user, string pw)
         {
-            IToken token = new RequestToken();
+            Guid token = Guid.NewGuid();
             await StartUpdateWhenReady(UpdateKind.Updating, token);
             var retVal = await ((IUserService)DbClient).PutUserDataAsync(user, pw);
             EndUpdate(token);

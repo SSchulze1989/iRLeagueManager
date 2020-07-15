@@ -96,6 +96,20 @@ namespace iRLeagueManager.Views
 
         }
 
+        private async void DeleteResultButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                if (button.Tag is SessionViewModel sessionViewModel)
+                {
+                    if (MessageBox.Show("Do you Really want to delete the Result set? This will remove all associated reviews and given penalties.", "Remove Result", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        await sessionViewModel.DeleteResultFile();
+                    }
+                }
+            }
+        }
+
         private void MoveSessionButton_Click(object sender, RoutedEventArgs e)
         {
             if (!(DataContext is SchedulerViewModel schedulerVM))

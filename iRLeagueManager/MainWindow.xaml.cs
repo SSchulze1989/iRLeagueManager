@@ -60,7 +60,6 @@ namespace iRLeagueManager
                 MainContent.Content = vm;
                 _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
-            //GC.Collect();
         }
 
         private void RaceCalendarButton_Click(object sender, RoutedEventArgs e)

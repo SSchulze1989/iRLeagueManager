@@ -94,7 +94,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                await LeagueContext.DbContext.CalculateScoredResultsAsync((session.SessionId).GetValueOrDefault());
+                await LeagueContext.ModelContext.CalculateScoredResultsAsync(session.SessionId);
             }
             catch (Exception e)
             {

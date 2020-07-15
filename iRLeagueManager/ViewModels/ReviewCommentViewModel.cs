@@ -1,5 +1,6 @@
 ﻿using iRLeagueManager.Data;
 using iRLeagueManager.Enums;
+using iRLeagueManager.Models;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.ViewModels.Collections;
@@ -32,12 +33,12 @@ namespace iRLeagueManager.ViewModels
 
         public ICommand ReplyCmd { get; private set; }
 
-        protected override CommentBase Template => new ReviewCommentModel(new LeagueMember(0, "Test", "Author"))
+        protected override CommentBase Template => new ReviewCommentModel(new UserModel(0) { UserName = "TestAuthor" })
         {
             Text = "Test comment, Kat0 please!\nWith line break, yeah!",
             Replys = new ObservableCollection<CommentBase>(new List<CommentBase>
             {
-                new CommentBase(new LeagueMember(0, "Member", "Two"))
+                new CommentBase(new UserModel(0) { UserName = "MemberTwo" })
                 {
                     Text = "This is a reply!"
                 }
@@ -72,7 +73,7 @@ namespace iRLeagueManager.ViewModels
             if (Model == null)
                 return null;
 
-            var author = await LeagueContext.GetModelAsync<LeagueMember>(LeagueContext.CurrentUser.MemberId.GetValueOrDefault());
+            var author = LeagueContext.UserManager.CurrentUser;
             if (author == null)
                 return null;
 

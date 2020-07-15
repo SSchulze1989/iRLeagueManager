@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Windows.Media.Imaging;
+using System.IO;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace iRLeagueManager.Locations
 {
@@ -24,9 +28,28 @@ namespace iRLeagueManager.Locations
         public ConfigType ConfigType { get; set; }
         [XmlAttribute("night_lighting")]
         public bool HasNigtLigthing { get; set; }
+        [XmlAttribute("map_img_src")]
+        public string MapImageSrc { get; set; }
+
+        private BitmapImage mapImage = null;
+        [XmlIgnore]
+        public BitmapImage MapImage
+        {
+            get
+            {
+                if (MapImageSrc == null)
+                    return null;
+
+                if (mapImage == null)
+                {
+                    var uri = "Graphics/TrackImages/Maps/" + MapImageSrc;
+                    mapImage = CreateImageFromPng(uri);
+                }
+                return mapImage;
+            }
+        }
         [XmlIgnore]
         public string ShortName => ConfigName.Substring(0, Math.Min(12, ConfigName.Length));
-
 
         public TrackConfig() { }
 
@@ -36,6 +59,38 @@ namespace iRLeagueManager.Locations
             ConfigId = configId;
             ConfigName = configName;
             LengthKm = lengtKm;
+        }
+
+        private BitmapImage CreateImageFromPng(string source)
+        {
+            //using (var stream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read))
+            //{
+            //    //PngBitmapDecoder decoder = new PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+            //    //BitmapImage bitmapSource = decoder.Frames[0];
+
+            //    //Image image = new Image()
+            //    //{
+            //    //    Source = bitmapSource,
+            //    //    Stretch = System.Windows.Media.Stretch.None,
+            //    //    Margin = new System.Windows.Thickness(10)
+            //    //};
+
+            //    BitmapImage image = new BitmapImage();
+            //    image.BeginInit();
+            //    image.CacheOption = BitmapCacheOption.Default;
+            //    image.StreamSource = stream;
+            //    image.EndInit();
+
+            //    return image;
+            //}
+
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(source, UriKind.Relative);
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.EndInit();
+
+            return image;
         }
     }
 

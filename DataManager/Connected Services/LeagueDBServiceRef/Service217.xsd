@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
   <xs:complexType name="VersionInfoDTO">
@@ -9,7 +8,10 @@
       <xs:extension base="tns:MappableDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="CreatedByUserId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="CreatedByUserName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="CreatedOn" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="LastModifiedByUserId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="LastModifiedByUserName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="LastModifiedOn" nillable="true" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Version" type="xs:int" />
         </xs:sequence>
@@ -25,12 +27,10 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:SeasonInfoDTO">
         <xs:sequence>
-          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q1:LeagueMemberInfoDTO" />
-          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q2:LeagueMemberInfoDTO" />
-          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="Results" nillable="true" type="q3:ArrayOfResultInfoDTO" />
-          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="Reviews" nillable="true" type="q4:ArrayOfIncidentReviewInfoDTO" />
-          <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Schedules" nillable="true" type="q5:ArrayOfScheduleInfoDTO" />
-          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="Scorings" nillable="true" type="q6:ArrayOfScoringDataDTO" />
+          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="Results" nillable="true" type="q1:ArrayOfResultInfoDTO" />
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="Reviews" nillable="true" type="q2:ArrayOfIncidentReviewInfoDTO" />
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" minOccurs="0" name="Schedules" nillable="true" type="q3:ArrayOfScheduleInfoDTO" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="Scorings" nillable="true" type="q4:ArrayOfScoringDataDTO" />
           <xs:element minOccurs="0" name="SeasonEnd" type="xs:dateTime" />
           <xs:element minOccurs="0" name="SeasonStart" type="xs:dateTime" />
         </xs:sequence>

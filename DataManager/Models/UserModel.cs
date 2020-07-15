@@ -53,7 +53,8 @@ namespace iRLeagueManager.Models
         private string profileText;
         public string ProfileText { get => profileText; set => SetValue(ref profileText, value); }
 
-        public string FullName { get => Firstname + " " + Lastname;  }
+        //public string FullName { get => Firstname + " " + Lastname;  }
+        public string FullName => UserName;
 
         public UserModel(long userId)
         {

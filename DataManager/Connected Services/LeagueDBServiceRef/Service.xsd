@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.User" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd10" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-  <xs:element name="AuthenticateUser">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="password" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="databaseName" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AuthenticateUserResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.User" minOccurs="0" name="AuthenticateUserResult" nillable="true" type="q1:AuthenticationResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="RequestMessage">
     <xs:complexType>
       <xs:sequence />
@@ -39,49 +22,49 @@
   <xs:element name="POSTItemsRequestMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q2:ArrayOfMappableDTO" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q1:ArrayOfMappableDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="POSTItemsResponseMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q3:ArrayOfMappableDTO" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q2:ArrayOfMappableDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GETItemsRequestMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="requestItemIds" nillable="true" type="q4:ArrayOfArrayOflong" />
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="requestItemIds" nillable="true" type="q3:ArrayOfArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GETItemsResponseMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q5:ArrayOfMappableDTO" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q4:ArrayOfMappableDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PUTItemsRequestMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q6:ArrayOfMappableDTO" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q5:ArrayOfMappableDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PUTItemsResponseMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q7:ArrayOfMappableDTO" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" minOccurs="0" name="items" nillable="true" type="q6:ArrayOfMappableDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DELItemsRequestMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="requestItemIds" nillable="true" type="q8:ArrayOfArrayOflong" />
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="requestItemIds" nillable="true" type="q7:ArrayOfArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

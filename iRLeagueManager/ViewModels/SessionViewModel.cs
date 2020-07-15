@@ -61,7 +61,7 @@ namespace iRLeagueManager.ViewModels
         private ScheduleViewModel schedule;
         public ScheduleViewModel Schedule { get => schedule; set => SetValue(ref schedule, value); }
 
-        public long? SessionId => Model.SessionId;
+        public long SessionId => (Model?.SessionId).GetValueOrDefault();
 
         public int? SessionNumber => Schedule?.Sessions.IndexOf(x => x.SessionId == SessionId) + 1;
 
@@ -143,7 +143,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                lines = parserService.ParseCSV(new StreamReader(stream));
+                lines = parserService.ParseCSV(new StreamReader(stream, Encoding.Default));
             }
             catch (Exception e)
             {
@@ -165,11 +165,11 @@ namespace iRLeagueManager.ViewModels
                 var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
 
                 newMembers = await LeagueContext.AddModelsAsync(newMembers.ToArray());
-
-                foreach (var member in newMembers)
+                foreach(var member in newMembers)
                 {
                     LeagueContext.MemberList.Add(member);
                 }
+                await LeagueContext.UpdateModelsAsync(LeagueContext.MemberList);
 
                 //await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
                 //var sessionModel = season.GetSessions().SingleOrDefault(x => x.SessionId == session.SessionId);
@@ -210,6 +210,26 @@ namespace iRLeagueManager.ViewModels
             }
             finally
             {
+            }
+        }
+
+        public async Task DeleteResultFile()
+        {
+            if (Model == null)
+                return;
+
+            try
+            {
+                await LeagueContext.DeleteModelAsync<ResultModel>(SessionId);
+                await LeagueContext.UpdateModelAsync(Model);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
             }
         }
 

@@ -17,7 +17,7 @@ namespace iRLeagueManager.Models.Database
         private ConnectionStatusEnum databaseConnectionStatus;
         public ConnectionStatusEnum ConnectionStatus { get => databaseConnectionStatus; }
 
-        private Dictionary<IToken, DatabaseStatusEnum> databaseStatus;
+        private Dictionary<Guid, DatabaseStatusEnum> databaseStatus;
         public DatabaseStatusEnum UpdateStatus { get => GetDatabaseStatus(); }
 
         private string endpointAddress;
@@ -27,7 +27,7 @@ namespace iRLeagueManager.Models.Database
 
         public DatabaseStatusModel()
         {
-            databaseStatus = new Dictionary<IToken, DatabaseStatusEnum>();
+            databaseStatus = new Dictionary<Guid, DatabaseStatusEnum>();
         }
 
         private DatabaseStatusEnum GetDatabaseStatus()
@@ -50,13 +50,13 @@ namespace iRLeagueManager.Models.Database
             return result;
         }
 
-        public void SetConnectionStatus(IToken token, ConnectionStatusEnum status)
+        public void SetConnectionStatus(Guid token, ConnectionStatusEnum status)
         {
             //databaseConnectionStatus = status;
             SetValue(ref databaseConnectionStatus, status, nameof(ConnectionStatus));
         }
 
-        public void SetDatabaseStatus(IToken token, DatabaseStatusEnum status)
+        public void SetDatabaseStatus(Guid token, DatabaseStatusEnum status)
         {
             if (databaseStatus.Keys.Contains(token))
             {
@@ -75,7 +75,7 @@ namespace iRLeagueManager.Models.Database
             OnPropertyChanged(nameof(UpdateStatus));
         }
 
-        public void SetDatabaseStatus(IToken token, DatabaseStatusEnum status, string endpointAddress)
+        public void SetDatabaseStatus(Guid token, DatabaseStatusEnum status, string endpointAddress)
         {
             SetDatabaseStatus(token, status);
             EndpointAddress = endpointAddress;
