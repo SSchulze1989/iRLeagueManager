@@ -12,6 +12,7 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Results;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Locations;
+using iRLeagueManager.Models.Reviews;
 
 namespace iRLeagueManager.Models.Sessions
 {
@@ -40,6 +41,9 @@ namespace iRLeagueManager.Models.Sessions
             }
         }
         //IResult ISession.Result => SessionResult;
+
+        private ObservableCollection<IncidentReviewInfo> reviews;
+        public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; internal set => SetNotifyCollection(ref reviews, value); }
 
         private TimeSpan duration;
         /// <summary>

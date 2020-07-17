@@ -24,28 +24,28 @@ namespace iRLeagueManager.ViewModels
         {
             get
             {
-                if (replys.GetSource() != Model?.Replys)
-                    replys.UpdateSource(Model?.Replys);
+                if (replys.GetSource() != Model?.Replies)
+                    replys.UpdateSource(Model?.Replies);
                 return replys;
             }
         }
-        public ObservableCollection<VoteMemberAtFaultModel> Votes => Model?.Votes;
+        public ObservableCollection<ReviewVoteModel> Votes => Model?.CommentReviewVotes;
 
         public ICommand ReplyCmd { get; private set; }
 
         protected override CommentBase Template => new ReviewCommentModel(new UserModel(0) { UserName = "TestAuthor" })
         {
             Text = "Test comment, Kat0 please!\nWith line break, yeah!",
-            Replys = new ObservableCollection<CommentBase>(new List<CommentBase>
+            Replies = new ObservableCollection<CommentBase>(new List<CommentBase>
             {
                 new CommentBase(new UserModel(0) { UserName = "MemberTwo" })
                 {
                     Text = "This is a reply!"
                 }
             }),
-            Votes = new ObservableCollection<VoteMemberAtFaultModel>(new List<VoteMemberAtFaultModel>()
+            CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(new List<ReviewVoteModel>()
             {
-                new VoteMemberAtFaultModel() { Vote = VoteEnum.Kat1, MemberAtFault = new LeagueMember(0, "Bad", "Driver") }
+                new ReviewVoteModel() { Vote = VoteEnum.Kat1, MemberAtFault = new LeagueMember(0, "Bad", "Driver") }
             })
         };
 

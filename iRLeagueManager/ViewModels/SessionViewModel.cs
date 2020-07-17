@@ -19,6 +19,8 @@ using iRLeagueManager.Locations;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Models.Members;
 using System.Runtime.CompilerServices;
+using iRLeagueManager.ViewModels.Collections;
+using iRLeagueManager.Models.Reviews;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -62,6 +64,8 @@ namespace iRLeagueManager.ViewModels
         public ScheduleViewModel Schedule { get => schedule; set => SetValue(ref schedule, value); }
 
         public long SessionId => (Model?.SessionId).GetValueOrDefault();
+
+        public ObservableCollection<IncidentReviewInfo> Reviews => Model.Reviews;
 
         public int? SessionNumber => Schedule?.Sessions.IndexOf(x => x.SessionId == SessionId) + 1;
 
@@ -110,6 +114,9 @@ namespace iRLeagueManager.ViewModels
         public long? RaceId => (Model as RaceSessionModel)?.RaceId;
 
         public bool ResultAvailable => Model?.SessionResult != null;
+
+        private bool isCurrentSession;
+        public bool IsCurrentSession { get => isCurrentSession; set => SetValue(ref isCurrentSession, value); }
 
         public SessionViewModel() : base()
         {

@@ -71,6 +71,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Scoring Id:" Margin="5"/>
@@ -94,6 +97,12 @@
 
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Bonus Points:" Margin="5"/>
                 <Button Grid.Row="6" Grid.Column="1" Content="Edit" Click="EditBonusPointsButton_Click" Tag="{Binding}" Margin="5"/>
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="IsMulitScoring" Margin="5"/>
+                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsMultiScoring}" Margin="5"/>
+
+                <TextBlock Grid.Row="8" Grid.Column="0" Text="MultiScorings:" Margin="5"/>
+                <ListBox Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding MultiScoringResults}" DisplayMemberPath="Key.Name" Height="100" Margin="5"/>
 
                 <!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ConnectedSchedule}" Margin="5"/>-->

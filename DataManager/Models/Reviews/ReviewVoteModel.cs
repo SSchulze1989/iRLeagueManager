@@ -9,10 +9,10 @@ using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.Models.Reviews
 {
-    public class VoteMemberAtFaultModel : ModelBase
+    public class ReviewVoteModel : ModelBase
     {
-        public long? VoteMemberAtFaultId { get; internal set; }
-        public override long[] ModelId => new long[] { VoteMemberAtFaultId.GetValueOrDefault() };
+        public long ReviewVoteId { get; internal set; }
+        public override long[] ModelId => new long[] { ReviewVoteId };
 
         private VoteEnum vote;
         public VoteEnum Vote { get => vote; set => SetValue(ref vote, value); }
@@ -20,12 +20,12 @@ namespace iRLeagueManager.Models.Reviews
         private LeagueMember memberAtFault;
         public LeagueMember MemberAtFault { get => memberAtFault; set => SetValue(ref memberAtFault, value); }
 
-        public VoteMemberAtFaultModel() : base()
+        public ReviewVoteModel() : base()
         { }
 
-        public VoteMemberAtFaultModel(long? voteMemberAtFaultId)
+        public ReviewVoteModel(long reviewVoteId)
         {
-            VoteMemberAtFaultId = voteMemberAtFaultId;
+            ReviewVoteId = reviewVoteId;
         }
     }
 }

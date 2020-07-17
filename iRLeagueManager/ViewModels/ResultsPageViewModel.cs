@@ -119,7 +119,10 @@ namespace iRLeagueManager.ViewModels
             CurrentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
-            SessionSelect = new SessionSelectViewModel();
+            SessionSelect = new SessionSelectViewModel()
+            {
+                SessionFilter = x => x.ResultAvailable
+            };
             SelectedResult = null;
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
         }

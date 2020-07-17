@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using iRLeagueManager.Models.Sessions;
+using iRLeagueManager.ViewModels.Collections;
+using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -16,10 +20,16 @@ namespace iRLeagueManager.ViewModels
             get => sessionList;
             set
             {
+                var temp = sessionList;
                 if (SetValue(ref sessionList, value))
                 {
-                    if (SelectedSession == null)
-                        SelectedSession = null;
+                    if (temp != null)
+                        ((INotifyCollectionChanged)temp).CollectionChanged -= OnSessionListChanged;
+                    if (sessionList != null)
+                    {
+                        ((INotifyCollectionChanged)sessionList).CollectionChanged += OnSessionListChanged;
+                        OnSessionListChanged(null, null);
+                    }
                 }
             }
         }
@@ -37,6 +47,21 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public IEnumerable<SessionViewModel> FilteredSessions => SessionList.Where(SessionFilter);
+
+        private Func<SessionViewModel, bool> sessionFilter;
+        public Func<SessionViewModel, bool> SessionFilter 
+        { 
+            get 
+            {
+                if (sessionFilter != null)
+                    return sessionFilter;
+
+                return x => true;
+            } 
+            set => SetValue(ref sessionFilter, value); 
+        }
+
         public ICommand NextSessionCmd { get; }
         public ICommand PreviousSessionCmd { get; }
 
@@ -47,17 +72,39 @@ namespace iRLeagueManager.ViewModels
             SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
         }
 
+        public async Task LoadSessions(IEnumerable<SessionInfo> sessions)
+        {
+            ObservableModelCollection<SessionViewModel, SessionModel> sessionCollection = SessionList as ObservableModelCollection<SessionViewModel, SessionModel>;
+
+            if (sessionCollection == null)
+                SessionList = sessionCollection = new ObservableModelCollection<SessionViewModel, SessionModel>();
+
+            IsLoading = true;
+            var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(sessions.Select(x => x.ModelId), update: false, reload: false);
+
+            var lastSelectedSession = SelectedSession;
+
+            sessionCollection.UpdateSource(sessionModels.OrderBy(x => x.Date));
+
+            if (lastSelectedSession == null || !SessionList.Contains(lastSelectedSession))
+            {
+                SelectedSession = SessionList.Where(SessionFilter).LastOrDefault();
+            }
+        }
+
         public void SelectNextSession()
         {
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            var currentSessionIndex = filteredSessions.IndexOf(SelectedSession);
             if (currentSessionIndex == -1)
                 currentSessionIndex = 0;
 
             currentSessionIndex++;
-            if (currentSessionIndex >= SessionList.Count())
-                SelectedSession = SessionList.LastOrDefault();
+            if (currentSessionIndex >= filteredSessions.Count())
+                SelectedSession = filteredSessions.LastOrDefault();
             else
-                SelectedSession = SessionList.ElementAt(currentSessionIndex);
+                SelectedSession = filteredSessions.ElementAt(currentSessionIndex);
         }
 
         public bool CanSelectNextSession()
@@ -65,9 +112,11 @@ namespace iRLeagueManager.ViewModels
             if (SessionList == null)
                 return false;
 
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
 
-            if (currentSessionIndex < SessionList.Count() - 1 || currentSessionIndex == -1)
+            var currentSessionIndex = filteredSessions.IndexOf(SelectedSession);
+
+            if (currentSessionIndex < filteredSessions.Count() - 1 || currentSessionIndex == -1)
                 return true;
 
             return false;
@@ -75,15 +124,17 @@ namespace iRLeagueManager.ViewModels
 
         public void SelectPreviousSession()
         {
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            var currentSessionIndex = filteredSessions.IndexOf(SelectedSession);
             if (currentSessionIndex == -1)
-                currentSessionIndex = SessionList.Count();
+                currentSessionIndex = filteredSessions.Count();
 
             currentSessionIndex--;
             if (currentSessionIndex < 0)
-                SelectedSession = SessionList.LastOrDefault();
+                SelectedSession = filteredSessions.LastOrDefault();
             else
-                SelectedSession = SessionList.ElementAt(currentSessionIndex);
+                SelectedSession = filteredSessions.ElementAt(currentSessionIndex);
         }
 
         public bool CanSelectPreviousSession()
@@ -91,12 +142,37 @@ namespace iRLeagueManager.ViewModels
             if (SessionList == null)
                 return false;
 
-            var currentSessionIndex = SessionList.IndexOf(SelectedSession);
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            var currentSessionIndex = filteredSessions.IndexOf(SelectedSession);
 
             if (currentSessionIndex > 0 || currentSessionIndex == -1)
                 return true;
 
             return false;
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (propertyName == nameof(SelectedSession))
+            {
+            }
+
+            base.OnPropertyChanged(propertyName);
+        }
+
+        protected void OnSessionListChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (SuppressPropertyChangedEvent)
+                return;
+
+            if (SessionList != null)
+            {
+                SessionList.Where(x => x.IsCurrentSession == true).ToList().ForEach(x => x.IsCurrentSession = false);
+                var currentSession = FilteredSessions.LastOrDefault();
+                if (currentSession != null)
+                    currentSession.IsCurrentSession = true;
+            }
         }
     }
 }

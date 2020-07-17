@@ -9,6 +9,7 @@
         xmlns:local="clr-namespace:iRLeagueManager"
         xmlns:views="clr-namespace:iRLeagueManager.Views"
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         mc:Ignorable="d" FontSize="18"
         WindowState="Maximized" Height="863" Width="1568" >
@@ -85,6 +86,20 @@
                     </TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                         <!--<TextBlock Text="{Binding DbStatus.ConnectionStatus}" Margin="5,0"/>-->
+                        <fa:ImageAwesome Icon="Refresh" Margin="5,0" VerticalAlignment="Center">
+                            <fa:ImageAwesome.Style>
+                                <Style TargetType="fa:ImageAwesome">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Spin" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DbStatus.UpdateStatus}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="Spin" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </fa:ImageAwesome.Style>
+                        </fa:ImageAwesome>
                         <TextBlock Text="{Binding DbStatus.UpdateStatus}" Margin="5,0"/>
                     </StackPanel>
                 </Grid>
@@ -144,7 +159,7 @@
                         <DataTemplate DataType="{x:Type vmodel:CalendarViewModel}">
                             <views:CalendarControl/>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type vmodel:ReviewsViewModel}">
+                        <DataTemplate DataType="{x:Type vmodel:ReviewsPageViewModel}">
                             <views:ReviewsControl/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:SchedulerViewModel}">

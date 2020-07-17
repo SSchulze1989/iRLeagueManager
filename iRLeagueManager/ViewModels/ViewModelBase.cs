@@ -49,6 +49,9 @@ namespace iRLeagueManager.ViewModels
 
         protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")
         {
+            if (SuppressPropertyChangedEvent)
+                return;
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

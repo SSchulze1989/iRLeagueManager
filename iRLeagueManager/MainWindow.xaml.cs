@@ -20,6 +20,7 @@ using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Interfaces;
 using System.Reflection;
+using System.Net.NetworkInformation;
 
 namespace iRLeagueManager
 {
@@ -35,6 +36,7 @@ namespace iRLeagueManager
         private CalendarViewModel CalendarViewModel { get; set; }// = new CalendarViewModel();
         private ResultsPageViewModel ResultsPageViewModel { get; set; }// = new ResultsPageViewModel();
         private StandingsPageViewModel StandingsPageViewModel { get; set; }
+        private ReviewsPageViewModel ReviewsPageViewModel { get; set; }
 
         public MainWindow()
         {
@@ -86,7 +88,7 @@ namespace iRLeagueManager
             }
         }
 
-        private void ResultsButton_Click(object sender, RoutedEventArgs e)
+        private async void ResultsButton_Click(object sender, RoutedEventArgs e)
         {
             if (mainViewModel.CurrentSeason?.Schedules != null)
             {
@@ -94,7 +96,7 @@ namespace iRLeagueManager
                 if (vm == null)
                     ResultsPageViewModel = vm = new ResultsPageViewModel();
                 MainContent.Content = vm;
-                _ = vm.Load(mainViewModel.CurrentSeason.Model);
+                await vm.Load(mainViewModel.CurrentSeason.Model);
 
                 //var schedules = mainViewModel.CurrentSeason.Schedules;
                 //if (schedules.Count > 0)
@@ -110,10 +112,17 @@ namespace iRLeagueManager
             }
         }
 
-        private void ReviewsButton_Click(object sender, RoutedEventArgs e)
+        private async void ReviewsButton_Click(object sender, RoutedEventArgs e)
         {
-            var vm = new ReviewsViewModel();
-            MainContent.Content = vm;
+            if (mainViewModel.CurrentSeason?.Schedules != null)
+            {
+                //var vm = (MainContent.Content?.GetType().Equals(typeof(ReviewsPageViewModel))).GetValueOrDefault() ? MainContent.Content as ReviewsPageViewModel : ReviewsPageViewModel;
+                var vm = (MainContent.Content is ReviewsPageViewModel reviewsPageViewModel) ? reviewsPageViewModel : ReviewsPageViewModel;
+                if (vm == null)
+                    ReviewsPageViewModel = vm = new ReviewsPageViewModel();
+                MainContent.Content = vm;
+                await vm.Load(mainViewModel.CurrentSeason.Model);
+            }
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)

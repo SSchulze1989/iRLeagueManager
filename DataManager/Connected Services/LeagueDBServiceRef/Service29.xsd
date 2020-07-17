@@ -119,6 +119,7 @@
           <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q12:LeagueMemberInfoDTO" />
           <xs:element minOccurs="0" name="DropWeeks" type="xs:int" />
           <xs:element minOccurs="0" name="IncPenaltyPoints" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="IsMultiScoring" type="xs:boolean" />
           <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q13:LeagueMemberInfoDTO" />
           <xs:element minOccurs="0" name="MultiScoringFactors" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="MultiScoringResults" nillable="true" type="tns:ArrayOfScoringInfoDTO" />
@@ -153,6 +154,7 @@
           <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostPolesDriver" nillable="true" type="q19:LeagueMemberInfoDTO" />
           <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="MostWinsDriver" nillable="true" type="q20:LeagueMemberInfoDTO" />
           <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+          <xs:element minOccurs="0" name="SessionId" nillable="true" type="xs:long" />
           <xs:element minOccurs="0" name="StandingsRows" nillable="true" type="tns:ArrayOfStandingsRowDataDTO" />
         </xs:sequence>
       </xs:extension>

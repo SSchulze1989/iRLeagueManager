@@ -24,12 +24,12 @@ namespace iRLeagueManager.Models.Reviews
         //public ScheduleModel Schedule => Review?.Schedule;
 
         //public override SeasonModel Season => Schedule?.Season;
-        private ObservableCollection<VoteMemberAtFaultModel> votes;
-        public ObservableCollection<VoteMemberAtFaultModel> Votes { get => votes; set => SetNotifyCollection(ref votes, value); }
+        private ObservableCollection<ReviewVoteModel> commentReviewVotes;
+        public ObservableCollection<ReviewVoteModel> CommentReviewVotes { get => commentReviewVotes; set => SetNotifyCollection(ref commentReviewVotes, value); }
 
         public ReviewCommentModel () { }
 
-        public ReviewCommentModel(long commentId) : base(commentId) { }
+        public ReviewCommentModel(long commentId, string authorName) : base(commentId, authorName) { }
 
         public ReviewCommentModel(UserModel author) : base(author) { }
 

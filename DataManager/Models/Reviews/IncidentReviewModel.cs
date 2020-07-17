@@ -26,31 +26,47 @@ namespace iRLeagueManager.Models.Reviews
         //public ScheduleModel Schedule => Session?.Schedule;
         //public SeasonModel Season => Schedule?.Season;
 
+        private SessionInfo session;
+        public SessionInfo Session { get => session; internal set { SetValue(ref session, value); } }
+
+        private string incidentKind;
+        public string IncidentKind { get => incidentKind; set => SetValue(ref incidentKind, value); }
+
+        private string fullDescription;
+        public string FullDescription { get => fullDescription; set => SetValue(ref fullDescription, value); }
+
         private TimeSpan timeStamp;
         public TimeSpan TimeStamp { get => timeStamp; set { SetValue(ref timeStamp, value); } }
 
         private ObservableCollection<LeagueMember> involvedMembers;
-        public ObservableCollection<LeagueMember> InvolvedMembers { get => involvedMembers; internal set { involvedMembers = value; OnPropertyChanged(); } }
+        public ObservableCollection<LeagueMember> InvolvedMembers { get => involvedMembers; internal set => SetNotifyCollection(ref involvedMembers, value); }
 
         private ObservableCollection<ReviewCommentModel> comments;
-        public ObservableCollection<ReviewCommentModel> Comments { get => comments; internal set { comments = value; OnPropertyChanged(); } }
+        public ObservableCollection<ReviewCommentModel> Comments { get => comments; internal set => SetNotifyCollection(ref comments, value); }
         IEnumerable<IReviewComment> IReview.Comments => Comments;
         //ReadOnlyObservableCollection<IReviewComment> IReview.Comments => new ReadOnlyObservableCollection<IReviewComment>(Comments);
+        private ObservableCollection<ReviewVoteModel> acceptedReviewVotes;
+        public ObservableCollection<ReviewVoteModel> AcceptedReviewVotes { get => acceptedReviewVotes; internal set => SetNotifyCollection(ref acceptedReviewVotes, value); }
+        //private LeagueMember memberAtFaultResult;        
+        //public LeagueMember MemberAtFaultResult { get => memberAtFaultResult; set { SetValue(ref memberAtFaultResult, value); } }
 
-        private LeagueMember memberAtFaultResult;        
-        public LeagueMember MemberAtFaultResult { get => memberAtFaultResult; set { SetValue(ref memberAtFaultResult, value); } }
+        //private VoteEnum voteResult;
+        //public VoteEnum VoteResult { get => voteResult; set { SetValue(ref voteResult, value); } }
 
-        private VoteEnum voteResult;
-        public VoteEnum VoteResult { get => voteResult; set { SetValue(ref voteResult, value); } }
-
-        private VoteState voteState;
-        public VoteState VoteState { get => voteState; set { SetValue(ref voteState, value); } }
+        //private VoteState voteState;
+        //public VoteState VoteState { get => voteState; set { SetValue(ref voteState, value); } }
 
         public IncidentReviewModel()
         {
             ReviewId = null;
             InvolvedMembers = new ObservableCollection<LeagueMember>();
             Comments = new ObservableCollection<ReviewCommentModel>();
+        }
+
+        public IncidentReviewModel(string authorName, SessionInfo session) : this()
+        {
+            AuthorName = authorName;
+            Session = session;
         }
 
         //public IncidentReviewModel(ResultModel result) : this ()

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,73 @@ namespace iRLeagueManager.Views
         public ReviewsControl()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is IncidentReviewViewModel incidentReview)
+            {
+                incidentReview.Hold();
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
+            {
+                var editWindow = new ModalOkCancelWindow();
+                editWindow.Width = 700;
+                editWindow.Height = 700;
+                var content = new ReviewEditControl();
+
+                editWindow.Title = "Edit Review";
+
+                if (content.DataContext is IncidentReviewViewModel editVM)
+                {
+                    editVM.Model.CopyFrom(reviewVM.Model);
+
+                    editWindow.ModalContent.Content = content;
+                    if (editWindow.ShowDialog() == true)
+                    {
+                        reviewVM.Model.CopyFrom(editVM.Model);
+                        reviewVM.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        private void CommentEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                //if (button.Tag is ReviewCommentViewModel reviewComment)
+                //{
+
+                //}
+                //else 
+                if (button.Tag is CommentViewModel comment)
+                {
+                    var editWindow = new ModalOkCancelWindow();
+                    editWindow.Width = 500;
+                    editWindow.Height = 280;
+                    var content = new CommentEditControl();
+
+                    editWindow.Title = "Edit Comment";
+
+                    if (content.DataContext is CommentViewModel editVM)
+                    {
+                        editVM.Model = new CommentBase();
+                        editVM.Model.CopyFrom(comment.Model);
+
+                        editWindow.ModalContent.Content = content;
+                        if (editWindow.ShowDialog() == true)
+                        {
+                            comment.Model.CopyFrom(editVM.Model);
+                            comment.SaveChanges();
+                        }
+                    }
+                }
+            }
         }
     }
 }

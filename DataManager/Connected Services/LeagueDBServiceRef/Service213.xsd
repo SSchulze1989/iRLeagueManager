@@ -2,6 +2,7 @@
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" />
+  <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
   <xs:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
@@ -32,8 +33,9 @@
           <xs:element minOccurs="0" name="Duration" type="ser:duration" />
           <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q2:LeagueMemberInfoDTO" />
           <xs:element minOccurs="0" name="LocationId" nillable="true" type="xs:string" />
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Reviews" minOccurs="0" name="Reviews" nillable="true" type="q3:ArrayOfIncidentReviewInfoDTO" />
           <xs:element minOccurs="0" name="Schedule" nillable="true" type="tns:ScheduleInfoDTO" />
-          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="SessionResult" nillable="true" type="q3:ResultInfoDTO" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" minOccurs="0" name="SessionResult" nillable="true" type="q4:ResultInfoDTO" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -41,10 +43,10 @@
   <xs:element name="SessionDataDTO" nillable="true" type="tns:SessionDataDTO" />
   <xs:complexType name="SessionInfoDTO">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q4:VersionInfoDTO">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q5:VersionInfoDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="SessionId" nillable="true" type="xs:long" />
-          <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" minOccurs="0" name="SessionType" type="q5:SessionType" />
+          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" minOccurs="0" name="SessionType" type="q6:SessionType" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -52,7 +54,7 @@
   <xs:element name="SessionInfoDTO" nillable="true" type="tns:SessionInfoDTO" />
   <xs:complexType name="ScheduleInfoDTO">
     <xs:complexContent mixed="false">
-      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q6:VersionInfoDTO">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q7:VersionInfoDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="ScheduleId" nillable="true" type="xs:long" />
@@ -65,8 +67,8 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:ScheduleInfoDTO">
         <xs:sequence>
-          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q7:LeagueMemberInfoDTO" />
-          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q8:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="CreatedBy" nillable="true" type="q8:LeagueMemberInfoDTO" />
+          <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Members" minOccurs="0" name="LastModifiedBy" nillable="true" type="q9:LeagueMemberInfoDTO" />
           <xs:element minOccurs="0" name="Sessions" nillable="true" type="tns:ArrayOfSessionDataDTO" />
         </xs:sequence>
       </xs:extension>

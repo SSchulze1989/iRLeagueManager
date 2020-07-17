@@ -6,16 +6,17 @@
         xmlns:local="clr-namespace:iRLeagueManager.Views"
         xmlns:views="clr-namespace:iRLeagueManager.Views"
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
         Title="UserLoginWindow" Width="400" Height="300" TextElement.FontSize="16">
     <Window.Resources>
         <conv:InvertBoolConverter x:Key="InvertBoolConverter"/>
     </Window.Resources>
-    
-    <Grid Width="Auto" Height="Auto" Margin="10">
+
+    <Grid Width="Auto" Height="Auto">
         <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" Stroke="DarkBlue"/>-->
-        <StackPanel HorizontalAlignment="Stretch">
+        <StackPanel HorizontalAlignment="Stretch" Margin="10">
             <TextBlock HorizontalAlignment="Left" Margin="5,5,5,2" Text="Username:" />
             <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"/>
             <TextBlock HorizontalAlignment="Left" Margin="5,2" Text="Passwort:" />
@@ -33,5 +34,19 @@
                 <Hyperlink Command="{Binding RegisterUserCommand}">Register new User</Hyperlink>
             </TextBlock>
         </StackPanel>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="DarkGray" Opacity="0.5"/>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Height="60" Width="60" Spin="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#353535"/>
+        </Grid>
     </Grid>
 </Window>

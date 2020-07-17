@@ -21,6 +21,10 @@ namespace iRLeagueManager
 
             var dialog = new UserLoginWindow();
             var viewModel = new LoginViewModel();
+#if DEBUG
+            viewModel.UserName = "TestUser";
+            viewModel.SetPassword("testuser");
+#endif
             dialog.DataContext = viewModel;
             viewModel.Load();
 

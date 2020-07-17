@@ -76,6 +76,9 @@
     <StartupObject>iRLeagueManager.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -120,6 +123,7 @@
     <Compile Include="ViewModels\LocationCollection.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MemberListViewModel.cs" />
     <Compile Include="ViewModels\MenuBarViewModel.cs" />
     <Compile Include="ViewModels\MinutesCollection.cs" />
     <Compile Include="ViewModels\Collections\ObservableModelCollection.cs" />
@@ -129,7 +133,7 @@
     <Compile Include="ViewModels\ResultsPageViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\ReviewCommentViewModel.cs" />
-    <Compile Include="ViewModels\ReviewsViewModel.cs" />
+    <Compile Include="ViewModels\ReviewsPageViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultRowViewModel.cs" />
@@ -149,11 +153,17 @@
     <Compile Include="Views\CalendarControl.xaml.cs">
       <DependentUpon>CalendarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CommentEditControl.xaml.cs">
+      <DependentUpon>CommentEditControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ModalOkCancelWindow.xaml.cs">
       <DependentUpon>ModalOkCancelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PointsEditControl.xaml.cs">
       <DependentUpon>PointsEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReviewEditControl.xaml.cs">
+      <DependentUpon>ReviewEditControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReviewsControl.xaml.cs">
       <DependentUpon>ReviewsControl.xaml</DependentUpon>
@@ -199,11 +209,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CommentEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ModalOkCancelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PointsEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewEditControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,6 +280,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

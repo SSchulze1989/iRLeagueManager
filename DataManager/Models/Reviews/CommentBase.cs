@@ -28,14 +28,13 @@ namespace iRLeagueManager.Models.Reviews
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }
 
-        private ObservableCollection<CommentBase> replys;
-        public ObservableCollection<CommentBase> Replys { get => replys; set => SetNotifyCollection(ref replys, value); }
+        private ObservableCollection<CommentBase> replies;
+        public ObservableCollection<CommentBase> Replies { get => replies; set => SetNotifyCollection(ref replies, value); }
 
         public CommentBase() { }
 
-        public CommentBase(long commentId)
+        public CommentBase(long commentId, string authorName) : base(commentId, authorName)
         {
-            CommentId = commentId;
         }
 
         public CommentBase(UserModel author)

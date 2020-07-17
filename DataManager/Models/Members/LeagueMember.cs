@@ -24,7 +24,7 @@ namespace iRLeagueManager.Models.Members
         public string IRacingId { get; set; } = "0";
         public string DanLisaId { get; set; } = "0";
         public string DiscordId { get; set; } = "0";
-        public string ShortName => Firstname[1] + "." + Lastname;
+        public string ShortName => Firstname[0].ToString().ToUpper() + "." + Lastname;
 
         public LeagueMember() { }
 

@@ -73,15 +73,29 @@
             <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type ComboBoxItem}">
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} - {1} ({2})">
-                                    <Binding Path="Date" StringFormat="Date"/>
-                                    <Binding Path="Location.FullName"/>
-                                    <Binding Path="Schedule.Name"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} - {1} ({2})">
+                                        <Binding Path="Date" StringFormat="Date"/>
+                                        <Binding Path="Location.FullName"/>
+                                        <Binding Path="Schedule.Name"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Text="    (Current)">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsCurrentSession}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
                 <ComboBox.ItemContainerStyle>

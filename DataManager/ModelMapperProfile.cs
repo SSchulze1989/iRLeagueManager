@@ -21,6 +21,8 @@ using iRLeagueManager.Timing;
 using iRLeagueManager.Converters;
 using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
+using System.Globalization;
+using System.Security.Cryptography;
 
 namespace iRLeagueManager
 {
@@ -67,13 +69,16 @@ namespace iRLeagueManager
             // Mapping incident data
             CreateMap<IncidentReviewDataDTO, IncidentReviewModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new IncidentReviewModel(source.ReviewId)))
+                .EqualityComparison((src, dest) => src.ReviewId == dest.ReviewId)
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
                 })
                 .ReverseMap();
-            CreateMap<IncidentReviewInfoDTO, IncidentReviewModel>()
-                .ConstructUsing(source => ModelCache.PutOrGetModel(new IncidentReviewModel(source.ReviewId)))
+            CreateMap<IncidentReviewInfoDTO, IncidentReviewInfo>()
+                //.ConstructUsing(source => new IncidentReviewInfo() { ReviewId = source.ReviewId })
+                .ConstructUsing(source => Test(source))
+                .EqualityComparison((src, dest) => src.ReviewId == dest.ReviewId)
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
@@ -82,21 +87,22 @@ namespace iRLeagueManager
 
             // Mapping comment data
             CreateMap<ReviewCommentDataDTO, ReviewCommentModel>()
-                .ConstructUsing(source => ModelCache.PutOrGetModel(new ReviewCommentModel(source.CommentId.GetValueOrDefault())))
+                .ConstructUsing(source => ModelCache.PutOrGetModel(new ReviewCommentModel(source.CommentId.GetValueOrDefault(), source.AuthorName)))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
                 })
                 .ReverseMap();
             CreateMap<CommentDataDTO, CommentBase>()
-                .ConstructUsing(source => ModelCache.PutOrGetModel(new CommentBase(source.CommentId.GetValueOrDefault())))
+                .ConstructUsing(source => ModelCache.PutOrGetModel(new CommentBase(source.CommentId.GetValueOrDefault(), source.AuthorName)))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
                 })
                 .ReverseMap();
-            CreateMap<CommentInfoDTO, CommentBase>()
-                .ConstructUsing(source => ModelCache.PutOrGetModel(new CommentBase(source.CommentId.GetValueOrDefault())))
+            CreateMap<CommentInfoDTO, CommentInfo>()
+                //.ConstructUsing(source => ModelCache.PutOrGetModel(new CommentBase(source.CommentId.GetValueOrDefault(), source.AuthorName)))
+                .ConstructUsing(source => new CommentInfo(source.CommentId, source.AuthorName))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();
@@ -245,11 +251,44 @@ namespace iRLeagueManager
                 }))
                 //.ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, string>())
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
-                .ForMember(dest => dest.MultiScoringResults, opt => opt.Ignore())
+                .ForMember(dest => dest.MultiScoringResults, opt => opt.MapFrom((src, dest, result, context) =>
+                {
+                    if (src.IsMultiScoring == false)
+                        return null;
+
+                    List<double> factors = new List<double>();
+                    bool success = true;
+                    if (src.MultiScoringFactors != null)
+                    {
+                        var factorStrings = src.MultiScoringFactors.Replace(',','.').Split(';');
+                        foreach (var factorString in factorStrings)
+                        {
+                            if (double.TryParse(factorString, System.Globalization.NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double factor)) {
+                                factors.Add(factor);
+                            }
+                            else
+                            {
+                                success = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (factors.Count() == 0 || success == false)
+                    {
+                        factors = src.MultiScoringResults.Select(x => (double)1).ToList();
+                    }
+
+                    var mapper = context.Mapper;
+                    var destMultiScorings = src.MultiScoringResults.Select((x, i) => new MyKeyValuePair<ScoringInfo, double>(mapper.Map<ScoringInfo>(x), factors.ElementAt(i)));
+                    return new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>(destMultiScorings);
+                }))
                 .ReverseMap()
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => (src.BasePoints.Count > 0) ? src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
                 .ForMember(dest => dest.BonusPoints, opt => opt.MapFrom(src => (src.BonusPoints.Count > 0) ? src.BonusPoints.Select(x => x.Key + ":" + x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
-                .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore());
+                .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
+                .ForMember(dest => dest.MultiScoringFactors, opt => opt.Ignore())
+                .ForMember(dest => dest.MultiScoringResults, opt => opt.Ignore());
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ScoringModel(source.ScoringId)))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
@@ -289,6 +328,12 @@ namespace iRLeagueManager
                 .ConstructUsing(src => new UserModel(src.UserId));
                 //.ForMember(dest => dest.Admin, opt => opt.MapFrom(src => src));
             CreateMap<UserModel, UserDTO>();
+
+            CreateMap<ReviewVoteDataDTO, ReviewVoteModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new ReviewVoteModel(src.ReviewVoteId)))
+                .EqualityComparison((src, dest) => src.ReviewVoteId == dest.ReviewVoteId)
+                .ReverseMap();
+
             //.ForMember(dest => dest.AdminId, opt => opt.MapFrom(src => (src.Admin != null) ? (int?)src.Admin.AdminId : null))
             //.ForMember(dest => dest.IsOwner, opt => opt.MapFrom(src => (src.Admin != null) ? (bool?)src.Admin.IsOwner : null))
             //.ForMember(dest => dest.LeagueName, opt => opt.MapFrom(src => (src.Admin != null) ? src.Admin.LeagueName : null))
@@ -323,6 +368,12 @@ namespace iRLeagueManager
                     collection.Move(index, i);
                 }
             }
+        }
+
+        public IncidentReviewInfo Test(IncidentReviewInfoDTO dto)
+        {
+            var review = new IncidentReviewInfo() { ReviewId = dto.ReviewId };
+            return review;
         }
     }
 

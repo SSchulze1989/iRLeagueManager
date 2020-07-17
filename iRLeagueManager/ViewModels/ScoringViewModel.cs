@@ -23,19 +23,22 @@ namespace iRLeagueManager.ViewModels
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
-        public ObservableCollection<SessionInfo> Sessions { get => Model.Sessions; }
+        public ObservableCollection<SessionInfo> Sessions { get => Model?.Sessions; }
         public long SeasonId => Model.SeasonId;
         public SeasonModel Season { get => Model.Season; set => Model.Season = value; }
         public ObservableCollection<ScoringModel.BasePointsValue> BasePoints => Model.BasePoints;
         public ObservableCollection<ScoringModel.BonusPointsValue> BonusPoints => Model.BonusPoints;
         public ObservableCollection<ScoringModel.IncidentPointsValue> IncPenaltyPoints => Model.IncPenaltyPoints;
-        public ObservableCollection<MyKeyValuePair<ScoringModel, double>> MultiScoringResults => Model.MultiScoringResults;
+        public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults => Model.MultiScoringResults;
+        public bool IsMultiScoring { get => Model.IsMultiScoring; set => Model.IsMultiScoring = value; }
 
         private SessionSelectViewModel sessionSelect;
         public SessionSelectViewModel SessionSelect
         {
             get
             {
+                if (sessionSelect != null)
+                    _ = sessionSelect.LoadSessions(Sessions);
                 return sessionSelect;
             }
             set
@@ -60,7 +63,7 @@ namespace iRLeagueManager.ViewModels
                     standings = new StandingsViewModel();
 
                 //_ = standings.Load(ScoringId.GetValueOrDefault(), SessionSelect.SelectedSession.SessionId);
-                _ = LoadStandings();
+                //_ = LoadStandings();
                 return standings;
             }
         }
@@ -79,7 +82,10 @@ namespace iRLeagueManager.ViewModels
 
         public ScoringViewModel()
         {
-            SessionSelect = new SessionSelectViewModel();
+            SessionSelect = new SessionSelectViewModel()
+            {
+                SessionFilter = session => session.ResultAvailable
+            };
             Model = Template;
         }
 
@@ -96,36 +102,27 @@ namespace iRLeagueManager.ViewModels
             base.OnPropertyChanged(propertyName);
         }
 
-        protected void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
+        protected async void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            if (e.PropertyName == nameof(SessionSelect.SelectedSession))
+                await LoadStandings(); 
         }
-
-        //public async Task LoadSessions()
-        //{
-            //ObservableModelCollection<SessionViewModel, SessionModel> sessionCollection = SessionSelect.SessionList as ObservableModelCollection<SessionViewModel, SessionModel>;
-
-            //if (sessionCollection == null)
-            //    SessionSelect.SessionList = sessionCollection = new ObservableModelCollection<SessionViewModel, SessionModel>();
-
-            //IsLoading = true;
-            //var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(Sessions.Select(x => x.ModelId));
-
-            //var lastSelectedSession = SessionSelect.SelectedSession;
-
-            //sessionCollection.UpdateSource(sessionModels.OrderBy(x => x.Date));
-
-            //if (lastSelectedSession == null || !SessionSelect.SessionList.Contains(lastSelectedSession))
-            //    SessionSelect.SelectedSession = SessionSelect.SessionList.Where(x => x.ResultAvailable).LastOrDefault();
-
-            //await LoadStandings();
-        //}
 
         public async Task LoadStandings()
         {
+            //await Task.Yield();
             try
             {
-                await standings.Load(ScoringId.GetValueOrDefault());
+                //await standings.Load(ScoringId.GetValueOrDefault());
+                if (SessionSelect?.SelectedSession != null)
+                {
+                    if (SessionSelect.FilteredSessions.Contains(SessionSelect.SelectedSession) == false)
+                        SessionSelect.SelectedSession = SessionSelect.FilteredSessions.LastOrDefault();
+
+                    await standings.Load(ScoringId.GetValueOrDefault(), SessionSelect.SelectedSession.SessionId);
+                }
+                else
+                    await standings.Load(ScoringId.GetValueOrDefault(), 0);
             }
             catch (Exception e)
             {

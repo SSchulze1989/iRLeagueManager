@@ -48,9 +48,12 @@ namespace iRLeagueManager.Models.Results
         
         private ObservableCollection<IncidentPointsValue> incPenaltyPoints;
         public ObservableCollection<IncidentPointsValue> IncPenaltyPoints { get => incPenaltyPoints; set => SetNotifyCollection(ref incPenaltyPoints, value); }
+
+        private bool isMultiScoring;
+        public bool IsMultiScoring { get => isMultiScoring; set => SetValue(ref isMultiScoring, value); }
         
-        private ObservableCollection<MyKeyValuePair<ScoringModel, double>> multiScoringResults;
-        public ObservableCollection<MyKeyValuePair<ScoringModel, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
+        private ObservableCollection<MyKeyValuePair<ScoringInfo, double>> multiScoringResults;
+        public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
 
         private ObservableCollection<StandingsRowModel> standings;
         public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
@@ -68,7 +71,7 @@ namespace iRLeagueManager.Models.Results
             BonusPoints = new ObservableCollection<BonusPointsValue>();
             BasePoints = new ObservableCollection<BasePointsValue>();
             IncPenaltyPoints = new ObservableCollection<IncidentPointsValue>();
-            MultiScoringResults = new ObservableCollection<MyKeyValuePair<ScoringModel, double>>();
+            MultiScoringResults = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
             //Schedules = new ObservableCollection<ScheduleInfo>();
         }
@@ -87,7 +90,7 @@ namespace iRLeagueManager.Models.Results
                     var multiScoring = Season.Scorings.SingleOrDefault(x => x.ScoringId == MultiScoringResults.ElementAt(i).Key.ScoringId);
                     if (multiScoring != null)
                     {
-                        MultiScoringResults[i] = new MyKeyValuePair<ScoringModel, double>(multiScoring, MultiScoringResults[i].Value);
+                        MultiScoringResults[i] = new MyKeyValuePair<ScoringInfo, double>(multiScoring, MultiScoringResults[i].Value);
                     }
                     else
                     {

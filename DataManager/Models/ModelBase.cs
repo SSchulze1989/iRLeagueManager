@@ -23,6 +23,9 @@ namespace iRLeagueManager.Models
         private DateTime? lastModifiedOn;
         public DateTime? LastModifiedOn { get => lastModifiedOn; internal set { lastModifiedOn = value; OnPropertyChanged(); } }
 
+        private bool containsChanges;
+        public bool ContainsChanges { get => containsChanges; protected set => SetValue(ref containsChanges, value); }
+
         private int version;
         public int Version { get => version; internal set { version = value; OnPropertyChanged(); } }
 
@@ -87,6 +90,7 @@ namespace iRLeagueManager.Models
                     if (isInitialized)
                     {
                         LastModifiedOn = DateTime.Now;
+                        ContainsChanges = true;
                     }
                     OnPropertyChanged(propertyName);
                     return true;
@@ -100,6 +104,7 @@ namespace iRLeagueManager.Models
                 if (isInitialized)
                 {
                     LastModifiedOn = DateTime.Now;
+                    ContainsChanges = true;
                 }
                 OnPropertyChanged(propertyName);
                 return true;
@@ -136,7 +141,10 @@ namespace iRLeagueManager.Models
         protected void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (isInitialized)
+            {
                 LastModifiedOn = DateTime.Now;
+                ContainsChanges = true;
+            }
         }
 
         internal virtual void InitReset()

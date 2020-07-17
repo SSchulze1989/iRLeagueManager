@@ -17,33 +17,33 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var dbClient = new LeagueDBServiceClient();
-            dbClient.SetDatabaseName("TestDatabase");
+            //var dbClient = new LeagueDBServiceClient();
+            //dbClient.SetDatabaseName("TestDatabase");
 
-            byte[] pw = Encoding.UTF8.GetBytes("TestPasswort");
+            //byte[] pw = Encoding.UTF8.GetBytes("TestPasswort");
 
-            var test = dbClient.AuthenticateUserAsync("Master", pw, "TestDatabase");
-            test.Wait();
+            ////var test = dbClient.AuthenticateUserAsync("Master", pw, "TestDatabase");
+            ////test.Wait();
 
-            var entry = test.Result;
+            ////var entry = test.Result;
 
-            Console.WriteLine(entry);
+            //Console.WriteLine(entry);
 
-            //var msg = new GETItemsRequestMessage()
-            //{
-            //    databaseName = "TestDatabase",
-            //    userName = "testuser",
-            //    password = "1234",
-            //    requestItemIds = new long[][] { new long[] { 1 } },
-            //    requestItemType = typeof(ScoringDataDTO).Name,
-            //    requestResponse = true
-            //};
+            ////var msg = new GETItemsRequestMessage()
+            ////{
+            ////    databaseName = "TestDatabase",
+            ////    userName = "testuser",
+            ////    password = "1234",
+            ////    requestItemIds = new long[][] { new long[] { 1 } },
+            ////    requestItemType = typeof(ScoringDataDTO).Name,
+            ////    requestResponse = true
+            ////};
 
-            //var response = dbClient.DatabaseGET(msg);
-            //var scoringDto = response.items.First() as ScoringDataDTO;
+            ////var response = dbClient.DatabaseGET(msg);
+            ////var scoringDto = response.items.First() as ScoringDataDTO;
 
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

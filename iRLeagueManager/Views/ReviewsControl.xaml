@@ -186,16 +186,16 @@
 							<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
 									Background="{TemplateBinding Background}" Grid.Column="1" Padding="{TemplateBinding Padding}" 
 									SnapsToDevicePixels="true">
-								<ToggleButton ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
+								<!--<ToggleButton ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
 											  HorizontalAlignment="Stretch" 
 											  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 											  Style="{StaticResource ToggleCommentStyle}">
-									<ToggleButton.Content>
+									<ToggleButton.Content>-->
 										<ContentPresenter x:Name="PART_Header" ContentSource="Header" 
 														  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
 														  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-									</ToggleButton.Content>
-									<!--<ToggleButton.Style>
+									<!--</ToggleButton.Content>
+									<ToggleButton.Style>
 										<Style TargetType="ToggleButton" BasedOn="{StaticResource ToggleCommentStyle}">
 											<Setter Property="IsEnabled" Value="True"/>
 											<Setter Property="Background" Value="Transparent"/>
@@ -209,8 +209,8 @@
 												</Trigger>
 											</Style.Triggers>
 										</Style>
-									</ToggleButton.Style>-->
-								</ToggleButton>
+									</ToggleButton.Style>
+								</ToggleButton>-->
 							</Border>
 							<ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
 						</Grid>
@@ -263,7 +263,7 @@
 							<ContentControl Margin="0,0,5,0">
 								<StaticResource ResourceKey="Cached"/>
 							</ContentControl>
-							<TextBlock Text="Refresh"  FontSize="18"/>
+							<TextBlock Text="Refresh" FontSize="18"/>
 						</StackPanel>
 					</Button.Content>
 				</Button>
@@ -287,7 +287,7 @@
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Text="Sessions" Margin="5,2" />
-					<DockPanel Grid.Row="1" HorizontalAlignment="Stretch">
+					<DockPanel Grid.Row="1" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
 						<Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>
 						<Button Content="&gt;" Padding="5" DockPanel.Dock="Right" Command="{Binding NextSessionCmd}"/>
 						<ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}">
@@ -295,11 +295,11 @@
 								<DataTemplate DataType="{x:Type ComboBoxItem}">
 									<TextBlock>
 										<TextBlock.Text>
-											<MultiBinding StringFormat="{}{0} - {1} ({2})">
+											<MultiBinding StringFormat="{}{0} - {1} - (Id: {2})">
 												<Binding Path="Date" StringFormat="Date"/>
-												<Binding Path="Location.FullName"/>
-												<Binding Path="Schedule.Name"/>
-											</MultiBinding>
+                                                <Binding Path="Location.FullName"/>
+                                                <Binding Path="SessionId"/>
+                                            </MultiBinding>
 										</TextBlock.Text>
 									</TextBlock>
 								</DataTemplate>
@@ -319,9 +319,41 @@
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 
-						<ListBox Grid.Column="0" Height="120">
-
-						</ListBox>
+                        <ListBox Grid.Column="0" Height="120" ItemsSource="{Binding CurrentReviews}" Name="ReviewList" SelectedItem="{Binding SelectedReview}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding OnLap, StringFormat={} Lap: {0}}" MinWidth="60"/>
+                                        <Separator Margin="5,0"/>
+                                        <TextBlock Text="{Binding Corner, StringFormat={} Corner: {0}}" MinWidth="80"/>
+                                        <Separator Margin="10,0"/>
+                                        <TextBlock Text="{Binding IncidentKind, StringFormat={} Incident: {0}}" Width="320"/>
+                                        <Separator Margin="10,0"/>
+                                        <TextBlock Text="Involved: "/>
+                                        <ItemsControl ItemsSource="{Binding InvolvedMembers}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock x:Name="CommaTextBlock" Text=", "/>
+                                                        <TextBlock Text="{Binding FullName}"/>
+                                                    </StackPanel>
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" TargetName="CommaTextBlock" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
 
 						<Grid Grid.Column="1" Width="Auto">
 							<Grid.RowDefinitions>
@@ -330,9 +362,9 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 
-							<Button Content="New" Grid.Row="0" Margin="5"/>
-							<Button Content="Edit" Grid.Row="1" Margin="5"/>
-							<Button Content="Delete" Grid.Row="2" Margin="5"/>
+							<Button Content="New" Grid.Row="0" Margin="5" Command="{Binding AddReviewCmd}"/>
+							<Button Content="Edit" Grid.Row="1" Margin="5" Click="EditButton_Click" Tag="{Binding SelectedReview}"/>
+                            <Button Content="Delete" Grid.Row="2" Margin="5" Command="{Binding RemoveReviewCmd}"/>
 						</Grid>
 					</Grid>
 				</Grid>
@@ -348,9 +380,83 @@
 						<RowDefinition Height="*"/>
 					</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Description" Margin="5,2"/>
-					<RichTextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5">
-					</RichTextBox>
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Overview" Margin="5,2"/>
+                    <RichTextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" DataContext="{Binding SelectedReview}" IsReadOnly="True">
+                        <FlowDocument TextElement.FontSize="12" TextElement.FontFamily="Default">
+                            <Paragraph>
+                                <Bold>Incident Type:</Bold>
+                                <LineBreak/>
+                                <TextBlock Text="{Binding IncidentKind}"/>
+                            </Paragraph>
+                            <Paragraph>
+                                <Bold>What happened?</Bold>
+                                <LineBreak/>
+                                <TextBlock Text="{Binding FullDescription}"/>
+                            </Paragraph>
+                            <Paragraph>
+                                <Bold>Involved Members:</Bold>
+                                <LineBreak/>
+                                <ItemsControl ItemsSource="{Binding InvolvedMembers}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <Ellipse Height="5" Width="5" Fill="Black"/>
+                                                </BulletDecorator.Bullet>
+                                                    <TextBlock Text="{Binding FullName}" Margin="15,0"/>
+                                            </BulletDecorator>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Paragraph>
+                            <Paragraph>
+                                <Bold>Steward Votes:</Bold>
+                                <LineBreak/>
+                                <ItemsControl ItemsSource="{Binding Votes}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <Ellipse Height="5" Width="5" Fill="Black"/>
+                                                </BulletDecorator.Bullet>
+                                                <StackPanel Orientation="Horizontal" Margin="15,0">
+                                                    <TextBlock Text="{Binding Key.Vote}"/>
+                                                    <TextBlock Text=": "/>
+                                                    <TextBlock Text="{Binding Key.MemberAtFault.FullName}"/>
+                                                    <TextBlock Text="{Binding Value, StringFormat={} ({0}x)}"/>
+                                                </StackPanel>
+                                            </BulletDecorator>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Paragraph>
+                            <Paragraph>
+                                <Bold>Accepted Votes:</Bold>
+                                <LineBreak/>
+                                <ItemsControl ItemsSource="{Binding AcceptedVotes}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <Ellipse Height="5" Width="5" Fill="Black"/>
+                                                </BulletDecorator.Bullet>
+                                                <StackPanel Orientation="Horizontal" Margin="15,0">
+                                                    <TextBlock Text="{Binding Vote}"/>
+                                                    <TextBlock Text=": "/>
+                                                    <TextBlock Text="{Binding MemberAtFault.FullName}"/>
+                                                </StackPanel>
+                                            </BulletDecorator>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Paragraph>
+                        </FlowDocument>
+                        <RichTextBox.Style>
+                            <Style TargetType="RichTextBox">
+                                <Setter Property="IsDocumentEnabled" Value="False"/>
+                            </Style>
+                        </RichTextBox.Style>
+                    </RichTextBox>
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="Discussion" Margin="5,2"/>
 					<!--<ScrollViewer Grid.Row="1" Grid.Column="1">
@@ -409,12 +515,14 @@
                         </ItemsControl>
                     </ScrollViewer>-->
 					<TreeView Grid.Row="2" Grid.Column="1" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
-							  HorizontalContentAlignment="Stretch">
-						<TreeView.Items>
+                              DataContext="{Binding SelectedReview}"
+							  HorizontalContentAlignment="Stretch" Margin="5"
+                              ItemsSource="{Binding Comments}">
+						<!--<TreeView.Items>
 							<vmodel:ReviewCommentViewModel />
 							<vmodel:ReviewCommentViewModel />
 							<vmodel:ReviewCommentViewModel />
-						</TreeView.Items>
+						</TreeView.Items>-->
 						<TreeView.Resources>
                             <HierarchicalDataTemplate DataType="{x:Type vmodel:ReviewCommentViewModel}" 
 													  ItemsSource="{Binding Replys}">
@@ -431,12 +539,12 @@
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,0"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding AuthorName}" FontWeight="Bold" Margin="4,0"/>
                                         <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,0"/>
                                     </Grid>
                                     <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
                                         <Button Content="Reply" Padding="0,-2" Margin="2,0"/>
-                                        <Button Content="Edit" Padding="0,-2" Margin="2,0">
+                                        <Button Content="Edit" Padding="0,-2" Margin="2,0" Click="CommentEditButton_Click" Tag="{Binding}">
                                             <Button.Style>
                                                 <Style TargetType="Button">
                                                     <Setter Property="Visibility" Value="Visible"/>
@@ -459,7 +567,7 @@
 										<RowDefinition />
 										<RowDefinition />
 									</Grid.RowDefinitions>
-									<TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,1"/>
+									<TextBlock Grid.Row="0" Text="{Binding AuthorName}" FontWeight="Bold" Margin="4,1"/>
 									<TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,1"/>
                                     <Grid Grid.Row="2">
                                         <Grid.ColumnDefinitions>
@@ -467,10 +575,19 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         
-                                        
-                                        
                                         <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                            <Button Content="Edit" Padding="0,-2"/>
+                                            <Button Content="Edit" Padding="0,-2" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsUserAuthor}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

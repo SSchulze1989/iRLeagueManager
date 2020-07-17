@@ -18,7 +18,10 @@ namespace iRLeagueManager.ViewModels
         private IncidentReviewViewModel review;
         public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
         //public LeagueMember Author => Model?.Author;
-        public UserModel Author => Model?.Author;
+
+        //public UserModel Author => Model?.Author;
+
+        public string AuthorName => Model?.AuthorName;
         public string Text { get => Model?.Text; set => Model.Text = value; }
         public DateTime Date => (Model?.Date).GetValueOrDefault();
         protected override CommentBase Template => new ReviewCommentModel(new UserModel(0) { UserName = "MemberTwo" })
@@ -26,7 +29,7 @@ namespace iRLeagueManager.ViewModels
             Text = "This is a reply!\nAlso with a line break!"
         };
         //public bool IsUserAuthor => (LeagueContext.CurrentUser?.MemberId).GetValueOrDefault() == Author.MemberId.GetValueOrDefault();
-        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserName == Author.UserName;
+        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserName == AuthorName;
 
         public ICommand EditCmd { get; private set; }
 

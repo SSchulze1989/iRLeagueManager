@@ -19,7 +19,7 @@ namespace iRLeagueManager.Models.Results
         private long? sessionId;
         public long? SessionId { get => sessionId; internal set => SetValue(ref sessionId, value); }
 
-        public override long[] ModelId => new long[] { (Scoring?.ScoringId).GetValueOrDefault() };
+        public override long[] ModelId => new long[] { (Scoring?.ScoringId).GetValueOrDefault(), sessionId.GetValueOrDefault() };
 
         private List<StandingsRowModel> standingsRows;
         public List<StandingsRowModel> StandingsRows { get => standingsRows; internal set => SetValue(ref standingsRows, value); }
