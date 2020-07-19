@@ -162,6 +162,9 @@
     <Compile Include="Views\PointsEditControl.xaml.cs">
       <DependentUpon>PointsEditControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReviewCommentEditControl.xaml.cs">
+      <DependentUpon>ReviewCommentEditControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReviewEditControl.xaml.cs">
       <DependentUpon>ReviewEditControl.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PointsEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewCommentEditControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

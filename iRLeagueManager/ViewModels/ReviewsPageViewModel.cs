@@ -53,8 +53,6 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddReviewCmd { get; }
         public ICommand RemoveReviewCmd { get; }
 
-        public ICommand RefreshCmd { get; }
-
         public ReviewsPageViewModel()
         {
             SessionSelect = new SessionSelectViewModel()

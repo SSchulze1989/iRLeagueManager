@@ -15,8 +15,8 @@ namespace iRLeagueManager.ViewModels
     {
         public long CommentId => (Model?.CommentId).GetValueOrDefault();
 
-        private IncidentReviewViewModel review;
-        public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
+        //private IncidentReviewViewModel review;
+        //public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
         //public LeagueMember Author => Model?.Author;
 
         //public UserModel Author => Model?.Author;
@@ -29,7 +29,7 @@ namespace iRLeagueManager.ViewModels
             Text = "This is a reply!\nAlso with a line break!"
         };
         //public bool IsUserAuthor => (LeagueContext.CurrentUser?.MemberId).GetValueOrDefault() == Author.MemberId.GetValueOrDefault();
-        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserName == AuthorName;
+        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserName == AuthorName || LeagueContext?.UserManager?.CurrentUser?.UserName == "Administrator";
 
         public ICommand EditCmd { get; private set; }
 

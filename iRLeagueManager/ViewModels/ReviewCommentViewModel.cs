@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,9 @@ namespace iRLeagueManager.ViewModels
     public class ReviewCommentViewModel : CommentViewModel, IContainerModelBase<ReviewCommentModel>
     {
         public new ReviewCommentModel Model => base.Model as ReviewCommentModel;
+
+        private IncidentReviewViewModel review;
+        public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
         
         public ObservableModelCollection<CommentViewModel, CommentBase> replys;
         public ObservableModelCollection<CommentViewModel, CommentBase> Replys
@@ -31,7 +35,12 @@ namespace iRLeagueManager.ViewModels
         }
         public ObservableCollection<ReviewVoteModel> Votes => Model?.CommentReviewVotes;
 
+        public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
+
         public ICommand ReplyCmd { get; private set; }
+
+        public ICommand AddVoteCmd { get; }
+        public ICommand DeleteVoteCmd { get; }
 
         protected override CommentBase Template => new ReviewCommentModel(new UserModel(0) { UserName = "TestAuthor" })
         {
@@ -54,6 +63,25 @@ namespace iRLeagueManager.ViewModels
             ReplyCmd = new RelayCommand(o => { }, o => false);
             replys = new ObservableModelCollection<CommentViewModel, CommentBase>();
             SetSource(Template);
+            AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null);
+            DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null && o is ReviewVoteModel);
+        }
+
+        public async override void SaveChanges()
+        {
+            IsLoading = true;
+            try
+            {
+                await LeagueContext.UpdateModelAsync(Model);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         public ReviewCommentViewModel(ReviewCommentModel comment) : base(comment) { }
@@ -66,6 +94,33 @@ namespace iRLeagueManager.ViewModels
         public new bool UpdateSource(ReviewCommentModel source)
         {
             return base.UpdateSource(source);
+        }
+
+        public void AddVote()
+        {
+            AddVote(null);
+        }
+
+        public void AddVote(ReviewVoteModel vote)
+        {
+            if (Model == null)
+                return;
+
+            if (vote == null)
+            {
+                vote = new ReviewVoteModel();
+            }
+
+            Model.CommentReviewVotes.Add(vote);
+        }
+
+        public void DeleteVote(ReviewVoteModel vote)
+        {
+            if (Model == null)
+                return;
+
+            if (Model.CommentReviewVotes.Contains(vote))
+                Model.CommentReviewVotes.Remove(vote);
         }
 
         public async Task<CommentBase> ReplyAsync(string text)

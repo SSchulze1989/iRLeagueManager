@@ -21,11 +21,17 @@ namespace iRLeagueManager.Models.Reviews
         public LeagueMember MemberAtFault { get => memberAtFault; set => SetValue(ref memberAtFault, value); }
 
         public ReviewVoteModel() : base()
-        { }
+        {
+        }
 
         public ReviewVoteModel(long reviewVoteId)
         {
             ReviewVoteId = reviewVoteId;
+        }
+
+        public override string ToString()
+        {
+            return Vote.ToString() + ": " + MemberAtFault?.FullName?.ToString();
         }
     }
 }

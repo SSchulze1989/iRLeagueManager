@@ -39,14 +39,14 @@ namespace iRLeagueManager.Models.Reviews
         public TimeSpan TimeStamp { get => timeStamp; set { SetValue(ref timeStamp, value); } }
 
         private ObservableCollection<LeagueMember> involvedMembers;
-        public ObservableCollection<LeagueMember> InvolvedMembers { get => involvedMembers; internal set => SetNotifyCollection(ref involvedMembers, value); }
+        public ObservableCollection<LeagueMember> InvolvedMembers { get => involvedMembers; set => SetNotifyCollection(ref involvedMembers, value); }
 
         private ObservableCollection<ReviewCommentModel> comments;
-        public ObservableCollection<ReviewCommentModel> Comments { get => comments; internal set => SetNotifyCollection(ref comments, value); }
+        public ObservableCollection<ReviewCommentModel> Comments { get => comments; set => SetNotifyCollection(ref comments, value); }
         IEnumerable<IReviewComment> IReview.Comments => Comments;
         //ReadOnlyObservableCollection<IReviewComment> IReview.Comments => new ReadOnlyObservableCollection<IReviewComment>(Comments);
         private ObservableCollection<ReviewVoteModel> acceptedReviewVotes;
-        public ObservableCollection<ReviewVoteModel> AcceptedReviewVotes { get => acceptedReviewVotes; internal set => SetNotifyCollection(ref acceptedReviewVotes, value); }
+        public ObservableCollection<ReviewVoteModel> AcceptedReviewVotes { get => acceptedReviewVotes; set => SetNotifyCollection(ref acceptedReviewVotes, value); }
         //private LeagueMember memberAtFaultResult;        
         //public LeagueMember MemberAtFaultResult { get => memberAtFaultResult; set { SetValue(ref memberAtFaultResult, value); } }
 
@@ -102,6 +102,30 @@ namespace iRLeagueManager.Models.Reviews
                 //}
             }
             base.InitializeModel();
+        }
+
+        public override void CopyFrom(ModelBase sourceObject)
+        {
+            base.CopyFrom(sourceObject);
+
+            if (sourceObject is IncidentReviewModel reviewModel)
+            {
+                InvolvedMembers = new ObservableCollection<LeagueMember>(reviewModel.InvolvedMembers.ToList());
+                Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.ToList());
+                AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewModel.AcceptedReviewVotes.ToList());
+            }
+        }
+
+        public override void CopyTo(ModelBase targetObject)
+        {
+            base.CopyTo(targetObject);
+
+            if (targetObject is IncidentReviewModel reviewModel)
+            {
+                reviewModel.InvolvedMembers = new ObservableCollection<LeagueMember>(InvolvedMembers.ToList());
+                reviewModel.Comments = new ObservableCollection<ReviewCommentModel>(Comments.ToList());
+                reviewModel.AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(AcceptedReviewVotes.ToList());
+            }
         }
 
         //public ReviewComment AddComment(string text)

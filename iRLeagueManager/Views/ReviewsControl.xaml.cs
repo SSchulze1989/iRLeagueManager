@@ -2,6 +2,7 @@
 using iRLeagueManager.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class ReviewsControl : UserControl
     {
+        public ReviewsPageViewModel ReviewsPageViewModel => DataContext as ReviewsPageViewModel;
+
         public ReviewsControl()
         {
             InitializeComponent();
@@ -64,12 +67,32 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
-                //if (button.Tag is ReviewCommentViewModel reviewComment)
-                //{
+                if (button.Tag is ReviewCommentViewModel reviewComment)
+                {
+                    var editWindow = new ModalOkCancelWindow();
+                    editWindow.Width = 500;
+                    editWindow.Height = 600;
+                    var content = new ReviewCommentEditControl();
 
-                //}
-                //else 
-                if (button.Tag is CommentViewModel comment)
+                    editWindow.Title = "Edit Comment";
+
+                    if (content.DataContext is ReviewCommentViewModel editVM)
+                    {
+                        editVM.UpdateSource(new ReviewCommentModel());
+                        editVM.Model.CopyFrom(reviewComment.Model);
+                        //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
+                        editVM.Review = ReviewsPageViewModel.SelectedReview;
+                        editVM.Refresh(null);
+
+                        editWindow.ModalContent.Content = content;
+                        if (editWindow.ShowDialog() == true)
+                        {
+                            reviewComment.Model.CopyFrom(editVM.Model);
+                            reviewComment.SaveChanges();
+                        }
+                    }
+                }
+                else if (button.Tag is CommentViewModel comment)
                 {
                     var editWindow = new ModalOkCancelWindow();
                     editWindow.Width = 500;

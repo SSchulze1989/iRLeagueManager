@@ -38,6 +38,26 @@ namespace iRLeagueManager.Models.Reviews
             base.InitializeModel();
         }
 
+        public override void CopyFrom(ModelBase sourceObject)
+        {
+            base.CopyFrom(sourceObject);
+
+            if (sourceObject is ReviewCommentModel commentModel)
+            {
+                CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(commentModel.CommentReviewVotes.ToList());
+            }
+        }
+
+        public override void CopyTo(ModelBase targetObject)
+        {
+            base.CopyTo(targetObject);
+
+            if (targetObject is ReviewCommentModel commentModel)
+            {
+                commentModel.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(CommentReviewVotes.ToList());
+            }
+        }
+
         //public override void SetLeagueClient(IRLeagueClient leagueClient)
         //{
         //    base.SetLeagueClient(leagueClient);

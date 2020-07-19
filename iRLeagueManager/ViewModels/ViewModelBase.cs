@@ -30,7 +30,7 @@ namespace iRLeagueManager.ViewModels
         private bool suppressPropertyChangedEvent;
         protected bool SuppressPropertyChangedEvent { get => suppressPropertyChangedEvent; set => SetValue(ref suppressPropertyChangedEvent, value); }
 
-        public ICommand RefreshCmd { get; }
+        public ICommand RefreshCmd { get; protected set; }
 
         public ViewModelBase()
         {
