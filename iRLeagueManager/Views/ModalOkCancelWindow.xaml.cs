@@ -26,14 +26,29 @@ namespace iRLeagueManager.Views
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
-            this.Close();
+            if (Content is IModalContent modalContent)
+            {
+                if (modalContent.CanSubmit())
+                {
+                    DialogResult = modalContent.Submit();
+                    Close();
+                }
+            }
+            else
+            {
+                DialogResult = true;
+                Close();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
-            this.Close();
+            if (Content is IModalContent modalContent)
+            {
+                modalContent.Cancel();
+            }
+            DialogResult = false;
+            Close();
         }
     }
 }

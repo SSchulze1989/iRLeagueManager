@@ -12,5 +12,7 @@ namespace iRLeagueManager.Data
     {
         Task<NetworkCredential> AuthenticateUserAsync(string userName, string password);
         Task<UserDTO> GetUserAsync(string UserId);
+
+        Task<UserProfileDTO> AddUserAsync(AddUserDTO user);
     }
 }

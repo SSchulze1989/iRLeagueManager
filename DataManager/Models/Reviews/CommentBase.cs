@@ -38,9 +38,8 @@ namespace iRLeagueManager.Models.Reviews
         {
         }
 
-        public CommentBase(UserModel author)
+        public CommentBase(UserModel author) : base(author)
         {
-            Author = author;
         }
 
         public CommentBase(UserModel author, CommentInfo replyTo) : this(author)

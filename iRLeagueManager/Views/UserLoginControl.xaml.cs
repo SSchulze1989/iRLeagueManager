@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.Views
 {
@@ -21,6 +22,8 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class UserLoginControl : UserControl
     {
+        public LoginViewModel ViewModel => DataContext as LoginViewModel;
+
         public UserLoginControl()
         {
             InitializeComponent();
@@ -34,6 +37,30 @@ namespace iRLeagueManager.Views
                 if (DataContext is IHasPassword hasPassword)
                 {
                     hasPassword.SetPassword(password);
+                }
+            }
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Hyperlink link && ViewModel != null)
+            {
+                var createWindow = new ModalOkCancelWindow();
+                createWindow.Height = 300;
+                createWindow.Width = 300;
+                createWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                var content = new RegisterUserControl();
+
+                if (content.DataContext is CreateUserViewModel createUserVM)
+                {
+                    createWindow.Content = content;
+
+                    if (createWindow.ShowDialog() == true)
+                    {
+                        ViewModel.UserName = createUserVM.UserName;
+                        ViewModel.SetPassword(null);
+                        PasswordTextBox.Clear();
+                    }
                 }
             }
         }

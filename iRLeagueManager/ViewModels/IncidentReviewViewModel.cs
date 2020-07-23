@@ -4,12 +4,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.ViewModels.Collections;
+using iRLeagueManager.Models.Results;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -29,7 +31,7 @@ namespace iRLeagueManager.ViewModels
         {
             get
             {
-                CalculateVotes();
+                //CalculateVotes();
                 return votes;
             }
             set => SetValue(ref votes, value);
@@ -42,7 +44,7 @@ namespace iRLeagueManager.ViewModels
         { 
             get
             {
-                CalculateVotes();
+                //CalculateVotes();
                 return countAcceptedVotes;
             }
             set => SetValue(ref countAcceptedVotes, value); 
@@ -54,17 +56,27 @@ namespace iRLeagueManager.ViewModels
         {
             get
             {
-                if (comments.GetSource() != Model?.Comments)
+                if (comments != null && comments.GetSource() != Model?.Comments)
+                {
                     comments.UpdateSource(Model?.Comments);
+                    CalculateVotes();
+                }
                 return comments;
             }
         }
 
+        private SessionViewModel session;
+        public SessionViewModel Session { get => session; set => SetValue(ref session, value); }
+
+        private MemberListViewModel memberList;
+        public MemberListViewModel MemberList { get => memberList; set => SetValue(ref memberList, value); }
+
         protected override IncidentReviewModel Template => new IncidentReviewModel();
         //...
 
-        public IncidentReviewViewModel()
+        public IncidentReviewViewModel() : base()
         {
+            memberList = new MemberListViewModel();
             comments = new ObservableModelCollection<ReviewCommentViewModel, ReviewCommentModel>(x => x.Review = this);
         }
 
@@ -83,7 +95,10 @@ namespace iRLeagueManager.ViewModels
             var votes = new List<MyKeyValuePair<ReviewVoteModel, int>>();
             var acceptedVotes = new List<MyKeyValuePair<ReviewVoteModel, int>>();
 
-            foreach(var comment in Comments)
+            if (comments == null)
+                return;
+
+            foreach(var comment in comments)
             {
                 foreach(var currentVote in comment.Votes)
                 {
@@ -132,6 +147,34 @@ namespace iRLeagueManager.ViewModels
             }
 
             return comment;
+        }
+
+        public override void OnUpdateSource()
+        {
+            base.OnUpdateSource();
+            CalculateVotes();
+        }
+
+        public async Task LoadMemberListAsync()
+        {
+            if (Model?.Session == null)
+                return;
+
+            try
+            {
+                IsLoading = true;
+                var result = await LeagueContext.GetModelAsync<ResultModel>(Model.Session.SessionId.GetValueOrDefault());
+                var members = result.RawResults.Select(x => x.Member);
+                MemberList.SetCollectionViewSourc(members);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
     }
 }

@@ -20,7 +20,20 @@ namespace iRLeagueManager.ViewModels
         //public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
         //public LeagueMember Author => Model?.Author;
 
-        //public UserModel Author => Model?.Author;
+        private UserViewModel author = new UserViewModel();
+        public UserViewModel Author
+        {
+            get
+            {
+                if (author.UserId != Model?.Author?.UserId)
+                {
+                    if (author.UpdateSource(Model.Author))
+                        OnPropertyChanged();
+                }
+                return author;
+            }
+        }
+
 
         public string AuthorName => Model?.AuthorName;
         public string Text { get => Model?.Text; set => Model.Text = value; }
@@ -30,7 +43,7 @@ namespace iRLeagueManager.ViewModels
             Text = "This is a reply!\nAlso with a line break!"
         };
         //public bool IsUserAuthor => (LeagueContext.CurrentUser?.MemberId).GetValueOrDefault() == Author.MemberId.GetValueOrDefault();
-        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserName == AuthorName || LeagueContext?.UserManager?.CurrentUser?.UserName == "Administrator";
+        public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserId == Author?.UserId || LeagueContext?.UserManager?.CurrentUser?.UserName == "Administrator";
 
         public ICommand EditCmd { get; private set; }
 

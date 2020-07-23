@@ -23,7 +23,7 @@
                 <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,20,5,10" Content="Cancel"/>
             </Grid>
             <TextBlock Margin="5">
-                <Hyperlink Command="{Binding RegisterUserCommand}">Register new User</Hyperlink>
+                <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>
             </TextBlock>
         </StackPanel>
     </Grid>

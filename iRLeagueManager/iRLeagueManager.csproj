@@ -156,11 +156,15 @@
     <Compile Include="Views\CommentEditControl.xaml.cs">
       <DependentUpon>CommentEditControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IModalContent.cs" />
     <Compile Include="Views\ModalOkCancelWindow.xaml.cs">
       <DependentUpon>ModalOkCancelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PointsEditControl.xaml.cs">
       <DependentUpon>PointsEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegisterUserControl.xaml.cs">
+      <DependentUpon>RegisterUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReviewCommentEditControl.xaml.cs">
       <DependentUpon>ReviewCommentEditControl.xaml</DependentUpon>
@@ -221,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PointsEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegisterUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

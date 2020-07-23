@@ -1,94 +1,88 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using iRLeagueManager.Models.User;
 
-//using iRLeagueManager.Models.User;
-//using iRLeagueManager.Data;
-////using iRLeagueManager.User;
+namespace iRLeagueManager.ViewModels
+{
+    public class CreateUserViewModel : UserViewModel
+    {
+        public new string UserName { get => Model.UserName; set => Model.UserName = value; }
 
-//namespace iRLeagueManager.ViewModels
-//{
-//    public class CreateUserViewModel : ViewModelBase
-//    {
-//        private MainWindowViewModel MainWindowVM { get; }
+        private string password;
+        private string confirmPassword;
 
-//        //private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
-//        //private UserContext UserContext => GlobalSettings.UserContext;
+        string passwordStatus;
+        public string PasswordStatus { get => passwordStatus; set => SetValue(ref passwordStatus, value); }
 
-//        private UserModel user;
-//        public UserModel User { get => user; set => SetValue(ref user, value); }
+        public CreateUserViewModel() 
+        {
+            SetSource(new UserModel(null));
+        }
 
-//        private string pw1;
-//        private string pw2;
+        public void SetPassword(string password)
+        {
+            this.password = password;
+        }
 
-//        public string Pw1 { set => pw1 = value; }
-//        public string Pw2 { set => pw2 = value; }
+        public void SetConfirmPassword(string password)
+        {
+            confirmPassword = password;
+        }
 
-//        public ICommand SubmitButtonCommand { get; }
-//        public ICommand CancelButtonCommand { get; }
+        public async Task<bool> Submit()
+        {
+            if (Model == null)
+                return false;
 
-//        private bool isOpen;
-//        public bool IsOpen { get => isOpen; set => SetValue(ref isOpen, value); }
+            UserModel user = null;
 
-//        private bool isSubmitBusy = false;
+            try
+            {
+                IsLoading = true;
+                user = await LeagueContext.UserManager.AddUserModelAsync(Model, password);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
 
-//        public CreateUserViewModel(MainWindowViewModel mainWindowVM)
-//        {
-//            MainWindowVM = mainWindowVM;
-//            User = new UserModel("");
-//            SubmitButtonCommand = new RelayCommand(o => Submit(), o => CheckFields() && !isSubmitBusy);
-//            CancelButtonCommand = new RelayCommand(o => Cancel(), o => !isSubmitBusy);
-//        }
+            if (user != null)
+            {
+                SetSource(user);
+                return true;
+            }
+            return false;
+        }
 
-//        private bool CheckFields()
-//        {
-//            bool result =
-//                User.UserName != "" && User.UserName != null &&
-//                User.Firstname != "" && User.Firstname != null &&
-//                User.Lastname != "" && User.Lastname != null &&
-//                pw1 != "" && pw1 != null &&
-//                pw2 != "" && pw2 != null &&
-//                pw1 == pw2;
-//            return result;
-//        }
+        public bool CheckPassword()
+        {
+            if (password == null || confirmPassword == null)
+            {
+                PasswordStatus = "";
+                return false;
+            }
 
-//        public void Open()
-//        {
-//            if (User == null)
-//                User = new UserModel("");
-//            //MainWindowVM.PopUpVm = this;
-//            IsOpen = true;
-//        }
+            if (password != confirmPassword)
+            {
+                PasswordStatus = "Confirm password does not match.";
+                return false;
+            }
 
-//        public void Close()
-//        {
-//            //MainWindowVM.PopUpVm = MainWindowVM.UserLogin;
-//            IsOpen = false;
-//        }
+            return true;
+        }
 
-//        private async void Submit()
-//        {
-//            if (User != null && UserContext != null)
-//            {
-//                isSubmitBusy = true;
-//                await UserContext.CreateUserAsync(User, pw1);
-//                //newUser.Firstname = User.Firstname;
-//                //newUser.Lastname = User.Lastname;
-//                //newUser.Email = User.Email;
-//                //newUser.ProfileText = User.ProfileText;
-//                //await UserContext.PutUserDataAsync(newUser, pw1);
-//                isSubmitBusy = false;
-//                Close();
-//            }
-//        }
-
-//        private void Cancel()
-//        {
-//            User = null;
-//            Close();
-//        }
-//    }
-//}
+        protected override void Dispose(bool disposing)
+        {
+            password = null;
+            confirmPassword = null;
+            base.Dispose(disposing);
+        }
+    }
+}

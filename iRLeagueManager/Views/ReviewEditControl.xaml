@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="500" Background="White">
     <UserControl.Resources>
-        <vmodel:MemberListViewModel x:Key="MemberList"/>
+        <!--<vmodel:MemberListViewModel x:Key="MemberList"/>-->
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
     </UserControl.Resources>
@@ -63,7 +63,7 @@
                     <Button Content="&lt;" Margin="5" Padding="5" Click="MoveLeftButton_Click"/>
                     <Button Content="&gt;" Margin="5" Padding="5" Click="MoveRightButton_Click"/>
                 </StackPanel>
-                <StackPanel  DataContext="{StaticResource MemberList}" Grid.Column="2">
+                <StackPanel  DataContext="{Binding MemberList}" Grid.Column="2">
                     <ListBox x:Name="MemberSelect" ItemsSource="{Binding MemberList}" SelectionMode="Extended" Height="220"/>
                     <Grid>
                         <Grid.ColumnDefinitions>

@@ -68,6 +68,26 @@ namespace iRLeagueManager.Data
             return null;
         }
 
+        public async Task<UserProfileDTO> AddUserAsync(AddUserDTO user)
+        {
+            if (user == null)
+                return null;
+
+            var requestString = BaseUri.AbsoluteUri + "/User";
+
+            using (var client = new HttpClient())
+            {
+                var request = await DatabaseStatusService.StartRequestWhenReady(async () => await client.PostAsXmlAsync(requestString, user), Enums.UpdateKind.Saving);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    var result = await request.Content.ReadAsAsync<UserProfileDTO>();
+                    return result;
+                }
+            }
+            return null;
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
 

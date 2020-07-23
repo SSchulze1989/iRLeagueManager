@@ -16,7 +16,7 @@ namespace iRLeagueManager.Models.User
         public object[] ModelId => new object[] { UserId };
 
         private string userName;
-        public string UserName { get => userName; internal set => SetValue(ref userName, value); }
+        public string UserName { get => userName; set => SetValue(ref userName, value); }
 
         private long? memberId;
         public long? MemberId { get => memberId; set => SetValue(ref memberId, value); }

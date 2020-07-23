@@ -38,7 +38,7 @@ namespace iRLeagueManager.Views
             }
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
             {
@@ -52,6 +52,7 @@ namespace iRLeagueManager.Views
                 if (content.DataContext is IncidentReviewViewModel editVM)
                 {
                     editVM.Model.CopyFrom(reviewVM.Model);
+                    await editVM.LoadMemberListAsync();
 
                     editWindow.ModalContent.Content = content;
                     if (editWindow.ShowDialog() == true)

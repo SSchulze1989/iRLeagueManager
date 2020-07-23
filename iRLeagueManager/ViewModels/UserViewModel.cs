@@ -29,7 +29,22 @@ namespace iRLeagueManager.ViewModels
         public string ProfileText { get => Model?.ProfileText; set => Model.ProfileText = value; }
 
         //public string FullName => Firstname + " " + Lastname;
-        public string FullName => UserName;
+        public string FullName
+        {
+            get
+            {
+                if (Model == null)
+                    return "(null)";
+
+                if (Firstname != null || Lastname != null)
+                    return Firstname + " " + Lastname;
+
+                if (UserName != null)
+                    return UserName;
+
+                return UserId;
+            }
+        }
 
         public UserViewModel()
         {

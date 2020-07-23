@@ -17,6 +17,7 @@ namespace iRLeagueManager.Data
         Task<bool> UserLoginAsync(string userName, string password);
         UserModel GetUserModel(string userId);
         Task<UserModel> GetUserModelAsync(string userId);
+        Task<UserModel> AddUserModelAsync(UserModel user, string password);
         void UserLogougt();
     }
 }

@@ -129,8 +129,11 @@ namespace iRLeagueManager
                 {
                     dest.InitReset();
                 })
+                .IncludeAllDerived()
                 .ReverseMap()
-                .ForMember(dest => dest.AuthorUserId, opt => opt.MapFrom(src => src.Author != null ? src.Author.UserId : null));
+                .ForMember(dest => dest.AuthorUserId, opt => opt.MapFrom(src => src.Author != null ? src.Author.UserId : null))
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? src.Author.UserName : src.AuthorName))
+                .IncludeAllDerived();
 
             // Mapping schedule data
             CreateMap<ScheduleDataDTO, ScheduleModel>()

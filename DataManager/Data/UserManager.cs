@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iRLeagueManager.Models.User;
+using iRLeagueManager.LeagueDBServiceRef;
 
 namespace iRLeagueManager.Data
 {
@@ -67,7 +68,7 @@ namespace iRLeagueManager.Data
 
             _ = Task.Run(async () => 
             {
-                var getModel = await GetUserModelAsync(userId);
+                var getModel = await GetUserModelAsync(userId, true);
                 userModel.CopyFrom(getModel);
             });
 
@@ -75,18 +76,24 @@ namespace iRLeagueManager.Data
         }
 
         public async Task<UserModel> GetUserModelAsync(string userIdOrName)
+            => await GetUserModelAsync(userIdOrName, forceUpdate: false);
+
+        public async Task<UserModel> GetUserModelAsync(string userIdOrName, bool forceUpdate)
         {
             UserModel userModel = ModelCache.GetModel<UserModel>(userIdOrName);
 
-            if (userModel != null)
+            if (userModel != null && forceUpdate == false)
                 return userModel;
 
             var userDto = await UserDatabaseClient.GetUserAsync(userIdOrName);
 
             if (userDto != null)
             {
-                userModel = new UserModel(userDto.UserId);
-                ModelCache.PutOrGetModel(userModel);
+                if (userModel == null)
+                {
+                    userModel = new UserModel(userDto.UserId);
+                    userModel = ModelCache.PutOrGetModel(userModel);
+                }
                 userModel.UserName = userDto.UserName;
                 userModel.Firstname = userDto.Firstname;
                 userModel.MemberId = userDto.MemberId;
@@ -95,6 +102,35 @@ namespace iRLeagueManager.Data
                 return userModel;
             }
             return null;
+        }
+
+        public async Task<UserModel> AddUserModelAsync(UserModel user, string password)
+        {
+            if (user == null)
+                return null;
+            if (password == null || password == "")
+                throw new ArgumentException("Failed to add user. Password can not be empty");
+
+            var userDto = new AddUserDTO()
+            {
+                UserName = user.UserName,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                Email = user.Email,
+                Password = password
+            };
+
+            var userProfileDto = await UserDatabaseClient.AddUserAsync(userDto);
+
+            if (userProfileDto != null)
+            {
+                user.UserId = userProfileDto.UserId;
+                return user;
+            }
+            else
+            {
+                throw new Exception("Failed to Add User");
+            }
         }
     }
 }

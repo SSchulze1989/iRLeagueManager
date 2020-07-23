@@ -542,7 +542,7 @@
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Author.UserName}" FontWeight="Bold" Margin="4,0"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,0"/>
                                         <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,0"/>
                                     </Grid>
                                     <Grid Grid.Row="1">
@@ -597,7 +597,7 @@
 										<RowDefinition />
 										<RowDefinition />
 									</Grid.RowDefinitions>
-									<TextBlock Grid.Row="0" Text="{Binding AuthorName}" FontWeight="Bold" Margin="4,1"/>
+									<TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,1"/>
 									<TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,1"/>
                                     <Grid Grid.Row="2">
                                         <Grid.ColumnDefinitions>

@@ -31,6 +31,16 @@ namespace iRLeagueManager.ViewModels
             MemberList.Filter = ApplyFilter;
         }
 
+        public void SetCollectionViewSourc(IEnumerable<LeagueMember> members)
+        {
+            memberListCollectionViewSource = new CollectionViewSource()
+            {
+                Source = members
+            };
+            MemberList = memberListCollectionViewSource.View;
+            MemberList.Filter = ApplyFilter;
+        }
+
         private bool ApplyFilter(object item)
         {
             if (Filter == null || Filter == "")

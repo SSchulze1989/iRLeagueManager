@@ -23,5 +23,10 @@ namespace iRLeagueManager.Models.Reviews
             CommentId = commentId;
             AuthorName = authorName;
         }
+
+        public CommentInfo(UserModel author)
+        {
+            Author = author;
+        }
     }
 }

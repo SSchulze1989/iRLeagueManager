@@ -29,4 +29,14 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="UserProfileDTO" nillable="true" type="tns:UserProfileDTO" />
+  <xs:complexType name="AddUserDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UserProfileDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AddUserDTO" nillable="true" type="tns:AddUserDTO" />
 </xs:schema>
