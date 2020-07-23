@@ -14,6 +14,8 @@
     <UserControl.Resources>
         <model:StandingsModel x:Key="StandingsModel"/>
         <conv:CompareNumericalConverter x:Key="CompareNumericalConverter"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
     </UserControl.Resources>
     
     <Grid>

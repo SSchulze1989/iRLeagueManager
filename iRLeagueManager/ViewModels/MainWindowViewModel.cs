@@ -12,7 +12,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.ViewModels;
 using iRLeagueManager.Models.Database;
 using iRLeagueManager.Models.Sessions;
-using iRLeagueManager.User;
+//using iRLeagueManager.User;
 using iRLeagueManager.Logging;
 using System.Runtime.CompilerServices;
 

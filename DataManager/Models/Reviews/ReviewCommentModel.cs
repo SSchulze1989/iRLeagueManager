@@ -12,6 +12,7 @@ using iRLeagueManager.Models;
 
 using iRLeagueManager.Interfaces;
 using System.Collections.ObjectModel;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.Models.Reviews
 {
@@ -24,14 +25,27 @@ namespace iRLeagueManager.Models.Reviews
         //public ScheduleModel Schedule => Review?.Schedule;
 
         //public override SeasonModel Season => Schedule?.Season;
+        private IncidentReviewInfo review;
+        public IncidentReviewInfo Review { get => review; internal set => SetValue(ref review, value); }
+
         private ObservableCollection<ReviewVoteModel> commentReviewVotes;
         public ObservableCollection<ReviewVoteModel> CommentReviewVotes { get => commentReviewVotes; set => SetNotifyCollection(ref commentReviewVotes, value); }
 
         public ReviewCommentModel () { }
 
-        public ReviewCommentModel(long commentId, string authorName) : base(commentId, authorName) { }
+        public ReviewCommentModel(long commentId, string authorName) : base(commentId, authorName) 
+        {
+            Review = review;
+        }
 
-        public ReviewCommentModel(UserModel author) : base(author) { }
+        public ReviewCommentModel(UserModel author) : base(author)
+        {
+        }
+
+        public ReviewCommentModel(UserModel author, IncidentReviewInfo review) : this(author) 
+        {
+            Review = review;
+        }
 
         internal override void InitializeModel()
         {

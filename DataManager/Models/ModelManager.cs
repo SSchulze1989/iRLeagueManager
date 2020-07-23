@@ -29,22 +29,22 @@ namespace iRLeagueManager.Models
 
         private MapperConfiguration MapperConfiguration { get; }
 
-        public async Task<T> GetModelAsync<T>(params long[] modelId) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(params long[] modelId) where T : MappableModel
         {
             return await GetModelAsync<T>(modelId, true);
         }
 
-        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : ModelBase
+        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : MappableModel
         {
             return (await GetModelsAsync<T>(new long[][] { modelId }, update, reload)).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : ModelBase
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : MappableModel
         {
             return await GetModelsAsync<T>(modelIds.Select(x => new long[] { x }).ToArray());
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : ModelBase
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : MappableModel
         {
             object[] data = null;
             List<T> modelList = new List<T>();
@@ -74,7 +74,10 @@ namespace iRLeagueManager.Models
             }
 
             if (update)
+            {
+                _ = GetModelsAsync<T>(updateList.Where(x => x.ContainsChanges == false).Select(x => x.ModelId).ToArray(), update: false, reload: true);
                 _ = UpdateModelsAsync(updateList.ToArray());
+            }
 
             if (getModelIds == null || getModelIds.Count > 0)
             {
@@ -126,6 +129,10 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<ScoredResultDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(ScoredResultRowModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<ScoredResultRowDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
                 else if (typeof(T).Equals(typeof(ResultRowModel)))
                 {
                     data = await ModelDataProvider.GetAsync<ResultRowDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
@@ -137,10 +144,6 @@ namespace iRLeagueManager.Models
                 else if (typeof(T).Equals(typeof(AddPenaltyModel)))
                 {
                     data = await ModelDataProvider.GetAsync<AddPenaltyDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
-                }
-                else if (typeof(T).Equals(typeof(ScoringRuleBase)))
-                {
-                    throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
                 }
                 else
                 {
@@ -195,17 +198,22 @@ namespace iRLeagueManager.Models
             }
         }
 
-        public async Task<T> UpdateModelAsync<T>(T model) where T : ModelBase
+        public async Task<T> UpdateModelAsync<T>(T model) where T : MappableModel
         {
             return (await UpdateModelsAsync<T>(new T[] { model })).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : ModelBase
+        public async Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : MappableModel
         {
             List<T> modelList = models.ToList();
 
             var mapper = MapperConfiguration.CreateMapper();
             object[] data = new object[0];
+
+            if (models == null)
+                return null;
+            if (models.Count() == 0)
+                return modelList;
 
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
@@ -280,13 +288,9 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<AddPenaltyDTO>().ToArray());
             }
-            else if (typeof(T).Equals(typeof(ScoringRuleBase)))
-            {
-                throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
-            }
             else
             {
-                throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
+                throw new UnknownModelTypeException("Could not put Model of type " + typeof(T).ToString() + ". Model type not known.");
             }
 
             if (data == null)
@@ -308,12 +312,12 @@ namespace iRLeagueManager.Models
             return modelList;
         }
 
-        public async Task<bool> DeleteModelAsync<T>(params long[] modelId) where T : ModelBase
+        public async Task<bool> DeleteModelAsync<T>(params long[] modelId) where T : MappableModel
         {
             return await DeleteModelsAsync<T>(new long[][] { modelId });
         }
 
-        public async Task<bool> DeleteModelsAsync<T>(params T[] models) where T : ModelBase
+        public async Task<bool> DeleteModelsAsync<T>(params T[] models) where T : MappableModel
         {
             if (models.Count() == 0)
                 return true;
@@ -321,12 +325,12 @@ namespace iRLeagueManager.Models
             return await DeleteModelsAsync<T>(models.Select(x => x.ModelId.ToArray()).ToArray());
         }
 
-        public async Task<bool> DeleteModelsAsync<T>(long[] modelIds) where T : ModelBase
+        public async Task<bool> DeleteModelsAsync<T>(long[] modelIds) where T : MappableModel
         {
             return await DeleteModelsAsync<T>(modelIds.Select(x => new long[] { x }).ToArray());
         }
 
-        public async Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : ModelBase
+        public async Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : MappableModel
         {
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
@@ -394,10 +398,10 @@ namespace iRLeagueManager.Models
             }
         }
 
-        public async Task<T> AddModelAsync<T>(T model) where T : ModelBase
+        public async Task<T> AddModelAsync<T>(T model) where T : MappableModel
             => (await AddModelsAsync(model)).FirstOrDefault();
 
-        public async Task<IEnumerable<T>> AddModelsAsync<T>(params T[] models) where T : ModelBase
+        public async Task<IEnumerable<T>> AddModelsAsync<T>(params T[] models) where T : MappableModel
         {
             List<T> modelList = models.ToList();
 

@@ -10,32 +10,14 @@ using System.Collections;
 
 namespace iRLeagueManager.Models
 {
-    public abstract class ModelBase : NotifyPropertyChangedBase, INotifyPropertyChanged
+    public class ModelBase : NotifyPropertyChangedBase
     {
         protected bool isInitialized;
 
         private bool isReadOnly;
         public bool IsReadOnly { get => isReadOnly; internal set => SetValue(ref isReadOnly, value); }
-        public abstract long[] ModelId { get; }
 
-        private DateTime? createdOn;
-        public DateTime? CreatedOn { get => createdOn; internal set { createdOn = value; OnPropertyChanged(); } }
-
-        private DateTime? lastModifiedOn;
-        public DateTime? LastModifiedOn { get => lastModifiedOn; internal set { lastModifiedOn = value; OnPropertyChanged(); } }
-
-        private bool containsChanges;
-        public bool ContainsChanges { get => containsChanges; protected set => SetValue(ref containsChanges, value); }
-
-        private int version;
-        public int Version { get => version; internal set { version = value; OnPropertyChanged(); } }
-
-        public ModelBase()
-        {
-            CreatedOn = DateTime.Now;
-            lastModifiedOn = DateTime.Now;
-            isInitialized = false;
-        }
+        public ModelBase() { }
 
         public virtual void CopyTo(ModelBase targetObject)
         {
@@ -47,7 +29,7 @@ namespace iRLeagueManager.Models
 
             targetObject.InitReset();
 
-            foreach(var property in targetType.GetProperties())
+            foreach (var property in targetType.GetProperties())
             {
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
@@ -69,7 +51,7 @@ namespace iRLeagueManager.Models
 
             InitReset();
 
-            foreach(var property in targetType.GetProperties())
+            foreach (var property in targetType.GetProperties())
             {
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
@@ -81,7 +63,7 @@ namespace iRLeagueManager.Models
                 InitializeModel();
         }
 
-        protected bool SetValue<T>(ref T targetProperty, T value, [CallerMemberName] string propertyName = "")
+        protected virtual bool SetValue<T>(ref T targetProperty, T value, [CallerMemberName] string propertyName = "")
         {
             if (targetProperty == null)
             {
@@ -90,8 +72,8 @@ namespace iRLeagueManager.Models
                     targetProperty = value;
                     if (isInitialized)
                     {
-                        LastModifiedOn = DateTime.Now;
-                        ContainsChanges = true;
+                        //LastModifiedOn = DateTime.Now;
+                        //ContainsChanges = true;
                     }
                     OnPropertyChanged(propertyName);
                     return true;
@@ -104,8 +86,8 @@ namespace iRLeagueManager.Models
                 targetProperty = value;
                 if (isInitialized)
                 {
-                    LastModifiedOn = DateTime.Now;
-                    ContainsChanges = true;
+                    //LastModifiedOn = DateTime.Now;
+                    //ContainsChanges = true;
                 }
                 OnPropertyChanged(propertyName);
                 return true;
@@ -122,7 +104,7 @@ namespace iRLeagueManager.Models
         /// <param name="value"></param>
         /// <param name="propertyName"></param>
         /// <returns></returns>
-        protected bool SetNotifyCollection<T>(ref T targetCollection, T value, [CallerMemberName] string propertyName ="") where T : INotifyCollectionChanged
+        protected virtual bool SetNotifyCollection<T>(ref T targetCollection, T value, [CallerMemberName] string propertyName = "") where T : INotifyCollectionChanged
         {
             var last = targetCollection;
             bool changed = SetValue(ref targetCollection, value, propertyName);
@@ -139,12 +121,12 @@ namespace iRLeagueManager.Models
             return changed;
         }
 
-        protected void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected virtual void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (isInitialized)
             {
-                LastModifiedOn = DateTime.Now;
-                ContainsChanges = true;
+                //LastModifiedOn = DateTime.Now;
+                //ContainsChanges = true;
             }
         }
 

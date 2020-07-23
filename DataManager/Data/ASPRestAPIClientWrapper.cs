@@ -63,6 +63,7 @@ namespace iRLeagueManager.Data
             var handler = new HttpClientHandler() { Credentials = userCredentials };
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add(HttpRequestHeader.Accept.ToString(), "application/xml");
+            client.Timeout = TimeSpan.FromSeconds(30);
             return client;
         }
 

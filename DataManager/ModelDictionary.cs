@@ -10,11 +10,11 @@ namespace iRLeagueManager
 {
     public class ModelDictionary : Dictionary<IModelIdentifier, WeakReference>
     {
-        public void Add(ModelBase model)
+        public void Add(ICacheableModel model)
         {
             Type type = model.GetType();
 
-            while (!type.Equals(typeof(ModelBase)))
+            while (!type.Equals(model.GetBaseType()))
             {
                 Add(new ModelIdentifier(type, model.ModelId), new WeakReference(model));
                 type = type.BaseType;
@@ -29,7 +29,7 @@ namespace iRLeagueManager
             }
         }
 
-        public void AddRange(IEnumerable<ModelBase> models)
+        public void AddRange(IEnumerable<ICacheableModel> models)
         {
             foreach(var model in models)
             {

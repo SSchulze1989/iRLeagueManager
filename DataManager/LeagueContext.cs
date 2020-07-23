@@ -68,11 +68,13 @@ namespace iRLeagueManager.Data
             {
                 BaseUri = new Uri("http://144.91.113.195/iRLeagueRESTService/api")
             };
-            UserCredentialsManager = new UserCredentialsManager(new UserDatabaseClient(new Uri("http://144.91.113.195/iRLeagueRESTService/api"))
+            var userDatabase = new UserDatabaseClient(new Uri("http://144.91.113.195/iRLeagueRESTService/api"))
             {
                 DatabaseStatusService = databaseStatusService
 
-            });
+            };
+            UserCredentialsManager = new UserCredentialsManager(userDatabase);
+            userDatabase.SetCredentials(UserCredentialsManager);
             MapperProfile = new ModelMapperProfile(modelCache);
             //DbContext = new DbLeagueServiceClient(new WCFLeagueDbClientWrapper());
             //DbContext.OpenConnection();
@@ -93,7 +95,7 @@ namespace iRLeagueManager.Data
             };
             ModelContext = ModelDatabase;
             ModelManager = new ModelManager(modelCache, ModelContext, MapperConfiguration);
-            UserManager = new UserManager(UserCredentialsManager);
+            UserManager = new UserManager(modelCache, UserCredentialsManager, userDatabase);
             //_ = UpdateMemberList();
         }
 
@@ -139,62 +141,62 @@ namespace iRLeagueManager.Data
             ModelDatabase.RemoveDatabaseStatusListener(statusItem);
         }
 
-        public Task<T> GetModelAsync<T>(params long[] modelId) where T : ModelBase
+        public Task<T> GetModelAsync<T>(params long[] modelId) where T : MappableModel
         {
             return this.ModelManager.GetModelAsync<T>(modelId);
         }
 
-        public Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : ModelBase
+        public Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : MappableModel
         {
             return this.ModelManager.GetModelAsync<T>(modelId, update, reload);
         }
 
-        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : ModelBase
+        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : MappableModel
         {
             return this.ModelManager.GetModelsAsync<T>(modelIds);
         }
 
-        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : ModelBase
+        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : MappableModel
         {
             return this.ModelManager.GetModelsAsync<T>(modelIds, update, reload);
         }
 
-        public Task<T> UpdateModelAsync<T>(T model) where T : ModelBase
+        public Task<T> UpdateModelAsync<T>(T model) where T : MappableModel
         {
             return this.ModelManager.UpdateModelAsync<T>(model);
         }
 
-        public Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : ModelBase
+        public Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : MappableModel
         {
             return this.ModelManager.UpdateModelsAsync<T>(models);
         }
 
-        public Task<bool> DeleteModelAsync<T>(params long[] modelId) where T : ModelBase
+        public Task<bool> DeleteModelAsync<T>(params long[] modelId) where T : MappableModel
         {
             return this.ModelManager.DeleteModelAsync<T>(modelId);
         }
 
-        public Task<bool> DeleteModelsAsync<T>(params T[] models) where T : ModelBase
+        public Task<bool> DeleteModelsAsync<T>(params T[] models) where T : MappableModel
         {
             return this.ModelManager.DeleteModelsAsync<T>(models);
         }
 
-        public Task<bool> DeleteModelsAsync<T>(long[] modelIds) where T : ModelBase
+        public Task<bool> DeleteModelsAsync<T>(long[] modelIds) where T : MappableModel
         {
             return this.ModelManager.DeleteModelsAsync<T>(modelIds);
         }
 
-        public Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : ModelBase
+        public Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : MappableModel
         {
             return this.ModelManager.DeleteModelsAsync<T>(modelIds);
         }
 
-        public Task<T> AddModelAsync<T>(T model) where T : ModelBase
+        public Task<T> AddModelAsync<T>(T model) where T : MappableModel
         {
             return this.ModelManager.AddModelAsync<T>(model);
         }
 
-        public Task<IEnumerable<T>> AddModelsAsync<T>(params T[] models) where T : ModelBase
+        public Task<IEnumerable<T>> AddModelsAsync<T>(params T[] models) where T : MappableModel
         {
             return this.ModelManager.AddModelsAsync<T>(models);
         }

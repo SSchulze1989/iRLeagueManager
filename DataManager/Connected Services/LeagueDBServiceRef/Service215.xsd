@@ -10,6 +10,7 @@
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q1:VersionInfoDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="AuthorName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AuthorUserId" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="CommentId" nillable="true" type="xs:long" />
         </xs:sequence>
       </xs:extension>
@@ -40,6 +41,7 @@
       <xs:extension base="tns:CommentDataDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="CommentReviewVotes" nillable="true" type="tns:ArrayOfReviewVoteDataDTO" />
+          <xs:element minOccurs="0" name="Review" nillable="true" type="tns:IncidentReviewInfoDTO" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -68,6 +70,7 @@
       <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" base="q5:VersionInfoDTO">
         <xs:sequence>
           <xs:element minOccurs="0" name="AuthorName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="AuthorUserId" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="ReviewId" nillable="true" type="xs:long" />
         </xs:sequence>
       </xs:extension>

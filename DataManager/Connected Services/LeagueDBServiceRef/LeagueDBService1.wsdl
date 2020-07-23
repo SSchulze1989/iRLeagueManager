@@ -10,7 +10,7 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd9" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd10" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd1" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Sessions" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer" />
@@ -19,8 +19,9 @@
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Results" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/iRLeagueManager.Enums" />
       <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.Messages" />
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.User" />
-      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd10" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.User" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.User" />
+      <xsd:import schemaLocation="http://144.91.113.195:5051/Service.svc?xsd=xsd11" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="RequestMessage">

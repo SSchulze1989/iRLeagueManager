@@ -12,7 +12,7 @@ using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ScoredResultRowModel : ModelBase
+    public class ScoredResultRowModel : MappableModel
     {
         [EqualityCheckProperty]
         public long? ScoredResultRowId { get; internal set; }

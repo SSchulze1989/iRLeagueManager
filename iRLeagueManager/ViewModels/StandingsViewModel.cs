@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Models.Members;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.ViewModels
 {

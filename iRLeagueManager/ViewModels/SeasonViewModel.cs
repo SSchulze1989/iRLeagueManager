@@ -9,6 +9,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.Models.User;
 using iRLeagueManager.Data;
 using iRLeagueManager.Interfaces;
 using System.Windows.Input;

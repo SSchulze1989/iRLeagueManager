@@ -8,10 +8,11 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Attributes;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.Models.Reviews
 {
-    public class IncidentReviewInfo : ModelBase, IReviewInfo, IHierarchicalModel
+    public class IncidentReviewInfo : MappableModel, IHierarchicalModel
     {
         private long? reviewId;
         [EqualityCheckProperty]
@@ -21,9 +22,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public string AuthorName { get; internal set; }
 
-        private LeagueMember author;
-        public LeagueMember Author { get => author; internal set => SetValue(ref author, value); }
-        IAdmin IReviewInfo.Author => Author;
+        public UserModel Author { get; internal set; }
 
         private int onLap;
         public int OnLap { get => onLap; set => SetValue(ref onLap, value); }
@@ -34,5 +33,13 @@ namespace iRLeagueManager.Models.Reviews
         string IHierarchicalModel.Description => "L" + OnLap.ToString() + " - C" + Corner.ToString();
 
         IEnumerable<object> IHierarchicalModel.Children => new object[0];
+
+        public IncidentReviewInfo() { }
+
+        public IncidentReviewInfo(UserModel author)
+        {
+            Author = author;
+            AuthorName = author.UserName;
+        }
     }
 }

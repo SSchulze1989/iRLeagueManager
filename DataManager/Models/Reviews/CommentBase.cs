@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using iRLeagueManager.Models.Members;
 using System.Collections.ObjectModel;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.Models.Reviews
 {
@@ -17,13 +18,13 @@ namespace iRLeagueManager.Models.Reviews
         private CommentInfo replyTo;
         public CommentInfo ReplyTo { get => replyTo; internal set => SetValue(ref replyTo, value); }
 
-        private DateTime date;
+        private DateTime date = DateTime.Now;
         public DateTime Date { get => date; internal set => SetValue(ref date, value); }
 
         //private LeagueMember author;
         //public LeagueMember Author { get => author; internal set => SetValue(ref author, value); }
-        private UserModel author;
-        public UserModel Author { get => author; internal set => SetValue(ref author, value); }
+        //private UserModel author;
+        //public UserModel Author { get => author; internal set => SetValue(ref author, value); }
 
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }

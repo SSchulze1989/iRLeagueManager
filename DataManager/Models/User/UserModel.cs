@@ -7,16 +7,16 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
 
 
-namespace iRLeagueManager.Models
+namespace iRLeagueManager.Models.User
 {
-    public class UserModel : ModelBase, IAdmin
+    public class UserModel : VersionModel, IAdmin, ICacheableModel
     {
-        public long? UserId { get; internal set; }
+        public string UserId { get; internal set; }
 
-        public override long[] ModelId => new long[] { UserId.GetValueOrDefault() };
+        public object[] ModelId => new object[] { UserId };
 
         private string userName;
-        public string UserName { get => userName; set => SetValue(ref userName, value); }
+        public string UserName { get => userName; internal set => SetValue(ref userName, value); }
 
         private long? memberId;
         public long? MemberId { get => memberId; set => SetValue(ref memberId, value); }
@@ -56,14 +56,38 @@ namespace iRLeagueManager.Models
         //public string FullName { get => Firstname + " " + Lastname;  }
         public string FullName => UserName;
 
-        public UserModel(long userId)
+        public UserModel(string userId)
         {
             UserId = userId;
         }
 
+        public UserModel(string userId, string userName) : this(userId)
+        {
+            UserName = userName;
+        }
+
         public static UserModel GetAnonymous()
         {
-            return new UserModel(0) { UserName = "AnonymousUser", AdminRights = AdminRights.Member, Firstname = "Anonymous", Lastname = "User" };
+            return new UserModel("") { UserName = "AnonymousUser", AdminRights = AdminRights.Member, Firstname = "Anonymous", Lastname = "User" };
+        }
+
+        public bool CompareIdentity(ICacheableModel comp)
+        {
+            if (comp is UserModel user)
+            {
+                return user.UserId == UserId;
+            }
+            return false;
+        }
+
+        public bool IsBaseType()
+        {
+            return false;
+        }
+
+        public Type GetBaseType()
+        {
+            return typeof(VersionModel);
         }
     }
 }

@@ -11,6 +11,8 @@
              d:DesignHeight="600" d:DesignWidth="500" Background="White">
     <UserControl.Resources>
         <vmodel:MemberListViewModel x:Key="MemberList"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
     </UserControl.Resources>
     
     <UserControl.DataContext>

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.Data
 {
@@ -14,6 +15,8 @@ namespace iRLeagueManager.Data
         UserModel CurrentUser { get; }
         bool IsAuthenticated { get; }
         Task<bool> UserLoginAsync(string userName, string password);
+        UserModel GetUserModel(string userId);
+        Task<UserModel> GetUserModelAsync(string userId);
         void UserLogougt();
     }
 }

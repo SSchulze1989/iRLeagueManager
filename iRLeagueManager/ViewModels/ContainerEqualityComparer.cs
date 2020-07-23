@@ -16,7 +16,7 @@ namespace iRLeagueManager.ViewModels
             bool isEqual = true;
             //EqualityCheckPropertyAttributes
 
-            if (x is ModelBase xModel && y is ModelBase yModel)
+            if (x is MappableModel xModel && y is MappableModel yModel)
             {
                 return xModel.ModelId.SequenceEqual(yModel.ModelId);
             }

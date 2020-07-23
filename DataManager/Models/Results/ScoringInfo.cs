@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ScoringInfo : ModelBase
+    public class ScoringInfo : MappableModel
     {
         public long? ScoringId { get; internal set; }
 

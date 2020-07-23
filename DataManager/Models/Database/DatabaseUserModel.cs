@@ -9,7 +9,7 @@ using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.Models.Database
 {
-    public class DatabaseUserModel : ModelBase, IAdminData, IAdmin
+    public class DatabaseUserModel : MappableModel, IAdminData, IAdmin
     {
         private int userId;
         public int UserId { get => userId; internal set => SetValue(ref userId, value); }

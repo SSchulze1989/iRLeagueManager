@@ -10,7 +10,7 @@ using iRLeagueManager.Attributes;
 
 namespace iRLeagueManager.Models
 {
-    public class SeasonInfo : ModelBase, ISeasonInfo, INotifyPropertyChanged
+    public class SeasonInfo : MappableModel, ISeasonInfo, INotifyPropertyChanged
     {
         private long? seasonId;
         [EqualityCheckProperty]

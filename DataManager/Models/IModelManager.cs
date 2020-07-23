@@ -23,5 +23,5 @@ namespace iRLeagueManager.Models
         Task<IEnumerable<T>> AddModelsAsync<T>(params T[] models) where T : TModel;
     }
 
-    public interface IModelManager : IModelManager<ModelBase, long> { }
+    public interface IModelManager : IModelManager<MappableModel, long> { }
 }

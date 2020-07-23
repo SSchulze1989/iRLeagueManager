@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Enums;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class UserViewModel : LeagueContainerModel<UserModel>
+    public class UserViewModel : ContainerModelBase<UserModel>
     {
-        public long UserId => (Model?.UserId).GetValueOrDefault();
+        internal UserModel Model => Source;
+        public string UserId => (Model?.UserId);
         public string UserName => Model?.UserName;
 
         public long? MemberId { get => Model?.MemberId; set => Model.MemberId = value; }
@@ -29,6 +31,9 @@ namespace iRLeagueManager.ViewModels
         //public string FullName => Firstname + " " + Lastname;
         public string FullName => UserName;
 
-        protected override UserModel Template => UserModel.GetAnonymous();
+        public UserViewModel()
+        {
+
+        }
     }
 }

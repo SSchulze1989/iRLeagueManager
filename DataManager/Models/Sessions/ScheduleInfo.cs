@@ -8,7 +8,7 @@ using iRLeagueManager.Attributes;
 
 namespace iRLeagueManager.Models.Sessions
 {
-    public class ScheduleInfo : ModelBase, IScheduleInfo
+    public class ScheduleInfo : MappableModel, IScheduleInfo
     {
         [EqualityCheckProperty]
         public long? ScheduleId { get; internal set; }

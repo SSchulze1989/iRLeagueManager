@@ -8,7 +8,7 @@ using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.Models
 {
-    public class AdminModel : ModelBase
+    public class AdminModel : MappableModel
     {
         public long AdminId { get; }
 

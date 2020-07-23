@@ -12,25 +12,25 @@ namespace iRLeagueManager
     {
         private readonly Type modelType;
 
-        private readonly Func<long[], Task<ModelBase>> getFuncAsync;
+        private readonly Func<object[], Task<ICacheableModel>> getFuncAsync;
 
-        private readonly Func<ModelBase, Task<ModelBase>> updateFuncAsync;
+        private readonly Func<ICacheableModel, Task<ICacheableModel>> updateFuncAsync;
 
         //private readonly Action<ModelBase> saveFunc;
 
-        public ModelRegister(Type type, Func<long[], Task<ModelBase>> getFunc, Func<ModelBase, Task<ModelBase>> updateFunc)
+        public ModelRegister(Type type, Func<object[], Task<ICacheableModel>> getFunc, Func<ICacheableModel, Task<ICacheableModel>> updateFunc)
         {
             modelType = type;
             this.getFuncAsync = getFunc;
             this.updateFuncAsync = updateFunc;
         }
 
-        public async Task<ModelBase> GetModelAsync(long[] modelId)
+        public async Task<ICacheableModel> GetModelAsync(object[] modelId)
         {
             return await getFuncAsync(modelId);
         }
 
-        public async Task<ModelBase> UpdateModelAsync(ModelBase model)
+        public async Task<ICacheableModel> UpdateModelAsync(ICacheableModel model)
         {
             return await updateFuncAsync(model);
         }

@@ -9,6 +9,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Background="White" FontSize="14">
 	<UserControl.Resources>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
 		<Path x:Key="PencilPlusOutline" x:Shared="False"
               Data="M14.1,9L15,9.9L5.9,19H5V18.1L14.1,9M17.7,3C17.5,3 17.2,3.1 17,3.3L15.2,5.1L18.9,8.9L20.7,7C21.1,6.6 21.1,6 20.7,5.6L18.4,3.3C18.2,3.1 17.9,3 17.7,3M14.1,6.2L3,17.2V21H6.8L17.8,9.9L14.1,6.2M7,2V5H10V7H7V10H5V7H2V5H5V2H7Z"
               Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"/>
@@ -377,7 +379,8 @@
 
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Overview" Margin="5,2"/>
@@ -514,7 +517,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>-->
-					<TreeView Grid.Row="2" Grid.Column="1" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
+					<TreeView Grid.Row="1" Grid.Column="1" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
                               DataContext="{Binding SelectedReview}"
 							  HorizontalContentAlignment="Stretch" Margin="5"
                               ItemsSource="{Binding Comments}">
@@ -539,7 +542,7 @@
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding AuthorName}" FontWeight="Bold" Margin="4,0"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding Author.UserName}" FontWeight="Bold" Margin="4,0"/>
                                         <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,0"/>
                                     </Grid>
                                     <Grid Grid.Row="1">
@@ -622,7 +625,8 @@
 							</DataTemplate>
 						</TreeView.Resources>
 					</TreeView>
-				</Grid>
+                    <Button Grid.Column="1" Grid.Row="2" Content="Add Comment" Click="CommentAddButton_Click"/>
+                </Grid>
 			</Grid>
 		</DockPanel>
 	</Grid>

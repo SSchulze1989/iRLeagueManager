@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 using iRLeagueManager.Data;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -18,6 +19,8 @@ namespace iRLeagueManager.ViewModels
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
+
+        public UserModel CurrentUser => LeagueContext?.UserManager?.CurrentUser;
 
         private bool isLoading = false;
         public bool IsLoading { get => isLoading; protected set => SetValue(ref isLoading, value); }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iRLeagueManager.Models.User;
+using iRLeagueManager.LeagueDBServiceRef;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,9 +15,22 @@ namespace iRLeagueManager.Data
         public IDatabaseStatusService DatabaseStatusService { get; set; }
         public Uri BaseUri { get; }
 
+        private ICredentials userCredentials;
+
         public UserDatabaseClient(Uri baseUri)
         {
             BaseUri = baseUri;
+            userCredentials = new NetworkCredential();
+        }
+
+        public UserDatabaseClient(Uri baseUri, ICredentials credentials) : this(baseUri)
+        {
+            userCredentials = credentials;
+        }
+
+        internal void SetCredentials(ICredentials credentials)
+        {
+            userCredentials = credentials;
         }
 
         public async Task<NetworkCredential> AuthenticateUserAsync(string userName, string password)
@@ -31,6 +46,23 @@ namespace iRLeagueManager.Data
                 {
                     var result = await request.Content.ReadAsAsync<bool>();
                     return credentials;
+                }
+            }
+            return null;
+        }
+
+        public async Task<UserDTO> GetUserAsync(string UserId)
+        {
+            var requestString = string.Format(BaseUri.AbsoluteUri + "/User?id=" + UserId);
+
+            using (var client = new HttpClient(new HttpClientHandler() { Credentials = userCredentials }))
+            {
+                var request = await DatabaseStatusService.StartRequestWhenReady(async () => await client.GetAsync(requestString), Enums.UpdateKind.Loading);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    var result = await request.Content.ReadAsAsync<UserDTO>();
+                    return result;
                 }
             }
             return null;

@@ -110,5 +110,28 @@ namespace iRLeagueManager.ViewModels
             }
             this.countAcceptedVotes = acceptedVotes;
         }
+
+        public async Task<ReviewCommentModel> AddCommentAsync(ReviewCommentModel comment)
+        {
+            if (Model == null || comment == null)
+                return null;
+
+            try
+            {
+                IsLoading = true;
+                comment = await LeagueContext.AddModelAsync(comment);
+                Model.Comments.Add(comment);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+
+            return comment;
+        }
     }
 }

@@ -11,7 +11,7 @@ using iRLeagueManager.Locations;
 
 namespace iRLeagueManager.Models.Sessions
 {
-    public class SessionInfo : ModelBase, ISessionInfo, INotifyPropertyChanged, IHierarchicalModel
+    public class SessionInfo : MappableModel, ISessionInfo, INotifyPropertyChanged, IHierarchicalModel
     {
         [EqualityCheckProperty]
         public long? SessionId { get; internal set; }

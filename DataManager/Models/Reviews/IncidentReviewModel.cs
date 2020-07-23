@@ -13,11 +13,12 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using System.Collections.ObjectModel;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.Models.Reviews
 {
     [Serializable]
-    public class IncidentReviewModel : IncidentReviewInfo, IReview, IHierarchicalModel
+    public class IncidentReviewModel : IncidentReviewInfo, IHierarchicalModel
     {
         //private ResultModel result;
         //public ResultModel Result { get => result; internal set { result = value; OnPropertyChanged(); } }
@@ -43,7 +44,7 @@ namespace iRLeagueManager.Models.Reviews
 
         private ObservableCollection<ReviewCommentModel> comments;
         public ObservableCollection<ReviewCommentModel> Comments { get => comments; set => SetNotifyCollection(ref comments, value); }
-        IEnumerable<IReviewComment> IReview.Comments => Comments;
+        //IEnumerable<IReviewComment> IReview.Comments => Comments;
         //ReadOnlyObservableCollection<IReviewComment> IReview.Comments => new ReadOnlyObservableCollection<IReviewComment>(Comments);
         private ObservableCollection<ReviewVoteModel> acceptedReviewVotes;
         public ObservableCollection<ReviewVoteModel> AcceptedReviewVotes { get => acceptedReviewVotes; set => SetNotifyCollection(ref acceptedReviewVotes, value); }
@@ -63,9 +64,12 @@ namespace iRLeagueManager.Models.Reviews
             Comments = new ObservableCollection<ReviewCommentModel>();
         }
 
-        public IncidentReviewModel(string authorName, SessionInfo session) : this()
+        public IncidentReviewModel(UserModel author, SessionInfo session) : base(author)
         {
-            AuthorName = authorName;
+            ReviewId = null;
+            InvolvedMembers = new ObservableCollection<LeagueMember>();
+            Comments = new ObservableCollection<ReviewCommentModel>();
+
             Session = session;
         }
 
@@ -79,10 +83,10 @@ namespace iRLeagueManager.Models.Reviews
             ReviewId = reviewId;
         }
 
-        public IncidentReviewModel(LeagueMember author) : this()
-        {
-            Author = author;
-        }
+        //public IncidentReviewModel(LeagueMember author) : this()
+        //{
+        //    Author = author;
+        //}
 
         internal override void InitializeModel()
         {

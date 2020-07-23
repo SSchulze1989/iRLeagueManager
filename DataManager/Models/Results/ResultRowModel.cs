@@ -15,7 +15,7 @@ using iRLeagueManager.Attributes;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ResultRowModel : ModelBase, IResultRow
+    public class ResultRowModel : MappableModel, IResultRow
     {
         [EqualityCheckProperty]
         public long? ResultRowId { get; internal set; }

@@ -63,6 +63,33 @@ namespace iRLeagueManager.Views
             }
         }
 
+        private async void CommentAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                var editWindow = new ModalOkCancelWindow();
+                editWindow.Width = 500;
+                editWindow.Height = 600;
+                var content = new ReviewCommentEditControl();
+
+                editWindow.Title = "New Comment";
+                if (content.DataContext is ReviewCommentViewModel editVM && ReviewsPageViewModel.SelectedReview != null)
+                {
+                    var reviewVM = ReviewsPageViewModel.SelectedReview;
+                    editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
+                    //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
+                    editVM.Review = ReviewsPageViewModel.SelectedReview;
+                    editVM.Refresh(null);
+
+                    editWindow.ModalContent.Content = content;
+                    if (editWindow.ShowDialog() == true)
+                    {
+                        await reviewVM.AddCommentAsync(editVM.Model);
+                    }
+                }
+            }
+        }
+
         private void CommentEditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)

@@ -10,7 +10,7 @@ using iRLeagueManager.Attributes;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ResultInfo : ModelBase
+    public class ResultInfo : MappableModel
     {
         [EqualityCheckProperty]
         public long? ResultId { get; internal set; }

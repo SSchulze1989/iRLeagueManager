@@ -12,7 +12,7 @@ using iRLeagueManager.Data;
 
 namespace iRLeagueManager.Models.Database
 {
-    public class DatabaseStatusModel : ModelBase, IDatabaseStatus
+    public class DatabaseStatusModel : MappableModel, IDatabaseStatus
     {
         private ConnectionStatusEnum databaseConnectionStatus;
         public ConnectionStatusEnum ConnectionStatus { get => databaseConnectionStatus; }

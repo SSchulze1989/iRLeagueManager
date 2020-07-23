@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class AddPenaltyModel : ModelBase
+    public class AddPenaltyModel : MappableModel
     {
         public long? ScoredResultRowId { get; internal set; }
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };

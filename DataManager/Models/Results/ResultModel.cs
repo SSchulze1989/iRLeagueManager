@@ -13,7 +13,7 @@ using iRLeagueManager.Models.Reviews;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ResultModel : ResultInfo, IResult, IHierarchicalModel
+    public class ResultModel : ResultInfo, IHierarchicalModel
     {
         //private SessionModel session;
         //public SessionModel Session { get => session; set => SetValue(ref session, value);  }
@@ -28,11 +28,11 @@ namespace iRLeagueManager.Models.Results
         /// </summary>
         private ObservableCollection<ResultRowModel> rawResults;
         public ObservableCollection<ResultRowModel> RawResults { get => rawResults; set => SetNotifyCollection(ref rawResults, value); }
-        IEnumerable<IResultRow> IResult.RawResults => RawResults;
+        //IEnumerable<IResultRow> IResult.RawResults => RawResults;
 
         private ObservableCollection<IncidentReviewInfo> reviews;
         public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; set => SetNotifyCollection(ref reviews, value); }
-        IEnumerable<IReviewInfo> IResult.Reviews => Reviews;
+        //IEnumerable<IReviewInfo> IResult.Reviews => Reviews;
 
         //IEnumerable<IResultRow> IResult.FinalResults => RawResults;
 

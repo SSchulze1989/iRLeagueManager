@@ -11,7 +11,7 @@ using iRLeagueManager;
 
 namespace iRLeagueManager.ViewModels
 {
-    public abstract class LeagueContainerModel<TSource> : ContainerModelBase<TSource> where TSource : ModelBase, INotifyPropertyChanged
+    public abstract class LeagueContainerModel<TSource> : ContainerModelBase<TSource> where TSource : MappableModel, INotifyPropertyChanged
     { 
         public virtual TSource Model { get => Source; set => SetSource(value); }
 

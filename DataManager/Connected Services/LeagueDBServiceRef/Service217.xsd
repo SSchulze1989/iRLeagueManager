@@ -7,10 +7,10 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:MappableDTO">
         <xs:sequence>
-          <xs:element minOccurs="0" name="CreatedByUserId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="CreatedByUserId" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="CreatedByUserName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="CreatedOn" nillable="true" type="xs:dateTime" />
-          <xs:element minOccurs="0" name="LastModifiedByUserId" nillable="true" type="xs:long" />
+          <xs:element minOccurs="0" name="LastModifiedByUserId" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="LastModifiedByUserName" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="LastModifiedOn" nillable="true" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Version" type="xs:int" />

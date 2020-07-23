@@ -43,6 +43,8 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.StandingsDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.StandingsRowDataDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.AddPenaltyDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.UserDTO))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.UserProfileDTO))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.LeagueUserDTO))]
     public partial class MappableDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -407,7 +409,7 @@ namespace iRLeagueManager.LeagueDBServiceRef {
     public partial class VersionInfoDTO : iRLeagueManager.LeagueDBServiceRef.MappableDTO {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<long> CreatedByUserIdField;
+        private string CreatedByUserIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string CreatedByUserNameField;
@@ -416,7 +418,7 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private System.Nullable<System.DateTime> CreatedOnField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<long> LastModifiedByUserIdField;
+        private string LastModifiedByUserIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LastModifiedByUserNameField;
@@ -428,12 +430,12 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private int VersionField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<long> CreatedByUserId {
+        public string CreatedByUserId {
             get {
                 return this.CreatedByUserIdField;
             }
             set {
-                if ((this.CreatedByUserIdField.Equals(value) != true)) {
+                if ((object.ReferenceEquals(this.CreatedByUserIdField, value) != true)) {
                     this.CreatedByUserIdField = value;
                     this.RaisePropertyChanged("CreatedByUserId");
                 }
@@ -467,12 +469,12 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<long> LastModifiedByUserId {
+        public string LastModifiedByUserId {
             get {
                 return this.LastModifiedByUserIdField;
             }
             set {
-                if ((this.LastModifiedByUserIdField.Equals(value) != true)) {
+                if ((object.ReferenceEquals(this.LastModifiedByUserIdField, value) != true)) {
                     this.LastModifiedByUserIdField = value;
                     this.RaisePropertyChanged("LastModifiedByUserId");
                 }
@@ -748,6 +750,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private string AuthorNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AuthorUserIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<long> ReviewIdField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
@@ -759,6 +764,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.AuthorNameField, value) != true)) {
                     this.AuthorNameField = value;
                     this.RaisePropertyChanged("AuthorName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AuthorUserId {
+            get {
+                return this.AuthorUserIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AuthorUserIdField, value) != true)) {
+                    this.AuthorUserIdField = value;
+                    this.RaisePropertyChanged("AuthorUserId");
                 }
             }
         }
@@ -995,6 +1013,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         private string AuthorNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AuthorUserIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<long> CommentIdField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
@@ -1006,6 +1027,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.AuthorNameField, value) != true)) {
                     this.AuthorNameField = value;
                     this.RaisePropertyChanged("AuthorName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AuthorUserId {
+            get {
+                return this.AuthorUserIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AuthorUserIdField, value) != true)) {
+                    this.AuthorUserIdField = value;
+                    this.RaisePropertyChanged("AuthorUserId");
                 }
             }
         }
@@ -1105,6 +1139,9 @@ namespace iRLeagueManager.LeagueDBServiceRef {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private iRLeagueManager.LeagueDBServiceRef.ReviewVoteDataDTO[] CommentReviewVotesField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO ReviewField;
+        
         [System.Runtime.Serialization.DataMemberAttribute()]
         public iRLeagueManager.LeagueDBServiceRef.ReviewVoteDataDTO[] CommentReviewVotes {
             get {
@@ -1114,6 +1151,19 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((object.ReferenceEquals(this.CommentReviewVotesField, value) != true)) {
                     this.CommentReviewVotesField = value;
                     this.RaisePropertyChanged("CommentReviewVotes");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public iRLeagueManager.LeagueDBServiceRef.IncidentReviewInfoDTO Review {
+            get {
+                return this.ReviewField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReviewField, value) != true)) {
+                    this.ReviewField = value;
+                    this.RaisePropertyChanged("Review");
                 }
             }
         }
@@ -2807,6 +2857,181 @@ namespace iRLeagueManager.LeagueDBServiceRef {
                 if ((this.ScoredResultRowIdField.Equals(value) != true)) {
                     this.ScoredResultRowIdField = value;
                     this.RaisePropertyChanged("ScoredResultRowId");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.User")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(iRLeagueManager.LeagueDBServiceRef.UserProfileDTO))]
+    public partial class UserDTO : iRLeagueManager.LeagueDBServiceRef.MappableDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FirstnameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LastnameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<long> MemberIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UserNameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Firstname {
+            get {
+                return this.FirstnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FirstnameField, value) != true)) {
+                    this.FirstnameField = value;
+                    this.RaisePropertyChanged("Firstname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Lastname {
+            get {
+                return this.LastnameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LastnameField, value) != true)) {
+                    this.LastnameField = value;
+                    this.RaisePropertyChanged("Lastname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<long> MemberId {
+            get {
+                return this.MemberIdField;
+            }
+            set {
+                if ((this.MemberIdField.Equals(value) != true)) {
+                    this.MemberIdField = value;
+                    this.RaisePropertyChanged("MemberId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserId {
+            get {
+                return this.UserIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserIdField, value) != true)) {
+                    this.UserIdField = value;
+                    this.RaisePropertyChanged("UserId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UserName {
+            get {
+                return this.UserNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserNameField, value) != true)) {
+                    this.UserNameField = value;
+                    this.RaisePropertyChanged("UserName");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserProfileDTO", Namespace="http://schemas.datacontract.org/2004/07/iRLeagueDatabase.DataTransfer.User")]
+    [System.SerializableAttribute()]
+    public partial class UserProfileDTO : iRLeagueManager.LeagueDBServiceRef.UserDTO {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DanLisaIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DiscordIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string EmailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IRacingIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ProfileTextField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DanLisaId {
+            get {
+                return this.DanLisaIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DanLisaIdField, value) != true)) {
+                    this.DanLisaIdField = value;
+                    this.RaisePropertyChanged("DanLisaId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DiscordId {
+            get {
+                return this.DiscordIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DiscordIdField, value) != true)) {
+                    this.DiscordIdField = value;
+                    this.RaisePropertyChanged("DiscordId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Email {
+            get {
+                return this.EmailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
+                    this.EmailField = value;
+                    this.RaisePropertyChanged("Email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string IRacingId {
+            get {
+                return this.IRacingIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IRacingIdField, value) != true)) {
+                    this.IRacingIdField = value;
+                    this.RaisePropertyChanged("IRacingId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ProfileText {
+            get {
+                return this.ProfileTextField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProfileTextField, value) != true)) {
+                    this.ProfileTextField = value;
+                    this.RaisePropertyChanged("ProfileText");
                 }
             }
         }

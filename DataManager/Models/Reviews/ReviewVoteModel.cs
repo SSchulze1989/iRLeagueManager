@@ -9,7 +9,7 @@ using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.Models.Reviews
 {
-    public class ReviewVoteModel : ModelBase
+    public class ReviewVoteModel : MappableModel
     {
         public long ReviewVoteId { get; internal set; }
         public override long[] ModelId => new long[] { ReviewVoteId };

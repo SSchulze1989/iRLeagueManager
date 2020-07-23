@@ -62,7 +62,7 @@ namespace iRLeagueManager.ViewModels
             CurrentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>();
             AddReviewCmd = new RelayCommand(async o => await AddReviewAsync(), o => SessionSelect?.SelectedSession != null);
             RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(), o => SelectedReview != null);
-            RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => true);
+            RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => SelectedReview != null);
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -154,7 +154,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var newReview = new IncidentReviewModel(LeagueContext.UserManager.CurrentUser.UserName, SessionSelect.SelectedSession.Model);
+                var newReview = new IncidentReviewModel(LeagueContext.UserManager.CurrentUser, SessionSelect.SelectedSession.Model);
                 newReview = await LeagueContext.AddModelAsync(newReview);
                 SessionSelect.SelectedSession.Model.Reviews.Add(newReview);
                 await LeagueContext.UpdateModelAsync(SessionSelect.SelectedSession.Model);

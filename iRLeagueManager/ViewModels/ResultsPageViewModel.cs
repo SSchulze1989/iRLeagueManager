@@ -178,6 +178,7 @@ namespace iRLeagueManager.ViewModels
                 //var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
                 //CurrentResults.UpdateSource(scoredResultModels);
                 //SelectedResult = CurrentResults.FirstOrDefault();
+                OnPropertyChanged(null);
             }
             catch (Exception e)
             {

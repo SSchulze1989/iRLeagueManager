@@ -43,10 +43,10 @@ namespace iRLeagueManager.Models
             modelBuffer.RemoveAll(x => x.Key < DateTime.Now.Subtract(TimeSpan.FromMinutes(bufferKeepMinutes)));
         }
 
-        public T GetModel<T>(params long[] modelId) where T : ModelBase
+        public T GetModel<T>(params object[] modelId) where T : class, ICacheableModel
         {
             CleanReferences();
-            var identifier = new ModelIdentifier(typeof(T), modelId);
+            var identifier = new ModelIdentifier(typeof(T), modelId.Select(x => (object)x).ToArray());
             if (referenceList.ContainsKey(identifier))
             {
                 T model = referenceList[identifier].Target as T;
@@ -55,7 +55,7 @@ namespace iRLeagueManager.Models
             return null;
         }
 
-        public T PutOrGetModel<T>(T model) where T : ModelBase
+        public T PutOrGetModel<T>(T model) where T : class, ICacheableModel
         {
             CleanReferences();
             var getModel = GetModel<T>(model.ModelId);
@@ -71,7 +71,7 @@ namespace iRLeagueManager.Models
             }
         }
 
-        public void PutModel<T>(T model) where T : ModelBase
+        public void PutModel<T>(T model) where T : class, ICacheableModel
         {
             CleanReferences();
             var identfier = new ModelIdentifier(model);
@@ -86,7 +86,7 @@ namespace iRLeagueManager.Models
             }
         }
 
-        public void PutModel<T>(ref T model) where T : ModelBase
+        public void PutModel<T>(ref T model) where T : class, ICacheableModel
         {
             CleanReferences();
             var identfier = new ModelIdentifier(model);
@@ -101,12 +101,12 @@ namespace iRLeagueManager.Models
             }
         }
 
-        public void RegisterModelType<T>(Func<long[], Task<T>> getFunc, Func<T, Task<T>> updateFunc) where T : ModelBase
+        public void RegisterModelType<T>(Func<object[], Task<T>> getFunc, Func<T, Task<T>> updateFunc) where T : class, ICacheableModel
         {
-            RegisterModelType(typeof(T), async x => await getFunc(x) as ModelBase, async x => await updateFunc(x as T) as ModelBase);
+            RegisterModelType(typeof(T), async x => await getFunc(x) as ICacheableModel, async x => await updateFunc(x as T) as ICacheableModel);
         }
 
-        public void RegisterModelType(Type type, Func<long[], Task<ModelBase>> getFuncAsync, Func<ModelBase, Task<ModelBase>> updateFuncAsync)
+        public void RegisterModelType(Type type, Func<object[], Task<ICacheableModel>> getFuncAsync, Func<ICacheableModel, Task<ICacheableModel>> updateFuncAsync)
         {
             if (registeredModelTypes.ContainsKey(type))
             {

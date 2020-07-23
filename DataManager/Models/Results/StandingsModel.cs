@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class StandingsModel : ModelBase
+    public class StandingsModel : MappableModel
     {
         private ScoringInfo scoring;
         public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }

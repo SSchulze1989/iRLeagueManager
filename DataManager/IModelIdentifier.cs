@@ -11,6 +11,6 @@ namespace iRLeagueManager
     public interface IModelIdentifier : IEquatable<IModelIdentifier>
     {
         Type ModelType { get; }
-        long[] ModelId { get; }
+        object[] ModelId { get; }
     }
 }

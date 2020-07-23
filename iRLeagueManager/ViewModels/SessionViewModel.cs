@@ -21,6 +21,7 @@ using iRLeagueManager.Models.Members;
 using System.Runtime.CompilerServices;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.ViewModels
 {

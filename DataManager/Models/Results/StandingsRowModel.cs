@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class StandingsRowModel : ModelBase
+    public class StandingsRowModel : MappableModel
     {
         private ScoringInfo scoring;
         public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }

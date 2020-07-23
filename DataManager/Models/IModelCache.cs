@@ -9,11 +9,11 @@ namespace iRLeagueManager.Models
     public interface IModelCache<TModel, TKey>
     {
         void CleanReferences();
-        T GetModel<T>(params TKey[] modelId) where T : TModel;
-        T PutOrGetModel<T>(T model) where T : TModel;
-        void PutModel<T>(T model) where T : TModel;
-        void PutModel<T>(ref T model) where T : TModel;
+        T GetModel<T>(params TKey[] modelId) where T : class, TModel;
+        T PutOrGetModel<T>(T model) where T : class, TModel;
+        void PutModel<T>(T model) where T : class, TModel;
+        void PutModel<T>(ref T model) where T : class, TModel;
     }
 
-    public interface IModelCache : IModelCache<ModelBase, long> { }
+    public interface IModelCache : IModelCache<ICacheableModel, object> { }
 }

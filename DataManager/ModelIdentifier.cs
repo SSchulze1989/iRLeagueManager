@@ -10,15 +10,15 @@ namespace iRLeagueManager
     class ModelIdentifier : IModelIdentifier, IEquatable<IModelIdentifier>
     {
         public Type ModelType { get; }
-        public long[] ModelId { get; }
+        public object[] ModelId { get; }
 
-        public ModelIdentifier(ModelBase model)
+        public ModelIdentifier(ICacheableModel model)
         {
             ModelType = model.GetType();
             ModelId = model.ModelId;
         }
 
-        public ModelIdentifier(Type type, long[] id)
+        public ModelIdentifier(Type type, object[] id)
         {
             ModelType = type;
             ModelId = id;
@@ -52,12 +52,12 @@ namespace iRLeagueManager
             //hashCode = hashCode * -1521134295 + EqualityComparer<long[]>.Default.GetHashCode(modelId);
             foreach(var id in ModelId)
             {
-                hashCode = hashCode * -1521134295 + EqualityComparer<long>.Default.GetHashCode(id);
+                hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(id);
             }
             return hashCode;
         }
 
-        public int GetHashCode(ModelBase obj)
+        public int GetHashCode(ICacheableModel obj)
         {
             throw new NotImplementedException();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 using iRLeagueManager.Models;
-using iRLeagueManager.User;
+//using iRLeagueManager.User;
 using iRLeagueManager.Interfaces;
 using System.Runtime.CompilerServices;
 

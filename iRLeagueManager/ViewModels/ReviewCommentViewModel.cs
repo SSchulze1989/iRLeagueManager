@@ -4,6 +4,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.ViewModels.Collections;
+using iRLeagueManager.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,12 +43,12 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddVoteCmd { get; }
         public ICommand DeleteVoteCmd { get; }
 
-        protected override CommentBase Template => new ReviewCommentModel(new UserModel(0) { UserName = "TestAuthor" })
+        protected override CommentBase Template => new ReviewCommentModel(new UserModel("", "TestAuthor"))
         {
             Text = "Test comment, Kat0 please!\nWith line break, yeah!",
             Replies = new ObservableCollection<CommentBase>(new List<CommentBase>
             {
-                new CommentBase(new UserModel(0) { UserName = "MemberTwo" })
+                new CommentBase(new UserModel("", "MemberTwo"))
                 {
                     Text = "This is a reply!"
                 }

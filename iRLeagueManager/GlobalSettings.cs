@@ -7,7 +7,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 
 using iRLeagueManager.Data;
-using iRLeagueManager.User;
+//using iRLeagueManager.User;
 using iRLeagueManager.Logging;
 using iRLeagueManager.Locations;
 using iRLeagueManager.Models;
@@ -19,7 +19,7 @@ namespace iRLeagueManager
         private const bool debugErros = false;
         public static LeagueContext LeagueContext { get; private set; }
         public static ModelCache ModelCache { get; private set; }
-        public static UserContext UserContext { get; private set; }
+        //public static UserContext UserContext { get; private set; }
 
         public static LocationCollection Locations { get; } = new LocationCollection();
 
@@ -34,10 +34,10 @@ namespace iRLeagueManager
             //ModelManager = new ModelManager(LeagueContext);
         }
 
-        public static void SetGlobalUserContext(UserContext context)
-        {
-            UserContext = context;
-        }
+        //public static void SetGlobalUserContext(UserContext context)
+        //{
+        //    UserContext = context;
+        //}
 
         public static void LogError(Exception e)
         {
