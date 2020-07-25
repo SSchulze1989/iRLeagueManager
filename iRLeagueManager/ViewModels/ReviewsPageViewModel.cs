@@ -62,7 +62,7 @@ namespace iRLeagueManager.ViewModels
             CurrentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>();
             AddReviewCmd = new RelayCommand(async o => await AddReviewAsync(), o => SessionSelect?.SelectedSession != null);
             RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(), o => SelectedReview != null);
-            RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => SelectedReview != null);
+            //RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => SelectedReview != null);
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -205,6 +205,12 @@ namespace iRLeagueManager.ViewModels
                 await LoadReviews();
                 OnPropertyChanged(null);
             }
+        }
+
+        public async override void Refresh(string propertyName = "")
+        {
+            await Load(season);
+            base.Refresh(propertyName);
         }
     }
 }

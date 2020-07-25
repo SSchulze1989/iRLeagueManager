@@ -21,7 +21,7 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class UserLoginWindow : Window
     {
-        private LoginViewModel LoginVM => DataContext as LoginViewModel;
+        private LoginViewModel ViewModel => DataContext as LoginViewModel;
 
         public UserLoginWindow()
         {
@@ -31,14 +31,14 @@ namespace iRLeagueManager.Views
 
         private async void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (LoginVM == null)
+            if (ViewModel == null)
                 return;
 
             if (sender is Button button)
             {
                 //LoginVM.SubmitButtonCommand.Execute(null);
-                await LoginVM.SubmitAsync();
-                if (LoginVM.IsLoggedIn)
+                await ViewModel.SubmitAsync();
+                if (ViewModel.IsLoggedIn)
                 {
                     DialogResult = true;
                     Close();
@@ -64,6 +64,31 @@ namespace iRLeagueManager.Views
                 if (DataContext is IHasPassword hasPassword)
                 {
                     hasPassword.SetPassword(password);
+                }
+            }
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Hyperlink link && ViewModel != null)
+            {
+                var createWindow = new ModalOkCancelWindow();
+                createWindow.Height = 450;
+                createWindow.Width = 400;
+                createWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                createWindow.Title = "Register new User";
+                var content = new RegisterUserControl();
+
+                if (content.DataContext is CreateUserViewModel createUserVM)
+                {
+                    createWindow.ModalContent.Content = content;
+
+                    if (createWindow.ShowDialog() == true)
+                    {
+                        ViewModel.UserName = createUserVM.UserName;
+                        ViewModel.SetPassword(null);
+                        PasswordTextBox.Clear();
+                    }
                 }
             }
         }

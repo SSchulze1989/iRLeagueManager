@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iRLeagueManager.Data;
 using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.ViewModels
@@ -32,7 +33,7 @@ namespace iRLeagueManager.ViewModels
             confirmPassword = password;
         }
 
-        public async Task<bool> Submit()
+        public async Task<bool> SubmitAsync()
         {
             if (Model == null)
                 return false;
@@ -46,7 +47,16 @@ namespace iRLeagueManager.ViewModels
             }
             catch (Exception e)
             {
+                if (e is UserExistsException)
+                {
+                    StatusMsg = "Failed to Register\nUsername \"" + UserName + "\" is already in use.";
+                    IsLoading = false;
+                    return false;
+                }
+
                 GlobalSettings.LogError(e);
+
+                StatusMsg = "Failed to Register\n" + e.Message;
             }
             finally
             {
@@ -63,15 +73,56 @@ namespace iRLeagueManager.ViewModels
 
         public bool CheckPassword()
         {
-            if (password == null || confirmPassword == null)
+            if (password == null)
             {
-                PasswordStatus = "";
-                return false;
+                StatusMsg = "Password field empty. Please enter password.";
+            }
+            else if (password.Length < 6)
+            {
+                StatusMsg = "Password must contain at least 6 characters.";
+            }
+            else if (confirmPassword == null || confirmPassword == "")
+            {
+                StatusMsg = "Confirm password field empty. Please confirm password";
+            }
+            else if (password != confirmPassword)
+            {
+                StatusMsg = "Confirm password does not match.";
+            }
+            else
+            {
+                return true;
             }
 
-            if (password != confirmPassword)
+            return false;
+        }
+
+        public bool CanSubmit()
+        {
+            StatusMsg = "";
+
+            if (UserName == null || UserName == "")
             {
-                PasswordStatus = "Confirm password does not match.";
+                StatusMsg = "Username field empty. Please enter a valid username.";
+                return false;
+            }
+            else if (UserName.Contains(' '))
+            {
+                StatusMsg = "Username invalid. Username can not contain spaces.";
+                return false;
+            }
+            else if (Firstname == null || Firstname == "")
+            {
+                StatusMsg = "Firstname field empty. Please enter a valid name.";
+                return false;
+            }
+            else if (Lastname == null || Lastname == "")
+            {
+                StatusMsg = "Lastname field empty. Please enter a valid name.";
+                return false;
+            }
+            else if (CheckPassword() == false)
+            {
                 return false;
             }
 

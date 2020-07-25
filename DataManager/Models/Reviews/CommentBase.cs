@@ -11,12 +11,12 @@ using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.Models.Reviews
 {
-    public class CommentBase : CommentInfo, INotifyPropertyChanged
+    public class CommentModel : CommentInfo, INotifyPropertyChanged
     {
         //private SeasonModel season;
         //public virtual SeasonModel Season { get => season; internal set { season = value; OnPropertyChanged(); } }
         private CommentInfo replyTo;
-        public CommentInfo ReplyTo { get => replyTo; internal set => SetValue(ref replyTo, value); }
+        public CommentInfo ReplyTo { get => replyTo; set => SetValue(ref replyTo, value); }
 
         private DateTime date = DateTime.Now;
         public DateTime Date { get => date; internal set => SetValue(ref date, value); }
@@ -29,20 +29,20 @@ namespace iRLeagueManager.Models.Reviews
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }
 
-        private ObservableCollection<CommentBase> replies;
-        public ObservableCollection<CommentBase> Replies { get => replies; set => SetNotifyCollection(ref replies, value); }
+        private ObservableCollection<CommentModel> replies;
+        public ObservableCollection<CommentModel> Replies { get => replies; set => SetNotifyCollection(ref replies, value); }
 
-        public CommentBase() { }
+        public CommentModel() { }
 
-        public CommentBase(long commentId, string authorName) : base(commentId, authorName)
+        public CommentModel(long commentId, string authorName) : base(commentId, authorName)
         {
         }
 
-        public CommentBase(UserModel author) : base(author)
+        public CommentModel(UserModel author) : base(author)
         {
         }
 
-        public CommentBase(UserModel author, CommentInfo replyTo) : this(author)
+        public CommentModel(UserModel author, CommentInfo replyTo) : this(author)
         {
             ReplyTo = replyTo;
         }

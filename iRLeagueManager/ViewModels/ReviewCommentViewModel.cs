@@ -24,14 +24,14 @@ namespace iRLeagueManager.ViewModels
         private IncidentReviewViewModel review;
         public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
         
-        public ObservableModelCollection<CommentViewModel, CommentBase> replys;
-        public ObservableModelCollection<CommentViewModel, CommentBase> Replys
+        public ObservableModelCollection<CommentViewModel, CommentModel> replies;
+        public ObservableModelCollection<CommentViewModel, CommentModel> Replies
         {
             get
             {
-                if (replys.GetSource() != Model?.Replies)
-                    replys.UpdateSource(Model?.Replies);
-                return replys;
+                if (replies.GetSource() != Model?.Replies)
+                    replies.UpdateSource(Model?.Replies);
+                return replies;
             }
         }
         public ObservableCollection<ReviewVoteModel> Votes => Model?.CommentReviewVotes;
@@ -43,12 +43,12 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddVoteCmd { get; }
         public ICommand DeleteVoteCmd { get; }
 
-        protected override CommentBase Template => new ReviewCommentModel(new UserModel("", "TestAuthor"))
+        protected override CommentModel Template => new ReviewCommentModel(new UserModel("", "TestAuthor"))
         {
             Text = "Test comment, Kat0 please!\nWith line break, yeah!",
-            Replies = new ObservableCollection<CommentBase>(new List<CommentBase>
+            Replies = new ObservableCollection<CommentModel>(new List<CommentModel>
             {
-                new CommentBase(new UserModel("", "MemberTwo"))
+                new CommentModel(new UserModel("", "MemberTwo"))
                 {
                     Text = "This is a reply!"
                 }
@@ -62,7 +62,7 @@ namespace iRLeagueManager.ViewModels
         public ReviewCommentViewModel()
         {
             ReplyCmd = new RelayCommand(o => { }, o => false);
-            replys = new ObservableModelCollection<CommentViewModel, CommentBase>();
+            replies = new ObservableModelCollection<CommentViewModel, CommentModel>(x => x.ReplyTo = this);
             SetSource(Template);
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null && o is ReviewVoteModel);
@@ -124,7 +124,52 @@ namespace iRLeagueManager.ViewModels
                 Model.CommentReviewVotes.Remove(vote);
         }
 
-        public async Task<CommentBase> ReplyAsync(string text)
+        public async Task<CommentModel> AddCommentAsync(CommentModel comment)
+        {
+            if (Model == null || comment == null)
+                return null;
+
+            try
+            {
+                IsLoading = true;
+                comment.ReplyTo = Model;
+                comment = await LeagueContext.AddModelAsync(comment);
+                Model.Replies.Add(comment);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+
+            return comment;
+        }
+
+        public async Task DeleteCommentAsync(CommentModel comment)
+        {
+            if (Model == null || comment == null || Model.Replies.Contains(comment) == false)
+                return;
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.DeleteModelAsync<CommentModel>(comment.CommentId.GetValueOrDefault());
+                Model.Replies.Remove(comment);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<CommentModel> ReplyAsync(string text)
         {
             if (Model == null)
                 return null;
@@ -133,7 +178,7 @@ namespace iRLeagueManager.ViewModels
             if (author == null)
                 return null;
 
-            var newComment = new CommentBase(author, Model) { Text = text };
+            var newComment = new CommentModel(author, Model) { Text = text };
 
             try
             {

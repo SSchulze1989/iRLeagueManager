@@ -41,7 +41,7 @@ namespace iRLeagueManager.Views
             }
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Hyperlink link && ViewModel != null)
             {

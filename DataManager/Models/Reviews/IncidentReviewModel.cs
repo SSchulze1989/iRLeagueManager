@@ -61,6 +61,7 @@ namespace iRLeagueManager.Models.Reviews
         {
             ReviewId = null;
             InvolvedMembers = new ObservableCollection<LeagueMember>();
+            AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>();
             Comments = new ObservableCollection<ReviewCommentModel>();
         }
 
@@ -69,6 +70,7 @@ namespace iRLeagueManager.Models.Reviews
             ReviewId = null;
             InvolvedMembers = new ObservableCollection<LeagueMember>();
             Comments = new ObservableCollection<ReviewCommentModel>();
+            AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>();
 
             Session = session;
         }
@@ -118,6 +120,7 @@ namespace iRLeagueManager.Models.Reviews
                 Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.ToList());
                 AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewModel.AcceptedReviewVotes.ToList());
             }
+            OnPropertyChanged(null);
         }
 
         public override void CopyTo(ModelBase targetObject)
@@ -131,6 +134,7 @@ namespace iRLeagueManager.Models.Reviews
                 reviewModel.AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(AcceptedReviewVotes.ToList());
             }
         }
+
 
         //public ReviewComment AddComment(string text)
         //{

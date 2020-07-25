@@ -111,12 +111,12 @@
         </DockPanel>
         <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedResult.FinalResults}" AutoGenerateColumns="False" Height="Auto" AlternationCount="2" AlternatingRowBackground="#F0F0F0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Team" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True">
+                <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True" Width="5*"/>
+                <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" IsReadOnly="True" Width="5*"/>
+                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition}" IsReadOnly="True" Width="5*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="20*"/>
+                <DataGridTextColumn Header="Team" IsReadOnly="True" Width="15*"/>
+                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="10*">
                     <DataGridTextColumn.Binding>
                         <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
                             <Binding Path="FastestLapTime.Minutes"/>
@@ -125,7 +125,7 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True">
+                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="10*">
                     <DataGridTextColumn.Binding>
                         <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
                             <Binding Path="AvgLapTime.Minutes"/>
@@ -134,12 +134,23 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}"/>
-                <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Penalty" Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;0;0}}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}" IsReadOnly="True"/>
-                <DataGridTemplateColumn Header="Add Penalty">
+                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" Width="10*"/>
+                <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}" IsReadOnly="True" Width="6*"/>
+                <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints, StringFormat={}{0:-#;#;-}}" IsReadOnly="True" Width="7*"/>
+                <DataGridTextColumn Header="Penalty" Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;#;-}}" IsReadOnly="True" Width="6*">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PenaltyPoints}" Value="0">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}" IsReadOnly="True" Width="6*"/>
+                <DataGridTemplateColumn Header="Add Penalty" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -211,7 +222,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="{StaticResource delete}" Foreground="Black" Background="Transparent" BorderBrush="Transparent" Click="DeleteRowButton_Click" Tag="{Binding}"/>

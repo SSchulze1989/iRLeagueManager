@@ -24,14 +24,19 @@ namespace iRLeagueManager.Views
             InitializeComponent();
         }
 
-        private void OkButton_Click(object sender, RoutedEventArgs e)
+        private async void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Content is IModalContent modalContent)
+            if (ModalContent.Content is IModalContent modalContent)
             {
                 if (modalContent.CanSubmit())
                 {
-                    DialogResult = modalContent.Submit();
-                    Close();
+                    var result = await modalContent.SubmitAsync();
+
+                    if (result == true)
+                    {
+                        DialogResult = result;
+                        Close();
+                    }
                 }
             }
             else
@@ -43,7 +48,7 @@ namespace iRLeagueManager.Views
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Content is IModalContent modalContent)
+            if (ModalContent.Content is IModalContent modalContent)
             {
                 modalContent.Cancel();
             }

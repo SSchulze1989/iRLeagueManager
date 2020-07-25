@@ -23,7 +23,7 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class ReviewsControl : UserControl
     {
-        public ReviewsPageViewModel ReviewsPageViewModel => DataContext as ReviewsPageViewModel;
+        public ReviewsPageViewModel ViewModel => DataContext as ReviewsPageViewModel;
 
         public ReviewsControl()
         {
@@ -74,12 +74,12 @@ namespace iRLeagueManager.Views
                 var content = new ReviewCommentEditControl();
 
                 editWindow.Title = "New Comment";
-                if (content.DataContext is ReviewCommentViewModel editVM && ReviewsPageViewModel.SelectedReview != null)
+                if (content.DataContext is ReviewCommentViewModel editVM && ViewModel.SelectedReview != null)
                 {
-                    var reviewVM = ReviewsPageViewModel.SelectedReview;
+                    var reviewVM = ViewModel.SelectedReview;
                     editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
                     //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
-                    editVM.Review = ReviewsPageViewModel.SelectedReview;
+                    editVM.Review = ViewModel.SelectedReview;
                     editVM.Refresh(null);
 
                     editWindow.ModalContent.Content = content;
@@ -109,7 +109,7 @@ namespace iRLeagueManager.Views
                         editVM.UpdateSource(new ReviewCommentModel());
                         editVM.Model.CopyFrom(reviewComment.Model);
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
-                        editVM.Review = ReviewsPageViewModel.SelectedReview;
+                        editVM.Review = ViewModel.SelectedReview;
                         editVM.Refresh(null);
 
                         editWindow.ModalContent.Content = content;
@@ -131,7 +131,7 @@ namespace iRLeagueManager.Views
 
                     if (content.DataContext is CommentViewModel editVM)
                     {
-                        editVM.Model = new CommentBase();
+                        editVM.Model = new CommentModel();
                         editVM.Model.CopyFrom(comment.Model);
 
                         editWindow.ModalContent.Content = content;
@@ -140,6 +140,58 @@ namespace iRLeagueManager.Views
                             comment.Model.CopyFrom(editVM.Model);
                             comment.SaveChanges();
                         }
+                    }
+                }
+            }
+        }
+
+        private async void CommentReplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                if (button.Tag is ReviewCommentViewModel reviewCommentVM)
+                {
+                    var editWindow = new ModalOkCancelWindow();
+                    editWindow.Width = 500;
+                    editWindow.Height = 280;
+                    var content = new CommentEditControl();
+
+                    editWindow.Title = "Edit Comment";
+
+                    if (content.DataContext is CommentViewModel editVM)
+                    {
+                        editVM.Model = new CommentModel(ViewModel.CurrentUser);
+
+                        editWindow.ModalContent.Content = content;
+                        if (editWindow.ShowDialog() == true)
+                        {
+                            await reviewCommentVM.AddCommentAsync(editVM.Model);
+                        }
+                    }
+                }
+            }
+        }
+
+        private async void CommentDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                if (button.Tag is ReviewCommentViewModel reviewCommentVM)
+                {
+                    var selectedReview = ViewModel.SelectedReview;
+
+                    if (selectedReview != null && selectedReview.Comments.Contains(reviewCommentVM))
+                    {
+                        await selectedReview.DeleteCommentAsync(reviewCommentVM.Model);
+                    }
+                }
+                else if (button.Tag is CommentViewModel commentVM)
+                {
+                    var replyTo = commentVM.ReplyTo;
+
+                    if (replyTo != null && replyTo.Replies.Contains(commentVM))
+                    {
+                        await replyTo.DeleteCommentAsync(commentVM.Model);
                     }
                 }
             }

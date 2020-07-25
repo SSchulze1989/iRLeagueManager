@@ -22,9 +22,7 @@
                 <Button x:Name="SubmitButton" Grid.Column="0" Command="{Binding SubmitButtonCommand}" Margin="5,20,5,10" Content="Submit" />
                 <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,20,5,10" Content="Cancel"/>
             </Grid>
-            <TextBlock Margin="5">
-                <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>
-            </TextBlock>
+            <Button Content="Register User" Click="RegisterButton_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

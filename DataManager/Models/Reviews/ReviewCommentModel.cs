@@ -17,7 +17,7 @@ using iRLeagueManager.Models.User;
 namespace iRLeagueManager.Models.Reviews
 {
     [Serializable]
-    public class ReviewCommentModel : CommentBase, IReviewComment, INotifyPropertyChanged
+    public class ReviewCommentModel : CommentModel, IReviewComment, INotifyPropertyChanged
     {
         //private IncidentReviewModel review;
         //public IncidentReviewModel Review { get => review; internal set { review = value; OnPropertyChanged(); } }

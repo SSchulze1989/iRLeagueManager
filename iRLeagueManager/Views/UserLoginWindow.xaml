@@ -9,7 +9,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
-        Title="UserLoginWindow" Width="400" Height="300" TextElement.FontSize="16">
+        Title="iRLeagueManager - Login" Width="400" Height="300" TextElement.FontSize="16">
     <Window.Resources>
         <conv:InvertBoolConverter x:Key="InvertBoolConverter"/>
     </Window.Resources>
@@ -31,7 +31,7 @@
                 <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,20,5,10" Content="Cancel" Click="Button_Click"/>
             </Grid>
             <TextBlock Margin="5">
-                <Hyperlink Command="{Binding RegisterUserCommand}">Register new User</Hyperlink>
+                <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>
             </TextBlock>
         </StackPanel>
         <Grid>

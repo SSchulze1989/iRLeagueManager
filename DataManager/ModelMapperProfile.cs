@@ -106,8 +106,8 @@ namespace iRLeagueManager
                     dest.InitReset();
                 })
                 .ReverseMap();
-            CreateMap<CommentDataDTO, CommentBase>()
-                .ConstructUsing(source => ModelCache.PutOrGetModel(new CommentBase(source.CommentId.GetValueOrDefault(), source.AuthorName)))
+            CreateMap<CommentDataDTO, CommentModel>()
+                .ConstructUsing(source => ModelCache.PutOrGetModel(new CommentModel(source.CommentId.GetValueOrDefault(), source.AuthorName)))
                 .AfterMap((src, dest) =>
                 {
                     dest.InitReset();

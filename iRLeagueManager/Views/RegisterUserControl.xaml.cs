@@ -53,12 +53,12 @@ namespace iRLeagueManager.Views
             if (viewModel == null)
                 return false;
 
-            return (viewModel.UserName != null && viewModel.Firstname != null && viewModel.Lastname != null && viewModel.CheckPassword());
+            return viewModel.CanSubmit();
         }
 
-        public bool Submit()
+        public async Task<bool> SubmitAsync()
         {
-            return CanSubmit();
+            return await viewModel.SubmitAsync();
         }
 
         public void Cancel()

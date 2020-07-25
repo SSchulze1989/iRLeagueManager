@@ -84,6 +84,10 @@ namespace iRLeagueManager.Data
                     var result = await request.Content.ReadAsAsync<UserProfileDTO>();
                     return result;
                 }
+                else if (request.StatusCode == HttpStatusCode.Conflict)
+                {
+                    throw new UserExistsException();
+                }
             }
             return null;
         }
@@ -123,5 +127,13 @@ namespace iRLeagueManager.Data
             // GC.SuppressFinalize(this);
         }
         #endregion
+    }
+
+    public class UserExistsException : Exception
+    {
+        public UserExistsException() : base("User already in Database") { }
+        public UserExistsException(string message) : base(message) { }
+
+        public UserExistsException(string message, Exception innerException) :  base(message, innerException) { }
     }
 }

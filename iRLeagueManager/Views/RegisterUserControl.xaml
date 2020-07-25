@@ -5,50 +5,69 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
-             d:DesignHeight="280" d:DesignWidth="280" Background="White">
+             d:DesignHeight="350" d:DesignWidth="280" Background="White">
     <UserControl.DataContext>
-        <vmodel:UserViewModel/>
+        <vmodel:CreateUserViewModel/>
     </UserControl.DataContext>
 
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid Margin="10" TextElement.FontSize="14">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Username:"/>
-        <TextBox Grid.Row="1" Text="{Binding UserName}"/>
+            <TextBlock Grid.Row="0" Text="Username:"/>
+            <TextBox Grid.Row="1" Text="{Binding UserName}"/>
 
-        <TextBlock Grid.Row="2" Text="Firstname:"/>
-        <TextBox Grid.Row="3" Text="{Binding Firstname}"/>
+            <TextBlock Grid.Row="2" Text="Firstname:"/>
+            <TextBox Grid.Row="3" Text="{Binding Firstname}"/>
 
-        <TextBlock Grid.Row="4" Text="Lastname:"/>
-        <TextBox Grid.Row="5" Text="{Binding Lastname}"/>
+            <TextBlock Grid.Row="4" Text="Lastname:"/>
+            <TextBox Grid.Row="5" Text="{Binding Lastname}"/>
 
-        <TextBlock Grid.Row="6" Text="Password:"/>
-        <PasswordBox Grid.Row="7" PasswordChanged="PasswordBox_PasswordChanged"/>
-        <TextBlock Grid.Row="8" Text="Confirm Password:"/>
-        <PasswordBox Grid.Row="9" PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
-        <Grid.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="2,5,2,0"/>
-            </Style>
-            <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-            <Style TargetType="PasswordBox">
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-        </Grid.Resources>
+            <TextBlock Grid.Row="6" Text="Password:"/>
+            <PasswordBox Grid.Row="7" PasswordChanged="PasswordBox_PasswordChanged"/>
+            <TextBlock Grid.Row="8" Text="Confirm Password:"/>
+            <PasswordBox Grid.Row="9" PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
+            <TextBlock Grid.Row="10" Text="{Binding StatusMsg}" Foreground="Red"/>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="2,5,2,0"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+                <Style TargetType="PasswordBox">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </Grid.Resources>
+        </Grid>
+        <Grid>
+            <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="DarkGray" Opacity="0.5"/>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Height="60" Width="60" Spin="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#353535"/>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+        </Grid>
     </Grid>
 </UserControl>

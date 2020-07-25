@@ -12,7 +12,7 @@ using iRLeagueManager.Models.User;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class CommentViewModel : LeagueContainerModel<CommentBase>
+    public class CommentViewModel : LeagueContainerModel<CommentModel>
     {
         public long CommentId => (Model?.CommentId).GetValueOrDefault();
 
@@ -38,12 +38,15 @@ namespace iRLeagueManager.ViewModels
         public string AuthorName => Model?.AuthorName;
         public string Text { get => Model?.Text; set => Model.Text = value; }
         public DateTime Date => (Model?.Date).GetValueOrDefault();
-        protected override CommentBase Template => new ReviewCommentModel(new UserModel("", "MemberTwo"))
+        protected override CommentModel Template => new ReviewCommentModel(new UserModel("", "MemberTwo"))
         {
             Text = "This is a reply!\nAlso with a line break!"
         };
         //public bool IsUserAuthor => (LeagueContext.CurrentUser?.MemberId).GetValueOrDefault() == Author.MemberId.GetValueOrDefault();
         public bool IsUserAuthor => LeagueContext?.UserManager?.CurrentUser?.UserId == Author?.UserId || LeagueContext?.UserManager?.CurrentUser?.UserName == "Administrator";
+
+        private ReviewCommentViewModel replyTo;
+        public ReviewCommentViewModel ReplyTo { get => replyTo; set => SetValue(ref replyTo, value); }
 
         public ICommand EditCmd { get; private set; }
 
@@ -52,7 +55,7 @@ namespace iRLeagueManager.ViewModels
             SetSource(Template);
         }
         
-        public CommentViewModel(CommentBase source) : base(source) 
+        public CommentViewModel(CommentModel source) : base(source) 
         {
             EditCmd = new RelayCommand(async o => await EditAsync(o as string), o => IsUserAuthor);
         }

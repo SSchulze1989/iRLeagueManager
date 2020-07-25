@@ -114,7 +114,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		<SolidColorBrush x:Key="Button.Static.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="Button.Static.Background" Color="#F0F0F0"/>
 		<SolidColorBrush x:Key="Button.Static.Border" Color="Gray"/>
 		<SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
 		<SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
@@ -164,7 +164,7 @@
 			</Setter>
 		</Style>
 		<Style x:Key="CommentItemStyle" TargetType="{x:Type TreeViewItem}">
-			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Background" Value="#F0F0F0"/>
 			<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 			<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 			<Setter Property="Padding" Value="1,0,0,0"/>
@@ -173,7 +173,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type TreeViewItem}">
-						<Grid>
+						<Grid Margin="2">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition MinWidth="19" Width="Auto"/>
 								<!--<ColumnDefinition Width="Auto"/>-->
@@ -329,10 +329,10 @@
                                         <Separator Margin="5,0"/>
                                         <TextBlock Text="{Binding Corner, StringFormat={} Corner: {0}}" MinWidth="80"/>
                                         <Separator Margin="10,0"/>
-                                        <TextBlock Text="{Binding IncidentKind, StringFormat={} Incident: {0}}" Width="320"/>
+                                        <TextBlock Text="{Binding IncidentKind, StringFormat={} Incident: {0}}" MinWidth="280"/>
                                         <Separator Margin="10,0"/>
                                         <TextBlock Text="Involved: "/>
-                                        <ItemsControl ItemsSource="{Binding InvolvedMembers}">
+                                        <ItemsControl ItemsSource="{Binding InvolvedMembers}" MinWidth="350" Width="Auto">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal"/>
@@ -343,6 +343,27 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock x:Name="CommaTextBlock" Text=", "/>
                                                         <TextBlock Text="{Binding FullName}"/>
+                                                    </StackPanel>
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" TargetName="CommaTextBlock" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Separator Margin="10,0"/>
+                                        <ItemsControl ItemsSource="{Binding AcceptedVotes}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock x:Name="CommaTextBlock" Text=", "/>
+                                                        <TextBlock Text="{Binding}"/>
                                                     </StackPanel>
                                                     <DataTemplate.Triggers>
                                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
@@ -371,7 +392,7 @@
 					</Grid>
 				</Grid>
 
-				<Grid Grid.Row="2">
+                <Grid Grid.Row="2" DataContext="{Binding SelectedReview}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="40*"/>
 						<ColumnDefinition Width="60*"/>
@@ -384,7 +405,7 @@
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Overview" Margin="5,2"/>
-                    <RichTextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" DataContext="{Binding SelectedReview}" IsReadOnly="True">
+                    <RichTextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
                         <FlowDocument TextElement.FontSize="12" TextElement.FontFamily="Default">
                             <Paragraph>
                                 <Bold>Incident Type:</Bold>
@@ -394,7 +415,7 @@
                             <Paragraph>
                                 <Bold>What happened?</Bold>
                                 <LineBreak/>
-                                <TextBlock Text="{Binding FullDescription}"/>
+                                <Run Text="{Binding FullDescription}"/>
                             </Paragraph>
                             <Paragraph>
                                 <Bold>Involved Members:</Bold>
@@ -517,115 +538,158 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>-->
-					<TreeView Grid.Row="1" Grid.Column="1" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
-                              DataContext="{Binding SelectedReview}"
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        
+                        <TreeView Grid.Row="0" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
 							  HorizontalContentAlignment="Stretch" Margin="5"
                               ItemsSource="{Binding Comments}">
-						<!--<TreeView.Items>
+                            <!--<TreeView.Items>
 							<vmodel:ReviewCommentViewModel />
 							<vmodel:ReviewCommentViewModel />
 							<vmodel:ReviewCommentViewModel />
 						</TreeView.Items>-->
-						<TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type vmodel:ReviewCommentViewModel}" 
-													  ItemsSource="{Binding Replys}">
-                                <Grid Margin="2" HorizontalAlignment="Stretch">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <!--<Rectangle Stroke="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="2"/>-->
-                                    <!--<Rectangle Stroke="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=RowDefinitions.Count}" />-->
-                                    <Grid Grid.Row="0" Margin="0,0,0,8">
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type vmodel:ReviewCommentViewModel}" 
+													  ItemsSource="{Binding Replies}">
+                                    <Grid Margin="2" HorizontalAlignment="Stretch">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,0"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,0"/>
-                                    </Grid>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
+                                        <!--<Rectangle Stroke="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="2"/>-->
+                                        <!--<Rectangle Stroke="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.RowSpan="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=RowDefinitions.Count}" />-->
+                                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,0"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap" Margin="8,0"/>
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
-                                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Votes}" Margin="5,2">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock x:Name="CommaTextBlock" Text=", "/>
-                                                        <TextBlock Text="{Binding}"/>
-                                                    </StackPanel>
-                                                    <DataTemplate.Triggers>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
-                                                            <Setter Property="Visibility" TargetName="CommaTextBlock" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </DataTemplate.Triggers>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                            <Button Content="Reply" Padding="0,-2" Margin="2,0"/>
-                                            <Button Content="Edit" Padding="0,-2" Margin="2,0" Click="CommentEditButton_Click" Tag="{Binding}">
-                                                <Button.Style>
-                                                    <Style TargetType="Button">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            <ItemsControl Grid.Column="0" ItemsSource="{Binding Votes}" Margin="5,2">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock x:Name="CommaTextBlock" Text=", "/>
+                                                            <TextBlock Text="{Binding}" TextDecorations="Underline" Foreground="Red"/>
+                                                        </StackPanel>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" TargetName="CommaTextBlock" Value="Collapsed"/>
                                                             </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
-                                        </StackPanel>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <Button Content="Reply" Padding="0,-2" Margin="2,0" Click="CommentReplyButton_Click" Tag="{Binding}"/>
+                                                <Button Content="Edit" Padding="0,-2" Margin="2,0" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </HierarchicalDataTemplate>
-                            <DataTemplate DataType="{x:Type vmodel:CommentViewModel}">
-								<!--<Border BorderThickness="0,0,0,1" BorderBrush="Black">-->
-								<Grid>
-									<Grid.RowDefinitions>
-										<RowDefinition />
-										<RowDefinition />
-										<RowDefinition />
-									</Grid.RowDefinitions>
-									<TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,1"/>
-									<TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,1"/>
-                                    <Grid Grid.Row="2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                            <Button Content="Edit" Padding="0,-2" Click="CommentEditButton_Click" Tag="{Binding}">
-                                                <Button.Style>
-                                                    <Style TargetType="Button">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsUserAuthor}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
-                                        </StackPanel>
+                                </HierarchicalDataTemplate>
+                                <DataTemplate DataType="{x:Type vmodel:CommentViewModel}">
+                                    <!--<Border BorderThickness="0,0,0,1" BorderBrush="Black">-->
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,1"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,1"/>
+                                        <Grid Grid.Row="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <Button Content="Edit" Padding="0,-2" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-								<!--</Border>-->
-							</DataTemplate>
-						</TreeView.Resources>
-					</TreeView>
-                    <Button Grid.Column="1" Grid.Row="2" Content="Add Comment" Click="CommentAddButton_Click"/>
+                                    <!--</Border>-->
+                                </DataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                        <Button Grid.Row="1" Content="Add Review Comment" Click="CommentAddButton_Click" Margin="5">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanUserAddComment}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
                 </Grid>
 			</Grid>
 		</DockPanel>

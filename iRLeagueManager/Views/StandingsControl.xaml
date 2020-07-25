@@ -87,12 +87,12 @@
 
                         <DataGrid Grid.Row="1" DataContext="{Binding Standings}" ItemsSource="{Binding StandingsRows}" AutoGenerateColumns="False" AlternationCount="2" AlternatingRowBackground="#F0F0F0">
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Pos" IsReadOnly="True">
+                                <DataGridTemplateColumn Header="Pos" IsReadOnly="True" Width="5*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Position, StringFormat={} {0}}"/>
-                                                <TextBlock Text="{Binding PositionChange, StringFormat={} ({0:+#;-#;'-'})}">
+                                                <TextBlock Text="{Binding PositionChange, StringFormat={} ({0:+#;-#;' - '})}">
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Foreground" Value="Black"/>
@@ -119,58 +119,69 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>-->
-                                <DataGridTextColumn Header="Driver" Binding="{Binding Member.FullName}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Team" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Race Points" IsReadOnly="True">
+                                <DataGridTextColumn Header="Driver" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="15*"/>
+                                <DataGridTextColumn Header="Team" IsReadOnly="True"  Width="15*"/>
+                                <DataGridTextColumn Header="Race Points" IsReadOnly="True" Width="5*">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0} ({1:+#;-#,'-'})">
+                                        <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="RacePoints"/>
                                             <Binding Path="RacePointsChange"/>
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Penalty" IsReadOnly="True">
+                                <DataGridTextColumn Header="Penalty" IsReadOnly="True" Width="5*">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0} ({1:'-';-#;'-'})">
+                                        <MultiBinding StringFormat="{}{0:-#;#;0} {1:(-#);(+#);''}">
                                             <Binding Path="PenaltyPoints"/>
                                             <Binding Path="PenaltyPointsChange"/>
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PenaltyPoints, Converter={StaticResource CompareNumericalConverter}, ConverterParameter=0}" Value="1">
+                                                    <Setter Property="Foreground" Value="Red"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Tot.-Points" IsReadOnly="True">
+                                <DataGridTextColumn Header="Tot.-Points" IsReadOnly="True" Width="5*">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0} ({1:+#;-#;'-'})">
+                                        <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="TotalPoints" />
                                             <Binding Path="TotalPointsChange" />
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Races" Binding="{Binding RacesCounted}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Poles" IsReadOnly="True">
+                                <DataGridTextColumn Header="Races" Binding="{Binding RacesCounted}" IsReadOnly="True" Width="5*"/>
+                                <DataGridTextColumn Header="Poles" IsReadOnly="True" Width="5*">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0} ({1:+#;'-';'-'})">
+                                        <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="PolePositions"/>
                                             <Binding Path="PolePositionsChange"/>
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Wins" IsReadOnly="True">
+                                <DataGridTextColumn Header="Wins" IsReadOnly="True" Width="5*">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0} ({1:+#;'-';'-'})">
+                                        <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="Wins"/>
                                             <Binding Path="WinsChange"/>
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Podium" Binding="{Binding Top3}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Incidents" IsReadOnly="True">
+                                <DataGridTextColumn Header="Podium" Binding="{Binding Top3}" IsReadOnly="True" Width="5*"/>
+                                <DataGridTextColumn Header="Incidents" IsReadOnly="True" Width="5*">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0} ({1:+#;'-';'-'})">
+                                        <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="Incidents"/>
                                             <Binding Path="IncidentsChange"/>
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
+                                <DataGridTextColumn  Width="5*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

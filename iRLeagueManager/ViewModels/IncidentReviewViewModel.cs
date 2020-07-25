@@ -12,6 +12,9 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Results;
+using System.Diagnostics;
+using System.Windows.Input;
+using iRLeagueManager.Models;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -37,7 +40,9 @@ namespace iRLeagueManager.ViewModels
             set => SetValue(ref votes, value);
         }
 
-        public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model.AcceptedReviewVotes;
+        public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
+
+        public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> countAcceptedVotes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> CountAcceptedVotes 
@@ -71,13 +76,21 @@ namespace iRLeagueManager.ViewModels
         private MemberListViewModel memberList;
         public MemberListViewModel MemberList { get => memberList; set => SetValue(ref memberList, value); }
 
+        public bool CanUserAddComment => Comments.Any(x => x.IsUserAuthor) == false;
+
         protected override IncidentReviewModel Template => new IncidentReviewModel();
         //...
+
+        public ICommand AddVoteCmd { get; }
+        public ICommand DeleteVoteCmd { get; }
 
         public IncidentReviewViewModel() : base()
         {
             memberList = new MemberListViewModel();
             comments = new ObservableModelCollection<ReviewCommentViewModel, ReviewCommentModel>(x => x.Review = this);
+            ((INotifyCollectionChanged)comments).CollectionChanged += OnCommentsCollectionChanged;
+            AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null);
+            DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null && o is ReviewVoteModel);
         }
 
         public void Hold()
@@ -87,7 +100,20 @@ namespace iRLeagueManager.ViewModels
 
         public void OnCommentsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            OnPropertyChanged(nameof(CanUserAddComment));
             CalculateVotes();
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            switch (propertyName)
+            {
+                case nameof(Comments):
+                    OnPropertyChanged(nameof(CanUserAddComment));
+                    break;
+            }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         public void CalculateVotes()
@@ -102,7 +128,7 @@ namespace iRLeagueManager.ViewModels
             {
                 foreach(var currentVote in comment.Votes)
                 {
-                    var existingVote = votes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault.MemberId && x.Key.Vote == currentVote.Vote);
+                    var existingVote = votes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
                     if (existingVote == null)
                     {
                         existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
@@ -115,7 +141,7 @@ namespace iRLeagueManager.ViewModels
 
             foreach (var currentVote in AcceptedVotes)
             {
-                var existingVote = acceptedVotes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault.MemberId && x.Key.Vote == currentVote.Vote);
+                var existingVote = acceptedVotes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
                 if (existingVote == null)
                 {
                     existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
@@ -147,6 +173,51 @@ namespace iRLeagueManager.ViewModels
             }
 
             return comment;
+        }
+
+        public async Task DeleteCommentAsync(ReviewCommentModel comment)
+        {
+            if (Model == null || comment == null)
+                return;
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.DeleteModelAsync<ReviewCommentModel>(comment.CommentId.GetValueOrDefault());
+                Model.Comments.Remove(comment);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public void AddVote(ReviewVoteModel vote)
+        {
+            if (Model == null)
+                return;
+
+            if (vote == null)
+            {
+                vote = new ReviewVoteModel();
+            }
+
+            Model.AcceptedReviewVotes.Add(vote);
+            CalculateVotes();
+        }
+
+        public void DeleteVote(ReviewVoteModel vote)
+        {
+            if (Model == null)
+                return;
+
+            if (Model.AcceptedReviewVotes.Contains(vote))
+                Model.AcceptedReviewVotes.Remove(vote);
+            CalculateVotes();
         }
 
         public override void OnUpdateSource()

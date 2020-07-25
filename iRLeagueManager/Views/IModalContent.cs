@@ -11,7 +11,7 @@ namespace iRLeagueManager.Views
         string SubmitText { get; }
         string CancelText { get; }
         bool CanSubmit();
-        bool Submit();
+        Task<bool> SubmitAsync();
         void Cancel();
     }
 }

@@ -105,7 +105,7 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<IncidentReviewDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
-                else if (typeof(T).Equals(typeof(CommentBase)))
+                else if (typeof(T).Equals(typeof(CommentModel)))
                 {
                     data = await ModelDataProvider.GetAsync<CommentDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
@@ -240,7 +240,7 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<IncidentReviewDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<IncidentReviewDataDTO>().ToArray());
             }
-            else if (typeof(T).Equals(typeof(CommentBase)))
+            else if (typeof(T).Equals(typeof(CommentModel)))
             {
                 data = mapper.Map<IEnumerable<CommentDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<CommentDataDTO>().ToArray());
@@ -352,7 +352,7 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<IncidentReviewDataDTO>(modelIds);
             }
-            else if (typeof(T).Equals(typeof(CommentBase)))
+            else if (typeof(T).Equals(typeof(CommentModel)))
             {
                 return await ModelDataProvider.DelAsync<CommentDataDTO>(modelIds);
             }
@@ -433,7 +433,7 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<IncidentReviewDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<IncidentReviewDataDTO>().ToArray());
             }
-            else if (typeof(T).Equals(typeof(CommentBase)))
+            else if (typeof(T).Equals(typeof(CommentModel)))
             {
                 data = mapper.Map<IEnumerable<CommentDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<CommentDataDTO>().ToArray());

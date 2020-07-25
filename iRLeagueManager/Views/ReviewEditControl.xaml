@@ -14,12 +14,12 @@
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
     </UserControl.Resources>
-    
+
     <UserControl.DataContext>
         <vmodel:IncidentReviewViewModel/>
     </UserControl.DataContext>
-    
-    <Grid TextBlock.FontSize="14">
+
+    <Grid TextBlock.FontSize="14" x:Name="MainGrid">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -57,14 +57,14 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <ListBox  x:Name="InvolvedMembers" ItemsSource="{Binding InvolvedMembers}" SelectionMode="Extended" Grid.Column="0" VerticalAlignment="Stretch"/>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
                     <Button Content="&lt;" Margin="5" Padding="5" Click="MoveLeftButton_Click"/>
                     <Button Content="&gt;" Margin="5" Padding="5" Click="MoveRightButton_Click"/>
                 </StackPanel>
                 <StackPanel  DataContext="{Binding MemberList}" Grid.Column="2">
-                    <ListBox x:Name="MemberSelect" ItemsSource="{Binding MemberList}" SelectionMode="Extended" Height="220"/>
+                    <ListBox x:Name="MemberSelect" ItemsSource="{Binding MemberList}" SelectionMode="Extended" Height="140"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -78,7 +78,38 @@
             </Grid>
 
             <TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
-            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="180" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
+            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="140" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
+
+            <TextBlock Text="Accepted Votes:" Grid.Column="0" Grid.Row="7"/>
+            <Grid Grid.Row="8" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <DataGrid x:Name="VoteGrid" Grid.Column="0" ItemsSource="{Binding AcceptedVotes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Vote" MinWidth="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteEnums}" SelectedItem="{Binding Vote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="5,2"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Member" MinWidth="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.InvolvedMembers}" SelectedItem="{Binding MemberAtFault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,2"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
+                    <Button Content="Add" Command="{Binding AddVoteCmd}" Margin="0,0,0,5" Padding="2"/>
+                    <Button Content="Remove" Command="{Binding DeleteVoteCmd}" CommandParameter="{Binding ElementName=VoteGrid, Path=SelectedItem}" Margin="0,0,0,5" Padding="2"/>
+                </StackPanel>
+            </Grid>
 
             <Grid.Resources>
                 <Style TargetType="TextBox" >
