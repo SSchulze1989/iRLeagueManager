@@ -13,23 +13,16 @@ namespace iRLeagueManager.Models.Reviews
 {
     public class CommentModel : CommentInfo, INotifyPropertyChanged
     {
-        //private SeasonModel season;
-        //public virtual SeasonModel Season { get => season; internal set { season = value; OnPropertyChanged(); } }
         private CommentInfo replyTo;
         public CommentInfo ReplyTo { get => replyTo; set => SetValue(ref replyTo, value); }
 
         private DateTime date = DateTime.Now;
         public DateTime Date { get => date; internal set => SetValue(ref date, value); }
 
-        //private LeagueMember author;
-        //public LeagueMember Author { get => author; internal set => SetValue(ref author, value); }
-        //private UserModel author;
-        //public UserModel Author { get => author; internal set => SetValue(ref author, value); }
-
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }
 
-        private ObservableCollection<CommentModel> replies;
+        private ObservableCollection<CommentModel> replies = new ObservableCollection<CommentModel>();
         public ObservableCollection<CommentModel> Replies { get => replies; set => SetNotifyCollection(ref replies, value); }
 
         public CommentModel() { }

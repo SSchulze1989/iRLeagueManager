@@ -48,6 +48,10 @@
         <Path x:Key="Cached" x:Shared="False"
               Data="M19,8L15,12H18A6,6 0 0,1 12,18C11,18 10.03,17.75 9.2,17.3L7.74,18.76C8.97,19.54 10.43,20 12,20A8,8 0 0,0 20,12H23M6,12A6,6 0 0,1 12,6C13,6 13.97,6.25 14.8,6.7L16.26,5.24C15.03,4.46 13.57,4 12,4A8,8 0 0,0 4,12H1L5,16L9,12"
               Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"/>
+        <Thickness x:Key="ColumnMargin">4,2</Thickness>
+        <Style TargetType="TextBlock" x:Key="TextColumnElementStyle">
+            <Setter Property="Margin" Value="{StaticResource ColumnMargin}"/>
+        </Style>
     </UserControl.Resources>
     
     <Grid>
@@ -102,21 +106,25 @@
                 </ComboBox.ItemTemplate>
                 <ComboBox.ItemContainerStyle>
                     <Style TargetType="ComboBoxItem">
-                        <Setter
-                    Property="IsEnabled"
-                    Value="{Binding ResultAvailable}" />
+                        <Setter Property="IsEnabled" Value="{Binding ResultAvailable}" />
                     </Style>
                 </ComboBox.ItemContainerStyle>
             </ComboBox>
         </DockPanel>
         <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedResult.FinalResults}" AutoGenerateColumns="False" Height="Auto" AlternationCount="2" AlternatingRowBackground="#F0F0F0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True" Width="5*"/>
-                <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" IsReadOnly="True" Width="5*"/>
-                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition}" IsReadOnly="True" Width="5*"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="20*"/>
-                <DataGridTextColumn Header="Team" IsReadOnly="True" Width="15*"/>
-                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="10*">
+                <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True" Width="5*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" IsReadOnly="True" Width="5*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition}" IsReadOnly="True" Width="5*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="20*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Team" IsReadOnly="True" Width="15*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="10*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                     <DataGridTextColumn.Binding>
                         <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
                             <Binding Path="FastestLapTime.Minutes"/>
@@ -125,7 +133,8 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="10*">
+                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="10*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                     <DataGridTextColumn.Binding>
                         <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
                             <Binding Path="AvgLapTime.Minutes"/>
@@ -134,10 +143,14 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" Width="10*"/>
-                <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}" IsReadOnly="True" Width="6*"/>
-                <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints, StringFormat={}{0:-#;#;-}}" IsReadOnly="True" Width="7*"/>
-                <DataGridTextColumn Header="Penalty" Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;#;-}}" IsReadOnly="True" Width="6*">
+                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" Width="10*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}" IsReadOnly="True" Width="6*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints, StringFormat={}{0:+#;-#;-}}" IsReadOnly="True" Width="7*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                <DataGridTextColumn Header="Penalty" Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;+#;-}}" IsReadOnly="True" Width="6*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Foreground" Value="Red"/>
@@ -149,7 +162,8 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}" IsReadOnly="True" Width="6*"/>
+                <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}" IsReadOnly="True" Width="6*"
+                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
                 <DataGridTemplateColumn Header="Add Penalty" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

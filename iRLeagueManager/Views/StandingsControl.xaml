@@ -16,6 +16,10 @@
         <conv:CompareNumericalConverter x:Key="CompareNumericalConverter"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+        <Thickness x:Key="ColumnMargin">4,2</Thickness>
+        <Style TargetType="TextBlock" x:Key="TextColumnElementStyle">
+            <Setter Property="Margin" Value="{StaticResource ColumnMargin}"/>
+        </Style>
     </UserControl.Resources>
     
     <Grid>
@@ -90,7 +94,7 @@
                                 <DataGridTemplateColumn Header="Pos" IsReadOnly="True" Width="5*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal" Margin="{StaticResource ColumnMargin}">
                                                 <TextBlock Text="{Binding Position, StringFormat={} {0}}"/>
                                                 <TextBlock Text="{Binding PositionChange, StringFormat={} ({0:+#;-#;' - '})}">
                                                     <TextBlock.Style>
@@ -119,9 +123,12 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>-->
-                                <DataGridTextColumn Header="Driver" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="15*"/>
-                                <DataGridTextColumn Header="Team" IsReadOnly="True"  Width="15*"/>
-                                <DataGridTextColumn Header="Race Points" IsReadOnly="True" Width="5*">
+                                <DataGridTextColumn Header="Driver" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="15*" 
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="Team" IsReadOnly="True"  Width="15*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="Race Points" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="RacePoints"/>
@@ -129,7 +136,8 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Penalty" IsReadOnly="True" Width="5*">
+                                <DataGridTextColumn Header="Penalties" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0:-#;#;0} {1:(-#);(+#);''}">
                                             <Binding Path="PenaltyPoints"/>
@@ -147,7 +155,8 @@
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Tot.-Points" IsReadOnly="True" Width="5*">
+                                <DataGridTextColumn Header="Tot.-Points" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="TotalPoints" />
@@ -155,8 +164,10 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Races" Binding="{Binding RacesCounted}" IsReadOnly="True" Width="5*"/>
-                                <DataGridTextColumn Header="Poles" IsReadOnly="True" Width="5*">
+                                <DataGridTextColumn Header="Races" Binding="{Binding RacesCounted}" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="Poles" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="PolePositions"/>
@@ -164,7 +175,8 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Wins" IsReadOnly="True" Width="5*">
+                                <DataGridTextColumn Header="Wins" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="Wins"/>
@@ -172,8 +184,10 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Podium" Binding="{Binding Top3}" IsReadOnly="True" Width="5*"/>
-                                <DataGridTextColumn Header="Incidents" IsReadOnly="True" Width="5*">
+                                <DataGridTextColumn Header="Podium" Binding="{Binding Top3}" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="Incidents" IsReadOnly="True" Width="5*"
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0} {1:(+#);(-#);''}">
                                             <Binding Path="Incidents"/>
