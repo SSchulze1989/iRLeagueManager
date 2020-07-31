@@ -658,7 +658,7 @@
                                                 </Button>
                                                 <Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
                                                     <Button.Style>
-                                                        <Style TargetType="Button">
+                                                        <Style TargetType="Button" BasedOn="{StaticResource iRLM.ButtonDefaultStyle}">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">

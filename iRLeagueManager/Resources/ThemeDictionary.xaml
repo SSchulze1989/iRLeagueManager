@@ -1,0 +1,104 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Override System Values-->
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowColorKey}" Color="Red"/>
+
+    <!-- MainWindow-->
+    <SolidColorBrush x:Key="iRLM.MainWindow.Background" Color="Wheat"/>
+    <SolidColorBrush x:Key="iRLM.MainWindow.BorderColor" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.MainWindow.StatusBarColor" Color="#FF0C0C46"/>
+
+    <!--Base colors and brushes for MainWindow-->
+    <SolidColorBrush x:Key="iRLM.Common.Background" Color="White"/>
+    <SolidColorBrush x:Key="iRLM.Menu.Background" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.StatusBar.Background" Color="DarkGray"/>
+    <SolidColorBrush x:Key="iRLM.Header.Background" Color="Black"/>
+    
+    <SolidColorBrush x:Key="iRLM.Common.Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Menu.Foreground" Color="White"/>
+    <SolidColorBrush x:Key="iRLM.StatusBar.Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Header.Foreground" Color="White"/>
+
+    <SolidColorBrush x:Key="iRLM.Common.BorderColor" Color="DarkGray"/>
+    <SolidColorBrush x:Key="iRLM.Menu.BorderColor" Color="DarkGray"/>
+    <SolidColorBrush x:Key="iRLM.StatusBar.BorderColor" Color="DarkGray"/>
+    <SolidColorBrush x:Key="iRLM.Header.BorderColor" Color="DarkGray"/>
+
+    <SolidColorBrush x:Key="iRLM.Common.HiglightBrush" Color="#FF805151"/>
+    <SolidColorBrush x:Key="iRLM.Common.MouseOverBrush" Color="#BB252525"/>
+    
+    <SolidColorBrush x:Key="iRLM.Button.BackgroundBrush" Color="Blue"/>
+    <SolidColorBrush x:Key="iRLM.Button.ForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Button.BorderBrush" Color="AliceBlue"/>
+    <Thickness x:Key="iRLM.Button.BorderThickness">2,2,2,2</Thickness>
+    <SolidColorBrush x:Key="iRLM.Button.HighlightBackgroundBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="iRLM.Button.HighlightForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Button.HighlightBorderBrush" Color="AntiqueWhite"/>
+    <Thickness x:Key="iRLM.Button.HiglightBorderThickness">1,1,1,1</Thickness>
+    <SolidColorBrush x:Key="iRLM.Button.PressedBackgroundBrush" Color="LightCyan"/>
+    <SolidColorBrush x:Key="iRLM.Button.PressedForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Button.PressedBorderBrush" Color="Red"/>
+    <Thickness x:Key="iRLM.Button.PressedBorderThickness">4,4,4,4</Thickness>
+    <SolidColorBrush x:Key="iRLM.Button.CheckedBackgroundBrush" Color="LightCyan"/>
+    <SolidColorBrush x:Key="iRLM.Button.CheckedForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Button.CheckedBorderBrush" Color="Beige"/>
+    <Thickness x:Key="iRLM.Button.CheckedBorderThickness">1,1,1,1</Thickness>
+    <SolidColorBrush x:Key="iRLM.Button.DisabledBackgroundBrush" Color="LightCyan"/>
+    <SolidColorBrush x:Key="iRLM.Button.DisabledForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="iRLM.Button.DisabledBorderBrush" Color="Beige"/>
+    <Thickness x:Key="iRLM.Button.DisabledBorderThickness">1,1,1,1</Thickness>
+
+    <!-- Set default Styles-->
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource iRLM.MainWindow.Background}"/>
+    </Style>
+    <Style x:Key="FocusVisualStyle" TargetType="Control">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Background" Value="{StaticResource iRLM.Common.MouseOverBrush}"/>
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="-2" StrokeThickness="1" Stroke="Red" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Button" x:Key="iRLM.ButtonDefaultStyle">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualStyle}"/>
+    </Style>
+    <Style TargetType="Button" BasedOn="{StaticResource iRLM.ButtonDefaultStyle}"/>
+    <!--<Style TargetType="UserControl">
+        <Setter Property="Background" Value="{StaticResource iRLM.MainWindow.Background}"/>
+    </Style>-->
+
+    <ControlTemplate x:Key="IconButtonTemplate" TargetType="{x:Type ButtonBase}">
+        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Button.IsDefaulted" Value="True">
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="border" Value="{StaticResource iRLM.Button.HighlightBackgroundBrush}"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource iRLM.Button.HighlightBorderBrush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" TargetName="border" Value="{StaticResource iRLM.Button.PressedBackgroundBrush}"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource iRLM.Button.PressedBorderBrush}"/>
+                <Setter Property="BorderThickness"  TargetName="border" Value="{StaticResource iRLM.Button.PressedBorderThickness}"/>
+            </Trigger>
+            <Trigger Property="ToggleButton.IsChecked" Value="True">
+                <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#FF838383"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

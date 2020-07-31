@@ -52,33 +52,6 @@
         <Path x:Key="Cached" x:Shared="False"
               Data="M19,8L15,12H18A6,6 0 0,1 12,18C11,18 10.03,17.75 9.2,17.3L7.74,18.76C8.97,19.54 10.43,20 12,20A8,8 0 0,0 20,12H23M6,12A6,6 0 0,1 12,6C13,6 13.97,6.25 14.8,6.7L16.26,5.24C15.03,4.46 13.57,4 12,4A8,8 0 0,0 4,12H1L5,16L9,12"
               Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"/>
-        <ControlTemplate x:Key="IconButtonTemplate" TargetType="{x:Type ButtonBase}">
-            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger Property="Button.IsDefaulted" Value="True">
-                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
-                    <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
-                    <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
-                </Trigger>
-                <Trigger Property="ToggleButton.IsChecked" Value="True">
-                    <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
-                    <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                    <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
-                    <Setter Property="Foreground" Value="#FF838383"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
     </UserControl.Resources>
 
     <!--<UserControl.DataContext>
@@ -89,17 +62,17 @@
         <DockPanel>
             <TextBox Text="Season Schedules:" DockPanel.Dock="Top" />
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="RightToLeft">
-                <Button Command="{Binding CreateScheduleCmd}" BorderBrush="Transparent" Background="Transparent" Template="{DynamicResource IconButtonTemplate}">
+                <Button Command="{Binding CreateScheduleCmd}" Template="{DynamicResource IconButtonTemplate}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
                             <ContentControl Margin="5,0">
                                 <StaticResource ResourceKey="TablePlus"/>
                             </ContentControl>
-                            <TextBlock Text="New Schedule"  FontSize="18"/>
+                            <TextBlock Text="New Schedule" FontSize="18"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button Command="{Binding RefreshCmd}" Padding="1" BorderBrush="Transparent" Background="Transparent" Template="{DynamicResource IconButtonTemplate}">
+                <Button Command="{Binding RefreshCmd}" Padding="1" Template="{DynamicResource IconButtonTemplate}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
                             <ContentControl Margin="5,0">
