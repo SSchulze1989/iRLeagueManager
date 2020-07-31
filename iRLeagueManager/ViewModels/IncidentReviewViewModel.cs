@@ -236,7 +236,7 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 var result = await LeagueContext.GetModelAsync<ResultModel>(Model.Session.SessionId.GetValueOrDefault());
                 var members = result.RawResults.Select(x => x.Member);
-                MemberList.SetCollectionViewSourc(members);
+                MemberList.SetCollectionViewSource(members);
             }
             catch (Exception e)
             {
