@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -86,6 +87,18 @@ namespace iRLeagueManager.ViewModels
         }
 
         public ReviewCommentViewModel(ReviewCommentModel comment) : base(comment) { }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            switch(propertyName)
+            {
+                case nameof(Model.CommentReviewVotes):
+                    base.OnPropertyChanged(nameof(Votes));
+                    break;
+            }
+
+            base.OnPropertyChanged(propertyName);
+        }
 
         public new ReviewCommentModel GetSource()
         {
