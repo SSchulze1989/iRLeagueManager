@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Documents.DocumentStructures;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -23,15 +24,10 @@ namespace iRLeagueManager.ViewModels
 
         public MemberListViewModel()
         {
-            memberListCollectionViewSource = new CollectionViewSource()
-            {
-                Source = LeagueContext?.MemberList
-            };
-            MemberList = memberListCollectionViewSource.View;
-            MemberList.Filter = ApplyFilter;
+            SetCollectionViewSource(LeagueContext?.MemberList);
         }
 
-        public void SetCollectionViewSourc(IEnumerable<LeagueMember> members)
+        public void SetCollectionViewSource(IEnumerable<LeagueMember> members)
         {
             memberListCollectionViewSource = new CollectionViewSource()
             {
@@ -39,6 +35,8 @@ namespace iRLeagueManager.ViewModels
             };
             MemberList = memberListCollectionViewSource.View;
             MemberList.Filter = ApplyFilter;
+            MemberList.SortDescriptions.Add(new SortDescription(nameof(LeagueMember.Lastname), ListSortDirection.Ascending));
+            MemberList.SortDescriptions.Add(new SortDescription(nameof(LeagueMember.Firstname), ListSortDirection.Ascending));
         }
 
         private bool ApplyFilter(object item)
