@@ -385,7 +385,7 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 
-							<Button Content="New" Grid.Row="0" Margin="5" Command="{Binding AddReviewCmd}"/>
+							<Button Content="New" Grid.Row="0" Margin="5" Click="AddButton_Click"/>
 							<Button Content="Edit" Grid.Row="1" Margin="5" Click="EditButton_Click" Tag="{Binding SelectedReview}"/>
                             <Button Content="Delete" Grid.Row="2" Margin="5" Command="{Binding RemoveReviewCmd}"/>
 						</Grid>
