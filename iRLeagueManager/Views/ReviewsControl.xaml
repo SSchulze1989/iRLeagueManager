@@ -7,7 +7,10 @@
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              xmlns:conv="clr-namespace:iRLeagueManager.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800" Background="White" FontSize="14">
+             d:DesignHeight="600" d:DesignWidth="800" Background="White"
+             FontSize="{StaticResource Global.FontSizeMedium}"
+             FontFamily="{StaticResource Global.FontFamily}">
+    
 	<UserControl.Resources>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
@@ -289,10 +292,13 @@
 					</Grid.RowDefinitions>
 
 					<TextBlock Grid.Row="0" Text="Sessions" Margin="5,2" />
-					<DockPanel Grid.Row="1" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
+                    <ContentControl Grid.Row="1" DataContext="{Binding SessionSelect}">
+                        <local:SessionSelectControl/>
+                    </ContentControl>
+                    <!--<DockPanel Grid.Row="1" x:Name="sessionSelector" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
 						<Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>
 						<Button Content="&gt;" Padding="5" DockPanel.Dock="Right" Command="{Binding NextSessionCmd}"/>
-						<ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}">
+						<ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}" Margin="2" VerticalContentAlignment="Center">
 							<ComboBox.ItemTemplate>
 								<DataTemplate DataType="{x:Type ComboBoxItem}">
 									<TextBlock>
@@ -312,7 +318,7 @@
 								</Style>
 							</ComboBox.ItemContainerStyle>
 						</ComboBox>
-					</DockPanel>
+					</DockPanel>-->
 
 					<TextBlock Grid.Row="2" Text="Reported Incidents:" Margin="5,15,5,2"/>
 					<Grid Grid.Row="3">
@@ -385,9 +391,19 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 
-							<Button Content="New" Grid.Row="0" Margin="5" Command="{Binding AddReviewCmd}"/>
-							<Button Content="Edit" Grid.Row="1" Margin="5" Click="EditButton_Click" Tag="{Binding SelectedReview}"/>
-                            <Button Content="Delete" Grid.Row="2" Margin="5" Command="{Binding RemoveReviewCmd}"/>
+                            <Button Grid.Row="0" Command="{Binding AddReviewCmd}" Style="{StaticResource IconButtonStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                        <ContentControl>
+                                            <StaticResource ResourceKey="PlusThick"/>
+                                        </ContentControl>
+                                        <Separator Margin="5"/>
+                                        <TextBlock Text="New" FontSize="18"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+							<Button Content="Edit" Grid.Row="1" Click="EditButton_Click" Tag="{Binding SelectedReview}"/>
+                            <Button Content="Delete" Grid.Row="2"  Command="{Binding RemoveReviewCmd}"/>
 						</Grid>
 					</Grid>
 				</Grid>

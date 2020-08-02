@@ -11,8 +11,10 @@
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
-        mc:Ignorable="d" FontSize="18"
-        WindowState="Maximized" Height="863" Width="1568" Background="{StaticResource iRLM.MainWindow.Background}">
+        mc:Ignorable="d"
+        WindowState="Maximized" Height="863" Width="1568" Background="{StaticResource iRLM.MainWindow.Background}"
+        FontFamily="{StaticResource Global.FontFamily}"
+        FontSize="{StaticResource Global.FontSizeMedium}">
 
     <Window.Resources>
         <sys:String x:Key="ApplicationName">iRLeagueManager v0.1</sys:String>
