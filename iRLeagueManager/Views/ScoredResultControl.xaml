@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              xmlns:conv="clr-namespace:iRLeagueManager.Converters"
              mc:Ignorable="d"  
-             d:DesignHeight="600" d:DesignWidth="800" Background="White" FontSize="14">
+             d:DesignHeight="600" d:DesignWidth="800" Background="White"
+             FontSize="{StaticResource Global.FontSizeMedium}"
+             FontFamily="{StaticResource Global.FontFamily}">
     <!--<UserControl.DataContext>
         <vmodel:ResultsPageViewModel/>
     </UserControl.DataContext>-->
@@ -65,17 +67,17 @@
 
         <TextBlock Grid.Row="0" Text="Session Results" FontSize="20" FontWeight="Bold"/>
         <ComboBox Grid.Row="1" ItemsSource="{Binding ScheduleList}" SelectedItem="{Binding SelectedSchedule}" DisplayMemberPath="Name" IsEnabled="False"/>
-        <DockPanel Grid.Row="2" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
+        <!--<DockPanel Grid.Row="2" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
             <Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>
             <Button Content="&gt;" Padding="5" DockPanel.Dock="Right" Command="{Binding NextSessionCmd}"/>
-            <!--<TextBlock Margin="2">
+            --><!--<TextBlock Margin="2">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} - {1}">
                         <Binding Path="Session.Date" StringFormat="Date"/>
                         <Binding Path="Session.Location.FullName"/>
                     </MultiBinding>
                 </TextBlock.Text>
-            </TextBlock>-->
+            </TextBlock>--><!--
             <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type ComboBoxItem}">
@@ -110,8 +112,41 @@
                     </Style>
                 </ComboBox.ItemContainerStyle>
             </ComboBox>
-        </DockPanel>
-        <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedResult.FinalResults}" AutoGenerateColumns="False" Height="Auto" AlternationCount="2" AlternatingRowBackground="#F0F0F0">
+        </DockPanel>-->
+
+        <local:SessionSelectControl Grid.Row="2" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
+            <local:SessionSelectControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ComboBoxItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} - {1} ({2})">
+                                    <Binding Path="RaceDate" StringFormat="Date"/>
+                                    <Binding Path="Location.FullName"/>
+                                    <Binding Path="Schedule.Name"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Text="    (Current)">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCurrentSession}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </local:SessionSelectControl.ItemTemplate>
+        </local:SessionSelectControl>
+        
+        <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedResult.FinalResults}" AutoGenerateColumns="False" Height="Auto" 
+                  AlternationCount="2" AlternatingRowBackground="#F0F0F0"
+                  TextElement.FontSize="{StaticResource Global.FontSizeSmall}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True" Width="5*"
                                     ElementStyle="{StaticResource TextColumnElementStyle}"/>
@@ -199,9 +234,9 @@
                                         <ComboBoxItem>10</ComboBoxItem>
                                     </ComboBox.Items>
                                 </ComboBox>
-                                <Button BorderBrush="Transparent" Background="Transparent">
+                                <Button>
                                     <Button.Style>
-                                        <Style TargetType="Button">
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
                                             <Setter Property="Command" Value="{Binding EndEditPenaltyCmd}"/>
                                             <Setter Property="Foreground" Value="Green"/>
                                             <Setter Property="Content" Value="{StaticResource checkBold}"/>
@@ -220,10 +255,11 @@
                                         </Style>
                                     </Button.Style>
                                 </Button>
-                                <Button BorderBrush="Transparent" Background="Transparent" Command="{Binding DeletePenaltyCmd}" Content="{StaticResource closeThick}" Foreground="Red">
+                                <Button Command="{Binding DeletePenaltyCmd}" Content="{StaticResource closeThick}">
                                     <Button.Style>
-                                        <Style TargetType="Button">
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
                                             <Setter Property="Visibility" Value="Visible"/>
+                                            <Setter Property="Foreground" Value="Red"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -239,7 +275,8 @@
                 <DataGridTemplateColumn Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="{StaticResource delete}" Foreground="Black" Background="Transparent" BorderBrush="Transparent" Click="DeleteRowButton_Click" Tag="{Binding}"/>
+                            <Button Content="{StaticResource delete}" Click="DeleteRowButton_Click" Tag="{Binding}"
+                                    Style="{StaticResource IconButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
