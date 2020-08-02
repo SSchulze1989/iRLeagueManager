@@ -315,11 +315,15 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
                 .ForMember(dest => dest.MultiScoringFactors, opt => opt.MapFrom((src, dest, factors) =>
                 {
-                    return src.MultiScoringResults.Select(x => x.Value.ToString()).Aggregate((x, y) => x + "," + y);
+                    if (src.MultiScoringResults.Count > 0)
+                        return src.MultiScoringResults.Select(x => x.Value.ToString()).Aggregate((x, y) => x + "," + y);
+                    return null;
                 }))
                 .ForMember(dest => dest.MultiScoringResults, opt => opt.MapFrom((src, dest, scorings) =>
                 {
-                    return src.MultiScoringResults.Select(x => x.Key).ToArray();
+                    if (src.MultiScoringResults.Count > 0)
+                        return src.MultiScoringResults.Select(x => x.Key).ToArray();
+                    return new ScoringInfo[0];
                 }));
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ScoringModel(source.ScoringId)))
