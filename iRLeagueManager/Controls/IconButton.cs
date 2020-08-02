@@ -1,10 +1,13 @@
 ﻿using System;
+using MS.Internal.PresentationFramework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.ComponentModel;
 
 namespace iRLeagueManager.Controls
 {
@@ -13,6 +16,18 @@ namespace iRLeagueManager.Controls
         public static DependencyProperty IconContentProperty =
             DependencyProperty.Register(nameof(IconContent), typeof(object), typeof(IconButton), 
                 new PropertyMetadata(null));
+
+        public static readonly DependencyProperty IconFillProperty =
+            DependencyProperty.Register(nameof(IconFill), typeof(Brush), typeof(IconButton),
+                new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty IconStrokeProperty =
+            DependencyProperty.Register(nameof(IconStroke), typeof(Brush), typeof(IconButton),
+                new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        public static readonly DependencyProperty IconStrokeThicknessProperty =
+            DependencyProperty.Register(nameof(IconStrokeThickness), typeof(double), typeof(IconButton),
+                new PropertyMetadata((double)0));
 
         public static DependencyProperty StackOrientationProperty =
             DependencyProperty.Register(nameof(StackOrientation), typeof(Orientation), typeof(IconButton),
@@ -34,6 +49,25 @@ namespace iRLeagueManager.Controls
         { 
             get => (object)GetValue(IconContentProperty); 
             set => SetValue(IconContentProperty, value); 
+        }
+
+        public Brush IconFill
+        {
+            get => (Brush)GetValue(IconFillProperty);
+            set => SetValue(IconFillProperty, value);
+        }
+
+        public Brush IconStroke
+        {
+            get => (Brush)GetValue(IconStrokeProperty);
+            set => SetValue(IconStrokeProperty, value);
+        }
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double IconStrokeThickness
+        {
+            get => (double)GetValue(IconStrokeThicknessProperty);
+            set => SetValue(IconStrokeThicknessProperty, value);
         }
 
         public Orientation StackOrientation

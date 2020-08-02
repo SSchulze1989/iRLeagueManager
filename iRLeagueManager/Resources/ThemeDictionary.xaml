@@ -63,7 +63,8 @@
 
     <!-- Default Controls -->
     <controls:IconButton x:Key="RefreshButton" Content="Refresh" TextElement.FontSize="{StaticResource Global.FontSizeLarge}"
-                         VerticalContentAlignment="Center" Padding="6">
+                         VerticalContentAlignment="Center" Padding="0" IconMargin="0,-2,0,0" SeparatorMargin="3"
+                         IconFill="DarkGoldenrod">
         <controls:IconButton.IconContent>
             <fa:ImageAwesome Icon="Refresh" Width="18"/>
         </controls:IconButton.IconContent>
@@ -116,7 +117,7 @@
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                  Margin="{TemplateBinding IconMargin}" Foreground="{TemplateBinding Foreground}">
+                                  Margin="{TemplateBinding IconMargin}" Foreground="{TemplateBinding IconFill}">
                     <!--<ContentControl.ContentTemplate>
                         <DataTemplate DataType="{x:Type fa:ImageAwesome}">
                             <fa:ImageAwesome Icon="{Binding Icon}" Width="{Binding Width}" Height="{Binding Height}" Spin="{Binding Spin}"
@@ -126,10 +127,21 @@
                     </ContentControl.ContentTemplate>-->
                     <ContentControl.Resources>
                         <Style TargetType="{x:Type fa:ImageAwesome}">
-                            <Setter Property="Foreground" Value="{Binding Foreground}"/>
+                            <Setter Property="Foreground" Value="{Binding Path=IconFill, RelativeSource={RelativeSource AncestorType={x:Type controls:IconButton}}}"/>
                             <Style.Triggers>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="{DynamicResource iRLM.Button.DisabledForegroundBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="{Binding Path=IconFill, RelativeSource={RelativeSource AncestorType={x:Type controls:IconButton}}}"/>
+                            <Setter Property="Stroke" Value="{Binding Path=IconStroke, RelativeSource={RelativeSource AncestorType={x:Type controls:IconButton}}}"/>
+                            <Setter Property="StrokeThickness" Value="{Binding Path=IconStrokeThickness, RelativeSource={RelativeSource AncestorType={x:Type controls:IconButton}}}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Fill" Value="{DynamicResource iRLM.Button.DisabledForegroundBrush}"/>
+                                    <Setter Property="Stroke" Value="Transparent"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -185,6 +197,7 @@
                 <!--<Setter Property="Background" Value="{DynamicResource iRLM.Button.DisabledBackgroundBrush}"/>-->
                 <!--<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource iRLM.Button.DisabledBorderBrush}"/>-->
                 <Setter Property="Foreground" Value="{DynamicResource iRLM.Button.DisabledForegroundBrush}"/>
+                <Setter Property="IconFill" Value="{DynamicResource iRLM.Button.DisabledForegroundBrush}"/>
                 <!--<Setter Property="BorderThickness" TargetName="border" Value="{DynamicResource iRLM.Button.DisabledBorderThickness}"/>-->
                 <!--<Setter Property="BorderThickness" TargetName="border" Value="0"/>-->
             </Trigger>
