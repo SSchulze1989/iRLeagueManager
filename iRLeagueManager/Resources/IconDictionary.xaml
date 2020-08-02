@@ -12,7 +12,8 @@
               Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"/>
     <Path x:Key="closeThick" x:Shared="False"
               Data="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z"
-              Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"/>
+              Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     <Path x:Key="closeOutlineRed" x:Shared="False"
               Data="M3,16.74L7.76,12L3,7.26L7.26,3L12,7.76L16.74,3L21,7.26L16.24,12L21,16.74L16.74,21L12,16.24L7.26,21L3,16.74M12,13.41L16.74,18.16L18.16,16.74L13.41,12L18.16,7.26L16.74,5.84L12,10.59L7.26,5.84L5.84,7.26L10.59,12L5.84,16.74L7.26,18.16L12,13.41Z"
               Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Foreground}"/>

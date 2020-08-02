@@ -116,7 +116,7 @@
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                  Margin="0" Foreground="{TemplateBinding Foreground}">
+                                  Margin="{TemplateBinding IconMargin}" Foreground="{TemplateBinding Foreground}">
                     <!--<ContentControl.ContentTemplate>
                         <DataTemplate DataType="{x:Type fa:ImageAwesome}">
                             <fa:ImageAwesome Icon="{Binding Icon}" Width="{Binding Width}" Height="{Binding Height}" Spin="{Binding Spin}"
@@ -135,7 +135,7 @@
                         </Style>
                     </ContentControl.Resources>
                 </ContentControl>
-                <Separator Margin="3" x:Name="separator">
+                <Separator Margin="{TemplateBinding SeparatorMargin}" x:Name="separator">
                     <Separator.Template>
                         <ControlTemplate TargetType="{x:Type Separator}"/>
                     </Separator.Template>

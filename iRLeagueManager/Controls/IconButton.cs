@@ -22,6 +22,14 @@ namespace iRLeagueManager.Controls
             DependencyProperty.Register(nameof(StackFlowDirection), typeof(FlowDirection), typeof(IconButton),
                 new PropertyMetadata(FlowDirection.LeftToRight));
 
+        public static readonly DependencyProperty SeparatorMarginProperty =
+            DependencyProperty.Register(nameof(SeparatorMargin), typeof(Thickness), typeof(IconButton),
+                new PropertyMetadata(new Thickness(2)));
+
+        public static readonly DependencyProperty IconMarginProperty =
+            DependencyProperty.Register(nameof(IconMargin), typeof(Thickness), typeof(IconButton),
+                new PropertyMetadata(new Thickness(0)));
+
         public object IconContent 
         { 
             get => (object)GetValue(IconContentProperty); 
@@ -38,6 +46,18 @@ namespace iRLeagueManager.Controls
         {
             get => (FlowDirection)GetValue(StackFlowDirectionProperty);
             set => SetValue(StackFlowDirectionProperty, value);
+        }
+
+        public Thickness SeparatorMargin
+        {
+            get => (Thickness)GetValue(SeparatorMarginProperty);
+            set => SetValue(SeparatorMarginProperty, value);
+        }
+
+        public Thickness IconMargin
+        {
+            get => (Thickness)GetValue(IconMarginProperty);
+            set => SetValue(IconMarginProperty, value);
         }
     }
 }

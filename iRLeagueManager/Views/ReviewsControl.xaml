@@ -6,6 +6,8 @@
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
              xmlns:local="clr-namespace:iRLeagueManager.Views"
              xmlns:conv="clr-namespace:iRLeagueManager.Converters"
+             xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Background="White"
              FontSize="{StaticResource Global.FontSizeMedium}"
@@ -176,11 +178,11 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type TreeViewItem}">
-						<Grid Margin="2">
+						<Grid Margin="2" HorizontalAlignment="Stretch">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition MinWidth="19" Width="Auto"/>
-								<!--<ColumnDefinition Width="Auto"/>-->
-								<ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"/>
@@ -190,7 +192,7 @@
 										  Style="{StaticResource ExpandCollapseToggleStyle}"/>
 							<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
 									Background="{TemplateBinding Background}" Grid.Column="1" Padding="{TemplateBinding Padding}" 
-									SnapsToDevicePixels="true">
+									SnapsToDevicePixels="true" Grid.ColumnSpan="2">
 								<!--<ToggleButton ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
 											  HorizontalAlignment="Stretch" 
 											  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -262,7 +264,7 @@
 	<Grid>
 		<DockPanel>
 			<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft" Height="Auto">
-				<Button Command="{Binding RefreshCmd}" Padding="1" BorderBrush="Transparent" Background="Transparent" Margin="5,0">
+				<!--<Button Command="{Binding RefreshCmd}" Padding="1" BorderBrush="Transparent" Background="Transparent" Margin="5,0">
 					<Button.Content>
 						<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
 							<ContentControl Margin="0,0,5,0">
@@ -271,7 +273,10 @@
 							<TextBlock Text="Refresh" FontSize="18"/>
 						</StackPanel>
 					</Button.Content>
-				</Button>
+				</Button>-->
+                <ContentControl>
+                    <StaticResource ResourceKey="RefreshButton"/>
+                </ContentControl>
 			</StackPanel>
 			<Grid>
 				<Grid.RowDefinitions>
@@ -327,7 +332,9 @@
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 
-                        <ListBox Grid.Column="0" Height="120" ItemsSource="{Binding CurrentReviews}" Name="ReviewList" SelectedItem="{Binding SelectedReview}">
+                        <ListBox Grid.Column="0" Height="120" ItemsSource="{Binding CurrentReviews}" 
+                                 Name="ReviewList" SelectedItem="{Binding SelectedReview}"
+                                 FontSize="{StaticResource Global.FontSizeSmall}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -386,12 +393,12 @@
 
 						<Grid Grid.Column="1" Width="Auto">
 							<Grid.RowDefinitions>
-								<RowDefinition />
-								<RowDefinition />
-								<RowDefinition />
+								<RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
 							</Grid.RowDefinitions>
 
-                            <Button Grid.Row="0" Command="{Binding AddReviewCmd}" Style="{StaticResource IconButtonStyle}">
+                            <!--<Button Grid.Row="0" Command="{Binding AddReviewCmd}" Style="{StaticResource IconButtonStyle}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
                                         <ContentControl>
@@ -401,9 +408,31 @@
                                         <TextBlock Text="New" FontSize="18"/>
                                     </StackPanel>
                                 </Button.Content>
-                            </Button>
-							<Button Content="Edit" Grid.Row="1" Click="EditButton_Click" Tag="{Binding SelectedReview}"/>
-                            <Button Content="Delete" Grid.Row="2"  Command="{Binding RemoveReviewCmd}"/>
+                            </Button>-->
+                            <controls:IconButton Grid.Row="0" Command="{Binding AddReviewCmd}"
+                                                 IconContent="{StaticResource PlusThick}" Content="New"  SeparatorMargin="5"
+                                                 HorizontalContentAlignment="Left" VerticalContentAlignment="Center"  IconMargin="0,-5,0,0">
+                            </controls:IconButton>
+                            <!--<Button Content="Edit" Grid.Row="1" Click="EditButton_Click" Tag="{Binding SelectedReview}"/>-->
+                            <controls:IconButton Grid.Row="1" Click="EditButton_Click" Tag="{Binding SelectedReview}"
+                                                 IconContent="{StaticResource pencilOutline}" Content="Edit" SeparatorMargin="5"
+                                                 HorizontalContentAlignment="Left" VerticalContentAlignment="Center" IconMargin="0,-4,0,0">
+                                <controls:IconButton.Style>
+                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="Tag" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </controls:IconButton.Style>
+                            </controls:IconButton>
+                            <controls:IconButton Grid.Row="2" Command="{Binding RemoveReviewCmd}"
+                                                 IconContent="{StaticResource delete}" Content="Delete" SeparatorMargin="5"
+                                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                                                 IconMargin="0,-6,0,0"/>
+                            <!--<Button Content="Delete" Grid.Row="2"  Command="{Binding RemoveReviewCmd}"/>-->
 						</Grid>
 					</Grid>
 				</Grid>
@@ -422,7 +451,7 @@
 
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Overview" Margin="5,2"/>
                     <RichTextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
-                        <FlowDocument TextElement.FontSize="12" TextElement.FontFamily="Default">
+                        <FlowDocument FontSize="{StaticResource Global.FontSizeSmall}" TextElement.FontFamily="Default">
                             <Paragraph>
                                 <Bold>Incident Type:</Bold>
                                 <LineBreak/>
@@ -559,10 +588,12 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        
+
                         <TreeView Grid.Row="0" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
 							  HorizontalContentAlignment="Stretch" Margin="5"
-                              ItemsSource="{Binding Comments}">
+                              ItemsSource="{Binding Comments}"
+                              FontSize="{StaticResource Global.FontSizeSmall}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <!--<TreeView.Items>
 							<vmodel:ReviewCommentViewModel />
 							<vmodel:ReviewCommentViewModel />
@@ -614,8 +645,13 @@
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
                                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                                <Button Content="Reply" Padding="0,-2" Margin="2,0" Click="CommentReplyButton_Click" Tag="{Binding}"/>
-                                                <Button Content="Edit" Padding="0,-2" Margin="2,0" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                <!--<Button Content="Reply" Padding="0,-2" Margin="2,0" Click="CommentReplyButton_Click" Tag="{Binding}"/>-->
+                                                <controls:IconButton Content="Reply" Click="CommentReplyButton_Click" Tag="{Binding}">
+                                                    <controls:IconButton.IconContent>
+                                                        <fa:ImageAwesome Icon="Reply" Height="10"/>
+                                                    </controls:IconButton.IconContent>
+                                                </controls:IconButton>
+                                                <!--<Button Content="Edit" Padding="0,-2" Margin="2,0" Click="CommentEditButton_Click" Tag="{Binding}">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Visibility" Value="Visible"/>
@@ -626,8 +662,23 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Button.Style>
-                                                </Button>
-                                                <Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
+                                                </Button>-->
+                                                <controls:IconButton Content="Edit" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                    <controls:IconButton.IconContent>
+                                                        <fa:ImageAwesome Icon="Edit" Height="12"/>
+                                                    </controls:IconButton.IconContent>
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
+                                                <!--<Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Visibility" Value="Visible"/>
@@ -638,7 +689,24 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Button.Style>
-                                                </Button>
+                                                </Button>-->
+                                                <controls:IconButton Content="Delete" Click="CommentDeleteButton_Click" Tag="{Binding}">
+                                                    <controls:IconButton.IconContent>
+                                                        <Viewbox Width="15" Margin="0,-2,0,0">
+                                                            <StaticResource ResourceKey="delete"/>
+                                                        </Viewbox>
+                                                    </controls:IconButton.IconContent>
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -660,7 +728,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                                <Button Content="Edit" Padding="0,-2" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                <!--<Button Content="Edit" Padding="0,-2" Click="CommentEditButton_Click" Tag="{Binding}">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -671,10 +739,25 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Button.Style>
-                                                </Button>
-                                                <Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
+                                                </Button>-->
+                                                <controls:IconButton Content="Edit" Click="CommentEditButton_Click" Tag="{Binding}">
+                                                    <controls:IconButton.IconContent>
+                                                        <fa:ImageAwesome Icon="Edit" Height="12"/>
+                                                    </controls:IconButton.IconContent>
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
+                                                <!--<Button Content="Delete" Padding="0,-2" Margin="2,0" Click="CommentDeleteButton_Click" Tag="{Binding}">
                                                     <Button.Style>
-                                                        <Style TargetType="Button" BasedOn="{StaticResource iRLM.ButtonDefaultStyle}">
+                                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
@@ -683,7 +766,24 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Button.Style>
-                                                </Button>
+                                                </Button>-->
+                                                <controls:IconButton Content="Delete" Click="CommentDeleteButton_Click" Tag="{Binding}">
+                                                    <controls:IconButton.IconContent>
+                                                        <Viewbox Width="15" Margin="0,-2,0,0">
+                                                            <StaticResource ResourceKey="delete"/>
+                                                        </Viewbox>
+                                                    </controls:IconButton.IconContent>
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsUserAuthor}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>

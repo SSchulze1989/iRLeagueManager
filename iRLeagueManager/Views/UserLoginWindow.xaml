@@ -9,7 +9,9 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
-        Title="iRLeagueManager - Login" Width="400" Height="300" TextElement.FontSize="16">
+        Title="iRLeagueManager - Login" Width="400" Height="300"
+        FontSize="{StaticResource Global.FontSizeMedium}"
+        FontFamily="{StaticResource Global.FontFamily}">
     <Window.Resources>
         <conv:InvertBoolConverter x:Key="InvertBoolConverter"/>
     </Window.Resources>
@@ -18,9 +20,12 @@
         <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" Stroke="DarkBlue"/>-->
         <StackPanel HorizontalAlignment="Stretch" Margin="10">
             <TextBlock HorizontalAlignment="Left" Margin="5,5,5,2" Text="Username:" />
-            <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"/>
+            <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                     Padding="2"/>
             <TextBlock HorizontalAlignment="Left" Margin="5,2" Text="Passwort:" />
-            <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"/>
+            <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5"
+                         Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"/>
             <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" Margin="5" Foreground="Red" />
             <Grid>
                 <Grid.ColumnDefinitions>

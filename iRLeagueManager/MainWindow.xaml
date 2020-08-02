@@ -11,6 +11,7 @@
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
+        xmlns:controls="clr-namespace:iRLeagueManager.Controls"
         mc:Ignorable="d"
         WindowState="Maximized" Height="863" Width="1568" Background="{StaticResource iRLM.MainWindow.Background}"
         FontFamily="{StaticResource Global.FontFamily}"
@@ -64,16 +65,6 @@
                 </StackPanel>
             </Grid>
             <DockPanel DockPanel.Dock="Bottom">
-                <TabControl DockPanel.Dock="Top" Height="200">
-                    <TabItem Header="Errors" TextElement.FontSize="10">
-                        <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time" IsReadOnly="True" Width="75"/>
-                                <DataGridTextColumn Binding="{Binding Message}" Header="Message" IsReadOnly="True" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </TabItem>
-                </TabControl>
                 <Grid DockPanel.Dock="Bottom" Height="30" Background="Gray">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -104,6 +95,37 @@
                         </fa:ImageAwesome>
                         <TextBlock Text="{Binding DbStatus.UpdateStatus}" Margin="5,0"/>
                     </StackPanel>
+                </Grid>
+                <Grid>
+                    <Rectangle Stroke="Black" StrokeThickness="1"/>
+                    <TabControl Grid.Row="0" DockPanel.Dock="Top" Height="200">
+                        <TabItem Header="Errors" TextElement.FontSize="12" Height="25">
+                            <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time" IsReadOnly="True" Width="75"/>
+                                    <DataGridTextColumn Binding="{Binding Message}" Header="Message" IsReadOnly="True" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
+                    <controls:IconButton VerticalAlignment="Top" HorizontalAlignment="Right"
+                                         Margin="5" Padding="0" Width="20" Height="20" Command="{Binding CloseErrorsCmd}">
+                        <controls:IconButton.IconContent>
+                            <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <StaticResource ResourceKey="closeThick"/>
+                            </Viewbox>
+                        </controls:IconButton.IconContent>
+                    </controls:IconButton>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorsOpen}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
                 </Grid>
             </DockPanel>
             <Grid DockPanel.Dock="Left" Width="Auto" Background="Black" TextElement.Foreground="WhiteSmoke">

@@ -8,7 +8,9 @@
              xmlns:converter="clr-namespace:iRLeagueManager.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500" Background="White" TextElement.FontSize="{StaticResource Global.FontSize}">
+             d:DesignHeight="600" d:DesignWidth="500" Background="White" 
+             FontSize="{StaticResource Global.FontSizeMedium}"
+             FontFamily="{StaticResource Global.FontFamily}">
     <UserControl.Resources>
         <!--<vmodel:MemberListViewModel x:Key="MemberList"/>-->
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
