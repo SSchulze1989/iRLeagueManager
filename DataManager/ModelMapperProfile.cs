@@ -316,7 +316,7 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.MultiScoringFactors, opt => opt.MapFrom((src, dest, factors) =>
                 {
                     if (src.MultiScoringResults.Count > 0)
-                        return src.MultiScoringResults.Select(x => x.Value.ToString()).Aggregate((x, y) => x + "," + y);
+                        return src.MultiScoringResults.Select(x => x.Value.ToString()).Aggregate((x, y) => x + ";" + y);
                     return null;
                 }))
                 .ForMember(dest => dest.MultiScoringResults, opt => opt.MapFrom((src, dest, scorings) =>

@@ -196,5 +196,30 @@ namespace iRLeagueManager.Views
                 }
             }
         }
+
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && ViewModel != null)
+            {
+                var editWindow = new ModalOkCancelWindow();
+                editWindow.Width = 700;
+                editWindow.Height = 700;
+                var content = new ReviewEditControl();
+
+                editWindow.Title = "Add new Review";
+
+                if (content.DataContext is IncidentReviewViewModel editVM)
+                {
+                    editVM.Model = ViewModel.CreateReviewModel();
+                    await editVM.LoadMemberListAsync();
+
+                    editWindow.ModalContent.Content = content;
+                    if (editWindow.ShowDialog() == true)
+                    {
+                        await ViewModel.AddReviewAsync(editVM.Model);
+                    }
+                }
+            }
+        }
     }
 }
