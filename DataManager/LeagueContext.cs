@@ -24,32 +24,51 @@ using System.Collections;
 
 namespace iRLeagueManager.Data
 {
+    /// <summary>
+    /// Holds all information about the active league connection, including model datasources and user data.
+    /// Creating a new instance will open a connection to the league database and require a user authenfication before
+    /// any data can be send/requested.
+    /// </summary>
     public class LeagueContext
     {
         private ModelMapperProfile MapperProfile { get; }
         private LocationMapperProfile LocationMapperProfile { get; }
         private MapperConfiguration MapperConfiguration { get; }
 
-        //public UserModel CurrentUser { get; internal set; }
+        /// <summary>
+        /// Manages user data such as username and credentials. Used to authenticate calls to the database API.
+        /// </summary>
         public IUserManager UserManager { get; }
 
-        //public DbLeagueServiceClient DbContext { get; }
+        /// <summary>
+        /// Database to get Model data from
+        /// </summary>
         public IModelDatabase ModelDatabase { get; }
 
+        /// <summary>
+        /// Manages model data. Provides functions to get/update/add/delete data and some additional actions.
+        /// </summary>
         public IModelDataAndActionProvider ModelContext { get; }
 
+        /// <summary>
+        /// Manages model data. Provides functions to get/update/add/delete data.
+        /// </summary>
         public IModelManager ModelManager { get; }
 
+        /// <summary>
+        /// Provides authentication method and stores user credentials to be used by API after successful authentication.
+        /// </summary>
         private IUserCredentialsManager UserCredentialsManager { get; }
 
         private ObservableCollection<LeagueMember> memberList;
+        /// <summary>
+        /// List of all members of the active league
+        /// </summary>
         public ObservableCollection<LeagueMember> MemberList => memberList;
 
-        private ObservableCollection<SeasonModel> seasons;
-        public ObservableCollection<SeasonModel> Seasons => seasons;
-
-        //public DatabaseStatusModel DbStatus => DbContext?.Status;
-
+        /// <summary>
+        /// Collection of available Locations (Track + Config)
+        /// </summary>
         public LocationCollection LocationCollection { get; } = new LocationCollection();
 
         private string DatabaseName { get; } = "TestDatabase";
@@ -61,6 +80,9 @@ namespace iRLeagueManager.Data
         //private List<Schedule> ActiveSchedules { get; } = new List<Schedule>();
         //private List<SessionBase> ActiveSessions { get; } = new List<SessionBase>();
 
+        /// <summary>
+        /// Create new instance with default database connection
+        /// </summary>
         public LeagueContext() : base()
         {
             var modelCache = new ModelCache();
@@ -88,7 +110,6 @@ namespace iRLeagueManager.Data
                 cfg.AddProfile(LocationMapperProfile);
                 cfg.AddCollectionMappers();
             });
-            seasons = new ObservableCollection<SeasonModel>();
             ModelDatabase = new ASPRestAPIClientWrapper(new Uri("http://144.91.113.195/iRLeagueRESTService/api"), "TestDatabase", UserCredentialsManager)
             {
                 DatabaseStatusService = databaseStatusService
@@ -99,11 +120,19 @@ namespace iRLeagueManager.Data
             //_ = UpdateMemberList();
         }
 
+        /// <summary>
+        /// Get a list of all seasons in the active league
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<SeasonModel>> GetSeasonListAsync()
         {
             return await GetModelsAsync<SeasonModel>();
         }
 
+        /// <summary>
+        /// Refresh member list data from databases
+        /// </summary>
+        /// <returns></returns>
         public async Task UpdateMemberList()
         {
             var mapper = MapperConfiguration.CreateMapper();
@@ -116,76 +145,156 @@ namespace iRLeagueManager.Data
             memberList = new ObservableCollection<LeagueMember>(updateList);
         }
 
+        /// <summary>
+        /// Authenticate session with user credentials and store authenticated user information
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns>True if authentication was succesful</returns>
         public async Task<bool> UserLoginAsync(string userName, string password)
         {
             return await UserManager.UserLoginAsync(userName, password);
         }
 
+        /// <summary>
+        /// Log off from the database and remove authenticated user information
+        /// </summary>
         public void UserLogout()
         {
             UserManager.UserLogougt();
         }
 
-        public LeagueContext(IDatabaseStatus status) : this()
-        {
-            //DbContext.AddStatusItem(status);
-        }
-
+        /// <summary>
+        /// Add a status listener to the connected database
+        /// </summary>
+        /// <param name="statusItem">status listener to connect</param>
         public void AddStatusItem(IDatabaseStatus statusItem)
         {
             ModelDatabase.AddDatabaseStatusListener(statusItem);
         }
 
+        /// <summary>
+        /// Remoe status listener from the connected database
+        /// </summary>
+        /// <param name="statusItem">status listener to disconnect</param>
         public void RemoveStatusItem(IDatabaseStatus statusItem)
         {
             ModelDatabase.RemoveDatabaseStatusListener(statusItem);
         }
 
+        /// <summary>
+        /// Get model data from the database
+        /// </summary>
+        /// <typeparam name="T">Requested model Type</typeparam>
+        /// <param name="modelId">Model Id</param>
+        /// <returns></returns>
         public Task<T> GetModelAsync<T>(params long[] modelId) where T : MappableModel
         {
             return this.ModelManager.GetModelAsync<T>(modelId);
         }
 
+        /// <summary>
+        /// Get single model data from the database providing its ModelId
+        /// Models can have multiple long as a combined Id e.g:
+        /// var model = await GetModelAsync&lt;TModel&gt;({ 1, 2 });
+        /// </summary>
+        /// <typeparam name="T">Requested model Type</typeparam>
+        /// <param name="modelId">Model Id</param>
+        /// <returns>requested Model</returns>
         public Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : MappableModel
         {
             return this.ModelManager.GetModelAsync<T>(modelId, update, reload);
         }
 
+        /// <summary>
+        /// Get array of models data from the database
+        /// Models can have multiple long as a combined Id e.g:
+        /// var model = await GetModelsAsync&lt;TModel&gt;({ { 1, 2 }, { 1, 3} });
+        /// </summary>
+        /// <typeparam name="T">Requested model Type</typeparam>
+        /// <param name="modelIds">Array of ModelIds</param>
+        /// <returns>Array of requested Models</returns>
         public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long> modelIds) where T : MappableModel
         {
             return this.ModelManager.GetModelsAsync<T>(modelIds);
         }
 
+        /// <summary>
+        /// Get array of models data from the database
+        /// Models can have multiple long as a combined Id e.g:
+        /// var model = await GetModelsAsync&lt;TModel&gt;({ { 1, 2 }, { 1, 3} });
+        /// </summary>
+        /// <typeparam name="T">Requested model Type</typeparam>
+        /// <param name="modelIds">Array of ModelIds</param>
+        /// <param name="update">Auto update Model if it is already in cache</param>
+        /// <param name="reload">Completely Reload Model - Discard all unsaved changes</param>
+        /// <returns>Array of requested Models</returns>
         public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : MappableModel
         {
             return this.ModelManager.GetModelsAsync<T>(modelIds, update, reload);
         }
 
+        /// <summary>
+        /// Update a single Model - Saves changed data to the db and updates current changes from db
+        /// </summary>
+        /// <typeparam name="T">Provided Model type</typeparam>
+        /// <param name="model">Model to update</param>
+        /// <returns>Updated Model</returns>
         public Task<T> UpdateModelAsync<T>(T model) where T : MappableModel
         {
             return this.ModelManager.UpdateModelAsync<T>(model);
         }
 
+        /// <summary>
+        /// Update an array of Models - Saves changed data to the db and updates current changes from db
+        /// </summary>
+        /// <typeparam name="T">Provided Model type</typeparam>
+        /// <param name="models">Models to update</param>
+        /// <returns>Array of updated Models</returns>
         public Task<IEnumerable<T>> UpdateModelsAsync<T>(IEnumerable<T> models) where T : MappableModel
         {
             return this.ModelManager.UpdateModelsAsync<T>(models);
         }
 
+        /// <summary>
+        /// Delete a single entry from the database
+        /// </summary>
+        /// <typeparam name="T">Requested Model type</typeparam>
+        /// <param name="modelId">ModelId</param>
+        /// <returns>True if deletion was successfull</returns>
         public Task<bool> DeleteModelAsync<T>(params long[] modelId) where T : MappableModel
         {
             return this.ModelManager.DeleteModelAsync<T>(modelId);
         }
 
+        /// <summary>
+        /// Delete multiple entries from the database
+        /// </summary>
+        /// <typeparam name="T">Requested Model type</typeparam>
+        /// <param name="models">Array of Models to be deleted</param>
+        /// <returns>True if deletion of all entries was successfull</returns>
         public Task<bool> DeleteModelsAsync<T>(params T[] models) where T : MappableModel
         {
             return this.ModelManager.DeleteModelsAsync<T>(models);
         }
 
+        /// <summary>
+        /// Delete multiple entries from the database
+        /// </summary>
+        /// <typeparam name="T">Requested Model type</typeparam>
+        /// <param name="modelIds">Array of ModelIds</param>
+        /// <returns>True if deletion of all entries was successfull</returns>
         public Task<bool> DeleteModelsAsync<T>(long[] modelIds) where T : MappableModel
         {
             return this.ModelManager.DeleteModelsAsync<T>(modelIds);
         }
 
+        /// <summary>
+        /// Delete multiple entries from the database
+        /// </summary>
+        /// <typeparam name="T">Requested Model type</typeparam>
+        /// <param name="modelIds"></param>
+        /// <returns></returns>
         public Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : MappableModel
         {
             return this.ModelManager.DeleteModelsAsync<T>(modelIds);
