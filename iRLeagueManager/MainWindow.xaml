@@ -41,7 +41,7 @@
                     <Setter Property="Background" TargetName="border" Value="DarkGray"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" TargetName="border" Value="Black"/>
+                    <!--<Setter Property="Background" TargetName="border" Value="{StaticResource }"/>-->
                     <Setter Property="Foreground" Value="#353535"/>
                 </Trigger>
             </ControlTemplate.Triggers>
@@ -59,13 +59,13 @@
     </Window.DataContext>
     <Grid>
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Grid DockPanel.Dock="Top" Height="50" Background="Black">
+            <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_Back6}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DataContext="{Binding CurrentUser}">
                     <TextBlock Text="{Binding FullName}" Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="5"/>
                 </StackPanel>
             </Grid>
             <DockPanel DockPanel.Dock="Bottom">
-                <Grid DockPanel.Dock="Bottom" Height="30" Background="Gray">
+                <Grid DockPanel.Dock="Bottom" Height="30" Background="{StaticResource ThemeColor_Back2}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -128,7 +128,7 @@
                     </Grid.Style>
                 </Grid>
             </DockPanel>
-            <Grid DockPanel.Dock="Left" Width="Auto" Background="Black" TextElement.Foreground="WhiteSmoke">
+            <Grid DockPanel.Dock="Left" Width="Auto" Background="{StaticResource ThemeColor_Back6}" TextElement.Foreground="WhiteSmoke">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="350" />
                     <ColumnDefinition Width="0" />
@@ -168,7 +168,7 @@
                             <Setter Property="Template" Value="{StaticResource MenuButtonTemplate}" />
                             <Setter Property="Margin" Value="0,-2" />
                             <Setter Property="Padding" Value="0,18"/>
-                            <Setter Property="Background" Value="Black" />
+                            <Setter Property="Background" Value="Transparent" />
                             <Setter Property="Foreground" Value="WhiteSmoke" />
                             <Setter Property="BorderThickness" Value="0,4,0,4" />
                         </Style>

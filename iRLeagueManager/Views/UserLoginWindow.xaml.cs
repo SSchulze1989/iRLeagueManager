@@ -92,5 +92,12 @@ namespace iRLeagueManager.Views
                 }
             }
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (e.ChangedButton == MouseButton.Left && Mouse.LeftButton == MouseButtonState.Pressed)
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
     }
 }

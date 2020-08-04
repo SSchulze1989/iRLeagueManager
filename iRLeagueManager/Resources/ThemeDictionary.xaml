@@ -10,10 +10,24 @@
     <sys:Double x:Key="Global.FontSizeLarge">22</sys:Double>
     <sys:Double x:Key="Global.FontSizeMedium">18</sys:Double>
     <sys:Double x:Key="Global.FontSizeSmall">16</sys:Double>
+    
+    <!-- Color code-->
+    <SolidColorBrush x:Key="ThemeColor_Red" Color="#ec7063"/>
+    <SolidColorBrush x:Key="ThemeColor_LightBlue" Color="#aed6f1"/>
+    <SolidColorBrush x:Key="ThemeColor_Green" Color="#52be80"/>
+    <SolidColorBrush x:Key="ThemeColor_Border" Color="#d6dbdf"/>
+    <SolidColorBrush x:Key="ThemeColor_DarkBlue" Color="#34495e"/>
+    <SolidColorBrush x:Key="ThemeColor_Back6" Color="#FF1F2225"/>
+    <SolidColorBrush x:Key="ThemeColor_Back5" Color="#283747"/>
+    <SolidColorBrush x:Key="ThemeColor_Back4" Color="#85929e"/>
+    <SolidColorBrush x:Key="ThemeColor_Back3" Color="#5d6d7e"/>
+    <SolidColorBrush x:Key="ThemeColor_Back2" Color="#d6dbdf"/>
+    <SolidColorBrush x:Key="ThemeColor_Back1" Color="#ebedef"/>
+    <SolidColorBrush x:Key="ThemeColor_Back0" Color="WhiteSmoke"/>
 
     <!-- Override System Values-->
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowColorKey}" Color="Red"/>
-    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#d6dbdf"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
 
     <!-- MainWindow-->
@@ -64,7 +78,7 @@
     <!-- Default Controls -->
     <controls:IconButton x:Key="RefreshButton" Content="Refresh" TextElement.FontSize="{StaticResource Global.FontSizeLarge}"
                          VerticalContentAlignment="Center" Padding="0" IconMargin="0,-2,0,0" SeparatorMargin="3"
-                         IconFill="DarkGoldenrod">
+                         IconFill="{StaticResource ThemeColor_DarkBlue}" IconStrokeThickness="0" Foreground="{StaticResource ThemeColor_DarkBlue}">
         <controls:IconButton.IconContent>
             <fa:ImageAwesome Icon="Refresh" Width="18"/>
         </controls:IconButton.IconContent>

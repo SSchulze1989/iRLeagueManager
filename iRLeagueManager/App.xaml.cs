@@ -33,6 +33,7 @@ namespace iRLeagueManager
 #endif
 
             dialog.DataContext = viewModel;
+            dialog.WindowStyle = WindowStyle.None;
             viewModel.Load();
 
             if (dialog.ShowDialog() == true)
