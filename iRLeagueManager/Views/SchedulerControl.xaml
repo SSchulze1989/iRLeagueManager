@@ -250,8 +250,11 @@
                                                                         IconContent="{StaticResource TableArrowUp}"
                                                                         Content=".csv" ToolTip="Upload Result set from csv"/>
 
-                                                                            <ContentControl Foreground="Green" Margin="5,0" VerticalAlignment="Center">
-                                                                                <StaticResource ResourceKey="checkBold"/>
+                                                                            <ContentControl Foreground="{StaticResource ThemeColor_Green}" Margin="5,0" VerticalAlignment="Center">
+                                                                                <!--<StaticResource ResourceKey="checkBold"/>-->
+                                                                                <Viewbox Height="20" VerticalAlignment="Center">
+                                                                                    <fa:ImageAwesome Icon="CheckCircleOutline" Foreground="Green"/>
+                                                                                </Viewbox>
                                                                                 <ContentControl.Style>
                                                                                     <Style TargetType="ContentControl">
                                                                                         <Setter Property="VirtualizingPanel.Visibility" Value="Visible"/>
@@ -284,8 +287,8 @@
                                                                 </Button>-->
                                                                             <controls:IconButton Click="DeleteResultButton_Click" VerticalAlignment="Center"
                                                                                      Tag="{Binding}" IconContent="{StaticResource closeThick}"
-                                                                                     IconFill="Red" IconStroke="Black" IconStrokeThickness="0.5"
-                                                                                             ToolTip="Delete Result set">
+                                                                                     IconFill="{StaticResource ThemeColor_Red}" IconStroke="Red" IconStrokeThickness="0.5"
+                                                                                             ToolTip="Delete Result set" IconMargin="-2,-2,0,0" Margin="4,0">
                                                                                 <controls:IconButton.Style>
                                                                                     <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
                                                                                         <Setter Property="Visibility" Value="Visible"/>

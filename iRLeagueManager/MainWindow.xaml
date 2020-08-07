@@ -154,7 +154,7 @@
     </Window.DataContext>
     <Grid>
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_Back6}">
+            <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_DarkBlue}">
                 <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
@@ -228,7 +228,7 @@
                     </Grid.Style>
                 </Grid>
             </DockPanel>
-            <Grid x:Name="MenuGrid" DockPanel.Dock="Left" Width="Auto" Background="{StaticResource ThemeColor_Back6}" 
+            <Grid x:Name="MenuGrid" DockPanel.Dock="Left" Width="Auto" Background="{StaticResource ThemeColor_Back5}" 
                   TextElement.Foreground="WhiteSmoke" TextElement.FontFamily="{DynamicResource Menu.FontFamily}"
                   TextElement.FontSize="{DynamicResource Menu.FontSizeLarge}">
                 <Grid.ColumnDefinitions>
