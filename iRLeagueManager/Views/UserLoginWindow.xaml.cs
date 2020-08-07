@@ -36,12 +36,19 @@ namespace iRLeagueManager.Views
 
             if (sender is Button button)
             {
-                //LoginVM.SubmitButtonCommand.Execute(null);
-                await ViewModel.SubmitAsync();
-                if (ViewModel.IsLoggedIn)
+                try
                 {
-                    DialogResult = true;
-                    Close();
+                    //LoginVM.SubmitButtonCommand.Execute(null);
+                    await ViewModel.SubmitAsync();
+                    if (ViewModel.IsLoggedIn)
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
+                catch
+                {
+                    ViewModel.StatusMessage = "Login failed - could not connect to Server.";
                 }
             }
         }

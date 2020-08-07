@@ -11,17 +11,19 @@
         xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
         Title="iRLeagueManager - Login" Width="400" Height="360"
-        FontSize="{StaticResource Global.FontSizeMedium}"
-        FontFamily="{StaticResource Global.FontFamily}"
+        FontSize="{DynamicResource Global.FontSizeLarge}"
+        FontFamily="{DynamicResource Global.FontFamily}"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        ResizeMode="NoResize">
+    
     <Window.Resources>
         <conv:InvertBoolConverter x:Key="InvertBoolConverter"/>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
         <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
         <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
             <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back4}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -67,10 +69,10 @@
         </Style>
         <Style x:Key="PasswordBoxStyle" TargetType="{x:Type PasswordBox}">
             <Setter Property="PasswordChar" Value="●"/>
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
             <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back4}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -88,9 +90,13 @@
                                 <Setter Property="Opacity" TargetName="border" Value="0.56"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Margin" TargetName="border" Value="-1,-1,-1,0"/>
+                                <Setter Property="BorderThickness" TargetName="border" Value="1,1,1,2"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter Property="Margin" TargetName="border" Value="-1,-1,-1,0"/>
+                                <Setter Property="BorderThickness" TargetName="border" Value="1,1,1,2"/>
                                 <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -111,42 +117,51 @@
 
     <Grid Width="Auto" Height="Auto" MouseDown="Window_MouseDown">
         <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" Stroke="DarkBlue"/>-->
-        <Border x:Name="WindowBorder" Margin="5" Padding="0" BorderThickness="1" BorderBrush="{StaticResource ThemeColor_Back3}" Background="White" CornerRadius="0">
+        <Border x:Name="WindowBorder" Margin="5" Padding="0" BorderThickness="1" BorderBrush="{StaticResource ThemeColor_Back3}" 
+                Background="{StaticResource ThemeColor_Back0}" CornerRadius="0">
             <Border.Effect>
-                <DropShadowEffect ShadowDepth="2" BlurRadius="2"/>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="7" Color="#EE000000"/>
             </Border.Effect>
             <Grid ClipToBounds="True">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Border Padding="15,10" BorderThickness="1,0,1,1" BorderBrush="{StaticResource ThemeColor_Back3}" CornerRadius="0" Background="{StaticResource ThemeColor_Back0}" MouseDown="Window_MouseDown">
+                <Border Grid.Row="0" Padding="15,10" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ThemeColor_Back3}" CornerRadius="0" 
+                        Background="{StaticResource ThemeColor_Back6}" MouseDown="Window_MouseDown">
                     <DockPanel>
-                        <controls:IconButton IconContent="{StaticResource closeThick}" DockPanel.Dock="Right" Height="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                                             Margin="0,0,-2,0" Padding="0" IconMargin="-2,-4,2,0"
-                                             Command="{Binding CloseButtonCommand}" Click="Button_Click"/>
-                        <TextBlock Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType=Window}}" FontSize="{StaticResource Global.FontSizeLarge}" Foreground="{StaticResource ThemeColor_Back6}"
-                               HorizontalAlignment="Left"/>
+                        <controls:IconButton IconContent="{StaticResource closeThick}" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                             Margin="0,0,-2,0" Padding="5" IconMargin="-2,-4,2,0"
+                                             Command="{Binding CloseButtonCommand}" Click="Button_Click"
+                                             IconFill="WhiteSmoke"
+                                             Foreground="White"/>
+                        <TextBlock Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                   FontSize="{StaticResource Global.FontSizeLarge}" Foreground="WhiteSmoke"
+                                   HorizontalAlignment="Left"/>
                     </DockPanel>
                 </Border>
 
-                <StackPanel HorizontalAlignment="Stretch" Margin="10" Grid.Row="1">
+                <StackPanel HorizontalAlignment="Stretch" Margin="10,20" Grid.Row="1">
                     <TextBlock HorizontalAlignment="Left" Margin="7,5,5,2" Text="Username:" Foreground="{StaticResource ThemeColor_Back5}"/>
                     <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
                      Padding="2" Style="{DynamicResource TextBoxStyle}"/>
                     <Separator Margin="8" Visibility="Hidden"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="7,2,5,2" Text="Passwort:" Foreground="{StaticResource ThemeColor_Back5}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="7,2,5,2" Text="Password:" Foreground="{StaticResource ThemeColor_Back5}"/>
                     <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5,0"
                          Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" Style="{DynamicResource PasswordBoxStyle}"/>
                     <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" Margin="5,10" Foreground="Red" />
-                    <Grid Margin="0,10">
+                    <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="SubmitButton" Grid.Column="0" Margin="5,10,5,10" Content="Submit" Click="SubmitButton_Click" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"/>
-                        <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,10,5,10" Content="Cancel" Click="Button_Click"/>
+                        <Button x:Name="SubmitButton" Grid.Column="0" Margin="5,10,5,10" Content="Submit" Click="SubmitButton_Click" 
+                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                                Background="{StaticResource ThemeColor_Back5}" BorderBrush="{StaticResource ThemeColor_Back5}"
+                                Foreground="WhiteSmoke" Template="{DynamicResource DarkButtonTemplate}"/>
+                        <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,10,5,10" Content="Cancel" Click="Button_Click"
+                                Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}"/>
                     </Grid>
                     <TextBlock Margin="5">
                 <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>

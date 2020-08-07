@@ -47,6 +47,8 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public string CurrentLeagueName => LeagueContext.LeagueName;
+
         //private bool isUserLoggedIn;
         //public bool IsUserLoggedIn { get => isUserLoggedIn; set => SetValue(ref isUserLoggedIn, value); }
 
@@ -97,7 +99,7 @@ namespace iRLeagueManager.ViewModels
         private void OnErrorLogChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (ErrorLog.Count > 0)
-                IsErrorsOpen = false;
+                IsErrorsOpen = true;
         }
 
         public async void Load()

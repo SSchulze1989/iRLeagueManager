@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="Resources/ThemeDictionary.xaml"/>
                 <ResourceDictionary Source="Resources/IconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <!--<FontFamily x:Key="Menu.FontFamily">Bahnschrift</FontFamily>-->
+            <!--<FontFamily x:Key="Menu.FontFamily">Formula1 Display-Bold</FontFamily>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

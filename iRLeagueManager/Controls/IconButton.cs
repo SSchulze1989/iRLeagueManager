@@ -45,6 +45,10 @@ namespace iRLeagueManager.Controls
             DependencyProperty.Register(nameof(IconMargin), typeof(Thickness), typeof(IconButton),
                 new PropertyMetadata(new Thickness(0)));
 
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(IconButton),
+                new PropertyMetadata(new CornerRadius(2)));
+
         public object IconContent 
         { 
             get => (object)GetValue(IconContentProperty); 
@@ -92,6 +96,12 @@ namespace iRLeagueManager.Controls
         {
             get => (Thickness)GetValue(IconMarginProperty);
             set => SetValue(IconMarginProperty, value);
+        }
+
+        public CornerRadius CornerRadius
+        {
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
     }
 }
