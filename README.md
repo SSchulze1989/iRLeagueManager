@@ -6,7 +6,7 @@ My goal is to give you all the tools you need to organise your league outside of
 
 # Application
 The manager will ship as a standalone desktop application from which you can control all aspects of your league.
-On top you will be able to connect to the open REST Api to integrate league data into your existing web page and evem allows you to manipulate without using the app.
+On top you will be able to connect to the open REST Api to integrate league data into your existing web page and even allows you to manipulate without using the app.
 
 # Features
 - Schedule planner and race Calendar
