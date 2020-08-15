@@ -292,8 +292,14 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" Foreground="{StaticResource ThemeColor_Blue}" Grid.Row="1"
-                           FontSize="{StaticResource Global.FontSizeMedium}" VerticalAlignment="Bottom" Margin="0,20" HorizontalAlignment="Center"/>
-                    <fa:ImageAwesome Grid.Column="1" Icon="Refresh" Foreground="{StaticResource ThemeColor_Blue}" Height="25" Margin="15"/>
+                           FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Margin="0,20" HorizontalAlignment="Center"/>
+                    <controls:IconButton Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
+                                         Foreground="{StaticResource ThemeColor_Back0}" Margin="0" Padding="15"
+                                         Click="RefreshButtonClick">
+                        <controls:IconButton.IconContent>
+                            <fa:ImageAwesome Icon="Refresh" Height="25"/>
+                        </controls:IconButton.IconContent>
+                    </controls:IconButton>
                 </Grid>
                 <!--<GridSplitter Grid.Column="0" Width="5"/>-->
             </Grid>

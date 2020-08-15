@@ -138,5 +138,21 @@ namespace iRLeagueManager
                 _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
         }
+
+        private void RefreshButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel != null)
+            {
+                if (mainViewModel.SeasonList?.Count > 0)
+                {
+                    if (MainContent.Content is ViewModelBase contentViewModel)
+                    {
+                        contentViewModel.Refresh();
+                    }
+                }
+                else
+                    mainViewModel.Refresh();
+            }
+        }
     }
 }

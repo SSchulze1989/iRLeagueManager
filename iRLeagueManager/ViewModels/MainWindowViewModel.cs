@@ -102,6 +102,12 @@ namespace iRLeagueManager.ViewModels
                 IsErrorsOpen = true;
         }
 
+        public override void Refresh(string propertyName = "")
+        {
+            Load();
+            base.Refresh(propertyName);
+        }
+
         public async void Load()
         {
             if (LeagueContext == null)

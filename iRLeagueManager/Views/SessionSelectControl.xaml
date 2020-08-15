@@ -36,31 +36,35 @@
     <DockPanel Grid.Row="1" x:Name="sessionSelector" HorizontalAlignment="Stretch" 
                >
 		<!--<Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>-->
-        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="1" Margin="0,2,2,2"
-                             Command="{Binding PreviousSessionCmd}">
+        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="0" Margin="0"
+                             Command="{Binding PreviousSessionCmd}" CornerRadius="0" Width="40"
+                             HorizontalContentAlignment="Center" IconMargin="0"
+                             Foreground="DarkGray" Background="Transparent">
             <controls:IconButton.IconContent>
                 <fa:ImageAwesome Icon="AngleLeft" Height="25" Margin="5"/>
             </controls:IconButton.IconContent>
-            <controls:IconButton.Style>
-                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                    <Setter Property="Background" Value="WhiteSmoke"/>
-                </Style>
-            </controls:IconButton.Style>
         </controls:IconButton>
 		<!--<Button Content="&gt;" Padding="5" DockPanel.Dock="Left" Command="{Binding NextSessionCmd}"/>-->
-        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="1" Margin="2,2,2,2"
-                             Command="{Binding NextSessionCmd}">
+        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="0" Margin="0"
+                             Command="{Binding NextSessionCmd}" CornerRadius="0" Width="40"
+                             HorizontalContentAlignment="Center" IconMargin="0"
+                             Foreground="{StaticResource ThemeColor_Back6}" 
+                             Background="Transparent">
             <controls:IconButton.IconContent>
                 <fa:ImageAwesome Icon="AngleRight" Height="25" Margin="5"/>
             </controls:IconButton.IconContent>
-            <controls:IconButton.Style>
-                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                    <Setter Property="Background" Value="WhiteSmoke"/>
-                </Style>
-            </controls:IconButton.Style>
         </controls:IconButton>
-        <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}" Margin="2" VerticalContentAlignment="Center"
-                  ItemTemplate="{Binding ElementName=parentControl, Path=ItemTemplate}">
+        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="0" Margin="0"
+                             Command="{Binding LastSessionCmd}" CornerRadius="0" Width="40"
+                             HorizontalContentAlignment="Center" IconMargin="0"
+                             Foreground="{StaticResource ThemeColor_Back6}" 
+                             Background="Transparent">
+            <controls:IconButton.IconContent>
+                <fa:ImageAwesome Icon="AngleDoubleRight" Height="25" Margin="5"/>
+            </controls:IconButton.IconContent>
+        </controls:IconButton>
+        <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}" Margin="0" VerticalContentAlignment="Center"
+                  ItemTemplate="{Binding ElementName=parentControl, Path=ItemTemplate}" Background="Transparent">
             <ComboBox.Style>
                 <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                     <Setter Property="TextBlock.FontWeight" Value="Bold"/>

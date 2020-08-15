@@ -13,6 +13,8 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using System.Windows.Data;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -82,18 +84,22 @@ namespace iRLeagueManager.ViewModels
         private ScoredResultViewModel selectedResult;
         public ScoredResultViewModel SelectedResult { get => selectedResult; set => SetValue(ref selectedResult, value); }
 
-        private ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> currentResults;
-        public ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> CurrentResults
+        private ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> currentResultsList;
+        protected ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> CurrentResultsList
         {
-            get => currentResults;
-            set
+            get => currentResultsList;
+            private set
             {
-                if (SetValue(ref currentResults, value, (t, v) => t.GetSource().Equals(v.GetSource())))
+                if (SetValue(ref currentResultsList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
                 {
+                    SetCurrentResultsView();
                     OnPropertyChanged(null);
                 }
             }
         }
+
+        private ICollectionView currentResults;
+        public ICollectionView CurrentResults { get => currentResults; set => SetValue(ref currentResults, value); }
 
         public SessionViewModel SelectedSession { get => SessionSelect?.SelectedSession; set => SessionSelect.SelectedSession = value; }
 
@@ -116,7 +122,7 @@ namespace iRLeagueManager.ViewModels
         {
             ScheduleList = new ScheduleVMCollection();
             resultList = new ObservableCollection<ResultInfo>();
-            CurrentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
+            CurrentResultsList = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
@@ -125,6 +131,17 @@ namespace iRLeagueManager.ViewModels
             };
             SelectedResult = null;
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
+        }
+
+        private void SetCurrentResultsView()
+        {
+            var currentResultsViewSource = new CollectionViewSource()
+            {
+                Source = currentResultsList
+            };
+
+            CurrentResults = currentResultsViewSource.View;
+            CurrentResults.Filter = x => (x != null && ((ScoredResultViewModel)x).FinalResults?.Count > 0);
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -220,14 +237,14 @@ namespace iRLeagueManager.ViewModels
         {
             if (SelectedSession == null)
             {
-                CurrentResults.UpdateSource(new ScoredResultModel[0]);
+                currentResultsList.UpdateSource(new ScoredResultModel[0]);
                 SelectedResult = null;
                 StatusMsg = "No sessions available!";
                 return;
             }
             else if (SelectedSession.Model.SessionResult == null)
             {
-                CurrentResults.UpdateSource(new ScoredResultModel[0]);
+                currentResultsList.UpdateSource(new ScoredResultModel[0]);
                 SelectedResult = null;
                 StatusMsg = "Results not yet available!";
                 return;
@@ -245,8 +262,8 @@ namespace iRLeagueManager.ViewModels
                     scoredResultModelIds.Add(modelId);
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
-                CurrentResults.UpdateSource(scoredResultModels);
-                SelectedResult = CurrentResults.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
+                currentResultsList.UpdateSource(scoredResultModels);
+                SelectedResult = currentResultsList.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
                 StatusMsg = "";
             }
             catch (Exception e)

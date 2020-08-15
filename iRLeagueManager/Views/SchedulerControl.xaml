@@ -113,7 +113,8 @@
                                                     <Grid HorizontalAlignment="Left">
                                                         <TextBox  Text="{Binding Name}" Background="Transparent" BorderBrush="Transparent" 
                                                                   Margin="2" Width="350" x:Name="SearchTermTextBox"/>
-                                                        <TextBlock IsHitTestVisible="False" Text="Enter Schedule Name ..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                                                        <TextBlock IsHitTestVisible="False" Text="Enter Schedule Name ..." VerticalAlignment="Center" 
+                                                                   HorizontalAlignment="Left" Margin="5,0" Foreground="Gray">
                                                             <TextBlock.Style>
                                                                 <Style TargetType="{x:Type TextBlock}">
                                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -142,9 +143,23 @@
                                                Fill="{StaticResource ThemeColor_Back0}" Margin="0"/>-->
                                             <TextBlock Grid.Row="1" Margin="15,5" VerticalAlignment="Bottom">
                                                 <TextBlock.Inlines>
-                                                    <Run FontWeight="Bold" Text="{Binding SessionCount, StringFormat={}{0} Sessions, Mode=OneWay}"/> | 
-                                                    <Run Text="{Binding ScheduleStart, StringFormat=d, Mode=OneWay}"/> -
-                                                    <Run Text="{Binding ScheduleEnd, StringFormat=d, Mode=OneWay}"/>
+                                                    <Run FontWeight="Bold">
+                                                        <Run.Style>
+                                                            <Style TargetType="Run">
+                                                                <Setter Property="Text" Value="{Binding SessionCount, StringFormat={}{0} Sessions, Mode=OneWay}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding SessionCount}" Value="1">
+                                                                        <Setter Property="Text" Value="1 Session"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding SessionCount}" Value="0">
+                                                                        <Setter Property="Text" Value="No Session"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Run.Style>
+                                                    </Run> | 
+                                                    <Run Text="{Binding ScheduleStart, StringFormat=d, ConverterCulture=de-DE, Mode=OneWay}"/> -
+                                                    <Run Text="{Binding ScheduleEnd, StringFormat=d, ConverterCulture=de-DE, Mode=OneWay}"/>
                                                 </TextBlock.Inlines>
                                             </TextBlock>
                                             <StackPanel Grid.Row="1">
@@ -183,18 +198,36 @@
                                                         </DataGrid.CellStyle>
                                                         <DataGrid.RowHeaderStyle>
                                                             <Style TargetType="DataGridRowHeader">
-                                                                <Setter Property="Padding" Value="4"/>
+                                                                <Setter Property="Padding" Value="0"/>
+                                                                <Setter Property="Width" Value="0"/>
                                                                 <Setter Property="Template">
                                                                     <Setter.Value>
                                                                         <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                                                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                                                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                                            </Border>
                                                                         </ControlTemplate>
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Style>
                                                         </DataGrid.RowHeaderStyle>
+                                                        <DataGrid.ColumnHeaderStyle>
+                                                            <Style TargetType="DataGridColumnHeader">
+                                                                <Setter Property="Padding" Value="5"/>
+                                                                <Setter Property="TextElement.FontWeight" Value="Bold"/>
+                                                                <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
+                                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                <Setter Property="BorderBrush" Value="Black"/>
+                                                                <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                                                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                                                            </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </DataGrid.ColumnHeaderStyle>
                                                         <DataGrid.Columns>
                                                             <DataGridTextColumn Binding="{Binding RaceId}" Header="Nr:" IsReadOnly="True" 
                                                                     MinWidth="35" Width="35"/>
@@ -252,8 +285,8 @@
 
                                                                             <ContentControl Foreground="{StaticResource ThemeColor_Green}" Margin="5,0" VerticalAlignment="Center">
                                                                                 <!--<StaticResource ResourceKey="checkBold"/>-->
-                                                                                <Viewbox Height="20" VerticalAlignment="Center">
-                                                                                    <fa:ImageAwesome Icon="CheckCircleOutline" Foreground="Green"/>
+                                                                                <Viewbox Height="18" VerticalAlignment="Center">
+                                                                                    <fa:ImageAwesome Icon="CheckCircle" Foreground="Green"/>
                                                                                 </Viewbox>
                                                                                 <ContentControl.Style>
                                                                                     <Style TargetType="ContentControl">
@@ -308,7 +341,7 @@
                                                         </DataGrid.Columns>
                                                     </DataGrid>
                                                 </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
                                                 <TextBlock Text="Sessions: " Margin="5" />
                                                 <!--<Button Click="AddButton_Click">
                                                 <Button.Style>

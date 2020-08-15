@@ -64,11 +64,15 @@ namespace iRLeagueManager.ViewModels
 
         public ICommand NextSessionCmd { get; }
         public ICommand PreviousSessionCmd { get; }
+        public ICommand FirstSessionCmd { get; }
+        public ICommand LastSessionCmd { get; }
 
         public SessionSelectViewModel()
         {
             NextSessionCmd = new RelayCommand(o => SelectNextSession(), o => CanSelectNextSession());
             PreviousSessionCmd = new RelayCommand(o => SelectPreviousSession(), o => CanSelectPreviousSession());
+            FirstSessionCmd = new RelayCommand(o => SelectFirstSession(), o => CanSelectPreviousSession());
+            LastSessionCmd = new RelayCommand(o => SelectLastSession(), o => CanSelectNextSession());
             SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
         }
 
@@ -107,6 +111,13 @@ namespace iRLeagueManager.ViewModels
                 SelectedSession = filteredSessions.ElementAt(currentSessionIndex);
         }
 
+        public void SelectLastSession()
+        {
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            SelectedSession = filteredSessions.LastOrDefault();
+        }
+
         public bool CanSelectNextSession()
         {
             if (SessionList == null)
@@ -135,6 +146,13 @@ namespace iRLeagueManager.ViewModels
                 SelectedSession = filteredSessions.LastOrDefault();
             else
                 SelectedSession = filteredSessions.ElementAt(currentSessionIndex);
+        }
+
+        public void SelectFirstSession()
+        {
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            SelectedSession = filteredSessions.FirstOrDefault();
         }
 
         public bool CanSelectPreviousSession()
