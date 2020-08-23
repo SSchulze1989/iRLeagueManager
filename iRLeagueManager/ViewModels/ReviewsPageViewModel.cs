@@ -59,9 +59,10 @@ namespace iRLeagueManager.ViewModels
             {
                 SessionFilter = x => x.ResultAvailable
             };
-            CurrentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>();
+            CurrentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>(x => 
+                x.Session = SessionSelect?.SessionList.SingleOrDefault(y => y.SessionId == x.Model.Session.SessionId));
             AddReviewCmd = new RelayCommand(async o => await AddReviewAsync(), o => SessionSelect?.SelectedSession != null);
-            RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(), o => SelectedReview != null);
+            RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(o as IncidentReviewModel), o => SelectedReview != null || o is IncidentReviewModel);
             //RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => SelectedReview != null);
         }
 
@@ -133,7 +134,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var reviewList = await LeagueContext.GetModelsAsync<IncidentReviewModel>(SessionSelect.SelectedSession.Reviews.Select(x => x.ReviewId.GetValueOrDefault()));
+                var reviewList = (await LeagueContext.GetModelsAsync<IncidentReviewModel>(SessionSelect.SelectedSession.Reviews.Select(x => x.ReviewId.GetValueOrDefault()))).ToList();
                 CurrentReviews.UpdateSource(reviewList);
             }
             catch (Exception e)
@@ -170,21 +171,22 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async Task RemoveReviewAsync()
+        public async Task RemoveReviewAsync(IncidentReviewModel review)
         {
-            if (SessionSelect?.SelectedSession == null)
-                return;
+            //if (SessionSelect?.SelectedSession == null)
+            //    return;
 
-            var incidentReview = SelectedReview?.Model;
+            if (review == null)
+                review = SelectedReview?.Model;
 
-            if (incidentReview == null)
+            if (review == null)
                 return;
 
             try
             {
                 IsLoading = true;
-                await LeagueContext.DeleteModelAsync<IncidentReviewModel>(incidentReview.ModelId);
-                SessionSelect.SelectedSession.Model.Reviews.Remove(incidentReview);
+                await LeagueContext.DeleteModelAsync<IncidentReviewModel>(review.ModelId);
+                SessionSelect.SelectedSession.Model.Reviews.Remove(review);
                 await LeagueContext.UpdateModelAsync(SessionSelect.SelectedSession.Model);
                 await LoadReviews();
             }

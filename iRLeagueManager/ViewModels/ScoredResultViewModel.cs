@@ -31,6 +31,8 @@ namespace iRLeagueManager.ViewModels
         //public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults =>
         //    new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>(Model?.FinalResults);
 
+        public string ScoringName => Model?.ScoringName;
+
         private readonly ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> finalResults;
         public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
         {

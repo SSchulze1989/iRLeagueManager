@@ -52,7 +52,7 @@ namespace iRLeagueManager.Data
 
         public LocationCollection LocationCollection { get; } = new LocationCollection();
 
-        private string DatabaseName { get; } = "TestDatabase";
+        public string LeagueName { get; } = "TestDatabase";
 
         //private ObservableCollection<SessionBase> sessions;
         //public ReadOnlyObservableCollection<SessionBase> Sessions => new ReadOnlyObservableCollection<SessionBase>(sessions);
@@ -89,7 +89,7 @@ namespace iRLeagueManager.Data
                 cfg.AddCollectionMappers();
             });
             seasons = new ObservableCollection<SeasonModel>();
-            ModelDatabase = new ASPRestAPIClientWrapper(new Uri("http://144.91.113.195/iRLeagueRESTService/api"), "TestDatabase", UserCredentialsManager)
+            ModelDatabase = new ASPRestAPIClientWrapper(new Uri("http://144.91.113.195/iRLeagueRESTService/api"), LeagueName, UserCredentialsManager)
             {
                 DatabaseStatusService = databaseStatusService
             };

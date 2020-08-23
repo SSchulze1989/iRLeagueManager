@@ -1,4 +1,5 @@
-﻿using iRLeagueManager.Models.Reviews;
+﻿using iRLeagueManager.Controls;
+using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -74,18 +75,31 @@ namespace iRLeagueManager.Views
                 var content = new ReviewCommentEditControl();
 
                 editWindow.Title = "New Comment";
-                if (content.DataContext is ReviewCommentViewModel editVM && ViewModel.SelectedReview != null)
-                {
-                    var reviewVM = ViewModel.SelectedReview;
-                    editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
-                    //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
-                    editVM.Review = ViewModel.SelectedReview;
-                    editVM.Refresh(null);
 
-                    editWindow.ModalContent.Content = content;
-                    if (editWindow.ShowDialog() == true)
+                IncidentReviewViewModel reviewVM = null;
+                if (content.DataContext is ReviewCommentViewModel editVM)
+                {
+                    if (ViewModel.SelectedReview != null)
                     {
-                        await reviewVM.AddCommentAsync(editVM.Model);
+                        reviewVM = ViewModel.SelectedReview;
+                    }
+                    else if (button.Tag is IncidentReviewViewModel currentReviewViewModel)
+                    {
+                        reviewVM = currentReviewViewModel;
+                    }
+
+                    if (reviewVM != null)
+                    {
+                        editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
+                        //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
+                        editVM.Review = reviewVM;
+                        editVM.Refresh(null);
+
+                        editWindow.ModalContent.Content = content;
+                        if (editWindow.ShowDialog() == true)
+                        {
+                            await reviewVM.AddCommentAsync(editVM.Model);
+                        }
                     }
                 }
             }
@@ -95,7 +109,7 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
-                if (button.Tag is ReviewCommentViewModel reviewComment)
+                if (button.DataContext is ReviewCommentViewModel reviewComment)
                 {
                     var editWindow = new ModalOkCancelWindow();
                     editWindow.Width = 500;
@@ -109,7 +123,7 @@ namespace iRLeagueManager.Views
                         editVM.UpdateSource(new ReviewCommentModel());
                         editVM.Model.CopyFrom(reviewComment.Model);
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
-                        editVM.Review = ViewModel.SelectedReview;
+                        editVM.Review = reviewComment.Review;
                         editVM.Refresh(null);
 
                         editWindow.ModalContent.Content = content;
@@ -120,7 +134,7 @@ namespace iRLeagueManager.Views
                         }
                     }
                 }
-                else if (button.Tag is CommentViewModel comment)
+                else if (button.DataContext is CommentViewModel comment)
                 {
                     var editWindow = new ModalOkCancelWindow();
                     editWindow.Width = 500;
@@ -176,22 +190,96 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
-                if (button.Tag is ReviewCommentViewModel reviewCommentVM)
+                if (button.DataContext is ReviewCommentViewModel reviewCommentVM)
                 {
-                    var selectedReview = ViewModel.SelectedReview;
+                    var review = reviewCommentVM.Review;
 
-                    if (selectedReview != null && selectedReview.Comments.Contains(reviewCommentVM))
+                    if (review != null && review.Comments.Contains(reviewCommentVM))
                     {
-                        await selectedReview.DeleteCommentAsync(reviewCommentVM.Model);
+                        await review.DeleteCommentAsync(reviewCommentVM.Model);
                     }
                 }
-                else if (button.Tag is CommentViewModel commentVM)
+                else if (button.DataContext is CommentViewModel commentVM)
                 {
                     var replyTo = commentVM.ReplyTo;
 
                     if (replyTo != null && replyTo.Replies.Contains(commentVM))
                     {
                         await replyTo.DeleteCommentAsync(commentVM.Model);
+                    }
+                }
+            }
+        }
+
+        private void TreeView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = e.Source;
+
+            if (sender is TreeView treeView)
+            {
+                DependencyObject parent = treeView;
+                ScrollViewer treeViewScroll = null;
+                while(parent != null && treeViewScroll == null)
+                {
+                    parent = VisualTreeHelper.GetParent(parent);
+                    treeViewScroll = parent as ScrollViewer;
+                }
+
+                if (treeViewScroll != null)
+                {
+                    ScrollViewer_PreviewMouseWheel(treeViewScroll, eventArg);
+                    if (eventArg.Handled == false)
+                    {
+                        treeViewScroll.RaiseEvent(eventArg);
+                    }
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = e.Source;
+
+            ScrollViewer scv = verticalContentScroll;
+            scv.RaiseEvent(eventArg);
+            e.Handled = true;
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = e.Source;
+
+            if (sender is ScrollViewer scrollViewer)
+            {
+                var isScrolledToTop = scrollViewer.VerticalOffset == 0;
+                var isScrolledToBottom = scrollViewer.VerticalOffset == scrollViewer.ScrollableHeight;
+
+                if ((isScrolledToTop && e.Delta > 0) || (isScrolledToBottom && e.Delta < 0))
+                {
+                    ScrollViewer scv = verticalContentScroll;
+                    scv.RaiseEvent(eventArg);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                if (e.ClickCount >= 2)
+                {
+                    var button = element.FindName("expandButton") as IconToggleButton;
+                    if (button != null)
+                    {
+                        button.IsChecked = !button.IsChecked;
                     }
                 }
             }

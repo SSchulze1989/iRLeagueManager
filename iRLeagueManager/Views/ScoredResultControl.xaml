@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
              xmlns:local="clr-namespace:iRLeagueManager.Views"
+             xmlns:controls="clr-namespace:iRLeagueManager.Controls"
              xmlns:conv="clr-namespace:iRLeagueManager.Converters"
              mc:Ignorable="d"  
              d:DesignHeight="600" d:DesignWidth="800" Background="White"
@@ -14,7 +15,9 @@
         <vmodel:ResultsPageViewModel/>
     </UserControl.DataContext>-->
     <UserControl.Resources>
+        <conv:MultiValueEqualsConverter x:Key="MultiValueEqualsConverter"/>
         <conv:LapIntervalStringConverter x:Key="LapIntervalStringConverter"/>
+        <conv:CompareNumericalConverter x:Key="CompareNumericalConverter"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
         <Path x:Key="PencilPlusOutline" x:Shared="False"
@@ -56,36 +59,27 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid ClipToBounds="True" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Session Results" FontSize="20" FontWeight="Bold"/>
-        <ComboBox Grid.Row="1" ItemsSource="{Binding ScheduleList}" SelectedItem="{Binding SelectedSchedule}" DisplayMemberPath="Name" IsEnabled="False"/>
-        <!--<DockPanel Grid.Row="2" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
-            <Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>
-            <Button Content="&gt;" Padding="5" DockPanel.Dock="Right" Command="{Binding NextSessionCmd}"/>
-            --><!--<TextBlock Margin="2">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0} - {1}">
-                        <Binding Path="Session.Date" StringFormat="Date"/>
-                        <Binding Path="Session.Location.FullName"/>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>--><!--
-            <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <ComboBox.ItemTemplate>
+        <TextBlock Text="Select Session:" Margin="5" FontWeight="Bold" FontSize="{StaticResource Global.FontSizeLarge}"/>
+
+        <Grid Grid.Row="1" DataContext="{Binding SessionSelect}" Margin="0,0,8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="900"/>
+            </Grid.ColumnDefinitions>
+            <local:SessionSelectControl Grid.Row="1" HorizontalAlignment="Stretch">
+                <local:SessionSelectControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type ComboBoxItem}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} - {1} ({2})">
-                                        <Binding Path="Date" StringFormat="Date"/>
+                                        <Binding Path="RaceDate" StringFormat="Date"/>
                                         <Binding Path="Location.FullName"/>
                                         <Binding Path="Schedule.Name"/>
                                     </MultiBinding>
@@ -105,184 +99,383 @@
                             </TextBlock>
                         </StackPanel>
                     </DataTemplate>
-                </ComboBox.ItemTemplate>
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="IsEnabled" Value="{Binding ResultAvailable}" />
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-            </ComboBox>
-        </DockPanel>-->
-
-        <local:SessionSelectControl Grid.Row="2" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
-            <local:SessionSelectControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ComboBoxItem}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} - {1} ({2})">
-                                    <Binding Path="RaceDate" StringFormat="Date"/>
-                                    <Binding Path="Location.FullName"/>
-                                    <Binding Path="Schedule.Name"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock Text="    (Current)">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsCurrentSession}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
+                </local:SessionSelectControl.ItemTemplate>
+            </local:SessionSelectControl >
+        </Grid>
+        <Grid ClipToBounds="True" Grid.Row="2" VerticalAlignment="Stretch">
+            <TabControl ItemsSource="{Binding CurrentResults}" SelectedItem="{Binding SelectedResult}" Margin="0,10,0,0" VerticalContentAlignment="Stretch">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Scoring.Name}" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding FinalResults.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <DataGrid ItemsSource="{Binding FinalResults}" AutoGenerateColumns="False" VerticalAlignment="Stretch" 
+                                                AlternationCount="2" AlternatingRowBackground="#F0F0F0"
+                                                TextElement.FontSize="{StaticResource Global.FontSizeSmall}" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                PreviewMouseWheel="DataGrid_PreviewMouseWheel"
+                                                Margin="5" Style="{StaticResource DataGridStyle}">
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Padding" Value="4,0"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="IsManipulationEnabled" Value="False"/>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </local:SessionSelectControl.ItemTemplate>
-        </local:SessionSelectControl>
-        
-        <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedResult.FinalResults}" AutoGenerateColumns="False" Height="Auto" 
-                  AlternationCount="2" AlternatingRowBackground="#F0F0F0"
-                  TextElement.FontSize="{StaticResource Global.FontSizeSmall}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition}" IsReadOnly="True" Width="5*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" IsReadOnly="True" Width="5*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition}" IsReadOnly="True" Width="5*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="20*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Team" IsReadOnly="True" Width="15*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="10*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}">
-                    <DataGridTextColumn.Binding>
-                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
-                            <Binding Path="FastestLapTime.Minutes"/>
-                            <Binding Path="FastestLapTime.Seconds"/>
-                            <Binding Path="FastestLapTime.Milliseconds"/>
-                        </MultiBinding>
-                    </DataGridTextColumn.Binding>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="10*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}">
-                    <DataGridTextColumn.Binding>
-                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
-                            <Binding Path="AvgLapTime.Minutes"/>
-                            <Binding Path="AvgLapTime.Seconds"/>
-                            <Binding Path="AvgLapTime.Milliseconds"/>
-                        </MultiBinding>
-                    </DataGridTextColumn.Binding>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" Width="10*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}" IsReadOnly="True" Width="6*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints, StringFormat={}{0:+#;-#;-}}" IsReadOnly="True" Width="7*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTextColumn Header="Penalty" Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;+#;-}}" IsReadOnly="True" Width="6*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="Foreground" Value="Red"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding PenaltyPoints}" Value="0">
-                                    <Setter Property="Foreground" Value="Black"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}" IsReadOnly="True" Width="6*"
-                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                <DataGridTemplateColumn Header="Add Penalty" Width="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="" SelectedValuePath="Content" Width="45">
-                                    <ComboBox.Style>
-                                        <Style TargetType="ComboBox">
-                                            <Setter Property="IsReadOnly" Value="True"/>
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                            <Setter Property="Visibility" Value="Visible"/>
+                            </DataGrid.CellStyle>
+                            <DataGrid.RowHeaderStyle>
+                                <Style TargetType="DataGridRowHeader">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="True">
+                                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGrid.RowHeaderStyle>
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Padding" Value="5"/>
+                                    <Setter Property="TextElement.FontWeight" Value="Bold"/>
+                                    <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
+                                    <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                    <Setter Property="Height" Value="Auto"/>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <!--<Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>-->
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="45" 
+                                                    MinWidth="45" TextElement.FontWeight="Bold">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" 
+                                                                IsReadOnly="True" Width="45" MinWidth="45">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
-                                                    <Setter Property="IsReadOnly" Value="False"/>
-                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                <DataTrigger Binding="{Binding PositionChange, 
+                                                    Converter={StaticResource CompareNumericalConverter}, ConverterParameter=0}" Value="1">
+                                                    <Setter Property="Foreground" Value="Green"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                <DataTrigger Binding="{Binding PositionChange, 
+                                                    Converter={StaticResource CompareNumericalConverter}, ConverterParameter=0}" Value="-1">
+                                                    <Setter Property="Foreground" Value="Red"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ComboBox.Style>
-                                    <ComboBox.Items>
-                                        <ComboBoxItem>0</ComboBoxItem>
-                                        <ComboBoxItem>1</ComboBoxItem>
-                                        <ComboBoxItem>2</ComboBoxItem>
-                                        <ComboBoxItem>3</ComboBoxItem>
-                                        <ComboBoxItem>4</ComboBoxItem>
-                                        <ComboBoxItem>5</ComboBoxItem>
-                                        <ComboBoxItem>6</ComboBoxItem>
-                                        <ComboBoxItem>7</ComboBoxItem>
-                                        <ComboBoxItem>8</ComboBoxItem>
-                                        <ComboBoxItem>9</ComboBoxItem>
-                                        <ComboBoxItem>10</ComboBoxItem>
-                                    </ComboBox.Items>
-                                </ComboBox>
-                                <Button>
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                            <Setter Property="Command" Value="{Binding EndEditPenaltyCmd}"/>
-                                            <Setter Property="Foreground" Value="Green"/>
-                                            <Setter Property="Content" Value="{StaticResource checkBold}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="False">
-                                                    <Setter Property="Command" Value="{Binding StartEditPenaltyCmd}"/>
-                                                    <Setter Property="Foreground" Value="Black" />
-                                                    <Setter Property="Content" Value="{StaticResource pencilOutline}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
-                                                    <Setter Property="Command" Value="{Binding AddPenaltyCmd}"/>
-                                                    <Setter Property="Foreground" Value="Black"/>
-                                                    <Setter Property="Content" Value="{StaticResource PencilPlusOutline}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="50    " MinWidth="50">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button Command="{Binding DeletePenaltyCmd}" Content="{StaticResource closeThick}">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                            <Setter Property="Visibility" Value="Visible"/>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="20*" MinWidth="150"
+                                                                ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="Team" IsReadOnly="True" Width="15*" MinWidth="150"
+                                                                ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="Auto" MinWidth="80">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+                                            <Binding Path="FastestLapTime.Minutes"/>
+                                            <Binding Path="FastestLapTime.Seconds"/>
+                                            <Binding Path="FastestLapTime.Milliseconds"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="Auto" MinWidth="80">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+                                            <Binding Path="AvgLapTime.Minutes"/>
+                                            <Binding Path="AvgLapTime.Seconds"/>
+                                            <Binding Path="AvgLapTime.Milliseconds"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" 
+                                                    Width="Auto" MinWidth="80">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding RacePoints}" IsReadOnly="True" Width="5*" MinWidth="50">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Race Pts." TextWrapping="Wrap"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding BonusPoints, StringFormat={}{0:+#;-#;-}}" IsReadOnly="True" Width="5*" MinWidth="58">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Bonus Pts." TextWrapping="Wrap"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;+#;-}}" IsReadOnly="True" Width="5*" MinWidth="50">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Pen. Pts." TextWrapping="WrapWithOverflow"/>
+                                    </DataGridTextColumn.Header>
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
                                             <Setter Property="Foreground" Value="Red"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                <DataTrigger Binding="{Binding PenaltyPoints}" Value="0">
+                                                    <Setter Property="Foreground" Value="Black"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="3*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="{StaticResource delete}" Click="DeleteRowButton_Click" Tag="{Binding}"
-                                    Style="{StaticResource IconButtonStyle}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBox Grid.Row="3" Margin="10" Text="{Binding StatusMsg}" VerticalAlignment="Top">
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding TotalPoints}" IsReadOnly="True" Width="5*" MinWidth="50">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Total Pts." TextWrapping="Wrap"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
+                                                          DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
+                                                          Margin="0" Height="25">
+                                                    <ComboBox.Style>
+                                                        <Style TargetType="ComboBox">
+                                                            <Setter Property="IsReadOnly" Value="True"/>
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
+                                                                    <Setter Property="IsReadOnly" Value="False"/>
+                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+                                                    <ComboBox.Items>
+                                                        <ComboBoxItem>0</ComboBoxItem>
+                                                        <ComboBoxItem>1</ComboBoxItem>
+                                                        <ComboBoxItem>2</ComboBoxItem>
+                                                        <ComboBoxItem>3</ComboBoxItem>
+                                                        <ComboBoxItem>4</ComboBoxItem>
+                                                        <ComboBoxItem>5</ComboBoxItem>
+                                                        <ComboBoxItem>6</ComboBoxItem>
+                                                        <ComboBoxItem>7</ComboBoxItem>
+                                                        <ComboBoxItem>8</ComboBoxItem>
+                                                        <ComboBoxItem>9</ComboBoxItem>
+                                                        <ComboBoxItem>10</ComboBoxItem>
+                                                    </ComboBox.Items>
+                                                </ComboBox>
+                                                <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5">
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                            <Setter Property="Command" Value="{Binding EndEditPenaltyCmd}"/>
+                                                            <Setter Property="IconFill" Value="Green"/>
+                                                            <!--<Setter Property="IconContent" Value="{StaticResource checkBold}"/>-->
+                                                            <Setter Property="IconContent">
+                                                                <Setter.Value>
+                                                                    <Viewbox>
+                                                                        <ContentControl Content="{StaticResource checkBold}"/>
+                                                                    </Viewbox>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="False">
+                                                                    <Setter Property="Command" Value="{Binding StartEditPenaltyCmd}"/>
+                                                                    <Setter Property="IconFill" Value="Black" />
+                                                                    <!--<Setter Property="IconContent" Value="{StaticResource pencilOutline}"/>-->
+                                                                    <Setter Property="IconContent">
+                                                                        <Setter.Value>
+                                                                            <Viewbox>
+                                                                                <ContentControl Content="{StaticResource pencilOutline}"/>
+                                                                            </Viewbox>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                    <Setter Property="Command" Value="{Binding AddPenaltyCmd}"/>
+                                                                    <Setter Property="IconFill" Value="Black"/>
+                                                                    <!--<Setter Property="IconContent" Value="{StaticResource PencilPlusOutline}"/>-->
+                                                                    <Setter Property="IconContent">
+                                                                        <Setter.Value>
+                                                                            <Viewbox>
+                                                                                <ContentControl Content="{StaticResource PencilPlusOutline}"/>
+                                                                            </Viewbox>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
+                                                <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5"
+                                                    Command="{Binding DeletePenaltyCmd}"
+                                                    IconContent="{StaticResource closeThick}">
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Setter Property="IconFill" Value="Red"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="30" MinWidth="30">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <controls:IconButton Click="DeleteRowButton_Click" Tag="{Binding}"
+                                                Width="28" Height="25" Margin="-5,0,0,0" Padding="2"
+                                                IconFill="{StaticResource ThemeColor_Back5}">
+                                                <controls:IconButton.IconContent>
+                                                    <Viewbox>
+                                                        <ContentControl Content="{StaticResource delete}"/>
+                                                    </Viewbox>
+                                                </controls:IconButton.IconContent>
+                                            </controls:IconButton>
+                                            <!--<Button Content="{StaticResource delete}" Click="DeleteRowButton_Click" Tag="{Binding}"
+                                Style="{StaticResource IconButtonStyle}"/>-->
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding FinalResults.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+            <!--<Border VerticalAlignment="Top" x:Name="top_dropshadow" Margin="-10,-12,15,0" BorderBrush="Black" BorderThickness="0,5"
+                        Background="Transparent">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Border.Effect">
+                            <Setter.Value>
+                                <DropShadowEffect ShadowDepth="5" BlurRadius="10" Color="Black" Direction="270"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=verticalContentScroll, Path=VerticalOffset}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <Border VerticalAlignment="Bottom" x:Name="bottom_dropshadow" Margin="-10,0,15,-12" BorderBrush="Black" BorderThickness="0,5"
+                        Background="Transparent">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="5" BlurRadius="10" Color="Black" Direction="90"/>
+                </Border.Effect>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource MultiValueEqualsConverter}">
+                                        <Binding Path="VerticalOffset" ElementName="verticalContentScroll"/>
+                                        <Binding Path="ScrollableHeight" ElementName="verticalContentScroll"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>-->
+            <controls:IconButton Content="Calculate" IconContent="{StaticResource CogRefresh}" Command="{Binding CalculateResultsCmd}"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
+                                    Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
+                                    IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
+                                    Foreground="{StaticResource ThemeColor_Back0}"
+                                     Height="Auto" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                     Margin="5,10,8,10" ToolTip="Create new Schedule">
+                <controls:IconButton.Effect>
+                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+                </controls:IconButton.Effect>
+            </controls:IconButton>
+        </Grid>
+        <TextBox Grid.Row="1" Margin="10" Text="{Binding StatusMsg}" VerticalAlignment="Top">
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -294,28 +487,5 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="{Binding RefreshCmd}" Padding="1" BorderBrush="Transparent" Background="Transparent" Margin="5,0">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
-                        <ContentControl Margin="0,0,5,0">
-                            <StaticResource ResourceKey="Cached"/>
-                        </ContentControl>
-                        <TextBlock Text="Refresh"  FontSize="18"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button Command="{Binding CalculateResultsCmd}" BorderBrush="Transparent" Background="Transparent" Margin="5,0">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <ContentControl Foreground="Black" Margin="0,0,5,0">
-                            <StaticResource ResourceKey="CogRefresh"/>
-                        </ContentControl>
-                        <TextBlock Text="Calculate"  FontSize="18"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-        </StackPanel>
     </Grid>
 </UserControl>

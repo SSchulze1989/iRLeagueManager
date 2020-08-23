@@ -7,8 +7,10 @@
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+             xmlns:conv="clr-namespace:iRLeagueManager.Converters"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White"
+             d:DesignHeight="450" d:DesignWidth="800"
              FontSize="{StaticResource Global.FontSizeMedium}"
              FontFamily="{StaticResource Global.FontFamily}">
     <UserControl.Resources>
@@ -18,6 +20,7 @@
             <Setter Property="Padding" Value="2,2" />
         </Style>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}" />-->
+        <conv:MultiValueEqualsConverter x:Key="MultiValueEqualsConverter"/>
     </UserControl.Resources>
 
     <!--<UserControl.DataContext>
@@ -26,260 +29,506 @@
 
     <Grid >
         <DockPanel>
-            <TextBox Text="Season Schedules:" DockPanel.Dock="Top" />
-            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="RightToLeft" 
-                        TextElement.FontSize="{StaticResource Global.FontSizeLarge}">
-                <controls:IconButton Content="New Schedule" IconContent="{StaticResource TablePlus}" Command="{Binding CreateScheduleCmd}"
-                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <!--<controls:IconButton Content="Refresh" IconContent="{StaticResource Cached}" Command="{Binding RefreshCmd}"/>-->
-                <ContentControl Content="{StaticResource RefreshButton}"/>
-            </StackPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
-                <ItemsControl ItemsSource="{Binding Schedules}">
-                    <ItemsControl.Resources>
-                        <DataTemplate DataType="{x:Type vmodel:ScheduleViewModel}">
-                            <Grid Margin="2">
-                                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stroke="Black" StrokeThickness="2" RadiusX="5" RadiusY="5" />
-                                <StackPanel Margin="5,2">
-                                    <DockPanel>
-                                        <!--<Button DockPanel.Dock="Right"
-                                                Style="{StaticResource IconButtonStyle}" Foreground="Red" Padding="2" 
-                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteScheduleCmd}" CommandParameter="{Binding Model}">
-                                            <Button.Content>
-                                                <StaticResource ResourceKey="closeThick"/>
-                                            </Button.Content>
-                                        </Button>-->
-                                        <controls:IconButton x:Name="ScheduleDeleteButton" DockPanel.Dock="Right"
-                                                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteScheduleCmd}"
-                                                             CommandParameter="{Binding Model}"
-                                                             IconContent="{DynamicResource closeThick}">
-                                            <controls:IconButton.Style>
-                                                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                                    <Setter Property="Foreground" Value="Red"/>
-                                                </Style>
-                                            </controls:IconButton.Style>
-                                        </controls:IconButton>
-                                        <TextBox Text="{Binding Name}"/>
-                                    </DockPanel>
-                                    <DataGrid ItemsSource="{Binding Sessions}" SelectedItem="{Binding SelectedSession}" SelectionMode="Extended" 
-                                          CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
-                                        <DataGrid.CellStyle>
-                                            <Style TargetType="DataGridCell">
-                                                <Setter Property="Padding" Value="4,2"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Setter Property="IsManipulationEnabled" Value="False"/>
-                                            </Style>
-                                        </DataGrid.CellStyle>
-                                        <DataGrid.RowHeaderStyle>
-                                            <Style TargetType="DataGridRowHeader">
-                                                <Setter Property="Padding" Value="4"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </DataGrid.RowHeaderStyle>
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Binding="{Binding RaceId}" Header="Race Nr:" IsReadOnly="True" MinWidth="70"/>
-                                            <DataGridTextColumn Binding="{Binding Date, StringFormat=d, ConverterCulture=de-DE}" Header="Date:" IsReadOnly="True" MinWidth="100"/>
-                                            <DataGridTextColumn Binding="{Binding Location.FullName}" Header="Track:" IsReadOnly="True" MinWidth="450"/>
-                                            <DataGridTextColumn Binding="{Binding Laps}" Header="Laps:" IsReadOnly="True" MinWidth="70"/>
-                                            <DataGridTextColumn Binding="{Binding SessionStart}" Header="Session Start:" IsReadOnly="True" MinWidth="110"/>
-                                            <DataGridTextColumn Header="Practice:" IsReadOnly="True" MinWidth="110">
-                                                <DataGridTextColumn.Binding>
-                                                    <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
-                                                        <Binding Path="PracticeStart.Hours" />
-                                                        <Binding Path="PracticeStart.Minutes"/>
-                                                        <Binding Path="PracticeEnd.Hours"/>
-                                                        <Binding Path="PracticeEnd.Minutes"/>
-                                                    </MultiBinding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Qualy:" IsReadOnly="True" MinWidth="110">
-                                                <DataGridTextColumn.Binding>
-                                                    <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
-                                                        <Binding Path="QualyStart.Hours"/>
-                                                        <Binding Path="QualyStart.Minutes"/>
-                                                        <Binding Path="QualyEnd.Hours"/>
-                                                        <Binding Path="QualyEnd.Minutes"/>
-                                                    </MultiBinding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Race:" IsReadOnly="True" MinWidth="110">
-                                                <DataGridTextColumn.Binding>
-                                                    <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
-                                                        <Binding Path="RaceStart.Hours"/>
-                                                        <Binding Path="RaceStart.Minutes"/>
-                                                        <Binding Path="RaceEnd.Hours"/>
-                                                        <Binding Path="RaceEnd.Minutes"/>
-                                                    </MultiBinding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
-                                            <DataGridTemplateColumn Header="Results"  MinWidth="150">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate DataType="DataGridCell">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Button Command="{Binding UploadFileCmd}" CommandParameter="{Binding}" 
-                                                                    VerticalAlignment="Center"
-                                                                    Style="{StaticResource IconButtonStyle}">
-                                                                <Button.Content>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <ContentControl Margin="0,0,5,0">
-                                                                            <StaticResource ResourceKey="TableArrowUp"/>
-                                                                        </ContentControl>
-                                                                        <TextBlock VerticalAlignment="Center" Text=".csv"/>
-                                                                    </StackPanel>
-                                                                </Button.Content>
-                                                            </Button>
-                                                            <ContentControl Foreground="Green" Margin="5,0" VerticalAlignment="Center">
-                                                                <StaticResource ResourceKey="checkBold"/>
-                                                                <ContentControl.Style>
-                                                                    <Style TargetType="ContentControl">
-                                                                        <Setter Property="VirtualizingPanel.Visibility" Value="Visible"/>
+            <!--<TextBox Text="Season Schedules:" DockPanel.Dock="Top" />-->
+
+            <!--<Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ThemeColor_PanelBack}">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="RightToLeft" 
+                    TextElement.FontSize="{StaticResource Global.FontSizeLarge}">
+                    <controls:IconButton Content="New Schedule" IconContent="{StaticResource TablePlus}" Command="{Binding CreateScheduleCmd}"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
+                                    Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,7"
+                                    IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
+                                    Foreground="{StaticResource ThemeColor_Back0}"/>
+                    --><!--<controls:IconButton Content="Refresh" IconContent="{StaticResource Cached}" Command="{Binding RefreshCmd}"/>--><!--
+                    <ContentControl Content="{StaticResource RefreshButton}" Visibility="Hidden"/>
+                </StackPanel>
+            </Border>-->
+            <Grid ClipToBounds="True" FocusManager.FocusedElement="{Binding ElementName=verticalContentScroll}">
+                <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" 
+                              Template="{DynamicResource ContentScrollViewerControlTemplate}">
+                    <ItemsControl ItemsSource="{Binding Schedules}" Margin="20,5,20,50">
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type vmodel:ScheduleViewModel}">
+                                <Grid Margin="0,8">
+                                    <Border BorderThickness="0" Background="White" x:Name="templateDropShadowBorder">
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="6" ShadowDepth="4" Color="DarkGray"/>
+                                        </Border.Effect>
+                                    </Border>
+                                    <Border BorderBrush="DarkGray" BorderThickness="0.5" MouseDown="SchedulePanel_MouseDown">
+                                        <StackPanel x:Name="stackpanel" Background="White" SnapsToDevicePixels="True" Margin="0,0">
+                                            <Separator x:Name="separator" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,2,0,10" Height="2"
+                                                   Visibility="Collapsed"/>
+                                            <Border BorderBrush="{StaticResource ThemeColor_Back3}" 
+                                            BorderThickness="0,0,0,0" CornerRadius="0"
+                                                   Background="Transparent" Margin="0,0,0,0">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" x:Name="HeaderRow"/>
+                                                        <RowDefinition />
+                                                        <RowDefinition Height="Auto" x:Name="FooterRow"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border Grid.Row="0" BorderThickness="0,0,0,0.25" BorderBrush="{StaticResource ThemeColor_Back3}"
+                                                            Background="{StaticResource ThemeColor_LightBlue}"
+                                                            TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
+                                                            TextElement.FontSize="{StaticResource Global.FontSizeLarge}"
+                                                            Padding="10,4,10,2.5">
+                                                        <DockPanel Margin="0,0">
+                                                            <!--<Button DockPanel.Dock="Right"
+                                                        Style="{StaticResource IconButtonStyle}" Foreground="Red" Padding="2" 
+                                                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteScheduleCmd}" CommandParameter="{Binding Model}">
+                                                    <Button.Content>
+                                                        <StaticResource ResourceKey="closeThick"/>
+                                                    </Button.Content>
+                                                </Button>-->
+                                                            <controls:IconButton x:Name="ScheduleDeleteButton" DockPanel.Dock="Right"
+                                                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteScheduleCmd}"
+                                                                     CommandParameter="{Binding Model}"
+                                                                     IconContent="{DynamicResource closeThick}" 
+                                                                     IconFill="{StaticResource ThemeColor_Back3}" IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                             IconMargin="0,-5,4,0">
+                                                                <controls:IconButton.ToolTip>
+                                                                    <ToolTip>Delete Schedule</ToolTip>
+                                                                </controls:IconButton.ToolTip>
+
+                                                                <controls:IconButton.Style>
+                                                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                        <Setter Property="Foreground" Value="Red"/>
+                                                                    </Style>
+                                                                </controls:IconButton.Style>
+                                                            </controls:IconButton>
+                                                            <controls:IconToggleButton DockPanel.Dock="Right" x:Name="expandButton" IconFill="{StaticResource ThemeColor_Back3}">
+                                                                <controls:IconToggleButton.Style>
+                                                                    <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
+                                                                        <Setter Property="IconContent">
+                                                                            <Setter.Value>
+                                                                                <fa:ImageAwesome Icon="AngleDown" Height="10"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
                                                                         <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding ResultAvailable}" Value="False">
-                                                                                <Setter Property="Visibility" Value="Hidden" />
+                                                                            <Trigger Property="IsChecked" Value="True">
+                                                                                <Setter Property="IconContent">
+                                                                                    <Setter.Value>
+                                                                                        <fa:ImageAwesome Icon="AngleUp" Height="10"/>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </Trigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </controls:IconToggleButton.Style>
+                                                            </controls:IconToggleButton>
+
+                                                            <!--<TextBox Text="{Binding Name}" Background="Transparent" BorderBrush="Transparent" Margin="2" Width="350"
+                                                         HorizontalAlignment="Left" Padding="2">
+                                                        </TextBox>-->
+                                                            <Grid HorizontalAlignment="Left">
+                                                                <TextBox  Text="{Binding Name}" Background="Transparent" BorderBrush="Transparent" 
+                                                                      Margin="2" Width="350" x:Name="SearchTermTextBox"/>
+                                                                <TextBlock IsHitTestVisible="False" Text="Enter Schedule Name ..." VerticalAlignment="Center" 
+                                                                       HorizontalAlignment="Left" Margin="5,0" Foreground="Gray">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="{x:Type TextBlock}">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <!--<DataTrigger Binding="{Binding Text, ElementName=SearchTermTextBox}" Value="">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>-->
+                                                                                <!--<DataTrigger Binding="{Binding IsFocused, ElementName=SearchTermTextBox}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>-->
+                                                                                <MultiDataTrigger>
+                                                                                    <MultiDataTrigger.Conditions>
+                                                                                        <Condition Binding="{Binding Path=Text, ElementName=SearchTermTextBox}" Value=""/>
+                                                                                        <Condition Binding="{Binding Path=IsFocused, ElementName=SearchTermTextBox}" Value="False"/>
+                                                                                    </MultiDataTrigger.Conditions>
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </MultiDataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Grid>
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stroke="{StaticResource ThemeColor_DarkBlue}" StrokeThickness="0.5" RadiusX="1" RadiusY="1" 
+                                                   Fill="{StaticResource ThemeColor_Back0}" Margin="0"/>-->
+                                                    <TextBlock Grid.Row="1" Margin="20,10" VerticalAlignment="Bottom">
+                                                        <TextBlock.Inlines>
+                                                            <Run FontWeight="Bold">
+                                                                <Run.Style>
+                                                                    <Style TargetType="Run">
+                                                                        <Setter Property="Text" Value="{Binding SessionCount, StringFormat={}{0} Sessions, 
+                                                                            Mode=OneWay}"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding SessionCount}" Value="1">
+                                                                                <Setter Property="Text" Value="1 Session "/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding SessionCount}" Value="0">
+                                                                                <Setter Property="Text" Value="No Session"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>
-                                                                </ContentControl.Style>
-                                                            </ContentControl>
-                                                            <Button Click="DeleteResultButton_Click"
-                                                                    VerticalAlignment="Center"
-                                                                    Tag="{Binding}">
-                                                                <Button.Content>
-                                                                    <ContentControl Foreground="Red" Margin="5,0" VerticalAlignment="Center">
-                                                                        <StaticResource ResourceKey="closeThick"/>
-                                                                    </ContentControl>
-                                                                </Button.Content>
+                                                                </Run.Style>
+                                                            </Run> |
+                                                            <Run Text="{Binding ScheduleStart, StringFormat=d, ConverterCulture=de-DE, Mode=OneWay}"/> -
+                                                            <Run Text="{Binding ScheduleEnd, StringFormat=d, ConverterCulture=de-DE, Mode=OneWay}"/>
+                                                        </TextBlock.Inlines>
+                                                    </TextBlock>
+                                                    <StackPanel Grid.Row="1" Margin="0,8">
+                                                        <StackPanel.Style>
+                                                            <Style TargetType="StackPanel">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ElementName=expandButton, Path=IsChecked}" Value="False">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </StackPanel.Style>
+                                                        <StackPanel Margin="15,5" TextElement.FontSize="{StaticResource Global.FontSizeSmall}">
+                                                            <DataGrid ItemsSource="{Binding Sessions}" SelectedItem="{Binding SelectedSession}" SelectionMode="Extended" 
+                                                                      CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Margin="2"
+                                                                      ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource ThemeColor_Back2}"
+                                                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                                      ScrollViewer.CanContentScroll="False" PreviewMouseWheel="DataGrid_PreviewMouseWheel"
+                                                                      AlternatingRowBackground="{StaticResource ThemeColor_Back0}"
+                                                                      AlternationCount="2">
+                                                                <DataGrid.CellStyle>
+                                                                    <Style TargetType="DataGridCell">
+                                                                        <Setter Property="Padding" Value="4,0"/>
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                                    <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                                                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="IsManipulationEnabled" Value="False"/>
+                                                                    </Style>
+                                                                </DataGrid.CellStyle>
+                                                                <DataGrid.RowHeaderStyle>
+                                                                    <Style TargetType="DataGridRowHeader">
+                                                                        <Setter Property="Padding" Value="0"/>
+                                                                        <Setter Property="Width" Value="0"/>
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </DataGrid.RowHeaderStyle>
+                                                                <DataGrid.ColumnHeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Padding" Value="5"/>
+                                                                        <Setter Property="TextElement.FontWeight" Value="Bold"/>
+                                                                        <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
+                                                                        <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                        <Setter Property="BorderBrush" Value="Black"/>
+                                                                        <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                                                        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                                                                    <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                                                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </DataGrid.ColumnHeaderStyle>
+                                                                <DataGrid.Columns>
+                                                                    <DataGridTextColumn Binding="{Binding RaceId}" Header="Nr:" IsReadOnly="True" 
+                                                                        MinWidth="35" Width="35"/>
+                                                                    <DataGridTextColumn Binding="{Binding Date, StringFormat=d, ConverterCulture=de-DE}" Header="Date:" IsReadOnly="True" 
+                                                                        MinWidth="105" Width="105"/>
+                                                                    <DataGridTextColumn Binding="{Binding Location.FullName}" Header="Track:" IsReadOnly="True" 
+                                                                        MinWidth="200" Width="*"/>
+                                                                    <DataGridTextColumn Binding="{Binding Laps}" Header="Laps:" IsReadOnly="True"
+                                                                        MinWidth="50" Width="50"/>
+                                                                    <DataGridTextColumn Binding="{Binding SessionStart}" Header="Session Start:" IsReadOnly="True" 
+                                                                        MinWidth="125" Width="125"/>
+                                                                    <DataGridTextColumn Header="Practice:" IsReadOnly="True" 
+                                                                        MinWidth="120" Width="120">
+                                                                        <DataGridTextColumn.Binding>
+                                                                            <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
+                                                                                <Binding Path="PracticeStart.Hours" />
+                                                                                <Binding Path="PracticeStart.Minutes"/>
+                                                                                <Binding Path="PracticeEnd.Hours"/>
+                                                                                <Binding Path="PracticeEnd.Minutes"/>
+                                                                            </MultiBinding>
+                                                                        </DataGridTextColumn.Binding>
+                                                                    </DataGridTextColumn>
+                                                                    <DataGridTextColumn Header="Qualy:" IsReadOnly="True" 
+                                                                        MinWidth="120" Width="120">
+                                                                        <DataGridTextColumn.Binding>
+                                                                            <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
+                                                                                <Binding Path="QualyStart.Hours"/>
+                                                                                <Binding Path="QualyStart.Minutes"/>
+                                                                                <Binding Path="QualyEnd.Hours"/>
+                                                                                <Binding Path="QualyEnd.Minutes"/>
+                                                                            </MultiBinding>
+                                                                        </DataGridTextColumn.Binding>
+                                                                    </DataGridTextColumn>
+                                                                    <DataGridTextColumn Header="Race:" IsReadOnly="True" 
+                                                                        MinWidth="120" Width="120">
+                                                                        <DataGridTextColumn.Binding>
+                                                                            <MultiBinding StringFormat="{}{0:00}:{1:00} - {2:00}:{3:00}">
+                                                                                <Binding Path="RaceStart.Hours"/>
+                                                                                <Binding Path="RaceStart.Minutes"/>
+                                                                                <Binding Path="RaceEnd.Hours"/>
+                                                                                <Binding Path="RaceEnd.Minutes"/>
+                                                                            </MultiBinding>
+                                                                        </DataGridTextColumn.Binding>
+                                                                    </DataGridTextColumn>
+                                                                    <DataGridTemplateColumn Header="Results"  
+                                                                            MinWidth="150" Width="150">
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate DataType="DataGridCell">
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <controls:IconButton Command="{Binding UploadFileCmd}" CommandParameter="{Binding}" 
+                                                                            VerticalAlignment="Center"
+                                                                            IconFill="Green" IconStroke="Black" IconStrokeThickness="0.25"
+                                                                            IconContent="{StaticResource TableArrowUp}"
+                                                                            Content=".csv" ToolTip="Upload Result set from csv"/>
+
+                                                                                    <ContentControl Foreground="{StaticResource ThemeColor_Green}" Margin="5,0" VerticalAlignment="Center">
+                                                                                        <!--<StaticResource ResourceKey="checkBold"/>-->
+                                                                                        <Viewbox Height="18" VerticalAlignment="Center">
+                                                                                            <fa:ImageAwesome Icon="CheckCircle" Foreground="Green"/>
+                                                                                        </Viewbox>
+                                                                                        <ContentControl.Style>
+                                                                                            <Style TargetType="ContentControl">
+                                                                                                <Setter Property="VirtualizingPanel.Visibility" Value="Visible"/>
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding ResultAvailable}" Value="False">
+                                                                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </ContentControl.Style>
+                                                                                    </ContentControl>
+                                                                                    <!--<Button Click="DeleteResultButton_Click"
+                                                                            VerticalAlignment="Center"
+                                                                            Tag="{Binding}">
+                                                                        <Button.Content>
+                                                                            <ContentControl Foreground="Red" Margin="5,0" VerticalAlignment="Center">
+                                                                                <StaticResource ResourceKey="closeThick"/>
+                                                                            </ContentControl>
+                                                                        </Button.Content>
+                                                                        <Button.Style>
+                                                                            <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                <Style.Triggers>
+                                                                                    <DataTrigger Binding="{Binding ResultAvailable}" Value="False">
+                                                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                                                    </DataTrigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </Button.Style>
+                                                                    </Button>-->
+                                                                                    <controls:IconButton Click="DeleteResultButton_Click" VerticalAlignment="Center"
+                                                                                         Tag="{Binding}" IconContent="{StaticResource closeThick}"
+                                                                                         IconFill="{StaticResource ThemeColor_Red}" IconStroke="Red" IconStrokeThickness="0.5"
+                                                                                                 ToolTip="Delete Result set" IconMargin="-2,-2,0,0" Margin="4,0">
+                                                                                        <controls:IconButton.Style>
+                                                                                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding ResultAvailable}" Value="False">
+                                                                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </controls:IconButton.Style>
+                                                                                    </controls:IconButton>
+                                                                                </StackPanel>
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn>
+                                                                    <!--<DataGridCheckBoxColumn Header="IsReadOnly" Binding="{Binding Model.IsReadOnly, Mode=OneWay}"/>-->
+                                                                </DataGrid.Columns>
+                                                            </DataGrid>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                            <TextBlock Text="Sessions: " Margin="5" />
+                                                            <!--<Button Click="AddButton_Click">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                                <Setter Property="IsEnabled" Value="True"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Sessions}" Value="{x:Null}">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Button.Content>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <ContentControl Margin="0,0,5,0">
+                                                                    <StaticResource ResourceKey="PlusThick"/>
+                                                                </ContentControl>
+                                                                <TextBlock Text="Add" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Button.Content>
+                                                    </Button>-->
+                                                            <controls:IconButton Click="AddButton_Click" Content="Add" IconContent="{StaticResource PlusThick}"
+                                                                         IconMargin="0,-6,0,0" ToolTip="Add Sesseion">
                                                                 <Button.Style>
-                                                                    <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                        <Setter Property="IsEnabled" Value="True"/>
                                                                         <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding ResultAvailable}" Value="False">
-                                                                                <Setter Property="Visibility" Value="Hidden" />
+                                                                            <DataTrigger Binding="{Binding Sessions}" Value="{x:Null}">
+                                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                                                <Setter Property="IsEnabled" Value="False"/>
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </Button.Style>
-                                                            </Button>
+                                                            </controls:IconButton>
+                                                            <controls:IconButton Click="EditButton_Click" Tag="{Binding SelectedSession}"
+                                                                         IconContent="{StaticResource pencilOutline}" Content="Edit"
+                                                                         IconMargin="0,-4,0,0" ToolTip="Edit Session">
+                                                                <controls:IconButton.Style>
+                                                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                        <Setter Property="IsEnabled" Value="True"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
+                                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </controls:IconButton.Style>
+                                                            </controls:IconButton>
+                                                            <controls:IconButton Click="MoveSessionButton_Click" Tag="{Binding SelectedSession}"
+                                                                         IconContent="{StaticResource CursorMove}" Content="Move"
+                                                                         IconMargin="0,-4,0,0" ToolTip="Move Session to another Schedule">
+                                                                <controls:IconButton.Style>
+                                                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                        <Setter Property="IsEnabled" Value="True"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
+                                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </controls:IconButton.Style>
+                                                            </controls:IconButton>
+                                                            <!--<Button Command="{Binding DeleteSessionsCmd}">
+                                                        <Button.Content>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <ContentControl Margin="0,0,5,0">
+                                                                    <StaticResource ResourceKey="delete"/>
+                                                                </ContentControl>
+                                                                <TextBlock Text="Delete" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Button.Content>
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>-->
+                                                            <controls:IconButton Command="{Binding DeleteSessionsCmd}" IconContent="{StaticResource delete}"
+                                                                         Content="Delete" IconMargin="0,-4,0,0"
+                                                                             ToolTip="Delete Session"/>
                                                         </StackPanel>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <!--<DataGridCheckBoxColumn Header="IsReadOnly" Binding="{Binding Model.IsReadOnly, Mode=OneWay}"/>-->
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock Text="Sessions: " Margin="5" />
-                                        <Button Click="AddButton_Click">
-                                            <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                                    <Setter Property="IsEnabled" Value="True"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Sessions}" Value="{x:Null}">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                            <Button.Content>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <ContentControl Margin="0,0,5,0">
-                                                        <StaticResource ResourceKey="PlusThick"/>
-                                                    </ContentControl>
-                                                    <TextBlock Text="Add" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Button.Content>
-                                        </Button>
-                                        <Button Click="EditButton_Click" Tag="{Binding SelectedSession}">
-                                            <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                                    <Setter Property="IsEnabled" Value="True"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                            <Button.Content>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <ContentControl Margin="0,0,5,0">
-                                                        <StaticResource ResourceKey="pencilOutline"/>
-                                                    </ContentControl>
-                                                    <TextBlock Text="Edit" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Button.Content>
-                                        </Button>
-                                        <Button Click="MoveSessionButton_Click" Tag="{Binding SelectedSession}" Visibility="Visible">
-                                            <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                                    <Setter Property="IsEnabled" Value="True"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding SelectedSession}" Value="{x:Null}">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                            <Button.Content>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <ContentControl Margin="0,0,5,0">
-                                                        <StaticResource ResourceKey="CursorMove"/>
-                                                    </ContentControl>
-                                                    <TextBlock Text="Move" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Button.Content>
-                                        </Button>
-                                        <Button Command="{Binding DeleteSessionsCmd}">
-                                            <Button.Content>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <ContentControl Margin="0,0,5,0">
-                                                        <StaticResource ResourceKey="delete"/>
-                                                    </ContentControl>
-                                                    <TextBlock Text="Delete" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Button.Content>
-                                            <Button.Style>
-                                                <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Model.IsReadOnly}" Value="True">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.Resources>
-                </ItemsControl>
-            </ScrollViewer>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                        <Setter Property="Visibility" TargetName="separator" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="Opacity" TargetName="ScheduleDeleteButton" Value="0.25"/>
+                                        <Setter Property="Opacity" TargetName="expandButton" Value="0.25"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Effect" TargetName="templateDropShadowBorder">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="8" ShadowDepth="4" Color="Black"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.Resources>
+                    </ItemsControl>
+                </ScrollViewer>
+                <!--<Border VerticalAlignment="Top" x:Name="top_dropshadow" Margin="-10,-12,15,0" BorderBrush="Black" BorderThickness="0,5"
+                        Background="Transparent">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Border.Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="5" BlurRadius="10" Color="Black" Direction="270"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=verticalContentScroll, Path=VerticalOffset}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <Border VerticalAlignment="Bottom" x:Name="bottom_dropshadow" Margin="-10,0,15,-12" BorderBrush="Black" BorderThickness="0,5"
+                        Background="Transparent">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="5" BlurRadius="10" Color="Black" Direction="90"/>
+                    </Border.Effect>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource MultiValueEqualsConverter}">
+                                            <Binding Path="VerticalOffset" ElementName="verticalContentScroll"/>
+                                            <Binding Path="ScrollableHeight" ElementName="verticalContentScroll"/>
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>-->
+                <controls:IconButton Content="New Schedule" IconContent="{StaticResource TablePlus}" Command="{Binding CreateScheduleCmd}"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
+                                    Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
+                                    IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
+                                    Foreground="{StaticResource ThemeColor_Back0}"
+                                    Height="Auto" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                    Margin="5,2,25,10" ToolTip="Create new Schedule">
+                    <controls:IconButton.Effect>
+                        <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+                    </controls:IconButton.Effect>
+                </controls:IconButton>
+                <!--<controls:IconButton Content="Refresh" IconContent="{StaticResource Cached}" Command="{Binding RefreshCmd}"/>-->
+                <ContentControl Content="{StaticResource RefreshButton}" Visibility="Hidden"/>
+            </Grid>
         </DockPanel>
 
     </Grid>

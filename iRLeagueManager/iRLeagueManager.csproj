@@ -100,13 +100,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ContentScrollViewer.cs" />
+    <Compile Include="Controls\ExtendScrollviewer.cs" />
     <Compile Include="Controls\IconButton.cs" />
+    <Compile Include="Controls\IconToggleButton.cs" />
+    <Compile Include="Controls\WatermarkAdorner.cs" />
+    <Compile Include="Controls\WatermarkService.cs" />
+    <Compile Include="Controls\WatermarkTextBox.cs" />
     <Compile Include="Converters\CompareNumericalConverter.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\DateHasPassedConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\LapIntervalStringConverter.cs" />
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
+    <Compile Include="Converters\MultiValueEqualsConverter.cs" />
+    <Compile Include="Converters\ToUpperConverter.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
     <Compile Include="Interfaces\IModalViewModel.cs" />
     <Compile Include="Logging\ExceptionLogMessage.cs" />
@@ -312,6 +320,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Demo_ConeriaScript.ttf" />
+    <Resource Include="Fonts\FormulaOne_Display_Bold.ttf" />
+    <Resource Include="Fonts\Formula1-Bold_web_0.ttf" />
+    <Resource Include="Fonts\Formula1-Regular_web_0.ttf" />
+    <Resource Include="Fonts\Formula1-Wide_web_0.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -345,6 +358,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\Formula1-Bold.ttf" />
+    <Resource Include="Fonts\Formula1-Regular.ttf" />
     <None Include="Tracks.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -352,7 +367,9 @@
   <ItemGroup>
     <Resource Include="Graphics\Refresh.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\Fonts\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\TrackImages\Maps\Trackmap_BelleIsle_t.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
