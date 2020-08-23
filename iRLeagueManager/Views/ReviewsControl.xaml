@@ -897,7 +897,18 @@
                                 <TextBlock.Inlines>
                                     <Run>There are no reviews for this Session yet.</Run>
                                     <LineBreak/>
-                                    <Hyperlink Command="{Binding AddReviewCmd}">Add Review</Hyperlink>
+                                    <Hyperlink Click="AddButton_Click">Add Review
+                                        <Hyperlink.Style>
+                                            <Style TargetType="Hyperlink">
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SessionSelect.SelectedSession}" Value="{x:Null}">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Hyperlink.Style>    
+                                    </Hyperlink>
                                     <Run>to Start.</Run>
                                 </TextBlock.Inlines>
                             </TextBlock>
@@ -913,13 +924,24 @@
                             </StackPanel.Style>
                         </StackPanel>
                     </Grid>
-                    <controls:IconButton Content="Add Review" IconContent="{StaticResource PlusThick}" Command="{Binding AddReviewCmd}"
-                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
-                                    Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
-                                    IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
-                                    Foreground="{StaticResource ThemeColor_Back0}"
-                                    Height="Auto" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                    Margin="5,2,25,10" ToolTip="Create new Schedule">
+                    <controls:IconButton Content="Add Review" IconContent="{StaticResource PlusThick}"
+                                         Click="AddButton_Click"
+                                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
+                                         Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
+                                         IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
+                                         Foreground="{StaticResource ThemeColor_Back0}"
+                                         Height="Auto" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                         Margin="5,2,25,10" ToolTip="Create new Schedule">
+                        <controls:IconButton.Style>
+                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SessionSelect.SelectedSession}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>   
+                            </Style>
+                        </controls:IconButton.Style>
                         <controls:IconButton.Effect>
                             <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
                         </controls:IconButton.Effect>

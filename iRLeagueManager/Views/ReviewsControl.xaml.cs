@@ -213,7 +213,7 @@ namespace iRLeagueManager.Views
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && ViewModel != null)
+            if ((sender is Button || sender is Hyperlink)  && ViewModel != null)
             {
                 var editWindow = new ModalOkCancelWindow();
                 editWindow.Width = 700;
@@ -231,6 +231,11 @@ namespace iRLeagueManager.Views
                     if (editWindow.ShowDialog() == true)
                     {
                         await ViewModel.AddReviewAsync(editVM.Model);
+                    }
+                }
+            }
+            e.Handled = true;
+        }
 
         private void TreeView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
