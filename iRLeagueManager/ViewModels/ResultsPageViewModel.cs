@@ -263,6 +263,7 @@ namespace iRLeagueManager.ViewModels
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
                 currentResultsList.UpdateSource(scoredResultModels);
+                SetCurrentResultsView();
                 SelectedResult = currentResultsList.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
                 StatusMsg = "";
             }
