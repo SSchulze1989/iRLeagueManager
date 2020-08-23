@@ -11,7 +11,8 @@
     <!-- Global Font Style-->
     <FontFamily x:Key="Header.FontFamily">pack://application,,,/Fonts/#Formula1 Display Wide</FontFamily>
     <sys:Double x:Key="Header.FontSize">36</sys:Double>
-    
+    <sys:Double x:Key="SmallHeader.Fontsize">18</sys:Double>
+
     <FontFamily x:Key="Global.FontFamily">Bahnschrift</FontFamily>
     <sys:Double x:Key="Global.FontSizeLarge">20</sys:Double>
     <sys:Double x:Key="Global.FontSizeMedium">16</sys:Double>
@@ -21,8 +22,11 @@
     <FontFamily x:Key="Menu.FontFamily">pack://application,,,/Fonts/#Formula1 Display Regular</FontFamily>
     
     <!-- Color code-->
+    <SolidColorBrush x:Key="ThemeColor_SmallHeaderForeground" Color="#85929e"/>
+    <SolidColorBrush x:Key="ThemeColor_CloseBackground" Color="#FFE81123"/>
     <SolidColorBrush x:Key="ThemeColor_Red" Color="#ec7063"/>
     <SolidColorBrush x:Key="ThemeColor_Blue" Color="#00ACED"/>
+    <SolidColorBrush x:Key="ThemeColor_Yellow" Color="#F4D03F"/>
     <SolidColorBrush x:Key="ThemeColor_LightBlue" Color="#aed6f1"/>
     <SolidColorBrush x:Key="ThemeColor_Green" Color="#52be80"/>
     <SolidColorBrush x:Key="ThemeColor_Border" Color="#d6dbdf"/>
@@ -855,10 +859,50 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
-            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" 
+            <Grid ClipToBounds="True" Grid.Column="0" Grid.Row="0">
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" 
                                     CanHorizontallyScroll="False" CanVerticallyScroll="False" 
                                     ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" 
-                                    Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                                     Margin="{TemplateBinding Padding}" />
+                <Border VerticalAlignment="Top" x:Name="top_dropshadow" Margin="-5,-13,-5,0" BorderBrush="Black" BorderThickness="0,5"
+                        Background="Transparent">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Border.Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="5" BlurRadius="12" Color="Black" Direction="270"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=VerticalOffset}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <Border VerticalAlignment="Bottom" x:Name="bottom_dropshadow" Margin="-5,0,-5,-13" BorderBrush="Black" BorderThickness="0,5"
+                        Background="Transparent">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="5" BlurRadius="12" Color="Black" Direction="90"/>
+                    </Border.Effect>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource MultiValueEqualsConverter}">
+                                            <Binding Path="VerticalOffset" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                            <Binding Path="ScrollableHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+            </Grid>
             <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" 
                        Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" 
                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 

@@ -10,7 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
-        Title="iRLeagueManager - Login" Width="400" Height="360"
+        Title="iRLeagueManager - Login" Width="400" Height="380"
         FontSize="{DynamicResource Global.FontSizeLarge}"
         FontFamily="{DynamicResource Global.FontFamily}"
         Background="Transparent"
@@ -23,7 +23,7 @@
         <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
         <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back4}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -69,7 +69,7 @@
         </Style>
         <Style x:Key="PasswordBoxStyle" TargetType="{x:Type PasswordBox}">
             <Setter Property="PasswordChar" Value="●"/>
-            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back4}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="0,0,0,2"/>
@@ -118,7 +118,7 @@
     <Grid Width="Auto" Height="Auto" MouseDown="Window_MouseDown">
         <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" Stroke="DarkBlue"/>-->
         <Border x:Name="WindowBorder" Margin="5" Padding="0" BorderThickness="1" BorderBrush="{StaticResource ThemeColor_Back3}" 
-                Background="{StaticResource ThemeColor_Back0}" CornerRadius="0">
+                Background="White" CornerRadius="0">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="2" BlurRadius="7" Color="#EE000000"/>
             </Border.Effect>
@@ -128,7 +128,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" Padding="15,10" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ThemeColor_Back3}" CornerRadius="0" 
-                        Background="{StaticResource ThemeColor_Back6}" MouseDown="Window_MouseDown">
+                        Background="{StaticResource ThemeColor_DarkBlue}" MouseDown="Window_MouseDown">
                     <DockPanel>
                         <controls:IconButton IconContent="{StaticResource closeThick}" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
                                              Margin="0,0,-2,0" Padding="5" IconMargin="-2,-4,2,0"
@@ -156,12 +156,13 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="SubmitButton" Grid.Column="0" Margin="5,10,5,10" Content="Submit" Click="SubmitButton_Click" 
-                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                        <controls:IconButton x:Name="SubmitButton" Grid.Column="0" Margin="5,10,5,10" Content="Submit" Click="SubmitButton_Click" 
+                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" CornerRadius="20"
                                 Background="{StaticResource ThemeColor_Back5}" BorderBrush="{StaticResource ThemeColor_Back5}"
-                                Foreground="WhiteSmoke" Template="{DynamicResource DarkButtonTemplate}"/>
-                        <Button Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,10,5,10" Content="Cancel" Click="Button_Click"
-                                Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}"/>
+                                Foreground="WhiteSmoke" Padding="0,8"/>
+                        <controls:IconButton Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,10,5,10" 
+                                Content="Cancel" Click="Button_Click" BorderThickness="2" CornerRadius="20"
+                                Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}" Padding="0,8"/>
                     </Grid>
                     <TextBlock Margin="5">
                 <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>

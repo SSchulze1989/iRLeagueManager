@@ -16,7 +16,7 @@ namespace iRLeagueManager.Converters
             {
                 return valueString.ToUpper();
             }
-            return value;
+            return value.ToString().ToUpper();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -9,9 +9,11 @@ namespace iRLeagueManager.Enums
     public enum VoteState
     {
         NoVote,
+        Open,
+        VotesNeeded,
         Conflict,
         MajorityVote,
         Agreed,
-        Accepted
+        Closed
     }
 }

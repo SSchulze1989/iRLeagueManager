@@ -40,6 +40,9 @@ namespace iRLeagueManager.ViewModels
             set => SetValue(ref votes, value);
         }
 
+        private int votesCount;
+        public int VotesCount { get => votesCount; set => SetValue(ref votesCount, value); }
+
         public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
 
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
@@ -78,6 +81,9 @@ namespace iRLeagueManager.ViewModels
 
         public bool CanUserAddComment => Comments.Any(x => x.IsUserAuthor) == false;
 
+        private VoteState voteState;
+        public VoteState VoteState { get => voteState; set => SetValue(ref voteState, value); }
+
         protected override IncidentReviewModel Template => new IncidentReviewModel();
         //...
 
@@ -91,6 +97,12 @@ namespace iRLeagueManager.ViewModels
             ((INotifyCollectionChanged)comments).CollectionChanged += OnCommentsCollectionChanged;
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null && o is ReviewVoteModel);
+        }
+
+        public override void Refresh(string propertyName = "")
+        {
+            CalculateVotes();
+            base.Refresh(propertyName);
         }
 
         public void Hold()
@@ -120,6 +132,7 @@ namespace iRLeagueManager.ViewModels
         {
             var votes = new List<MyKeyValuePair<ReviewVoteModel, int>>();
             var acceptedVotes = new List<MyKeyValuePair<ReviewVoteModel, int>>();
+            var votesCount = 0;
 
             if (comments == null)
                 return;
@@ -134,10 +147,12 @@ namespace iRLeagueManager.ViewModels
                         existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
                         votes.Add(existingVote);
                     }
-                    existingVote.Value += 1;
+                    existingVote.Value++;
+                    votesCount++;
                 }
             }
-            this.votes = votes;
+            this.Votes = votes;
+            this.VotesCount = votesCount;
 
             foreach (var currentVote in AcceptedVotes)
             {
@@ -149,7 +164,32 @@ namespace iRLeagueManager.ViewModels
                 }
                 existingVote.Value += 1;
             }
-            this.countAcceptedVotes = acceptedVotes;
+            this.CountAcceptedVotes = acceptedVotes;
+
+            if (AcceptedVotes?.Count() > 0)
+            {
+                VoteState = VoteState.Closed;
+            }
+            else if (votes.Count() == 0)
+            {
+                VoteState = VoteState.NoVote;
+            }
+            else if (votes.Count() < 2)
+            {
+                VoteState = VoteState.Open;
+            }
+            else if (votes.Max(x => x.Value) == votes.Count())
+            {
+                VoteState = VoteState.Agreed;
+            }
+            else if (votes.Max(x => x.Value) > votes.Count() / 2)
+            {
+                VoteState = VoteState.MajorityVote;
+            }
+            else
+            {
+                VoteState = VoteState.Conflict;
+            }
         }
 
         public async Task<ReviewCommentModel> AddCommentAsync(ReviewCommentModel comment)

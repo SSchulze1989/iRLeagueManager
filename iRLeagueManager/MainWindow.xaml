@@ -118,7 +118,7 @@
                             <Trigger Property="IsEnabled" Value="false">
                                 <!--<Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Background}"/>
                                 <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Border}"/>-->
-                                <Setter Property="Foreground" Value="{StaticResource RadioButton.Disabled.Foreground}"/>
+                                <Setter Property="Foreground" Value="{StaticResource ThemeColor_Back3}"/>
                                 <!--<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Disabled.Glyph}"/>-->
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
@@ -149,9 +149,11 @@
         <!--Tree View TemplateSelector-->
 
     </Window.Resources>
+    
     <Window.DataContext>
         <vmodel:MainWindowViewModel/>
     </Window.DataContext>
+    
     <Grid>
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_DarkBlue}">

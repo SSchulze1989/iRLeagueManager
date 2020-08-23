@@ -122,7 +122,7 @@ namespace iRLeagueManager.ViewModels
         {
             ScheduleList = new ScheduleVMCollection();
             resultList = new ObservableCollection<ResultInfo>();
-            CurrentResultsList = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
+            CurrentResultsList = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>(x => x.Scoring = ScoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()

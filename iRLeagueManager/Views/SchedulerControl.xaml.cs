@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using iRLeagueManager.Controls;
 using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.Views
@@ -171,6 +171,21 @@ namespace iRLeagueManager.Views
             ScrollViewer scv = verticalContentScroll;
             scv.RaiseEvent(eventArg);
             e.Handled = true;
+        }
+
+        private void SchedulePanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                if (e.ClickCount >= 2)
+                {
+                    var button = element.FindName("expandButton") as IconToggleButton;
+                    if (button != null)
+                    {
+                        button.IsChecked = !button.IsChecked;
+                    }
+                }
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class ModalOkCancelWindow : Window
     {
+        public new WindowStartupLocation WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
         public ModalOkCancelWindow()
         {
             InitializeComponent();
