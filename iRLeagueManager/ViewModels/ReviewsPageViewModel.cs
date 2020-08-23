@@ -10,6 +10,7 @@ using System.Windows.Input;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.Data;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -147,17 +148,47 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async Task AddReviewAsync()
+        public IncidentReviewModel CreateReviewModel()
+        {
+            return new IncidentReviewModel(LeagueContext.UserManager.CurrentUser, SessionSelect.SelectedSession.Model);
+        }
+
+        public async Task<IncidentReviewModel> AddReviewAsync()
         {
             if (SessionSelect?.SelectedSession == null)
-                return;
+                return null;
+
+            return await AddReviewAsync(CreateReviewModel());
+
+            //try
+            //{
+            //    IsLoading = true;
+            //    var newReview = new IncidentReviewModel(LeagueContext.UserManager.CurrentUser, SessionSelect.SelectedSession.Model);
+            //    newReview = await LeagueContext.AddModelAsync(newReview);
+            //    SessionSelect.SelectedSession.Model.Reviews.Add(newReview);
+            //    await LeagueContext.UpdateModelAsync(SessionSelect.SelectedSession.Model);
+            //    await LoadReviews();
+            //}
+            //catch (Exception e)
+            //{
+            //    GlobalSettings.LogError(e);
+            //}
+            //finally
+            //{
+            //    IsLoading = false;
+            //}
+        }
+
+        public async Task<IncidentReviewModel> AddReviewAsync(IncidentReviewModel reviewModel)
+        {
+            if (SessionSelect?.SelectedSession == null)
+                return null;
 
             try
             {
                 IsLoading = true;
-                var newReview = new IncidentReviewModel(LeagueContext.UserManager.CurrentUser, SessionSelect.SelectedSession.Model);
-                newReview = await LeagueContext.AddModelAsync(newReview);
-                SessionSelect.SelectedSession.Model.Reviews.Add(newReview);
+                reviewModel = await LeagueContext.AddModelAsync(reviewModel);
+                SessionSelect.SelectedSession.Model.Reviews.Add(reviewModel);
                 await LeagueContext.UpdateModelAsync(SessionSelect.SelectedSession.Model);
                 await LoadReviews();
             }
@@ -169,6 +200,8 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
+
+            return reviewModel;
         }
 
         public async Task RemoveReviewAsync(IncidentReviewModel review)
