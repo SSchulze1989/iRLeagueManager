@@ -16,6 +16,8 @@ namespace iRLeagueManager.Models.Results
         private ScoringInfo scoring;
         public ScoringInfo Scoring { get => scoring; set => SetValue(ref scoring, value); }
 
+        public string ScoringName { get; internal set; }
+
         [EqualityCheckProperty]
         public long? ScoringId => Scoring?.ScoringId;
 

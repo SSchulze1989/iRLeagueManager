@@ -11,10 +11,14 @@
         xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
-        mc:Ignorable="d" FontSize="18"
-        WindowState="Maximized" Height="863" Width="1568" >
+        xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+        mc:Ignorable="d"
+        WindowState="Maximized" Height="863" Width="1568" Background="White"
+        FontFamily="{StaticResource Global.FontFamily}"
+        FontSize="{StaticResource Global.FontSizeMedium}">
 
     <Window.Resources>
+        <conv:ToUpperConverter x:Key="ToUpperConverter"/>
         <sys:String x:Key="ApplicationName">iRLeagueManager v0.1</sys:String>
         <!--<data:Schedule x:Key="srcSchedule" />-->
         <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="LightGray"/>
@@ -24,8 +28,14 @@
         <Button x:Key="NavigationButton" BorderThickness="0,0,0,2" BorderBrush="Black" />
         <conv:DateTimeConverter x:Key="DateTimeConverter"/>
         <ControlTemplate x:Key="MenuButtonTemplate" TargetType="{x:Type ButtonBase}">
-            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                    Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                  Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                  Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="Button.IsDefaulted" Value="True">
@@ -38,11 +48,99 @@
                     <Setter Property="Background" TargetName="border" Value="DarkGray"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" TargetName="border" Value="Black"/>
+                    <!--<Setter Property="Background" TargetName="border" Value="{StaticResource }"/>-->
                     <Setter Property="Foreground" Value="#353535"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        <SolidColorBrush x:Key="RadioButton.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="RadioButton.Static.Border" Color="#FF707070"/>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="DarkGray"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="#FF5593FF"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Border" Color="#FFBCBCBC"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="#FF707070"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Foreground" Color="#353535"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="Gray"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Border" Color="#FF3C77DD"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="#FF212121"/>
+        <Style x:Key="RadioButtonStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource RadioButton.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True" HorizontalAlignment="Stretch">
+                            <!--<Border x:Name="radioButtonBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="100" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,1,2,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid x:Name="markGrid" Margin="2">
+                                    <Ellipse x:Name="optionMark" Fill="{StaticResource RadioButton.Static.Glyph}" MinWidth="6" MinHeight="6" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>-->
+                            <Border x:Name="radioButtonBorder" BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" SnapsToDevicePixels="True"
+                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                                  Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                  Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Border}"/>
+                                <!--<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.MouseOver.Glyph}"/>-->
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <!--<Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Border}"/>-->
+                                <Setter Property="Foreground" Value="{StaticResource ThemeColor_Back3}"/>
+                                <!--<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Disabled.Glyph}"/>-->
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Pressed.Border}"/>
+                                <!--<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Pressed.Glyph}"/>-->
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource ThemeColor_Back1}"/>
+                                <Setter Property="Foreground" Value="{StaticResource ThemeColor_Back6}"/>
+                                <!--<Setter Property="Opacity" TargetName="optionMark" Value="1"/>-->
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
+                                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                <!--<Setter Property="Opacity" TargetName="optionMark" Value="0.56"/>-->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <!--<local:LocationCollection x:Key="LocationCollection"/>-->
 
@@ -51,28 +149,22 @@
         <!--Tree View TemplateSelector-->
 
     </Window.Resources>
+    
     <Window.DataContext>
         <vmodel:MainWindowViewModel/>
     </Window.DataContext>
+    
     <Grid>
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Grid DockPanel.Dock="Top" Height="50" Background="Black">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DataContext="{Binding CurrentUser}">
-                    <TextBlock Text="{Binding FullName}" Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="5"/>
-                </StackPanel>
+            <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_DarkBlue}">
+                <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
+                           FontSize="{DynamicResource Header.FontSize}" 
+                           Foreground="SeaShell" VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           Margin="15,0"/>
             </Grid>
             <DockPanel DockPanel.Dock="Bottom">
-                <TabControl DockPanel.Dock="Top" Height="200">
-                    <TabItem Header="Errors" TextElement.FontSize="10">
-                        <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time" IsReadOnly="True" Width="75"/>
-                                <DataGridTextColumn Binding="{Binding Message}" Header="Message" IsReadOnly="True" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </TabItem>
-                </TabControl>
-                <Grid DockPanel.Dock="Bottom" Height="30" Background="Gray">
+                <Grid DockPanel.Dock="Bottom" Height="30" Background="{StaticResource ThemeColor_Back2}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -84,9 +176,12 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" 
+                                HorizontalAlignment="Right" Margin="0"
+                                VerticalAlignment="Stretch">
                         <!--<TextBlock Text="{Binding DbStatus.ConnectionStatus}" Margin="5,0"/>-->
-                        <fa:ImageAwesome Icon="Refresh" Margin="5,0" VerticalAlignment="Center">
+                        <fa:ImageAwesome Icon="Refresh" Margin="5,0" VerticalAlignment="Center"
+                                         Height="20">
                             <fa:ImageAwesome.Style>
                                 <Style TargetType="fa:ImageAwesome">
                                     <Setter Property="Foreground" Value="Black"/>
@@ -100,19 +195,54 @@
                                 </Style>
                             </fa:ImageAwesome.Style>
                         </fa:ImageAwesome>
-                        <TextBlock Text="{Binding DbStatus.UpdateStatus}" Margin="5,0"/>
+                        <TextBlock Text="{Binding DbStatus.UpdateStatus}" Margin="5,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
+                <Grid>
+                    <Rectangle Stroke="Black" StrokeThickness="1"/>
+                    <TabControl Grid.Row="0" DockPanel.Dock="Top" Height="200">
+                        <TabItem Header="Errors" TextElement.FontSize="12" Height="25">
+                            <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time" IsReadOnly="True" Width="75"/>
+                                    <DataGridTextColumn Binding="{Binding Message}" Header="Message" IsReadOnly="True" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
+                    <controls:IconButton VerticalAlignment="Top" HorizontalAlignment="Right"
+                                         Margin="5" Padding="0" Width="20" Height="20" Command="{Binding CloseErrorsCmd}">
+                        <controls:IconButton.IconContent>
+                            <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <StaticResource ResourceKey="closeThick"/>
+                            </Viewbox>
+                        </controls:IconButton.IconContent>
+                    </controls:IconButton>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsErrorsOpen}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
             </DockPanel>
-            <Grid DockPanel.Dock="Left" Width="Auto" Background="Black" TextElement.Foreground="WhiteSmoke">
+            <Grid x:Name="MenuGrid" DockPanel.Dock="Left" Width="Auto" Background="{StaticResource ThemeColor_Back5}" 
+                  TextElement.Foreground="WhiteSmoke" TextElement.FontFamily="{DynamicResource Menu.FontFamily}"
+                  TextElement.FontSize="{DynamicResource Menu.FontSizeLarge}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350" />
-                    <ColumnDefinition Width="0" />
+                    <ColumnDefinition Width="250" />
+                    <!--<ColumnDefinition Width="0" />-->
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="Menu" Grid.Column="0" Orientation="Vertical" Margin="0,0,5,0">
-                    <StackPanel Orientation="Vertical" MinHeight="80">
-                        <ComboBox ItemsSource="{Binding SeasonList}" SelectedItem="{Binding SelectedSeason}" DisplayMemberPath="SeasonName" />
-                        <StackPanel Orientation="Horizontal" DataContext="{Binding CurrentSeason}">
+                <StackPanel x:Name="Menu" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
+                    <StackPanel Orientation="Vertical" MinHeight="40">
+                        <ComboBox ItemsSource="{Binding SeasonList}" SelectedItem="{Binding SelectedSeason}" 
+                                  Padding="10" HorizontalContentAlignment="Center"
+                                  DisplayMemberPath="SeasonName" />
+                        <!--<StackPanel Orientation="Horizontal" DataContext="{Binding CurrentSeason}">
                             <TextBlock Text="{Binding SeasonStart, Converter={StaticResource DateTimeConverter}}" />
                             <TextBlock Text=" - " />
                             <TextBlock Text="{Binding SeasonEnd, Converter={StaticResource DateTimeConverter}}" />
@@ -129,31 +259,53 @@
                                     </Style.Triggers>
                                 </Style>
                             </StackPanel.Style>
-                        </StackPanel>
+                        </StackPanel>-->
                     </StackPanel>
-                    <Button Content="Settings" Click="SettingsButton_Click" IsEnabled="True"/>
-                    <Button Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
-                    <Button Content="Race Calendar" Click="RaceCalendarButton_Click" />
-                    <Button Content="Schedules" Click="SchedulesButton_Click" />
-                    <Button Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
-                    <Button Content="Reviews" Click="ReviewsButton_Click" IsEnabled="True"/>
-                    <Button Content="Teams" IsEnabled="False"/>
-                    <Button Content="Stats" IsEnabled="False"/>
+                    <RadioButton GroupName="Menu" Content="Settings" Click="SettingsButton_Click" IsEnabled="True"/>
+                    <RadioButton GroupName="Menu" Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
+                    <RadioButton GroupName="Menu" Content="Race Calendar" Click="RaceCalendarButton_Click" />
+                    <RadioButton GroupName="Menu" Content="Schedules" Click="SchedulesButton_Click" />
+                    <RadioButton GroupName="Menu" Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
+                    <RadioButton GroupName="Menu" Content="Reviews" Click="ReviewsButton_Click" IsEnabled="True"/>
+                    <RadioButton GroupName="Menu" Content="Teams" IsEnabled="False"/>
+                    <RadioButton GroupName="Menu" Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
-                        <Style TargetType="Button" >
+                        <Style TargetType="Button">
                             <Setter Property="Template" Value="{StaticResource MenuButtonTemplate}" />
                             <Setter Property="Margin" Value="0,-2" />
                             <Setter Property="Padding" Value="0,18"/>
-                            <Setter Property="Background" Value="Black" />
+                            <Setter Property="Background" Value="Transparent" />
                             <Setter Property="Foreground" Value="WhiteSmoke" />
                             <Setter Property="BorderThickness" Value="0,4,0,4" />
+                        </Style>
+                        <Style TargetType="RadioButton" BasedOn="{StaticResource RadioButtonStyle}">
+                            <Setter Property="Margin" Value="0,-2" />
+                            <Setter Property="Padding" Value="0,18"/>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Foreground" Value="WhiteSmoke" />
+                            <Setter Property="BorderThickness" Value="0,0,0,0" />
                         </Style>
                     </StackPanel.Resources>
                 </StackPanel>
 
-                <GridSplitter Grid.Column="0" Width="5"/>
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" Foreground="{StaticResource ThemeColor_Blue}" Grid.Row="1"
+                           FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Margin="0,20" HorizontalAlignment="Center"/>
+                    <controls:IconButton Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
+                                         Foreground="{StaticResource ThemeColor_Back0}" Margin="0" Padding="15"
+                                         Click="RefreshButtonClick">
+                        <controls:IconButton.IconContent>
+                            <fa:ImageAwesome Icon="Refresh" Height="25"/>
+                        </controls:IconButton.IconContent>
+                    </controls:IconButton>
+                </Grid>
+                <!--<GridSplitter Grid.Column="0" Width="5"/>-->
             </Grid>
-            <Grid >
+            <Grid>
                 <ContentControl x:Name="MainContent">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type vmodel:CalendarViewModel}">
@@ -179,7 +331,7 @@
             </Grid>
         </DockPanel>
     </Grid>
-    
+
     <!--<Grid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

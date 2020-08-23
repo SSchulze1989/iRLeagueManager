@@ -16,6 +16,9 @@ using iRLeagueManager.Interfaces;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Services;
 using iRLeagueManager.ViewModels.Collections;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -48,11 +51,18 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private bool expanded = true;
+        public bool Expanded { get => expanded; set => SetValue(ref expanded, value); }
+
         public long? ScheduleId => Model?.ScheduleId;
 
         public string Name { get => Model?.Name; set => Model.Name = value; }
 
         public int SessionCount => (Model?.SessionCount).Value;
+
+        public DateTime? ScheduleStart => (Sessions?.Count > 0) ? (DateTime?)Sessions.Min(x => x.Date) : null;
+
+        public DateTime? ScheduleEnd => (Sessions?.Count > 0) ? (DateTime?)Sessions.Max(x => x.Date) : null;
 
         public ICommand AddSessionCmd { get; }
         public ICommand DeleteSessionsCmd { get; }
@@ -67,6 +77,7 @@ namespace iRLeagueManager.ViewModels
         {
             Model = ScheduleModel.GetTemplate();
             sessions = new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
+            ((INotifyCollectionChanged)sessions).CollectionChanged += OnSessionCollectionChange;
             Sessions.UpdateSource(new SessionModel[0]);
             AddSessionCmd = new RelayCommand(o => AddSession(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
             DeleteSessionsCmd = new RelayCommand(o => DeleteSessions(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
@@ -83,6 +94,24 @@ namespace iRLeagueManager.ViewModels
             //if (Sessions != null)
             //    Sessions.UpdateSource(Model?.Sessions);
             //base.OnUpdateSource();
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            switch(propertyName)
+            {
+                case nameof(Sessions):
+                    //OnSessionCollectionChange(null, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    break;
+            }
+            base.OnPropertyChanged(propertyName);
+        }
+
+        private void OnSessionCollectionChange(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(ScheduleStart));
+            OnPropertyChanged(nameof(ScheduleEnd));
+            OnPropertyChanged(nameof(SessionCount));
         }
 
         public void AddSession()

@@ -28,7 +28,7 @@ namespace iRLeagueManager.Models.Sessions
         }
         //ReadOnlyObservableCollection<ISession> ISchedule.Sessions => new ReadOnlyObservableCollection<ISession>(Sessions);
 
-        public new int SessionCount { get => Sessions.Count(); }
+        public new int SessionCount { get => (Sessions?.Count()).GetValueOrDefault(); }
 
         public int RacesCount { get => Sessions.Where(x => x.SessionType == SessionType.Race).Count(); }
 

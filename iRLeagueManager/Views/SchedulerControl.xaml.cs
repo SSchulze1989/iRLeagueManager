@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using iRLeagueManager.Controls;
 using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.Views
@@ -158,6 +158,32 @@ namespace iRLeagueManager.Views
                 {
                     var targetSchedule = comboBox.SelectedItem as ScheduleViewModel;
                     schedulerVM.MoveSessionToSchedule(sessionVM.Model, currentScheduleVM.Model, targetSchedule.Model);
+                }
+            }
+        }
+
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = e.Source;
+
+            ScrollViewer scv = verticalContentScroll;
+            scv.RaiseEvent(eventArg);
+            e.Handled = true;
+        }
+
+        private void SchedulePanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                if (e.ClickCount >= 2)
+                {
+                    var button = element.FindName("expandButton") as IconToggleButton;
+                    if (button != null)
+                    {
+                        button.IsChecked = !button.IsChecked;
+                    }
                 }
             }
         }

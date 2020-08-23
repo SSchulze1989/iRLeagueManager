@@ -71,6 +71,7 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="FinalResults" nillable="true" type="tns:ArrayOfScoredResultRowDataDTO" />
           <xs:element minOccurs="0" name="Scoring" nillable="true" type="tns:ScoringInfoDTO" />
+          <xs:element minOccurs="0" name="ScoringName" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

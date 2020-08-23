@@ -7,6 +7,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Markup;
+using System.Globalization;
 
 namespace iRLeagueManager
 {
@@ -19,15 +21,20 @@ namespace iRLeagueManager
         {
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.GetCultureInfo("de-DE").IetfLanguageTag)));
+
             var dialog = new UserLoginWindow();
             var viewModel = new LoginViewModel();
 #if DEBUG
             viewModel.UserName = "Administrator";
             viewModel.SetPassword("administrator");
 #endif
-            dialog.DataContext = viewModel;
-            viewModel.Load();
 
+            dialog.DataContext = viewModel;
+            dialog.WindowStyle = WindowStyle.None;
+            viewModel.Load();
 
             if (dialog.ShowDialog() == true)
             {

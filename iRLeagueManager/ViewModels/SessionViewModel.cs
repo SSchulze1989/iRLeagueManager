@@ -22,6 +22,7 @@ using System.Runtime.CompilerServices;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.User;
+using System.Windows.Markup.Localizer;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -73,6 +74,7 @@ namespace iRLeagueManager.ViewModels
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
         public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
         public DateTime Date { get => Model.Date.Date; set => Model.Date = value.Date.Add(Model.Date.TimeOfDay); }
+        public DateTime RaceDate => Date.Add(RaceStart);
         public TimeSpan SessionStart { get => Model.Date.TimeOfDay; set => Model.Date = Date.Date.Add(value); }
         public TimeSpan SessionEnd => SessionStart.Add(Duration);
         public TimeComponentVector TimeOfDayComponents { get; }
@@ -250,58 +252,50 @@ namespace iRLeagueManager.ViewModels
                 case nameof(Schedule):
                     OnPropertyChanged(nameof(SessionNumber));
                     break;
+                case nameof(Model.LocationId):
+                    OnPropertyChanged(nameof(Track));
+                    OnPropertyChanged(nameof(TrackId));
+                    OnPropertyChanged(nameof(TrackIndex));
+                    OnPropertyChanged(nameof(TrackConfigs));
+                    OnPropertyChanged(nameof(Config));
+                    OnPropertyChanged(nameof(ConfigId));
+                    OnPropertyChanged(nameof(ConfigIndex));
+                    OnPropertyChanged(nameof(Location));
+                    break;
+                case nameof(Model.SessionResult):
+                    OnPropertyChanged(nameof(ResultAvailable));
+                    break;
+                case nameof(Duration):
+                    OnPropertyChanged(nameof(SessionEnd));
+                    OnPropertyChanged(nameof(DurationComponents));
+                    break;
+                case nameof(Date):
+                    OnPropertyChanged(null);
+                    break;
+                case nameof(PracticeLength):
+                    OnPropertyChanged(nameof(PracticeLenghtComponents));
+                    OnPropertyChanged(nameof(PracticeEnd));
+                    OnPropertyChanged(nameof(QualyStart));
+                    OnPropertyChanged(nameof(QualyEnd));
+                    OnPropertyChanged(nameof(RaceStart));
+                    OnPropertyChanged(nameof(RaceEnd));
+                    OnPropertyChanged(nameof(RaceDate));
+                    break;
+                case nameof(QualyLength):
+                    OnPropertyChanged(nameof(QualyLengthComponents));
+                    OnPropertyChanged(nameof(QualyEnd));
+                    OnPropertyChanged(nameof(RaceStart));
+                    OnPropertyChanged(nameof(RaceEnd));
+                    OnPropertyChanged(nameof(RaceDate));
+                    break;
+                case nameof(RaceLength):
+                    OnPropertyChanged(nameof(QualyLengthComponents));
+                    OnPropertyChanged(nameof(QualyEnd));
+                    OnPropertyChanged(nameof(RaceStart));
+                    OnPropertyChanged(nameof(RaceEnd));
+                    break;
                 default:
                     break;
-            }
-
-            if (propertyName == nameof(Model.LocationId))
-            {
-                OnPropertyChanged(nameof(Track));
-                OnPropertyChanged(nameof(TrackId));
-                OnPropertyChanged(nameof(TrackIndex));
-                OnPropertyChanged(nameof(TrackConfigs));
-                OnPropertyChanged(nameof(Config));
-                OnPropertyChanged(nameof(ConfigId));
-                OnPropertyChanged(nameof(ConfigIndex));
-                OnPropertyChanged(nameof(Location));
-            }
-
-            if (propertyName == nameof(Model.SessionResult))
-                OnPropertyChanged(nameof(ResultAvailable));
-
-            if (propertyName == nameof(Duration))
-            {
-                OnPropertyChanged(nameof(SessionEnd));
-            }
-
-            if (propertyName == nameof(Date))
-            {
-                OnPropertyChanged(null);
-            }
-            if (propertyName == nameof(Duration))
-            {
-                OnPropertyChanged(nameof(DurationComponents));
-            }
-            if (propertyName == nameof(PracticeLength))
-            {
-                OnPropertyChanged(nameof(PracticeLenghtComponents));
-                OnPropertyChanged(nameof(PracticeEnd));
-                OnPropertyChanged(nameof(QualyStart));
-                OnPropertyChanged(nameof(QualyEnd));
-                OnPropertyChanged(nameof(RaceStart));
-                OnPropertyChanged(nameof(RaceEnd));
-            }
-            if (propertyName == nameof(QualyLength))
-            {
-                OnPropertyChanged(nameof(QualyLengthComponents));
-                OnPropertyChanged(nameof(QualyEnd));
-                OnPropertyChanged(nameof(RaceStart));
-                OnPropertyChanged(nameof(RaceEnd));
-            }
-            if (propertyName == nameof(RaceLength))
-            {
-                OnPropertyChanged(nameof(RaceLengthComponents));
-                OnPropertyChanged(nameof(RaceEnd));
             }
         }
     }

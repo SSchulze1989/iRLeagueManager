@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="iRLeagueManager.Views.SessionSelectControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+             xmlns:local="clr-namespace:iRLeagueManager.Views"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="Auto" d:DesignWidth="500" Background="White"
+             x:Name="parentControl">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type ComboBoxItem}" x:Key="DefaultItemTemplate">
+            <!--<TextBlock Margin="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}- {1} - (Id: {2})">
+                        <Binding Path="RaceDate" StringFormat="Date"/>
+                        <Binding Path="Location.FullName"/>
+                        <Binding Path="SessionId"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>-->
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding RaceDate}" MinWidth="155"/>
+                <TextBlock Text="-" Margin="5,0,8,0"/>
+                <TextBlock Text="{Binding Location.FullName}"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="local:SessionSelectControl.ItemTemplate" Value="{StaticResource DefaultItemTemplate}"/>
+        </Style>
+    </UserControl.Style>
+    
+    <DockPanel Grid.Row="1" x:Name="sessionSelector" HorizontalAlignment="Stretch" 
+               >
+		<!--<Button Content="&lt;" Padding="5" DockPanel.Dock="Left" Command="{Binding PreviousSessionCmd}"/>-->
+        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="0" Margin="0"
+                             Command="{Binding PreviousSessionCmd}" CornerRadius="0" Width="40"
+                             HorizontalContentAlignment="Center" IconMargin="0"
+                             Foreground="DarkGray" Background="Transparent">
+            <controls:IconButton.IconContent>
+                <fa:ImageAwesome Icon="AngleLeft" Height="25" Margin="5"/>
+            </controls:IconButton.IconContent>
+        </controls:IconButton>
+		<!--<Button Content="&gt;" Padding="5" DockPanel.Dock="Left" Command="{Binding NextSessionCmd}"/>-->
+        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="0" Margin="0"
+                             Command="{Binding NextSessionCmd}" CornerRadius="0" Width="40"
+                             HorizontalContentAlignment="Center" IconMargin="0"
+                             Foreground="{StaticResource ThemeColor_Back6}" 
+                             Background="Transparent">
+            <controls:IconButton.IconContent>
+                <fa:ImageAwesome Icon="AngleRight" Height="25" Margin="5"/>
+            </controls:IconButton.IconContent>
+        </controls:IconButton>
+        <controls:IconButton Padding="0" BorderBrush="DarkGray" BorderThickness="0" Margin="0"
+                             Command="{Binding LastSessionCmd}" CornerRadius="0" Width="40"
+                             HorizontalContentAlignment="Center" IconMargin="0"
+                             Foreground="{StaticResource ThemeColor_Back6}" 
+                             Background="Transparent">
+            <controls:IconButton.IconContent>
+                <fa:ImageAwesome Icon="AngleDoubleRight" Height="25" Margin="5"/>
+            </controls:IconButton.IconContent>
+        </controls:IconButton>
+        <ComboBox ItemsSource="{Binding SessionList}" SelectedItem="{Binding SelectedSession}" Margin="0" VerticalContentAlignment="Center"
+                  ItemTemplate="{Binding ElementName=parentControl, Path=ItemTemplate}" Background="Transparent">
+            <ComboBox.Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                    <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.ItemContainerStyle>
+				<Style TargetType="ComboBoxItem">
+					<Setter Property="IsEnabled" Value="{Binding ResultAvailable}"/>
+                    <Setter Property="TextBlock.FontWeight" Value="DemiBold"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="TextBlock.FontWeight" Value="Light"/>
+                        </Trigger>
+                    </Style.Triggers>
+				</Style>
+			</ComboBox.ItemContainerStyle>
+		</ComboBox>
+	</DockPanel>
+</UserControl>

@@ -15,6 +15,7 @@ using iRLeagueManager.Models.Sessions;
 //using iRLeagueManager.User;
 using iRLeagueManager.Logging;
 using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -46,6 +47,8 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public string CurrentLeagueName => LeagueContext.LeagueName;
+
         //private bool isUserLoggedIn;
         //public bool IsUserLoggedIn { get => isUserLoggedIn; set => SetValue(ref isUserLoggedIn, value); }
 
@@ -58,7 +61,12 @@ namespace iRLeagueManager.ViewModels
         private ObservableCollection<SeasonModel> seasonList;
         public ObservableCollection<SeasonModel> SeasonList { get => seasonList; set => SetValue(ref seasonList, value); }
 
+        private bool isErrorsOpen;
+        public bool IsErrorsOpen { get => isErrorsOpen; set => SetValue(ref isErrorsOpen, value); }
+
         public ICommand SchedulesButtonCmd { get; }
+
+        public ICommand CloseErrorsCmd { get; }
 
         private SeasonModel selectedSeason;
         public SeasonModel SelectedSeason
@@ -83,6 +91,21 @@ namespace iRLeagueManager.ViewModels
             CurrentSeason = new SeasonViewModel();
             //UserLogin = new LoginViewModel(this);
             currentUser = new UserViewModel();
+            CloseErrorsCmd = new RelayCommand(o => IsErrorsOpen = false, o => true);
+            ((INotifyCollectionChanged)ErrorLog).CollectionChanged += OnErrorLogChanged;
+            IsErrorsOpen = false;
+        }
+
+        private void OnErrorLogChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ErrorLog.Count > 0)
+                IsErrorsOpen = true;
+        }
+
+        public override void Refresh(string propertyName = "")
+        {
+            Load();
+            base.Refresh(propertyName);
         }
 
         public async void Load()

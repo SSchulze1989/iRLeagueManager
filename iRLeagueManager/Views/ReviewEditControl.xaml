@@ -8,7 +8,9 @@
              xmlns:converter="clr-namespace:iRLeagueManager.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500" Background="White">
+             d:DesignHeight="600" d:DesignWidth="500" Background="White" 
+             FontSize="{StaticResource Global.FontSizeMedium}"
+             FontFamily="{StaticResource Global.FontFamily}">
     <UserControl.Resources>
         <!--<vmodel:MemberListViewModel x:Key="MemberList"/>-->
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
@@ -19,7 +21,7 @@
         <vmodel:IncidentReviewViewModel/>
     </UserControl.DataContext>
 
-    <Grid TextBlock.FontSize="14" x:Name="MainGrid">
+    <Grid x:Name="MainGrid">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
