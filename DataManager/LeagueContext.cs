@@ -63,12 +63,18 @@ namespace iRLeagueManager.Data
 
         public LeagueContext() : base()
         {
+#if DEBUG
+            string apiAddress = "https://localhost:44369/api";
+#else
+            string apiAddress = "http://144.91.113.195/iRLeagueRESTService/api";
+#endif
+
             var modelCache = new ModelCache();
             var databaseStatusService = new DatabaseStatusService()
             {
-                BaseUri = new Uri("http://144.91.113.195/iRLeagueRESTService/api")
+                BaseUri = new Uri(apiAddress)
             };
-            var userDatabase = new UserDatabaseClient(new Uri("http://144.91.113.195/iRLeagueRESTService/api"))
+            var userDatabase = new UserDatabaseClient(new Uri(apiAddress))
             {
                 DatabaseStatusService = databaseStatusService
 
@@ -89,7 +95,7 @@ namespace iRLeagueManager.Data
                 cfg.AddCollectionMappers();
             });
             seasons = new ObservableCollection<SeasonModel>();
-            ModelDatabase = new ASPRestAPIClientWrapper(new Uri("http://144.91.113.195/iRLeagueRESTService/api"), LeagueName, UserCredentialsManager)
+            ModelDatabase = new ASPRestAPIClientWrapper(new Uri(apiAddress), LeagueName, UserCredentialsManager)
             {
                 DatabaseStatusService = databaseStatusService
             };
