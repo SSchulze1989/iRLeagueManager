@@ -82,8 +82,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type PasswordBox}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,2" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,2" 
+                                Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="false">
@@ -127,42 +129,60 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Padding="15,10" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ThemeColor_Back3}" CornerRadius="0" 
+                <Border Grid.Row="0" Padding="0,0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ThemeColor_Back3}" CornerRadius="0" 
                         Background="{StaticResource ThemeColor_DarkBlue}" MouseDown="Window_MouseDown">
                     <DockPanel>
-                        <controls:IconButton IconContent="{StaticResource closeThick}" DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                                             Margin="0,0,-2,0" Padding="5" IconMargin="-2,-4,2,0"
+                        <controls:IconButton DockPanel.Dock="Right" VerticalAlignment="Center" 
+                                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                             Margin="0,0,-2,0" Padding="18,18" IconMargin="-2,-4,2,0"
                                              Command="{Binding CloseButtonCommand}" Click="Button_Click"
-                                             IconFill="WhiteSmoke"
-                                             Foreground="White"/>
+                                             IconFill="WhiteSmoke" CornerRadius="0"
+                                             Foreground="White">
+                            <controls:IconButton.Content>
+                                <Viewbox Height="20">
+                                    <ContentControl Content="{StaticResource closeThick}" Margin="-2,-4,2,0"/>
+                                </Viewbox>
+                            </controls:IconButton.Content>
+                            <controls:IconButton.Style>
+                                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Red"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:IconButton.Style>
+                        </controls:IconButton>
                         <TextBlock Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType=Window}}" 
                                    FontSize="{StaticResource Global.FontSizeLarge}" Foreground="WhiteSmoke"
-                                   HorizontalAlignment="Left"/>
+                                   HorizontalAlignment="Left" Margin="15,10" VerticalAlignment="Center"/>
                     </DockPanel>
                 </Border>
 
                 <StackPanel HorizontalAlignment="Stretch" Margin="10,20" Grid.Row="1">
                     <TextBlock HorizontalAlignment="Left" Margin="7,5,5,2" Text="Username:" Foreground="{StaticResource ThemeColor_Back5}"/>
                     <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
-                     Padding="2" Style="{DynamicResource TextBoxStyle}"/>
+                             HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                             Padding="2" Style="{DynamicResource TextBoxStyle}"/>
                     <Separator Margin="8" Visibility="Hidden"/>
                     <TextBlock HorizontalAlignment="Left" Margin="7,2,5,2" Text="Password:" Foreground="{StaticResource ThemeColor_Back5}"/>
                     <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5,0"
-                         Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" Style="{DynamicResource PasswordBoxStyle}"/>
-                    <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" Margin="5,10" Foreground="Red" />
+                                 Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" 
+                                 Style="{DynamicResource PasswordBoxStyle}"/>
+                    <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" Margin="5,10" Foreground="Red" 
+                               FontSize="{StaticResource Global.FontSizeMedium}"/>
                     <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <controls:IconButton x:Name="SubmitButton" Grid.Column="0" Margin="5,10,5,10" Content="Submit" Click="SubmitButton_Click" 
-                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" CornerRadius="20"
-                                Background="{StaticResource ThemeColor_Back5}" BorderBrush="{StaticResource ThemeColor_Back5}"
-                                Foreground="WhiteSmoke" Padding="0,8"/>
+                                             IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" CornerRadius="20"
+                                             Background="{StaticResource ThemeColor_Back5}" BorderBrush="{StaticResource ThemeColor_Back5}"
+                                             Foreground="WhiteSmoke" Padding="0,8"/>
                         <controls:IconButton Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,10,5,10" 
-                                Content="Cancel" Click="Button_Click" BorderThickness="2" CornerRadius="20"
-                                Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}" Padding="0,8"/>
+                                             Content="Cancel" Click="Button_Click" BorderThickness="2" CornerRadius="20"
+                                             Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}" Padding="0,8"/>
                     </Grid>
                     <TextBlock Margin="5">
                 <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>
