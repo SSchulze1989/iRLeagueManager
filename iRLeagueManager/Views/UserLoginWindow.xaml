@@ -162,32 +162,33 @@
                     <StackPanel HorizontalAlignment="Stretch" Margin="10,20" Grid.Row="1">
                         <TextBlock HorizontalAlignment="Left" Margin="7,5,5,2" Text="Username:" Foreground="{StaticResource ThemeColor_Back5}"/>
                         <TextBox x:Name="UserNameTextBox" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
-                     Padding="2" Style="{DynamicResource TextBoxStyle}"/>
+                                 HorizontalAlignment="Stretch" Margin="5,2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                                 Padding="2" Style="{DynamicResource TextBoxStyle}"/>
                         <Separator Margin="8" Visibility="Hidden"/>
                         <TextBlock HorizontalAlignment="Left" Margin="7,2,5,2" Text="Password:" Foreground="{StaticResource ThemeColor_Back5}"/>
                         <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5,0"
-                         Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" Style="{DynamicResource PasswordBoxStyle}"/>
-                        <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" Margin="5,10" Foreground="Red" />
+                                     Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" Style="{DynamicResource PasswordBoxStyle}"/>
+                        <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" 
+                                   Margin="5,10" Foreground="Red" FontSize="{StaticResource Global.FontSizeMedium}"/>
                         <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <controls:IconButton x:Name="SubmitButton" Grid.Column="0" Margin="5,10,5,10" Content="Submit" Click="SubmitButton_Click" 
-                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" CornerRadius="20"
-                                Background="{StaticResource ThemeColor_Back5}" BorderBrush="{StaticResource ThemeColor_Back5}"
-                                Foreground="WhiteSmoke" Padding="0,8"/>
+                                                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" CornerRadius="20"
+                                                 Background="{StaticResource ThemeColor_Back5}" BorderBrush="{StaticResource ThemeColor_Back5}"
+                                                 Foreground="WhiteSmoke" Padding="0,8"/>
                             <controls:IconButton Grid.Column="1" Command="{Binding CloseButtonCommand}" Margin="5,10,5,10" 
-                                Content="Cancel" Click="Button_Click" BorderThickness="2" CornerRadius="20"
-                                Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}" Padding="0,8"/>
+                                                 Content="Cancel" Click="Button_Click" BorderThickness="2" CornerRadius="20"
+                                                 Background="Transparent" BorderBrush="{StaticResource ThemeColor_Back5}" Padding="0,8"/>
                         </Grid>
                         <TextBlock Margin="5">
                 <Hyperlink Click="Hyperlink_Click">Register new User</Hyperlink>
                         </TextBlock>
                     </StackPanel>
                     <Border VerticalAlignment="Top" x:Name="bottom_dropshadow" Margin="-5,-12,-5,0" BorderBrush="Black" BorderThickness="0,5"
-                        Background="Transparent" Grid.Row="1">
+                            Background="Transparent" Grid.Row="1">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="4" BlurRadius="7" Color="Black" Direction="270"/>
                         </Border.Effect>
