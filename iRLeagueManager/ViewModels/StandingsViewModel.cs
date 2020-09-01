@@ -13,7 +13,7 @@ namespace iRLeagueManager.ViewModels
 {
     public class StandingsViewModel : LeagueContainerModel<StandingsModel>
     {
-        ScoringInfo Scoring => Model?.Scoring;
+        //ScoringInfo Scoring => Model?.Scoring;
         public IEnumerable<StandingsRowModel> StandingsRows => Model?.StandingsRows.OrderBy(x => -x.TotalPoints);
         public LeagueMember MostWinsDriver => Model?.MostWinsDriver;
         public LeagueMember MostPolesDriver => Model?.MostPolesDriver;

@@ -11,7 +11,12 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Data;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer;
+using iRLeagueDatabase.DataTransfer.Members;
+using iRLeagueDatabase.DataTransfer.Results;
+using iRLeagueDatabase.DataTransfer.Reviews;
+using iRLeagueDatabase.DataTransfer.Sessions;
+using iRLeagueDatabase.DataTransfer.User;
 
 namespace iRLeagueManager.Models
 {
@@ -144,6 +149,10 @@ namespace iRLeagueManager.Models
                 else if (typeof(T).Equals(typeof(AddPenaltyModel)))
                 {
                     data = await ModelDataProvider.GetAsync<AddPenaltyDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
+                else if (typeof(T).Equals(typeof(ScoringTableModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<ScoringTableDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
                 else
                 {
@@ -288,6 +297,11 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<AddPenaltyDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(ScoringTableModel)))
+            {
+                data = mapper.Map<IEnumerable<ScoringTableDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<ScoringTableDataDTO>().ToArray());
+            }
             else
             {
                 throw new UnknownModelTypeException("Could not put Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -388,6 +402,10 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<ScoredResultRowDataDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(ScoringTableModel)))
+            {
+                return await ModelDataProvider.DelAsync<ScoringTableDataDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -467,6 +485,11 @@ namespace iRLeagueManager.Models
             {
                 data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<AddPenaltyDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(ScoringTableModel)))
+            {
+                data = mapper.Map<IEnumerable<ScoringTableDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<ScoringTableDataDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {

@@ -29,6 +29,9 @@ namespace iRLeagueManager.Models
         public ObservableCollection<ScoringModel> Scorings { get => scorings; internal set => SetNotifyCollection(ref scorings, value); }
         //ReadOnlyObservableCollection<IScoringInfo> ISeason.Scorings => new ReadOnlyObservableCollection<IScoringInfo>(Scorings);
 
+        private ObservableCollection<ScoringTableModel> scoringTables;
+        public ObservableCollection<ScoringTableModel> ScoringTables { get => scoringTables; internal set => SetNotifyCollection(ref scoringTables, value); }
+
         private long? mainScoringId;
         public ScoringModel MainScoring
         {
@@ -140,6 +143,17 @@ namespace iRLeagueManager.Models
                 {
                     scoring.Season = this;
                     scoring.InitializeModel();
+                }
+                foreach (var scoringTable in ScoringTables)
+                {
+                    for (int i = 0; i < scoringTable.Scorings.Count(); i++)
+                    {
+                        var scoring = Scorings.SingleOrDefault(x => x.ScoringId == scoringTable.Scorings.ElementAt(i).Key.ScoringId);
+                        if (scoring != null)
+                        {
+                            scoringTable.Scorings.ElementAt(i).Key = scoring;
+                        }
+                    }
                 }
 
                 //foreach (var result in Results)

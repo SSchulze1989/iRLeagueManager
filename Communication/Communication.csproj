@@ -32,11 +32,22 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Local|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Local\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +58,47 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\EqualtyCheckPropertyAttribute.cs" />
+    <Compile Include="DataTransfer\IMappableDTO.cs" />
+    <Compile Include="DataTransfer\LeagueDTOBase.cs" />
+    <Compile Include="DataTransfer\MappableDTO.cs" />
+    <Compile Include="DataTransfer\Members\LeagueMemberDataDTO.cs" />
+    <Compile Include="DataTransfer\Members\LeagueMemberInfoDTO.cs" />
+    <Compile Include="DataTransfer\Members\LeagueUserDTO.cs" />
+    <Compile Include="DataTransfer\Members\TeamDTO.cs" />
+    <Compile Include="DataTransfer\Results\AddPenaltyDTO.cs" />
+    <Compile Include="DataTransfer\Results\IRacingResultRowDTO.cs" />
+    <Compile Include="DataTransfer\Results\ResultDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\ResultInfoDTO.cs" />
+    <Compile Include="DataTransfer\Results\ResultRowDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoredResultDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoredResultRowDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoringDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoringInfoDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoringRuleBaseDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoringTableDTO.cs" />
+    <Compile Include="DataTransfer\Results\ScoringTableInfoDTO.cs" />
+    <Compile Include="DataTransfer\Results\StandardScoringRuleDTO.cs" />
+    <Compile Include="DataTransfer\Results\StandingsDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\StandingsRowDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\StandingsRowDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\CommentDataDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\CommentInfoDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\IncidentReviewDataDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\IncidentReviewInfoDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\ReviewCommentDataDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\ReviewVoteDataDTO.cs" />
+    <Compile Include="DataTransfer\SeasonDataDTO.cs" />
+    <Compile Include="DataTransfer\SeasonInfoDTO.cs" />
+    <Compile Include="DataTransfer\Sessions\RaceSessionDataDTO.cs" />
+    <Compile Include="DataTransfer\Sessions\ScheduleDataDTO.cs" />
+    <Compile Include="DataTransfer\Sessions\ScheduleInfoDTO.cs" />
+    <Compile Include="DataTransfer\Sessions\SessionDataDTO.cs" />
+    <Compile Include="DataTransfer\Sessions\SessionInfoDTO.cs" />
+    <Compile Include="DataTransfer\User\AddUserDTO.cs" />
+    <Compile Include="DataTransfer\User\UserDataDTO.cs" />
+    <Compile Include="DataTransfer\User\UserProfileDTO.cs" />
+    <Compile Include="DataTransfer\VersionDTO.cs" />
+    <Compile Include="DataTransfer\VersionInfoDTO.cs" />
     <Compile Include="Enums\AdminRights.cs" />
     <Compile Include="Enums\DatabaseStatusEnum.cs" />
     <Compile Include="Enums\ConnectionStatusEnum.cs" />

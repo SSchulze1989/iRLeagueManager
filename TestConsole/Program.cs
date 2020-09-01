@@ -9,7 +9,6 @@ using iRLeagueManager;
 using iRLeagueManager.Data;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
-using iRLeagueManager.LeagueDBServiceRef;
 
 namespace TestConsole
 {
@@ -17,6 +16,14 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
+            var context = new LeagueContext();
+            context.UserLoginAsync("Administrator", "administrator").Wait();
+
+            var season = context.GetModelAsync<SeasonModel>(1).Result;
+            var table = context.GetModelAsync<ScoringTableModel>(1).Result;
+            var standings = context.GetModelAsync<StandingsModel>(table.ScoringTableId, table.Sessions.ElementAt(10).SessionId.GetValueOrDefault()).Result;
+
+            Console.ReadKey();
             //var dbClient = new LeagueDBServiceClient();
             //dbClient.SetDatabaseName("TestDatabase");
 

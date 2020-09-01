@@ -40,6 +40,7 @@ namespace iRLeagueManager.ViewModels
 
         public ObservableCollection<ScoringModel> Scorings => Model?.Scorings;
 
+        public ObservableCollection<ScoringTableModel> ScoringTables => Model?.ScoringTables;
         //public ObservableCollection<ResultInfo> Results => Model?.Results;
 
         //public ObservableCollection<IncidentReviewInfo> Reviews => Model?.Reviews;

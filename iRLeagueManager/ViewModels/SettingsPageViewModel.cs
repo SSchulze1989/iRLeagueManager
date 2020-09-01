@@ -28,12 +28,24 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private readonly ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTables;
+        public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTables
+        {
+            get
+            {
+                if (scoringTables.GetSource() != Season?.ScoringTables)
+                    scoringTables.UpdateSource(Season?.ScoringTables);
+                return scoringTables;
+            }
+        }
+
         public ICommand AddScoringCmd { get; }
         public ICommand DeleteScoringCmd { get; }
 
         public SettingsPageViewModel() : base()
         {
             scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
+            scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
             Season = new SeasonViewModel(SeasonModel.GetTemplate());
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
             DeleteScoringCmd = new RelayCommand(o => DeleteScoring((o as ScoringViewModel).Model), o => o != null);
@@ -96,7 +108,49 @@ namespace iRLeagueManager.ViewModels
             {
 
             }
-        } 
+        }
+
+        public async void AddScoringTable()
+        {
+            try
+            {
+                var scoringTable = new ScoringTableModel() { Name = "New Scoring Table" };
+                //scoringTable = await LeagueContext.AddModelAsync(scoringTable);
+                Season.ScoringTables.Add(scoringTable);
+                await LeagueContext.UpdateModelAsync(Season.Model);
+                ScoringTables.UpdateCollection();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
+
+        public async void DeleteScoringTable(ScoringTableModel scoringTable)
+        {
+            if (scoringTable == null)
+                return;
+
+            try
+            {
+                await LeagueContext.DeleteModelsAsync(scoringTable);
+                Season.ScoringTables.Remove(scoringTable);
+                await LeagueContext.UpdateModelAsync(Season.Model);
+                ScoringTables.UpdateCollection();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

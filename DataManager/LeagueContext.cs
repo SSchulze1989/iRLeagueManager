@@ -17,7 +17,7 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Database;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer.Members;
 using iRLeagueManager.Locations;
 using System.Data;
 using System.Collections;

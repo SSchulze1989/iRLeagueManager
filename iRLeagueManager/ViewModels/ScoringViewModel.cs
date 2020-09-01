@@ -11,7 +11,6 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.User;
 using System.ComponentModel;
-using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
 
