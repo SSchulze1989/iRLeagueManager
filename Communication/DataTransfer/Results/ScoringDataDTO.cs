@@ -22,9 +22,15 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public string Name { get; set; }
         [DataMember]
+        public ScoringKindEnum ScoringKind { get; set; }
+        [DataMember]
         public int DropWeeks { get; set; }
         [DataMember]
         public int AverageRaceNr { get; set; }
+        [DataMember]
+        public int MaxResultsPerGroup { get; set; }
+        [DataMember]
+        public bool TakeGroupAverage { get; set; }
         [DataMember]
         public virtual SessionInfoDTO[] Sessions { get; set; }
         [DataMember]

@@ -104,6 +104,7 @@
     <Compile Include="Enums\ConnectionStatusEnum.cs" />
     <Compile Include="Enums\RaceStatusEnum.cs" />
     <Compile Include="Enums\SaveSelect.cs" />
+    <Compile Include="Enums\ScoringKindEnum.cs" />
     <Compile Include="Enums\SessionTypeEnum.cs" />
     <Compile Include="Enums\TimingComponents.cs" />
     <Compile Include="Enums\UpdateKind.cs" />

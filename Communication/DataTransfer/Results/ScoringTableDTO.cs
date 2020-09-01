@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using iRLeagueDatabase.DataTransfer.Sessions;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
     [DataContract]
     public class ScoringTableDataDTO : ScoringTableInfoDTO
     {
+        [DataMember]
+        public ScoringKindEnum ScoringKind { get; set; }
         [DataMember]
         public int DropWeeks { get; set; }
         [DataMember]
