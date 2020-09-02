@@ -375,13 +375,13 @@ namespace iRLeagueManager
                 .ReverseMap()
                 .ForMember(dest => dest.ScoringFactors, opt => opt.MapFrom((src, dest, factors) =>
                 {
-                    if (src.Scorings.Count > 0)
+                    if (src.Scorings?.Count > 0)
                         return src.Scorings.Select(x => x.Value.ToString()).Aggregate((x, y) => x + ";" + y);
                     return null;
                 }))
                 .ForMember(dest => dest.Scorings, opt => opt.MapFrom((src, dest, scorings) =>
                 {
-                    if (src.Scorings.Count > 0)
+                    if (src.Scorings?.Count > 0)
                         return src.Scorings.Select(x => x.Key).ToArray();
                     return new ScoringInfo[0];
                 }));

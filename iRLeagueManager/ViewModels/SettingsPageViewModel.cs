@@ -41,6 +41,8 @@ namespace iRLeagueManager.ViewModels
 
         public ICommand AddScoringCmd { get; }
         public ICommand DeleteScoringCmd { get; }
+        public ICommand AddScoringTableCmd { get; }
+        public ICommand DeleteScoringTableCmd { get; }
 
         public SettingsPageViewModel() : base()
         {
@@ -48,7 +50,9 @@ namespace iRLeagueManager.ViewModels
             scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
             Season = new SeasonViewModel(SeasonModel.GetTemplate());
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
+            AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
             DeleteScoringCmd = new RelayCommand(o => DeleteScoring((o as ScoringViewModel).Model), o => o != null);
+            DeleteScoringTableCmd = new RelayCommand(o => DeleteScoringTable((o as ScoringTableViewModel).Model), o => o != null);
         }
 
         public async Task Load(SeasonModel season)
