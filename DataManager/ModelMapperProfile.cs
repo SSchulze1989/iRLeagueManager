@@ -236,12 +236,8 @@ namespace iRLeagueManager
             // Mapping result data
             CreateMap<ResultDataDTO, ResultModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ResultModel(source.ResultId.GetValueOrDefault())))
-                //.ForMember(dest => dest.Season, opt => opt.Ignore())
                 .EqualityComparison((src, dest) => src.ResultId == dest.ResultId)
                 .ReverseMap();
-            //.ForMember(dest => dest.RawResults, opt => opt.Ignore())
-            //.ForMember(dest => dest.FinalResults, opt => opt.Ignore())
-            //.ForMember(dest => dest.Reviews, opt => opt.Ignore());
             CreateMap<ResultInfoDTO, ResultInfo>()
                 .ConstructUsing(source => new ResultInfo(source.ResultId.GetValueOrDefault()))
                 .ReverseMap()
@@ -280,56 +276,11 @@ namespace iRLeagueManager
                     }
                     return pairs;
                 }))
-                //.ForMember(dest => dest.BonusPoints, opt => opt.ConvertUsing<BonusPointsConverter, string>())
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
-                .ForMember(dest => dest.MultiScoringResults, opt => opt.MapFrom((src, dest, result, context) =>
-                {
-                    if (src.IsMultiScoring == false)
-                        return null;
-
-                    List<double> factors = new List<double>();
-                    bool success = true;
-                    if (src.MultiScoringFactors != null)
-                    {
-                        var factorStrings = src.MultiScoringFactors.Replace(',', '.').Split(';');
-                        foreach (var factorString in factorStrings)
-                        {
-                            if (double.TryParse(factorString, System.Globalization.NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double factor)) {
-                                factors.Add(factor);
-                            }
-                            else
-                            {
-                                success = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (factors.Count() == 0 || success == false)
-                    {
-                        factors = src.MultiScoringResults.Select(x => (double)1).ToList();
-                    }
-
-                    var mapper = context.Mapper;
-                    var destMultiScorings = src.MultiScoringResults.Select((x, i) => new MyKeyValuePair<ScoringInfo, double>(mapper.Map<ScoringInfo>(x), factors.ElementAt(i)));
-                    return new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>(destMultiScorings);
-                }))
                 .ReverseMap()
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => (src.BasePoints.Count > 0) ? src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
                 .ForMember(dest => dest.BonusPoints, opt => opt.MapFrom(src => (src.BonusPoints.Count > 0) ? src.BonusPoints.Select(x => x.Key + ":" + x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
-                .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
-                .ForMember(dest => dest.MultiScoringFactors, opt => opt.MapFrom((src, dest, factors) =>
-                {
-                    if (src.MultiScoringResults.Count > 0)
-                        return src.MultiScoringResults.Select(x => x.Value.ToString()).Aggregate((x, y) => x + ";" + y);
-                    return null;
-                }))
-                .ForMember(dest => dest.MultiScoringResults, opt => opt.MapFrom((src, dest, scorings) =>
-                {
-                    if (src.MultiScoringResults.Count > 0)
-                        return src.MultiScoringResults.Select(x => x.Key).ToArray();
-                    return new ScoringInfo[0];
-                }));
+                .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore());
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ScoringModel(source.ScoringId)))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)

@@ -17,8 +17,6 @@ namespace iRLeagueDatabase.DataTransfer.Results
     {
         public override Type Type => typeof(ScoringDataDTO);
 
-        //[DataMember]
-        //public int ScoringId { get; set; }
         [DataMember]
         public string Name { get; set; }
         [DataMember]
@@ -44,19 +42,11 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public string IncPenaltyPoints { get; set; }
         [DataMember]
-        public string MultiScoringFactors { get; set; }
-        [DataMember]
-        public bool IsMultiScoring { get; set; }
-        [DataMember]
-        public virtual ScoringInfoDTO[] MultiScoringResults { get; set; }
-        [DataMember]
         public virtual ResultInfoDTO[] Results { get; set; }
-
         [DataMember]
         public LeagueMemberInfoDTO CreatedBy { get; set; }
         [DataMember]
         public LeagueMemberInfoDTO LastModifiedBy { get; set; }
-
         [DataMember]
         public ScheduleInfoDTO ConnectedSchedule { get; set; }
 
