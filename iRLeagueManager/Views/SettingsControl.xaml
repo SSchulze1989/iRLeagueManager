@@ -126,7 +126,7 @@
                         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" 
                                     Command="{Binding DeleteScoringTableCmd}" 
-                                    CommandParameter="{Binding ElementName=ScoringsListBox, Path=SelectedItem}"/>
+                                    CommandParameter="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}"/>
                             <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" 
                                     Command="{Binding AddScoringTableCmd}"/>
                         </StackPanel>
