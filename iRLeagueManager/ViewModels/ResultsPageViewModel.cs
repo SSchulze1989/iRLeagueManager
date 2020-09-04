@@ -255,7 +255,7 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 // Load current Result
                 var scoredResultModelIds = new List<long[]>();
-                SelectedResult = null;
+                //SelectedResult = null;
                 foreach (var scoring in ScoringList)
                 {
                     var modelId = new long[] { SelectedSession.SessionId, scoring.ScoringId.GetValueOrDefault() };

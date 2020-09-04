@@ -144,34 +144,69 @@ namespace iRLeagueManager.ViewModels.Collections
             if (disposedValue)
                 return;
 
-            IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
-            IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
-            IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
-
-            foreach (TModel item in notInCollection)
+            for (int i = 0; i < CollectionSource.Count(); i++)
             {
-                item.Dispose();
+                var srcItem = CollectionSource.ElementAt(i);
+                var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
+
+                if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)
+                {
+                    var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
+                    if (findTrgItem == null)
+                    {
+                        trgItem = new TModel();
+                        trgItem.UpdateSource(srcItem);
+                        _constructorAction?.Invoke(trgItem);
+                        TargetCollection.Insert(i, trgItem);
+                    }
+                    else
+                    {
+                        trgItem = findTrgItem.item;
+                        TargetCollection.Move(findTrgItem.index, i);
+                    }
+                }
+
+                if (srcItem != trgItem.GetSource())
+                {
+                    trgItem.UpdateSource(srcItem);
+                }
+            }
+
+            var removeTrgItem = TargetCollection.Skip(CollectionSource.Count());
+            foreach (var item in removeTrgItem.ToList())
+            {
                 TargetCollection.Remove(item);
             }
 
-            foreach (TSource item in notInItems)
-            {
-                TModel newItem;
-                if (item is TModel)
-                {
-                    newItem = item as TModel;
-                }
-                else
-                {
-                    newItem = new TModel();
-                    newItem.UpdateSource(item);
-                    _constructorAction?.Invoke(newItem);
-                }
-                TargetCollection.Add(newItem);
-                //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            }
 
-            Sort();
+            //IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
+            //IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
+            //IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
+
+            //foreach (TModel item in notInCollection)
+            //{
+            //    item.Dispose();
+            //    TargetCollection.Remove(item);
+            //}
+
+            //foreach (TSource item in notInItems)
+            //{
+            //    TModel newItem;
+            //    if (item is TModel)
+            //    {
+            //        newItem = item as TModel;
+            //    }
+            //    else
+            //    {
+            //        newItem = new TModel();
+            //        newItem.UpdateSource(item);
+            //        _constructorAction?.Invoke(newItem);
+            //    }
+            //    TargetCollection.Add(newItem);
+            //    //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            //}
+
+            //Sort();
         }
 
         public void Sort()

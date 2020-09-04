@@ -106,7 +106,7 @@
             <TabControl ItemsSource="{Binding CurrentResults}" SelectedItem="{Binding SelectedResult}" Margin="0,10,0,0" VerticalContentAlignment="Stretch">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Scoring.Name}" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
+                        <TextBlock Text="{Binding ScoringName}" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding FinalResults.Count}" Value="0">
                                 <Setter Property="Visibility" Value="Collapsed"/>
