@@ -43,7 +43,7 @@
                     <ContentControl Content="{StaticResource RefreshButton}" Visibility="Hidden"/>
                 </StackPanel>
             </Border>-->
-            <Grid ClipToBounds="True" FocusManager.FocusedElement="{Binding ElementName=verticalContentScroll}">
+            <Grid ClipToBounds="True" FocusManager.FocusedElement="{Binding ElementName=verticalContentScroll}" Background="{StaticResource ThemeColor_Back0}">
                 <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" 
                               Template="{DynamicResource ContentScrollViewerControlTemplate}">
                     <ItemsControl ItemsSource="{Binding Schedules}" Margin="20,5,20,50">

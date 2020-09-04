@@ -59,7 +59,7 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid ClipToBounds="True" Margin="5">
+    <Grid ClipToBounds="True" Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -68,41 +68,44 @@
 
         <TextBlock Text="Select Session:" Margin="5" FontWeight="Bold" FontSize="{StaticResource Global.FontSizeLarge}"/>
 
-        <Grid Grid.Row="1" DataContext="{Binding SessionSelect}" Margin="0,0,8,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MaxWidth="900"/>
-            </Grid.ColumnDefinitions>
-            <local:SessionSelectControl Grid.Row="1" HorizontalAlignment="Stretch">
-                <local:SessionSelectControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type ComboBoxItem}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} - {1} ({2})">
-                                        <Binding Path="RaceDate" StringFormat="Date"/>
-                                        <Binding Path="Location.FullName"/>
-                                        <Binding Path="Schedule.Name"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                            <TextBlock Text="    (Current)">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsCurrentSession}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </local:SessionSelectControl.ItemTemplate>
-            </local:SessionSelectControl >
-        </Grid>
-        <Grid ClipToBounds="True" Grid.Row="2" VerticalAlignment="Stretch">
+        <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0,0,0,0.5">
+            <Grid Grid.Row="1" DataContext="{Binding SessionSelect}" Margin="0,0,8,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="900"/>
+                </Grid.ColumnDefinitions>
+                <local:SessionSelectControl Grid.Row="1" HorizontalAlignment="Stretch">
+                    <local:SessionSelectControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} - {1} ({2})">
+                                            <Binding Path="RaceDate" StringFormat="Date"/>
+                                            <Binding Path="Location.FullName"/>
+                                            <Binding Path="Schedule.Name"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Text="    (Current)">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsCurrentSession}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </local:SessionSelectControl.ItemTemplate>
+                </local:SessionSelectControl >
+            </Grid>
+        </Border>
+
+        <Grid ClipToBounds="True" Grid.Row="2" VerticalAlignment="Stretch" Background="Transparent">
             <TabControl ItemsSource="{Binding CurrentResults}" SelectedItem="{Binding SelectedResult}" Margin="0,10,0,0" VerticalContentAlignment="Stretch">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
