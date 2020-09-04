@@ -3,6 +3,7 @@ using iRLeagueManager.Models.Sessions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -16,6 +17,15 @@ namespace iRLeagueManager.Models.Results
 
         private int averageRaceNr;
         public int AverageRaceNr { get => averageRaceNr; set => SetValue(ref averageRaceNr, value); }
+
+        private ScoringKindEnum scoringKind;
+        public ScoringKindEnum ScoringKind { get => scoringKind; set => SetValue(ref scoringKind, value); }
+
+        private int maxResultsPerGroup;
+        public int MaxResultsPerGroup { get => maxResultsPerGroup; set => SetValue(ref maxResultsPerGroup, value); }
+
+        private bool takeGroupAverage;
+        public bool TakeGroupAverage { get => takeGroupAverage; set => SetValue(ref takeGroupAverage, value); }
 
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }

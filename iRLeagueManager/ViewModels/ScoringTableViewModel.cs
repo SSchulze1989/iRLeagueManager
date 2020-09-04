@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.ViewModels
 {
     public class ScoringTableViewModel : LeagueContainerModel<ScoringTableModel>
     {
         public long ScoringTableId => (Model?.ScoringTableId).GetValueOrDefault();
+        public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks = value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }

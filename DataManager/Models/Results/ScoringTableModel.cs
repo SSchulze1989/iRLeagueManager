@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -14,6 +15,9 @@ namespace iRLeagueManager.Models.Results
     {
         public long ScoringTableId { get; set; }
         public override long[] ModelId => new long[] { ScoringTableId };
+
+        private ScoringKindEnum scoringKind;
+        public ScoringKindEnum ScoringKind { get => scoringKind; set => SetValue(ref scoringKind, value); }
 
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }

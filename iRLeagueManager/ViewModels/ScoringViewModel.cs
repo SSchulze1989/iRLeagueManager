@@ -13,6 +13,7 @@ using iRLeagueManager.Models.User;
 using System.ComponentModel;
 using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -20,6 +21,7 @@ namespace iRLeagueManager.ViewModels
     {
         protected override ScoringModel Template => new ScoringModel();
         public long? ScoringId => Model?.ScoringId; 
+        public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }

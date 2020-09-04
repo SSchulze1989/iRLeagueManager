@@ -13,6 +13,16 @@
     <!--<UserControl.DataContext>
         <vmodel:SettingsPageViewModel/>
     </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <ObjectDataProvider MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}"
+                        x:Key="ScoringKindValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:ScoringKindEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -85,8 +95,8 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Scoring Name:" Margin="5"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>
+                        <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>-->
 
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
                         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
@@ -101,14 +111,27 @@
                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Bonus Points:" Margin="5"/>
                         <Button Grid.Row="6" Grid.Column="1" Content="Edit" Click="EditBonusPointsButton_Click" Tag="{Binding}" Margin="5"/>
 
-                        <TextBlock Grid.Row="7" Grid.Column="0" Text="IsMulitScoring" Margin="5"/>
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Scoring Kind:" Margin="5"/>
+                        <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
+
+                        <!--<TextBlock Grid.Row="7" Grid.Column="0" Text="IsMulitScoring" Margin="5"/>
                         <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsMultiScoring}" Margin="5"/>
 
                         <TextBlock Grid.Row="8" Grid.Column="0" Text="MultiScorings:" Margin="5"/>
-                        <ListBox Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding MultiScoringResults}" DisplayMemberPath="Key.Name" Height="100" Margin="5"/>
+                        <ListBox Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding MultiScoringResults}" DisplayMemberPath="Key.Name" Height="100" Margin="5"/>-->
 
                         <!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ConnectedSchedule}" Margin="5"/>-->
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ScoringsListBox, Path=SelectedItem}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger> 
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                     </Grid>
                 </DockPanel>
             </TabItem>
@@ -152,24 +175,27 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="ScoringTable Id:" Margin="5"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoringTableId}" Margin="5"/>
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Scoring Name:" Margin="5"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Name:" Margin="5"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Scoring Kind:" Margin="5"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
 
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
-                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>
 
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Scorings:" Margin="5,15,5,0"/>
-                        <ListBox ItemsSource="{Binding Scorings}" Grid.Row="5" Grid.ColumnSpan="2" Margin="5">
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Scorings:" Margin="5,15,5,0"/>
+                        <ListBox ItemsSource="{Binding Scorings}" Grid.Row="6" Grid.ColumnSpan="2" Margin="5" MinHeight="120">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Key.Name}"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        
+
                         <!--<ListView ItemsSource="{Binding Scorings}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
                             <ListView.View>
                                 <GridView>
@@ -188,6 +214,16 @@
 
                         <!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ConnectedSchedule}" Margin="5"/>-->
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                     </Grid>
                 </DockPanel>
             </TabItem>
