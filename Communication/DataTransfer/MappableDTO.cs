@@ -40,6 +40,7 @@ namespace iRLeagueDatabase.DataTransfer
         XmlInclude(typeof(StandingsDataDTO)),
         XmlInclude(typeof(StandingsRowDataDTO)),
         XmlInclude(typeof(AddPenaltyDTO)),
+        XmlInclude(typeof(TeamDataDTO)),
         KnownType(typeof(SeasonDataDTO)),
         KnownType(typeof(SeasonInfoDTO)),
         KnownType(typeof(SessionInfoDTO)),
@@ -65,7 +66,8 @@ namespace iRLeagueDatabase.DataTransfer
         KnownType(typeof(ResultRowDataDTO)),
         KnownType(typeof(StandingsDataDTO)),
         KnownType(typeof(StandingsRowDataDTO)),
-        KnownType(typeof(AddPenaltyDTO))]
+        KnownType(typeof(AddPenaltyDTO)),
+        KnownType(typeof(TeamDataDTO))]
     public abstract class MappableDTO : IMappableDTO
     {
         public bool IsReadOnly { get; set; }

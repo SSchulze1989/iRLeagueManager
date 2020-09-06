@@ -347,17 +347,17 @@
                                                         </Grid.RowDefinitions>
 
                                                         <Border Grid.Row="0" Padding="10,4,10,2.5" BorderThickness="0,0,0,0" 
-                                                            TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
-                                                            TextElement.FontSize="{StaticResource Global.FontSizeMedium}"
-                                                            x:Name="headerBorder">
+                                                                TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
+                                                                TextElement.FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                x:Name="headerBorder">
                                                             <DockPanel Margin="0">
                                                                 <controls:IconButton x:Name="reviewDeleteButton" DockPanel.Dock="Right"
-                                                                             Command="{Binding DataContext.RemoveReviewCmd, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                                             CommandParameter="{Binding Model}"
-                                                                             IconContent="{DynamicResource closeThick}"
-                                                                             IconStroke="Transparent" IconStrokeThickness="0.5"
-                                                                             IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
-                                                                             CornerRadius="0">
+                                                                                     Command="{Binding DataContext.RemoveReviewCmd, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                                     CommandParameter="{Binding Model}"
+                                                                                     IconContent="{DynamicResource closeThick}"
+                                                                                     IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                                     IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
+                                                                                     CornerRadius="0">
                                                                     <controls:IconButton.ToolTip>
                                                                         <ToolTip>Delete Review</ToolTip>
                                                                     </controls:IconButton.ToolTip>
@@ -376,8 +376,8 @@
                                                                     </controls:IconButton.Style>
                                                                 </controls:IconButton>
                                                                 <controls:IconToggleButton DockPanel.Dock="Right" x:Name="expandButton" 
-                                                                                       Command="{Binding RefreshCmd}"
-                                                                                       Width="30" Height="30" CornerRadius="0">
+                                                                                           Command="{Binding RefreshCmd}"
+                                                                                           Width="30" Height="30" CornerRadius="0">
                                                                     <controls:IconToggleButton.Style>
                                                                         <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
                                                                             <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
@@ -409,11 +409,11 @@
                                                                     </controls:IconToggleButton.Style>
                                                                 </controls:IconToggleButton>
                                                                 <controls:IconButton x:Name="reviewEditButton" DockPanel.Dock="Right"
-                                                                             Click="EditButton_Click" Tag="{Binding}"
-                                                                             IconContent="{DynamicResource pencilOutline}"  
-                                                                             IconStroke="Transparent" IconStrokeThickness="0.5"
-                                                                             IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
-                                                                             CornerRadius="0">
+                                                                                     Click="EditButton_Click" Tag="{Binding}"
+                                                                                     IconContent="{DynamicResource pencilOutline}"  
+                                                                                     IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                                     IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
+                                                                                     CornerRadius="0">
                                                                     <controls:IconButton.ToolTip>
                                                                         <ToolTip>Edit Review</ToolTip>
                                                                     </controls:IconButton.ToolTip>
@@ -426,23 +426,23 @@
 
                                                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                                                                     <TextBlock Text="{Binding OnLap, StringFormat={}Lap {0:00}}" MinWidth="48" 
-                                                                           VerticalAlignment="Center"/>
+                                                                               VerticalAlignment="Center"/>
                                                                     <TextBlock Text=" - " VerticalAlignment="Center"/>
                                                                     <TextBlock Text="{Binding Corner, StringFormat={}Turn {0:00}}" MinWidth="48" 
-                                                                           VerticalAlignment="Center"/>
+                                                                               VerticalAlignment="Center"/>
                                                                     <fa:ImageAwesome Icon="ArrowRight" Height="15" Margin="8,0" VerticalAlignment="Center">
                                                                         <fa:ImageAwesome.Style>
                                                                             <Style TargetType="fa:ImageAwesome">
                                                                                 <Setter Property="Foreground" 
-                                                                                    Value="{Binding BorderBrush, 
-                                                                                RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                                        Value="{Binding BorderBrush, 
+                                                                                        RelativeSource={RelativeSource AncestorType=Border}}"/>
                                                                             </Style>
                                                                         </fa:ImageAwesome.Style>
                                                                     </fa:ImageAwesome>
                                                                     <TextBlock Text="{Binding IncidentKind}" VerticalAlignment="Center"/>
                                                                     <Separator Margin="5,0"/>
                                                                     <TextBlock Text="{Binding VotesCount, StringFormat={}({0}x Votes)}" 
-                                                                           VerticalAlignment="Center"/>
+                                                                               VerticalAlignment="Center"/>
                                                                 </StackPanel>
                                                             </DockPanel>
                                                             <Border.Style>
@@ -482,7 +482,7 @@
                                                                     <Setter Property="Visibility" Value="Visible"/>
                                                                     <Style.Triggers>
                                                                         <DataTrigger Binding="{Binding ElementName=expandButton, Path=IsChecked}" 
-                                                                                 Value="False">
+                                                                                     Value="False">
                                                                             <Setter Property="Visibility" Value="Collapsed"/>
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
@@ -513,7 +513,7 @@
 
                                                                     <StackPanel Margin="10,5" Grid.Column="0" Grid.Row="0">
                                                                         <TextBlock Text="Involved" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                       FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
                                                                         <ItemsControl ItemsSource="{Binding InvolvedMembers}" Margin="15,2">
                                                                             <ItemsControl.ItemTemplate>
                                                                                 <DataTemplate>
@@ -531,7 +531,7 @@
                                                                                 <DataTemplate>
                                                                                     <StackPanel Orientation="Horizontal" Margin="0">
                                                                                         <TextBlock Text="{Binding Key.Vote, Converter={StaticResource ToUpperConverter},
-                                                                                            StringFormat={}- {0}}"/>
+                                                                                                   StringFormat={}- {0}}"/>
                                                                                         <TextBlock Text=": "/>
                                                                                         <TextBlock Text="{Binding Key.MemberAtFault.FullName}"/>
                                                                                         <TextBlock Text="{Binding Value, StringFormat={} ({0}x)}"/>
@@ -543,18 +543,18 @@
 
                                                                     <StackPanel Grid.Column="2" Margin="10,5" Grid.Row="0">
                                                                         <TextBlock Text="Proposed" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                           FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
                                                                     </StackPanel>
                                                                     <Separator Margin="10,4" Grid.Column="2" Grid.Row="1"/>
                                                                     <StackPanel Margin="10,5" Grid.Row="2" Grid.Column="2">
                                                                         <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                           FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
+                                                                                   FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
                                                                         <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
                                                                             <ItemsControl.ItemTemplate>
                                                                                 <DataTemplate>
                                                                                     <StackPanel Orientation="Horizontal">
                                                                                         <TextBlock Text="{Binding Vote, Converter={StaticResource ToUpperConverter},
-                                                                                            StringFormat={}- {0}}"/>
+                                                                                                   StringFormat={}- {0}}"/>
                                                                                         <TextBlock Text=": "/>
                                                                                         <TextBlock Text="{Binding MemberAtFault.FullName}"/>
                                                                                     </StackPanel>
@@ -570,15 +570,15 @@
 
                                                             <StackPanel Grid.Row="1" Margin="10,5">
                                                                 <TextBlock Text="Comments" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                           FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
                                                                 <Grid>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*" MaxWidth="800"/>
                                                                     </Grid.ColumnDefinitions>
                                                                     <ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled"
-                                                                          VerticalScrollBarVisibility="Auto" 
-                                                                          Template="{StaticResource ContentScrollViewerControlTemplate}" Margin="0,0,20,0"
-                                                                          PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                                                                  VerticalScrollBarVisibility="Auto" 
+                                                                                  Template="{StaticResource ContentScrollViewerControlTemplate}" Margin="0,0,20,0"
+                                                                                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                                                                         <TreeView Grid.Row="0" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
                                                                                   HorizontalContentAlignment="Stretch" Margin="0"
                                                                                   ItemsSource="{Binding Comments}"

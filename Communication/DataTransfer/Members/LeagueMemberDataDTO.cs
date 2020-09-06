@@ -28,6 +28,8 @@ namespace iRLeagueDatabase.DataTransfer.Members
         public string DanLisaId { get; set; }
         [DataMember]
         public string DiscordId { get; set; }
+        [DataMember]
+        public long? TeamId { get; set; }
 
         //[DataMember]
         //public LeagueMemberInfoDTO CreatedBy { get; set; }

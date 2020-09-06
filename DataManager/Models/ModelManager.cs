@@ -154,6 +154,10 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<ScoringTableDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(TeamModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<TeamDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
                 else
                 {
                     throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -196,7 +200,10 @@ namespace iRLeagueManager.Models
             foreach (var model in modelList)
             {
                 if (model != null)
+                {
+                    model.ResetChangedState();
                     model.InitializeModel();
+                }
             }
 
             if (modelIds == null)
@@ -223,6 +230,11 @@ namespace iRLeagueManager.Models
                 return null;
             if (models.Count() == 0)
                 return modelList;
+
+            foreach (var model in models)
+            {
+                model.InitReset();
+            }
 
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
@@ -302,6 +314,11 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<ScoringTableDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<ScoringTableDataDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(TeamModel)))
+            {
+                data = mapper.Map<IEnumerable<TeamDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<TeamDataDTO>().ToArray());
+            }
             else
             {
                 throw new UnknownModelTypeException("Could not put Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -315,6 +332,7 @@ namespace iRLeagueManager.Models
                 if (data[i] != null)
                 {
                     modelList[i] = mapper.Map<T>(data[i]);
+                    modelList[i].ResetChangedState();
                     modelList[i].InitializeModel();
                 }
                 else
@@ -406,6 +424,10 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<ScoringTableDataDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(TeamModel)))
+            {
+                return await ModelDataProvider.DelAsync<TeamDataDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -491,6 +513,11 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<ScoringTableDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<ScoringTableDataDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(TeamModel)))
+            {
+                data = mapper.Map<IEnumerable<TeamDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<TeamDataDTO>().ToArray());
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -505,6 +532,7 @@ namespace iRLeagueManager.Models
                 if (data[i] != null)
                 {
                     modelList[i] = mapper.Map<T>(data[i]);
+                    modelList[i].ResetChangedState();
                     modelList[i].InitializeModel();
                 }
                 else

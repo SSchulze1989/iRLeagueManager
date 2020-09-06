@@ -267,7 +267,7 @@
                     <RadioButton GroupName="Menu" Content="Schedules" Click="SchedulesButton_Click" />
                     <RadioButton GroupName="Menu" Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
                     <RadioButton GroupName="Menu" Content="Reviews" Click="ReviewsButton_Click" IsEnabled="True"/>
-                    <RadioButton GroupName="Menu" Content="Teams" IsEnabled="False"/>
+                    <RadioButton GroupName="Menu" Content="Teams" Click="TeamsButton_Click" IsEnabled="True"/>
                     <RadioButton GroupName="Menu" Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
                         <Style TargetType="Button">
@@ -325,6 +325,9 @@
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:StandingsPageViewModel}">
                             <views:StandingsControl/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:TeamsPageViewModel}">
+                            <views:TeamsPageControl/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

@@ -29,20 +29,6 @@
 
     <Grid >
         <DockPanel>
-            <!--<TextBox Text="Season Schedules:" DockPanel.Dock="Top" />-->
-
-            <!--<Border DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ThemeColor_PanelBack}">
-                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="RightToLeft" 
-                    TextElement.FontSize="{StaticResource Global.FontSizeLarge}">
-                    <controls:IconButton Content="New Schedule" IconContent="{StaticResource TablePlus}" Command="{Binding CreateScheduleCmd}"
-                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
-                                    Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,7"
-                                    IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
-                                    Foreground="{StaticResource ThemeColor_Back0}"/>
-                    --><!--<controls:IconButton Content="Refresh" IconContent="{StaticResource Cached}" Command="{Binding RefreshCmd}"/>--><!--
-                    <ContentControl Content="{StaticResource RefreshButton}" Visibility="Hidden"/>
-                </StackPanel>
-            </Border>-->
             <Grid ClipToBounds="True" FocusManager.FocusedElement="{Binding ElementName=verticalContentScroll}" Background="{StaticResource ThemeColor_Back0}">
                 <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" 
                               Template="{DynamicResource ContentScrollViewerControlTemplate}">

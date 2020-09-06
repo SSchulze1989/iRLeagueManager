@@ -22,5 +22,7 @@ namespace iRLeagueDatabase.DataTransfer.Members
         public LeagueMemberInfoDTO Member { get; set; }
         [DataMember]
         public AdminRights AdminRights { get; set; }
+        [DataMember]
+        public long? TeamId { get; set; }
     }
 }

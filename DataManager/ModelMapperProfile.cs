@@ -72,6 +72,18 @@ namespace iRLeagueManager
             //.ConstructUsing(source => new LeagueMember(source.MemberId));
             CreateMap<LeagueMember, LeagueMemberInfoDTO>();
 
+            CreateMap<TeamDataDTO, TeamModel>()
+                .ConstructUsing(source => (source != null) ? ModelCache.PutOrGetModel(new TeamModel() { TeamId = source.TeamId }) : null)
+                .ForMember(dest => dest.Members, opt => opt.MapFrom((src, dest, members) =>
+                {
+                    return new ObservableCollection<LeagueMember>(src.MemberIds.Select(x => ModelCache.PutOrGetModel(new LeagueMember(x))));
+                }))
+                .ReverseMap()
+                .ForMember(dest => dest.MemberIds, opt => opt.MapFrom((src, dest, members) =>
+                {
+                    return src.Members.Select(x => x.MemberId.GetValueOrDefault()).ToArray();
+                }));
+
             // Mapping incident data
             CreateMap<IncidentReviewDataDTO, IncidentReviewModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new IncidentReviewModel(source.ReviewId)))

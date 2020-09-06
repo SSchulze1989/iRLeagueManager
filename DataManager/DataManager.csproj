@@ -113,6 +113,7 @@
     <Compile Include="Models\IModelCache.cs" />
     <Compile Include="Models\IModelManager.cs" />
     <Compile Include="Data\IModelDataProvider.cs" />
+    <Compile Include="Models\Members\TeamModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\ModelCache.cs" />
     <Compile Include="ModelMapperProfile.cs" />
@@ -122,7 +123,6 @@
     <Compile Include="Models\Database\DatabaseUserModel.cs" />
     <Compile Include="Models\Members\Admin.cs" />
     <Compile Include="Models\Members\LeagueMember.cs" />
-    <Compile Include="Models\Members\Team.cs" />
     <Compile Include="Models\MappableModel.cs" />
     <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Models\Results\AddPenaltyModel.cs" />
