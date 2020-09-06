@@ -516,6 +516,6 @@
                 <ContentControl Content="{StaticResource RefreshButton}" Visibility="Hidden"/>
             </Grid>
         </DockPanel>
-
+        <local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

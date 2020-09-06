@@ -97,6 +97,7 @@ namespace iRLeagueManager.ViewModels
             ((INotifyCollectionChanged)comments).CollectionChanged += OnCommentsCollectionChanged;
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null && o is ReviewVoteModel);
+            MemberList.CustomFilters.Add(x => InvolvedMembers.Contains(x) == false);
         }
 
         public override void Refresh(string propertyName = "")
@@ -233,6 +234,24 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public void AddMember(LeagueMember member)
+        {
+            if (InvolvedMembers.Contains(member) == false)
+            {
+                InvolvedMembers.Add(member);
+                MemberList.Refresh();
+            }
+        }
+
+        public void RemoveMember(LeagueMember member)
+        {
+            if (InvolvedMembers.Contains(member))
+            {
+                InvolvedMembers.Remove(member);
+                memberList.Refresh();
             }
         }
 

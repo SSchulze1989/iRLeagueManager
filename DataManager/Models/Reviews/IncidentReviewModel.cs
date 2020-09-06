@@ -117,8 +117,18 @@ namespace iRLeagueManager.Models.Reviews
             if (sourceObject is IncidentReviewModel reviewModel)
             {
                 InvolvedMembers = new ObservableCollection<LeagueMember>(reviewModel.InvolvedMembers.ToList());
-                Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.ToList());
-                AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewModel.AcceptedReviewVotes.ToList());
+                Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.Select(x =>
+                    {
+                        var comment = new ReviewCommentModel();
+                        comment.CopyFrom(x);
+                        return comment;
+                    }).ToList());
+                AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewModel.AcceptedReviewVotes.Select(x =>
+                {
+                    var vote = new ReviewVoteModel();
+                    vote.CopyFrom(x);
+                    return vote;
+                }).ToList());
             }
             OnPropertyChanged(null);
         }
@@ -130,8 +140,18 @@ namespace iRLeagueManager.Models.Reviews
             if (targetObject is IncidentReviewModel reviewModel)
             {
                 reviewModel.InvolvedMembers = new ObservableCollection<LeagueMember>(InvolvedMembers.ToList());
-                reviewModel.Comments = new ObservableCollection<ReviewCommentModel>(Comments.ToList());
-                reviewModel.AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(AcceptedReviewVotes.ToList());
+                reviewModel.Comments = new ObservableCollection<ReviewCommentModel>(Comments.Select(x =>
+                {
+                    var comment = new ReviewCommentModel();
+                    comment.CopyFrom(x);
+                    return comment;
+                }).ToList());
+                reviewModel.AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(AcceptedReviewVotes.Select(x =>
+                {
+                    var vote = new ReviewVoteModel();
+                    vote.CopyFrom(x);
+                    return vote;
+                }).ToList());
             }
         }
 

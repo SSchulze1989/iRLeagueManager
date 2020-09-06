@@ -31,9 +31,10 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 700;
-                editWindow.Height = 650;
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 650;
+                editWindow.Title = "Add New Session";
                 var content = new SessionEditControl();
                 var Schedule = button.DataContext as ScheduleViewModel;
 
@@ -54,9 +55,9 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button && button.Tag != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 700;
-                editWindow.Height = 650;
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 650;
                 var content = new SessionEditControl();
 
                 editWindow.Title = "Edit Session";
