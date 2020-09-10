@@ -47,7 +47,7 @@ namespace iRLeagueManager.ViewModels
         public SettingsPageViewModel() : base()
         {
             scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
-            scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
+            scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(Scorings));
             Season = new SeasonViewModel(SeasonModel.GetTemplate());
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
             AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
