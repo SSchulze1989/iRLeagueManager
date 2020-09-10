@@ -357,9 +357,23 @@ namespace iRLeagueManager
             CreateMap<ScoredResultDataDTO, ScoredResultModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ScoredResultModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), ResultId = source.ResultId}))
                 .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId)
+                .Include<ScoredTeamResultDataDTO, ScoredTeamResultModel>()
                 //.AfterMap((src, dest) => dest.FinalResults = new ObservableCollection<ScoredResultRowModel>(dest.FinalResults.OrderBy(x => x.FinalPosition)))
                 //.ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.ScoredResults))
                 ;
+
+            CreateMap<ScoredTeamResultDataDTO, ScoredTeamResultModel>()
+                .ConstructUsing(source => ModelCache.PutOrGetModel(new ScoredTeamResultModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), ResultId = source.ResultId }))
+                .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId);
+
+            CreateMap<ScoredTeamResultRowDataDTO, ScoredTeamResultRowModel>()
+                .ConstructUsing(source => new ScoredTeamResultRowModel() { ScoredResultRowId = source.ScoredResultRowId })
+                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
+                .ForMember(dest => dest.Team, opt => opt.MapFrom((src, dst) =>
+                {
+                    return modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId });
+                }));
+
             CreateMap<StandingsDataDTO, StandingsModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new StandingsModel() { ScoringTableId = source.ScoringTableId }))
                 .EqualityComparison((src, dest) => src.ScoringTableId == dest.ScoringTableId);

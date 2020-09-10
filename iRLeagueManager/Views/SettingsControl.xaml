@@ -114,6 +114,12 @@
                         <TextBlock Grid.Row="7" Grid.Column="0" Text="Scoring Kind:" Margin="5"/>
                         <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
 
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Results per Race:" Margin="5"/>
+                        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding MaxResultsPerGroup}" Margin="5"/>
+
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Take average:" Margin="5"/>
+                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TakeGroupAverage}" Margin="5"/>
+
                         <!--<TextBlock Grid.Row="7" Grid.Column="0" Text="IsMulitScoring" Margin="5"/>
                         <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsMultiScoring}" Margin="5"/>
 

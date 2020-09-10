@@ -27,35 +27,62 @@ namespace iRLeagueManager.Views
             InitializeComponent();
         }
 
-        private void MoveLeftButton_Click(object sender, RoutedEventArgs e)
+        //private void MoveLeftButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var team = teamSelect.SelectedItem as TeamViewModel;
+        //    if (sender is Button button && team != null)
+        //    {
+        //        var selectedMembers = MemberSelect.SelectedItems.Cast<LeagueMember>();
+
+        //        if (selectedMembers != null && selectedMembers.Count() > 0)
+        //        {
+        //            foreach (var selectedMember in selectedMembers.ToList())
+        //            {
+        //                team.AddMember(selectedMember);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void MoveRightButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var team = teamSelect.SelectedItem as TeamViewModel;
+        //    if (sender is Button button && team != null)
+        //    {
+        //        var selectedMembers = InvolvedMembers.SelectedItems.Cast<LeagueMember>();
+
+        //        if (selectedMembers != null && selectedMembers.Count() > 0)
+        //        {
+        //            foreach (var selectedMember in selectedMembers.ToList())
+        //            {
+        //                team.RemoveMember(selectedMember);
+        //            }
+        //        }
+        //    }
+        //}
+
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var team = teamSelect.SelectedItem as TeamViewModel;
-            if (sender is Button button && team != null)
+            if (sender is Button button && button.Tag is TeamViewModel teamVM)
             {
-                var selectedMembers = MemberSelect.SelectedItems.Cast<LeagueMember>();
+                //var editWindow = new ModalOkCancelWindow();
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 700;
+                var content = new EditTeamControl();
 
-                if (selectedMembers != null && selectedMembers.Count() > 0)
+                editWindow.Title = "Edit Team Data";
+
+                if (content.DataContext is TeamViewModel editVM)
                 {
-                    foreach (var selectedMember in selectedMembers.ToList())
-                    {
-                        team.AddMember(selectedMember);
-                    }
-                }
-            }
-        }
+                    editVM.Model.CopyFrom(teamVM.Model);
+                    //await editVM.LoadMemberListAsync();
 
-        private void MoveRightButton_Click(object sender, RoutedEventArgs e)
-        {
-            var team = teamSelect.SelectedItem as TeamViewModel;
-            if (sender is Button button && team != null)
-            {
-                var selectedMembers = InvolvedMembers.SelectedItems.Cast<LeagueMember>();
-
-                if (selectedMembers != null && selectedMembers.Count() > 0)
-                {
-                    foreach (var selectedMember in selectedMembers.ToList())
+                    editWindow.ModalContent.Content = content;
+                    if (editWindow.ShowDialog() == true)
                     {
-                        team.RemoveMember(selectedMember);
+                        teamVM.Model.CopyFrom(editVM.Model);
+                        teamVM.SaveChanges();
                     }
                 }
             }

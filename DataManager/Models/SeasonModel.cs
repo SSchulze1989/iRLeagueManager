@@ -32,22 +32,11 @@ namespace iRLeagueManager.Models
         private ObservableCollection<ScoringTableModel> scoringTables;
         public ObservableCollection<ScoringTableModel> ScoringTables { get => scoringTables; internal set => SetNotifyCollection(ref scoringTables, value); }
 
-        private long? mainScoringId;
+        private ScoringModel mainScoring;
         public ScoringModel MainScoring
         {
-            get => Scorings.SingleOrDefault(x => x.ScoringId == mainScoringId);
-            set {
-                if (Scorings.Any(x => x.ScoringId == value.ScoringId))
-                {
-                    var index = Scorings.IndexOf(Scorings.SingleOrDefault(x => x.ScoringId == value.ScoringId));
-                    Scorings[index] = value;
-                }
-                else
-                {
-                    Scorings.Add(value);
-                }
-                SetValue(ref mainScoringId, value.ScoringId);
-            }
+            get => mainScoring;
+            set => SetValue(ref mainScoring, value);
         }
 
         //private ObservableCollection<IncidentReviewInfo> reviews;

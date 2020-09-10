@@ -29,7 +29,7 @@ namespace iRLeagueDatabase.DataTransfer.Members
         [DataMember]
         public string DiscordId { get; set; }
         [DataMember]
-        public long? TeamId { get; set; }
+        public TeamDataDTO Team { get; set; }
 
         //[DataMember]
         //public LeagueMemberInfoDTO CreatedBy { get; set; }

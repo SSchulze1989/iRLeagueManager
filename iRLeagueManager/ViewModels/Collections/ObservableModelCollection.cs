@@ -38,6 +38,9 @@ namespace iRLeagueManager.ViewModels.Collections
                 }
             }
         }
+
+        private Func<TSource, TModel> _constructUsing;
+
         private Action<TModel> _constructorAction;
 
         private readonly bool AutoUpdateItemsSources;
@@ -76,6 +79,11 @@ namespace iRLeagueManager.ViewModels.Collections
             //_collectionSource = new TSource[0];
             UpdateSource(new TSource[0]);
             AutoUpdateItemsSources = updateItemSources;
+        }
+
+        public ObservableModelCollection(Func<TSource, TModel> constructUsing, Action<TModel> constructorAction = null, bool updateItemsSource = true) : this (constructorAction, updateItemsSource)
+        {
+            _constructUsing = constructUsing;
         }
 
         public ObservableModelCollection(IEnumerable<TSource> collection, Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
@@ -154,7 +162,11 @@ namespace iRLeagueManager.ViewModels.Collections
                     var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
                     if (findTrgItem == null)
                     {
-                        trgItem = new TModel();
+                        if (_constructUsing == null)
+                            trgItem = new TModel();
+                        else
+                            trgItem = _constructUsing.Invoke(srcItem);
+
                         trgItem.UpdateSource(srcItem);
                         _constructorAction?.Invoke(trgItem);
                         TargetCollection.Insert(i, trgItem);

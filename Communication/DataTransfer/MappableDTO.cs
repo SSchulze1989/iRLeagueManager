@@ -59,6 +59,8 @@ namespace iRLeagueDatabase.DataTransfer
         KnownType(typeof(ScheduleDataDTO)),
         KnownType(typeof(ScoredResultDataDTO)), 
         KnownType(typeof(ScoredResultRowDataDTO)), 
+        KnownType(typeof(ScoredTeamResultDataDTO)),
+        KnownType(typeof(ScoredTeamResultRowDataDTO)),
         KnownType(typeof(ScoringInfoDTO)),
         KnownType(typeof(ScoringDataDTO)),
         KnownType(typeof(ScoringTableInfoDTO)),

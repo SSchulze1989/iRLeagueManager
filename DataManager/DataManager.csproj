@@ -132,6 +132,8 @@
     <Compile Include="Models\Results\ResultRowModel.cs" />
     <Compile Include="Models\Results\ScoredResultModel.cs" />
     <Compile Include="Models\Results\ScoredResultRowModel.cs" />
+    <Compile Include="Models\Results\ScoredTeamResultModel.cs" />
+    <Compile Include="Models\Results\ScoredTeamResultRowModel.cs" />
     <Compile Include="Models\Results\ScoringInfo.cs" />
     <Compile Include="Models\Results\ScoringModel.cs" />
     <Compile Include="Models\Results\ScoringRuleBase.cs" />

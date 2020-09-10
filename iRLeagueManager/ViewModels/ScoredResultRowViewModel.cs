@@ -29,6 +29,8 @@ namespace iRLeagueManager.ViewModels
 
         public LeagueMember Member => Source.Member;
 
+        public string TeamName => Model.TeamName;
+
         public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
         public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }
         public string Car { get => Source.Car; set => Source.Car = value; }

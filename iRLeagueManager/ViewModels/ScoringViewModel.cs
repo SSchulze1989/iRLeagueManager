@@ -33,6 +33,8 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<ScoringModel.IncidentPointsValue> IncPenaltyPoints => Model.IncPenaltyPoints;
         public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults => Model.MultiScoringResults;
         public bool IsMultiScoring { get => Model.IsMultiScoring; set => Model.IsMultiScoring = value; }
+        public int MaxResultsPerGroup { get => Model.MaxResultsPerGroup; set => Model.MaxResultsPerGroup = value; }
+        public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
 
         private SessionSelectViewModel sessionSelect;
         public SessionSelectViewModel SessionSelect

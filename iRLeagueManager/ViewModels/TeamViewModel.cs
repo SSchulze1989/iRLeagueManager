@@ -26,7 +26,7 @@ namespace iRLeagueManager.ViewModels
         public TeamViewModel()
         {
             MemberList.CustomFilters.Add(x => Members.Contains(x) == false);
-            MemberList.CustomFilters.Add(x => x.TeamId == null);
+            MemberList.CustomFilters.Add(x => x.Team == null);
         }
 
         public void AddMember(LeagueMember member)
@@ -34,7 +34,7 @@ namespace iRLeagueManager.ViewModels
             if (Members.Contains(member) == false)
             {
                 Members.Add(member);
-                member.TeamId = TeamId;
+                member.Team = Model;
                 MemberList.Refresh();
             }
         }
@@ -44,7 +44,7 @@ namespace iRLeagueManager.ViewModels
             if (Members.Contains(member))
             {
                 Members.Remove(member);
-                member.TeamId = null;
+                member.Team = null;
                 MemberList.Refresh();
             }
         }

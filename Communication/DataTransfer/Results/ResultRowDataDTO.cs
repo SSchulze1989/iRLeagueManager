@@ -28,6 +28,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         //public int MemberId { get; set; }
         public LeagueMemberInfoDTO Member { get; set; }
         [DataMember]
+        public string TeamName { get; set; }
+        [DataMember]
         public int CarNumber { get; set; }
         [DataMember]
         public int ClassId { get; set; }

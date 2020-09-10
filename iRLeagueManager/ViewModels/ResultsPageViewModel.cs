@@ -81,8 +81,8 @@ namespace iRLeagueManager.ViewModels
         private ObservableCollection<ResultInfo> resultList;
         public ObservableCollection<ResultInfo> ResultList { get => resultList; set => SetValue(ref resultList, value); }
 
-        private ScoredResultViewModel selectedResult;
-        public ScoredResultViewModel SelectedResult { get => selectedResult; set => SetValue(ref selectedResult, value); }
+        //private ScoredResultViewModel selectedResult;
+        //public ScoredResultViewModel SelectedResult { get => selectedResult; set => SetValue(ref selectedResult, value); }
 
         private ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> currentResultsList;
         protected ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> CurrentResultsList
@@ -122,14 +122,21 @@ namespace iRLeagueManager.ViewModels
         {
             ScheduleList = new ScheduleVMCollection();
             resultList = new ObservableCollection<ResultInfo>();
-            CurrentResultsList = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>(x => x.Scoring = ScoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
+            CurrentResultsList = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>(src =>
+                {
+                    if (src is ScoredTeamResultModel)
+                        return new ScoredTeamResultViewModel();
+                    else
+                        return new ScoredResultViewModel();
+                },
+                x => x.Scoring = ScoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
             {
                 SessionFilter = x => x.ResultAvailable
             };
-            SelectedResult = null;
+            //SelectedResult = null;
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
         }
 
@@ -238,14 +245,14 @@ namespace iRLeagueManager.ViewModels
             if (SelectedSession == null)
             {
                 currentResultsList.UpdateSource(new ScoredResultModel[0]);
-                SelectedResult = null;
+                //SelectedResult = null;
                 StatusMsg = "No sessions available!";
                 return;
             }
             else if (SelectedSession.Model.SessionResult == null)
             {
                 currentResultsList.UpdateSource(new ScoredResultModel[0]);
-                SelectedResult = null;
+                //SelectedResult = null;
                 StatusMsg = "Results not yet available!";
                 return;
             }
@@ -262,9 +269,15 @@ namespace iRLeagueManager.ViewModels
                     scoredResultModelIds.Add(modelId);
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
-                currentResultsList.UpdateSource(scoredResultModels);
+
+                var previousPosition = CurrentResults.CurrentPosition;
+                currentResultsList.UpdateSource(scoredResultModels.Where(x => x != null && x.FinalResults.Count > 0));
                 SetCurrentResultsView();
-                SelectedResult = currentResultsList.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
+                CurrentResults.MoveCurrentToPosition(previousPosition);
+                if (CurrentResults.CurrentItem == null)
+                    CurrentResults.MoveCurrentToFirst();
+                //if (SelectedResult == null || CurrentResultsList.Contains(SelectedResult) == false)
+                //    SelectedResult = currentResultsList.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
                 StatusMsg = "";
             }
             catch (Exception e)

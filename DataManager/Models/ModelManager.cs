@@ -60,7 +60,7 @@ namespace iRLeagueManager.Models
             {
                 foreach (var modelId in modelIds)
                 {
-                    var loadedModel = ModelCache.GetModel<T>(modelId);
+                    var loadedModel = ModelCache.GetModel<T>(modelId.Cast<object>().ToArray());
                     if (loadedModel != null)
                     {
                         modelList.Add(loadedModel);
@@ -174,8 +174,8 @@ namespace iRLeagueManager.Models
                         var add = await GetModelAsync<T>(modelId.ToArray());
                         if (add == null)
                             return new T[0];
-                        if (modelList.Any(x => x.ModelId.SequenceEqual(add.ModelId)))
-                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
+                        if (modelList.Any(x => x != null && x.ModelId.SequenceEqual(add.ModelId)))
+                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId.SequenceEqual(add.ModelId)));
                         else
                             modelList.Add(add);
                     }
@@ -185,12 +185,17 @@ namespace iRLeagueManager.Models
                     var mapper = MapperConfiguration.CreateMapper();
                     var addList = new List<T>();
                     var validData = data.Where(x => x != null);
-                    mapper.Map(validData, addList);
+                    //mapper.Map(validData, addList);
+                    foreach(var dto in validData)
+                    {
+                        var add = mapper.Map<T>(dto);
+                        addList.Add(add);
+                    }
                     //modelList.AddRange(addList);
                     foreach (var add in addList)
                     {
                         if (modelList.Any(x => x != null && x.ModelId.SequenceEqual(add.ModelId)))
-                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
+                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId.SequenceEqual(add.ModelId)));
                         else
                             modelList.Add(add);
                     }

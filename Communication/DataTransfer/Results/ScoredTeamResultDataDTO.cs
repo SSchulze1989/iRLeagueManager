@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.Serialization;
+
+namespace iRLeagueDatabase.DataTransfer.Results
+{
+    [DataContract]
+    public class ScoredTeamResultDataDTO : ScoredResultDataDTO
+    {
+        [DataMember]
+        public ScoredTeamResultRowDataDTO[] TeamResults { get; set; }
+    }
+}
