@@ -364,7 +364,8 @@ namespace iRLeagueManager
 
             CreateMap<ScoredTeamResultDataDTO, ScoredTeamResultModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ScoredTeamResultModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), ResultId = source.ResultId }))
-                .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId);
+                .EqualityComparison((src, dest) => src.Session.SessionId == dest.Session.SessionId && src.Scoring.ScoringId == dest.Scoring.ScoringId)
+                .ForMember(dest => dest.TeamResults, opt => opt.MapFrom((src, trg) => src.TeamResults.OrderBy(x => x.FinalPosition)));
 
             CreateMap<ScoredTeamResultRowDataDTO, ScoredTeamResultRowModel>()
                 .ConstructUsing(source => new ScoredTeamResultRowModel() { ScoredResultRowId = source.ScoredResultRowId })

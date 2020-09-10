@@ -276,8 +276,6 @@ namespace iRLeagueManager.ViewModels
                 CurrentResults.MoveCurrentToPosition(previousPosition);
                 if (CurrentResults.CurrentItem == null)
                     CurrentResults.MoveCurrentToFirst();
-                //if (SelectedResult == null || CurrentResultsList.Contains(SelectedResult) == false)
-                //    SelectedResult = currentResultsList.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
                 StatusMsg = "";
             }
             catch (Exception e)

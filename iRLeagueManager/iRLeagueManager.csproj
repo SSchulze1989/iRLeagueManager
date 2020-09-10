@@ -129,6 +129,7 @@
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
     <Compile Include="Converters\MultiValueEqualsConverter.cs" />
     <Compile Include="Converters\ToUpperConverter.cs" />
+    <Compile Include="Converters\UniversalColorConverter.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
     <Compile Include="Interfaces\IModalViewModel.cs" />
     <Compile Include="Logging\ExceptionLogMessage.cs" />
