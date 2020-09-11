@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iRLeagueManager.Views"
         mc:Ignorable="d"
-        Title="ModalOkCancelWindow" Height="Auto" Width="Auto">
+        Title="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.Header), FallbackValue=Modal Control}" Height="Auto" Width="Auto">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,8 +15,8 @@
 
         <ContentControl Grid.Row="0" x:Name="ModalContent" />
         <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Ok" x:Name="OkButton" Click="OkButton_Click"/>
-            <Button Content="Cancel" x:Name="CancelButton" Click="CancelButton_Click"/>
+            <Button Content="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"/>
+            <Button Content="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
             <StackPanel.Resources>
                 <Style TargetType="Button" >
                     <Setter Property="Padding" Value="10,5" />

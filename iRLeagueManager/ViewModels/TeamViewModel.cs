@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Models.Members;
+using System.Windows.Media;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -12,16 +13,38 @@ namespace iRLeagueManager.ViewModels
     {
         protected override TeamModel Template => new TeamModel()
         {
-            Name = "Template Team"
+            Name = "New Team",
+            TeamColor = "#666666"
         };
 
         public long TeamId => Model.TeamId;
-        public string Name { get => Model.Name; set => Model.Name = value; }
-        public string TeamColor { get => Model.TeamColor; set => Model.TeamColor = value; }
+        public string Name
+        {
+            get => Model.Name;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("Teamname must not be empty");
+                Model.Name = value;
+            }
+        }
+        public string TeamColor
+        {
+            get => Model.TeamColor;
+            set
+            {
+                if (ColorConverter.ConvertFromString(value) == null)
+                    throw new ArgumentException("Please enter a valid color name or hex value (eg.\"#00ABFF\"");
+                Model.TeamColor = value;
+            }
+        }
 
         public ObservableCollection<LeagueMember> Members => Model.Members;
 
         public MemberListViewModel MemberList { get; } = new MemberListViewModel();
+
+        private string statusMessage;
+        public string StatusMessage { get => statusMessage; set => SetValue(ref statusMessage, value); }
 
         public TeamViewModel()
         {
