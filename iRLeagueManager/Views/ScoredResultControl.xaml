@@ -134,8 +134,9 @@
                             <DataGrid.RowDetailsTemplate>
                                 <DataTemplate>
                                     <DataGrid ItemsSource="{Binding ScoredResultRows}" AutoGenerateColumns="False" VerticalAlignment="Stretch" 
-                                              AlternationCount="2" AlternatingRowBackground="#F0F0F0"
-                                              TextElement.FontSize="{StaticResource Global.FontSizeSmall}" 
+                                              Background="Transparent" RowBackground="Transparent"
+                                              TextElement.FontSize="{StaticResource Global.FontSizeSmall}"
+                                              BorderBrush="Black" BorderThickness="1"
                                               PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                               HorizontalScrollBarVisibility="Disabled"
                                               RowHeight="30" CanUserAddRows="False" CanUserDeleteRows="False" 
@@ -178,16 +179,6 @@
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
-                                                <!--<Setter Property="Padding" Value="5"/>
-                                                <Setter Property="TextElement.FontWeight" Value="Bold"/>
-                                                <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
-                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
-                                                <Setter Property="BorderBrush" Value="Black"/>
-                                                <Setter Property="BorderThickness" Value="0,0,1,2"/>
-                                                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                                <Setter Property="Height" Value="Auto"/>
-                                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>-->
                                             </Style>
                                         </DataGrid.ColumnHeaderStyle>
                                         <DataGrid.Columns>
@@ -226,8 +217,6 @@
                                             </DataGridTextColumn>-->
                                             <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="*" MinWidth="150"
                                                                 ElementStyle="{StaticResource TextColumnElementStyle}" MaxWidth="550"/>
-                                            <!--<DataGridTextColumn Header="Team" Binding="{Binding Member.Team.TeamColor}" IsReadOnly="True" Width="*" MinWidth="150"
-                                                                ElementStyle="{StaticResource TextColumnElementStyle}" Foreground="{Binding Member.Team.TeamColor}"/>-->
                                             <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="100" MinWidth="90">
                                                 <DataGridTextColumn.ElementStyle>
                                                     <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
@@ -256,14 +245,14 @@
                                                     </MultiBinding>
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
-                                            <!--<DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" 
+                                            <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" 
                                                     Width="100" MinWidth="90">
                                                 <DataGridTextColumn.ElementStyle>
                                                     <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                                         <Setter Property="TextAlignment" Value="Center"/>
                                                     </Style>
                                                 </DataGridTextColumn.ElementStyle>
-                                            </DataGridTextColumn>-->
+                                            </DataGridTextColumn>
                                             <DataGridTextColumn Binding="{Binding RacePoints}" IsReadOnly="True" Width="90" MinWidth="50">
                                                 <DataGridTextColumn.ElementStyle>
                                                     <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
@@ -431,6 +420,13 @@
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Interval" IsReadOnly="True" Width="100" MinWidth="90">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="---" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Binding="{Binding RacePoints}" IsReadOnly="True" Width="90" MinWidth="50">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
