@@ -23,6 +23,8 @@ namespace iRLeagueManager.Views
     {
         public CreateUserViewModel viewModel => DataContext as CreateUserViewModel;
 
+        public string Header => "Register new User";
+
         public string SubmitText => "Register";
 
         public string CancelText => "Cancel";
@@ -56,12 +58,12 @@ namespace iRLeagueManager.Views
             return viewModel.CanSubmit();
         }
 
-        public async Task<bool> SubmitAsync()
+        public async Task<bool> OnSubmitAsync()
         {
             return await viewModel.SubmitAsync();
         }
 
-        public void Cancel()
+        public void OnCancel()
         {
             viewModel.Dispose();
         }

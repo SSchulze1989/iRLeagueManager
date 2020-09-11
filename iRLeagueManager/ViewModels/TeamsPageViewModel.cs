@@ -49,19 +49,18 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async Task<TeamModel> AddTeam()
+        public async Task<TeamModel> AddTeam(TeamModel team = null)
         {
+            if (team == null)
+                team = (new TeamViewModel()).GetModelTemplate();
+
             try
             {
                 IsLoading = true;
-                var newTeam = new TeamModel()
-                {
-                    Name = "New Team"
-                };
-                newTeam = await LeagueContext.AddModelAsync(newTeam);
+                team = await LeagueContext.AddModelAsync(team);
                 await Load();
-                SelectedTeam = Teams.SingleOrDefault(x => x.TeamId == newTeam.TeamId);
-                return newTeam;
+                SelectedTeam = Teams.SingleOrDefault(x => x.TeamId == team.TeamId);
+                return team;
             }
             catch (Exception e)
             {

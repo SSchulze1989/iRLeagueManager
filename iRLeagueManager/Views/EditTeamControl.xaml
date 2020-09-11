@@ -34,7 +34,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="Team Name" Grid.Row="0" Grid.Column="0"/>
-            <TextBox Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
+            <TextBox Text="{Binding Name, ValidatesOnExceptions=True}" Grid.Row="0" Grid.Column="1"/>
 
             <TextBlock Text="Team Color" Grid.Row="1" Grid.Column="0"/>
             <Grid Grid.Row="1" Grid.Column="1">
@@ -43,7 +43,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Rectangle Grid.Column="0" Width="6" VerticalAlignment="Stretch" Fill="{Binding TeamColor}" Margin="5"/>
-                <TextBox Grid.Column="1" Text="{Binding TeamColor}"/>
+                <TextBox Grid.Column="1" Text="{Binding TeamColor, ValidatesOnExceptions=True}"/>
             </Grid>
 
             <TextBlock Text="Team Members" Grid.Row="4" Grid.Column="0" Margin="5"/>

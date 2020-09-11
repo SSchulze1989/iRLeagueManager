@@ -276,7 +276,7 @@
                 </ItemsControl>
             </ScrollViewer>
             <StackPanel Margin="25,8" Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <controls:IconButton Content="Add Team" IconContent="{StaticResource PlusThick}" Command="{Binding AddTeamCmd}"
+                <controls:IconButton Content="Add Team" IconContent="{StaticResource PlusThick}" Click="AddButton_Click"
                                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
                                  Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
                                  IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 

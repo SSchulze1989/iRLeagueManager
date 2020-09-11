@@ -20,11 +20,46 @@ namespace iRLeagueManager.Views
     /// <summary>
     /// Interaktionslogik für EditTeamControl.xaml
     /// </summary>
-    public partial class EditTeamControl : UserControl
+    public partial class EditTeamControl : UserControl, IModalContent
     {
         public EditTeamControl()
         {
             InitializeComponent();
+        }
+
+        public string Header { get; set; } = "Edit Team Data";
+
+        public string SubmitText { get; set; } = "Save";
+
+        public string CancelText { get; set; } =  "Cancel";
+
+        public void OnCancel()
+        {
+        }
+
+        public bool CanSubmit()
+        {
+            return IsValid(this);
+        }
+
+        private bool IsValid(DependencyObject obj)
+        {
+            // The dependency object is valid if it has no errors and all
+            // of its children (that are dependency objects) are error-free.
+            return !Validation.GetHasError(obj) &&
+            LogicalTreeHelper.GetChildren(obj)
+            .OfType<DependencyObject>()
+            .All(IsValid);
+        }
+
+        public async Task<bool> OnSubmitAsync()
+        {
+            if (DataContext is TeamViewModel teamViewModel)
+            {
+                if (teamViewModel.TeamColor == null || teamViewModel.TeamColor == "")
+                    teamViewModel.TeamColor = "#666666";
+            }
+            return true;
         }
 
         private void MoveLeftButton_Click(object sender, RoutedEventArgs e)

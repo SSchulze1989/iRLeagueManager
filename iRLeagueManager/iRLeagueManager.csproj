@@ -85,7 +85,7 @@
     <LangVersion>7.1</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-	<XamlDebuggingInformation>True</XamlDebuggingInformation>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
@@ -129,6 +129,7 @@
     <Compile Include="Converters\LapIntervalStringConverter.cs" />
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
     <Compile Include="Converters\MultiValueEqualsConverter.cs" />
+    <Compile Include="Converters\RequiredSourceValueConverter.cs" />
     <Compile Include="Converters\ToUpperConverter.cs" />
     <Compile Include="Converters\UniversalColorConverter.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />

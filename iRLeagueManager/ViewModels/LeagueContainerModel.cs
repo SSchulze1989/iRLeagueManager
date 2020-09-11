@@ -29,6 +29,11 @@ namespace iRLeagueManager.ViewModels
 
         protected abstract TSource Template { get; }
 
+        public TSource GetModelTemplate()
+        {
+            return Template;
+        }
+
         public virtual async Task Load(params long[] modelId)
         { 
             if (Model == null || !Model.ModelId.SequenceEqual(modelId))

@@ -32,7 +32,7 @@ namespace iRLeagueManager.Views
             {
                 if (modalContent.CanSubmit())
                 {
-                    var result = await modalContent.SubmitAsync();
+                    var result = await modalContent.OnSubmitAsync();
 
                     if (result == true)
                     {
@@ -52,7 +52,7 @@ namespace iRLeagueManager.Views
         {
             if (ModalContent.Content is IModalContent modalContent)
             {
-                modalContent.Cancel();
+                modalContent.OnCancel();
             }
             DialogResult = false;
             Close();
