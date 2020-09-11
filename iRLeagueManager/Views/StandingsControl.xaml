@@ -157,8 +157,15 @@
                                 </DataGridTextColumn>-->
                                 <DataGridTextColumn Header="Driver" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="15*" 
                                                     ElementStyle="{StaticResource TextColumnElementStyle}"/>
-                                <DataGridTextColumn Header="Team" IsReadOnly="True"  Width="15*"
-                                                    ElementStyle="{StaticResource TextColumnElementStyle}"/>
+                                <DataGridTemplateColumn Header="Team" IsReadOnly="True" Width="15*"
+                                                        MaxWidth="450" MinWidth="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Member.Team.Name}" Foreground="{Binding Member.Team.TeamColor}" 
+                                                       FontWeight="DemiBold" VerticalAlignment="Center" Margin="5,0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Race Points" IsReadOnly="True" Width="5*"
                                                     ElementStyle="{StaticResource TextColumnElementStyle}">
                                     <DataGridTextColumn.Binding>
