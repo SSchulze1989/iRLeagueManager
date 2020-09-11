@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer.User;
 
 namespace iRLeagueManager.Data
 {

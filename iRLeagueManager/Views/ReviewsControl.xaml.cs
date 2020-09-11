@@ -43,9 +43,10 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 700;
-                editWindow.Height = 700;
+                //var editWindow = new ModalOkCancelWindow();
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 700;
                 var content = new ReviewEditControl();
 
                 editWindow.Title = "Edit Review";
@@ -215,9 +216,9 @@ namespace iRLeagueManager.Views
         {
             if ((sender is Button || sender is Hyperlink)  && ViewModel != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 700;
-                editWindow.Height = 700;
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 700;
                 var content = new ReviewEditControl();
 
                 editWindow.Title = "Add new Review";

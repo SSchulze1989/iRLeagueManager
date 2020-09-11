@@ -33,11 +33,13 @@ namespace iRLeagueManager.Data
             if (result != null)
             {
                 UserCredential = result;
+                IsAuthenticated = true;
                 return true;
             }
             else
             {
                 UserCredential = new NetworkCredential();
+                IsAuthenticated = false;
                 return false;
             }
         }

@@ -31,7 +31,7 @@ namespace iRLeagueManager
     }
     public class MyKeyValuePair<TKey, TValue> : MyKeyValuePair, INotifyPropertyChanged
     {
-        public new TKey Key { get => (TKey)base.Key; protected set { base.Key = value; } }
+        public new TKey Key { get => (TKey)base.Key; set { base.Key = value; } }
         public new TValue Value { get => (TValue)base.Value; set { base.Value = value; } }
 
         public MyKeyValuePair(TKey key, TValue value) : base(key, value) { }

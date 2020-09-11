@@ -46,7 +46,7 @@ namespace iRLeagueManager.Models
         public T GetModel<T>(params object[] modelId) where T : class, ICacheableModel
         {
             CleanReferences();
-            var identifier = new ModelIdentifier(typeof(T), modelId.Select(x => (object)x).ToArray());
+            var identifier = new ModelIdentifier(typeof(T), modelId);
             if (referenceList.ContainsKey(identifier))
             {
                 T model = referenceList[identifier].Target as T;

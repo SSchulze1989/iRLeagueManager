@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.Models.Members;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,13 +12,16 @@ namespace iRLeagueManager.Models.Results
 {
     public class StandingsModel : MappableModel
     {
-        private ScoringInfo scoring;
-        public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
+        //private ScoringInfo scoring;
+        //public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
+
+        private long scoringTableId;
+        public long ScoringTableId { get => scoringTableId; set => SetValue(ref scoringTableId, value); }
 
         private long? sessionId;
         public long? SessionId { get => sessionId; internal set => SetValue(ref sessionId, value); }
 
-        public override long[] ModelId => new long[] { (Scoring?.ScoringId).GetValueOrDefault(), sessionId.GetValueOrDefault() };
+        public override long[] ModelId => new long[] { ScoringTableId, sessionId.GetValueOrDefault() };
 
         private List<StandingsRowModel> standingsRows;
         public List<StandingsRowModel> StandingsRows { get => standingsRows; internal set => SetValue(ref standingsRows, value); }

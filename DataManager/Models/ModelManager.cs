@@ -11,7 +11,12 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Data;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer;
+using iRLeagueDatabase.DataTransfer.Members;
+using iRLeagueDatabase.DataTransfer.Results;
+using iRLeagueDatabase.DataTransfer.Reviews;
+using iRLeagueDatabase.DataTransfer.Sessions;
+using iRLeagueDatabase.DataTransfer.User;
 
 namespace iRLeagueManager.Models
 {
@@ -55,7 +60,7 @@ namespace iRLeagueManager.Models
             {
                 foreach (var modelId in modelIds)
                 {
-                    var loadedModel = ModelCache.GetModel<T>(modelId);
+                    var loadedModel = ModelCache.GetModel<T>(modelId.Cast<object>().ToArray());
                     if (loadedModel != null)
                     {
                         modelList.Add(loadedModel);
@@ -145,6 +150,14 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<AddPenaltyDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(ScoringTableModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<ScoringTableDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
+                else if (typeof(T).Equals(typeof(TeamModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<TeamDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
+                }
                 else
                 {
                     throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -161,8 +174,8 @@ namespace iRLeagueManager.Models
                         var add = await GetModelAsync<T>(modelId.ToArray());
                         if (add == null)
                             return new T[0];
-                        if (modelList.Any(x => x.ModelId.SequenceEqual(add.ModelId)))
-                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
+                        if (modelList.Any(x => x != null && x.ModelId.SequenceEqual(add.ModelId)))
+                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId.SequenceEqual(add.ModelId)));
                         else
                             modelList.Add(add);
                     }
@@ -172,12 +185,17 @@ namespace iRLeagueManager.Models
                     var mapper = MapperConfiguration.CreateMapper();
                     var addList = new List<T>();
                     var validData = data.Where(x => x != null);
-                    mapper.Map(validData, addList);
+                    //mapper.Map(validData, addList);
+                    foreach(var dto in validData)
+                    {
+                        var add = mapper.Map<T>(dto);
+                        addList.Add(add);
+                    }
                     //modelList.AddRange(addList);
                     foreach (var add in addList)
                     {
                         if (modelList.Any(x => x != null && x.ModelId.SequenceEqual(add.ModelId)))
-                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId == add.ModelId));
+                            add.CopyTo(modelList.SingleOrDefault(x => x.ModelId.SequenceEqual(add.ModelId)));
                         else
                             modelList.Add(add);
                     }
@@ -187,7 +205,10 @@ namespace iRLeagueManager.Models
             foreach (var model in modelList)
             {
                 if (model != null)
+                {
+                    model.ResetChangedState();
                     model.InitializeModel();
+                }
             }
 
             if (modelIds == null)
@@ -214,6 +235,11 @@ namespace iRLeagueManager.Models
                 return null;
             if (models.Count() == 0)
                 return modelList;
+
+            foreach (var model in models)
+            {
+                model.InitReset();
+            }
 
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
@@ -288,6 +314,16 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<AddPenaltyDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(ScoringTableModel)))
+            {
+                data = mapper.Map<IEnumerable<ScoringTableDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<ScoringTableDataDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(TeamModel)))
+            {
+                data = mapper.Map<IEnumerable<TeamDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<TeamDataDTO>().ToArray());
+            }
             else
             {
                 throw new UnknownModelTypeException("Could not put Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -301,6 +337,7 @@ namespace iRLeagueManager.Models
                 if (data[i] != null)
                 {
                     modelList[i] = mapper.Map<T>(data[i]);
+                    modelList[i].ResetChangedState();
                     modelList[i].InitializeModel();
                 }
                 else
@@ -388,6 +425,14 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<ScoredResultRowDataDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(ScoringTableModel)))
+            {
+                return await ModelDataProvider.DelAsync<ScoringTableDataDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(TeamModel)))
+            {
+                return await ModelDataProvider.DelAsync<TeamDataDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -468,6 +513,16 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<AddPenaltyDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<AddPenaltyDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(ScoringTableModel)))
+            {
+                data = mapper.Map<IEnumerable<ScoringTableDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<ScoringTableDataDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(TeamModel)))
+            {
+                data = mapper.Map<IEnumerable<TeamDataDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<TeamDataDTO>().ToArray());
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -482,6 +537,7 @@ namespace iRLeagueManager.Models
                 if (data[i] != null)
                 {
                     modelList[i] = mapper.Map<T>(data[i]);
+                    modelList[i].ResetChangedState();
                     modelList[i].InitializeModel();
                 }
                 else

@@ -30,7 +30,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="1" ItemsSource="{Binding ScoringList}">
+        <TabControl Grid.Row="1" ItemsSource="{Binding ScoringTableList}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" />

@@ -11,9 +11,9 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.User;
 using System.ComponentModel;
-using iRLeagueManager.LeagueDBServiceRef;
 using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -21,6 +21,7 @@ namespace iRLeagueManager.ViewModels
     {
         protected override ScoringModel Template => new ScoringModel();
         public long? ScoringId => Model?.ScoringId; 
+        public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
@@ -32,6 +33,8 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<ScoringModel.IncidentPointsValue> IncPenaltyPoints => Model.IncPenaltyPoints;
         public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults => Model.MultiScoringResults;
         public bool IsMultiScoring { get => Model.IsMultiScoring; set => Model.IsMultiScoring = value; }
+        public int MaxResultsPerGroup { get => Model.MaxResultsPerGroup; set => Model.MaxResultsPerGroup = value; }
+        public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
 
         private SessionSelectViewModel sessionSelect;
         public SessionSelectViewModel SessionSelect

@@ -14,13 +14,13 @@ namespace iRLeagueManager.ViewModels
 {
     public class StandingsPageViewModel : ViewModelBase
     {
-        private ObservableModelCollection<ScoringViewModel, ScoringModel> scoringList;
-        public ObservableModelCollection<ScoringViewModel, ScoringModel> ScoringList
+        private ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTableList;
+        public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTableList
         {
-            get => scoringList;
+            get => scoringTableList;
             protected set
             {
-                if (SetValue(ref scoringList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
+                if (SetValue(ref scoringTableList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
                 {
                     OnPropertyChanged(null);
                 }
@@ -29,7 +29,7 @@ namespace iRLeagueManager.ViewModels
 
         public StandingsPageViewModel()
         {
-            ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
+            ScoringTableList = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
         }
 
         protected void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
@@ -42,11 +42,12 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var scoringsInfo = season.Scorings;
+                //var scoringsInfo = season.Scorings;
+                var scoringTables = await LeagueContext.UpdateModelsAsync(season.ScoringTables);
 
                 // Set scorings List
-                var scoringModels = await LeagueContext.GetModelsAsync<ScoringModel>(scoringsInfo.Select(x => x.ModelId));
-                ScoringList.UpdateSource(scoringModels);
+                //var scoringModels = await LeagueContext.GetModelsAsync<ScoringModel>(scoringsInfo.Select(x => x.ModelId));
+                ScoringTableList.UpdateSource(scoringTables);
 
                 //foreach(var scoring in ScoringList)
                 //{

@@ -37,6 +37,7 @@ namespace iRLeagueManager
         private ResultsPageViewModel ResultsPageViewModel { get; set; }// = new ResultsPageViewModel();
         private StandingsPageViewModel StandingsPageViewModel { get; set; }
         private ReviewsPageViewModel ReviewsPageViewModel { get; set; }
+        private TeamsPageViewModel TeamsPageViewModel { get; set; }
 
         public MainWindow()
         {
@@ -152,6 +153,18 @@ namespace iRLeagueManager
                 }
                 else
                     mainViewModel.Refresh();
+            }
+        }
+
+        private async void TeamsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel.CurrentSeason?.Schedules != null)
+            {
+                var vm = (MainContent.Content?.GetType().Equals(typeof(TeamsPageViewModel))).GetValueOrDefault() ? MainContent.Content as TeamsPageViewModel : TeamsPageViewModel;
+                if (vm == null)
+                    TeamsPageViewModel = vm = new TeamsPageViewModel();
+                MainContent.Content = vm;
+                await vm.Load();
             }
         }
     }

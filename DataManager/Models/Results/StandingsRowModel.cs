@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class StandingsRowModel : MappableModel
+    public class StandingsRowModel : ModelBase
     {
-        private ScoringInfo scoring;
-        public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
+        //private ScoringInfo scoring;
+        //public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
 
         private LeagueMember member;
         public LeagueMember Member { get => member; internal set => SetValue(ref member, value); }
-        public override long[] ModelId => new long[] { Scoring.ScoringId.GetValueOrDefault(), Member.MemberId.GetValueOrDefault() };
+        //public override long[] ModelId => new long[] { ScoringId, Member.MemberId.GetValueOrDefault() };
 
         private int position;
         public int Position { get => position; internal set => SetValue(ref position, value); }

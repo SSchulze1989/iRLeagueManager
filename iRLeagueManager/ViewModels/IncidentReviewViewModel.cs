@@ -97,6 +97,7 @@ namespace iRLeagueManager.ViewModels
             ((INotifyCollectionChanged)comments).CollectionChanged += OnCommentsCollectionChanged;
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null && o is ReviewVoteModel);
+            MemberList.CustomFilters.Add(x => InvolvedMembers.Contains(x) == false);
         }
 
         public override void Refresh(string propertyName = "")
@@ -156,7 +157,7 @@ namespace iRLeagueManager.ViewModels
 
             foreach (var currentVote in AcceptedVotes)
             {
-                var existingVote = acceptedVotes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
+                var existingVote = acceptedVotes.SingleOrDefault(x => x.Key.MemberAtFault?.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
                 if (existingVote == null)
                 {
                     existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
@@ -233,6 +234,24 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public void AddMember(LeagueMember member)
+        {
+            if (InvolvedMembers.Contains(member) == false)
+            {
+                InvolvedMembers.Add(member);
+                MemberList.Refresh();
+            }
+        }
+
+        public void RemoveMember(LeagueMember member)
+        {
+            if (InvolvedMembers.Contains(member))
+            {
+                InvolvedMembers.Remove(member);
+                memberList.Refresh();
             }
         }
 

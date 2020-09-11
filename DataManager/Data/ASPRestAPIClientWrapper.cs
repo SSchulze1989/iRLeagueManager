@@ -1,5 +1,6 @@
 ﻿using iRLeagueManager.Data;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer;
+using iRLeagueDatabase.DataTransfer.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;

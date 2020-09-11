@@ -102,5 +102,15 @@ namespace iRLeagueManager.Views
                 }
             }
         }
+
+        private void MoveLeftButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MoveRightButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -58,7 +58,12 @@ namespace iRLeagueManager.Models.Reviews
 
             if (sourceObject is ReviewCommentModel commentModel)
             {
-                CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(commentModel.CommentReviewVotes.ToList());
+                CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(commentModel.CommentReviewVotes.Select(x =>
+                {
+                    var vote = new ReviewVoteModel();
+                    vote.CopyFrom(x);
+                    return vote;
+                }).ToList());
             }
         }
 
@@ -68,7 +73,12 @@ namespace iRLeagueManager.Models.Reviews
 
             if (targetObject is ReviewCommentModel commentModel)
             {
-                commentModel.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(CommentReviewVotes.ToList());
+                commentModel.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(CommentReviewVotes.Select(x =>
+                {
+                    var vote = new ReviewVoteModel();
+                    vote.CopyFrom(x);
+                    return vote;
+                }).ToList());
             }
         }
 

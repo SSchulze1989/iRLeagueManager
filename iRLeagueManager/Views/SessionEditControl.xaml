@@ -23,7 +23,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <StackPanel Orientation="Vertical" TextBlock.FontSize="20">
+        <StackPanel Orientation="Vertical" TextBlock.FontSize="{StaticResource Global.FontSizeLarge}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="5">
                 <TextBlock Text="{Binding Schedule.Name}" />
                 <TextBlock Text=" - Session: " />
@@ -35,7 +35,7 @@
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="100*"/>
                     <ColumnDefinition Width="0*"/>
                 </Grid.ColumnDefinitions>
@@ -68,8 +68,8 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Hours:" />
-                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Minutes:" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Hours:"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Minutes:"/>
                     <ComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding TimeOfDayComponents.Hours, Converter={StaticResource TimeComponentConverter}, UpdateSourceTrigger=PropertyChanged}" />
                     <ComboBox Grid.Column="2" Grid.Row="1" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding TimeOfDayComponents.Minutes, Converter={StaticResource TimeComponentConverter}, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
@@ -155,7 +155,7 @@
                         <Setter Property="IsTextSearchEnabled" Value="True" />
                     </Style>
                     <Style TargetType="TextBlock" >
-                        <Setter Property="Margin" Value="5,0" />
+                        <Setter Property="Margin" Value="5,5,0,5" />
                     </Style>
                     <Style TargetType="DatePicker" >
                         <Setter Property="Margin" Value="5,0" />
