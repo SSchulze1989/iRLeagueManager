@@ -44,7 +44,7 @@
                                   SnapsToDevicePixels="True">
                 <ItemsControl ItemsSource="{Binding Teams}" Margin="20,5,20,50" Background="Transparent">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:TeamViewModel}">
                             <Grid Margin="0,6">
                                 <Border BorderThickness="0" Background="DarkGray" 
                                             x:Name="templateDropShadowBorder">
@@ -71,7 +71,7 @@
                                                             x:Name="headerBorder">
                                                     <DockPanel Margin="0">
                                                         <controls:IconButton x:Name="reviewDeleteButton" DockPanel.Dock="Right"
-                                                                                     Command="{Binding DataContext.RemoveReviewCmd, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                                     Command="{Binding DataContext.RemoveTeamCmd, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                                                      CommandParameter="{Binding Model}"
                                                                                      IconContent="{DynamicResource closeThick}"
                                                                                      IconStroke="Transparent" IconStrokeThickness="0.5"

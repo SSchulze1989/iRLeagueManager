@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Local|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug Local\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LOCAL</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DEBUG_WEB</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.1</LangVersion>

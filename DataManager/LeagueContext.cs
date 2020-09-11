@@ -63,7 +63,9 @@ namespace iRLeagueManager.Data
 
         public LeagueContext() : base()
         {
-#if DEBUG
+#if DEBUG_WEB
+            string apiAddress = "http://144.91.113.195/iRLeagueRESTService/api";
+#elif DEBUG
             string apiAddress = "https://localhost:44369/api";
 #else
             string apiAddress = "http://144.91.113.195/iRLeagueRESTService/api";
