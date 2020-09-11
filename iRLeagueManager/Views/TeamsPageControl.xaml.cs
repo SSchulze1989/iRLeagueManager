@@ -22,6 +22,8 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class TeamsPageControl : UserControl
     {
+        private TeamsPageViewModel TeamsPageViewModel => DataContext as TeamsPageViewModel;
+
         public TeamsPageControl()
         {
             InitializeComponent();
@@ -60,6 +62,34 @@ namespace iRLeagueManager.Views
         //        }
         //    }
         //}
+
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                var editWindow = EditPanel;
+                var content = new EditTeamControl()
+                {
+                    Header = "Add new Team",
+                    SubmitText = "Add"
+                };
+                
+                if (content.DataContext is TeamViewModel editVM)
+                {
+                    editVM.Model = new TeamModel()
+                    {
+                        Name = "New Team",
+                        TeamColor = "#666666"
+                    };
+
+                    editWindow.ModalContent.Content = content;
+                    if (editWindow.ShowDialog() == true)
+                    {
+                        TeamsPageViewModel?.AddTeam(editVM.Model);
+                    }
+                }
+            }
+        }
 
         private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
