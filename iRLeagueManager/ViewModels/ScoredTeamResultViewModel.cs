@@ -7,14 +7,31 @@ using System.ComponentModel;
 using System.Collections;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
+
 using iRLeagueManager.Models.Results;
+using iRLeagueManager.ViewModels.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
     public class ScoredTeamResultViewModel : ScoredResultViewModel, IContainerModelBase<ScoredTeamResultModel>
     {
         public new ScoredTeamResultModel Model { get => base.Model as ScoredTeamResultModel; set => base.Model = value; }
-        public ObservableCollection<ScoredTeamResultRowModel> TeamResults => Model?.TeamResults;
+
+        private readonly ObservableModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel> teamResults;
+        public ObservableModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel> TeamResults
+        {
+            get
+            {
+                if (teamResults.GetSource() != Model?.TeamResults)
+                    teamResults.UpdateSource(Model?.TeamResults);
+                return teamResults;
+            }
+        }
+
+        public ScoredTeamResultViewModel()
+        {
+            teamResults = new ObservableModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel>();
+        }
 
         public bool UpdateSource(ScoredTeamResultModel source)
         {

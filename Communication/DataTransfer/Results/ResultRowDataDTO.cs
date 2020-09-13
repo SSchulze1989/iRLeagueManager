@@ -61,6 +61,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public TimeSpan FastestLapTime { get; set; }
         [DataMember]
         public int PositionChange { get; set; }
+        [DataMember]
+        public string LocationId { get; set; }
 
         public override object MappingId => ResultRowId;
 
