@@ -369,6 +369,14 @@ namespace iRLeagueManager.Models
 
         public async Task<bool> DeleteModelsAsync<T>(long[][] modelIds) where T : MappableModel
         {
+            if (modelIds != null)
+            {
+                foreach (var modelId in modelIds)
+                {
+                    ModelCache.RemoveReference<T>(modelId.Cast<object>().ToArray());
+                }
+            }
+
             if (typeof(T).Equals(typeof(SeasonModel)))
             {
                 return await ModelDataProvider.DelAsync<SeasonDataDTO>(modelIds);

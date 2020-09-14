@@ -141,6 +141,8 @@
     <Compile Include="Models\Results\StandardScoringRule.cs" />
     <Compile Include="Models\Results\StandingsModel.cs" />
     <Compile Include="Models\Results\StandingsRowModel.cs" />
+    <Compile Include="Models\Results\TeamStandingsModel.cs" />
+    <Compile Include="Models\Results\TeamStandingsRowModel.cs" />
     <Compile Include="Models\Reviews\CommentBase.cs" />
     <Compile Include="Models\Reviews\CommentInfo.cs" />
     <Compile Include="Models\Reviews\IncidentReviewInfo.cs" />

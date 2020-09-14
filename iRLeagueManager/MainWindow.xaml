@@ -13,7 +13,7 @@
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         xmlns:controls="clr-namespace:iRLeagueManager.Controls"
         mc:Ignorable="d"
-        WindowState="Maximized" Height="863" Width="1568" Background="White"
+        WindowState="Normal" Height="800" Width="1400" Background="White"
         FontFamily="{StaticResource Global.FontFamily}"
         FontSize="{StaticResource Global.FontSizeMedium}">
 

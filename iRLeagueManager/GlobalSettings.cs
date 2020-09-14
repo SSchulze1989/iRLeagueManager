@@ -16,7 +16,7 @@ namespace iRLeagueManager
 {
     public static class GlobalSettings
     {
-        private const bool debugErros = true;
+        private const bool debugErros = false;
         public static LeagueContext LeagueContext { get; private set; }
         public static ModelCache ModelCache { get; private set; }
         //public static UserContext UserContext { get; private set; }

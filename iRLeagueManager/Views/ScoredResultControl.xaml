@@ -39,6 +39,127 @@
             </Setter>
             <Setter Property="IsManipulationEnabled" Value="False"/>
         </Style>
+        <DataTemplate x:Key="AddPenaltyCellTemplate">
+            <StackPanel Orientation="Horizontal">
+                <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
+                                                          DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
+                                                          Margin="0" Height="25">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
+                                    <Setter Property="IsReadOnly" Value="False"/>
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.Items>
+                        <ComboBoxItem>0</ComboBoxItem>
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                        <ComboBoxItem>3</ComboBoxItem>
+                        <ComboBoxItem>4</ComboBoxItem>
+                        <ComboBoxItem>5</ComboBoxItem>
+                        <ComboBoxItem>6</ComboBoxItem>
+                        <ComboBoxItem>7</ComboBoxItem>
+                        <ComboBoxItem>8</ComboBoxItem>
+                        <ComboBoxItem>9</ComboBoxItem>
+                        <ComboBoxItem>10</ComboBoxItem>
+                    </ComboBox.Items>
+                </ComboBox>
+                <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5">
+                    <controls:IconButton.Style>
+                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                            <Setter Property="Command" Value="{Binding EndEditPenaltyCmd}"/>
+                            <Setter Property="IconFill" Value="Green"/>
+                            <!--<Setter Property="IconContent" Value="{StaticResource checkBold}"/>-->
+                            <Setter Property="IconContent">
+                                <Setter.Value>
+                                    <Viewbox>
+                                        <ContentControl Content="{DynamicResource checkBold}"/>
+                                    </Viewbox>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="False">
+                                    <Setter Property="Command" Value="{Binding StartEditPenaltyCmd}"/>
+                                    <Setter Property="IconFill" Value="Black" />
+                                    <!--<Setter Property="IconContent" Value="{StaticResource pencilOutline}"/>-->
+                                    <Setter Property="IconContent">
+                                        <Setter.Value>
+                                            <Viewbox>
+                                                <ContentControl Content="{DynamicResource pencilOutline}"/>
+                                            </Viewbox>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                    <Setter Property="Command" Value="{Binding AddPenaltyCmd}"/>
+                                    <Setter Property="IconFill" Value="Black"/>
+                                    <!--<Setter Property="IconContent" Value="{StaticResource PencilPlusOutline}"/>-->
+                                    <Setter Property="IconContent">
+                                        <Setter.Value>
+                                            <Viewbox>
+                                                <ContentControl Content="{DynamicResource PencilPlusOutline}"/>
+                                            </Viewbox>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:IconButton.Style>
+                </controls:IconButton>
+                <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5"
+                                                    Command="{Binding DeletePenaltyCmd}"
+                                                    IconContent="{DynamicResource closeThick}">
+                    <controls:IconButton.Style>
+                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IconFill" Value="Red"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:IconButton.Style>
+                </controls:IconButton>
+            </StackPanel>
+        </DataTemplate>
+        <Style TargetType="DataGridRowHeader" x:Key="DataGridRowHeaderStyle">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Width" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                        BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                                        SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderStyle">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="TextElement.FontWeight" Value="Bold"/>
+            <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
+            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0,0,1,2"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
     
     <Grid ClipToBounds="True" Margin="0">
@@ -102,7 +223,7 @@
                 </TabControl.ItemTemplate>
                 <TabControl.Resources>
                     <DataTemplate DataType="{x:Type vmodel:ScoredTeamResultViewModel}">
-                        <DataGrid ItemsSource="{Binding TeamResults}" AutoGenerateColumns="False" VerticalAlignment="Top" 
+                        <DataGrid ItemsSource="{Binding TeamResults}" AutoGenerateColumns="False" VerticalAlignment="Stretch" 
                                   AlternationCount="2" AlternatingRowBackground="#F0F0F0"
                                   TextElement.FontSize="{StaticResource Global.FontSizeSmall}" 
                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -116,26 +237,12 @@
                                 <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}"/>
                             </DataGrid.CellStyle>
                             <DataGrid.RowHeaderStyle>
-                                <Style TargetType="DataGridRowHeader">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Width" Value="0"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                        BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
-                                                        SnapsToDevicePixels="True">         
-                                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
+                                <Style TargetType="DataGridRowHeader" BasedOn="{StaticResource DataGridRowHeaderStyle}"/>
                             </DataGrid.RowHeaderStyle>
                             <DataGrid.RowDetailsTemplate>
                                 <DataTemplate>
                                     <DataGrid ItemsSource="{Binding ScoredResultRows}" AutoGenerateColumns="False" VerticalAlignment="Stretch" 
-                                              Background="Transparent" RowBackground="Transparent"
+                                              Background="Transparent" RowBackground="#FFFAE4"
                                               TextElement.FontSize="{StaticResource Global.FontSizeSmall}"
                                               BorderBrush="Black" BorderThickness="1"
                                               PreviewMouseWheel="DataGrid_PreviewMouseWheel"
@@ -290,6 +397,105 @@
                                                     <TextBlock Text="Total Pts." TextWrapping="Wrap"/>
                                                 </DataGridTextColumn.Header>
                                             </DataGridTextColumn>
+
+                                            <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
+                                                          DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
+                                                          Margin="0" Height="25">
+                                                                <ComboBox.Style>
+                                                                    <Style TargetType="ComboBox">
+                                                                        <Setter Property="IsReadOnly" Value="True"/>
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
+                                                                                <Setter Property="IsReadOnly" Value="False"/>
+                                                                                <Setter Property="IsEnabled" Value="True"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </ComboBox.Style>
+                                                                <ComboBox.Items>
+                                                                    <ComboBoxItem>0</ComboBoxItem>
+                                                                    <ComboBoxItem>1</ComboBoxItem>
+                                                                    <ComboBoxItem>2</ComboBoxItem>
+                                                                    <ComboBoxItem>3</ComboBoxItem>
+                                                                    <ComboBoxItem>4</ComboBoxItem>
+                                                                    <ComboBoxItem>5</ComboBoxItem>
+                                                                    <ComboBoxItem>6</ComboBoxItem>
+                                                                    <ComboBoxItem>7</ComboBoxItem>
+                                                                    <ComboBoxItem>8</ComboBoxItem>
+                                                                    <ComboBoxItem>9</ComboBoxItem>
+                                                                    <ComboBoxItem>10</ComboBoxItem>
+                                                                </ComboBox.Items>
+                                                            </ComboBox>
+                                                            <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5">
+                                                                <controls:IconButton.Style>
+                                                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                        <Setter Property="Command" Value="{Binding EndEditPenaltyCmd}"/>
+                                                                        <Setter Property="IconFill" Value="Green"/>
+                                                                        <!--<Setter Property="IconContent" Value="{StaticResource checkBold}"/>-->
+                                                                        <Setter Property="IconContent">
+                                                                            <Setter.Value>
+                                                                                <Viewbox>
+                                                                                    <ContentControl Content="{DynamicResource checkBold}"/>
+                                                                                </Viewbox>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="False">
+                                                                                <Setter Property="Command" Value="{Binding StartEditPenaltyCmd}"/>
+                                                                                <Setter Property="IconFill" Value="Black" />
+                                                                                <!--<Setter Property="IconContent" Value="{StaticResource pencilOutline}"/>-->
+                                                                                <Setter Property="IconContent">
+                                                                                    <Setter.Value>
+                                                                                        <Viewbox>
+                                                                                            <ContentControl Content="{DynamicResource pencilOutline}"/>
+                                                                                        </Viewbox>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                                <Setter Property="Command" Value="{Binding AddPenaltyCmd}"/>
+                                                                                <Setter Property="IconFill" Value="Black"/>
+                                                                                <!--<Setter Property="IconContent" Value="{StaticResource PencilPlusOutline}"/>-->
+                                                                                <Setter Property="IconContent">
+                                                                                    <Setter.Value>
+                                                                                        <Viewbox>
+                                                                                            <ContentControl Content="{DynamicResource PencilPlusOutline}"/>
+                                                                                        </Viewbox>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </controls:IconButton.Style>
+                                                            </controls:IconButton>
+                                                            <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5"
+                                                    Command="{Binding DeletePenaltyCmd}"
+                                                    IconContent="{DynamicResource closeThick}">
+                                                                <controls:IconButton.Style>
+                                                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                        <Setter Property="IconFill" Value="Red"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </controls:IconButton.Style>
+                                                            </controls:IconButton>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
                                             <!--<DataGridTemplateColumn Width="30" MinWidth="30">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -315,27 +521,7 @@
                                 </DataTemplate>
                             </DataGrid.RowDetailsTemplate>
                             <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Padding" Value="5"/>
-                                    <Setter Property="TextElement.FontWeight" Value="Bold"/>
-                                    <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
-                                    <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
-                                    <Setter Property="BorderBrush" Value="Black"/>
-                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
-                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                    <Setter Property="Height" Value="Auto"/>
-                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <!--<Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>-->
-                                </Style>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}"/>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="45" 
@@ -465,6 +651,13 @@
                                         <TextBlock Text="Total Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="---" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <!--<DataGridTemplateColumn Width="30" MinWidth="30">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -794,44 +987,6 @@
                     </DataTemplate>
                 </TabControl.Resources>
             </TabControl>
-            <!--<Border VerticalAlignment="Top" x:Name="top_dropshadow" Margin="-10,-12,15,0" BorderBrush="Black" BorderThickness="0,5"
-                        Background="Transparent">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Setter Property="Border.Effect">
-                            <Setter.Value>
-                                <DropShadowEffect ShadowDepth="5" BlurRadius="10" Color="Black" Direction="270"/>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=verticalContentScroll, Path=VerticalOffset}" Value="0">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-            </Border>
-            <Border VerticalAlignment="Bottom" x:Name="bottom_dropshadow" Margin="-10,0,15,-12" BorderBrush="Black" BorderThickness="0,5"
-                        Background="Transparent">
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="5" BlurRadius="10" Color="Black" Direction="90"/>
-                </Border.Effect>
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Value="True">
-                                <DataTrigger.Binding>
-                                    <MultiBinding Converter="{StaticResource MultiValueEqualsConverter}">
-                                        <Binding Path="VerticalOffset" ElementName="verticalContentScroll"/>
-                                        <Binding Path="ScrollableHeight" ElementName="verticalContentScroll"/>
-                                    </MultiBinding>
-                                </DataTrigger.Binding>
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-            </Border>-->
             <controls:IconButton Content="Calculate" IconContent="{StaticResource CogRefresh}" Command="{Binding CalculateResultsCmd}"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
                                     Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"

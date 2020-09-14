@@ -69,7 +69,9 @@ namespace iRLeagueDatabase.DataTransfer
         KnownType(typeof(StandingsDataDTO)),
         KnownType(typeof(StandingsRowDataDTO)),
         KnownType(typeof(AddPenaltyDTO)),
-        KnownType(typeof(TeamDataDTO))]
+        KnownType(typeof(TeamDataDTO)),
+        KnownType(typeof(TeamStandingsDataDTO)),
+        KnownType(typeof(TeamStandingsRowDataDTO))]
     public abstract class MappableDTO : IMappableDTO
     {
         public bool IsReadOnly { get; set; }

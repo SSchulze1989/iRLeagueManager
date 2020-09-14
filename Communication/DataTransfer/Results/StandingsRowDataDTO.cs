@@ -46,5 +46,6 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int Incidents { get; set; }
         public int IncidentsChange { get; set; }
         public int PositionChange { get; set; }
+        public ScoredResultRowDataDTO[] CountedResults { get; set; }
     }
 }

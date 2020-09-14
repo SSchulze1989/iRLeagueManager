@@ -9,6 +9,7 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Attributes;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Models.Members;
+using iRLeagueManager.Locations;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -93,6 +94,9 @@ namespace iRLeagueManager.Models.Results
 
         private LapTime fastestLapTime;
         public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
+
+        private Location location;
+        public Location Location { get => location; set => SetValue(ref location, value); }
 
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 

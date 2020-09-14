@@ -35,7 +35,7 @@ namespace iRLeagueManager.Data
 
         //public DbLeagueServiceClient DbContext { get; }
         public IModelDatabase ModelDatabase { get; }
-
+        public LocationCollection Locations { get; } = new LocationCollection();
         public IModelDataAndActionProvider ModelContext { get; }
 
         public IModelManager ModelManager { get; }

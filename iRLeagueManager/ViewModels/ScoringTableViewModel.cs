@@ -25,6 +25,8 @@ namespace iRLeagueManager.ViewModels
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
         public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> Scorings => Model.Scorings;
         public ObservableCollection<SessionInfo> Sessions => Model.Sessions;
+        public DropRacesOption DropRacesOption { get => Model.DropRacesOption; set => Model.DropRacesOption = value; }
+        public int ResultsPerRaceCount { get => Model.ResultsPerRaceCount; set => Model.ResultsPerRaceCount = value; }
 
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList
@@ -60,19 +62,17 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        private StandingsViewModel standings = new StandingsViewModel();
-        public StandingsViewModel Standings
-        {
-            get
-            {
-                if (standings == null)
-                    standings = new StandingsViewModel();
-
-                //_ = standings.Load(ScoringId.GetValueOrDefault(), SessionSelect.SelectedSession.SessionId);
-                //_ = LoadStandings();
-                return standings;
-            }
-        }
+        //private StandingsViewModel standings;
+        //public StandingsViewModel Standings
+        //{
+        //    get
+        //    {
+        //        if (standings == null)
+        //            standings = new StandingsViewModel();
+        //        return standings;
+        //    }
+        //}
+        public StandingsViewModel Standings { get; } = new StandingsViewModel();
 
         private SeasonViewModel season;
         public SeasonViewModel Season { get => season; set => SetValue(ref season, value); }
@@ -178,10 +178,10 @@ namespace iRLeagueManager.ViewModels
                     if (SessionSelect.FilteredSessions.Contains(SessionSelect.SelectedSession) == false)
                         SessionSelect.SelectedSession = SessionSelect.FilteredSessions.LastOrDefault();
 
-                    await standings.Load(ScoringTableId, SessionSelect.SelectedSession.SessionId);
+                    await Standings.Load(ScoringTableId, SessionSelect.SelectedSession.SessionId);
                 }
                 else
-                    await standings.Load(ScoringTableId, 0);
+                    await Standings.Load(ScoringTableId, 0);
             }
             catch (Exception e)
             {

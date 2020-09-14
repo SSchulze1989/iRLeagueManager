@@ -15,6 +15,10 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public ScoringKindEnum ScoringKind { get; set; }
         [DataMember]
+        public DropRacesOption DropRacesOption { get; set; }
+        [DataMember]
+        public int ResultsPerRaceCount { get; set; }
+        [DataMember]
         public int DropWeeks { get; set; }
         [DataMember]
         public int AverageRaceNr { get; set; }

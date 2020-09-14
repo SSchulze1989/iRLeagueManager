@@ -118,6 +118,7 @@
     <Compile Include="Controls\ExtendScrollviewer.cs" />
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\IconToggleButton.cs" />
+    <Compile Include="Controls\StandingsTemplateSelector.cs" />
     <Compile Include="Controls\WatermarkAdorner.cs" />
     <Compile Include="Controls\WatermarkService.cs" />
     <Compile Include="Controls\WatermarkTextBox.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Converters\LapIntervalStringConverter.cs" />
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
     <Compile Include="Converters\MultiValueEqualsConverter.cs" />
+    <Compile Include="Converters\NotNullConverter.cs" />
     <Compile Include="Converters\RequiredSourceValueConverter.cs" />
     <Compile Include="Converters\ToUpperConverter.cs" />
     <Compile Include="Converters\UniversalColorConverter.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultRowViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultViewModel.cs" />
+    <Compile Include="ViewModels\ScoredTeamResultRowViewModel.cs" />
     <Compile Include="ViewModels\ScoredTeamResultViewModel.cs" />
     <Compile Include="ViewModels\ScoringTableViewModel.cs" />
     <Compile Include="ViewModels\ScoringViewModel.cs" />

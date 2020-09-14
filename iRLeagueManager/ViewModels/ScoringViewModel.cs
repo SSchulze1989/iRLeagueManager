@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
 
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
@@ -35,6 +36,19 @@ namespace iRLeagueManager.ViewModels
         public bool IsMultiScoring { get => Model.IsMultiScoring; set => Model.IsMultiScoring = value; }
         public int MaxResultsPerGroup { get => Model.MaxResultsPerGroup; set => Model.MaxResultsPerGroup = value; }
         public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
+        public ScoringInfo ExtScoringSource { get => Model.ExtScoringSource; set => Model.ExtScoringSource = value; }
+        public bool TakeResultsFromExtSource { get => Model.TakeResultsFromExtSource; set => Model.TakeResultsFromExtSource = value; }
+
+        private CollectionViewSource scoringListSource;
+        public ICollectionView ScoringList
+        {
+            get
+            {
+                var view = scoringListSource.View;
+                view.Filter = x => ((ScoringModel)x).ScoringId != this.ScoringId;
+                return view;
+            }
+        }
 
         private SessionSelectViewModel sessionSelect;
         public SessionSelectViewModel SessionSelect
@@ -136,6 +150,15 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        public void SetScoringsList(IEnumerable<ScoringModel> scoringList)
+        {
+            scoringListSource = new CollectionViewSource()
+            {
+                Source = scoringList
+            };
+            ScoringList.Refresh();
         }
 
         protected override void Dispose(bool disposing)

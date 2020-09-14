@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Data;
+using System.ComponentModel;
 
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
@@ -46,7 +48,7 @@ namespace iRLeagueManager.ViewModels
 
         public SettingsPageViewModel() : base()
         {
-            scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
+            scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(Scorings.GetSource()));
             scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(Scorings));
             Season = new SeasonViewModel(SeasonModel.GetTemplate());
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);

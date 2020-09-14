@@ -82,7 +82,8 @@
     <Compile Include="DataTransfer\Results\StandardScoringRuleDTO.cs" />
     <Compile Include="DataTransfer\Results\StandingsDataDTO.cs" />
     <Compile Include="DataTransfer\Results\StandingsRowDataDTO.cs" />
-    <Compile Include="DataTransfer\Results\StandingsRowDTO.cs" />
+    <Compile Include="DataTransfer\Results\TeamStandingsDataDTO.cs" />
+    <Compile Include="DataTransfer\Results\TeamStandingsRowDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentInfoDTO.cs" />
     <Compile Include="DataTransfer\Reviews\IncidentReviewDataDTO.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Enums\AdminRights.cs" />
     <Compile Include="Enums\DatabaseStatusEnum.cs" />
     <Compile Include="Enums\ConnectionStatusEnum.cs" />
+    <Compile Include="Enums\DropRacesOption.cs" />
     <Compile Include="Enums\RaceStatusEnum.cs" />
     <Compile Include="Enums\SaveSelect.cs" />
     <Compile Include="Enums\ScoringKindEnum.cs" />

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -105,5 +106,8 @@ namespace iRLeagueManager.Models.Results
 
         private int positionChange;
         public int PositionChange { get => positionChange; internal set => SetValue(ref positionChange, value); }
+
+        private ObservableCollection<ScoredResultRowModel> countedResults;
+        public ObservableCollection<ScoredResultRowModel> CountedResults { get => countedResults; set => SetValue(ref countedResults, value); }
     }
 }

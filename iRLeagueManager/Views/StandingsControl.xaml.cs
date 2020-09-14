@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using iRLeagueManager.Controls;
+
 namespace iRLeagueManager.Views
 {
     /// <summary>
@@ -23,6 +25,32 @@ namespace iRLeagueManager.Views
         public StandingsControl()
         {
             InitializeComponent();
+        }
+
+        private void ShowDetailToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is IconToggleButton button)
+            {
+                //Find parent DataGridRow
+                DependencyObject findRow = button;
+                while (findRow != null && findRow.GetType().Equals(typeof(DataGridRow)) == false)
+                {
+                    findRow = VisualTreeHelper.GetParent(findRow);
+                }
+
+                if (findRow is DataGridRow dataGridRow)
+                {
+                    switch (button.IsChecked)
+                    {
+                        case true:
+                            dataGridRow.DetailsVisibility = Visibility.Visible;
+                            break;
+                        case false:
+                            dataGridRow.DetailsVisibility = Visibility.Collapsed;
+                            break;
+                    }
+                }
+            }
         }
     }
 }

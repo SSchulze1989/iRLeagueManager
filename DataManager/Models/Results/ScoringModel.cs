@@ -30,6 +30,12 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }
 
+        private ScoringInfo extScoringSource;
+        public ScoringInfo ExtScoringSource { get => extScoringSource; set => SetValue(ref extScoringSource, value); }
+
+        private bool takeResultsFromExtSource;
+        public bool TakeResultsFromExtSource { get => takeResultsFromExtSource; set => SetValue(ref takeResultsFromExtSource, value); }
+
         //private ObservableCollection<ResultInfo> results;
         //public ObservableCollection<ResultInfo> Results { get => results; set => SetNotifyCollection(ref results, value); }
 

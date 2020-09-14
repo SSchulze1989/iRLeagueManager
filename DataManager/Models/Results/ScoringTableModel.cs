@@ -19,6 +19,12 @@ namespace iRLeagueManager.Models.Results
         private ScoringKindEnum scoringKind;
         public ScoringKindEnum ScoringKind { get => scoringKind; set => SetValue(ref scoringKind, value); }
 
+        private DropRacesOption dropRacesOption;
+        public DropRacesOption DropRacesOption { get => dropRacesOption; set => SetValue(ref dropRacesOption, value); }
+
+        private int resultsPerRaceCount;
+        public int ResultsPerRaceCount { get => resultsPerRaceCount; set => SetValue(ref resultsPerRaceCount, value); }
+
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }
 

@@ -22,6 +22,13 @@
                 <x:Type TypeName="enum:ScoringKindEnum"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}"
+                        x:Key="DropRacesOptionsValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:DropRacesOption"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     
     <Grid>
@@ -118,20 +125,40 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Results per Race:" Margin="5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MaxResultsPerGroup}" Margin="5"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Take gropu average:" Margin="5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TakeGroupAverage}" Margin="5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Results from other Scoring" Margin="5"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding TakeResultsFromExtSource}" Margin="5"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Results Source:" Margin="5"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ScoringList}" SelectedItem="{Binding ExtScoringSource}" Margin="5"
+                                      DisplayMemberPath="Name">
+                                <ComboBox.Style>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TakeResultsFromExtSource}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.Style>
+                            </ComboBox>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Results per Race:" Margin="5"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MaxResultsPerGroup}" Margin="5"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Take gropu average:" Margin="5"/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding TakeGroupAverage}" Margin="5"/>
                             <Grid.Style>
                                 <Style TargetType="Grid">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" Value="Visible"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ScoringKind}">
                                             <DataTrigger.Value>
@@ -218,9 +245,59 @@
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
                         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
 
-                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Scorings:" Margin="5,15,5,0"/>
+                        <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Drop race option:" Margin="5"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource DropRacesOptionsValues}}" SelectedItem="{Binding DropRacesOption}" Margin="5"/>
 
-                        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6">
+                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="Count results per Race" Margin="5"/>
+                                <TextBox Grid.Column="1" Text="{Binding ResultsPerRaceCount}" Margin="5"/>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DropRacesOption}">
+                                                <DataTrigger.Value>
+                                                    <enum:DropRacesOption>PerDriverResults</enum:DropRacesOption>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ScoringKind}">
+                                            <DataTrigger.Value>
+                                                <enum:ScoringKindEnum>Team</enum:ScoringKindEnum>
+                                            </DataTrigger.Value>
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Scorings:" Margin="5,15,5,0"/>
+
+                        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>

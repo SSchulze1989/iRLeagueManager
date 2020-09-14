@@ -13,6 +13,7 @@ namespace iRLeagueManager.Models
         T PutOrGetModel<T>(T model) where T : class, TModel;
         void PutModel<T>(T model) where T : class, TModel;
         void PutModel<T>(ref T model) where T : class, TModel;
+        void RemoveReference<T>(TKey[] modelId) where T : class, TModel;
     }
 
     public interface IModelCache : IModelCache<ICacheableModel, object> { }

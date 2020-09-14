@@ -22,6 +22,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public ScoringKindEnum ScoringKind { get; set; }
         [DataMember]
+        public DropRacesOption DropRacesOption { get; set; }
+        [DataMember]
         public int DropWeeks { get; set; }
         [DataMember]
         public int AverageRaceNr { get; set; }
@@ -49,6 +51,10 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public LeagueMemberInfoDTO LastModifiedBy { get; set; }
         [DataMember]
         public ScheduleInfoDTO ConnectedSchedule { get; set; }
+        [DataMember]
+        public ScoringInfoDTO ExtScoringSource { get; set; }
+        [DataMember]
+        public bool TakeResultsFromExtSource { get; set; }
 
         public ScoringDataDTO() { }
     }
