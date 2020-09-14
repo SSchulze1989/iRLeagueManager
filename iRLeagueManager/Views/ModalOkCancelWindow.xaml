@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iRLeagueManager.Views"
         mc:Ignorable="d"
-        Title="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.Header), FallbackValue=Modal Control}" Height="Auto" Width="Auto">
+        Title="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.Header), FallbackValue='Modal Control'}" Height="Auto" Width="Auto"
+        FontFamily="{StaticResource Global.FontFamily}"
+        FontSize="{StaticResource Global.FontSizeMedium}">
 
     <Grid>
         <Grid.RowDefinitions>

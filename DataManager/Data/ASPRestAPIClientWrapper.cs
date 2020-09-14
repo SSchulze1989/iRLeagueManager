@@ -6,17 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
+using System.Runtime.Serialization;
 
 //using iRLeagueDatabase.DataTransfer.Messages;
 
 namespace iRLeagueManager.Data
 {
-    public class ASPRestAPIClientWrapper : NotifyPropertyChangedBase, IModelDatabase, IModelDataAndActionProvider, IModelDataProvider, IActionProvider, IDisposable
+    public class ASPRestAPIClientWrapper : NotifyPropertyChangedBase, IModelDatabase, IModelDataAndActionProvider, IModelDataProvider, IActionProvider, ILeagueDataProvider, IDisposable
     {
         public Uri BaseUri { get; }
         private bool disposedValue;
@@ -255,6 +257,29 @@ namespace iRLeagueManager.Data
         public void RemoveDatabaseStatusListener(IDatabaseStatus listener)
         {
             DatabaseStatusService.RemoveStatusItem(listener);
+        }
+
+        public async Task<bool> CheckLeagueExists(string leagueName)
+        {
+            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague?leagueName={leagueName}";
+
+            using (var client = CreateClient())
+            {
+                var request = await client.GetAsync(requestString);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else if (request.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UserNotAuthorizedException("User not authorized for this League");
+                }
+                else
+                {
+                    throw new LeagueNotFoundException($"League {leagueName} not found in database");
+                }
+            }
         }
     }
 }
