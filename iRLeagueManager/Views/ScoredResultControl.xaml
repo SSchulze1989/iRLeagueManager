@@ -133,6 +133,33 @@
                 </controls:IconButton>
             </StackPanel>
         </DataTemplate>
+        <Style TargetType="DataGridRowHeader" x:Key="DataGridRowHeaderStyle">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Width" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                        BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                                        SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderStyle">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="TextElement.FontWeight" Value="Bold"/>
+            <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
+            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0,0,1,2"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
     
     <Grid ClipToBounds="True" Margin="0">
@@ -210,21 +237,7 @@
                                 <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}"/>
                             </DataGrid.CellStyle>
                             <DataGrid.RowHeaderStyle>
-                                <Style TargetType="DataGridRowHeader">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Width" Value="0"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" 
-                                                        BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
-                                                        SnapsToDevicePixels="True">
-                                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
+                                <Style TargetType="DataGridRowHeader" BasedOn="{StaticResource DataGridRowHeaderStyle}"/>
                             </DataGrid.RowHeaderStyle>
                             <DataGrid.RowDetailsTemplate>
                                 <DataTemplate>
@@ -508,27 +521,7 @@
                                 </DataTemplate>
                             </DataGrid.RowDetailsTemplate>
                             <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Padding" Value="5"/>
-                                    <Setter Property="TextElement.FontWeight" Value="Bold"/>
-                                    <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeMedium}"/>
-                                    <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
-                                    <Setter Property="BorderBrush" Value="Black"/>
-                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
-                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
-                                    <Setter Property="Height" Value="Auto"/>
-                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <!--<Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>-->
-                                </Style>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}"/>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="45" 
