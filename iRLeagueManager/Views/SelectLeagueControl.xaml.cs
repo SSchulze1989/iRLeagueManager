@@ -16,14 +16,19 @@ using System.Net.Http;
 
 using iRLeagueManager.Data;
 using iRLeagueManager.ViewModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.Views
 {
     /// <summary>
     /// Interaktionslogik für SelectLeagueControl.xaml
     /// </summary>
-    public partial class SelectLeagueControl : UserControl, IModalContent
+    public partial class SelectLeagueControl : UserControl, IModalContent, INotifyPropertyChanged
     {
+        private bool isLoading;
+        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(); } }
+
         public SelectLeagueControl()
         {
             InitializeComponent();
@@ -35,11 +40,35 @@ namespace iRLeagueManager.Views
 
         public string CancelText => "Cancel";
 
-        public bool IsLoading = false;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public async void OnLoad()
+        {
+            try
+            {
+                IsLoading = true;
+                var leagueNames = await GlobalSettings.LeagueContext.LeagueDataProvider.GetLeagueNames();
+                LeagueNameComboBox.ItemsSource = leagueNames;
+                LeagueNameComboBox.SelectedItem = leagueNames.LastOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
 
         public bool CanSubmit()
         {
-            return LeagueNameTextBox.Text != "";
+            return LeagueNameComboBox.Text != "";
         }
 
         public void OnCancel()
@@ -51,9 +80,9 @@ namespace iRLeagueManager.Views
             try
             {
                 IsLoading = true;
-                var leagueName = LeagueNameTextBox.Text;
+                var leagueName = LeagueNameComboBox.Text;
                 var exists = await GlobalSettings.LeagueContext.LeagueDataProvider.CheckLeagueExists(leagueName);
-                GlobalSettings.LeagueContext.LeagueName = leagueName;
+                GlobalSettings.LeagueContext.SetLeagueName(leagueName);
                 return exists;
             }
             catch (Exception e)

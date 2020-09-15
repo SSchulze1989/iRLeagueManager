@@ -19,11 +19,25 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class ModalOkCancelWindow : Window
     {
-        public new WindowStartupLocation WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        private bool isRendered;
 
         public ModalOkCancelWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+        }
+
+        protected override void OnContentRendered(EventArgs e)
+        {
+            base.OnContentRendered(e);
+
+            if (isRendered)
+                return;
+
+            if (ModalContent.Content is IModalContent modalContent)
+                modalContent.OnLoad();
+
+            isRendered = true;
         }
 
         private async void OkButton_Click(object sender, RoutedEventArgs e)

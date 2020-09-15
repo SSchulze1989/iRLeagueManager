@@ -8,6 +8,15 @@ namespace iRLeagueManager.Data
 {
     public interface ILeagueDataProvider 
     {
+        string LeagueName { get; set; }
+
+        /// <summary>
+        /// Get league names from service
+        /// </summary>
+        /// <returns>Array of league names</returns>
+        /// <exception cref="UserNotAuthorizedException">User is not authorized to access service</exception>
+        Task<IEnumerable<string>> GetLeagueNames();
+
         /// <summary>
         /// Check if league exists in the database and if the current user has access to it.
         /// </summary>

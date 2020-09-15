@@ -53,7 +53,7 @@ namespace iRLeagueManager.Data
 
         public LocationCollection LocationCollection { get; } = new LocationCollection();
 
-        public string LeagueName { get; set; } = "TestDatabase";
+        public string LeagueName { get; private set; } = "TestDatabase";
 
         //private ObservableCollection<SessionBase> sessions;
         //public ReadOnlyObservableCollection<SessionBase> Sessions => new ReadOnlyObservableCollection<SessionBase>(sessions);
@@ -106,6 +106,12 @@ namespace iRLeagueManager.Data
         public async Task<IEnumerable<SeasonModel>> GetSeasonListAsync()
         {
             return await GetModelsAsync<SeasonModel>();
+        }
+
+        public void SetLeagueName(string leagueName)
+        {
+            LeagueName = leagueName;
+            ModelDatabase.LeagueName = leagueName;
         }
 
         public async Task UpdateMemberList()

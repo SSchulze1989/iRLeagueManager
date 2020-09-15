@@ -25,7 +25,7 @@ namespace iRLeagueManager.Data
 
         public IDatabaseStatusService DatabaseStatusService;
 
-        public string DatabaseName { get; set; }
+        public string LeagueName { get; set; }
 
         public string ModelController { get; set; } = "Model";
         public string ActionController { get; set; } = "Action";
@@ -47,7 +47,7 @@ namespace iRLeagueManager.Data
         public ASPRestAPIClientWrapper(Uri baseUri, string databaseName)
         {
             this.BaseUri = baseUri;
-            DatabaseName = databaseName;
+            LeagueName = databaseName;
             userCredentials = new NetworkCredential("TestUser", "testuser");
         }
 
@@ -94,7 +94,7 @@ namespace iRLeagueManager.Data
             if (requestType != null)
                 requestTypeString = "requestType=" + requestType;
 
-            var databaseNameString = "leagueName=" + DatabaseName;
+            var databaseNameString = "leagueName=" + LeagueName;
 
             return new Uri(absoluteUri + "?" + 
                 ((requestIdString != "") ? requestIdString + "&" : "") + 
@@ -261,7 +261,7 @@ namespace iRLeagueManager.Data
 
         public async Task<bool> CheckLeagueExists(string leagueName)
         {
-            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague?leagueName={leagueName}";
+            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague?id={leagueName}";
 
             using (var client = CreateClient())
             {
@@ -280,6 +280,27 @@ namespace iRLeagueManager.Data
                     throw new LeagueNotFoundException($"League {leagueName} not found in database");
                 }
             }
+        }
+
+        public async Task<IEnumerable<string>> GetLeagueNames()
+        {
+            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague";
+
+            using (var client = CreateClient())
+            {
+                var request = await client.GetAsync(requestString);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    var leagueNames = await request.Content.ReadAsAsync<string[]>();
+                    return leagueNames;
+                }
+                else if (request.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UserNotAuthorizedException("User not authorized for the service");
+                }
+            }
+            return null;
         }
     }
 }
