@@ -63,6 +63,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int PositionChange { get; set; }
         [DataMember]
         public string LocationId { get; set; }
+        [DataMember]
+        public DateTime Date { get; set; }
 
         public override object MappingId => ResultRowId;
 

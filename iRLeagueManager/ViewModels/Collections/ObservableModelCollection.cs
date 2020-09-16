@@ -11,12 +11,17 @@ using System.Runtime.CompilerServices;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.ViewModels;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows.Data;
+using System.Globalization;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
     public class ObservableModelCollection<TModel, TSource> : ReadOnlyObservableCollection<TModel>, IDisposable where TModel : class, IContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
     {
-        private bool NotifyCollectionActv { get; set; }
+        private bool NotifyCollectionActive { get; set; }
+
+        public ICollectionView CollectionView { get; }
 
         private ObservableCollection<TModel> TargetCollection { get; }
 
@@ -51,8 +56,9 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(bool updateItemSources = true) : base(new ObservableCollection<TModel>())
         {
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             TargetCollection = Items as ObservableCollection<TModel>;
+            CollectionView = CollectionViewSource.GetDefaultView(TargetCollection);
             _collectionSource = new TSource[0];
             AutoUpdateItemsSources = updateItemSources;
         }
@@ -65,7 +71,7 @@ namespace iRLeagueManager.ViewModels.Collections
         public ObservableModelCollection(IEnumerable<TSource> collection, bool updateItemSources = true) : this(updateItemSources)
         {
             //_collectionSource = collection != null ? collection : new TSource[0];
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             UpdateSource(collection);
             AutoUpdateItemsSources = updateItemSources;
             if (collection.Count() > 0)
@@ -74,7 +80,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
         {
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             _constructorAction = constructorAction;
             //_collectionSource = new TSource[0];
             UpdateSource(new TSource[0]);
@@ -88,7 +94,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(IEnumerable<TSource> collection, Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
         {
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             _constructorAction = constructorAction;
             //_collectionSource = collection != null ? collection : new TSource[0];
             UpdateSource(collection);
@@ -98,7 +104,7 @@ namespace iRLeagueManager.ViewModels.Collections
         }
 
         ~ObservableModelCollection() {
-            NotifyCollectionActv = false;
+            NotifyCollectionActive = false;
             Dispose(false);
         }
 
@@ -138,7 +144,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         private void OnSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (NotifyCollectionActv && !disposedValue)
+            if (NotifyCollectionActive && !disposedValue)
                 UpdateCollection();
         }
 
@@ -190,6 +196,7 @@ namespace iRLeagueManager.ViewModels.Collections
                 TargetCollection.Remove(item);
             }
 
+            CollectionView.Refresh();
 
             //IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
             //IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
@@ -263,7 +270,7 @@ namespace iRLeagueManager.ViewModels.Collections
                     // TODO: verwalteten Zustand (verwaltete Objekte) entsorgen.
                 }
 
-                NotifyCollectionActv = false;
+                NotifyCollectionActive = false;
                 for (int i=0; i<Items.Count(); i++)
                 {
                     var item = TargetCollection.ElementAt(i);

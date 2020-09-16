@@ -13,22 +13,24 @@
         <vmodel:ReviewCommentViewModel x:Name="ViewModel"/>
     </UserControl.DataContext>
 
-    <Grid Margin="10" x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Row="0" Text="Edit Comment Text:" FontSize="18" FontWeight="Bold" Margin="5"/>
-        <TextBox Grid.Row="1" FontSize="16" Text="{Binding Text}" Height="150" Padding="2" Margin="5" AcceptsReturn="True" AcceptsTab="True"/>
+    <Grid MinWidth="200" HorizontalAlignment="Stretch">
+        <Border Width="500" Visibility="Hidden"/>
+        <Grid Margin="10" x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="2" Text="Review Votes:" FontSize="18" FontWeight="Bold" Margin="5"/>
-        <!--<ListBox ItemsSource="{Binding Votes}" Grid.Row="4">
+            <TextBlock Grid.Row="0" Text="Edit Comment Text:" FontSize="18" FontWeight="Bold" Margin="5"/>
+            <TextBox Grid.Row="1" FontSize="16" Text="{Binding Text}" Height="150" Padding="2" Margin="5" AcceptsReturn="True" AcceptsTab="True"/>
+
+            <TextBlock Grid.Row="2" Text="Review Votes:" FontSize="18" FontWeight="Bold" Margin="5"/>
+            <!--<ListBox ItemsSource="{Binding Votes}" Grid.Row="4">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -38,34 +40,35 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>-->
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            
-            <DataGrid x:Name="VoteGrid" Grid.Column="0" Height="150" ItemsSource="{Binding Votes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Vote" MinWidth="80">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteEnums}" SelectedItem="{Binding Vote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="5,2"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Member" MinWidth="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.Review.InvolvedMembers}" SelectedItem="{Binding MemberAtFault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,2"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
-                <Button Content="Add" Command="{Binding AddVoteCmd}" Margin="0,0,0,5" Padding="2"/>
-                <Button Content="Remove" Command="{Binding DeleteVoteCmd}" CommandParameter="{Binding ElementName=VoteGrid, Path=SelectedItem}" Margin="0,0,0,5" Padding="2"/>
-            </StackPanel>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <DataGrid x:Name="VoteGrid" Grid.Column="0" Height="150" ItemsSource="{Binding Votes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Vote" MinWidth="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteEnums}" SelectedItem="{Binding Vote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="5,2"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Member" MinWidth="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.Review.InvolvedMembers}" SelectedItem="{Binding MemberAtFault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,2"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
+                    <Button Content="Add" Command="{Binding AddVoteCmd}" Margin="0,0,0,5" Padding="2"/>
+                    <Button Content="Remove" Command="{Binding DeleteVoteCmd}" CommandParameter="{Binding ElementName=VoteGrid, Path=SelectedItem}" Margin="0,0,0,5" Padding="2"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

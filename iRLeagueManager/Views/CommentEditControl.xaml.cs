@@ -18,11 +18,37 @@ namespace iRLeagueManager.Views
     /// <summary>
     /// Interaktionslogik für CommentEditControl.xaml
     /// </summary>
-    public partial class CommentEditControl : UserControl
+    public partial class CommentEditControl : UserControl, IModalContent
     {
         public CommentEditControl()
         {
             InitializeComponent();
+        }
+
+        public string Header { get; set; } = "Edit Comment";
+
+        public string SubmitText { get; set; } = "Edit";
+
+        public string CancelText { get; set; } = "Cancel";
+
+        public bool IsLoading => false;
+
+        public bool CanSubmit()
+        {
+            return true;
+        }
+
+        public void OnCancel()
+        {
+        }
+
+        public void OnLoad()
+        {
+        }
+
+        public async Task<bool> OnSubmitAsync()
+        {
+            return true;
         }
     }
 }

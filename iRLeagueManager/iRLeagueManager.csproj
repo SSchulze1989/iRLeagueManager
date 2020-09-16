@@ -177,7 +177,6 @@
     <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
-    <Compile Include="ViewModels\StandingsRowViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
     <Compile Include="ViewModels\TeamsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />

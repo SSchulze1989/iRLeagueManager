@@ -27,7 +27,7 @@
 
     <Grid>
         <Rectangle Fill="Black" Opacity="0.1"/>
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MaxWidth="800" Margin="15">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="200" MaxWidth="800" Margin="15" Width="Auto">
             <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="25" BorderThickness="1"
                     Background="White" Effect="{StaticResource borderDropShadow}"/>
             <Border BorderBrush="DarkGray" BorderThickness="1" Background="White" CornerRadius="25">

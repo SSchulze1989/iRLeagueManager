@@ -287,27 +287,6 @@
                         <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
                     </controls:IconButton.Effect>
                 </controls:IconButton>
-                <!--<controls:IconButton Content="Save" IconContent="{StaticResource PlusThick}" Command="{Binding SelectedTeam.SaveChangesCmd}"
-                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
-                                 Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
-                                 IconFill="{StaticResource ThemeColor_Green}" IconStrokeThickness="0" 
-                                 Foreground="{StaticResource ThemeColor_Green}"
-                                 Height="Auto" Width="Auto"
-                                 Margin="5,2,5,2" ToolTip="Save changes">
-                    <controls:IconButton.Effect>
-                        <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
-                    </controls:IconButton.Effect>
-                    <controls:IconButton.Style>
-                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </controls:IconButton.Style>
-                </controls:IconButton>-->
             </StackPanel>
         </Grid>
         <local:ModalOkCancelControl Grid.Row="1" Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

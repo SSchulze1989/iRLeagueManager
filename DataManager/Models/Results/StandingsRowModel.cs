@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class StandingsRowModel : ModelBase
+    public class StandingsRowModel : MappableModel
     {
         //private ScoringInfo scoring;
         //public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
@@ -107,7 +107,9 @@ namespace iRLeagueManager.Models.Results
         private int positionChange;
         public int PositionChange { get => positionChange; internal set => SetValue(ref positionChange, value); }
 
-        private ObservableCollection<ScoredResultRowModel> countedResults;
-        public ObservableCollection<ScoredResultRowModel> CountedResults { get => countedResults; set => SetValue(ref countedResults, value); }
+        private IEnumerable<ScoredResultRowModel> countedResults;
+        public IEnumerable<ScoredResultRowModel> CountedResults { get => countedResults.OrderBy(x => x.Date); set => SetValue(ref countedResults, value); }
+
+        public override long[] ModelId => Member.ModelId;
     }
 }

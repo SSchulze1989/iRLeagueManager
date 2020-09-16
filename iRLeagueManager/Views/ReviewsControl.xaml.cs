@@ -70,12 +70,14 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 500;
-                editWindow.Height = 600;
+                //var editWindow = new ModalOkCancelWindow();
+                //editWindow.Width = 500;
+                //editWindow.Height = 600;
+                var editWindow = EditPanel;
                 var content = new ReviewCommentEditControl();
 
-                editWindow.Title = "New Comment";
+                content.Header = "Add new Comment";
+                content.SubmitText = "Add";
 
                 IncidentReviewViewModel reviewVM = null;
                 if (content.DataContext is ReviewCommentViewModel editVM)
@@ -112,12 +114,11 @@ namespace iRLeagueManager.Views
             {
                 if (button.DataContext is ReviewCommentViewModel reviewComment)
                 {
-                    var editWindow = new ModalOkCancelWindow();
-                    editWindow.Width = 500;
-                    editWindow.Height = 600;
+                    //var editWindow = new ModalOkCancelWindow();
+                    //editWindow.Width = 500;
+                    //editWindow.Height = 600;
+                    var editWindow = EditPanel;
                     var content = new ReviewCommentEditControl();
-
-                    editWindow.Title = "Edit Comment";
 
                     if (content.DataContext is ReviewCommentViewModel editVM)
                     {
@@ -137,12 +138,11 @@ namespace iRLeagueManager.Views
                 }
                 else if (button.DataContext is CommentViewModel comment)
                 {
-                    var editWindow = new ModalOkCancelWindow();
-                    editWindow.Width = 500;
-                    editWindow.Height = 280;
+                    //var editWindow = new ModalOkCancelWindow();
+                    //editWindow.Width = 500;
+                    //editWindow.Height = 280;
+                    var editWindow = EditPanel;
                     var content = new CommentEditControl();
-
-                    editWindow.Title = "Edit Comment";
 
                     if (content.DataContext is CommentViewModel editVM)
                     {
@@ -166,12 +166,14 @@ namespace iRLeagueManager.Views
             {
                 if (button.Tag is ReviewCommentViewModel reviewCommentVM)
                 {
-                    var editWindow = new ModalOkCancelWindow();
-                    editWindow.Width = 500;
-                    editWindow.Height = 280;
+                    //var editWindow = new ModalOkCancelWindow();
+                    //editWindow.Width = 500;
+                    //editWindow.Height = 280;
+                    var editWindow = EditPanel;
                     var content = new CommentEditControl();
 
-                    editWindow.Title = "Edit Comment";
+                    content.Header = "Reply to Comment";
+                    content.SubmitText = "Reply";
 
                     if (content.DataContext is CommentViewModel editVM)
                     {

@@ -20,6 +20,7 @@ namespace iRLeagueManager.ViewModels
     {
         public long ScoringTableId => (Model?.ScoringTableId).GetValueOrDefault();
         public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
+        public bool IsTeamScoring => ScoringKind == ScoringKindEnum.Team;
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks = value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
