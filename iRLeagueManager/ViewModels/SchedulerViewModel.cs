@@ -70,7 +70,7 @@ namespace iRLeagueManager.ViewModels
         {
             var newSchedule = new ScheduleModel()
             {
-                Name = "New Schedule"
+                Name = "New Schedule",
             };
 
             Season.Schedules.Add(newSchedule);
@@ -96,7 +96,7 @@ namespace iRLeagueManager.ViewModels
             Season = season;
             if (season == null || season.Schedules.Count == 0)
             {
-                Schedules.UpdateSource(new ScheduleModel[] { ScheduleModel.GetTemplate() });
+                Schedules.UpdateSource(new ScheduleModel[0]);
                 return;
             }
             else

@@ -24,22 +24,6 @@ namespace iRLeagueManager.ViewModels
 {
     public class ScheduleViewModel : LeagueContainerModel<ScheduleModel>
     {
-        //public ScheduleModel Model
-        //{
-        //    get => Source;
-        //    private set
-        //    {
-        //        if (SetSource(value))
-        //        {
-        //            //Sessions.UpdateSource(Model.Sessions);
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
-
-        //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions { get; } = new ObservableModelCollection<SessionViewModel, SessionModel>();
-
-        //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions => new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
         private readonly ObservableModelCollection<SessionViewModel, SessionModel> sessions;
         public ObservableModelCollection<SessionViewModel, SessionModel> Sessions
         {
