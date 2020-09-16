@@ -58,11 +58,7 @@ namespace iRLeagueManager.Models.Sessions
 
         public static ScheduleModel GetTemplate()
         {
-            return new ScheduleModel()
-            {
-                Name = "...",
-                Sessions = null
-            };
+            return new ScheduleModel();
         }
 
         internal override void InitializeModel()
