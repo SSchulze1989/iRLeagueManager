@@ -8,10 +8,14 @@ namespace iRLeagueManager.Views
 {
     public interface IModalContent
     {
+        string Header { get; }
         string SubmitText { get; }
         string CancelText { get; }
+        bool IsLoading { get; }
+
+        void OnLoad();
         bool CanSubmit();
-        Task<bool> SubmitAsync();
-        void Cancel();
+        Task<bool> OnSubmitAsync();
+        void OnCancel();
     }
 }

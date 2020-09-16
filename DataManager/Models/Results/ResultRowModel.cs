@@ -10,6 +10,7 @@ using iRLeagueManager.Timing;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Members;
+using iRLeagueManager.Locations;
 
 using iRLeagueManager.Attributes;
 
@@ -84,6 +85,9 @@ namespace iRLeagueManager.Models.Results
 
         private LapTime fastestLapTime;
         public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
+
+        private Location location;
+        public Location Location { get => location; set => SetValue(ref location, value); }
 
         //private int positionChange;
         public virtual int PositionChange => StartPosition - FinishPosition;

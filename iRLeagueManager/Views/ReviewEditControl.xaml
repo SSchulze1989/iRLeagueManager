@@ -21,7 +21,8 @@
         <vmodel:IncidentReviewViewModel/>
     </UserControl.DataContext>
 
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" MinWidth="300" HorizontalAlignment="Stretch">
+        <Border Width="700" Visibility="Hidden"/>
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

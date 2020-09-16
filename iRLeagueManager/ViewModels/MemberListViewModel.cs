@@ -22,6 +22,8 @@ namespace iRLeagueManager.ViewModels
         private string filter;
         public string Filter { get => filter; set => SetValue(ref filter, value); }
 
+        public ObservableCollection<Func<LeagueMember, bool>> CustomFilters { get; } = new ObservableCollection<Func<LeagueMember, bool>>();
+
         public MemberListViewModel()
         {
             SetCollectionViewSource(LeagueContext?.MemberList);
@@ -41,12 +43,23 @@ namespace iRLeagueManager.ViewModels
 
         private bool ApplyFilter(object item)
         {
-            if (Filter == null || Filter == "")
+            if ((Filter == null || Filter == "") && CustomFilters.Count == 0)
                 return true;
 
             if (item is LeagueMember member)
             {
-                return member.FullName.ToLower().Contains(Filter.ToLower());
+                bool inFilter = true;
+                if (Filter != null && Filter != "")
+                    inFilter &= member.FullName.ToLower().Contains(Filter.ToLower());
+                foreach (var customFilter in CustomFilters)
+                {
+                    if (customFilter != null)
+                    {
+                        inFilter &= customFilter(member);
+                    }
+                }
+
+                return inFilter;
             }
 
             return false;
@@ -62,6 +75,13 @@ namespace iRLeagueManager.ViewModels
             }
 
             base.OnPropertyChanged(propertyName);
+        }
+
+        public override void Refresh(string propertyName = "")
+        {
+            if (propertyName == "" || propertyName == null)
+                MemberList.Refresh();
+            base.Refresh(propertyName);
         }
     }
 }

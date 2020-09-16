@@ -26,6 +26,11 @@ namespace iRLeagueManager.Models.Members
         public string DiscordId { get; set; } = "0";
         public string ShortName => Firstname[0].ToString().ToUpper() + "." + Lastname;
 
+        //private long? teamId;
+        //public long? TeamId { get => teamId; set => SetValue(ref teamId, value); }
+        private TeamModel team;
+        public TeamModel Team { get => team; set => SetValue(ref team, value); }
+
         public LeagueMember() { }
 
         public LeagueMember(long? memberId)

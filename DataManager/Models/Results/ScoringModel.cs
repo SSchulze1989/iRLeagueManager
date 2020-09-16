@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.ComponentModel;
-using System.Xml.Serialization;
-using System.Collections.ObjectModel;
-using iRLeagueManager.Interfaces;
-using iRLeagueManager.Enums;
+﻿using iRLeagueManager.Exceptions;
 using iRLeagueManager.Models.Sessions;
-using iRLeagueManager.Models.Results;
-using iRLeagueManager.Exceptions;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using iRLeagueManager.Enums;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -22,12 +14,27 @@ namespace iRLeagueManager.Models.Results
 
         private int dropWeeks;
         public int DropWeeks { get => dropWeeks; set => SetValue(ref dropWeeks, value); }
-        
+
         private int averageRaceNr;
         public int AverageRaceNr { get => averageRaceNr; set => SetValue(ref averageRaceNr, value); }
-        
+
+        private ScoringKindEnum scoringKind;
+        public ScoringKindEnum ScoringKind { get => scoringKind; set => SetValue(ref scoringKind, value); }
+
+        private int maxResultsPerGroup;
+        public int MaxResultsPerGroup { get => maxResultsPerGroup; set => SetValue(ref maxResultsPerGroup, value); }
+
+        private bool takeGroupAverage;
+        public bool TakeGroupAverage { get => takeGroupAverage; set => SetValue(ref takeGroupAverage, value); }
+
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }
+
+        private ScoringInfo extScoringSource;
+        public ScoringInfo ExtScoringSource { get => extScoringSource; set => SetValue(ref extScoringSource, value); }
+
+        private bool takeResultsFromExtSource;
+        public bool TakeResultsFromExtSource { get => takeResultsFromExtSource; set => SetValue(ref takeResultsFromExtSource, value); }
 
         //private ObservableCollection<ResultInfo> results;
         //public ObservableCollection<ResultInfo> Results { get => results; set => SetNotifyCollection(ref results, value); }
@@ -35,23 +42,23 @@ namespace iRLeagueManager.Models.Results
         //private long seasonId;
         //public long SeasonId { get => seasonId; set => SetValue(ref seasonId, value); }
         public long SeasonId => (Season?.SeasonId).GetValueOrDefault();
-        
+
         private SeasonModel season;
         public SeasonModel Season { get => season; set => SetValue(ref season, value); }
 
         private ObservableCollection<BasePointsValue> basePoints;
         //public string BasePoints { get => basePoints; set => SetValue(ref basePoints, value); }
         public ObservableCollection<BasePointsValue> BasePoints { get => basePoints; set => SetNotifyCollection(ref basePoints, value); }
-        
+
         private ObservableCollection<BonusPointsValue> bonusPoints;
         public ObservableCollection<BonusPointsValue> BonusPoints { get => bonusPoints; set => SetNotifyCollection(ref bonusPoints, value); }
-        
+
         private ObservableCollection<IncidentPointsValue> incPenaltyPoints;
         public ObservableCollection<IncidentPointsValue> IncPenaltyPoints { get => incPenaltyPoints; set => SetNotifyCollection(ref incPenaltyPoints, value); }
 
         private bool isMultiScoring;
         public bool IsMultiScoring { get => isMultiScoring; set => SetValue(ref isMultiScoring, value); }
-        
+
         private ObservableCollection<MyKeyValuePair<ScoringInfo, double>> multiScoringResults;
         public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
 
@@ -59,10 +66,10 @@ namespace iRLeagueManager.Models.Results
         public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
 
         private ScheduleInfo connectedschedule;
-        public ScheduleInfo ConnectedSchedule 
-        { 
-            get => connectedschedule; 
-            set => SetValue(ref connectedschedule, value); 
+        public ScheduleInfo ConnectedSchedule
+        {
+            get => connectedschedule;
+            set => SetValue(ref connectedschedule, value);
         }
         public ScoringModel() : base()
         {
@@ -118,8 +125,8 @@ namespace iRLeagueManager.Models.Results
         public class IncidentPointsValue : MyKeyValuePair<int, int>
         {
             public new int Key { get => base.Key; set { base.Key = value; } }
-            
-            public IncidentPointsValue() : this(0, 0) {}
+
+            public IncidentPointsValue() : this(0, 0) { }
             public IncidentPointsValue(int incidents, int penaltyPoints) : base(incidents, penaltyPoints) { }
         }
 

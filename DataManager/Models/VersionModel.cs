@@ -21,7 +21,7 @@ namespace iRLeagueManager.Models
         public string LastModifiedByUserId { get; set; }
 
         private bool containsChanges;
-        public bool ContainsChanges { get => containsChanges; protected set => SetValue(ref containsChanges, value); }
+        public bool ContainsChanges { get => containsChanges; protected set { containsChanges = value; OnPropertyChanged(); } }
 
         private int version;
         public int Version { get => version; internal set { version = value; OnPropertyChanged(); } }
@@ -36,8 +36,11 @@ namespace iRLeagueManager.Models
         {
             if (base.SetValue(ref targetProperty, value, propertyName))
             {
-                LastModifiedOn = DateTime.Now;
-                ContainsChanges = true;
+                if (isInitialized)
+                {
+                    LastModifiedOn = DateTime.Now;
+                    ContainsChanges = true;
+                }
                 return true;
             }
             return false;
@@ -47,8 +50,11 @@ namespace iRLeagueManager.Models
         {
             if (base.SetNotifyCollection(ref targetCollection, value, propertyName))
             {
-                LastModifiedOn = DateTime.Now;
-                ContainsChanges = true;
+                if (isInitialized)
+                {
+                    LastModifiedOn = DateTime.Now;
+                    ContainsChanges = true;
+                }
                 return true;
             }
             return false;
@@ -62,6 +68,11 @@ namespace iRLeagueManager.Models
                 ContainsChanges = true;
             }
             base.OnCollectionChanged(sender, e);
+        }
+
+        public void ResetChangedState()
+        {
+            ContainsChanges = false;
         }
     }
 }

@@ -1,28 +1,31 @@
 ﻿using iRLeagueManager.Data;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer;
+using iRLeagueDatabase.DataTransfer.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
+using System.Runtime.Serialization;
 
 //using iRLeagueDatabase.DataTransfer.Messages;
 
 namespace iRLeagueManager.Data
 {
-    public class ASPRestAPIClientWrapper : NotifyPropertyChangedBase, IModelDatabase, IModelDataAndActionProvider, IModelDataProvider, IActionProvider, IDisposable
+    public class ASPRestAPIClientWrapper : NotifyPropertyChangedBase, IModelDatabase, IModelDataAndActionProvider, IModelDataProvider, IActionProvider, ILeagueDataProvider, IDisposable
     {
         public Uri BaseUri { get; }
         private bool disposedValue;
 
         public IDatabaseStatusService DatabaseStatusService;
 
-        public string DatabaseName { get; set; }
+        public string LeagueName { get; set; }
 
         public string ModelController { get; set; } = "Model";
         public string ActionController { get; set; } = "Action";
@@ -44,7 +47,7 @@ namespace iRLeagueManager.Data
         public ASPRestAPIClientWrapper(Uri baseUri, string databaseName)
         {
             this.BaseUri = baseUri;
-            DatabaseName = databaseName;
+            LeagueName = databaseName;
             userCredentials = new NetworkCredential("TestUser", "testuser");
         }
 
@@ -91,7 +94,7 @@ namespace iRLeagueManager.Data
             if (requestType != null)
                 requestTypeString = "requestType=" + requestType;
 
-            var databaseNameString = "leagueName=" + DatabaseName;
+            var databaseNameString = "leagueName=" + LeagueName;
 
             return new Uri(absoluteUri + "?" + 
                 ((requestIdString != "") ? requestIdString + "&" : "") + 
@@ -254,6 +257,50 @@ namespace iRLeagueManager.Data
         public void RemoveDatabaseStatusListener(IDatabaseStatus listener)
         {
             DatabaseStatusService.RemoveStatusItem(listener);
+        }
+
+        public async Task<bool> CheckLeagueExists(string leagueName)
+        {
+            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague?id={leagueName}";
+
+            using (var client = CreateClient())
+            {
+                var request = await client.GetAsync(requestString);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else if (request.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UserNotAuthorizedException("User not authorized for this League");
+                }
+                else
+                {
+                    throw new LeagueNotFoundException($"League {leagueName} not found in database");
+                }
+            }
+        }
+
+        public async Task<IEnumerable<string>> GetLeagueNames()
+        {
+            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague";
+
+            using (var client = CreateClient())
+            {
+                var request = await client.GetAsync(requestString);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    var leagueNames = await request.Content.ReadAsAsync<string[]>();
+                    return leagueNames;
+                }
+                else if (request.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UserNotAuthorizedException("User not authorized for the service");
+                }
+            }
+            return null;
         }
     }
 }

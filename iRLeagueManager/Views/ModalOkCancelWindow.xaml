@@ -4,26 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iRLeagueManager.Views"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="ModalOkCancelWindow" Height="Auto" Width="Auto">
+        Title="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.Header), FallbackValue='Modal Control'}" Height="Auto" Width="Auto"
+        FontFamily="{StaticResource Global.FontFamily}"
+        FontSize="{StaticResource Global.FontSizeMedium}">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0" x:Name="ModalContent" />
-        <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Ok" x:Name="OkButton" Click="OkButton_Click"/>
-            <Button Content="Cancel" x:Name="CancelButton" Click="CancelButton_Click"/>
-            <StackPanel.Resources>
-                <Style TargetType="Button" >
-                    <Setter Property="Padding" Value="10,5" />
-                    <Setter Property="Margin" Value="10,5" />
-                    <Setter Property="TextElement.FontSize" Value="16" />
+            <ContentControl Grid.Row="0" x:Name="ModalContent" />
+            <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"/>
+                <Button Content="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
+                <StackPanel.Resources>
+                    <Style TargetType="Button" >
+                        <Setter Property="Padding" Value="10,5" />
+                        <Setter Property="Margin" Value="10,5" />
+                        <Setter Property="TextElement.FontSize" Value="16" />
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+        </Grid>
+        <Grid>
+            <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="DarkGray" Opacity="0.5"/>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Height="60" Width="60" Spin="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#353535"/>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.IsLoading), FallbackValue=False}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
-            </StackPanel.Resources>
-        </StackPanel>
+            </Grid.Style>
+        </Grid>
     </Grid>
 </Window>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-
+using System.Windows.Input;
 using iRLeagueManager.Models;
 using iRLeagueManager.Data;
 using iRLeagueManager;
@@ -15,9 +15,12 @@ namespace iRLeagueManager.ViewModels
     { 
         public virtual TSource Model { get => Source; set => SetSource(value); }
 
+        public ICommand SaveChangesCmd { get; protected set; }
+
         public LeagueContainerModel()
         {
             Model = Template;
+            SaveChangesCmd = new RelayCommand(o => SaveChanges(), o => (Model?.ContainsChanges).GetValueOrDefault());
         }
 
         public LeagueContainerModel(TSource source) : base(source)
@@ -25,6 +28,11 @@ namespace iRLeagueManager.ViewModels
         }
 
         protected abstract TSource Template { get; }
+
+        public TSource GetModelTemplate()
+        {
+            return Template;
+        }
 
         public virtual async Task Load(params long[] modelId)
         { 
@@ -73,7 +81,12 @@ namespace iRLeagueManager.ViewModels
             IsLoading = true;
             try
             {
-                await LeagueContext.UpdateModelAsync(Source);
+                if (Model.ContainsChanges)
+                {
+                    await LeagueContext.UpdateModelAsync(Source);
+                    SaveChangesCmd.CanExecute(null);
+                    OnPropertyChanged(nameof(SaveChangesCmd));
+                }
             }
             catch (Exception e)
             {

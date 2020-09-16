@@ -11,6 +11,7 @@ namespace iRLeagueManager.Data
 {
     public interface IModelDatabase : IModelDataAndActionProvider
     {
+        string LeagueName { get; set; }
         DatabaseStatusEnum DatabaseStatus { get; }
         void AddDatabaseStatusListener(IDatabaseStatus listener);
         void RemoveDatabaseStatusListener(IDatabaseStatus listener);

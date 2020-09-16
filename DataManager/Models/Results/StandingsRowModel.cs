@@ -7,17 +7,18 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.Models.Results
 {
     public class StandingsRowModel : MappableModel
     {
-        private ScoringInfo scoring;
-        public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
+        //private ScoringInfo scoring;
+        //public ScoringInfo Scoring { get => scoring; internal set => SetValue(ref scoring, value); }
 
         private LeagueMember member;
         public LeagueMember Member { get => member; internal set => SetValue(ref member, value); }
-        public override long[] ModelId => new long[] { Scoring.ScoringId.GetValueOrDefault(), Member.MemberId.GetValueOrDefault() };
+        //public override long[] ModelId => new long[] { ScoringId, Member.MemberId.GetValueOrDefault() };
 
         private int position;
         public int Position { get => position; internal set => SetValue(ref position, value); }
@@ -105,5 +106,10 @@ namespace iRLeagueManager.Models.Results
 
         private int positionChange;
         public int PositionChange { get => positionChange; internal set => SetValue(ref positionChange, value); }
+
+        private IEnumerable<ScoredResultRowModel> countedResults;
+        public IEnumerable<ScoredResultRowModel> CountedResults { get => countedResults.OrderBy(x => x.Date); set => SetValue(ref countedResults, value); }
+
+        public override long[] ModelId => Member.ModelId;
     }
 }

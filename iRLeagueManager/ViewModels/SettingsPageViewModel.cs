@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Data;
+using System.ComponentModel;
 
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
@@ -28,15 +30,44 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private readonly ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTables;
+        public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTables
+        {
+            get
+            {
+                if (scoringTables.GetSource() != Season?.ScoringTables)
+                    scoringTables.UpdateSource(Season?.ScoringTables);
+                return scoringTables;
+            }
+        }
+
         public ICommand AddScoringCmd { get; }
         public ICommand DeleteScoringCmd { get; }
+        public ICommand AddScoringTableCmd { get; }
+        public ICommand DeleteScoringTableCmd { get; }
+
+        public ICommand SaveChangesCmd { get; }
 
         public SettingsPageViewModel() : base()
         {
-            scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
+            scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(Scorings.GetSource()));
+            scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(Scorings));
             Season = new SeasonViewModel(SeasonModel.GetTemplate());
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
+            AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
             DeleteScoringCmd = new RelayCommand(o => DeleteScoring((o as ScoringViewModel).Model), o => o != null);
+            DeleteScoringTableCmd = new RelayCommand(o => DeleteScoringTable((o as ScoringTableViewModel).Model), o => o != null);
+            SaveChangesCmd = new RelayCommand(o =>
+            {
+                foreach (var scoring in Scorings)
+                {
+                    scoring.SaveChanges();
+                }
+                foreach (var scoringTable in ScoringTables)
+                {
+                    scoringTable.SaveChanges();
+                }
+            });
         }
 
         public async Task Load(SeasonModel season)
@@ -96,7 +127,49 @@ namespace iRLeagueManager.ViewModels
             {
 
             }
-        } 
+        }
+
+        public async void AddScoringTable()
+        {
+            try
+            {
+                var scoringTable = new ScoringTableModel() { Name = "New Scoring Table" };
+                //scoringTable = await LeagueContext.AddModelAsync(scoringTable);
+                Season.ScoringTables.Add(scoringTable);
+                await LeagueContext.UpdateModelAsync(Season.Model);
+                ScoringTables.UpdateCollection();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
+
+        public async void DeleteScoringTable(ScoringTableModel scoringTable)
+        {
+            if (scoringTable == null)
+                return;
+
+            try
+            {
+                await LeagueContext.DeleteModelsAsync(scoringTable);
+                Season.ScoringTables.Remove(scoringTable);
+                await LeagueContext.UpdateModelAsync(Season.Model);
+                ScoringTables.UpdateCollection();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

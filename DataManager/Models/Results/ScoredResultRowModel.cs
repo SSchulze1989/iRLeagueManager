@@ -9,6 +9,7 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Attributes;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Models.Members;
+using iRLeagueManager.Locations;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -50,6 +51,9 @@ namespace iRLeagueManager.Models.Results
         private LeagueMember member;
         public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
 
+        private string teamName;
+        public string TeamName { get => teamName; set => SetValue(ref teamName, value); }
+
         public long? MemberId { get => Member?.MemberId; }
 
         private int carNumber;
@@ -90,6 +94,12 @@ namespace iRLeagueManager.Models.Results
 
         private LapTime fastestLapTime;
         public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
+
+        private Location location;
+        public Location Location { get => location; set => SetValue(ref location, value); }
+
+        private DateTime date;
+        public DateTime Date { get => date; set => SetValue(ref date, value); }
 
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 

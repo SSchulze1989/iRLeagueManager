@@ -13,7 +13,7 @@
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         xmlns:controls="clr-namespace:iRLeagueManager.Controls"
         mc:Ignorable="d"
-        WindowState="Maximized" Height="863" Width="1568" Background="White"
+        WindowState="Normal" Height="800" Width="1400" Background="White"
         FontFamily="{StaticResource Global.FontFamily}"
         FontSize="{StaticResource Global.FontSizeMedium}">
 
@@ -267,7 +267,7 @@
                     <RadioButton GroupName="Menu" Content="Schedules" Click="SchedulesButton_Click" />
                     <RadioButton GroupName="Menu" Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
                     <RadioButton GroupName="Menu" Content="Reviews" Click="ReviewsButton_Click" IsEnabled="True"/>
-                    <RadioButton GroupName="Menu" Content="Teams" IsEnabled="False"/>
+                    <RadioButton GroupName="Menu" Content="Teams" Click="TeamsButton_Click" IsEnabled="True"/>
                     <RadioButton GroupName="Menu" Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
                         <Style TargetType="Button">
@@ -325,6 +325,9 @@
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:StandingsPageViewModel}">
                             <views:StandingsControl/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:TeamsPageViewModel}">
+                            <views:TeamsPageControl/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

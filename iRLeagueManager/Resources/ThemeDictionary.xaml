@@ -11,6 +11,7 @@
     <!-- Global Font Style-->
     <FontFamily x:Key="Header.FontFamily">pack://application,,,/Fonts/#Formula1 Display Wide</FontFamily>
     <sys:Double x:Key="Header.FontSize">36</sys:Double>
+    <sys:Double x:Key="MediumHeader.FontSize">27</sys:Double>
     <sys:Double x:Key="SmallHeader.Fontsize">18</sys:Double>
 
     <FontFamily x:Key="Global.FontFamily">Bahnschrift</FontFamily>

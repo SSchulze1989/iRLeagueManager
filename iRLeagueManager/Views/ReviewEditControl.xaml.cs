@@ -39,8 +39,7 @@ namespace iRLeagueManager.Views
                 {
                     foreach (var selectedMember in selectedMembers.ToList())
                     {
-                        if (IncidentReview.InvolvedMembers.Contains(selectedMember) == false)
-                            IncidentReview.InvolvedMembers.Add(selectedMember);
+                        IncidentReview.AddMember(selectedMember);
                     }
                 }
             }
@@ -56,8 +55,7 @@ namespace iRLeagueManager.Views
                 {
                     foreach (var selectedMember in selectedMembers.ToList())
                     {
-                        if (IncidentReview.InvolvedMembers.Contains(selectedMember))
-                            IncidentReview.InvolvedMembers.Remove(selectedMember);
+                        IncidentReview.RemoveMember(selectedMember);
                     }
                 }
             }

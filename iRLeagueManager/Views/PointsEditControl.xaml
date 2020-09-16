@@ -14,21 +14,22 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type global:MyKeyValuePair}" x:Key="BasePointsTemplate">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <Grid MinHeight="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <DataGrid Grid.Row="0" x:Name="PointsGrid" ItemsSource="{Binding}" MinColumnWidth="75" CanUserReorderColumns="False" CanUserSortColumns="False"/>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteBasePointsButton_Click" Tag="{Binding ElementName=PointsGrid, Path=SelectedItem}"/>
+                <DataGrid Grid.Column="0" x:Name="PointsGrid" ItemsSource="{Binding}" MinColumnWidth="75"
+                          CanUserReorderColumns="False" CanUserSortColumns="False"/>
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="AddBasePointsButton_Click" />
+                    <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteBasePointsButton_Click" Tag="{Binding ElementName=PointsGrid, Path=SelectedItem}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type global:MyKeyValuePair}" x:Key="BonusPointsTemplate">
-            <Grid>
+            <Grid MinHeight="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto"/>
@@ -38,7 +39,8 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <ContentControl Content="{Binding}" x:Name="ContentControl"/>
+    <Grid HorizontalAlignment="Stretch">
+        <Border Width="300" Visibility="Hidden"/>
+        <ContentControl Content="{Binding}" x:Name="ContentControl" Margin="10"/>
     </Grid>
 </UserControl>

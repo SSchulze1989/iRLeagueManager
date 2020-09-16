@@ -55,19 +55,5 @@
                 </Style>
             </Grid.Resources>
         </Grid>
-        <Grid>
-            <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="DarkGray" Opacity="0.5"/>
-            <fa:ImageAwesome Icon="CircleOutlineNotch" Height="60" Width="60" Spin="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#353535"/>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-        </Grid>
     </Grid>
 </UserControl>

@@ -9,6 +9,7 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
 using System.Windows.Input;
+using iRLeagueManager.Locations;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -28,6 +29,8 @@ namespace iRLeagueManager.ViewModels
         public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
 
         public LeagueMember Member => Source.Member;
+
+        public string TeamName => Model.TeamName;
 
         public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
         public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }
@@ -52,6 +55,8 @@ namespace iRLeagueManager.ViewModels
         public int FinalPosition { get => Model.FinalPosition; set => Model.FinalPosition = value; }
         public int TotalPoints { get => Model.TotalPoints; }
 
+        public Location Location => Model.Location;
+
         private AddPenaltyModel addPenalty;
         public AddPenaltyModel AddPenalty { get => addPenalty; set => SetValue(ref addPenalty, value); }
         private bool isPenaltyEdit;
@@ -71,7 +76,7 @@ namespace iRLeagueManager.ViewModels
             {
                 try
                 {
-                    AddPenalty = await LeagueContext.GetModelAsync<AddPenaltyModel>(Model.ScoredResultRowId.GetValueOrDefault());
+                    AddPenalty = await LeagueContext.GetModelAsync<AddPenaltyModel>(new long[] { Model.ScoredResultRowId.GetValueOrDefault() }, update: false, reload: true);
                 }
                 catch (Exception e)
                 {

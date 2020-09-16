@@ -17,7 +17,7 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Database;
-using iRLeagueManager.LeagueDBServiceRef;
+using iRLeagueDatabase.DataTransfer.Members;
 using iRLeagueManager.Locations;
 using System.Data;
 using System.Collections;
@@ -35,12 +35,13 @@ namespace iRLeagueManager.Data
 
         //public DbLeagueServiceClient DbContext { get; }
         public IModelDatabase ModelDatabase { get; }
-
+        public ILeagueDataProvider LeagueDataProvider { get; }
+        public LocationCollection Locations { get; } = new LocationCollection();
         public IModelDataAndActionProvider ModelContext { get; }
 
         public IModelManager ModelManager { get; }
 
-        private IUserCredentialsManager UserCredentialsManager { get; }
+        public IUserCredentialsManager UserCredentialsManager { get; }
 
         private ObservableCollection<LeagueMember> memberList;
         public ObservableCollection<LeagueMember> MemberList => memberList;
@@ -52,7 +53,7 @@ namespace iRLeagueManager.Data
 
         public LocationCollection LocationCollection { get; } = new LocationCollection();
 
-        public string LeagueName { get; } = "TestDatabase";
+        public string LeagueName { get; private set; } = "TestDatabase";
 
         //private ObservableCollection<SessionBase> sessions;
         //public ReadOnlyObservableCollection<SessionBase> Sessions => new ReadOnlyObservableCollection<SessionBase>(sessions);
@@ -63,11 +64,7 @@ namespace iRLeagueManager.Data
 
         public LeagueContext() : base()
         {
-#if DEBUG
-            string apiAddress = "https://localhost:44369/api";
-#else
-            string apiAddress = "http://144.91.113.195/iRLeagueRESTService/api";
-#endif
+            var apiAddress = GetApiAddress();
 
             var modelCache = new ModelCache();
             var databaseStatusService = new DatabaseStatusService()
@@ -99,6 +96,7 @@ namespace iRLeagueManager.Data
             {
                 DatabaseStatusService = databaseStatusService
             };
+            LeagueDataProvider = (ILeagueDataProvider)ModelDatabase;
             ModelContext = ModelDatabase;
             ModelManager = new ModelManager(modelCache, ModelContext, MapperConfiguration);
             UserManager = new UserManager(modelCache, UserCredentialsManager, userDatabase);
@@ -108,6 +106,12 @@ namespace iRLeagueManager.Data
         public async Task<IEnumerable<SeasonModel>> GetSeasonListAsync()
         {
             return await GetModelsAsync<SeasonModel>();
+        }
+
+        public void SetLeagueName(string leagueName)
+        {
+            LeagueName = leagueName;
+            ModelDatabase.LeagueName = leagueName;
         }
 
         public async Task UpdateMemberList()
@@ -205,6 +209,17 @@ namespace iRLeagueManager.Data
         public Task<IEnumerable<T>> AddModelsAsync<T>(params T[] models) where T : MappableModel
         {
             return this.ModelManager.AddModelsAsync<T>(models);
+        }
+
+        public static string GetApiAddress()
+        {
+#if DEBUG_WEB
+            return "http://144.91.113.195/iRLeagueRESTService/api";
+#elif DEBUG
+            return "https://localhost:44369/api";
+#else
+            return "http://144.91.113.195/iRLeagueRESTService/api";
+#endif
         }
 
         //public async Task<T> GetModelAsync<T>(params long[] modelId) where T : ModelBase

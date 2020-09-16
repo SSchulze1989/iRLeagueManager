@@ -17,7 +17,10 @@ namespace iRLeagueManager.Models
         private bool isReadOnly;
         public bool IsReadOnly { get => isReadOnly; internal set => SetValue(ref isReadOnly, value); }
 
-        public ModelBase() { }
+        public ModelBase() 
+        {
+            isInitialized = false;
+        }
 
         public virtual void CopyTo(ModelBase targetObject)
         {

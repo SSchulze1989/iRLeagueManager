@@ -29,6 +29,11 @@ namespace iRLeagueManager.Models
             //this.leagueContext = leagueContext;
         }
 
+        private ModelIdentifier GetIdentifier(Type type, object[] modelId)
+        {
+            return new ModelIdentifier(type, modelId);
+        }
+
         public void CleanReferences()
         {
             var iterator = referenceList.ToList();
@@ -46,13 +51,19 @@ namespace iRLeagueManager.Models
         public T GetModel<T>(params object[] modelId) where T : class, ICacheableModel
         {
             CleanReferences();
-            var identifier = new ModelIdentifier(typeof(T), modelId.Select(x => (object)x).ToArray());
+            var identifier = GetIdentifier(typeof(T), modelId);
             if (referenceList.ContainsKey(identifier))
             {
                 T model = referenceList[identifier].Target as T;
                 return model;
             }
             return null;
+        }
+
+        public void RemoveReference<T>(object[] modelId) where T: class, ICacheableModel
+        {
+            var identifier = GetIdentifier(typeof(T), modelId);
+            referenceList.Remove(identifier);
         }
 
         public T PutOrGetModel<T>(T model) where T : class, ICacheableModel
