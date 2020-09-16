@@ -22,6 +22,16 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class EditTeamControl : UserControl, IModalContent
     {
+        public static DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(SelectLeagueControl),
+                new PropertyMetadata(false));
+
+        public bool IsLoading
+        {
+            get => (bool)GetValue(IsLoadingProperty);
+            set => SetValue(IsLoadingProperty, value);
+        }
+
         public EditTeamControl()
         {
             InitializeComponent();
@@ -94,6 +104,10 @@ namespace iRLeagueManager.Views
                     }
                 }
             }
+        }
+
+        public void OnLoad()
+        {
         }
     }
 }

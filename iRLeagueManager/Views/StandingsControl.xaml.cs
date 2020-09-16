@@ -52,5 +52,29 @@ namespace iRLeagueManager.Views
                 }
             }
         }
+
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = e.Source;
+
+
+            var current = (DependencyObject)sender;
+            var parent = VisualTreeHelper.GetParent(current);
+            ScrollViewer scrollViewer = null;
+            while (parent != null)
+            {
+                if (parent is ScrollViewer)
+                    scrollViewer = (ScrollViewer)parent;
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            if (scrollViewer != null)
+            {
+                scrollViewer.RaiseEvent(eventArg);
+                e.Handled = true;
+            }
+        }
     }
 }

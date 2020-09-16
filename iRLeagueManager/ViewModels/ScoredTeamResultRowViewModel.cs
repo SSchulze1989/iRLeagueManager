@@ -8,6 +8,10 @@ using System.Collections.ObjectModel;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
+using System.ComponentModel;
+using System.Windows.Data;
+using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -18,19 +22,20 @@ namespace iRLeagueManager.ViewModels
         public TeamModel Team => Model?.Team;
 
         private readonly ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> scoredResultRows;
-        public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> ScoredResultRows
+        public ICollectionView ScoredResultRows
         {
             get
             {
                 if (scoredResultRows.GetSource() != Model?.ScoredResultRows)
                     scoredResultRows.UpdateSource(Model?.ScoredResultRows);
-                return scoredResultRows;
+                return scoredResultRows.CollectionView;
             }
         }
 
         public ScoredTeamResultRowViewModel()
         {
             scoredResultRows = new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
+            ScoredResultRows.SortDescriptions.Add(new SortDescription(nameof(FinalPosition), ListSortDirection.Ascending));
         }
 
         public bool UpdateSource(ScoredTeamResultRowModel source)

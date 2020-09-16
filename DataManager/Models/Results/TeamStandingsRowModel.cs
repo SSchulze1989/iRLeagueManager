@@ -11,10 +11,12 @@ namespace iRLeagueManager.Models.Results
 {
     public class TeamStandingsRowModel : StandingsRowModel
     {
+        public override long[] ModelId => Team.ModelId;
+
         private TeamModel team;
         public TeamModel Team { get => team; set => SetValue(ref team, value); }
 
-        private ObservableCollection<StandingsRowModel> driverStandingsRows;
-        public ObservableCollection<StandingsRowModel> DriverStandingsRows { get => driverStandingsRows; set => SetValue(ref driverStandingsRows, value); }
+        private IEnumerable<StandingsRowModel> driverStandingsRows;
+        public IEnumerable<StandingsRowModel> DriverStandingsRows { get => driverStandingsRows.OrderBy(x => -x.TotalPoints); set => SetValue(ref driverStandingsRows, value); }
     }
 }

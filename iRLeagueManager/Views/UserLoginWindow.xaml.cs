@@ -83,7 +83,6 @@ namespace iRLeagueManager.Views
                 createWindow.Height = 450;
                 createWindow.Width = 400;
                 createWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                createWindow.Title = "Register new User";
                 var content = new RegisterUserControl();
 
                 if (content.DataContext is CreateUserViewModel createUserVM)

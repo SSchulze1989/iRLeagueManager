@@ -177,7 +177,6 @@
     <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
-    <Compile Include="ViewModels\StandingsRowViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
     <Compile Include="ViewModels\TeamsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
@@ -220,6 +219,9 @@
     </Compile>
     <Compile Include="Views\ScoredResultControl.xaml.cs">
       <DependentUpon>ScoredResultControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectLeagueControl.xaml.cs">
+      <DependentUpon>SelectLeagueControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SessionEditControl.xaml.cs">
       <DependentUpon>SessionEditControl.xaml</DependentUpon>
@@ -311,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ScoredResultControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectLeagueControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

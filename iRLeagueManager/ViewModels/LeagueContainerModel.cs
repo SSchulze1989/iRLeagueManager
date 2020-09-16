@@ -81,9 +81,12 @@ namespace iRLeagueManager.ViewModels
             IsLoading = true;
             try
             {
-                await LeagueContext.UpdateModelAsync(Source);
-                SaveChangesCmd.CanExecute(null);
-                OnPropertyChanged(nameof(SaveChangesCmd));
+                if (Model.ContainsChanges)
+                {
+                    await LeagueContext.UpdateModelAsync(Source);
+                    SaveChangesCmd.CanExecute(null);
+                    OnPropertyChanged(nameof(SaveChangesCmd));
+                }
             }
             catch (Exception e)
             {

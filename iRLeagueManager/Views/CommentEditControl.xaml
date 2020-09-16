@@ -12,11 +12,14 @@
     <UserControl.DataContext>
         <vmodel:CommentViewModel />
     </UserControl.DataContext>
-    
-    <Grid Margin="10">
-        <StackPanel>
-            <TextBlock Text="Edit Comment Text:" FontSize="20" FontWeight="Bold" Margin="5"/>
-            <TextBox FontSize="16" Text="{Binding Text}" Height="150" Padding="2" Margin="5" AcceptsReturn="True" AcceptsTab="True"/>
-        </StackPanel>
+
+    <Grid MinWidth="200" HorizontalAlignment="Stretch">
+        <Border Width="500" Visibility="Hidden"/>
+        <Grid Margin="10">
+            <StackPanel>
+                <TextBlock Text="Edit Comment Text:" FontSize="20" FontWeight="Bold" Margin="5"/>
+                <TextBox FontSize="16" Text="{Binding Text}" Height="150" Padding="2" Margin="5" AcceptsReturn="True" AcceptsTab="True"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

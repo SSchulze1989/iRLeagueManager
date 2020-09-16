@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 using iRLeagueManager.Models.Results;
+using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.Controls
 {
@@ -15,13 +16,20 @@ namespace iRLeagueManager.Controls
         {
             FrameworkElement element = container as FrameworkElement;
 
-            if (element != null && item != null && item is StandingsRowModel)
+            if (element != null && item != null)
             {
-                if (item is TeamStandingsRowModel)
+                if (item is ScoringTableViewModel scoringTableViewModel)
+                {
+                    if (scoringTableViewModel.IsTeamScoring)
+                        return element.FindResource("TeamStandingsDataGrid") as DataTemplate;
+                    else
+                        return element.FindResource("StandingsDataGrid") as DataTemplate;
+                }
+                else if (item is TeamStandingsRowModel)
                 {
                     return element.FindResource("TeamStandingsRowModelDataGrid") as DataTemplate;
                 }
-                else
+                else if (item is StandingsRowModel)
                 {
                     return element.FindResource("StandingsRowModelDataGrid") as DataTemplate;
                 }

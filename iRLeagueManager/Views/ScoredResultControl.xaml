@@ -20,7 +20,7 @@
         <conv:LapIntervalStringConverter x:Key="LapIntervalStringConverter"/>
         <conv:CompareNumericalConverter x:Key="CompareNumericalConverter"/>
         <conv:UniversalColorConverter x:Key="UniversalColorConverter"/>
-        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CCCCFF"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
         <Thickness x:Key="ColumnMargin">4,2</Thickness>
         <Style TargetType="TextBlock" x:Key="TextColumnElementStyle">
@@ -28,6 +28,7 @@
         </Style>
         <Style TargetType="DataGridCell" x:Key="ResultsGridCellStyle">
             <Setter Property="Padding" Value="4,0"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -210,15 +211,10 @@
 
         <Grid ClipToBounds="True" Grid.Row="2" VerticalAlignment="Stretch" Background="Transparent">
             <TabControl ItemsSource="{Binding CurrentResults}" Margin="0,10,0,0" 
-                        VerticalContentAlignment="Stretch">
+                        VerticalContentAlignment="Stretch" IsSynchronizedWithCurrentItem="True">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding ScoringName}" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding FinalResults.Count}" Value="0">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.Resources>
@@ -227,9 +223,9 @@
                                   AlternationCount="2" AlternatingRowBackground="#F0F0F0"
                                   TextElement.FontSize="{StaticResource Global.FontSizeSmall}" 
                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                  HorizontalAlignment="Left" CanUserAddRows="False" CanUserDeleteRows="False" 
+                                  HorizontalAlignment="Stretch" CanUserAddRows="False" CanUserDeleteRows="False" 
                                   SelectionUnit="FullRow" SelectionMode="Single"
-                                  PreviewMouseWheel="DataGrid_PreviewMouseWheel"
+                                  ScrollViewer.CanContentScroll="False"
                                   HorizontalScrollBarVisibility="Disabled" RowDetailsVisibilityMode="Collapsed"
                                   RowHeight="30" MaxHeight="4000" MaxWidth="4000"
                                   Margin="5" Style="{StaticResource DataGridStyle}">
@@ -397,14 +393,13 @@
                                                     <TextBlock Text="Total Pts." TextWrapping="Wrap"/>
                                                 </DataGridTextColumn.Header>
                                             </DataGridTextColumn>
-
                                             <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
-                                                          DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
-                                                          Margin="0" Height="25">
+                                                                      DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
+                                                                      Margin="0" Height="25">
                                                                 <ComboBox.Style>
                                                                     <Style TargetType="ComboBox">
                                                                         <Setter Property="IsReadOnly" Value="True"/>
@@ -525,7 +520,7 @@
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="45" 
-                                                    MinWidth="45" TextElement.FontWeight="Bold" x:Name="TeamPositionColumn">
+                                                    MinWidth="45" TextElement.FontWeight="Bold" x:Name="TeamPositionColumn" SortDirection="Ascending">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -679,6 +674,7 @@
                     <DataTemplate DataType="{x:Type vmodel:ScoredResultViewModel}">
                         <DataGrid ItemsSource="{Binding FinalResults}" AutoGenerateColumns="False" VerticalAlignment="Stretch" 
                                   AlternationCount="2" AlternatingRowBackground="#F0F0F0"
+                                  ScrollViewer.CanContentScroll="False"
                                   TextElement.FontSize="{StaticResource Global.FontSizeSmall}" 
                                   PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                   RowHeight="30" CanUserAddRows="False" CanUserDeleteRows="False"
@@ -979,11 +975,6 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding FinalResults.Count}" Value="0">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </TabControl.Resources>
             </TabControl>

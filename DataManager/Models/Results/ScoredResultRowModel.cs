@@ -98,6 +98,9 @@ namespace iRLeagueManager.Models.Results
         private Location location;
         public Location Location { get => location; set => SetValue(ref location, value); }
 
+        private DateTime date;
+        public DateTime Date { get => date; set => SetValue(ref date, value); }
+
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 
         public ScoredResultRowModel() : base() { }

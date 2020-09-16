@@ -12,16 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 using iRLeagueManager.ViewModels;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.Views
 {
     /// <summary>
     /// Interaction logic for RegisterUserControl.xaml
     /// </summary>
-    public partial class RegisterUserControl : UserControl, IModalContent
+    public partial class RegisterUserControl : UserControl, IModalContent, INotifyPropertyChanged
     {
-        public CreateUserViewModel viewModel => DataContext as CreateUserViewModel;
+        public CreateUserViewModel ViewModel => DataContext as CreateUserViewModel;
+
+        public bool IsLoading => (ViewModel != null) ? ViewModel.IsLoading : false;
 
         public string Header => "Register new User";
 
@@ -29,9 +33,28 @@ namespace iRLeagueManager.Views
 
         public string CancelText => "Cancel";
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public RegisterUserControl()
         {
+            DataContextChanged += OnDataContextChanged;
             InitializeComponent();
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ViewModel != null)
+                ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(e.PropertyName);
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
@@ -52,20 +75,24 @@ namespace iRLeagueManager.Views
 
         public bool CanSubmit()
         {
-            if (viewModel == null)
+            if (ViewModel == null)
                 return false;
 
-            return viewModel.CanSubmit();
+            return ViewModel.CanSubmit();
         }
 
         public async Task<bool> OnSubmitAsync()
         {
-            return await viewModel.SubmitAsync();
+            return await ViewModel.SubmitAsync();
         }
 
         public void OnCancel()
         {
-            viewModel.Dispose();
+            ViewModel.Dispose();
+        }
+
+        public void OnLoad()
+        {
         }
     }
 }

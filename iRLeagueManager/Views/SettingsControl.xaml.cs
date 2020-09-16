@@ -36,9 +36,10 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button && button.Tag != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 250;
-                editWindow.Height = 500;
+                //var editWindow = new ModalOkCancelWindow();
+                //editWindow.Width = 250;
+                //editWindow.Height = 500;
+                var editWindow = EditPanel;
                 var content = new PointsEditControl();
 
                 editWindow.Title = "Edit Base points";
@@ -71,9 +72,10 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button && button.Tag != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 250;
-                editWindow.Height = 500;
+                //var editWindow = new ModalOkCancelWindow();
+                //editWindow.Width = 250;
+                //editWindow.Height = 500;
+                var editWindow = EditPanel;
                 var content = new PointsEditControl();
 
                 editWindow.Title = "Edit Bonus points";

@@ -10,7 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
-        Title="iRLeagueManager - Login" Width="400" Height="380"
+        Title="iRLeagueManager - Login" Width="400" Height="400"
         FontSize="{DynamicResource Global.FontSizeLarge}"
         FontFamily="{DynamicResource Global.FontFamily}"
         Background="Transparent"
@@ -169,7 +169,7 @@
                         <PasswordBox x:Name="PasswordTextBox"  PasswordChanged="PasswordTextBox_PasswordChanged" HorizontalAlignment="Stretch" Margin="5,0"
                                      Padding="2" IsEnabled="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}" Style="{DynamicResource PasswordBoxStyle}"/>
                         <TextBlock x:Name="LoginStatusMessage" Text="{Binding StatusMessage}" HorizontalAlignment="Stretch" 
-                                   Margin="5,10" Foreground="Red" FontSize="{StaticResource Global.FontSizeMedium}"/>
+                                   Margin="5,10" Foreground="Red" FontSize="{StaticResource Global.FontSizeMedium}" TextWrapping="WrapWithOverflow" Height="38"/>
                         <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
