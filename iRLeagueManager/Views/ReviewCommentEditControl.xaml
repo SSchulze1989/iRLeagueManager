@@ -46,7 +46,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <DataGrid x:Name="VoteGrid" Grid.Column="0" Height="150" ItemsSource="{Binding Votes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5">
+                <DataGrid x:Name="VoteGrid" Grid.Column="0" Height="150" ItemsSource="{Binding Votes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5"
+                          CanUserDeleteRows="False">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Vote" MinWidth="80">
                             <DataGridTemplateColumn.CellTemplate>
