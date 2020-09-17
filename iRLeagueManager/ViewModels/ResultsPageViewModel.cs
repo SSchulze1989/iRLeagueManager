@@ -298,10 +298,12 @@ namespace iRLeagueManager.ViewModels
             OnPropertyChanged(null);
         }
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
-            _ = Load(season);
-            base.Refresh(propertyName);
+            LeagueContext.ModelManager.ForceExpireModels<ResultModel>();
+            LeagueContext.ModelManager.ForceExpireModels<AddPenaltyModel>();
+            await Load(season);
+            await base.Refresh();
         }
 
         protected override void Dispose(bool disposing)

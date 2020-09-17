@@ -35,7 +35,7 @@ namespace iRLeagueManager.ViewModels
         //public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
 
         private UserViewModel currentUser;
-        public UserViewModel CurrentUser
+        public new UserViewModel CurrentUser
         {
             get
             {
@@ -102,13 +102,13 @@ namespace iRLeagueManager.ViewModels
                 IsErrorsOpen = true;
         }
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
-            Load();
-            base.Refresh(propertyName);
+            await Load();
+            await base.Refresh();
         }
 
-        public async void Load()
+        public async Task Load()
         {
             if (LeagueContext == null)
             {

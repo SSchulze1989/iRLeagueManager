@@ -21,6 +21,20 @@ namespace iRLeagueManager.Models
             isInitialized = false;
         }
 
+        public DateTime LastUpdate { get; internal set; }
+
+        public TimeSpan LifeTime { get; set; } = TimeSpan.FromMinutes(5);
+
+        private bool forceIsExpired;
+        public bool IsExpired
+        {
+            get
+            {
+                return (LastUpdate + LifeTime) < DateTime.Now || forceIsExpired;
+            }
+            set => forceIsExpired = value;
+        }
+
         public virtual bool CompareIdentity(ICacheableModel comp)
         {
             return this.ModelId.SequenceEqual(comp.ModelId.Cast<long>());

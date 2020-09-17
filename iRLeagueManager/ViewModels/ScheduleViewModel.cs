@@ -141,13 +141,13 @@ namespace iRLeagueManager.ViewModels
                     await LeagueContext.DeleteModelsAsync(sessions.Select(x => x.GetSource()).ToArray());
                     foreach (var s in sessions)
                     {
-                        Model.Sessions.Remove(s.GetSource());
+                        //Model.Sessions.Remove(s.GetSource());
                     }
                 }
                 else if (selection == null)
                 {
                     await LeagueContext.DeleteModelsAsync(SelectedSession.GetSource());
-                    Model.Sessions.Remove(SelectedSession.GetSource());
+                    //Model.Sessions.Remove(SelectedSession.GetSource());
                 }
 
                 IsLoading = true;

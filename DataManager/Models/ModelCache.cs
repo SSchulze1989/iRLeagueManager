@@ -128,5 +128,14 @@ namespace iRLeagueManager.Models
                 registeredModelTypes.Add(type, new ModelRegister(type, getFuncAsync, updateFuncAsync));
             }
         }
+
+        IEnumerable<T> IModelCache<ICacheableModel, object>.GetOfType<T>()
+        {
+            var resultList = referenceList
+                .Where(x => x.Key.ModelType.Equals(typeof(T)))
+                .Select(x => (T)x.Value.Target);
+
+            return resultList;
+        }
     }
 }

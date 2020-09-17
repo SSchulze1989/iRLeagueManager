@@ -90,5 +90,12 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = false;
             }
         }
+
+        public override async Task Refresh()
+        {
+            LeagueContext.ModelManager.ForceExpireModels<TeamModel>();
+            await Load();
+            await base.Refresh();
+        }
     }
 }

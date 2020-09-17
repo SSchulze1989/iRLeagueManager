@@ -48,9 +48,9 @@ namespace iRLeagueManager
             Load();
         }
 
-        public void Load()
+        public async Task Load()
         {
-            mainViewModel.Load();
+            await mainViewModel.Load();
         }
 
         private void SchedulesButton_Click(object sender, RoutedEventArgs e)
@@ -140,7 +140,7 @@ namespace iRLeagueManager
             }
         }
 
-        private void RefreshButtonClick(object sender, RoutedEventArgs e)
+        private async void RefreshButtonClick(object sender, RoutedEventArgs e)
         {
             if (mainViewModel != null)
             {
@@ -148,11 +148,11 @@ namespace iRLeagueManager
                 {
                     if (MainContent.Content is ViewModelBase contentViewModel)
                     {
-                        contentViewModel.Refresh();
+                        await contentViewModel.Refresh();
                     }
                 }
                 else
-                    mainViewModel.Refresh();
+                    await mainViewModel.Refresh();
             }
         }
 

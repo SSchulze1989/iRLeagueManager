@@ -31,14 +31,6 @@ namespace iRLeagueManager.Views
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag is IncidentReviewViewModel incidentReview)
-            {
-                incidentReview.Hold();
-            }
-        }
-
         private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
@@ -96,7 +88,7 @@ namespace iRLeagueManager.Views
                         editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
                         editVM.Review = reviewVM;
-                        editVM.Refresh(null);
+                        editVM.Refresh();
 
                         editWindow.ModalContent.Content = content;
                         if (editWindow.ShowDialog() == true)
@@ -108,7 +100,7 @@ namespace iRLeagueManager.Views
             }
         }
 
-        private void CommentEditButton_Click(object sender, RoutedEventArgs e)
+        private async void CommentEditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
             {
@@ -126,7 +118,7 @@ namespace iRLeagueManager.Views
                         editVM.Model.CopyFrom(reviewComment.Model);
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
                         editVM.Review = reviewComment.Review;
-                        editVM.Refresh(null);
+                        editVM.Refresh();
 
                         editWindow.ModalContent.Content = content;
                         if (editWindow.ShowDialog() == true)
