@@ -81,7 +81,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="1" ItemsSource="{Binding ScoringTableList}">
+        <TabControl Grid.Row="1" ItemsSource="{Binding ScoringTableList}" IsSynchronizedWithCurrentItem="True">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" />

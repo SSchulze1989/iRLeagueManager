@@ -52,23 +52,23 @@ namespace iRLeagueManager.ViewModels
             MemberList.CustomFilters.Add(x => x.Team == null);
         }
 
-        public void AddMember(LeagueMember member)
+        public async void AddMember(LeagueMember member)
         {
             if (Members.Contains(member) == false)
             {
                 Members.Add(member);
                 member.Team = Model;
-                MemberList.Refresh();
+                await MemberList.Refresh();
             }
         }
 
-        public void RemoveMember(LeagueMember member)
+        public async void RemoveMember(LeagueMember member)
         {
             if (Members.Contains(member))
             {
                 Members.Remove(member);
                 member.Team = null;
-                MemberList.Refresh();
+                await MemberList.Refresh();
             }
         }
     }

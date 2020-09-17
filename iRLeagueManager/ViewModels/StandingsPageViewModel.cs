@@ -9,27 +9,23 @@ using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace iRLeagueManager.ViewModels
 {
     public class StandingsPageViewModel : ViewModelBase
     {
+        private SeasonModel season;
+
         private ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTableList;
-        public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTableList
+        public ICollectionView ScoringTableList
         {
-            get => scoringTableList;
-            protected set
-            {
-                if (SetValue(ref scoringTableList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
-                {
-                    OnPropertyChanged(null);
-                }
-            }
+            get => scoringTableList.CollectionView;
         }
 
         public StandingsPageViewModel()
         {
-            ScoringTableList = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
+            scoringTableList = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
         }
 
         protected void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
@@ -39,6 +35,10 @@ namespace iRLeagueManager.ViewModels
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
         {
+            this.season = season;
+            if (season == null)
+                return;
+
             try
             {
                 IsLoading = true;
@@ -47,7 +47,7 @@ namespace iRLeagueManager.ViewModels
 
                 // Set scorings List
                 //var scoringModels = await LeagueContext.GetModelsAsync<ScoringModel>(scoringsInfo.Select(x => x.ModelId));
-                ScoringTableList.UpdateSource(scoringTables);
+                scoringTableList.UpdateSource(scoringTables);
 
                 //foreach(var scoring in ScoringList)
                 //{
@@ -62,6 +62,18 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        public override async Task Refresh()
+        {
+            LeagueContext.ModelManager.ForceExpireModels<StandingsModel>();
+            await Load(season);
+            var current = ScoringTableList.CurrentItem as ScoringTableViewModel;
+            if (current != null)
+            {
+                await current.LoadStandings();
+            }
+            await base.Refresh();
         }
     }
 }

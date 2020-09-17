@@ -9,6 +9,7 @@ namespace iRLeagueManager.Models
     public interface IModelManager<TModel, TKey> 
     {
         IModelCache ModelCache { get; }
+        void ForceExpireModels<T>(IEnumerable<T> models = null) where T : TModel;
         Task<T> GetModelAsync<T>(params TKey[] modelId) where T : TModel;
         Task<T> GetModelAsync<T>(TKey[] modelId, bool update = true, bool reload = false) where T : TModel;
         Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<TKey> modelIds) where T : TModel;

@@ -44,6 +44,11 @@ namespace iRLeagueManager
         public ModelMapperProfile(IModelCache modelCache)
         {
             ModelCache = modelCache;
+            CreateMap<MappableDTO, MappableModel>()
+                .ForMember(dest => dest.LastUpdate, opt => opt.MapFrom((src, trg) => DateTime.Now))
+                .ForMember(dest => dest.IsExpired, opt => opt.MapFrom((src, trg) => false))
+                .IncludeAllDerived();
+
             // Mapping Season data
             CreateMap<SeasonDataDTO, SeasonModel>()
                 .EqualityComparison((src, dest) => src.SeasonId == dest.SeasonId)
@@ -378,7 +383,7 @@ namespace iRLeagueManager
                 }));
 
             CreateMap<StandingsDataDTO, StandingsModel>()
-                .ConstructUsing(source => ModelCache.PutOrGetModel(new StandingsModel() { ScoringTableId = source.ScoringTableId }))
+                .ConstructUsing(source => ModelCache.PutOrGetModel(new StandingsModel() { ScoringTableId = source.ScoringTableId, SessionId = source.SessionId }))
                 .EqualityComparison((src, dest) => src.ScoringTableId == dest.ScoringTableId)
                 .Include<TeamStandingsDataDTO, TeamStandingsModel>();
             CreateMap<StandingsRowDataDTO, StandingsRowModel>()
@@ -388,7 +393,7 @@ namespace iRLeagueManager
                 .Include<TeamStandingsRowDataDTO, TeamStandingsRowModel>();
 
             CreateMap<TeamStandingsDataDTO, TeamStandingsModel>()
-                .ConstructUsing(source => modelCache.PutOrGetModel(new TeamStandingsModel() { ScoringTableId = source.ScoringTableId }))
+                .ConstructUsing(source => modelCache.PutOrGetModel(new TeamStandingsModel() { ScoringTableId = source.ScoringTableId, SessionId = source.SessionId }))
                 .EqualityComparison((src, dest) => src.ScoringTableId == dest.ScoringTableId);
             CreateMap<TeamStandingsRowDataDTO, TeamStandingsRowModel>()
                 .ConstructUsing(source => new TeamStandingsRowModel())

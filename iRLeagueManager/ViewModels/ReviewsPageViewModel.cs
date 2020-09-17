@@ -219,8 +219,11 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = true;
                 await LeagueContext.DeleteModelAsync<IncidentReviewModel>(review.ModelId);
-                SessionSelect.SelectedSession.Model.Reviews.Remove(review);
-                await LeagueContext.UpdateModelAsync(SessionSelect.SelectedSession.Model);
+                if (review != null)
+                {
+                    SessionSelect.SelectedSession.Model.Reviews.Remove(review);
+                }
+                await LeagueContext.GetModelAsync<SessionModel>(SessionSelect.SelectedSession.Model.ModelId, reload: true);
                 await LoadReviews();
             }
             catch (Exception e)
@@ -242,10 +245,13 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async override void Refresh(string propertyName = "")
+        public async override Task Refresh()
         {
+            LeagueContext.ModelManager.ForceExpireModels<SessionModel>();
+            LeagueContext.ModelManager.ForceExpireModels<IncidentReviewModel>();
+            LeagueContext.ModelManager.ForceExpireModels<ReviewCommentModel>();
             await Load(season);
-            base.Refresh(propertyName);
+            await base.Refresh();
         }
     }
 }
