@@ -45,8 +45,10 @@ namespace iRLeagueManager
         {
             ModelCache = modelCache;
             CreateMap<MappableDTO, MappableModel>()
+                .BeforeMap((src, dest) => dest?.InitReset())
                 .ForMember(dest => dest.LastUpdate, opt => opt.MapFrom((src, trg) => DateTime.Now))
                 .ForMember(dest => dest.IsExpired, opt => opt.MapFrom((src, trg) => false))
+                .AfterMap((src, dest) => dest?.ResetChangedState())
                 .IncludeAllDerived();
 
             // Mapping Season data

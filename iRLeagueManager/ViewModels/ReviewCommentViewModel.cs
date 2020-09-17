@@ -69,7 +69,7 @@ namespace iRLeagueManager.ViewModels
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null && o is ReviewVoteModel);
         }
 
-        public async override void SaveChanges()
+        public async override Task SaveChanges()
         {
             IsLoading = true;
             try

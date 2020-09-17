@@ -52,7 +52,7 @@ namespace iRLeagueManager.Views
                     if (editWindow.ShowDialog() == true)
                     {
                         reviewVM.Model.CopyFrom(editVM.Model);
-                        reviewVM.SaveChanges();
+                        await reviewVM.SaveChanges();
                     }
                 }
             }
@@ -88,7 +88,7 @@ namespace iRLeagueManager.Views
                         editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
                         editVM.Review = reviewVM;
-                        editVM.Refresh();
+                        await editVM.Refresh();
 
                         editWindow.ModalContent.Content = content;
                         if (editWindow.ShowDialog() == true)
@@ -118,13 +118,13 @@ namespace iRLeagueManager.Views
                         editVM.Model.CopyFrom(reviewComment.Model);
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
                         editVM.Review = reviewComment.Review;
-                        editVM.Refresh();
+                        await editVM.Refresh();
 
                         editWindow.ModalContent.Content = content;
                         if (editWindow.ShowDialog() == true)
                         {
                             reviewComment.Model.CopyFrom(editVM.Model);
-                            reviewComment.SaveChanges();
+                            await reviewComment.SaveChanges();
                         }
                     }
                 }
@@ -145,7 +145,7 @@ namespace iRLeagueManager.Views
                         if (editWindow.ShowDialog() == true)
                         {
                             comment.Model.CopyFrom(editVM.Model);
-                            comment.SaveChanges();
+                            await comment.SaveChanges();
                         }
                     }
                 }

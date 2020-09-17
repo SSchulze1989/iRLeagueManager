@@ -65,7 +65,10 @@ namespace iRLeagueManager.Models
                     {
                         modelList.Add(loadedModel);
                         if (reload || loadedModel.IsExpired)
+                        {
                             getModelIds.Add(modelId);
+                            loadedModel.InitReset();
+                        }
                         else
                             updateList.Add(loadedModel);
                     }
