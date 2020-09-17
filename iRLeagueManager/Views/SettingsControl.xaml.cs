@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 using iRLeagueManager.ViewModels;
+using System.Windows.Controls.Primitives;
 
 namespace iRLeagueManager.Views
 {
@@ -113,6 +114,18 @@ namespace iRLeagueManager.Views
         private void MoveRightButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ScoringList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveRightButton.Command.Execute(MoveRightButton.CommandParameter);
+            e.Handled = true;
+        }
+
+        private void ScoringSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveLeftButton.Command.Execute(MoveLeftButton.CommandParameter);
+            e.Handled = true;
         }
     }
 }

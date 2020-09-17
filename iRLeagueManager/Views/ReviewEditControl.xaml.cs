@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -59,6 +60,18 @@ namespace iRLeagueManager.Views
                     }
                 }
             }
+        }
+
+        private void InvolvedMembers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveRightButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            e.Handled = true;
+        }
+
+        private void MemberSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveLeftButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            e.Handled = true;
         }
     }
 }
