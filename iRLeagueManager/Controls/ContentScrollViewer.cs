@@ -11,7 +11,7 @@ namespace iRLeagueManager.Controls
 {
     public class ContentScrollViewer : ScrollViewer
     {
-        public static readonly DependencyProperty ScrollableHeightProperty =
+        public static new readonly DependencyProperty ScrollableHeightProperty =
             DependencyProperty.Register(nameof(ScrollableHeight), typeof(double), typeof(ScrollViewer),
             new PropertyMetadata(0));
 

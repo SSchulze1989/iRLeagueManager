@@ -160,11 +160,7 @@ namespace iRLeagueManager.Models
 
         public static SeasonModel GetTemplate()
         {
-            return new SeasonModel()
-            {
-                SeasonId = 0,
-                SeasonName = "Season Name"
-            };
+            return new SeasonModel();
         }
 
         public static SeasonModel GetTemplate(SeasonModel seasonInfo)

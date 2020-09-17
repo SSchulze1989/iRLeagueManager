@@ -156,7 +156,7 @@ namespace iRLeagueManager.Data
             return this.ModelManager.GetModelAsync<T>(modelId);
         }
 
-        public Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : MappableModel
+        public Task<T> GetModelAsync<T>(long[] modelId, bool update = false, bool reload = false) where T : MappableModel
         {
             return this.ModelManager.GetModelAsync<T>(modelId, update, reload);
         }
@@ -166,7 +166,7 @@ namespace iRLeagueManager.Data
             return this.ModelManager.GetModelsAsync<T>(modelIds);
         }
 
-        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : MappableModel
+        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = false, bool reload = false) where T : MappableModel
         {
             return this.ModelManager.GetModelsAsync<T>(modelIds, update, reload);
         }
