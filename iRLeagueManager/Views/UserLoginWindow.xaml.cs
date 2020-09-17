@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
 
 namespace iRLeagueManager.Views
 {
@@ -104,6 +105,24 @@ namespace iRLeagueManager.Views
             //if (e.ChangedButton == MouseButton.Left && Mouse.LeftButton == MouseButtonState.Pressed)
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 this.DragMove();
+        }
+
+        private void InputBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                if (sender is TextBox textBox)
+                {
+                    var request = new TraversalRequest(FocusNavigationDirection.Next);
+                    textBox?.MoveFocus(request);
+                    e.Handled = true;
+                }
+                else if (sender is PasswordBox pwBox)
+                {
+                    SubmitButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                    e.Handled = true;
+                }
+            }
         }
     }
 }
