@@ -36,10 +36,10 @@ namespace iRLeagueManager.Models
 
         public async Task<T> GetModelAsync<T>(params long[] modelId) where T : MappableModel
         {
-            return await GetModelAsync<T>(modelId, true);
+            return await GetModelAsync<T>(modelId, false);
         }
 
-        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = true, bool reload = false) where T : MappableModel
+        public async Task<T> GetModelAsync<T>(long[] modelId, bool update = false, bool reload = false) where T : MappableModel
         {
             return (await GetModelsAsync<T>(new long[][] { modelId }, update, reload)).FirstOrDefault();
         }
@@ -49,7 +49,7 @@ namespace iRLeagueManager.Models
             return await GetModelsAsync<T>(modelIds.Select(x => new long[] { x }).ToArray());
         }
 
-        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = true, bool reload = false) where T : MappableModel
+        public async Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<long[]> modelIds = null, bool update = false, bool reload = false) where T : MappableModel
         {
             object[] data = null;
             List<T> modelList = new List<T>();
@@ -64,7 +64,7 @@ namespace iRLeagueManager.Models
                     if (loadedModel != null)
                     {
                         modelList.Add(loadedModel);
-                        if (reload)
+                        if (reload || loadedModel.IsExpired)
                             getModelIds.Add(modelId);
                         else
                             updateList.Add(loadedModel);
@@ -555,6 +555,21 @@ namespace iRLeagueManager.Models
             }
 
             return modelList;
+        }
+
+        public void ForceExpireModels<T>(IEnumerable<T> models = null) where T : MappableModel
+        {
+            List<T> expireList;
+            if (models != null)
+            {
+                expireList = models.ToList();
+            }
+            else
+            {
+                expireList = ModelCache.GetOfType<T>().ToList();
+            }
+
+            expireList.ForEach(x => x.IsExpired = true);
         }
     }
 }

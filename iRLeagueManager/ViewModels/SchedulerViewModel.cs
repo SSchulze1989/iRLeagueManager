@@ -40,6 +40,8 @@ namespace iRLeagueManager.ViewModels
         public ICommand DeleteScheduleCmd { get; protected set; }
         public ICommand CreateScheduleCmd { get; protected set; }
 
+        public ICommand SaveChangesCmd { get; }
+
         //public event NotifyCollectionChangedEventHandler CollectionChanged
         //{
         //    add
@@ -64,6 +66,7 @@ namespace iRLeagueManager.ViewModels
             }, o => CurrentResult?.Session != null);
             //UploadFileCmd = new RelayCommand(o => { }, o => false);
             DeleteScheduleCmd = new RelayCommand(o => DeleteSchedule(o as ScheduleModel), o => o != null);
+            SaveChangesCmd = new RelayCommand(async o => await SaveChanges(), o => CanSaveChanges());
         }
 
         public async void CreateSchedule()
@@ -90,7 +93,7 @@ namespace iRLeagueManager.ViewModels
             await Load(Season);
         }
 
-        public async Task Load(SeasonModel season)
+        public async Task Load(SeasonModel season, bool forceReload = false)
         {
             var loadedModels = new List<ScheduleModel>();
             Season = season;
@@ -101,10 +104,11 @@ namespace iRLeagueManager.ViewModels
             }
             else
             {
-                loadedModels = Schedules.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
+                //loadedModels = Schedules.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
+                loadedModels = new List<ScheduleModel>();
             }
 
-            var newIds = season.Schedules.Select(x => x.ScheduleId.GetValueOrDefault()).Except(loadedModels.Select(x => x.ScheduleId.GetValueOrDefault())).ToList();
+            var newIds = season.Schedules.Select(x => x.ModelId).ToList();
 
             List<ScheduleModel> updateSchedules = new List<ScheduleModel>();
 
@@ -118,7 +122,7 @@ namespace iRLeagueManager.ViewModels
                 }
                 if (newIds.Count() > 0)
                 {
-                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds.ToArray());
+                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds.ToArray(), reload: forceReload);
                     updateSchedules.AddRange(add);
                 }
             }
@@ -218,10 +222,47 @@ namespace iRLeagueManager.ViewModels
         //    return ((IEnumerable<ScheduleViewModel>)Schedules).GetEnumerator();
         //}
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
-            _ = Load(Season);
-            base.Refresh(propertyName);
+            await LeagueContext.GetModelAsync<SeasonModel>(Season.ModelId, reload: true);
+            await Load(Season, forceReload: true);
+            await base.Refresh();
+        }
+
+        public async Task SaveChanges()
+        {
+            if (CanSaveChanges() == false)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.GetModelAsync<SeasonModel>(Season.ModelId, reload: true);
+                var saveSchedules = Schedules.Where(x => Season.Schedules.Any(y => y.ScheduleId == x.ScheduleId) && x.Model.ContainsChanges).ToList();
+                saveSchedules.ForEach(x => x.SaveChanges());
+                await Load(Season);
+                OnPropertyChanged(nameof(SaveChangesCmd));
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public bool CanSaveChanges()
+        {
+            var hasChanges = false;
+            foreach(var schedule in Schedules)
+            {
+                hasChanges |= schedule.Model.ContainsChanges;
+            }
+            return hasChanges;
         }
 
         protected override void Dispose(bool disposing)

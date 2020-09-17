@@ -100,15 +100,10 @@ namespace iRLeagueManager.ViewModels
             MemberList.CustomFilters.Add(x => InvolvedMembers.Contains(x) == false);
         }
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
             CalculateVotes();
-            base.Refresh(propertyName);
-        }
-
-        public void Hold()
-        {
-            int i = 1;
+            await base.Refresh();
         }
 
         public void OnCommentsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -237,21 +232,21 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public void AddMember(LeagueMember member)
+        public async void AddMember(LeagueMember member)
         {
             if (InvolvedMembers.Contains(member) == false)
             {
                 InvolvedMembers.Add(member);
-                MemberList.Refresh();
+                await MemberList.Refresh();
             }
         }
 
-        public void RemoveMember(LeagueMember member)
+        public async void RemoveMember(LeagueMember member)
         {
             if (InvolvedMembers.Contains(member))
             {
                 InvolvedMembers.Remove(member);
-                memberList.Refresh();
+                await memberList.Refresh();
             }
         }
 

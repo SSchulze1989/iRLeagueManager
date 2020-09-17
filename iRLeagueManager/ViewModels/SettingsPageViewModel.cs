@@ -52,7 +52,7 @@ namespace iRLeagueManager.ViewModels
         {
             scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(Scorings.GetSource()));
             scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(Scorings));
-            Season = new SeasonViewModel(SeasonModel.GetTemplate());
+            Season = new SeasonViewModel();
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
             AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
             DeleteScoringCmd = new RelayCommand(o => DeleteScoring((o as ScoringViewModel).Model), o => o != null);
@@ -80,11 +80,20 @@ namespace iRLeagueManager.ViewModels
                 return;
             }
 
-            Season = new SeasonViewModel(season);
+            //Season = new SeasonViewModel(season);
+            Season.UpdateSource(season);
             OnPropertyChanged(null);
 
-            await LeagueContext.UpdateModelAsync(season);
-            await LeagueContext.UpdateModelsAsync(season.Scorings);
+            await LeagueContext.GetModelAsync<SeasonModel>(season.ModelId);
+        }
+
+        public override async Task Refresh()
+        {
+            LeagueContext.ModelManager.ForceExpireModels<SeasonModel>();
+            LeagueContext.ModelManager.ForceExpireModels<ScoringModel>();
+            LeagueContext.ModelManager.ForceExpireModels<ScoringTableModel>();
+            await Load(Season.Model);
+            await base.Refresh();
         }
 
         public async void AddScoring()
@@ -93,7 +102,7 @@ namespace iRLeagueManager.ViewModels
             {
                 var scoring = new ScoringModel() { Season = this.Season.Model, Name = "New Scoring" };
                 scoring = await LeagueContext.AddModelAsync(scoring);
-                Season.Scorings.Add(scoring);
+                //Season.Scorings.Add(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
                 Scorings.UpdateCollection();
             }
@@ -115,7 +124,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 await LeagueContext.DeleteModelsAsync(scoring);
-                Season.Scorings.Remove(scoring);
+                //Season.Scorings.Remove(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
                 Scorings.UpdateCollection();
             }
@@ -157,7 +166,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 await LeagueContext.DeleteModelsAsync(scoringTable);
-                Season.ScoringTables.Remove(scoringTable);
+                //Season.ScoringTables.Remove(scoringTable);
                 await LeagueContext.UpdateModelAsync(Season.Model);
                 ScoringTables.UpdateCollection();
             }
@@ -173,8 +182,9 @@ namespace iRLeagueManager.ViewModels
 
         protected override void Dispose(bool disposing)
         {
-            Season.Dispose();
-            Scorings.Dispose();
+            season.Dispose();
+            scorings.Dispose();
+            scoringTables.Dispose();
             base.Dispose(disposing);
         }
     }

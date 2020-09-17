@@ -77,11 +77,9 @@ namespace iRLeagueManager.ViewModels
             base.OnPropertyChanged(propertyName);
         }
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
-            if (propertyName == "" || propertyName == null)
-                MemberList.Refresh();
-            base.Refresh(propertyName);
+            MemberList.Refresh();
         }
     }
 }

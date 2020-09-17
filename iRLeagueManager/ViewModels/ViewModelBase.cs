@@ -37,7 +37,7 @@ namespace iRLeagueManager.ViewModels
 
         public ViewModelBase()
         {
-            RefreshCmd = new RelayCommand(o => Refresh(o?.ToString()), o => true);
+            RefreshCmd = new RelayCommand(async o => await Refresh(), o => true);
         }
 
         ~ViewModelBase()
@@ -45,9 +45,10 @@ namespace iRLeagueManager.ViewModels
             Dispose(false);
         }
 
-        public virtual void Refresh(String propertyName = "")
+#pragma warning disable CS1998 // Bei der asynchronen Methode fehlen "await"-Operatoren. Die Methode wird synchron ausgeführt.
+        public virtual async Task Refresh()
+#pragma warning restore CS1998 // Bei der asynchronen Methode fehlen "await"-Operatoren. Die Methode wird synchron ausgeführt.
         {
-            OnPropertyChanged(propertyName);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")

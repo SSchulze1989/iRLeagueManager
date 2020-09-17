@@ -25,7 +25,7 @@ namespace iRLeagueManager.ViewModels
 
         public override Task Load(params long[] modelId)
         {
-            if (Model == null || !Model.ModelId.SequenceEqual(modelId))
+            if (Model == null || Model.ModelId.SequenceEqual(modelId) == false)
                 return base.Load(modelId);
             else
                 return base.Update();
