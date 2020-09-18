@@ -20,7 +20,7 @@ namespace iRLeagueManager.ViewModels
         public LeagueContainerModel()
         {
             Model = Template;
-            SaveChangesCmd = new RelayCommand(o => SaveChanges(), o => (Model?.ContainsChanges).GetValueOrDefault());
+            SaveChangesCmd = new RelayCommand(async o => await SaveChanges(), o => (Model?.ContainsChanges).GetValueOrDefault());
         }
 
         public LeagueContainerModel(TSource source) : base(source)
@@ -76,7 +76,7 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public virtual async void SaveChanges()
+        public virtual async Task SaveChanges()
         {
             IsLoading = true;
             try

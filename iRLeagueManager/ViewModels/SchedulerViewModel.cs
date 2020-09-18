@@ -241,7 +241,7 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 await LeagueContext.GetModelAsync<SeasonModel>(Season.ModelId, reload: true);
                 var saveSchedules = Schedules.Where(x => Season.Schedules.Any(y => y.ScheduleId == x.ScheduleId) && x.Model.ContainsChanges).ToList();
-                saveSchedules.ForEach(x => x.SaveChanges());
+                saveSchedules.ForEach(async x => await x.SaveChanges());
                 await Load(Season);
                 OnPropertyChanged(nameof(SaveChangesCmd));
             }

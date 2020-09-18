@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using iRLeagueManager.ViewModels;
 using iRLeagueManager.Models.Members;
+using System.Windows.Controls.Primitives;
 
 namespace iRLeagueManager.Views
 {
@@ -94,7 +95,7 @@ namespace iRLeagueManager.Views
             var team = DataContext as TeamViewModel;
             if (sender is Button button && team != null)
             {
-                var selectedMembers = InvolvedMembers.SelectedItems.Cast<LeagueMember>();
+                var selectedMembers = TeamMembers.SelectedItems.Cast<LeagueMember>();
 
                 if (selectedMembers != null && selectedMembers.Count() > 0)
                 {
@@ -104,6 +105,18 @@ namespace iRLeagueManager.Views
                     }
                 }
             }
+        }
+
+        private void TeamMembers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveRightButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            e.Handled = true;
+        }
+
+        private void MemberSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveLeftButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            e.Handled = true;
         }
 
         public void OnLoad()

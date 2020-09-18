@@ -23,8 +23,8 @@ namespace iRLeagueManager.ViewModels
         //public IncidentReviewModel Model { get => Source; set => SetSource(value); }
 
         public string Description => string.Format("Lap: {0}\t|\tCorner: {1}\t-\tIncident: {2}\t-\tInvolved: {3}", Model.OnLap, Model.Corner, "Incident description", (Model.InvolvedMembers.Count() > 0) ? Model.InvolvedMembers.Select(x => x.ShortName).Aggregate((x, y) => x + ", " + y) : "");
-        public int OnLap { get => Model.OnLap; set => Model.OnLap = value; }
-        public int Corner { get => Model.Corner; set => Model.Corner = value; }
+        public string OnLap { get => Model.OnLap; set => Model.OnLap = value; }
+        public string Corner { get => Model.Corner; set => Model.Corner = value; }
         public ObservableCollection<LeagueMember> InvolvedMembers => Model.InvolvedMembers;
         public string IncidentKind { get => Model.IncidentKind; set => Model.IncidentKind = value; }
         public string FullDescription { get => Model.FullDescription; set => Model.FullDescription = value; }
