@@ -143,6 +143,7 @@ namespace iRLeagueManager.Models
                             scoringTable.Scorings.ElementAt(i).Key = scoring;
                         }
                     }
+                    scoringTable.InitializeModel();
                 }
 
                 //foreach (var result in Results)
