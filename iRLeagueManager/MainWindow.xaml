@@ -289,13 +289,37 @@
                 </StackPanel>
 
                 <Grid VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" Foreground="{StaticResource ThemeColor_Blue}" Grid.Row="1"
-                           FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Margin="0,20" HorizontalAlignment="Center"/>
-                    <controls:IconButton Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0" Grid.ColumnSpan="2">
+                        <controls:IconButton Click="GitHub_Click" ToolTip="Open iRLeagueManger on GitHub" VerticalAlignment="Center" Margin="4">
+                            <controls:IconButton.IconContent>
+                                <fa:ImageAwesome Icon="Github" Height="25" Foreground="{StaticResource ThemeColor_Back1}"/>
+                            </controls:IconButton.IconContent>
+                        </controls:IconButton>
+                        <TextBlock VerticalAlignment="Center" FontSize="12">
+                            <Hyperlink NavigateUri="https://github.com/SSchulze1989/iRLeagueManager/issues/new?assignees=SSchulze1989&amp;labels=bug&amp;template=bug_report.md&amp;title=" 
+                                       RequestNavigate="Hyperlink_RequestNavigate" ToolTip="File a Bug report on GitHub">BugReport</Hyperlink>
+                        </TextBlock>
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Height="15" Foreground="{StaticResource ThemeColor_Back4}" VerticalAlignment="Center"
+                                   Margin="5"/>
+                        <TextBlock VerticalAlignment="Center" FontSize="12">
+                            <Hyperlink NavigateUri="https://github.com/SSchulze1989/iRLeagueManager/issues/new?assignees=&amp;labels=enhancement&amp;template=feature_request.md&amp;title="
+                                       RequestNavigate="Hyperlink_RequestNavigate" ToolTip="Create a featrure Request on GitHub">Feature Request</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>                  
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" 
+                               Foreground="{StaticResource ThemeColor_Blue}" 
+                               FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Margin="0,20" HorizontalAlignment="Center"/>
+                    <controls:IconButton Grid.Row="1" Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
                                          Foreground="{StaticResource ThemeColor_Back0}" Margin="0" Padding="15"
                                          Click="RefreshButtonClick">
                         <controls:IconButton.IconContent>
