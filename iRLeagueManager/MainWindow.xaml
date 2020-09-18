@@ -262,11 +262,12 @@
                         </StackPanel>-->
                     </StackPanel>
                     <RadioButton GroupName="Menu" Content="Settings" Click="SettingsButton_Click" IsEnabled="True"/>
-                    <RadioButton GroupName="Menu" Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
-                    <RadioButton GroupName="Menu" Content="Race Calendar" Click="RaceCalendarButton_Click" />
                     <RadioButton GroupName="Menu" Content="Schedules" Click="SchedulesButton_Click" />
                     <RadioButton GroupName="Menu" Content="Results" Click="ResultsButton_Click" IsEnabled="True"/>
-                    <RadioButton GroupName="Menu" Content="Reviews" Click="ReviewsButton_Click" IsEnabled="True"/>
+                    <RadioButton GroupName="Menu" Content="Incidents" Click="ReviewsButton_Click" IsEnabled="True"/>
+                    <RadioButton GroupName="Menu" Content="Standings" Click="StandingsButton_Click" IsEnabled="True"/>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Foreground="{StaticResource ThemeColor_Back4}" Height="2" Margin="15,4"/>
+                    <RadioButton GroupName="Menu" Content="Calendar" Click="RaceCalendarButton_Click" />
                     <RadioButton GroupName="Menu" Content="Teams" Click="TeamsButton_Click" IsEnabled="True"/>
                     <RadioButton GroupName="Menu" Content="Stats" IsEnabled="False"/>
                     <StackPanel.Resources>
