@@ -39,5 +39,11 @@ namespace iRLeagueManager.Models.Results
 
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetValue(ref sessions, value); }
+
+        public ScoringTableModel() : base()
+        {
+            Scorings = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();
+            Sessions = new ObservableCollection<SessionInfo>();
+        }
     }
 }
