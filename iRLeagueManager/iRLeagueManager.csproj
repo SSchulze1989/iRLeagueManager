@@ -459,5 +459,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_bathurst_t.png" />
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_donington_gp_t.png" />
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_interlagos_t.png" />
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_limerock_classic_t.png" />
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_tsukuba_full_t.png" />
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_VIR_grand_west_t.png" />
+    <Resource Include="Graphics\TrackImages\Maps\Trackmap_watkinsglen_classic_t.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
