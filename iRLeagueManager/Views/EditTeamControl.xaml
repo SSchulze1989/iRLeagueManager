@@ -55,13 +55,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <ListBox  x:Name="InvolvedMembers" ItemsSource="{Binding Members}" SelectionMode="Extended" Grid.Column="0" VerticalAlignment="Stretch"/>
+                <ListBox  x:Name="TeamMembers" ItemsSource="{Binding Members}" SelectionMode="Extended" Grid.Column="0" VerticalAlignment="Stretch"
+                          MouseDoubleClick="TeamMembers_MouseDoubleClick"/>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
-                    <Button Content="&lt;" Margin="5" Padding="5" Click="MoveLeftButton_Click"/>
-                    <Button Content="&gt;" Margin="5" Padding="5" Click="MoveRightButton_Click"/>
+                    <Button Content="&lt;" Margin="5" Padding="5" Click="MoveLeftButton_Click" x:Name="MoveLeftButton"/>
+                    <Button Content="&gt;" Margin="5" Padding="5" Click="MoveRightButton_Click" x:Name="MoveRightButton"/>
                 </StackPanel>
                 <StackPanel  DataContext="{Binding MemberList}" Grid.Column="2">
-                    <ListBox x:Name="MemberSelect" ItemsSource="{Binding MemberList}" SelectionMode="Extended" Height="140"/>
+                    <ListBox x:Name="MemberSelect" ItemsSource="{Binding MemberList}" SelectionMode="Extended" Height="140"
+                             MouseDoubleClick="MemberSelect_MouseDoubleClick"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />

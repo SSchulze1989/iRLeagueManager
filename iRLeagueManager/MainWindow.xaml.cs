@@ -21,6 +21,7 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Interfaces;
 using System.Reflection;
 using System.Net.NetworkInformation;
+using System.Diagnostics;
 
 namespace iRLeagueManager
 {
@@ -166,6 +167,21 @@ namespace iRLeagueManager
                 MainContent.Content = vm;
                 await vm.Load();
             }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            // for .NET Core you need to add UseShellExecute = true
+            // see https://docs.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.useshellexecute#property-value
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void GitHub_Click(object sender, RoutedEventArgs e)
+        {
+            var eventArgs = new RequestNavigateEventArgs(new Uri("https://github.com/SSchulze1989/iRLeagueManager"), "https://github.com/SSchulze1989/iRLeagueManager");
+            Hyperlink_RequestNavigate(sender, eventArgs);
+            e.Handled = true;
         }
     }
 }

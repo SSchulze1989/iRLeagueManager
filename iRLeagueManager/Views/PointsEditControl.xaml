@@ -21,7 +21,13 @@
                 </Grid.ColumnDefinitions>
 
                 <DataGrid Grid.Column="0" x:Name="PointsGrid" ItemsSource="{Binding}" MinColumnWidth="75"
-                          CanUserReorderColumns="False" CanUserSortColumns="False"/>
+                          CanUserReorderColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Position" Binding="{Binding Key}"/>
+                        <DataGridTextColumn Header="Points" Binding="{Binding Value}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="AddBasePointsButton_Click" />
                     <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteBasePointsButton_Click" Tag="{Binding ElementName=PointsGrid, Path=SelectedItem}"/>
@@ -35,7 +41,13 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid Grid.Row="0" x:Name="PointsGrid" ItemsSource="{Binding}" MinColumnWidth="75" CanUserReorderColumns="False" CanUserSortColumns="True"/>
+                <DataGrid Grid.Row="0" x:Name="PointsGrid" ItemsSource="{Binding}" MinColumnWidth="75" CanUserReorderColumns="False" CanUserSortColumns="True"
+                          CanUserAddRows="True" CanUserDeleteRows="True" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key}"/>
+                        <DataGridTextColumn Header="Points" Binding="{Binding Value}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

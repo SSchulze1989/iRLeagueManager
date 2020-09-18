@@ -309,7 +309,7 @@
 
                                 <ListBox x:Name="ScoringList" ItemsSource="{Binding Scorings}" Grid.Column="0" 
                                      Margin="5" MinHeight="140" VerticalAlignment="Stretch"
-                                     SelectionMode="Extended">
+                                     SelectionMode="Extended" MouseDoubleClick="ScoringList_MouseDoubleClick">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Key.Name}"/>
@@ -318,12 +318,12 @@
                                 </ListBox>
                                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
                                     <Button Content="&lt;" Margin="5" Padding="5" Command="{Binding AddScoringCmd}" 
-                                        CommandParameter="{Binding ElementName=ScoringSelect, Path=SelectedItems}"/>
+                                        CommandParameter="{Binding ElementName=ScoringSelect, Path=SelectedItems}" x:Name="MoveLeftButton"/>
                                     <Button Content="&gt;" Margin="5" Padding="5" Command="{Binding RemoveScoringCmd}"
-                                        CommandParameter="{Binding ElementName=ScoringList, Path=SelectedItems}"/>
+                                        CommandParameter="{Binding ElementName=ScoringList, Path=SelectedItems}" x:Name="MoveRightButton"/>
                                 </StackPanel>
                                 <ListBox x:Name="ScoringSelect" ItemsSource="{Binding ScoringList}"
-                                     SelectionMode="Extended" Height="140" Grid.Column="2">
+                                     SelectionMode="Extended" Height="140" Grid.Column="2" MouseDoubleClick="ScoringSelect_MouseDoubleClick">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Name}"/>

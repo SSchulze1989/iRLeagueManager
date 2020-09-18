@@ -57,17 +57,7 @@ namespace iRLeagueManager.ViewModels
             AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
             DeleteScoringCmd = new RelayCommand(o => DeleteScoring((o as ScoringViewModel).Model), o => o != null);
             DeleteScoringTableCmd = new RelayCommand(o => DeleteScoringTable((o as ScoringTableViewModel).Model), o => o != null);
-            SaveChangesCmd = new RelayCommand(o =>
-            {
-                foreach (var scoring in Scorings)
-                {
-                    scoring.SaveChanges();
-                }
-                foreach (var scoringTable in ScoringTables)
-                {
-                    scoringTable.SaveChanges();
-                }
-            });
+            SaveChangesCmd = new RelayCommand(async o => await SaveChanges(), o => CanSaveChanges());
         }
 
         public async Task Load(SeasonModel season)
@@ -178,6 +168,37 @@ namespace iRLeagueManager.ViewModels
             {
 
             }
+        }
+
+        public async Task SaveChanges()
+        {
+            foreach (var scoring in Scorings)
+            {
+                await scoring.SaveChanges();
+            }
+            foreach (var scoringTable in ScoringTables)
+            {
+                await scoringTable.SaveChanges();
+            }
+        }
+
+        public bool CanSaveChanges()
+        {
+            if (Season == null)
+            {
+                return false;
+            }
+
+            var hasChanges = Season.Model.ContainsChanges;
+            foreach (var scoring in Scorings)
+            {
+                hasChanges |= scoring.Model.ContainsChanges;
+            }
+            foreach (var scoringTable in ScoringTables)
+            {
+                hasChanges |= scoringTable.Model.ContainsChanges;
+            }
+            return hasChanges;
         }
 
         protected override void Dispose(bool disposing)
