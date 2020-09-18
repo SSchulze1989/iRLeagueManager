@@ -135,14 +135,14 @@ namespace iRLeagueManager.Models
                 }
                 foreach (var scoringTable in ScoringTables)
                 {
-                    for (int i = 0; i < scoringTable.Scorings.Count(); i++)
-                    {
-                        var scoring = Scorings.SingleOrDefault(x => x.ScoringId == scoringTable.Scorings.ElementAt(i).Key.ScoringId);
-                        if (scoring != null)
-                        {
-                            scoringTable.Scorings.ElementAt(i).Key = scoring;
-                        }
-                    }
+                    //for (int i = 0; i < scoringTable.Scorings.Count(); i++)
+                    //{
+                    //    var scoring = Scorings.SingleOrDefault(x => x.ScoringId == scoringTable.Scorings.ElementAt(i).Key.ScoringId);
+                    //    if (scoring != null)
+                    //    {
+                    //        scoringTable.Scorings.ElementAt(i).Key = scoring;
+                    //    }
+                    //}
                     scoringTable.InitializeModel();
                 }
 
