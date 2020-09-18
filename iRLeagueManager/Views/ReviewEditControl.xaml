@@ -82,10 +82,10 @@
                 </StackPanel>
             </Grid>
 
-            <TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
-            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="140" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
+            <!--<TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
+            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="140" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>-->
 
-            <TextBlock Text="Accepted Votes:" Grid.Column="0" Grid.Row="7"/>
+            <TextBlock Text="Voting Result:" Grid.Column="0" Grid.Row="7"/>
             <Grid Grid.Row="8" Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -93,7 +93,7 @@
                 </Grid.ColumnDefinitions>
 
                 <DataGrid x:Name="VoteGrid" Grid.Column="0" ItemsSource="{Binding AcceptedVotes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5"
-                          CanUserDeleteRows="False">
+                          CanUserDeleteRows="False" MinHeight="95">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Vote" MinWidth="80">
                             <DataGridTemplateColumn.CellTemplate>
