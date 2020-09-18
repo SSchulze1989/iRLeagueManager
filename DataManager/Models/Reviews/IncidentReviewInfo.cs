@@ -24,11 +24,11 @@ namespace iRLeagueManager.Models.Reviews
 
         public UserModel Author { get; internal set; }
 
-        private int onLap;
-        public int OnLap { get => onLap; set => SetValue(ref onLap, value); }
+        private string onLap;
+        public string OnLap { get => onLap; set => SetValue(ref onLap, value); }
 
-        private int corner;
-        public int Corner { get => corner; set => SetValue(ref corner, value); }
+        private string corner;
+        public string Corner { get => corner; set => SetValue(ref corner, value); }
 
         string IHierarchicalModel.Description => "L" + OnLap.ToString() + " - C" + Corner.ToString();
 
