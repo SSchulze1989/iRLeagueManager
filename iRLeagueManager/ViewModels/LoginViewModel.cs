@@ -33,6 +33,9 @@ namespace iRLeagueManager.ViewModels
         private string statusMessage;
         public string StatusMessage { get => statusMessage; set => SetValue(ref statusMessage, value); }
 
+        private bool rememberMe;
+        public bool RememberMe { get => rememberMe; set => SetValue(ref rememberMe, value); }
+
         public ICommand SubmitButtonCommand { get; }
         public ICommand CloseButtonCommand { get; }
         public ICommand RegisterUserCommand { get; }
