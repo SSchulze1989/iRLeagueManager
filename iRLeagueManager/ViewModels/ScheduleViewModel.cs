@@ -132,26 +132,36 @@ namespace iRLeagueManager.ViewModels
                 return;
             try
             {
+                var removeList = new List<SessionModel>();
                 if (selection is SessionViewModel session) {
                     await LeagueContext.DeleteModelsAsync(session.GetSource());
-                    //Model.Sessions.Remove(session.GetSource());
+                    removeList.Add(session.GetSource());
                 }
                 else if (selection is IEnumerable<SessionViewModel> sessions)
                 {
                     await LeagueContext.DeleteModelsAsync(sessions.Select(x => x.GetSource()).ToArray());
-                    foreach (var s in sessions)
-                    {
-                        //Model.Sessions.Remove(s.GetSource());
-                    }
+                    removeList.AddRange(sessions.Select(x => x.GetSource()));
                 }
                 else if (selection == null)
                 {
                     await LeagueContext.DeleteModelsAsync(SelectedSession.GetSource());
-                    //Model.Sessions.Remove(SelectedSession.GetSource());
+                    removeList.Add(selectedSession.GetSource());
                 }
 
                 IsLoading = true;
-                await LeagueContext.UpdateModelAsync(Model);
+
+                if (Model.ContainsChanges)
+                {
+                    foreach (var removeSession in removeList)
+                    {
+                        Model.Sessions.Remove(removeSession);
+                    }
+                    await LeagueContext.UpdateModelAsync(Model);
+                }
+                else
+                {
+                    await LeagueContext.GetModelAsync<ScheduleModel>(Model.ModelId, update: false, reload: true);
+                }
             }
             catch (Exception e)
             {
