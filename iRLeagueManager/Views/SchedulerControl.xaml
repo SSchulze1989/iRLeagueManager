@@ -76,7 +76,8 @@
                                                                     </Style>
                                                                 </controls:IconButton.Style>
                                                             </controls:IconButton>
-                                                            <controls:IconToggleButton DockPanel.Dock="Right" x:Name="expandButton" IconFill="{StaticResource ThemeColor_Back3}">
+                                                            <controls:IconToggleButton DockPanel.Dock="Right" x:Name="expandButton" IconFill="{StaticResource ThemeColor_Back3}"
+                                                                                       IsChecked="{Binding Expanded}">
                                                                 <controls:IconToggleButton.Style>
                                                                     <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
                                                                         <Setter Property="IconContent">
@@ -85,13 +86,20 @@
                                                                             </Setter.Value>
                                                                         </Setter>
                                                                         <Style.Triggers>
-                                                                            <Trigger Property="IsChecked" Value="True">
+                                                                            <!--<Trigger Property="IsChecked" Value="True">
                                                                                 <Setter Property="IconContent">
                                                                                     <Setter.Value>
                                                                                         <fa:ImageAwesome Icon="AngleUp" Height="10"/>
                                                                                     </Setter.Value>
                                                                                 </Setter>
-                                                                            </Trigger>
+                                                                            </Trigger>-->
+                                                                            <DataTrigger Binding="{Binding Expanded}" Value="True">
+                                                                                <Setter Property="IconContent">
+                                                                                    <Setter.Value>
+                                                                                        <fa:ImageAwesome Icon="AngleUp" Height="10"/>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </controls:IconToggleButton.Style>
@@ -158,7 +166,7 @@
                                                             <Style TargetType="StackPanel">
                                                                 <Setter Property="Visibility" Value="Visible"/>
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ElementName=expandButton, Path=IsChecked}" Value="False">
+                                                                    <DataTrigger Binding="{Binding Expanded}" Value="False">
                                                                         <Setter Property="Visibility" Value="Collapsed"/>
                                                                     </DataTrigger>
                                                                 </Style.Triggers>

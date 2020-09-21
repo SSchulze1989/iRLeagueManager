@@ -12,7 +12,7 @@ namespace iRLeagueManager.Controls
     {
         public static DependencyProperty IsCheckedProperty =
             DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(IconToggleButton),
-                new PropertyMetadata(false));
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public bool IsChecked
         {

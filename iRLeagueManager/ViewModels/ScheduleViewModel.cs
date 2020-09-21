@@ -38,7 +38,11 @@ namespace iRLeagueManager.ViewModels
         }
 
         private bool expanded = true;
-        public bool Expanded { get => expanded; set => SetValue(ref expanded, value); }
+        public bool Expanded 
+        { 
+            get => expanded; 
+            set => SetValue(ref expanded, value);
+        }
 
         public long? ScheduleId => Model?.ScheduleId;
 
@@ -68,6 +72,7 @@ namespace iRLeagueManager.ViewModels
             AddSessionCmd = new RelayCommand(async o => await AddSessionAsync(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
             DeleteSessionsCmd = new RelayCommand(async o => await DeleteSessionsAsync(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
             UploadFileCmd = new RelayCommand(o => UploadFile(o as SessionModel), o => false);
+            Expanded = true;
         }
 
         public ScheduleViewModel(ScheduleModel source) : this()
