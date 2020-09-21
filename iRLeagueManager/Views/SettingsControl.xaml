@@ -77,7 +77,18 @@
 
                             <ListBox Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" DisplayMemberPath="Name" Width="400"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding DeleteScoringCmd}" CommandParameter="{Binding ElementName=ScoringsListBox, Path=SelectedItem}"/>
+                                <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteScoringButton_Click" Tag="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Tag" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                                 <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding AddScoringCmd}"/>
                             </StackPanel>
                         </Grid>
@@ -209,8 +220,18 @@
                                  DisplayMemberPath="Name" Width="400"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                                 <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" 
-                                    Command="{Binding DeleteScoringTableCmd}" 
-                                    CommandParameter="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}"/>
+                                    Click="DeleteScoringTableButton_Click" Tag="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Tag" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                                 <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" 
                                     Command="{Binding AddScoringTableCmd}"/>
                             </StackPanel>

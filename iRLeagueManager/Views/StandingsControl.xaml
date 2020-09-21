@@ -128,7 +128,7 @@
                             <ContentControl.Resources>
                                 <DataTemplate x:Key="StandingsDataGrid">
                                     <DataGrid DataContext="{Binding Standings}" ItemsSource="{Binding StandingsRows}"
-                                              ScrollViewer.CanContentScroll="False"
+                                              ScrollViewer.CanContentScroll="False" IsReadOnly="True"
                                               AutoGenerateColumns="False" AlternationCount="2" AlternatingRowBackground="#F0F0F0"
                                               TextElement.FontSize="{StaticResource Global.FontSizeSmall}"
                                               HorizontalScrollBarVisibility="Disabled" RowDetailsVisibilityMode="Collapsed"
@@ -300,7 +300,7 @@
                                 </DataTemplate>
                                 <DataTemplate x:Key="TeamStandingsDataGrid">
                                     <DataGrid DataContext="{Binding Standings}" ItemsSource="{Binding StandingsRows}"
-                                              ScrollViewer.CanContentScroll="False"
+                                              ScrollViewer.CanContentScroll="False" IsReadOnly="True"
                                               AutoGenerateColumns="False" AlternationCount="2" AlternatingRowBackground="#F0F0F0"
                                               TextElement.FontSize="{StaticResource Global.FontSizeSmall}"
                                               HorizontalScrollBarVisibility="Disabled" RowDetailsVisibilityMode="Collapsed"
@@ -451,9 +451,9 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </DataTemplate>
-                                <DataTemplate x:Key="TeamStandingsRowModelDataGrid">
+                                <DataTemplate x:Key="TeamStandingsRowModelDataGrid" >
                                     <DataGrid ItemsSource="{Binding DriverStandingsRows}" AutoGenerateColumns="False" VerticalAlignment="Stretch" 
-                                              Background="Transparent" RowBackground="#FFFAE4"
+                                              Background="Transparent" RowBackground="#FFFAE4" IsReadOnly="True"
                                               TextElement.FontSize="{StaticResource Global.FontSizeSmall}"
                                               BorderBrush="Black" BorderThickness="1" RowDetailsVisibilityMode="Collapsed"
                                               PreviewMouseWheel="DataGrid_PreviewMouseWheel"
@@ -627,11 +627,11 @@
                                 </DataTemplate>
                                 <DataTemplate x:Key="StandingsRowModelDataGrid">
                                     <DataGrid ItemsSource="{Binding CountedResults}" AutoGenerateColumns="False" VerticalAlignment="Stretch"
-                                              BorderBrush="Black" RowBackground="#F0FFFF"
+                                              BorderBrush="Black" RowBackground="#F0FFFF" IsReadOnly="True"
                                               PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                               TextElement.FontSize="{StaticResource Global.FontSizeSmall}" 
                                               CanUserAddRows="False" CanUserDeleteRows="False"
-                                              MaxHeight="4000" MaxWidth="4000"
+                                              MaxHeight="4000" MaxWidth="4000" 
                                               SelectionUnit="FullRow" SelectionMode="Single"
                                               Margin="14,-1,-1,-2"  Style="{StaticResource DataGridStyle}"
                                               RowHeight="25">

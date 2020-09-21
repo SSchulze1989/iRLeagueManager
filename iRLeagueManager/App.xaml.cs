@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
 using System.Globalization;
+using CredentialManagement;
 
 namespace iRLeagueManager
 {
@@ -26,15 +27,10 @@ namespace iRLeagueManager
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.GetCultureInfo("de-DE").IetfLanguageTag)));
 
             var dialog = new UserLoginWindow();
-            var viewModel = new LoginViewModel();
-#if DEBUG
-            viewModel.UserName = "Administrator";
-            viewModel.SetPassword("administrator");
-#endif
+            //            var viewModel = new LoginViewModel();
 
-            dialog.DataContext = viewModel;
+            //dialog.DataContext = viewModel;
             dialog.WindowStyle = WindowStyle.None;
-            viewModel.Load();
 
             if (dialog.ShowDialog() == true)
             {

@@ -124,12 +124,29 @@ namespace iRLeagueManager.Services
                 var teststrt = line["Interval"];
                 var test = int.TryParse(line["Interval"].Replace("L", ""), out int intvtest) ? intvtest : 0;
                 row.Interval = new LapInterval(GetTimeSpanFromString(line["Interval"]), int.TryParse(line["Interval"].Replace("L", ""), out int intvLaps) ? intvLaps : 0);
-                row.AvgLapTime = new LapTime(TimeSpan.TryParse("0:" + line["AverageLapTime"], culture, out TimeSpan avgLap) ? avgLap : TimeSpan.Zero);
-                row.FastestLapTime = new LapTime(TimeSpan.TryParse("0:" + line["FastestLapTime"], culture, out TimeSpan fastLap) ? fastLap : TimeSpan.Zero);
+                row.AvgLapTime = new LapTime(TimeSpan.TryParse(PrepareTimeString(line["AverageLapTime"]), culture, out TimeSpan avgLap) ? avgLap : TimeSpan.Zero);
+                row.FastestLapTime = new LapTime(TimeSpan.TryParse(PrepareTimeString(line["FastestLapTime"]), culture, out TimeSpan fastLap) ? fastLap : TimeSpan.Zero);
                 //row.PositionChange = row.StartPosition - row.FinishPosition;
                 resultRows.Add(row);
             }
             return resultRows;
+        }
+
+        private static string PrepareTimeString(string timeString)
+        {
+            var hms = timeString.Split(':');
+            if (hms.Count() == 1)
+            {
+                return "0:00:" + timeString;
+            }
+            else if (hms.Count() == 2)
+            {
+                return "0:" + timeString;
+            }
+            else
+            {
+                return timeString;
+            }
         }
 
         public static TimeSpan GetTimeSpanFromString(string str)

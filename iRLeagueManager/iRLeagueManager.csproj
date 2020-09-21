@@ -88,6 +88,9 @@
     <XamlDebuggingInformation>True</XamlDebuggingInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CredentialManagement, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CredentialManagement.1.0.2\lib\net35\CredentialManagement.dll</HintPath>
+    </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
@@ -460,13 +463,27 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_bathurst_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_donington_gp_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_interlagos_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_limerock_classic_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_tsukuba_full_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_VIR_grand_west_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_watkinsglen_classic_t.png" />
+    <None Include="Graphics\TrackImages\Maps\Trackmap_bathurst_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_donington_gp_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_interlagos_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_limerock_classic_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_tsukuba_full_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_VIR_grand_west_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_watkinsglen_classic_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

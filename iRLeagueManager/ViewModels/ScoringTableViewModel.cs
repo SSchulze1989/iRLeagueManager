@@ -178,8 +178,8 @@ namespace iRLeagueManager.ViewModels
                 {
                     if (SessionSelect.FilteredSessions.Contains(SessionSelect.SelectedSession) == false)
                         SessionSelect.SelectedSession = SessionSelect.FilteredSessions.LastOrDefault();
-
-                    await Standings.Load(ScoringTableId, SessionSelect.SelectedSession.SessionId);
+                    
+                    await Standings.Load(ScoringTableId, (SessionSelect.SelectedSession?.SessionId).GetValueOrDefault());
                 }
                 else
                     await Standings.Load(ScoringTableId, 0);

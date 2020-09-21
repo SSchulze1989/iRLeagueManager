@@ -22,6 +22,8 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class SchedulerControl : UserControl
     {
+        private SchedulerViewModel ViewModel => DataContext as SchedulerViewModel;
+
         public SchedulerControl()
         {
             InitializeComponent();
@@ -45,13 +47,13 @@ namespace iRLeagueManager.Views
                     editWindow.ModalContent.Content = content;
                     if (editWindow.ShowDialog() == true)
                     {
-                        Schedule.AddSession(editVM.Model);
+                        Schedule.AddSessionAsync(editVM.Model);
                     }
                 }
             }
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag != null)
             {
@@ -75,7 +77,7 @@ namespace iRLeagueManager.Views
                     if (editWindow.ShowDialog() == true)
                     {
                         sessionVM.Model.CopyFrom(editVM.Model);
-                        sessionVM.SaveChanges();
+                        await sessionVM.SaveChanges();
                     }
                 }
             }
