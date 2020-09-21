@@ -62,37 +62,62 @@ namespace iRLeagueManager.ViewModels
 
         public async Task Load(SeasonModel season)
         {
-            if (season == null)
+            try
             {
-                Season = null;
-                StatusMsg = "No season loaded";
+                IsLoading = true;
+                if (season == null)
+                {
+                    Season = null;
+                    StatusMsg = "No season loaded";
+                    OnPropertyChanged(null);
+                    return;
+                }
+
+                //Season = new SeasonViewModel(season);
+                Season.UpdateSource(season);
                 OnPropertyChanged(null);
-                return;
+
+                await LeagueContext.GetModelAsync<SeasonModel>(season.ModelId);
             }
-
-            //Season = new SeasonViewModel(season);
-            Season.UpdateSource(season);
-            OnPropertyChanged(null);
-
-            await LeagueContext.GetModelAsync<SeasonModel>(season.ModelId);
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         public override async Task Refresh()
         {
-            LeagueContext.ModelManager.ForceExpireModels<SeasonModel>();
-            LeagueContext.ModelManager.ForceExpireModels<ScoringModel>();
-            LeagueContext.ModelManager.ForceExpireModels<ScoringTableModel>();
-            await Load(Season.Model);
-            await base.Refresh();
+            try
+            {
+                IsLoading = true;
+                LeagueContext.ModelManager.ForceExpireModels<SeasonModel>();
+                LeagueContext.ModelManager.ForceExpireModels<ScoringModel>();
+                LeagueContext.ModelManager.ForceExpireModels<ScoringTableModel>();
+                await Load(Season.Model);
+                await base.Refresh();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         public async void AddScoring()
         {
             try
             {
+                IsLoading = true;
                 var scoring = new ScoringModel() { Season = this.Season.Model, Name = "New Scoring" };
                 scoring = await LeagueContext.AddModelAsync(scoring);
-                //Season.Scorings.Add(scoring);
+                Season.Scorings.Add(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
                 Scorings.UpdateCollection();
             }
@@ -102,7 +127,7 @@ namespace iRLeagueManager.ViewModels
             }
             finally
             {
-
+                IsLoading = false;
             }
         }
 
@@ -113,8 +138,9 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
+                IsLoading = true;
                 await LeagueContext.DeleteModelsAsync(scoring);
-                //Season.Scorings.Remove(scoring);
+                Season.Scorings.Remove(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
                 Scorings.UpdateCollection();
             }
@@ -124,7 +150,7 @@ namespace iRLeagueManager.ViewModels
             }
             finally
             {
-
+                IsLoading = false;
             }
         }
 
@@ -132,6 +158,7 @@ namespace iRLeagueManager.ViewModels
         {
             try
             {
+                IsLoading = true;
                 var scoringTable = new ScoringTableModel() { Name = "New Scoring Table" };
                 //scoringTable = await LeagueContext.AddModelAsync(scoringTable);
                 Season.ScoringTables.Add(scoringTable);
@@ -144,7 +171,7 @@ namespace iRLeagueManager.ViewModels
             }
             finally
             {
-
+                IsLoading = false;
             }
         }
 
@@ -155,8 +182,9 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
+                IsLoading = true;
                 await LeagueContext.DeleteModelsAsync(scoringTable);
-                //Season.ScoringTables.Remove(scoringTable);
+                Season.ScoringTables.Remove(scoringTable);
                 await LeagueContext.UpdateModelAsync(Season.Model);
                 ScoringTables.UpdateCollection();
             }
@@ -166,19 +194,31 @@ namespace iRLeagueManager.ViewModels
             }
             finally
             {
-
+                IsLoading = false;
             }
         }
 
         public async Task SaveChanges()
         {
-            foreach (var scoring in Scorings)
+            try
             {
-                await scoring.SaveChanges();
+                IsLoading = true;
+                foreach (var scoring in Scorings)
+                {
+                    await scoring.SaveChanges();
+                }
+                foreach (var scoringTable in ScoringTables)
+                {
+                    await scoringTable.SaveChanges();
+                }
             }
-            foreach (var scoringTable in ScoringTables)
+            catch (Exception e)
             {
-                await scoringTable.SaveChanges();
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 
