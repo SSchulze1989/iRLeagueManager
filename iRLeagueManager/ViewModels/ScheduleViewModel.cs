@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 using System.IO;
 using Microsoft.Win32;
 
@@ -19,6 +20,7 @@ using iRLeagueManager.ViewModels.Collections;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -63,8 +65,8 @@ namespace iRLeagueManager.ViewModels
             sessions = new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
             ((INotifyCollectionChanged)sessions).CollectionChanged += OnSessionCollectionChange;
             Sessions.UpdateSource(new SessionModel[0]);
-            AddSessionCmd = new RelayCommand(o => AddSession(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
-            DeleteSessionsCmd = new RelayCommand(o => DeleteSessions(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
+            AddSessionCmd = new RelayCommand(async o => await AddSessionAsync(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
+            DeleteSessionsCmd = new RelayCommand(async o => await DeleteSessionsAsync(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
             UploadFileCmd = new RelayCommand(o => UploadFile(o as SessionModel), o => false);
         }
 
@@ -98,16 +100,16 @@ namespace iRLeagueManager.ViewModels
             OnPropertyChanged(nameof(SessionCount));
         }
 
-        public void AddSession()
+        public async Task AddSessionAsync()
         {
             if (Model?.Sessions == null)
                 return;
 
             var newSession = new RaceSessionModel(Model);
-            AddSession(newSession);
+            await AddSessionAsync(newSession);
         }
 
-        public async void AddSession(SessionModel session)
+        public async Task AddSessionAsync(SessionModel session)
         {
             Model.Sessions.Add(session);
 
@@ -126,19 +128,25 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async void DeleteSessions(object selection)
+        public async Task DeleteSessionsAsync(object selection)
         {
             if (Model == null)
                 return;
             try
             {
+                if (MessageBox.Show("Would you really like to delete the selected Sessions?\nThis action can not be undone!", "Delete Sessions", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
                 var removeList = new List<SessionModel>();
                 if (selection is SessionViewModel session) {
                     await LeagueContext.DeleteModelsAsync(session.GetSource());
                     removeList.Add(session.GetSource());
                 }
-                else if (selection is IEnumerable<SessionViewModel> sessions)
+                else if (selection is IList multiselection)
                 {
+                    var sessions = multiselection.OfType<SessionViewModel>();
                     await LeagueContext.DeleteModelsAsync(sessions.Select(x => x.GetSource()).ToArray());
                     removeList.AddRange(sessions.Select(x => x.GetSource()));
                 }
