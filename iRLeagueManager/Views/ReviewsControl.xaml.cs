@@ -185,6 +185,11 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
+                if (MessageBox.Show("Would you really like to delete this Comement?\nThis action can not be undone!", "Delete Comment", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
                 if (button.DataContext is ReviewCommentViewModel reviewCommentVM)
                 {
                     var review = reviewCommentVM.Review;
@@ -303,6 +308,18 @@ namespace iRLeagueManager.Views
                         button.IsChecked = !button.IsChecked;
                     }
                 }
+            }
+        }
+
+        private async void ReviewDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is IncidentReviewViewModel reviewViewModel)
+            {
+                if (MessageBox.Show("Would you really like to delete this Review?\nThis action can not be undone!", "Delete Incident Review", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await ViewModel.RemoveReviewAsync(reviewViewModel.Model);
+                }
+                e.Handled = true;
             }
         }
     }
