@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
+using CredentialManagement;
 
 namespace iRLeagueManager.Views
 {
@@ -22,6 +23,7 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class UserLoginWindow : Window
     {
+        public const string credentialTarget = "iRLeagueManager_Desktop";
         private LoginViewModel ViewModel => DataContext as LoginViewModel;
 
         public UserLoginWindow()
@@ -43,6 +45,17 @@ namespace iRLeagueManager.Views
                     await ViewModel.SubmitAsync();
                     if (ViewModel.IsLoggedIn)
                     {
+                        if (ViewModel.RememberMe)
+                        {
+                            var credential = new Credential(ViewModel.UserName, PasswordTextBox.Password, credentialTarget);
+                            credential.Save();
+                        }
+                        else
+                        {
+                            var credential = new Credential() { Target = credentialTarget };
+                            credential.Delete();
+                        }
+
                         DialogResult = true;
                         Close();
                     }
@@ -52,6 +65,34 @@ namespace iRLeagueManager.Views
                     ViewModel.StatusMessage = "Login failed - could not connect to Server.";
                 }
             }
+        }
+
+        public new bool? ShowDialog()
+        {
+            if (ViewModel == null)
+            {
+                return false;
+            }
+
+#if DEBUG
+            ViewModel.UserName = "Administrator";
+            ViewModel.SetPassword("administrator");
+#endif
+
+            ViewModel.Load();
+            var storedCredentials = (new Credential() { Target = credentialTarget });
+            if (storedCredentials.Load())
+            {
+                ViewModel.UserName = storedCredentials.Username;
+                ViewModel.SetPassword(PasswordTextBox.Password = storedCredentials.Password);
+                ViewModel.RememberMe = true;
+            }
+            else
+            {
+                ViewModel.RememberMe = false;
+            }
+
+            return base.ShowDialog();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

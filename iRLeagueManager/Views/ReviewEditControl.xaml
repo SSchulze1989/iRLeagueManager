@@ -82,8 +82,8 @@
                 </StackPanel>
             </Grid>
 
-            <!--<TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
-            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="140" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>-->
+            <TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
+            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="140" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
 
             <TextBlock Text="Voting Result:" Grid.Column="0" Grid.Row="7"/>
             <Grid Grid.Row="8" Grid.ColumnSpan="3">

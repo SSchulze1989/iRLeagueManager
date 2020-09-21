@@ -352,8 +352,8 @@
                                                                 x:Name="headerBorder">
                                                             <DockPanel Margin="0">
                                                                 <controls:IconButton x:Name="reviewDeleteButton" DockPanel.Dock="Right"
-                                                                                     Command="{Binding DataContext.RemoveReviewCmd, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                                                     CommandParameter="{Binding Model}"
+                                                                                     Click="ReviewDeleteButton_Click"
+                                                                                     Tag="{Binding}"
                                                                                      IconContent="{DynamicResource closeThick}"
                                                                                      IconStroke="Transparent" IconStrokeThickness="0.5"
                                                                                      IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
