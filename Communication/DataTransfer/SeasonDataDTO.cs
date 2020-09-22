@@ -43,6 +43,12 @@ namespace iRLeagueDatabase.DataTransfer
         [DataMember]
         public DateTime SeasonEnd { get; set; }
 
+        [DataMember]
+        public VoteCategoryDTO[] VoteCategories { get; set; }
+
+        [DataMember]
+        public CustomIncidentDTO[] CustomIncidents { get; set; }
+
         //public ScoringDataDTO MainScoring { get; set; }
 
         //[DataMember]

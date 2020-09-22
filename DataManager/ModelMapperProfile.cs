@@ -440,6 +440,14 @@ namespace iRLeagueManager
                 .ConvertUsing<LapTimeConverter>();
             CreateMap<LapInterval, TimeSpan>()
                 .ConvertUsing<LapIntervalConverter>();
+
+            CreateMap<VoteCategoryDTO, VoteCategoryModel>()
+                .EqualityComparison((src, dest) => src.CatId == dest.CatId)
+                .ReverseMap();
+
+            CreateMap<CustomIncidentDTO, CustomIncidentModel>()
+                .EqualityComparison((src, dest) => src.IncidentId == dest.IncidentId)
+                .ReverseMap();
         }
 
         private void SortObservableCollection<T, TKey>(ObservableCollection<T> collection, Func<T, TKey> key)
