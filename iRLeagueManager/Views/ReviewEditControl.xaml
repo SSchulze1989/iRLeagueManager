@@ -51,7 +51,46 @@
             <TextBox Text="{Binding Corner}" Grid.Column="2" Grid.Row="1"/>
 
             <TextBlock Text="Incident:" Grid.Column="0" Grid.Row="2"/>
-            <TextBox Text="{Binding IncidentKind}" Grid.Column="2" Grid.Row="2"/>
+            <ComboBox Text="{Binding IncidentKind}" Grid.Column="2" Grid.Row="2" IsTextSearchEnabled="True">
+                <ComboBox.Items>
+                    <ComboBoxItem>
+                        <TextBlock Text="Auffahrunfall"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Gefährliches Verhalten (Ausrollen ohne Benzin)"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Gefährliches Verhalten (beschädigtes Fahrzeug)"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Gefährliches Verhalten (Bremse nicht gehalten)"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Gefährliches Verhalten (Stehenbleiben beim Start)"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Gefährliches Verhalten (unsicheres Einfädeln)"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Gefährliches Verhalten (Verhalten unter gelber Flagge)"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Kontakt in Kurve"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Kontakt beim Anbremsen"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Kontakt nach Fahrfehler"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Kontakt auf Gerade"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Text="Unsportliches Verhalten (Blocking)"/>
+                    </ComboBoxItem>
+                </ComboBox.Items>
+            </ComboBox>
 
             <TextBlock Text="Involved Drivers:" Grid.Column="0" Grid.Row="3"/>
             <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4">
