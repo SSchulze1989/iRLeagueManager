@@ -46,18 +46,7 @@ namespace iRLeagueManager.ViewModels
 
         protected override CommentModel Template => new ReviewCommentModel(new UserModel("", "TestAuthor"))
         {
-            Text = "Test comment, Kat0 please!\nWith line break, yeah!",
-            Replies = new ObservableCollection<CommentModel>(new List<CommentModel>
-            {
-                new CommentModel(new UserModel("", "MemberTwo"))
-                {
-                    Text = "This is a reply!"
-                }
-            }),
-            CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(new List<ReviewVoteModel>()
-            {
-                new ReviewVoteModel() { Vote = VoteEnum.Kat1, MemberAtFault = new LeagueMember(0, "Bad", "Driver") }
-            })
+            Text = "Test comment, Kat0 please!\nWith line break, yeah!"
         };
 
         public ReviewCommentViewModel()
