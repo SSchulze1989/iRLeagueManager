@@ -66,7 +66,7 @@
                 </Grid>
             </DockPanel>
             <TabControl Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
-                <TabItem Header="Scorings">
+                <TabItem Header="Results">
                     <DockPanel Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
                         <!--<TextBlock Text="Scorings" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>-->
                         <Grid DockPanel.Dock="Left">
@@ -207,7 +207,7 @@
                         </Grid>
                     </DockPanel>
                 </TabItem>
-                <TabItem Header="Scoring Tables">
+                <TabItem Header="Standings">
                     <DockPanel Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
                         <!--<TextBlock Text="Scorings" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>-->
                         <Grid DockPanel.Dock="Left">
@@ -390,6 +390,10 @@
                             </Grid.Style>
                         </Grid>
                     </DockPanel>
+                </TabItem>
+                <TabItem Header="Incidents">
+                    <Grid>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>
