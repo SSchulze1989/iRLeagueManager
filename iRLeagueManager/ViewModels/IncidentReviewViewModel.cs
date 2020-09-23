@@ -137,7 +137,7 @@ namespace iRLeagueManager.ViewModels
             {
                 foreach(var currentVote in comment.Votes)
                 {
-                    var existingVote = votes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
+                    var existingVote = votes.SingleOrDefault(x => x.Key.MemberAtFault?.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
                     if (existingVote == null)
                     {
                         existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
