@@ -15,6 +15,7 @@ using iRLeagueManager.Models.Results;
 using System.Diagnostics;
 using System.Windows.Input;
 using iRLeagueManager.Models;
+using System.Windows.Data;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -46,6 +47,11 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
 
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
+
+
+        private ICollectionView voteCategories;
+        public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> countAcceptedVotes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> CountAcceptedVotes 
@@ -103,7 +109,28 @@ namespace iRLeagueManager.ViewModels
         public override async Task Refresh()
         {
             CalculateVotes();
+            try
+            {
+                IsLoading = true;
+                await LoadMemberListAsync();
+                var votesCategorieCollection = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
+                SetVoteCategoriesView(votesCategorieCollection);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
             await base.Refresh();
+        }
+
+        private void SetVoteCategoriesView(object source)
+        {
+            VoteCategories = CollectionViewSource.GetDefaultView(source);
+            VoteCategories.SortDescriptions.Add(new SortDescription(nameof(VoteCategoryModel.Index), ListSortDirection.Ascending));
         }
 
         public void OnCommentsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

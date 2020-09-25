@@ -34,11 +34,14 @@ namespace iRLeagueManager
 
             if (dialog.ShowDialog() == true)
             {
-                var leagueSelectDialog = new ModalOkCancelWindow();
-                leagueSelectDialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                leagueSelectDialog.Height = 200;
-                leagueSelectDialog.Width = 400;
-                leagueSelectDialog.ModalContent.Content = new SelectLeagueControl();
+                var leagueSelectDialog = new ModalOkCancelWindow
+                {
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    Height = 200,
+                    Width = 400,
+                    ShowHeader = false
+                };
+                leagueSelectDialog.ModalContent = new SelectLeagueControl();
                 if (leagueSelectDialog.ShowDialog() == true)
                     Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 else

@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Runtime.CompilerServices;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -39,6 +41,9 @@ namespace iRLeagueManager.ViewModels
 
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
 
+        private ICollectionView voteCategories;
+        public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
         public ICommand ReplyCmd { get; private set; }
 
         public ICommand AddVoteCmd { get; }
@@ -58,6 +63,8 @@ namespace iRLeagueManager.ViewModels
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null && o is ReviewVoteModel);
         }
 
+        public ReviewCommentViewModel(ReviewCommentModel comment) : base(comment) { }
+
         public async override Task SaveChanges()
         {
             IsLoading = true;
@@ -75,7 +82,30 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public ReviewCommentViewModel(ReviewCommentModel comment) : base(comment) { }
+        public async override Task Refresh()
+        {
+            try
+            {
+                IsLoading = true;
+                var votesCategorieCollection = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
+                SetVoteCategoriesView(votesCategorieCollection);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            await base.Refresh();
+        }
+
+        private void SetVoteCategoriesView(object source)
+        {
+            VoteCategories = CollectionViewSource.GetDefaultView(source);
+            VoteCategories.SortDescriptions.Add(new SortDescription(nameof(VoteCategoryModel.Index), ListSortDirection.Ascending));
+        }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

@@ -39,16 +39,17 @@ namespace iRLeagueManager.Views
                 var editWindow = EditPanel;
                 //editWindow.Width = 700;
                 //editWindow.Height = 700;
-                var content = new ReviewEditControl();
-
-                editWindow.Title = "Edit Review";
+                var content = new ReviewEditControl
+                {
+                    Header = "Edit Review"
+                };
 
                 if (content.DataContext is IncidentReviewViewModel editVM)
                 {
                     editVM.Model.CopyFrom(reviewVM.Model);
-                    await editVM.LoadMemberListAsync();
+                    await editVM.Refresh();
 
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
                         reviewVM.Model.CopyFrom(editVM.Model);
@@ -90,7 +91,7 @@ namespace iRLeagueManager.Views
                         editVM.Review = reviewVM;
                         await editVM.Refresh();
 
-                        editWindow.ModalContent.Content = content;
+                        editWindow.ModalContent = content;
                         if (editWindow.ShowDialog() == true)
                         {
                             await reviewVM.AddCommentAsync(editVM.Model);
@@ -120,7 +121,7 @@ namespace iRLeagueManager.Views
                         editVM.Review = reviewComment.Review;
                         await editVM.Refresh();
 
-                        editWindow.ModalContent.Content = content;
+                        editWindow.ModalContent = content;
                         if (editWindow.ShowDialog() == true)
                         {
                             reviewComment.Model.CopyFrom(editVM.Model);
@@ -141,7 +142,7 @@ namespace iRLeagueManager.Views
                         editVM.Model = new CommentModel();
                         editVM.Model.CopyFrom(comment.Model);
 
-                        editWindow.ModalContent.Content = content;
+                        editWindow.ModalContent = content;
                         if (editWindow.ShowDialog() == true)
                         {
                             comment.Model.CopyFrom(editVM.Model);
@@ -171,7 +172,7 @@ namespace iRLeagueManager.Views
                     {
                         editVM.Model = new CommentModel(ViewModel.CurrentUser);
 
-                        editWindow.ModalContent.Content = content;
+                        editWindow.ModalContent = content;
                         if (editWindow.ShowDialog() == true)
                         {
                             await reviewCommentVM.AddCommentAsync(editVM.Model);
@@ -227,7 +228,7 @@ namespace iRLeagueManager.Views
                     editVM.Model = ViewModel.CreateReviewModel();
                     await editVM.LoadMemberListAsync();
 
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
                         await ViewModel.AddReviewAsync(editVM.Model);

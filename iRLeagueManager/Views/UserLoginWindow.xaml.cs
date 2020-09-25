@@ -47,7 +47,7 @@ namespace iRLeagueManager.Views
                     {
                         if (ViewModel.RememberMe)
                         {
-                            var credential = new Credential(ViewModel.UserName, PasswordTextBox.Password, credentialTarget);
+                            var credential = new Credential(ViewModel.UserName, PasswordTextBox.Password, credentialTarget) { PersistanceType = PersistanceType.LocalComputer };
                             credential.Save();
                         }
                         else
@@ -129,7 +129,7 @@ namespace iRLeagueManager.Views
 
                 if (content.DataContext is CreateUserViewModel createUserVM)
                 {
-                    createWindow.ModalContent.Content = content;
+                    createWindow.ModalContent = content;
 
                     if (createWindow.ShowDialog() == true)
                     {

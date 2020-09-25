@@ -137,7 +137,10 @@
                         <DataGridTemplateColumn Header="Vote" MinWidth="80">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteEnums}" SelectedItem="{Binding Vote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="5,2"/>
+                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteCategories}"
+                                              SelectedItem="{Binding VoteCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Text"
+                                              Width="Auto" Margin="5,2"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
