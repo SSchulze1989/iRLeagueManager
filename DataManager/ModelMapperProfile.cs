@@ -129,6 +129,7 @@ namespace iRLeagueManager
                 {
                     dest.InitReset();
                 })
+                .IncludeAllDerived()
                 .ReverseMap();
             CreateMap<CommentDataDTO, CommentModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new CommentModel(source.CommentId.GetValueOrDefault(), source.AuthorName)))
@@ -136,6 +137,7 @@ namespace iRLeagueManager
                 {
                     dest.InitReset();
                 })
+                .IncludeAllDerived()
                 .ReverseMap();
             CreateMap<CommentInfoDTO, CommentInfo>()
                 //.ConstructUsing(source => ModelCache.PutOrGetModel(new CommentBase(source.CommentId.GetValueOrDefault(), source.AuthorName)))
@@ -156,8 +158,8 @@ namespace iRLeagueManager
                 .IncludeAllDerived()
                 .ReverseMap()
                 .ForMember(dest => dest.AuthorUserId, opt => opt.MapFrom(src => src.Author != null ? src.Author.UserId : null))
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? src.Author.UserName : src.AuthorName))
-                .IncludeAllDerived();
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? src.Author.UserName : src.AuthorName));
+                //.IncludeAllDerived();
 
             // Mapping schedule data
             CreateMap<ScheduleDataDTO, ScheduleModel>()
@@ -422,7 +424,10 @@ namespace iRLeagueManager
             CreateMap<ReviewVoteDataDTO, ReviewVoteModel>()
                 .ConstructUsing(src => ModelCache.PutOrGetModel(new ReviewVoteModel(src.ReviewVoteId)))
                 .EqualityComparison((src, dest) => src.ReviewVoteId == dest.ReviewVoteId)
-                .ReverseMap();
+                .ForMember(dest => dest.VoteCategory, opt => opt
+                    .MapFrom(src => src.VoteCategoryId != null ? ModelCache.PutOrGetModel(new VoteCategoryModel() { CatId = src.VoteCategoryId.Value }) : null))
+                .ReverseMap()
+                .ForMember(dest => dest.VoteCategoryId, opt => opt.MapFrom(src => src.VoteCategory != null ? src.VoteCategory.CatId : (long?)null));
 
             //.ForMember(dest => dest.AdminId, opt => opt.MapFrom(src => (src.Admin != null) ? (int?)src.Admin.AdminId : null))
             //.ForMember(dest => dest.IsOwner, opt => opt.MapFrom(src => (src.Admin != null) ? (bool?)src.Admin.IsOwner : null))
@@ -442,6 +447,7 @@ namespace iRLeagueManager
                 .ConvertUsing<LapIntervalConverter>();
 
             CreateMap<VoteCategoryDTO, VoteCategoryModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new VoteCategoryModel() { CatId = src.CatId}))
                 .EqualityComparison((src, dest) => src.CatId == dest.CatId)
                 .ReverseMap();
 

@@ -161,6 +161,10 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<TeamDataDTO>(getModelIds?.Select(x => x.ToArray()).ToArray());
                 }
+                else if (typeof(T).Equals(typeof(VoteCategoryModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<VoteCategoryDTO>(getModelIds?.ToArray());
+                }
                 else
                 {
                     throw new UnknownModelTypeException("Could not load Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -327,6 +331,11 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<TeamDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<TeamDataDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(VoteCategoryModel)))
+            {
+                data = mapper.Map<IEnumerable<VoteCategoryDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<VoteCategoryDTO>().ToArray());
+            }
             else
             {
                 throw new UnknownModelTypeException("Could not put Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -444,6 +453,10 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<TeamDataDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(VoteCategoryModel)))
+            {
+                return await ModelDataProvider.DelAsync<VoteCategoryDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -533,6 +546,11 @@ namespace iRLeagueManager.Models
             {
                 data = mapper.Map<IEnumerable<TeamDataDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<TeamDataDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(VoteCategoryModel)))
+            {
+                data = mapper.Map<IEnumerable<VoteCategoryDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<VoteCategoryDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {

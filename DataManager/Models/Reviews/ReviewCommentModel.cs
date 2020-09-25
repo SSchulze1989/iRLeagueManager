@@ -49,6 +49,10 @@ namespace iRLeagueManager.Models.Reviews
 
         internal override void InitializeModel()
         {
+            foreach (var vote in CommentReviewVotes)
+            {
+                vote.InitializeModel();
+            }
             base.InitializeModel();
         }
 
@@ -58,12 +62,19 @@ namespace iRLeagueManager.Models.Reviews
 
             if (sourceObject is ReviewCommentModel commentModel)
             {
+                InitReset();
+
                 CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(commentModel.CommentReviewVotes.Select(x =>
                 {
                     var vote = new ReviewVoteModel();
                     vote.CopyFrom(x);
                     return vote;
                 }).ToList());
+
+                if (commentModel.isInitialized)
+                {
+                    InitializeModel();
+                }
             }
         }
 
@@ -73,12 +84,17 @@ namespace iRLeagueManager.Models.Reviews
 
             if (targetObject is ReviewCommentModel commentModel)
             {
+                commentModel.InitReset();
                 commentModel.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(CommentReviewVotes.Select(x =>
                 {
                     var vote = new ReviewVoteModel();
                     vote.CopyFrom(x);
                     return vote;
                 }).ToList());
+                if (isInitialized)
+                {
+                    commentModel.InitializeModel();
+                }
             }
         }
 
