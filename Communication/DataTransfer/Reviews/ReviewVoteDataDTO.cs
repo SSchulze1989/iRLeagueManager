@@ -13,6 +13,7 @@ namespace iRLeagueDatabase.DataTransfer.Reviews
         public long ReviewVoteId { get; set; }
         public VoteEnum Vote { get; set; }
         public LeagueMemberInfoDTO MemberAtFault { get; set; }
+        public long? VoteCategoryId { get; set; }
 
         public override object MappingId => ReviewVoteId;
         public override object[] Keys => new object[] { ReviewVoteId };
