@@ -69,7 +69,10 @@ namespace iRLeagueManager.Data
             _ = Task.Run(async () => 
             {
                 var getModel = await GetUserModelAsync(userId, true);
-                userModel.CopyFrom(getModel);
+                if (getModel != null)
+                {
+                    userModel.CopyFrom(getModel);
+                }
             });
 
             return userModel;
