@@ -422,7 +422,7 @@ namespace iRLeagueManager
             CreateMap<UserModel, UserDTO>();
 
             CreateMap<ReviewVoteDataDTO, ReviewVoteModel>()
-                .ConstructUsing(src => ModelCache.PutOrGetModel(new ReviewVoteModel(src.ReviewVoteId)))
+                .ConstructUsing(src => new ReviewVoteModel() { ReviewVoteId = src.ReviewVoteId })
                 .EqualityComparison((src, dest) => src.ReviewVoteId == dest.ReviewVoteId)
                 .ForMember(dest => dest.VoteCategory, opt => opt
                     .MapFrom(src => src.VoteCategoryId != null ? ModelCache.PutOrGetModel(new VoteCategoryModel() { CatId = src.VoteCategoryId.Value }) : null))
@@ -452,6 +452,7 @@ namespace iRLeagueManager
                 .ReverseMap();
 
             CreateMap<CustomIncidentDTO, CustomIncidentModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new CustomIncidentModel() { IncidentId = src.IncidentId }))
                 .EqualityComparison((src, dest) => src.IncidentId == dest.IncidentId)
                 .ReverseMap();
         }

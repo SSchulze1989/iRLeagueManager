@@ -21,7 +21,7 @@ namespace iRLeagueManager.Models
         public string LastModifiedByUserId { get; set; }
 
         private bool containsChanges;
-        public bool ContainsChanges { get => containsChanges; protected set { containsChanges = value; OnPropertyChanged(); } }
+        public virtual bool ContainsChanges { get => containsChanges; protected set { containsChanges = value; OnPropertyChanged(); } }
 
         private int version;
         public int Version { get => version; internal set { version = value; OnPropertyChanged(); } }
