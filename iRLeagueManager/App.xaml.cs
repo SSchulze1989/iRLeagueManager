@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Globalization;
 using CredentialManagement;
+using AutoUpdaterDotNET;
 
 namespace iRLeagueManager
 {
@@ -20,7 +21,13 @@ namespace iRLeagueManager
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            AutoUpdater.UpdateMode = Mode.ForcedDownload;
+            AutoUpdater.Start("http://144.91.113.195/updates/update.xml");
+
+            if (Current != null)
+            {
+                Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            }
 
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
@@ -49,7 +56,10 @@ namespace iRLeagueManager
             }
             else
             {
-                Current.Shutdown(-1);
+                if (Current != null)
+                {
+                    Current.Shutdown(-1);
+                }
             }
         }
     }
