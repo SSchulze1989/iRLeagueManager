@@ -324,6 +324,11 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
+                if (Season.Model.ContainsChanges)
+                {
+                    await Season.SaveChanges();
+                }
+
                 foreach (var scoring in Scorings)
                 {
                     await scoring.SaveChanges();

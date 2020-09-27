@@ -11,7 +11,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Background="White"
              FontSize="{StaticResource Global.FontSizeMedium}"
-             FontFamily="{StaticResource Global.FontFamily}">
+             FontFamily="{StaticResource Global.FontFamily}"
+             x:Name="ReviewsPageControl">
     
 	<UserControl.Resources>
         <conv:ToUpperConverter x:Key="ToUpperConverter"/>
@@ -583,16 +584,39 @@
                                                             </Grid>
 
                                                             <StackPanel Grid.Row="1" Margin="10,5">
-                                                                <TextBlock Text="Comments" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                           FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Comments" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                           FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
+                                                                    <controls:IconToggleButton x:Name="ToggleShowComments" IsChecked="{Binding ForceShowComments}" VerticalAlignment="Center" Margin="5"
+                                                                                               BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="2">
+                                                                        <controls:IconToggleButton.Style>
+                                                                            <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
+                                                                                <Setter Property="Content" Value="Show"/>
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                <Style.Triggers>
+                                                                                    <MultiDataTrigger>
+                                                                                        <MultiDataTrigger.Conditions>
+                                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.HideCommentsBeforeVoted}" Value="True"/>
+                                                                                            <Condition Binding="{Binding CanUserAddComment}" Value="True"/>
+                                                                                        </MultiDataTrigger.Conditions>
+                                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                                    </MultiDataTrigger>
+                                                                                    <Trigger Property="IsChecked" Value="True">
+                                                                                        <Setter Property="Content" Value="Hide"/>
+                                                                                    </Trigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </controls:IconToggleButton.Style>
+                                                                    </controls:IconToggleButton>
+                                                                </StackPanel>
                                                                 <Grid>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*" MaxWidth="800"/>
                                                                     </Grid.ColumnDefinitions>
-                                                                    <ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled"
-                                                                                  VerticalScrollBarVisibility="Auto" 
+                                                                    <!--<ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled"
+                                                                                  VerticalScrollBarVisibility="Disabled" 
                                                                                   Template="{StaticResource ContentScrollViewerControlTemplate}" Margin="0,0,20,0"
-                                                                                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                                                                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">-->
                                                                         <TreeView Grid.Row="0" ItemContainerStyle="{DynamicResource CommentItemStyle}" 
                                                                                   HorizontalContentAlignment="Stretch" Margin="0"
                                                                                   ItemsSource="{Binding Comments}"
@@ -758,8 +782,23 @@
                                                                                     </DataTemplate.Triggers>
                                                                                 </DataTemplate>
                                                                             </TreeView.Resources>
+                                                                            <TreeView.Style>
+                                                                                <Style TargetType="TreeView">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding CanUserAddComment}" Value="True"/>
+                                                                                                <Condition Binding="{Binding ForceShowComments}" Value="False"/>
+                                                                                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.HideCommentsBeforeVoted}" Value="True"/>
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </MultiDataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </TreeView.Style>
                                                                         </TreeView>
-                                                                    </ScrollViewer>
+                                                                    <!--</ScrollViewer>-->
 
                                                                     <controls:IconButton Grid.Row="1" IconContent="{DynamicResource PlusThick}"
                                                                                  HorizontalAlignment="Right"

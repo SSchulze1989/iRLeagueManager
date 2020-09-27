@@ -49,6 +49,9 @@ namespace iRLeagueDatabase.DataTransfer
         [DataMember]
         public CustomIncidentDTO[] CustomIncidents { get; set; }
 
+        [DataMember]
+        public bool HideCommentsBeforeVoted { get; set; }
+
         //public ScoringDataDTO MainScoring { get; set; }
 
         //[DataMember]

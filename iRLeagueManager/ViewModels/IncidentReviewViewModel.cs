@@ -30,6 +30,9 @@ namespace iRLeagueManager.ViewModels
         public string IncidentKind { get => Model.IncidentKind; set => Model.IncidentKind = value; }
         public string FullDescription { get => Model.FullDescription; set => Model.FullDescription = value; }
 
+        private bool forceShowComments;
+        public bool ForceShowComments { get => forceShowComments; set => SetValue(ref forceShowComments, value); }
+
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> votes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> Votes 
         {

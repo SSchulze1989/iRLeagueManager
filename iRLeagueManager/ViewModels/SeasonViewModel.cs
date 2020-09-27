@@ -49,6 +49,8 @@ namespace iRLeagueManager.ViewModels
 
         public DateTime? SeasonEnd => Model?.SeasonEnd;
 
+        public bool HideCommentsBeforeVoted { get => Model.HideCommentsBeforeVoted; set => Model.HideCommentsBeforeVoted = value; }
+
         public SeasonViewModel() : base()
         {
             SeasonModel.GetTemplate();

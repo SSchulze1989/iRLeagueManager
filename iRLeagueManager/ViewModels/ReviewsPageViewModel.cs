@@ -58,6 +58,8 @@ namespace iRLeagueManager.ViewModels
         private ICollectionView voteCategories;
         public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
 
+        public bool HideCommentsBeforeVoted => season.HideCommentsBeforeVoted;
+
         public ReviewsPageViewModel()
         {
             SessionSelect = new SessionSelectViewModel()

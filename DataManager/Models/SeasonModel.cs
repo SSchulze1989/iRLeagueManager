@@ -60,6 +60,9 @@ namespace iRLeagueManager.Models
         private ObservableCollection<CustomIncidentModel> customIncidents;
         public ObservableCollection<CustomIncidentModel> CustomIncidents { get => customIncidents; set => SetValue(ref customIncidents, value); }
 
+        private bool hideCommentsBeforeVoted;
+        public bool HideCommentsBeforeVoted { get => hideCommentsBeforeVoted; set => SetValue(ref hideCommentsBeforeVoted, value); }
+
         IEnumerable<object> IHierarchicalModel.Children => new List<IEnumerable<object>> { Schedules.Cast<object>() };
 
         public IEnumerable<ResultModel> GetResults()

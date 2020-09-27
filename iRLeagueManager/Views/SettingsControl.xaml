@@ -499,7 +499,7 @@
                                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,-10,0,0" Text="Settings" Padding="5,0" Background="White" HorizontalAlignment="Left"/>
 
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Only Show Comments after voting:" Margin="5"/>
-                                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding HideCommentsBeforeVote}" Margin="5"/>
+                                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Season.HideCommentsBeforeVoted}" Margin="5"/>
                             </Grid>
                         </Border>
                     </Grid>

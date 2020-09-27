@@ -14,11 +14,11 @@ namespace iRLeagueManager.Models
     {
         private long? seasonId;
         [EqualityCheckProperty]
-        public long? SeasonId { get => seasonId; internal set { seasonId = value; OnPropertyChanged(); } }
+        public long? SeasonId { get => seasonId; internal set => SetValue(ref seasonId, value); }
 
         public override long[] ModelId => new long[] { SeasonId.GetValueOrDefault() };
 
         private string seasonName;
-        public string SeasonName { get => seasonName; set { seasonName = value; OnPropertyChanged(); } }
+        public string SeasonName { get => seasonName; set => SetValue(ref seasonName, value); }
     }
 }
