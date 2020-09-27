@@ -44,6 +44,9 @@ namespace iRLeagueDatabase.DataTransfer.Reviews
         public ICollection<ReviewCommentDataDTO> Comments { get; set; }
         [DataMember]
         public ReviewVoteDataDTO[] AcceptedReviewVotes { get; set; }
+
+        [DataMember]
+        public string ResultLongText { get; set; }
         //[DataMember]
         //public LeagueMemberInfoDTO MemberAtFault { get; set; }
         //[DataMember]

@@ -57,6 +57,9 @@ namespace iRLeagueManager.Models.Reviews
         //private VoteState voteState;
         //public VoteState VoteState { get => voteState; set { SetValue(ref voteState, value); } }
 
+        private string resultLongText;
+        public string ResultLongText { get => resultLongText; set => SetValue(ref resultLongText, value); }
+
         public override bool ContainsChanges { get => base.ContainsChanges || AcceptedReviewVotes.Any(x => x.ContainsChanges); protected set => base.ContainsChanges = value; }
 
         public IncidentReviewModel()

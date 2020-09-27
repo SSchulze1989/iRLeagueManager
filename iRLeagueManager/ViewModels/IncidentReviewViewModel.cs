@@ -46,6 +46,8 @@ namespace iRLeagueManager.ViewModels
 
         public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
 
+        public string ResultLongText { get => Model.ResultLongText; set => Model.ResultLongText = value; }
+
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
 
 
