@@ -9,6 +9,13 @@ namespace iRLeagueManager.Models
     public interface IModelManager<TModel, TKey> 
     {
         IModelCache ModelCache { get; }
+
+        /// <summary>
+        /// Forces models that are currently stored in the model cache to expire.
+        /// This will make sure, that the models are loaded again from the database when requested next time.
+        /// </summary>
+        /// <typeparam name="T">Type of Model</typeparam>
+        /// <param name="models">Specific model to expire. Default = null for expiring all models of this type.</param>
         void ForceExpireModels<T>(IEnumerable<T> models = null) where T : TModel;
         Task<T> GetModelAsync<T>(params TKey[] modelId) where T : TModel;
         Task<T> GetModelAsync<T>(TKey[] modelId, bool update = true, bool reload = false) where T : TModel;

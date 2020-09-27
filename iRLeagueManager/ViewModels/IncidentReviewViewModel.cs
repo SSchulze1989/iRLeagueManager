@@ -15,6 +15,7 @@ using iRLeagueManager.Models.Results;
 using System.Diagnostics;
 using System.Windows.Input;
 using iRLeagueManager.Models;
+using System.Windows.Data;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -28,6 +29,9 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<LeagueMember> InvolvedMembers => Model.InvolvedMembers;
         public string IncidentKind { get => Model.IncidentKind; set => Model.IncidentKind = value; }
         public string FullDescription { get => Model.FullDescription; set => Model.FullDescription = value; }
+
+        private bool forceShowComments;
+        public bool ForceShowComments { get => forceShowComments; set => SetValue(ref forceShowComments, value); }
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> votes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> Votes 
@@ -45,7 +49,17 @@ namespace iRLeagueManager.ViewModels
 
         public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
 
+        public string ResultLongText { get => Model.ResultLongText; set => Model.ResultLongText = value; }
+
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
+
+
+        private ICollectionView voteCategories;
+        public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
+        private ICollectionView incidentKinds;
+        public ICollectionView IncidentKinds { get => incidentKinds; set => SetValue(ref incidentKinds, value); }
+
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> countAcceptedVotes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> CountAcceptedVotes 
@@ -103,7 +117,36 @@ namespace iRLeagueManager.ViewModels
         public override async Task Refresh()
         {
             CalculateVotes();
+            try
+            {
+                IsLoading = true;
+                await LoadMemberListAsync();
+                var votesCategorieCollection = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
+                SetVoteCategoriesView(votesCategorieCollection);
+                var incidentKinds = await LeagueContext.GetModelsAsync<CustomIncidentModel>();
+                SetIncidentKindsView(incidentKinds);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
             await base.Refresh();
+        }
+
+        private void SetVoteCategoriesView(object source)
+        {
+            VoteCategories = CollectionViewSource.GetDefaultView(source);
+            VoteCategories.SortDescriptions.Add(new SortDescription(nameof(VoteCategoryModel.Index), ListSortDirection.Ascending));
+        }
+
+        private void SetIncidentKindsView(object source)
+        {
+            IncidentKinds = CollectionViewSource.GetDefaultView(source);
+            IncidentKinds.SortDescriptions.Add(new SortDescription(nameof(CustomIncidentModel.Index), ListSortDirection.Ascending));
         }
 
         public void OnCommentsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

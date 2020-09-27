@@ -48,7 +48,7 @@ namespace iRLeagueManager.Views
                         TeamColor = "#666666"
                     };
 
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
                         await ViewModel?.AddTeam(editVM.Model);
@@ -70,7 +70,7 @@ namespace iRLeagueManager.Views
                 {
                     editVM.Model.CopyFrom(teamVM.Model);
 
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
                         teamVM.Model.CopyFrom(editVM.Model);

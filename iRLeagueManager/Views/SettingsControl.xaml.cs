@@ -50,7 +50,7 @@ namespace iRLeagueManager.Views
                 {
                     var editBasePoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BasePointsValue>(scoring.BasePoints.ToList());
                     content.DataContext = editBasePoints;
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
 
                     if (editWindow.ShowDialog() == true)
                     {
@@ -86,7 +86,7 @@ namespace iRLeagueManager.Views
                 {
                     var editBonusPoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BonusPointsValue>(scoring.BonusPoints.ToList());
                     content.DataContext = editBonusPoints;
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
 
                     if (editWindow.ShowDialog() == true)
                     {

@@ -21,9 +21,17 @@ namespace iRLeagueManager.Views
     /// <summary>
     /// Interaktionslogik für ReviewEditControl.xaml
     /// </summary>
-    public partial class ReviewEditControl : UserControl
+    public partial class ReviewEditControl : UserControl, IModalContent
     {
         public IncidentReviewViewModel IncidentReview => DataContext as IncidentReviewViewModel;
+
+        public string Header { get; set; } = "Edit Review";
+
+        public string SubmitText { get; set; } = "Save";
+
+        public string CancelText { get; set; } = "Cancel";
+
+        public bool IsLoading { get; set; }
 
         public ReviewEditControl()
         {
@@ -72,6 +80,24 @@ namespace iRLeagueManager.Views
         {
             MoveLeftButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             e.Handled = true;
+        }
+
+        public void OnLoad()
+        {
+        }
+
+        public bool CanSubmit()
+        {
+            return true;
+        }
+
+        public async Task<bool> OnSubmitAsync()
+        {
+            return true;
+        }
+
+        public void OnCancel()
+        {
         }
     }
 }

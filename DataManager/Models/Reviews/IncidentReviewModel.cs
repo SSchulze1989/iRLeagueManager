@@ -57,6 +57,11 @@ namespace iRLeagueManager.Models.Reviews
         //private VoteState voteState;
         //public VoteState VoteState { get => voteState; set { SetValue(ref voteState, value); } }
 
+        private string resultLongText;
+        public string ResultLongText { get => resultLongText; set => SetValue(ref resultLongText, value); }
+
+        public override bool ContainsChanges { get => base.ContainsChanges || AcceptedReviewVotes.Any(x => x.ContainsChanges); protected set => base.ContainsChanges = value; }
+
         public IncidentReviewModel()
         {
             ReviewId = null;
@@ -94,18 +99,14 @@ namespace iRLeagueManager.Models.Reviews
         {
             if (!isInitialized)
             {
-                //if (Result != null)
-                //{
-                //    foreach (var comment in Comments)
-                //    {
-                //        comment.Review = this;
-                //        comment.InitializeModel();
-                //    }
-                //}
-                //else
-                //{
-                //    return;
-                //}
+                foreach (var comment in Comments)
+                {
+                    comment.InitializeModel();
+                }
+                foreach (var vote in AcceptedReviewVotes)
+                {
+                    vote.InitializeModel();
+                }
             }
             base.InitializeModel();
         }
@@ -116,6 +117,7 @@ namespace iRLeagueManager.Models.Reviews
 
             if (sourceObject is IncidentReviewModel reviewModel)
             {
+                InitReset();
                 InvolvedMembers = new ObservableCollection<LeagueMember>(reviewModel.InvolvedMembers.ToList());
                 Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.Select(x =>
                     {
@@ -129,6 +131,10 @@ namespace iRLeagueManager.Models.Reviews
                     vote.CopyFrom(x);
                     return vote;
                 }).ToList());
+                if (reviewModel.isInitialized)
+                {
+                    InitializeModel();
+                }
             }
             OnPropertyChanged(null);
         }
@@ -139,6 +145,7 @@ namespace iRLeagueManager.Models.Reviews
 
             if (targetObject is IncidentReviewModel reviewModel)
             {
+                reviewModel.InitReset();
                 reviewModel.InvolvedMembers = new ObservableCollection<LeagueMember>(InvolvedMembers.ToList());
                 reviewModel.Comments = new ObservableCollection<ReviewCommentModel>(Comments.Select(x =>
                 {
@@ -152,6 +159,10 @@ namespace iRLeagueManager.Models.Reviews
                     vote.CopyFrom(x);
                     return vote;
                 }).ToList());
+                if (isInitialized)
+                {
+                    reviewModel.InitializeModel();
+                }
             }
         }
 

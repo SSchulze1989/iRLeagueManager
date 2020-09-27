@@ -53,6 +53,15 @@ namespace iRLeagueManager.Models
 
         private DateTime seasonEnd;
         public DateTime SeasonEnd { get => seasonEnd; internal set => SetValue(ref seasonEnd, value); }
+        
+        private ObservableCollection<VoteCategoryModel> voteCategories;
+        public ObservableCollection<VoteCategoryModel> VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
+        private ObservableCollection<CustomIncidentModel> customIncidents;
+        public ObservableCollection<CustomIncidentModel> CustomIncidents { get => customIncidents; set => SetValue(ref customIncidents, value); }
+
+        private bool hideCommentsBeforeVoted;
+        public bool HideCommentsBeforeVoted { get => hideCommentsBeforeVoted; set => SetValue(ref hideCommentsBeforeVoted, value); }
 
         IEnumerable<object> IHierarchicalModel.Children => new List<IEnumerable<object>> { Schedules.Cast<object>() };
 
@@ -74,9 +83,8 @@ namespace iRLeagueManager.Models
         {
             Schedules = new ObservableCollection<ScheduleInfo>();
             Scorings = new ObservableCollection<ScoringModel>();
-            //Results = new ObservableCollection<ResultInfo>();
-            //Reviews = new ObservableCollection<IncidentReviewInfo>();
-            //Scorings = new ObservableCollection<IScoringInfo>();
+            VoteCategories = new ObservableCollection<VoteCategoryModel>();
+            customIncidents = new ObservableCollection<CustomIncidentModel>();
         }
 
         public SeasonModel(long? seasonId) : this()

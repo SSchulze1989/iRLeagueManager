@@ -147,10 +147,12 @@
     <Compile Include="Models\Results\TeamStandingsRowModel.cs" />
     <Compile Include="Models\Reviews\CommentBase.cs" />
     <Compile Include="Models\Reviews\CommentInfo.cs" />
+    <Compile Include="Models\Reviews\CustomIncidentModel.cs" />
     <Compile Include="Models\Reviews\IncidentReviewInfo.cs" />
     <Compile Include="Models\Reviews\IncidentReviewModel.cs" />
     <Compile Include="Models\Reviews\ReviewCommentModel.cs" />
     <Compile Include="Models\Reviews\ReviewVoteModel.cs" />
+    <Compile Include="Models\Reviews\VoteCategoryModel.cs" />
     <Compile Include="Models\SeasonModel.cs" />
     <Compile Include="Models\SeasonInfo.cs" />
     <Compile Include="Models\Sessions\RaceSessionModel.cs" />

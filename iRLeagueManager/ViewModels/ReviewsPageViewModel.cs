@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Data;
 
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels.Collections;
@@ -54,6 +55,11 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddReviewCmd { get; }
         public ICommand RemoveReviewCmd { get; }
 
+        private ICollectionView voteCategories;
+        public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
+        public bool HideCommentsBeforeVoted => season.HideCommentsBeforeVoted;
+
         public ReviewsPageViewModel()
         {
             SessionSelect = new SessionSelectViewModel()
@@ -77,6 +83,8 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
+                VoteCategories = CollectionViewSource.GetDefaultView(season.VoteCategories);
+                VoteCategories.SortDescriptions.Add(new SortDescription(nameof(VoteCategoryModel.Index), ListSortDirection.Ascending));
                 //await LeagueContext.UpdateMemberList();
                 var schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ModelId));
                 var scoringsInfo = season.Scorings;

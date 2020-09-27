@@ -29,7 +29,7 @@ namespace iRLeagueManager.Views
             InitializeComponent();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
             {
@@ -44,10 +44,10 @@ namespace iRLeagueManager.Views
                 {
                     editVM.Schedule = Schedule;
 
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
-                        Schedule.AddSessionAsync(editVM.Model);
+                        await Schedule.AddSessionAsync(editVM.Model);
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace iRLeagueManager.Views
                     editVM.Model.CopyFrom(sessionVM.Model);
                     editVM.Schedule = sessionVM.Schedule;
                     
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
                         sessionVM.Model.CopyFrom(editVM.Model);
@@ -155,7 +155,7 @@ namespace iRLeagueManager.Views
 
                 content.Content = stackPanel;
 
-                editWindow.ModalContent.Content = content;
+                editWindow.ModalContent = content;
                 //editWindow.Content = content;
                 if (editWindow.ShowDialog() == true)
                 {

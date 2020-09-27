@@ -19,6 +19,35 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class ModalOkCancelWindow : Window
     {
+        public static readonly DependencyProperty ShowHeaderProperty =
+            DependencyProperty.Register(nameof(ShowHeader), typeof(bool), typeof(ModalOkCancelWindow),
+                new PropertyMetadata(true));
+
+        public static DependencyProperty ModalContentProperty =
+            DependencyProperty.Register(nameof(ModalContent), typeof(UserControl), typeof(ModalOkCancelWindow),
+                new PropertyMetadata(null));
+
+        public UserControl ModalContent
+        {
+            get => (UserControl)GetValue(ModalContentProperty);
+            set => SetValue(ModalContentProperty, value);
+        }
+
+        public bool CanReattach => windowReattaching != null;
+
+        public bool ShowHeader
+        {
+            get => (bool)GetValue(ShowHeaderProperty);
+            set => SetValue(ShowHeaderProperty, value);
+        }
+
+        private EventHandler windowReattaching;
+        public event EventHandler WindowReattaching
+        {
+            add { windowReattaching += value; }
+            remove { windowReattaching -= value; }
+        }
+
         private bool isRendered;
 
         public ModalOkCancelWindow()
@@ -34,7 +63,7 @@ namespace iRLeagueManager.Views
             if (isRendered)
                 return;
 
-            if (ModalContent.Content is IModalContent modalContent)
+            if (ModalContent is IModalContent modalContent)
                 modalContent.OnLoad();
 
             isRendered = true;
@@ -42,7 +71,7 @@ namespace iRLeagueManager.Views
 
         private async void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ModalContent.Content is IModalContent modalContent)
+            if (ModalContent is IModalContent modalContent)
             {
                 if (modalContent.CanSubmit())
                 {
@@ -64,12 +93,17 @@ namespace iRLeagueManager.Views
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ModalContent.Content is IModalContent modalContent)
+            if (ModalContent is IModalContent modalContent)
             {
                 modalContent.OnCancel();
             }
             DialogResult = false;
             Close();
+        }
+
+        private void ReAttachButton_Click(object sender, RoutedEventArgs e)
+        {
+            windowReattaching?.Invoke(sender, e);
         }
     }
 }

@@ -20,6 +20,9 @@ namespace iRLeagueManager.Models.Reviews
         private LeagueMember memberAtFault;
         public LeagueMember MemberAtFault { get => memberAtFault; set => SetValue(ref memberAtFault, value); }
 
+        private VoteCategoryModel voteCategory;
+        public VoteCategoryModel VoteCategory { get => voteCategory; set => SetValue(ref voteCategory, value); }
+
         public ReviewVoteModel() : base()
         {
         }
@@ -31,7 +34,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public override string ToString()
         {
-            return Vote.ToString() + ": " + MemberAtFault?.FullName?.ToString();
+            return ((VoteCategory != null) ? VoteCategory.Text : Vote.ToString()).ToUpper() + ": " + MemberAtFault?.FullName?.ToString();
         }
     }
 }

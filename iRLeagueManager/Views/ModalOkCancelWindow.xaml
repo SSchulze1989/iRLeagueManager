@@ -5,22 +5,90 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iRLeagueManager.Views"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+        xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
-        Title="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.Header), FallbackValue='Modal Control'}" Height="Auto" Width="Auto"
+        Title="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ModalContent.(local:IModalContent.Header), FallbackValue='Modal Control'}" Height="Auto" Width="Auto"
         FontFamily="{StaticResource Global.FontFamily}"
-        FontSize="{StaticResource Global.FontSizeMedium}">
+        FontSize="{StaticResource Global.FontSizeMedium}"
+        x:Name="ModalWindow">
+    <Window.Resources>
+        <DropShadowEffect x:Key="borderDropShadow" ShadowDepth="10" BlurRadius="25" Color="Black" Opacity="0.75"/>
+        <conv:RequiredSourceValueConverter x:Key="RequiredSourceValueConverter"/>
+    </Window.Resources>
 
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ContentControl Grid.Row="0" x:Name="ModalContent" />
+            <Border Grid.Row="0" BorderBrush="{StaticResource ThemeColor_Back2}" BorderThickness="0,0,0,1" SnapsToDevicePixels="True">
+                <DockPanel>
+                    <!--<controls:IconButton IconContent="{StaticResource closeThick}" DockPanel.Dock="Right" Margin="5,8"
+                                                 IconMargin="-2,-4,2,0" CornerRadius="5" Padding="6,8"
+                                                 Foreground="White" Click="CancelButton_Click" ToolTip="Close Window">
+                        <controls:IconButton.Style>
+                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource ThemeColor_CloseBackground}"/>
+                                        <Setter Property="IconFill" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconButton.Style>
+
+                    </controls:IconButton>-->
+                    <controls:IconButton DockPanel.Dock="Right" Margin="5,8"
+                                                 CornerRadius="5"
+                                                 Foreground="White" Click="ReAttachButton_Click" ToolTip="ReAttach Window">
+                        <controls:IconButton.IconContent>
+                            <fa:ImageAwesome Icon="LevelDown"  Height="25"/>
+                        </controls:IconButton.IconContent>
+                        <controls:IconButton.Style>
+                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource ThemeColor_CloseBackground}"/>
+                                        <Setter Property="IconFill" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconButton.Style>
+                    </controls:IconButton>
+                    <TextBlock DockPanel.Dock="Left" Margin="25,8" FontSize="{StaticResource MediumHeader.FontSize}" FontWeight="Bold"
+                                       FontFamily="{StaticResource Global.FontFamily}">
+                        <TextBlock.Text>
+                            <PriorityBinding>
+                                <Binding ElementName="ModalWindow" Path="ModalContent.(local:IModalContent.Header)" Converter="{StaticResource RequiredSourceValueConverter}" UpdateSourceTrigger="PropertyChanged"/>
+                                <Binding Path="Title"/>
+                            </PriorityBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DockPanel>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=ModalWindow, Path=ShowHeader}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <ScrollViewer Grid.Row="1" Template="{StaticResource ContentScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto" Margin="1,0">
+                <ContentControl x:Name="ModalContentControl" Content="{Binding ModalContent, ElementName=ModalWindow}"/>
+            </ScrollViewer>
             <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"/>
-                <Button Content="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
+                <Button Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"/>
+                <Button Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
                 <StackPanel.Resources>
                     <Style TargetType="Button" >
                         <Setter Property="Padding" Value="10,5" />
@@ -37,7 +105,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=ModalContent, Path=Content.(local:IModalContent.IsLoading), FallbackValue=False}" Value="True">
+                        <DataTrigger Binding="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.IsLoading), FallbackValue=False}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>

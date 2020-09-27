@@ -86,6 +86,8 @@
     <Compile Include="DataTransfer\Results\TeamStandingsRowDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentInfoDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\CustomIncidentDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\VoteCategoryDTO.cs" />
     <Compile Include="DataTransfer\Reviews\IncidentReviewDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\IncidentReviewInfoDTO.cs" />
     <Compile Include="DataTransfer\Reviews\ReviewCommentDataDTO.cs" />
