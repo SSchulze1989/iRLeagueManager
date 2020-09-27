@@ -131,7 +131,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var newIncident = await LeagueContext.AddModelAsync(new CustomIncidentModel());
+                var newIncident = await LeagueContext.AddModelAsync(new CustomIncidentModel() { Index = incidentKindsCollection.Count > 0 ? incidentKindsCollection.Max(x => x.Index) + 1 : 0 });
                 incidentKindsCollection.Add(newIncident);
             }
             catch (Exception e)
@@ -172,7 +172,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var newCategory = await LeagueContext.AddModelAsync(new VoteCategoryModel());
+                var newCategory = await LeagueContext.AddModelAsync(new VoteCategoryModel() { Index = voteCategoriesCollection.Count > 0 ? voteCategoriesCollection.Max(x => x.Index) + 1 : 0 });
                 voteCategoriesCollection.Add(newCategory);
             }
             catch (Exception e)
