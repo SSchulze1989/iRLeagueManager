@@ -1,4 +1,7 @@
-﻿using System;
+﻿/// found on Stackoverflow
+/// https://stackoverflow.com/questions/833943/watermark-hint-text-placeholder-textbox
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
