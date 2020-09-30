@@ -248,7 +248,7 @@ namespace iRLeagueManager.Views
                 if (content.DataContext is IncidentReviewViewModel editVM)
                 {
                     editVM.Model = ViewModel.CreateReviewModel();
-                    await editVM.LoadMemberListAsync();
+                    await editVM.Refresh();
 
                     editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
