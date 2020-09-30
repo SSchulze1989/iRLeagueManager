@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>0.6.0.0</version>
-    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.6.0-alpha/iRLeagueManager_v0.6.0.zip</url>
+    <version>0.6.1.0</version>
+    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.6.1-alpha/iRLeagueManager_v0.6.1.zip</url>
     <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
     <mandatory>true</mandatory>
 </item>
 <item>
-    <version>0.6.1.0</version>
-    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.6.1-alpha/iRLeagueManager_v0.6.1.zip</url>
+    <version>0.6.0.0</version>
+    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.6.0-alpha/iRLeagueManager_v0.6.0.zip</url>
     <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
     <mandatory>true</mandatory>
 </item>
