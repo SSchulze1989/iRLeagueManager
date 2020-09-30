@@ -5,3 +5,9 @@
     <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
     <mandatory>true</mandatory>
 </item>
+<item>
+    <version>0.6.1.0</version>
+    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.6.1-alpha/iRLeagueManager_v0.6.1.zip</url>
+    <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
+    <mandatory>true</mandatory>
+</item>
