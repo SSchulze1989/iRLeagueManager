@@ -38,6 +38,8 @@ using System.Diagnostics;
 using System.Windows.Input;
 using iRLeagueManager.Models;
 using System.Windows.Data;
+using iRLeagueManager.Converters;
+using iRLeagueManager.Extensions;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -47,7 +49,9 @@ namespace iRLeagueManager.ViewModels
 
         public string Description => string.Format("Lap: {0}\t|\tCorner: {1}\t-\tIncident: {2}\t-\tInvolved: {3}", Model.OnLap, Model.Corner, "Incident description", (Model.InvolvedMembers.Count() > 0) ? Model.InvolvedMembers.Select(x => x.ShortName).Aggregate((x, y) => x + ", " + y) : "");
         public string OnLap { get => Model.OnLap; set => Model.OnLap = value; }
+        public string OnLapSortingString => OnLap.AddLeadingZeroesToNumbers(10);
         public string Corner { get => Model.Corner; set => Model.Corner = value; }
+        public string CornerSortingString => Corner.AddLeadingZeroesToNumbers(10);
         public ObservableCollection<LeagueMember> InvolvedMembers => Model.InvolvedMembers;
         public string IncidentKind { get => Model.IncidentKind; set => Model.IncidentKind = value; }
         public string FullDescription { get => Model.FullDescription; set => Model.FullDescription = value; }
@@ -364,6 +368,19 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public sealed class CustomStringComparer : IComparer<object>
+        {
+            public int Compare(object a, object b)
+            {
+                if (a is IncidentReviewViewModel lhs && b is IncidentReviewViewModel rhs)
+                {//APPLY ALGORITHM LOGIC HERE
+                    var compLap = SafeNativeMethods.StrCmpLogicalW(lhs.OnLap, rhs.OnLap);
+                    return compLap;
+                }
+                return 0;
             }
         }
     }
