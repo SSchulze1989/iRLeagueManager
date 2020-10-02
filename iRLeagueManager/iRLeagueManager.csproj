@@ -129,6 +129,7 @@
     <Compile Include="Controls\WatermarkAdorner.cs" />
     <Compile Include="Controls\WatermarkService.cs" />
     <Compile Include="Controls\WatermarkTextBox.cs" />
+    <Compile Include="Converters\SafeNativeMethods.cs" />
     <Compile Include="Converters\ColorComplementConverter.cs" />
     <Compile Include="Converters\CompareNumericalConverter.cs" />
     <Compile Include="Converters\Converters.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Converters\RequiredSourceValueConverter.cs" />
     <Compile Include="Converters\ToUpperConverter.cs" />
     <Compile Include="Converters\UniversalColorConverter.cs" />
+    <Compile Include="Extensions\ItemsControlExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
     <Compile Include="Interfaces\IModalViewModel.cs" />
     <Compile Include="Logging\ExceptionLogMessage.cs" />
@@ -169,6 +172,7 @@
     <Compile Include="ViewModels\ResultsPageViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\ReviewCommentViewModel.cs" />
+    <Compile Include="ViewModels\ReviewNavBarViewModel.cs" />
     <Compile Include="ViewModels\ReviewsPageViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
@@ -220,6 +224,9 @@
     </Compile>
     <Compile Include="Views\ReviewsControl.xaml.cs">
       <DependentUpon>ReviewsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReviewsNavBarControl.xaml.cs">
+      <DependentUpon>ReviewsNavBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SchedulerControl.xaml.cs">
       <DependentUpon>SchedulerControl.xaml</DependentUpon>
@@ -312,6 +319,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReviewsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewsNavBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

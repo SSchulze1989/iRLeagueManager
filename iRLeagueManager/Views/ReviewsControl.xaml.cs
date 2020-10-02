@@ -38,6 +38,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using iRLeagueManager.Extensions;
 
 namespace iRLeagueManager.Views
 {
@@ -343,6 +344,22 @@ namespace iRLeagueManager.Views
                     await ViewModel.RemoveReviewAsync(reviewViewModel.Model);
                 }
                 e.Handled = true;
+            }
+        }
+
+        private void ReviewsNavBarControl_SelectedReviewChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var oldSelection = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as IncidentReviewViewModel : null;
+            var newSelection = e.AddedItems.Count > 0 ? e.AddedItems[0] as IncidentReviewViewModel : null;
+
+            if (oldSelection != null)
+            {
+                oldSelection.IsExpanded = false;
+            }
+            if (newSelection != null)
+            {
+                newSelection.IsExpanded = true;
+                ReviewsItemsControl.ScrollIntoView(newSelection);
             }
         }
     }

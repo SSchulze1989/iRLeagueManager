@@ -58,18 +58,22 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private ReviewNavBarViewModel reviewNavBar;
+        public ReviewNavBarViewModel ReviewNavBar { get => reviewNavBar; set => SetValue(ref reviewNavBar, value); }
+
         private ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel> currentReviews;
-        public ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel> CurrentReviews
-        {
-            get => currentReviews;
-            protected set
-            {
-                if (SetValue(ref currentReviews, value, (t, v) => t.GetSource().Equals(v.GetSource())))
-                {
-                    //OnPropertyChanged();
-                }
-            }
-        }
+        //public ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel> CurrentReviews
+        //{
+        //    get => currentReviews;
+        //    protected set
+        //    {
+        //        if (SetValue(ref currentReviews, value, (t, v) => t.GetSource().Equals(v.GetSource())))
+        //        {
+        //            //OnPropertyChanged();
+        //        }
+        //    }
+        //}
+        public ICollectionView CurrentReviews => currentReviews.CollectionView;
 
         private IncidentReviewViewModel selectedReview;
         public IncidentReviewViewModel SelectedReview { get => selectedReview; set => SetValue(ref selectedReview, value); }
@@ -88,11 +92,15 @@ namespace iRLeagueManager.ViewModels
             {
                 SessionFilter = x => x.ResultAvailable
             };
-            CurrentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>(x => 
+            currentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>(x => 
                 x.Session = SessionSelect?.SessionList.SingleOrDefault(y => y.SessionId == x.Model.Session.SessionId));
             AddReviewCmd = new RelayCommand(async o => await AddReviewAsync(), o => SessionSelect?.SelectedSession != null);
             RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(o as IncidentReviewModel), o => SelectedReview != null || o is IncidentReviewModel);
+            ReviewNavBar = new ReviewNavBarViewModel() { ReviewsPageViewModel = this };
             //RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => SelectedReview != null);
+            CurrentReviews.CurrentChanged += OnCurrentReviewChange;
+            CurrentReviews.SortDescriptions.Add(new SortDescription(nameof(IncidentReviewViewModel.OnLapSortingString), ListSortDirection.Ascending));
+            CurrentReviews.SortDescriptions.Add(new SortDescription(nameof(IncidentReviewViewModel.CornerSortingString), ListSortDirection.Ascending));
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -166,7 +174,8 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = true;
                 var reviewList = (await LeagueContext.GetModelsAsync<IncidentReviewModel>(SessionSelect.SelectedSession.Reviews.Select(x => x.ReviewId.GetValueOrDefault()))).ToList();
-                CurrentReviews.UpdateSource(reviewList);
+                currentReviews.UpdateSource(reviewList);
+                ReviewNavBar.CalculateReviewsStatistics();
             }
             catch (Exception e)
             {
@@ -234,6 +243,19 @@ namespace iRLeagueManager.ViewModels
             return reviewModel;
         }
 
+        public void OnCurrentReviewChange(object sender, EventArgs e)
+        {
+            if (CurrentReviews.CurrentItem != null && CurrentReviews.CurrentItem is IncidentReviewViewModel review)
+            {
+                MoveToReview(review);
+            }
+        }
+
+        public void MoveToReview(IncidentReviewViewModel review)
+        {
+
+        }
+
         public async Task RemoveReviewAsync(IncidentReviewModel review)
         {
             //if (SessionSelect?.SelectedSession == null)
@@ -281,7 +303,17 @@ namespace iRLeagueManager.ViewModels
             LeagueContext.ModelManager.ForceExpireModels<IncidentReviewModel>();
             LeagueContext.ModelManager.ForceExpireModels<ReviewCommentModel>();
             await Load(season);
+            CurrentReviews.Refresh();
             await base.Refresh();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (sessionSelect != null)
+            {
+                sessionSelect.PropertyChanged -= OnSessionSelectChanged;
+            }
+            base.Dispose(disposing);
         }
     }
 }

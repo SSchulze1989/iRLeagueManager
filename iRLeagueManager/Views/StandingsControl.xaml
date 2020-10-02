@@ -47,7 +47,7 @@ SOFTWARE.-->
         <controls:StandingsTemplateSelector x:Key="StandingsTemplateSelector"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
-        <Thickness x:Key="ColumnMargin">0,2</Thickness>
+        <Thickness x:Key="ColumnMargin">0,5</Thickness>
         <Style TargetType="TextBlock" x:Key="TextColumnElementStyle">
             <Setter Property="Margin" Value="{StaticResource ColumnMargin}"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>

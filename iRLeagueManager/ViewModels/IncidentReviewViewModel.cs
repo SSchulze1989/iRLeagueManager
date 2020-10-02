@@ -38,6 +38,8 @@ using System.Diagnostics;
 using System.Windows.Input;
 using iRLeagueManager.Models;
 using System.Windows.Data;
+using iRLeagueManager.Converters;
+using iRLeagueManager.Extensions;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -45,15 +47,22 @@ namespace iRLeagueManager.ViewModels
     {
         //public IncidentReviewModel Model { get => Source; set => SetSource(value); }
 
-        public string Description => string.Format("Lap: {0}\t|\tCorner: {1}\t-\tIncident: {2}\t-\tInvolved: {3}", Model.OnLap, Model.Corner, "Incident description", (Model.InvolvedMembers.Count() > 0) ? Model.InvolvedMembers.Select(x => x.ShortName).Aggregate((x, y) => x + ", " + y) : "");
+        public string Description => string.Format("{0} | Lap: {1}\t|\tCorner: {2}\t-\tIncident: {3}\t-\tInvolved: {4}", IncidentNr, Model.OnLap, Model.Corner, "Incident description", (Model.InvolvedMembers.Count() > 0) ? Model.InvolvedMembers.Select(x => x.ShortName).Aggregate((x, y) => x + ", " + y) : "");
         public string OnLap { get => Model.OnLap; set => Model.OnLap = value; }
+        public string OnLapSortingString => OnLap.AddLeadingZeroesToNumbers(10);
         public string Corner { get => Model.Corner; set => Model.Corner = value; }
+        public string CornerSortingString => Corner.AddLeadingZeroesToNumbers(10);
         public ObservableCollection<LeagueMember> InvolvedMembers => Model.InvolvedMembers;
         public string IncidentKind { get => Model.IncidentKind; set => Model.IncidentKind = value; }
         public string FullDescription { get => Model.FullDescription; set => Model.FullDescription = value; }
 
+        public string IncidentNr { get => Model.IncidentNr; set => Model.IncidentNr = value; }
+
         private bool forceShowComments;
         public bool ForceShowComments { get => forceShowComments; set => SetValue(ref forceShowComments, value); }
+
+        private bool isExpanded;
+        public bool IsExpanded { get => isExpanded; set => SetValue(ref isExpanded, value); }
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> votes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> Votes 
@@ -68,6 +77,7 @@ namespace iRLeagueManager.ViewModels
 
         private int votesCount;
         public int VotesCount { get => votesCount; set => SetValue(ref votesCount, value); }
+        public int CommentCount => comments.Count;
 
         public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
 
@@ -116,6 +126,7 @@ namespace iRLeagueManager.ViewModels
         public MemberListViewModel MemberList { get => memberList; set => SetValue(ref memberList, value); }
 
         public bool CanUserAddComment => Comments.Any(x => x.IsUserAuthor) == false;
+        public bool UserHasVoted => Comments.Any(x => x.IsUserAuthor && x.Votes.Count > 0) == true;
 
         private VoteState voteState;
         public VoteState VoteState { get => voteState; set => SetValue(ref voteState, value); }
@@ -174,6 +185,8 @@ namespace iRLeagueManager.ViewModels
         public void OnCommentsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(CanUserAddComment));
+            OnPropertyChanged(nameof(UserHasVoted));
+            OnPropertyChanged(nameof(CommentCount));
             CalculateVotes();
         }
 
@@ -183,6 +196,7 @@ namespace iRLeagueManager.ViewModels
             {
                 case nameof(Comments):
                     OnPropertyChanged(nameof(CanUserAddComment));
+                    OnPropertyChanged(nameof(UserHasVoted));
                     break;
             }
 
@@ -209,6 +223,9 @@ namespace iRLeagueManager.ViewModels
                         votes.Add(existingVote);
                     }
                     existingVote.Value++;
+                }
+                if (comment.Votes.Count > 0)
+                {
                     votesCount++;
                 }
             }
@@ -364,6 +381,19 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public sealed class CustomStringComparer : IComparer<object>
+        {
+            public int Compare(object a, object b)
+            {
+                if (a is IncidentReviewViewModel lhs && b is IncidentReviewViewModel rhs)
+                {//APPLY ALGORITHM LOGIC HERE
+                    var compLap = SafeNativeMethods.StrCmpLogicalW(lhs.OnLap, rhs.OnLap);
+                    return compLap;
+                }
+                return 0;
             }
         }
     }
