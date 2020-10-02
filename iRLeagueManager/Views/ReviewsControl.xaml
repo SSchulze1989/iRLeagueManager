@@ -782,7 +782,7 @@ SOFTWARE.-->
                                                                                             <ItemsControl Grid.Column="0" ItemsSource="{Binding Votes}" Margin="12,0">
                                                                                                 <ItemsControl.ItemsPanel>
                                                                                                     <ItemsPanelTemplate>
-                                                                                                        <StackPanel Orientation="Horizontal"/>
+                                                                                                        <WrapPanel Orientation="Horizontal"/>
                                                                                                     </ItemsPanelTemplate>
                                                                                                 </ItemsControl.ItemsPanel>
                                                                                                 <ItemsControl.ItemTemplate>
