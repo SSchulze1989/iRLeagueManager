@@ -44,17 +44,20 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private bool isExpanded;
+        public bool IsExpanded { get => isExpanded; set => SetValue(ref isExpanded, value); }
+
         private int totalReviews;
         public int TotalReviews { get => totalReviews; set => SetValue(ref totalReviews, value); }
 
         private int openReviews;
         public int OpenReviews { get => openReviews; set => SetValue(ref openReviews, value); }
 
-        private int openButNotVoted;
-        public int OpenButNotVoted { get => openButNotVoted; set => SetValue(ref openButNotVoted, value); }
+        private int notVoted;
+        public int NotVoted { get => notVoted; set => SetValue(ref notVoted, value); }
 
-        private int openAndVoted;
-        public int OpenAndVoted { get => openAndVoted; set => SetValue(ref openAndVoted, value); }
+        private int voted;
+        public int Voted { get => voted; set => SetValue(ref voted, value); }
         
         private int openAndAgreed;
         public int OpenAndAgreed { get => openAndAgreed; set => SetValue(ref openAndAgreed, value); }
@@ -62,7 +65,10 @@ namespace iRLeagueManager.ViewModels
         private int openAndDisagreed;
         public int OpenAndDisagreed { get => openAndDisagreed; set => SetValue(ref openAndDisagreed, value); }
 
-        ICollectionView CurrentReviews => ReviewsPageViewModel?.CurrentReviews;
+        private int closedReviews;
+        public int ClosedReviews { get => closedReviews; set => SetValue(ref closedReviews, value); }
+
+        public ICollectionView CurrentReviews => ReviewsPageViewModel?.CurrentReviews;
 
         public ReviewNavBarViewModel()
         {
@@ -74,9 +80,10 @@ namespace iRLeagueManager.ViewModels
             TotalReviews = reviews.Count();
             var openReviews = reviews.Where(x => x.CountAcceptedVotes.Count() == 0);
             OpenReviews = openReviews.Count();
-            var openAndVoted = openReviews.Where(x => x.Comments.Any(y => y.Votes.Count > 0));
-            OpenAndVoted = openAndVoted.Count();
-            OpenButNotVoted = OpenReviews - OpenAndVoted;
+            ClosedReviews = TotalReviews - OpenReviews;
+            var voted = reviews.Where(x => x.Comments.Any(y => y.Votes.Count > 0));
+            Voted = voted.Count();
+            NotVoted = TotalReviews - Voted;
         }
     }
 }

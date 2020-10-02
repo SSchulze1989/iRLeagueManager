@@ -49,6 +49,8 @@ namespace iRLeagueDatabase.DataTransfer.Reviews
         [DataMember]
         public SessionInfoDTO Session { get; set; }
         [DataMember]
+        public string IncidentNr { get; set; }
+        [DataMember]
         public string IncidentKind { get; set; }
         [DataMember]
         public string FullDescription { get; set; }

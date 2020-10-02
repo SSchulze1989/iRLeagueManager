@@ -24,27 +24,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace iRLeagueManager.Extensions
 {
-    public static class StringExtensions
+    public static class ItemsControlExtensions
     {
-        public static string AddLeadingZeroesToNumbers(this string strIn, int totalWidth)
+        // Taken from https://kiwigis.blogspot.com/2010/12/how-to-add-scrollintoview-to.html
+        public static void ScrollIntoView(
+            this ItemsControl control,
+            object item)
         {
-            string result = "";
-            if (strIn != null)
-            {
-                // From StackOverflow
-                // https://stackoverflow.com/questions/2659058/using-regex-to-add-leading-zeroes
-                result = Regex.Replace(strIn, @"\d+", me =>
-                {
-                    return int.Parse(me.Value).ToString().PadLeft(totalWidth, '0');
-                });
-            }
-
-            return result;
+            FrameworkElement framework =
+                control.ItemContainerGenerator.ContainerFromItem(item)
+                as FrameworkElement;
+            if (framework == null) { return; }
+            framework.BringIntoView();
+        }
+        public static void ScrollIntoView(this ItemsControl control)
+        {
+            int count = control.Items.Count;
+            if (count == 0) { return; }
+            object item = control.Items[count - 1];
+            control.ScrollIntoView(item);
         }
     }
 }

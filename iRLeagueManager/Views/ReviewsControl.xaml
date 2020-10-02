@@ -340,302 +340,407 @@ SOFTWARE.-->
                 </Grid>
             </Border>
 
-            <Grid ClipToBounds="True" Grid.Row="2" VerticalAlignment="Stretch" Background="{StaticResource ThemeColor_Back0}">
-                <Grid VerticalAlignment="Stretch">
-                    <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" 
-                                  VerticalScrollBarVisibility="Visible" Template="{DynamicResource ContentScrollViewerControlTemplate}" 
-                                  VerticalAlignment="Stretch"
-                                  SnapsToDevicePixels="True">
-                        <ItemsControl ItemsSource="{Binding CurrentReviews}" Margin="20,5,20,50" Background="Transparent">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="0,6">
-                                        <Border BorderThickness="0" Background="DarkGray" 
-                                                x:Name="templateDropShadowBorder">
-                                            <Border.Effect>
-                                                <DropShadowEffect BlurRadius="5" ShadowDepth="4" Color="DarkGray"/>
-                                            </Border.Effect>
-                                        </Border>
-                                        <Border BorderBrush="DarkGray" BorderThickness="0.5" MouseDown="Border_MouseDown">
-                                            <StackPanel x:Name="stackpanel" Background="White">
-                                                <Border BorderBrush="{StaticResource ThemeColor_Back3}" 
-                                                    BorderThickness="0,0,0,0" CornerRadius="0"
-                                                    Background="Transparent" Margin="0,0,0,8"
-                                                    SnapsToDevicePixels="True">
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" x:Name="HeaderRow"/>
-                                                            <RowDefinition />
-                                                            <RowDefinition Height="Auto" x:Name="FooterRow"/>
-                                                        </Grid.RowDefinitions>
-
-                                                        <Border Grid.Row="0" Padding="10,4,10,2.5" BorderThickness="0,0,0,0" 
-                                                                TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
-                                                                TextElement.FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                x:Name="headerBorder">
-                                                            <DockPanel Margin="0">
-                                                                <controls:IconButton x:Name="reviewDeleteButton" DockPanel.Dock="Right"
-                                                                                     Click="ReviewDeleteButton_Click"
-                                                                                     Tag="{Binding}"
-                                                                                     IconContent="{DynamicResource closeThick}"
-                                                                                     IconStroke="Transparent" IconStrokeThickness="0.5"
-                                                                                     IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
-                                                                                     CornerRadius="0">
-                                                                    <controls:IconButton.ToolTip>
-                                                                        <ToolTip>Delete Review</ToolTip>
-                                                                    </controls:IconButton.ToolTip>
-
-                                                                    <controls:IconButton.Style>
-                                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                                                            <Setter Property="Foreground" Value="Red"/>
-                                                                            <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
-                                                                            <Setter Property="Background" Value="Transparent"/>
-                                                                            <Style.Triggers>
-                                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                                    <Setter Property="Background" Value="{StaticResource ThemeColor_Red}"/>
-                                                                                </Trigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </controls:IconButton.Style>
-                                                                </controls:IconButton>
-                                                                <controls:IconToggleButton DockPanel.Dock="Right" x:Name="expandButton" 
-                                                                                           Command="{Binding RefreshCmd}"
-                                                                                           Width="30" Height="30" CornerRadius="0">
-                                                                    <controls:IconToggleButton.Style>
-                                                                        <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
-                                                                            <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
-                                                                            <Setter Property="IconContent">
-                                                                                <Setter.Value>
-                                                                                    <fa:ImageAwesome Icon="AngleDown" Height="10"/>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                            <Setter Property="ToolTip">
-                                                                                <Setter.Value>
-                                                                                    <ToolTip>Expand</ToolTip>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                            <Style.Triggers>
-                                                                                <Trigger Property="IsChecked" Value="True">
-                                                                                    <Setter Property="IconContent">
-                                                                                        <Setter.Value>
-                                                                                            <fa:ImageAwesome Icon="AngleUp" Height="10"/>
-                                                                                        </Setter.Value>
-                                                                                    </Setter>
-                                                                                    <Setter Property="ToolTip">
-                                                                                        <Setter.Value>
-                                                                                            <ToolTip>Collapse</ToolTip>
-                                                                                        </Setter.Value>
-                                                                                    </Setter>
-                                                                                </Trigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </controls:IconToggleButton.Style>
-                                                                </controls:IconToggleButton>
-                                                                <controls:IconButton x:Name="reviewEditButton" DockPanel.Dock="Right"
-                                                                                     Click="EditButton_Click" Tag="{Binding}"
-                                                                                     IconContent="{DynamicResource pencilOutline}"  
-                                                                                     IconStroke="Transparent" IconStrokeThickness="0.5"
-                                                                                     IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
-                                                                                     CornerRadius="0">
-                                                                    <controls:IconButton.ToolTip>
-                                                                        <ToolTip>Edit Review</ToolTip>
-                                                                    </controls:IconButton.ToolTip>
-                                                                    <controls:IconButton.Style>
-                                                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                                                            <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
-                                                                        </Style>
-                                                                    </controls:IconButton.Style>
-                                                                </controls:IconButton>
-
-                                                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                                                    <TextBlock Text="{Binding OnLap, StringFormat={}Lap {0:00}}" MinWidth="48" 
-                                                                               VerticalAlignment="Center"/>
-                                                                    <TextBlock Text=" - " VerticalAlignment="Center"/>
-                                                                    <TextBlock Text="{Binding Corner, StringFormat={}Turn {0:00}}" MinWidth="48" 
-                                                                               VerticalAlignment="Center"/>
-                                                                    <fa:ImageAwesome Icon="ArrowRight" Height="15" Margin="8,0" VerticalAlignment="Center">
-                                                                        <fa:ImageAwesome.Style>
-                                                                            <Style TargetType="fa:ImageAwesome">
-                                                                                <Setter Property="Foreground" 
-                                                                                        Value="{Binding BorderBrush, 
-                                                                                        RelativeSource={RelativeSource AncestorType=Border}}"/>
-                                                                            </Style>
-                                                                        </fa:ImageAwesome.Style>
-                                                                    </fa:ImageAwesome>
-                                                                    <TextBlock Text="{Binding IncidentKind}" VerticalAlignment="Center"/>
-                                                                    <Separator Margin="5,0"/>
-                                                                    <TextBlock Text="{Binding VotesCount, StringFormat={}({0}x Votes)}" 
-                                                                               VerticalAlignment="Center"/>
-                                                                </StackPanel>
-                                                            </DockPanel>
-                                                            <Border.Style>
-                                                                <Style TargetType="Border">
-                                                                    <Setter Property="Background" Value="{StaticResource ThemeColor_Back2}"/>
-                                                                    <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back5}"/>
-                                                                    <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back5}"/>
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding VoteState}" Value="Open">
-                                                                            <Setter Property="Background" Value="{StaticResource ThemeColor_Blue}"/>
-                                                                            <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back0}"/>
-                                                                            <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back0}"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding VoteState}" Value="Conflict">
-                                                                            <Setter Property="Background" Value="{StaticResource ThemeColor_Yellow}"/>
-                                                                            <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back5}"/>
-                                                                            <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back5}"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Session.IsCurrentSession}" Value="False">
-                                                                            <Setter Property="Background" Value="{StaticResource ThemeColor_Red}"/>
-                                                                            <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back0}"/>
-                                                                            <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back0}"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding VoteState}" Value="Closed">
-                                                                            <Setter Property="Background" Value="{StaticResource ThemeColor_Green}"/>
-                                                                            <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back0}"/>
-                                                                            <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back0}"/>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Border.Style>
-                                                        </Border>
-
-                                                        <Grid Grid.Row="1" x:Name="contentGrid" ClipToBounds="True">
+            <DockPanel Grid.Row="2">
+                <local:ReviewsNavBarControl DockPanel.Dock="Right" DataContext="{Binding ReviewNavBar}" SelectedReviewChanged="ReviewsNavBarControl_SelectedReviewChanged"/>
+                <Grid ClipToBounds="True" VerticalAlignment="Stretch" Background="{StaticResource ThemeColor_Back0}">
+                    <Grid VerticalAlignment="Stretch">
+                        <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" 
+                                      VerticalScrollBarVisibility="Visible" Template="{DynamicResource ContentScrollViewerControlTemplate}" 
+                                      VerticalAlignment="Stretch"
+                                      SnapsToDevicePixels="True">
+                            <ItemsControl ItemsSource="{Binding CurrentReviews}" Margin="10,5,10,50" Background="Transparent"
+                                          x:Name="ReviewsItemsControl">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type vmodel:IncidentReviewViewModel}">
+                                        <Grid Margin="0,6">
+                                            <Border BorderThickness="0" Background="DarkGray" 
+                                                    x:Name="templateDropShadowBorder">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="5" ShadowDepth="4" Color="DarkGray"/>
+                                                </Border.Effect>
+                                            </Border>
+                                            <Border BorderBrush="DarkGray" BorderThickness="0.5" MouseDown="Border_MouseDown">
+                                                <StackPanel x:Name="stackpanel" Background="White">
+                                                    <Border BorderBrush="{StaticResource ThemeColor_Back3}" 
+                                                            BorderThickness="0,0,0,0" CornerRadius="0"
+                                                            Background="Transparent" Margin="0,0,0,8"
+                                                            SnapsToDevicePixels="True">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" x:Name="HeaderRow"/>
+                                                                <RowDefinition />
+                                                                <RowDefinition Height="Auto" x:Name="FooterRow"/>
+                                                            </Grid.RowDefinitions>
                                                             <Grid.Style>
                                                                 <Style TargetType="Grid">
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding ElementName=expandButton, Path=IsChecked}" 
-                                                                                     Value="False">
-                                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
+                                                                    <Setter Property="TextElement.FontSize" Value="{StaticResource Global.FontSizeSmall}"/>
+                                                                    <Setter Property="TextElement.FontWeight" Value="Normal" />
                                                                 </Style>
                                                             </Grid.Style>
 
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition />
-                                                                <RowDefinition />
-                                                            </Grid.RowDefinitions>
+                                                            <Border Grid.Row="0" Padding="10,4,10,2.5" BorderThickness="0,0,0,0" 
+                                                                    TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
+                                                                    TextElement.FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                    x:Name="headerBorder">
+                                                                <DockPanel Margin="0">
+                                                                    <controls:IconButton x:Name="reviewDeleteButton" DockPanel.Dock="Right"
+                                                                                         Click="ReviewDeleteButton_Click"
+                                                                                         Tag="{Binding}"
+                                                                                         IconContent="{DynamicResource closeThick}"
+                                                                                         IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                                         IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
+                                                                                         CornerRadius="0">
+                                                                        <controls:IconButton.ToolTip>
+                                                                            <ToolTip>Delete Review</ToolTip>
+                                                                        </controls:IconButton.ToolTip>
 
-                                                            <Grid Grid.Row="0" Margin="0,5,0,0">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*" MaxWidth="800"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="1*"/>
-                                                                        <ColumnDefinition Width="Auto"/>
-                                                                        <ColumnDefinition Width="1*"/>
-                                                                    </Grid.ColumnDefinitions>
-
-                                                                    <Grid.RowDefinitions>
-                                                                        <RowDefinition Height="Auto" MinHeight="50"/>
-                                                                        <RowDefinition Height="Auto" />
-                                                                        <RowDefinition Height="Auto" MinHeight="50"/>
-                                                                    </Grid.RowDefinitions>
-
-                                                                    <StackPanel Margin="10,5" Grid.Column="0" Grid.Row="0">
-                                                                        <TextBlock Text="Involved" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
-                                                                        <ItemsControl ItemsSource="{Binding InvolvedMembers}" Margin="15,2">
-                                                                            <ItemsControl.ItemTemplate>
-                                                                                <DataTemplate>
-                                                                                    <TextBlock Text="{Binding FullName, StringFormat={}- {0}}"/>
-                                                                                </DataTemplate>
-                                                                            </ItemsControl.ItemTemplate>
-                                                                        </ItemsControl>
-                                                                    </StackPanel>
-                                                                    <Separator Margin="10,4" Grid.Row="1"/>
-                                                                    <StackPanel Margin="10,5" Grid.Column="0" Grid.Row="2">
-                                                                        <TextBlock Text="Votes" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
-                                                                        <ItemsControl ItemsSource="{Binding Votes}" Margin="15,2,15,2">
-                                                                            <ItemsControl.ItemTemplate>
-                                                                                <DataTemplate>
-                                                                                    <StackPanel Orientation="Horizontal" Margin="0">
-                                                                                        <TextBlock>
-                                                                                            <TextBlock.Text>
-                                                                                                <PriorityBinding StringFormat="{}- {0}" FallbackValue="None">
-                                                                                                    <Binding Path="Key.VoteCategory.Text" Converter="{StaticResource ToUpperConverter}"/>
-                                                                                                    <Binding Path="Key.Vote" Converter="{StaticResource ToUpperConverter}"/>
-                                                                                                </PriorityBinding>
-                                                                                            </TextBlock.Text>
-                                                                                        </TextBlock>
-                                                                                        <TextBlock Text=": "/>
-                                                                                        <TextBlock Text="{Binding Key.MemberAtFault.FullName}"/>
-                                                                                        <TextBlock Text="{Binding Value, StringFormat={} ({0}x)}"/>
-                                                                                    </StackPanel>
-                                                                                </DataTemplate>
-                                                                            </ItemsControl.ItemTemplate>
-                                                                        </ItemsControl>
-                                                                    </StackPanel>
-
-                                                                    <StackPanel Grid.Column="2" Margin="10,5" Grid.Row="0">
-                                                                        <TextBlock Text="Proposed" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
-                                                                    </StackPanel>
-                                                                    <Separator Margin="10,4" Grid.Column="2" Grid.Row="1"/>
-                                                                    <StackPanel Margin="10,5" Grid.Row="2" Grid.Column="2">
-                                                                        <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                   FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
-                                                                        <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
-                                                                            <ItemsControl.ItemTemplate>
-                                                                                <DataTemplate>
-                                                                                    <StackPanel Orientation="Horizontal">
-                                                                                        <!--<TextBlock Text="{Binding VoteCategory.Text, Converter={StaticResource ToUpperConverter},
-                                                                                                   StringFormat={}- {0}}"/>-->
-                                                                                        <TextBlock>
-                                                                                            <TextBlock.Text>
-                                                                                                <PriorityBinding StringFormat="{}- {0}" FallbackValue="None">
-                                                                                                    <Binding Path="VoteCategory.Text" Converter="{StaticResource ToUpperConverter}"/>
-                                                                                                    <Binding Path="Vote" Converter="{StaticResource ToUpperConverter}"/>
-                                                                                                </PriorityBinding>
-                                                                                            </TextBlock.Text>
-                                                                                        </TextBlock>
-                                                                                        <TextBlock Text=": "/>
-                                                                                        <TextBlock Text="{Binding MemberAtFault.FullName}"/>
-                                                                                    </StackPanel>
-                                                                                </DataTemplate>
-                                                                            </ItemsControl.ItemTemplate>
-                                                                        </ItemsControl>
-                                                                    </StackPanel>
-
-                                                                    <Separator Grid.Column="1" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,15" Width="1"
-                                                                               Grid.RowSpan="3"/>
-                                                                </Grid>
-                                                            </Grid>
-
-                                                            <StackPanel Grid.Row="1" Margin="10,5">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <TextBlock Text="Comments" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                           FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
-                                                                    <controls:IconToggleButton x:Name="ToggleShowComments" IsChecked="{Binding ForceShowComments}" VerticalAlignment="Center" Margin="5"
-                                                                                               BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="2">
+                                                                        <controls:IconButton.Style>
+                                                                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                                <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                                <Style.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                                        <Setter Property="Background" Value="{StaticResource ThemeColor_Red}"/>
+                                                                                    </Trigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </controls:IconButton.Style>
+                                                                    </controls:IconButton>
+                                                                    <controls:IconToggleButton DockPanel.Dock="Right" x:Name="expandButton" 
+                                                                                               Command="{Binding RefreshCmd}"
+                                                                                               Width="30" Height="30" CornerRadius="0"
+                                                                                               IsChecked="{Binding IsExpanded}">
                                                                         <controls:IconToggleButton.Style>
                                                                             <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
-                                                                                <Setter Property="Content" Value="Show"/>
-                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                                <Setter Property="IconContent">
+                                                                                    <Setter.Value>
+                                                                                        <fa:ImageAwesome Icon="AngleDown" Height="10"/>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                                <Setter Property="ToolTip">
+                                                                                    <Setter.Value>
+                                                                                        <ToolTip>Expand</ToolTip>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
                                                                                 <Style.Triggers>
-                                                                                    <MultiDataTrigger>
-                                                                                        <MultiDataTrigger.Conditions>
-                                                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.HideCommentsBeforeVoted}" Value="True"/>
-                                                                                            <Condition Binding="{Binding CanUserAddComment}" Value="True"/>
-                                                                                        </MultiDataTrigger.Conditions>
-                                                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                                                    </MultiDataTrigger>
                                                                                     <Trigger Property="IsChecked" Value="True">
-                                                                                        <Setter Property="Content" Value="Hide"/>
+                                                                                        <Setter Property="IconContent">
+                                                                                            <Setter.Value>
+                                                                                                <fa:ImageAwesome Icon="AngleUp" Height="10"/>
+                                                                                            </Setter.Value>
+                                                                                        </Setter>
+                                                                                        <Setter Property="ToolTip">
+                                                                                            <Setter.Value>
+                                                                                                <ToolTip>Collapse</ToolTip>
+                                                                                            </Setter.Value>
+                                                                                        </Setter>
                                                                                     </Trigger>
                                                                                 </Style.Triggers>
                                                                             </Style>
                                                                         </controls:IconToggleButton.Style>
                                                                     </controls:IconToggleButton>
-                                                                </StackPanel>
-                                                                <Grid>
+                                                                    <controls:IconButton x:Name="reviewEditButton" DockPanel.Dock="Right"
+                                                                                         Click="EditButton_Click" Tag="{Binding}"
+                                                                                         IconContent="{DynamicResource pencilOutline}"  
+                                                                                         IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                                         IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
+                                                                                         CornerRadius="0">
+                                                                        <controls:IconButton.ToolTip>
+                                                                            <ToolTip>Edit Review</ToolTip>
+                                                                        </controls:IconButton.ToolTip>
+                                                                        <controls:IconButton.Style>
+                                                                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                                <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                            </Style>
+                                                                        </controls:IconButton.Style>
+                                                                    </controls:IconButton>
+
+                                                                    <WrapPanel Orientation="Horizontal" DockPanel.Dock="Left" TextElement.FontFamily="Calibri">
+                                                                        <TextBlock Text="{Binding IncidentNr, StringFormat={}{0}}" VerticalAlignment="Center" MinWidth="35">
+                                                                            <TextBlock.Style>
+                                                                                <Style TargetType="TextBlock">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding IncidentNr}" Value="{x:Null}">
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </DataTrigger>
+                                                                                        <DataTrigger Binding="{Binding IncidentNr}" Value="">
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </TextBlock.Style>
+                                                                        </TextBlock>
+                                                                        <!--<TextBlock Text=" | " VerticalAlignment="Center">
+                                                                            <TextBlock.Style>
+                                                                                <Style TargetType="TextBlock">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding IncidentNr}" Value="{x:Null}">
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </DataTrigger>
+                                                                                        <DataTrigger Binding="{Binding IncidentNr}" Value="">
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </TextBlock.Style>
+                                                                        </TextBlock>-->
+                                                                        <fa:ImageAwesome Icon="FlagCheckered" Height="15" Margin="5" VerticalAlignment="Center"
+                                                                                         Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                        <TextBlock Text="{Binding OnLap, StringFormat={}{0:00}}" MinWidth="28" 
+                                                                                   VerticalAlignment="Center"/>
+                                                                        <Viewbox Height="15" Margin="2">
+                                                                            <ContentControl Content="{DynamicResource TurnLeft}"/>
+                                                                        </Viewbox>
+                                                                        <TextBlock Text="{Binding Corner, StringFormat={}{0:00}}" MinWidth="28" 
+                                                                                   VerticalAlignment="Center"/>
+                                                                        <fa:ImageAwesome Icon="ArrowRight" Height="15" Margin="8,0" VerticalAlignment="Center">
+                                                                            <fa:ImageAwesome.Style>
+                                                                                <Style TargetType="fa:ImageAwesome">
+                                                                                    <Setter Property="Foreground" 
+                                                                                        Value="{Binding BorderBrush, 
+                                                                                        RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                                </Style>
+                                                                            </fa:ImageAwesome.Style>
+                                                                        </fa:ImageAwesome>
+                                                                        <TextBlock Text="{Binding IncidentKind}" VerticalAlignment="Center"/>
+                                                                        <Separator Margin="5,0"/>
+                                                                        <fa:ImageAwesome Icon="CommentsOutline" Height="15" Margin="5,0" VerticalAlignment="Center"
+                                                                                         Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                        <TextBlock Text="{Binding CommentCount}" VerticalAlignment="Center"/>
+                                                                        <Separator Margin="5,0"/>
+                                                                        <fa:ImageAwesome Icon="Clipboard" Height="15" Margin="5,0" VerticalAlignment="Center"
+                                                                                         Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                        <TextBlock Text="{Binding VotesCount, StringFormat={}{0}}" 
+                                                                                   VerticalAlignment="Center"/>
+                                                                    </WrapPanel>
+                                                                </DockPanel>
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="{StaticResource ThemeColor_Back2}"/>
+                                                                        <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back5}"/>
+                                                                        <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back5}"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding VoteState}" Value="Open">
+                                                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Blue}"/>
+                                                                                <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                                <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding VoteState}" Value="Conflict">
+                                                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Yellow}"/>
+                                                                                <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back5}"/>
+                                                                                <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back5}"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Session.IsCurrentSession}" Value="False">
+                                                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Red}"/>
+                                                                                <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                                <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding VoteState}" Value="Closed">
+                                                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Green}"/>
+                                                                                <Setter Property="TextElement.Foreground" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                                <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back0}"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                            </Border>
+
+                                                            <Grid Grid.Row="1" x:Name="contentGrid" ClipToBounds="True">
+                                                                <Grid.Style>
+                                                                    <Style TargetType="Grid">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding ElementName=expandButton, Path=IsChecked}" 
+                                                                                     Value="False">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Grid.Style>
+
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                    <RowDefinition />
+                                                                </Grid.RowDefinitions>
+
+                                                                <Grid Grid.Row="0" Margin="0,5,0,0">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*" MaxWidth="800"/>
                                                                     </Grid.ColumnDefinitions>
-                                                                    <!--<ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled"
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="1*"/>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                            <ColumnDefinition Width="1*"/>
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto" MinHeight="50"/>
+                                                                            <RowDefinition Height="Auto" />
+                                                                            <RowDefinition Height="Auto" />
+                                                                        </Grid.RowDefinitions>
+
+                                                                        <StackPanel Margin="10,5" Grid.Column="0" Grid.Row="0">
+                                                                            <TextBlock Text="Involved" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                            <ItemsControl ItemsSource="{Binding InvolvedMembers}" Margin="15,2">
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <TextBlock Text="{Binding FullName, StringFormat={}- {0}}"/>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </StackPanel>
+                                                                        <Separator Margin="10,4" Grid.Row="1" Grid.ColumnSpan="3"/>
+                                                                        <StackPanel Margin="10,5" Grid.Column="2" Grid.Row="0">
+                                                                            <TextBlock Text="Votes" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                       FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                            <ItemsControl ItemsSource="{Binding Votes}" Margin="15,2,15,2">
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <StackPanel Orientation="Horizontal" Margin="0">
+                                                                                            <TextBlock>
+                                                                                                <TextBlock.Text>
+                                                                                                    <PriorityBinding StringFormat="{}- {0}" FallbackValue="None">
+                                                                                                        <Binding Path="Key.VoteCategory.Text" Converter="{StaticResource ToUpperConverter}"/>
+                                                                                                        <Binding Path="Key.Vote" Converter="{StaticResource ToUpperConverter}"/>
+                                                                                                    </PriorityBinding>
+                                                                                                </TextBlock.Text>
+                                                                                            </TextBlock>
+                                                                                            <TextBlock Text=": "/>
+                                                                                            <TextBlock Text="{Binding Key.MemberAtFault.FullName}"/>
+                                                                                            <TextBlock Text="{Binding Value, StringFormat={} ({0}x)}"/>
+                                                                                        </StackPanel>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </StackPanel>
+
+                                                                        <!--<StackPanel Grid.Column="2" Margin="10,5" Grid.Row="0">
+                                                                            <TextBlock Text="Proposed" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                       FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
+                                                                        </StackPanel>-->
+                                                                        <!--<Separator Margin="10,4" Grid.Column="2" Grid.Row="1"/>
+                                                                        <StackPanel Margin="10,5" Grid.Row="2" Grid.Column="2">
+                                                                            <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                       FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
+                                                                            <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <StackPanel Orientation="Horizontal">
+                                                                                            --><!--<TextBlock Text="{Binding VoteCategory.Text, Converter={StaticResource ToUpperConverter},
+                                                                                                   StringFormat={}- {0}}"/>--><!--
+                                                                                            <TextBlock>
+                                                                                                <TextBlock.Text>
+                                                                                                    <PriorityBinding StringFormat="{}- {0}" FallbackValue="None">
+                                                                                                        <Binding Path="VoteCategory.Text" Converter="{StaticResource ToUpperConverter}"/>
+                                                                                                        <Binding Path="Vote" Converter="{StaticResource ToUpperConverter}"/>
+                                                                                                    </PriorityBinding>
+                                                                                                </TextBlock.Text>
+                                                                                            </TextBlock>
+                                                                                            <TextBlock Text=": "/>
+                                                                                            <TextBlock Text="{Binding MemberAtFault.FullName}"/>
+                                                                                        </StackPanel>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </StackPanel>-->
+
+                                                                        <Separator Grid.Column="1" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,15" Width="1"
+                                                                                   Grid.RowSpan="1"/>
+                                                                    </Grid>
+                                                                </Grid>
+
+                                                                <StackPanel Grid.Row="1" Margin="10,5" MaxWidth="800" HorizontalAlignment="Left">
+                                                                    <TextBlock Text="Description" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                               FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
+                                                                    <TextBox Text="{Binding FullDescription}" Margin="5,0" IsReadOnly="True" Padding="3" BorderThickness="0"/>
+                                                                    <StackPanel.Style>
+                                                                        <Style TargetType="StackPanel">
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding FullDescription}" Value="{x:Null}">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding FullDescription}" Value="">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </StackPanel.Style>
+                                                                </StackPanel>
+                                                                <StackPanel Grid.Row="2" Margin="10,5" MaxWidth="800" HorizontalAlignment="Left">
+                                                                    <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                       FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
+                                                                    <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <TextBlock>
+                                                                                        <TextBlock.Text>
+                                                                                            <PriorityBinding StringFormat="{}- {0}" FallbackValue="None">
+                                                                                                <Binding Path="VoteCategory.Text" Converter="{StaticResource ToUpperConverter}"/>
+                                                                                                <Binding Path="Vote" Converter="{StaticResource ToUpperConverter}"/>
+                                                                                            </PriorityBinding>
+                                                                                        </TextBlock.Text>
+                                                                                    </TextBlock>
+                                                                                    <TextBlock Text=": "/>
+                                                                                    <TextBlock Text="{Binding MemberAtFault.FullName}"/>
+                                                                                </StackPanel>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                    </ItemsControl>
+                                                                    <TextBox Text="{Binding ResultLongText}" Margin="5,0" TextWrapping="WrapWithOverflow" IsReadOnly="True" Padding="3"
+                                                                             BorderThickness="0"/>
+                                                                    <StackPanel.Style>
+                                                                        <Style TargetType="StackPanel">
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding AcceptedVotes.Count}" Value="0">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </StackPanel.Style>
+                                                                </StackPanel>
+
+                                                                <StackPanel Grid.Row="3" Margin="10,5">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="Comments" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                   FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
+                                                                        <controls:IconToggleButton x:Name="ToggleShowComments" IsChecked="{Binding ForceShowComments}" VerticalAlignment="Center" Margin="5"
+                                                                                                   BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="2">
+                                                                            <controls:IconToggleButton.Style>
+                                                                                <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
+                                                                                    <Setter Property="Content" Value="Show"/>
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.HideCommentsBeforeVoted}" Value="True"/>
+                                                                                                <Condition Binding="{Binding CanUserAddComment}" Value="True"/>
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                                        </MultiDataTrigger>
+                                                                                        <Trigger Property="IsChecked" Value="True">
+                                                                                            <Setter Property="Content" Value="Hide"/>
+                                                                                        </Trigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </controls:IconToggleButton.Style>
+                                                                        </controls:IconToggleButton>
+                                                                    </StackPanel>
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*" MaxWidth="800"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <!--<ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled"
                                                                                   VerticalScrollBarVisibility="Disabled" 
                                                                                   Template="{StaticResource ContentScrollViewerControlTemplate}" Margin="0,0,20,0"
                                                                                   PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">-->
@@ -651,7 +756,7 @@ SOFTWARE.-->
 
                                                                             <TreeView.Resources>
                                                                                 <HierarchicalDataTemplate DataType="{x:Type vmodel:ReviewCommentViewModel}" 
-													                                              ItemsSource="{Binding Replies}">
+													                                                      ItemsSource="{Binding Replies}">
                                                                                     <Grid Margin="2" HorizontalAlignment="Stretch" Background="Transparent" SnapsToDevicePixels="True">
                                                                                         <Grid.RowDefinitions>
                                                                                             <RowDefinition />
@@ -665,7 +770,7 @@ SOFTWARE.-->
                                                                                                 <RowDefinition />
                                                                                             </Grid.RowDefinitions>
                                                                                             <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,0"
-                                                                                               FontSize="{StaticResource Global.FontSizeMedium}"/>
+                                                                                                       FontSize="{StaticResource Global.FontSizeMedium}"/>
                                                                                             <TextBlock Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap" Margin="15,4,15,0"/>
                                                                                         </Grid>
                                                                                         <Grid Grid.Row="1">
@@ -820,42 +925,42 @@ SOFTWARE.-->
                                                                                 </Style>
                                                                             </TreeView.Style>
                                                                         </TreeView>
-                                                                    <!--</ScrollViewer>-->
+                                                                        <!--</ScrollViewer>-->
 
-                                                                    <controls:IconButton Grid.Row="1" IconContent="{DynamicResource PlusThick}"
+                                                                        <controls:IconButton Grid.Row="1" IconContent="{DynamicResource PlusThick}"
                                                                                  HorizontalAlignment="Right"
-                                                                                 VerticalAlignment="Bottom" IconMargin="0,-4,0,0" Height="40"
-                                                                                 Click="CommentAddButton_Click" Margin="0,0,-30,0"
+                                                                                 VerticalAlignment="Top" IconMargin="0,-4,0,0" Height="40"
+                                                                                 Click="CommentAddButton_Click" Margin="0,-45,0,0"
                                                                                  IconFill="White" CornerRadius="20" Padding="10,0"
                                                                                  SeparatorMargin="0,0,5,0"
                                                                                  Foreground="White" HorizontalContentAlignment="Center"
                                                                                  VerticalContentAlignment="Center"
                                                                                  Tag="{Binding}"
                                                                                  Background="{StaticResource ThemeColor_DarkBlue}">
-                                                                        <controls:IconButton.Style>
-                                                                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                                                                <Setter Property="Visibility" Value="Visible"/>
-                                                                                <Setter Property="IsEnabled" Value="True"/>
-                                                                                <Setter Property="Content" Value=""/>
-                                                                                <Style.Triggers>
-                                                                                    <DataTrigger Binding="{Binding CanUserAddComment}" Value="False">
-                                                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                                                        <Setter Property="IsEnabled" Value="False"/>
-                                                                                    </DataTrigger>
-                                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                                        <Setter Property="Content" Value="Add Vote"/>
-                                                                                    </Trigger>
-                                                                                </Style.Triggers>
-                                                                            </Style>
-                                                                        </controls:IconButton.Style>
-                                                                        <controls:IconButton.Effect>
-                                                                            <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
-                                                                        </controls:IconButton.Effect>
-                                                                    </controls:IconButton>
-                                                                </Grid>
-                                                            </StackPanel>
+                                                                            <controls:IconButton.Style>
+                                                                                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                                    <Setter Property="Content" Value=""/>
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding CanUserAddComment}" Value="False">
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                                                        </DataTrigger>
+                                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                                            <Setter Property="Content" Value="Add Vote"/>
+                                                                                        </Trigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </controls:IconButton.Style>
+                                                                            <controls:IconButton.Effect>
+                                                                                <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+                                                                            </controls:IconButton.Effect>
+                                                                        </controls:IconButton>
+                                                                    </Grid>
+                                                                </StackPanel>
 
-                                                            <!--<Border VerticalAlignment="Top" Grid.Row="0" x:Name="top_dropshadow" Margin="0,-12,0,0" BorderBrush="Black" BorderThickness="0,5"
+                                                                <!--<Border VerticalAlignment="Top" Grid.Row="0" x:Name="top_dropshadow" Margin="0,-12,0,0" BorderBrush="Black" BorderThickness="0,5"
                                                                     Background="Transparent">
                                                                 <Border.Style>
                                                                     <Style TargetType="Border">
@@ -867,133 +972,133 @@ SOFTWARE.-->
                                                                     </Style>
                                                                 </Border.Style>
                                                             </Border>-->
-                                                        </Grid>
+                                                            </Grid>
 
-                                                        <Grid Grid.Row="2" Margin="10,5" x:Name="footerPanel">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="Auto"/>
-                                                            </Grid.RowDefinitions>
-                                                            <Grid Grid.Row="0" Margin="5,4">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" MinWidth="80"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock Text="Involved: " FontWeight="Bold" Grid.Column="0"/>
-                                                                <ItemsControl ItemsSource="{Binding InvolvedMembers}" Grid.Column="1">
-                                                                    <ItemsControl.ItemsPanel>
-                                                                        <ItemsPanelTemplate>
-                                                                            <WrapPanel Orientation="Horizontal"/>
-                                                                        </ItemsPanelTemplate>
-                                                                    </ItemsControl.ItemsPanel>
-                                                                    <ItemsControl.ItemTemplate>
-                                                                        <DataTemplate>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <TextBlock x:Name="separator" Text=" | "/>
-                                                                                <TextBlock Text="{Binding}"/>
-                                                                            </StackPanel>
-                                                                            <DataTemplate.Triggers>
-                                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
-                                                                                    <Setter Property="Visibility" Value="Collapsed" TargetName="separator"/>
-                                                                                </DataTrigger>
-                                                                            </DataTemplate.Triggers>
-                                                                        </DataTemplate>
-                                                                    </ItemsControl.ItemTemplate>
-                                                                </ItemsControl>
-                                                            </Grid>
-                                                            <Grid Grid.Row="1" Margin="5,2">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" MinWidth="80"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock Text="Result: " Grid.Column="0" FontWeight="Bold"/>
-                                                                <ItemsControl ItemsSource="{Binding AcceptedVotes}" Grid.Column="1">
-                                                                    <ItemsControl.ItemsPanel>
-                                                                        <ItemsPanelTemplate>
-                                                                            <WrapPanel Orientation="Horizontal"/>
-                                                                        </ItemsPanelTemplate>
-                                                                    </ItemsControl.ItemsPanel>
-                                                                    <ItemsControl.ItemTemplate>
-                                                                        <DataTemplate>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <TextBlock x:Name="separator" Text=" | "/>
-                                                                                <TextBlock Text="{Binding}"/>
-                                                                            </StackPanel>
-                                                                            <DataTemplate.Triggers>
-                                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
-                                                                                    <Setter Property="Visibility" Value="Collapsed" TargetName="separator"/>
-                                                                                </DataTrigger>
-                                                                            </DataTemplate.Triggers>
-                                                                        </DataTemplate>
-                                                                    </ItemsControl.ItemTemplate>
-                                                                </ItemsControl>
+                                                            <Grid Grid.Row="2" Margin="10,5" x:Name="footerPanel">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid Grid.Row="0" Margin="5,4">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto" MinWidth="80"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Text="Involved: " FontWeight="Bold" Grid.Column="0"/>
+                                                                    <ItemsControl ItemsSource="{Binding InvolvedMembers}" Grid.Column="1">
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <WrapPanel Orientation="Horizontal"/>
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <TextBlock x:Name="separator" Text=" | "/>
+                                                                                    <TextBlock Text="{Binding}"/>
+                                                                                </StackPanel>
+                                                                                <DataTemplate.Triggers>
+                                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                                                        <Setter Property="Visibility" Value="Collapsed" TargetName="separator"/>
+                                                                                    </DataTrigger>
+                                                                                </DataTemplate.Triggers>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                    </ItemsControl>
+                                                                </Grid>
+                                                                <Grid Grid.Row="1" Margin="5,2">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto" MinWidth="80"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Text="Result: " Grid.Column="0" FontWeight="Bold"/>
+                                                                    <ItemsControl ItemsSource="{Binding AcceptedVotes}" Grid.Column="1">
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <WrapPanel Orientation="Horizontal"/>
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <TextBlock x:Name="separator" Text=" | "/>
+                                                                                    <TextBlock Text="{Binding}"/>
+                                                                                </StackPanel>
+                                                                                <DataTemplate.Triggers>
+                                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                                                        <Setter Property="Visibility" Value="Collapsed" TargetName="separator"/>
+                                                                                    </DataTrigger>
+                                                                                </DataTemplate.Triggers>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                    </ItemsControl>
+                                                                </Grid>
                                                             </Grid>
                                                         </Grid>
-                                                    </Grid>
-                                                </Border>
-                                            </StackPanel>
-                                        </Border>
-                                    </Grid>
-                                    <DataTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="False">
-                                            <Setter Property="Opacity" TargetName="reviewEditButton" Value="0.25"/>
-                                            <Setter Property="Opacity" TargetName="expandButton" Value="0.25"/>
-                                            <Setter Property="Opacity" TargetName="reviewDeleteButton" Value="0.25"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Effect" TargetName="templateDropShadowBorder">
-                                                <Setter.Value>
-                                                    <DropShadowEffect BlurRadius="12" ShadowDepth="5" Color="Black"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                        <Trigger Property="IsChecked" SourceName="expandButton" Value="True">
-                                            <Setter Property="Visibility" Value="Collapsed" TargetName="footerPanel"/>
-                                        </Trigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" MaxWidth="1000"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Margin="0,50" HorizontalAlignment="Center">
-                            <TextBlock Text="Welcome Steward!" FontSize="{StaticResource Global.FontSizeLarge}" 
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                        <DataTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="False">
+                                                <Setter Property="Opacity" TargetName="reviewEditButton" Value="0.25"/>
+                                                <Setter Property="Opacity" TargetName="expandButton" Value="0.25"/>
+                                                <Setter Property="Opacity" TargetName="reviewDeleteButton" Value="0.25"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Effect" TargetName="templateDropShadowBorder">
+                                                    <Setter.Value>
+                                                        <DropShadowEffect BlurRadius="12" ShadowDepth="5" Color="Black"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" SourceName="expandButton" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed" TargetName="footerPanel"/>
+                                            </Trigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MaxWidth="1000"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,50" HorizontalAlignment="Center">
+                                <TextBlock Text="Welcome Steward!" FontSize="{StaticResource Global.FontSizeLarge}" 
                                    FontFamily="{StaticResource Menu.FontFamily}" HorizontalAlignment="Center" Margin="10"/>
-                            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Margin="5">
-                                <TextBlock.Inlines>
-                                    <Run>There are no reviews for this Session yet.</Run>
-                                    <LineBreak/>
-                                    <Hyperlink Click="AddButton_Click">Add Review
-                                        <Hyperlink.Style>
-                                            <Style TargetType="Hyperlink">
-                                                <Setter Property="IsEnabled" Value="True"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SessionSelect.SelectedSession}" Value="{x:Null}">
-                                                        <Setter Property="IsEnabled" Value="False"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Hyperlink.Style>
-                                    </Hyperlink>
-                                    <Run>to Start.</Run>
-                                </TextBlock.Inlines>
-                            </TextBlock>
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CurrentReviews.Count}" Value="0">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                        </StackPanel>
-                    </Grid>
-                    <controls:IconButton Content="Add Review" IconContent="{StaticResource PlusThick}"
+                                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Margin="5">
+                                    <TextBlock.Inlines>
+                                        <Run>There are no reviews for this Session yet.</Run>
+                                        <LineBreak/>
+                                        <Hyperlink Click="AddButton_Click">Add Review
+                                            <Hyperlink.Style>
+                                                <Style TargetType="Hyperlink">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SessionSelect.SelectedSession}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Hyperlink.Style>
+                                        </Hyperlink>
+                                        <Run>to Start.</Run>
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentReviews.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                            </StackPanel>
+                        </Grid>
+                        <controls:IconButton Content="Add Review" IconContent="{StaticResource PlusThick}"
                                          Click="AddButton_Click"
                                          HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
                                          Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
@@ -1001,22 +1106,23 @@ SOFTWARE.-->
                                          Foreground="{StaticResource ThemeColor_Back0}"
                                          Height="Auto" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                          Margin="5,2,25,10" ToolTip="Create new Schedule">
-                        <controls:IconButton.Style>
-                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                <Setter Property="IsEnabled" Value="True"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SessionSelect.SelectedSession}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controls:IconButton.Style>
-                        <controls:IconButton.Effect>
-                            <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
-                        </controls:IconButton.Effect>
-                    </controls:IconButton>
+                            <controls:IconButton.Style>
+                                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SessionSelect.SelectedSession}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:IconButton.Style>
+                            <controls:IconButton.Effect>
+                                <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+                            </controls:IconButton.Effect>
+                        </controls:IconButton>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </DockPanel>
         </Grid>
         <local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     </Grid>

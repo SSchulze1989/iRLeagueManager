@@ -102,6 +102,7 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
+            Review?.OnCommentsCollectionChanged(null, new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Reset));
         }
 
         public async override Task Refresh()

@@ -52,6 +52,9 @@ namespace iRLeagueManager.Models.Reviews
         private SessionInfo session;
         public SessionInfo Session { get => session; internal set { SetValue(ref session, value); } }
 
+        private string incidentNr;
+        public string IncidentNr { get => incidentNr; set => SetValue(ref incidentNr, value); }
+
         private string incidentKind;
         public string IncidentKind { get => incidentKind; set => SetValue(ref incidentKind, value); }
 
