@@ -24,4 +24,3 @@ At the moment i am aiming for a v1.0 release around the end of 2020/beginning of
 # Used resources
 - <div>Icons erstellt von <a href="https://www.flaticon.com/de/autoren/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/de/" title="Flaticon">www.flaticon.com</a></div>
 - Fontawesome https://fontawesome.com/
-- 
