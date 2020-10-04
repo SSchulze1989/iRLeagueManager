@@ -44,6 +44,11 @@ namespace iRLeagueManager.Logging
         {
             //Create log file:
             LogFilename = DateTime.Now.ToString("dd_MM_yyyy-hh_mm_ss") + ".log";
+
+            //AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+            //{
+            //    ErrLog(new ExceptionLogMessage(eventArgs.Exception));
+            //};
         }
 
         public void Log(string message, object tag = null)

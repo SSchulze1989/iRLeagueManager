@@ -109,7 +109,7 @@ namespace iRLeagueManager.Views
 
                     if (reviewVM != null)
                     {
-                        editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUser, reviewVM.Model));
+                        editVM.UpdateSource(new ReviewCommentModel(reviewVM.CurrentUserModel, reviewVM.Model));
                         //editVM.Model.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewComment.Model.CommentReviewVotes.ToList());
                         editVM.Review = reviewVM;
                         await editVM.Refresh();
@@ -193,7 +193,7 @@ namespace iRLeagueManager.Views
 
                     if (content.DataContext is CommentViewModel editVM)
                     {
-                        editVM.Model = new CommentModel(ViewModel.CurrentUser);
+                        editVM.Model = new CommentModel(ViewModel.CurrentUserModel);
 
                         editWindow.ModalContent = content;
                         if (editWindow.ShowDialog() == true)

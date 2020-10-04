@@ -57,7 +57,7 @@ namespace iRLeagueManager.ViewModels
         //public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
 
         private UserViewModel currentUser;
-        public new UserViewModel CurrentUser
+        public UserViewModel CurrentUser
         {
             get
             {
