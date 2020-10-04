@@ -108,6 +108,7 @@
     <Compile Include="Enums\DatabaseStatusEnum.cs" />
     <Compile Include="Enums\ConnectionStatusEnum.cs" />
     <Compile Include="Enums\DropRacesOption.cs" />
+    <Compile Include="Enums\LicenseLevelEnum.cs" />
     <Compile Include="Enums\RaceStatusEnum.cs" />
     <Compile Include="Enums\SaveSelect.cs" />
     <Compile Include="Enums\ScoringKindEnum.cs" />

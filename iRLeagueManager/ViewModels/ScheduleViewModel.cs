@@ -37,7 +37,7 @@ using iRLeagueManager.Data;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Models.Results;
-using iRLeagueManager.Services;
+using iRLeagueManager.ResultsParser;
 using iRLeagueManager.ViewModels.Collections;
 using System.ComponentModel;
 using System.Collections.Specialized;
@@ -251,8 +251,8 @@ namespace iRLeagueManager.ViewModels
             var fileName = openDialog.FileName;
 
             Stream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-            ResultParserService parserService = new ResultParserService(GlobalSettings.LeagueContext);
-            var lines = parserService.ParseCSV(new StreamReader(stream));
+            var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.CSV);
+            var lines = parserService.ParseFileStream(new StreamReader(stream));
             stream.Dispose();
 
             //Update LeagueMember database

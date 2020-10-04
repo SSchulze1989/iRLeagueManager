@@ -34,7 +34,7 @@ using Microsoft.Win32;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models;
 using iRLeagueManager.Interfaces;
-using iRLeagueManager.Services;
+using iRLeagueManager.ResultsParser;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Locations;
@@ -169,13 +169,13 @@ namespace iRLeagueManager.ViewModels
             var fileName = openDialog.FileName;
 
             Stream stream = null;
-            ResultParserService parserService = new ResultParserService(GlobalSettings.LeagueContext);
+            var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.CSV);
             IEnumerable<Dictionary<string, string>> lines = null; 
 
             try
             {
                 stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                lines = parserService.ParseCSV(new StreamReader(stream, Encoding.Default));
+                lines = parserService.ParseFileStream(new StreamReader(stream, Encoding.Default));
             }
             catch (Exception e)
             {

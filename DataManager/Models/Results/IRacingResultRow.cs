@@ -34,6 +34,23 @@ namespace iRLeagueManager.Models.Results
         private string iracingId;
         public string IRacingId { get => iracingId; set { iracingId = value; OnPropertyChanged(); } }
 
+        private int oldIRating;
+        public int OldIRating { get => oldIRating; set => SetValue(ref oldIRating, value); }
+
+        private int newIRating;
+        public int NewIRating { get => newIRating; set => SetValue(ref newIRating, value); }
+
+        private int clubId;
+        public int ClubId { get => clubId; set => SetValue(ref clubId, value); }
+
+        private string clubName;
+        public string ClubName { get => clubName; set => SetValue(ref clubName, value); }
+
+        private int division;
+        public int Division { get => division; set => SetValue(ref division, value); }
+
+
+
         public IRacingResultRow() : base() { }
     }
 }

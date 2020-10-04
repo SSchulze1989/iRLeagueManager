@@ -193,7 +193,6 @@
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ResultParserService.cs" />
     <Compile Include="Views\CalendarControl.xaml.cs">
       <DependentUpon>CalendarControl.xaml</DependentUpon>
     </Compile>
@@ -412,6 +411,10 @@
     <ProjectReference Include="..\DataManager\DataManager.csproj">
       <Project>{65822b2c-229c-4e8c-a38c-6cf87f16d8fe}</Project>
       <Name>DataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultsParser\ResultsParser.csproj">
+      <Project>{9f176fda-0e7b-46e3-b6e1-d162d60aeaaf}</Project>
+      <Name>ResultsParser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
