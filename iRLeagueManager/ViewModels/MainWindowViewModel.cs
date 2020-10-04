@@ -99,9 +99,12 @@ namespace iRLeagueManager.ViewModels
                 if (SetValue(ref selectedSeason, value) && selectedSeason?.SeasonId != null)
                 {
                     CurrentSeason.Load(selectedSeason);
+                    SeasonChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
+
+        public event EventHandler SeasonChanged;
 
         public SeasonViewModel CurrentSeason { get; }
 

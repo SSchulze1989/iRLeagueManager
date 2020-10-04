@@ -309,6 +309,16 @@ SOFTWARE.-->
                             <Setter Property="BorderThickness" Value="0,0,0,0" />
                         </Style>
                     </StackPanel.Resources>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                 </StackPanel>
 
                 <Grid VerticalAlignment="Bottom">

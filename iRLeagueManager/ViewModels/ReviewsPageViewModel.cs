@@ -37,7 +37,7 @@ using iRLeagueManager.Data;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class ReviewsPageViewModel : ViewModelBase
+    public class ReviewsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
         private SeasonModel season;
 

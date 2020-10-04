@@ -158,6 +158,8 @@
     <Compile Include="ViewModels\HoursCollection.cs" />
     <Compile Include="ViewModels\IContainerModelBase.cs" />
     <Compile Include="ViewModels\IncidentReviewViewModel.cs" />
+    <Compile Include="ViewModels\IPageViewModel.cs" />
+    <Compile Include="ViewModels\ISeasonPageViewModel.cs" />
     <Compile Include="ViewModels\LeagueContainerModel.cs" />
     <Compile Include="ViewModels\LocationCollection.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
