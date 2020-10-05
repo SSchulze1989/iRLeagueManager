@@ -87,6 +87,12 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public string LocationId { get; set; }
         [DataMember]
         public DateTime Date { get; set; }
+        [DataMember]
+        public int OldIRating { get; set; }
+        [DataMember]
+        public int NewIRating { get; set; }
+        [DataMember]
+        public int SeasonStartIRating { get; set; }
 
         public override object MappingId => ResultRowId;
 
