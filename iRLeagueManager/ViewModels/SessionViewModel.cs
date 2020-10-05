@@ -170,12 +170,12 @@ namespace iRLeagueManager.ViewModels
 
             Stream stream = null;
             var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.CSV);
-            IEnumerable<Dictionary<string, string>> lines = null; 
+            //IEnumerable<Dictionary<string, string>> lines = null; 
 
             try
             {
                 stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                lines = parserService.ParseFileStream(new StreamReader(stream, Encoding.Default));
+                await parserService.ReadStreamAsync(new StreamReader(stream, Encoding.Default));
             }
             catch (Exception e)
             {
@@ -194,7 +194,7 @@ namespace iRLeagueManager.ViewModels
                 await LeagueContext.UpdateMemberList();
                 var memberList = LeagueContext.MemberList;
                 parserService.MemberList = memberList;
-                var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
+                var newMembers = parserService.GetNewMemberList().Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
 
                 newMembers = await LeagueContext.AddModelsAsync(newMembers.ToArray());
                 foreach(var member in newMembers)
@@ -208,7 +208,7 @@ namespace iRLeagueManager.ViewModels
                 if (session == null)
                     return;
 
-                var resultRows = parserService.GetResultRows(lines);
+                var resultRows = parserService.GetResultRows();
                 ResultModel result;
                 if (session.SessionResult != null)
                 {

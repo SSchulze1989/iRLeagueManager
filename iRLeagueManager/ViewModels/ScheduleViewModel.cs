@@ -252,11 +252,11 @@ namespace iRLeagueManager.ViewModels
 
             Stream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
             var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.CSV);
-            var lines = parserService.ParseFileStream(new StreamReader(stream));
+            await parserService.ReadStreamAsync(new StreamReader(stream));
             stream.Dispose();
 
             //Update LeagueMember database
-            var newMembers = parserService.GetNewMemberList(lines);
+            var newMembers = parserService.GetNewMemberList();
             foreach (var member in newMembers)
             {
                 await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
@@ -265,7 +265,7 @@ namespace iRLeagueManager.ViewModels
             if (session == null)
                 return;
 
-            var resultRows = parserService.GetResultRows(lines);
+            var resultRows = parserService.GetResultRows();
             ResultModel result;
             if (session.SessionResult != null)
             {

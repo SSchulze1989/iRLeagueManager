@@ -76,7 +76,6 @@ namespace iRLeagueManager.ResultsParser
                 {
                     row.Member = MemberList.SingleOrDefault(x => x.IRacingId == resultRow.cust_id);
                 }
-                row.iRating = 
                 //row.Interval = new LapInterval(
                 //    TimeSpan.TryParse("0:" + line["Interval"].Replace("-",""), culture, out TimeSpan intvTime) ? intvTime : TimeSpan.Zero,
                 //    int.TryParse(line["Interval"].Replace("L", ""), out int intvLaps) ? intvLaps : 0);
@@ -87,6 +86,8 @@ namespace iRLeagueManager.ResultsParser
                 //row.FastestLapTime = new LapTime(TimeSpan.TryParse(PrepareTimeString(line["FastestLapTime"]), culture, out TimeSpan fastLap) ? fastLap : TimeSpan.Zero);
                 row.FastestLapTime = new LapTime(new TimeSpan((long)resultRow.best_lap_time*(TimeSpan.TicksPerMillisecond / 10)));
                 //row.PositionChange = row.StartPosition - row.FinishPosition;
+                row.OldIRating = resultRow.old_irating;
+                row.NewIRating = resultRow.new_irating;
                 resultRows.Add(row);
             }
             return resultRows;

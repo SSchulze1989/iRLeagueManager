@@ -118,6 +118,7 @@
     <Compile Include="Enums\VoteEnum.cs" />
     <Compile Include="Enums\VoteState.cs" />
     <Compile Include="Enums\WeekDaysFlag.cs" />
+    <Compile Include="Filters\IResultsFilterDescription.cs" />
     <Compile Include="Interfaces\IAdmin.cs" />
     <Compile Include="Interfaces\IAdminData.cs" />
     <Compile Include="Interfaces\IComment.cs" />
