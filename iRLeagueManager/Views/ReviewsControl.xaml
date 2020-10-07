@@ -571,7 +571,7 @@ SOFTWARE.-->
 
                                                                 <Grid Grid.Row="0" Margin="0,5,0,0">
                                                                     <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="*" MaxWidth="800"/>
+                                                                        <ColumnDefinition Width="*" MaxWidth="8000"/>
                                                                     </Grid.ColumnDefinitions>
                                                                     <Grid>
                                                                         <Grid.ColumnDefinitions>
@@ -657,10 +657,10 @@ SOFTWARE.-->
                                                                     </Grid>
                                                                 </Grid>
 
-                                                                <StackPanel Grid.Row="1" Margin="10,5" MaxWidth="800" HorizontalAlignment="Left">
+                                                                <StackPanel Grid.Row="1" Margin="10,5" MaxWidth="8000" HorizontalAlignment="Stretch">
                                                                     <TextBlock Text="Description" FontSize="{StaticResource Global.FontSizeMedium}"
                                                                                FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
-                                                                    <TextBox Text="{Binding FullDescription}" Margin="5,0" IsReadOnly="True" Padding="3" BorderThickness="0"/>
+                                                                    <TextBox Text="{Binding FullDescription}" Margin="5,0" IsReadOnly="True" Padding="3" BorderThickness="0" TextWrapping="WrapWithOverflow"/>
                                                                     <StackPanel.Style>
                                                                         <Style TargetType="StackPanel">
                                                                             <Setter Property="Visibility" Value="Visible"/>
@@ -675,7 +675,7 @@ SOFTWARE.-->
                                                                         </Style>
                                                                     </StackPanel.Style>
                                                                 </StackPanel>
-                                                                <StackPanel Grid.Row="2" Margin="10,5" MaxWidth="800" HorizontalAlignment="Left">
+                                                                <StackPanel Grid.Row="2" Margin="10,5" MaxWidth="8000" HorizontalAlignment="Left">
                                                                     <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
                                                                                        FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
                                                                     <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
@@ -738,7 +738,7 @@ SOFTWARE.-->
                                                                     </StackPanel>
                                                                     <Grid>
                                                                         <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="*" MaxWidth="800"/>
+                                                                            <ColumnDefinition Width="*" MaxWidth="8000"/>
                                                                         </Grid.ColumnDefinitions>
                                                                         <!--<ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled"
                                                                                   VerticalScrollBarVisibility="Disabled" 
