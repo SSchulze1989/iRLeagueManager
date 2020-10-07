@@ -113,6 +113,7 @@
     <Compile Include="Enums\SaveSelect.cs" />
     <Compile Include="Enums\ScoringKindEnum.cs" />
     <Compile Include="Enums\SessionTypeEnum.cs" />
+    <Compile Include="Enums\SimSessionTypeEnum.cs" />
     <Compile Include="Enums\TimingComponents.cs" />
     <Compile Include="Enums\UpdateKind.cs" />
     <Compile Include="Enums\VoteEnum.cs" />

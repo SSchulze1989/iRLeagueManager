@@ -88,6 +88,7 @@ namespace iRLeagueManager.ResultsParser
                 //row.PositionChange = row.StartPosition - row.FinishPosition;
                 row.OldIRating = resultRow.old_irating;
                 row.NewIRating = resultRow.new_irating;
+
                 resultRows.Add(row);
             }
             return resultRows;
