@@ -72,22 +72,22 @@ namespace iRLeagueManager.ResultsParser
                     QualifyingTime = new LapTime(TimeSpan.Zero)
                 };
                 //if (!LeagueClient.LeagueMembers.ToList().Exists(x => x.IRacingId == row.IRacingId))
-                if (MemberList.Any(x => x.IRacingId == resultRow.cust_id))
+                if (MemberList.Any(x => x.IRacingId == (string)resultRow.cust_id))
                 {
-                    row.Member = MemberList.SingleOrDefault(x => x.IRacingId == resultRow.cust_id);
+                    row.Member = MemberList.SingleOrDefault(x => x.IRacingId == (string)resultRow.cust_id);
                 }
                 //row.Interval = new LapInterval(
                 //    TimeSpan.TryParse("0:" + line["Interval"].Replace("-",""), culture, out TimeSpan intvTime) ? intvTime : TimeSpan.Zero,
                 //    int.TryParse(line["Interval"].Replace("L", ""), out int intvLaps) ? intvLaps : 0);
                 //row.Interval = new LapInterval(GetTimeSpanFromString(line["Interval"]), int.TryParse(line["Interval"].Replace("L", ""), out int intvLaps) ? intvLaps : 0);
-                row.Interval = new LapInterval(new TimeSpan((long)resultRow.interval*(TimeSpan.TicksPerMillisecond/10)));
+                row.Interval = resultRow.interval >= 0 ? new LapInterval(new TimeSpan((long)resultRow.interval*(TimeSpan.TicksPerMillisecond/10))) : new LapInterval(TimeSpan.Zero, (int)ResultData.event_laps_complete - row.CompletedLaps);
                 //row.AvgLapTime = new LapTime(TimeSpan.TryParse(PrepareTimeString(line["AverageLapTime"]), culture, out TimeSpan avgLap) ? avgLap : TimeSpan.Zero);
                 row.AvgLapTime = new LapTime(new TimeSpan((long)resultRow.average_lap*(TimeSpan.TicksPerMillisecond / 10)));
                 //row.FastestLapTime = new LapTime(TimeSpan.TryParse(PrepareTimeString(line["FastestLapTime"]), culture, out TimeSpan fastLap) ? fastLap : TimeSpan.Zero);
                 row.FastestLapTime = new LapTime(new TimeSpan((long)resultRow.best_lap_time*(TimeSpan.TicksPerMillisecond / 10)));
                 //row.PositionChange = row.StartPosition - row.FinishPosition;
-                row.OldIRating = resultRow.old_irating;
-                row.NewIRating = resultRow.new_irating;
+                row.OldIRating = resultRow.oldi_rating;
+                row.NewIRating = resultRow.newi_rating;
 
                 resultRows.Add(row);
             }

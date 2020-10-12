@@ -23,7 +23,6 @@ namespace TestConsole
             Stream stream = null;
 
             var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.Json);
-            IEnumerable<Dictionary<string, string>> lines = null;
 
             try
             {

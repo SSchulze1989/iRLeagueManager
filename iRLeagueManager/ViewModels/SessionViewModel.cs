@@ -158,7 +158,7 @@ namespace iRLeagueManager.ViewModels
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
-                Filter = "CSV Dateien (*.csv)|*.csv",
+                Filter = "CSV Dateien (*.csv)|*.csv|Json Dateien (*.json)|*.json",
                 Multiselect = false
             };
             if (openDialog.ShowDialog() == false)
@@ -169,7 +169,24 @@ namespace iRLeagueManager.ViewModels
             var fileName = openDialog.FileName;
 
             Stream stream = null;
-            var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.CSV);
+
+            // get file type from extension
+            var ext = fileName.Split('.').Last().ToLower();
+
+            ResultsFileTypeEnum resultsFileType;
+            switch (ext)
+            {
+                case "csv":
+                    resultsFileType = ResultsFileTypeEnum.CSV;
+                    break;
+                case "json":
+                    resultsFileType = ResultsFileTypeEnum.Json;
+                    break;
+                default:
+                    resultsFileType = ResultsFileTypeEnum.CSV;
+                    break;
+            }
+            var parserService = ResultsParserFactory.GetResultsParser(resultsFileType);
             //IEnumerable<Dictionary<string, string>> lines = null; 
 
             try
@@ -234,7 +251,7 @@ namespace iRLeagueManager.ViewModels
                     //await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                     await GlobalSettings.LeagueContext.UpdateModelAsync(session);
                 }
-                //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
+            //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
             }
             catch (Exception e)
             {
