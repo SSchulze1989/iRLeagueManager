@@ -38,7 +38,7 @@ using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class SettingsPageViewModel : ViewModelBase
+    public class SettingsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
         private SeasonViewModel season;
         public SeasonViewModel Season { get => season; set => SetValue(ref season, value); }

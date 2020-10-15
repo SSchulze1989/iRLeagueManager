@@ -37,7 +37,7 @@ using iRLeagueManager.ViewModels.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class SchedulerViewModel : ViewModelBase, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
+    public class SchedulerViewModel : ViewModelBase, ISeasonPageViewModel, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
     {
         private ObservableModelCollection<ScheduleViewModel, ScheduleModel> schedules;
         public ObservableModelCollection<ScheduleViewModel, ScheduleModel> Schedules
@@ -115,7 +115,12 @@ namespace iRLeagueManager.ViewModels
             await Load(Season);
         }
 
-        public async Task Load(SeasonModel season, bool forceReload = false)
+        public async Task Load(SeasonModel season)
+        {
+            await Load(season, false);
+        }
+
+        public async Task Load(SeasonModel season, bool forceReload)
         {
             var loadedModels = new List<ScheduleModel>();
             Season = season;

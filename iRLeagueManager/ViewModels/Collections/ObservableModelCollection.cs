@@ -132,25 +132,33 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public void UpdateSource(IEnumerable<TSource> collection)
         {
-            if (collection != null)
+            try
             {
-                OnUpdateSource(_collectionSource, collection);
-                CollectionSource = collection;
-                if (collection.Count() > 0 || this.Count() > 0)
-                    UpdateCollection();
-                if (AutoUpdateItemsSources)
+                if (collection != null)
                 {
-                    foreach (TSource item in _collectionSource)
+                    OnUpdateSource(_collectionSource, collection);
+                    CollectionSource = collection;
+                    if (collection.Count() > 0 || this.Count() > 0)
+                        UpdateCollection();
+                    if (AutoUpdateItemsSources)
                     {
-                        Items.SingleOrDefault(x => comparer.Equals(x.GetSource(), item))?.UpdateSource(item);
+                        foreach (TSource item in _collectionSource)
+                        {
+                            Items.SingleOrDefault(x => comparer.Equals(x.GetSource(), item))?.UpdateSource(item);
+                        }
                     }
                 }
+                else
+                {
+                    CollectionSource = new TSource[0];
+                }
+                OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(null));
             }
-            else
+            catch (Exception e)
             {
-                CollectionSource = new TSource[0];
+                GlobalSettings.LogError(e);
+                throw e;
             }
-            OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(null));
         }
 
         //protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
@@ -179,43 +187,50 @@ namespace iRLeagueManager.ViewModels.Collections
         {
             if (disposedValue)
                 return;
-
-            for (int i = 0; i < CollectionSource.Count(); i++)
+            try
             {
-                var srcItem = CollectionSource.ElementAt(i);
-                var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
-
-                if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)
+                for (int i = 0; i < CollectionSource.Count(); i++)
                 {
-                    var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
-                    if (findTrgItem == null)
-                    {
-                        if (_constructUsing == null)
-                            trgItem = new TModel();
-                        else
-                            trgItem = _constructUsing.Invoke(srcItem);
+                    var srcItem = CollectionSource.ElementAt(i);
+                    var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
 
-                        trgItem.UpdateSource(srcItem);
-                        _constructorAction?.Invoke(trgItem);
-                        TargetCollection.Insert(i, trgItem);
-                    }
-                    else
+                    if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)
                     {
-                        trgItem = findTrgItem.item;
-                        TargetCollection.Move(findTrgItem.index, i);
+                        var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
+                        if (findTrgItem == null)
+                        {
+                            if (_constructUsing == null)
+                                trgItem = new TModel();
+                            else
+                                trgItem = _constructUsing.Invoke(srcItem);
+
+                            trgItem.UpdateSource(srcItem);
+                            _constructorAction?.Invoke(trgItem);
+                            TargetCollection.Insert(i, trgItem);
+                        }
+                        else
+                        {
+                            trgItem = findTrgItem.item;
+                            TargetCollection.Move(findTrgItem.index, i);
+                        }
+                    }
+
+                    if (srcItem != trgItem.GetSource())
+                    {
+                        trgItem.UpdateSource(srcItem);
                     }
                 }
 
-                if (srcItem != trgItem.GetSource())
+                var removeTrgItem = TargetCollection.Skip(CollectionSource.Count());
+                foreach (var item in removeTrgItem.ToList())
                 {
-                    trgItem.UpdateSource(srcItem);
+                    TargetCollection.Remove(item);
                 }
             }
-
-            var removeTrgItem = TargetCollection.Skip(CollectionSource.Count());
-            foreach (var item in removeTrgItem.ToList())
+            catch (Exception e)
             {
-                TargetCollection.Remove(item);
+                GlobalSettings.LogError(e);
+                throw e;
             }
 
             CollectionView.Refresh();

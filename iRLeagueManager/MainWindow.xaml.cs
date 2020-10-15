@@ -44,6 +44,33 @@ namespace iRLeagueManager
         {
             InitializeComponent();
             mainViewModel = DataContext as MainWindowViewModel;
+
+            if (mainViewModel != null)
+            {
+                mainViewModel.SeasonChanged += async (sender, eventArgs) =>
+                {
+                    if (mainViewModel.SeasonList?.Count > 0)
+                    {
+                        if (MainContent.Content is ViewModelBase contentViewModel)
+                        {
+                            if (contentViewModel is ISeasonPageViewModel seasonPageViewModel)
+                            {
+                                await seasonPageViewModel.Load(mainViewModel.SelectedSeason);
+                            }
+                            else if (contentViewModel is IPageViewModel pageViewModel)
+                            {
+                                await pageViewModel.Load();
+                            }
+                            else
+                            {
+                                await contentViewModel.Refresh();
+                            }
+                        }
+                    }
+                    else
+                        await mainViewModel.Refresh();
+                };
+            }
             var assembly = Assembly.GetExecutingAssembly();
             Title = "iRLeagueManager v" + assembly.GetName().Version.ToString(3);
             Load();

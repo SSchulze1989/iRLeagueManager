@@ -48,6 +48,10 @@ SOFTWARE.-->
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
         <Thickness x:Key="ColumnMargin">0,5</Thickness>
+        <Style TargetType="DataGrid">
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource ThemeColor_TableBorder}"/>
+            <Setter Property="VerticalGridLinesBrush" Value="{StaticResource ThemeColor_TableBorder}"/>
+        </Style>
         <Style TargetType="TextBlock" x:Key="TextColumnElementStyle">
             <Setter Property="Margin" Value="{StaticResource ColumnMargin}"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -172,7 +176,7 @@ SOFTWARE.-->
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" Margin="{StaticResource ColumnMargin}">
-                                                            <TextBlock Text="{Binding Position, StringFormat={} {0}}"/>
+                                                            <TextBlock Text="{Binding Position, StringFormat='{} {0,2:#0}'}"/>
                                                             <TextBlock Text="{Binding PositionChange, StringFormat={} ({0:+#;-#;' - '})}">
                                                                 <TextBlock.Style>
                                                                     <Style TargetType="TextBlock">
