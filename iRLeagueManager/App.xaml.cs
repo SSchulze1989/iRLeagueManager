@@ -43,6 +43,11 @@ namespace iRLeagueManager
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            AppDomain.CurrentDomain.UnhandledException += (exceptionSender, eventArgs) =>
+            {
+                GlobalSettings.LogError(eventArgs.ExceptionObject as Exception);
+            };
+
             AutoUpdater.UpdateMode = Mode.ForcedDownload;
             AutoUpdater.Start("http://144.91.113.195/updates/update.xml");
 

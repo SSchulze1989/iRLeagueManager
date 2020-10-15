@@ -42,7 +42,7 @@ namespace iRLeagueManager.ViewModels
     {
         protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
-        public UserModel CurrentUser => LeagueContext?.UserManager?.CurrentUser;
+        public UserModel CurrentUserModel => LeagueContext?.UserManager?.CurrentUser;
 
         private bool isLoading = false;
         public bool IsLoading { get => isLoading; protected set => SetValue(ref isLoading, value); }

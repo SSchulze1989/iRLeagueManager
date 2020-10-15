@@ -33,7 +33,7 @@ using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class TeamsPageViewModel : ViewModelBase
+    public class TeamsPageViewModel : ViewModelBase, IPageViewModel
     {
         private ObservableModelCollection<TeamViewModel, TeamModel> teams;
         public ObservableModelCollection<TeamViewModel, TeamModel> Teams { get => teams; private set => SetValue(ref teams, value); }
