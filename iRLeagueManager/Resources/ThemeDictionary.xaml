@@ -40,7 +40,8 @@ SOFTWARE.-->
     <!--<FontFamily x:Key="Global.FontFamily">Bahnschrift</FontFamily>-->
     <sys:Double x:Key="Global.FontSizeLarge">20</sys:Double>
     <sys:Double x:Key="Global.FontSizeMedium">15</sys:Double>
-    <sys:Double x:Key="Global.FontSizeSmall">12</sys:Double>
+    <sys:Double x:Key="Global.FontSizeSmallMedium">13.5</sys:Double>
+    <sys:Double x:Key="Global.FontSizeSmall">12.5</sys:Double>
 
     <sys:Double x:Key="Menu.FontSizeLarge">18</sys:Double>
     <FontFamily x:Key="Menu.FontFamily">pack://application,,,/Fonts/#Formula1 Display Regular</FontFamily>
