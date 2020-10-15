@@ -1,112 +1,555 @@
-﻿<UserControl x:Class="iRLeagueManager.Views.SettingsControl"
+﻿<!--MIT License
+
+Copyright (c) 2020 Simon Schulze
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.-->
+
+<UserControl x:Class="iRLeagueManager.Views.SettingsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:iRLeagueManager.Views"
+             xmlns:model="clr-namespace:iRLeagueManager.Models.Results;assembly=DataManager"
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
              xmlns:enum="clr-namespace:iRLeagueManager.Enums;assembly=Communication"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Background="White">
     <!--<UserControl.DataContext>
         <vmodel:SettingsPageViewModel/>
     </UserControl.DataContext>-->
-    
+
+    <UserControl.Resources>
+        <ObjectDataProvider MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}"
+                        x:Key="ScoringKindValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:ScoringKindEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}"
+                        x:Key="DropRacesOptionsValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:DropRacesOption"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" DataContext="{Binding Season}" Margin="5">
-            <TextBlock Text="Season" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="50*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" DataContext="{Binding Season}" Margin="5">
+                <TextBlock Text="Season" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Season Id:" Margin="5"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SeasonId}" Margin="5"/>
-                
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Season Name:" Margin="5"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SeasonName}" Margin="5"/>
-                
-            </Grid>
-        </DockPanel>
-        <DockPanel Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
-            <TextBlock Text="Scorings" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>
-            <Grid DockPanel.Dock="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Season Id:" Margin="5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SeasonId}" Margin="5"/>
 
-                <ListBox Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" DisplayMemberPath="Name" Width="400"/>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding DeleteScoringCmd}" CommandParameter="{Binding ElementName=ScoringsListBox, Path=SelectedItem}"/>
-                    <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding AddScoringCmd}"/>
-                </StackPanel>
-            </Grid>
-            <Grid DockPanel.Dock="Right" DataContext="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="50*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Season Name:" Margin="5"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SeasonName}" Margin="5"/>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Scoring Id:" Margin="5"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoringId}" Margin="5"/>
-                
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Scoring Name:" Margin="5"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
+                </Grid>
+            </DockPanel>
+            <TabControl Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
+                <TabItem Header="Results">
+                    <DockPanel Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
+                        <!--<TextBlock Text="Scorings" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>-->
+                        <Grid DockPanel.Dock="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>
+                            <ListBox Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" DisplayMemberPath="Name" Width="400"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteScoringButton_Click" Tag="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Tag" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding AddScoringCmd}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid DockPanel.Dock="Right" DataContext="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Scoring Id:" Margin="5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoringId}" Margin="5"/>
 
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
-                <ComboBox Grid.Row="4" Grid.Column="1" Margin="5" ItemsSource="{Binding Season.Schedules}" SelectedItem="{Binding ConnectedSchedule}" DisplayMemberPath="Name"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Scoring Name:" Margin="5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
 
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Base Points:" Margin="5"/>
-                <!--<DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding BasePoints}" Margin="5" VerticalAlignment="Stretch" MaxHeight="350"/>-->
-                <Button Grid.Row="5" Grid.Column="1" Content="Edit" Click="EditBasePointsButton_Click" Tag="{Binding}" Margin="5"/>
+                            <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>-->
 
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Bonus Points:" Margin="5"/>
-                <Button Grid.Row="6" Grid.Column="1" Content="Edit" Click="EditBonusPointsButton_Click" Tag="{Binding}" Margin="5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
 
-                <TextBlock Grid.Row="7" Grid.Column="0" Text="IsMulitScoring" Margin="5"/>
-                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsMultiScoring}" Margin="5"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
+                            <ComboBox Grid.Row="4" Grid.Column="1" Margin="5" ItemsSource="{Binding Season.Schedules}" SelectedItem="{Binding ConnectedSchedule}" DisplayMemberPath="Name"/>
 
-                <TextBlock Grid.Row="8" Grid.Column="0" Text="MultiScorings:" Margin="5"/>
-                <ListBox Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding MultiScoringResults}" DisplayMemberPath="Key.Name" Height="100" Margin="5"/>
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Base Points:" Margin="5"/>
+                            <!--<DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding BasePoints}" Margin="5" VerticalAlignment="Stretch" MaxHeight="350"/>-->
+                            <Button Grid.Row="5" Grid.Column="1" Content="Edit" Click="EditBasePointsButton_Click" Tag="{Binding}" Margin="5"/>
 
-                <!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Bonus Points:" Margin="5"/>
+                            <Button Grid.Row="6" Grid.Column="1" Content="Edit" Click="EditBonusPointsButton_Click" Tag="{Binding}" Margin="5"/>
+
+                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Scoring Kind:" Margin="5"/>
+                            <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
+
+                            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Results from other Scoring" Margin="5"/>
+                                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding TakeResultsFromExtSource}" Margin="5"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Results Source:" Margin="5"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ScoringList}" SelectedItem="{Binding ExtScoringSource}" Margin="5"
+                                      DisplayMemberPath="Name">
+                                    <ComboBox.Style>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding TakeResultsFromExtSource}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
+                                </ComboBox>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Results per Race:" Margin="5"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MaxResultsPerGroup}" Margin="5"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Take group average:" Margin="5" IsEnabled="False"/>
+                                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding TakeGroupAverage}" Margin="5" IsEnabled="False"/>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ScoringKind}">
+                                                <DataTrigger.Value>
+                                                    <enum:ScoringKindEnum>Team</enum:ScoringKindEnum>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+
+                            </Grid>
+
+                            <!--<TextBlock Grid.Row="7" Grid.Column="0" Text="IsMulitScoring" Margin="5"/>
+                        <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsMultiScoring}" Margin="5"/>
+
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="MultiScorings:" Margin="5"/>
+                        <ListBox Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding MultiScoringResults}" DisplayMemberPath="Key.Name" Height="100" Margin="5"/>-->
+
+                            <!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ConnectedSchedule}" Margin="5"/>-->
-            </Grid>
-        </DockPanel>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=ScoringsListBox, Path=SelectedItem}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Standings">
+                    <DockPanel Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
+                        <!--<TextBlock Text="Scorings" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>-->
+                        <Grid DockPanel.Dock="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <ListBox Grid.Row="0" x:Name="ScoringTableListBox" ItemsSource="{Binding ScoringTables}" 
+                                 DisplayMemberPath="Name" Width="400"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" 
+                                    Click="DeleteScoringTableButton_Click" Tag="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Tag" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" 
+                                    Command="{Binding AddScoringTableCmd}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid DockPanel.Dock="Right" DataContext="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ScoringTable Id:" Margin="5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoringTableId}" Margin="5"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Name:" Margin="5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Scoring Kind:" Margin="5"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Drop Weeks:" Margin="5"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DropWeeks}" Margin="5"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Average Race Nr.:" Margin="5"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AverageRaceNr}" Margin="5"/>
+
+                            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Drop race option:" Margin="5"/>
+                                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource DropRacesOptionsValues}}" SelectedItem="{Binding DropRacesOption}" Margin="5"/>
+
+                                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Count results per Race" Margin="5"/>
+                                    <TextBox Grid.Column="1" Text="{Binding ResultsPerRaceCount}" Margin="5"/>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DropRacesOption}">
+                                                    <DataTrigger.Value>
+                                                        <enum:DropRacesOption>PerDriverResults</enum:DropRacesOption>
+                                                    </DataTrigger.Value>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ScoringKind}">
+                                                <DataTrigger.Value>
+                                                    <enum:ScoringKindEnum>Team</enum:ScoringKindEnum>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
+
+                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Scorings:" Margin="5,15,5,0"/>
+
+                            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ListBox x:Name="ScoringList" ItemsSource="{Binding Scorings}" Grid.Column="0" 
+                                     Margin="5" MinHeight="140" VerticalAlignment="Stretch"
+                                     SelectionMode="Extended" MouseDoubleClick="ScoringList_MouseDoubleClick">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key.Name}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
+                                    <Button Content="&lt;" Margin="5" Padding="5" Command="{Binding AddScoringCmd}" 
+                                        CommandParameter="{Binding ElementName=ScoringSelect, Path=SelectedItems}" x:Name="MoveLeftButton"/>
+                                    <Button Content="&gt;" Margin="5" Padding="5" Command="{Binding RemoveScoringCmd}"
+                                        CommandParameter="{Binding ElementName=ScoringList, Path=SelectedItems}" x:Name="MoveRightButton"/>
+                                </StackPanel>
+                                <ListBox x:Name="ScoringSelect" ItemsSource="{Binding ScoringList}"
+                                     SelectionMode="Extended" Height="140" Grid.Column="2" MouseDoubleClick="ScoringSelect_MouseDoubleClick">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="5,0" />
+                                    </Style>
+                                </Grid.Resources>
+                            </Grid>
+
+                            <!--<ListView ItemsSource="{Binding Scorings}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Scoring" DisplayMemberBinding="{Binding Key}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type model:ScoringModel}">
+                                                <TextBlock Text="Model"/>
+                                                -->
+                            <!--<TextBlock Text="{Binding Name}"/>-->
+                            <!--
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Factor" DisplayMemberBinding="{Binding Value}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>-->
+
+                            <!--<TextBlock Grid.Row="5" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ConnectedSchedule}" Margin="5"/>-->
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=ScoringTableListBox, Path=SelectedItem}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Incidents">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="66*"/>
+                            <ColumnDefinition Width="33*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Row="0" Grid.Column="0" BorderBrush="DarkGray" BorderThickness="1" Margin="10" Padding="5,0,5,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Margin="5,-10,0,0" Text="Incident Kinds" Padding="5,0" Background="White" HorizontalAlignment="Left"/>
+
+                                <DataGrid Grid.Row="1" ItemsSource="{Binding IncidentKinds}" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" 
+                                          CanUserAddRows="False" CanUserDeleteRows="False" HorizontalScrollBarVisibility="Auto" CanUserResizeColumns="False" Margin="2"
+                                          x:Name="IncidentKindDataGrid" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Order" Binding="{Binding Index}" Width="55"/>
+                                        <DataGridTextColumn Header="Text" Binding="{Binding Text}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,25">
+                                    <controls:IconButton BorderBrush="DarkGray" BorderThickness="1" Margin="2" CornerRadius="2"
+                                                         Command="{Binding AddIncidentKindCmd}">
+                                        <controls:IconButton.IconContent>
+                                            <fa:ImageAwesome Icon="plus" Width="18" Height="18"/>
+                                        </controls:IconButton.IconContent>
+                                    </controls:IconButton>
+                                    <controls:IconButton BorderBrush="DarkGray" BorderThickness="1" Margin="2" CornerRadius="2"
+                                                         Command="{Binding RemoveIncidentKindCmd}" CommandParameter="{Binding ElementName=IncidentKindDataGrid, Path=SelectedItem}">
+                                        <controls:IconButton.IconContent>
+                                            <fa:ImageAwesome Icon="Minus" Width="18" Height="18"/>
+                                        </controls:IconButton.IconContent>
+                                    </controls:IconButton>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="1" Grid.Column="0" BorderBrush="DarkGray" BorderThickness="1" Margin="10" Padding="5,0,5,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Margin="5,-10,0,0" Text="Vote Categories" Padding="5,0" Background="White" HorizontalAlignment="Left"/>
+
+                                <DataGrid Grid.Row="1" ItemsSource="{Binding VoteCategories}" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserSortColumns="False" 
+                                          CanUserAddRows="False" CanUserDeleteRows="False" HorizontalScrollBarVisibility="Auto" CanUserResizeColumns="False" Margin="2"
+                                          x:Name="VoteCategoryDataGrid" SelectionMode="Single">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Order" Binding="{Binding Index}" Width="55"/>
+                                        <DataGridTextColumn Header="Text" Binding="{Binding Text}" Width="*"/>
+                                        <DataGridTextColumn Header="Penalty" Binding="{Binding DefaultPenalty}" Width="70"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,25">
+                                    <controls:IconButton BorderBrush="DarkGray" BorderThickness="1" Margin="2" CornerRadius="2"
+                                                         Command="{Binding AddVoteCategoryCmd}">
+                                        <controls:IconButton.IconContent>
+                                            <fa:ImageAwesome Icon="plus" Width="18" Height="18"/>
+                                        </controls:IconButton.IconContent>
+                                    </controls:IconButton>
+                                    <controls:IconButton BorderBrush="DarkGray" BorderThickness="1" Margin="2" CornerRadius="2"
+                                                         Command="{Binding RemoveVoteCategoryCmd}" CommandParameter="{Binding ElementName=VoteCategoryDataGrid, Path=SelectedItem}">
+                                        <controls:IconButton.IconContent>
+                                            <fa:ImageAwesome Icon="Minus" Width="18" Height="18"/>
+                                        </controls:IconButton.IconContent>
+                                    </controls:IconButton>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Grid.Row="0" Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1" Margin="10" Padding="5,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,-10,0,0" Text="Settings" Padding="5,0" Background="White" HorizontalAlignment="Left"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Only Show Comments after voting:" Margin="5"/>
+                                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Season.HideCommentsBeforeVoted}" Margin="5"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        <controls:IconButton Content="Save" IconContent="{StaticResource PlusThick}" Command="{Binding SaveChangesCmd}"
+                             VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
+                             Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
+                             IconFill="{StaticResource ThemeColor_Green}" IconStrokeThickness="0" 
+                             Foreground="{StaticResource ThemeColor_Green}"
+                             Height="Auto" Width="Auto"
+                             Margin="25,10,15,10" ToolTip="Save changes">
+            <controls:IconButton.Effect>
+                <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+            </controls:IconButton.Effect>
+            <controls:IconButton.Style>
+                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </controls:IconButton.Style>
+        </controls:IconButton>
+        <local:ModalOkCancelControl Grid.Row="1" Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

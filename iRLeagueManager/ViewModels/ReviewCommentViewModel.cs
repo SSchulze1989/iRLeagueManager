@@ -1,4 +1,26 @@
-﻿using iRLeagueManager.Data;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using iRLeagueManager.Data;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Members;
@@ -14,6 +36,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -38,6 +63,9 @@ namespace iRLeagueManager.ViewModels
 
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
 
+        private ICollectionView voteCategories;
+        public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
         public ICommand ReplyCmd { get; private set; }
 
         public ICommand AddVoteCmd { get; }
@@ -45,18 +73,7 @@ namespace iRLeagueManager.ViewModels
 
         protected override CommentModel Template => new ReviewCommentModel(new UserModel("", "TestAuthor"))
         {
-            Text = "Test comment, Kat0 please!\nWith line break, yeah!",
-            Replies = new ObservableCollection<CommentModel>(new List<CommentModel>
-            {
-                new CommentModel(new UserModel("", "MemberTwo"))
-                {
-                    Text = "This is a reply!"
-                }
-            }),
-            CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(new List<ReviewVoteModel>()
-            {
-                new ReviewVoteModel() { Vote = VoteEnum.Kat1, MemberAtFault = new LeagueMember(0, "Bad", "Driver") }
-            })
+            Text = "Test comment, Kat0 please!\nWith line break, yeah!"
         };
 
         public ReviewCommentViewModel()
@@ -68,7 +85,9 @@ namespace iRLeagueManager.ViewModels
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null && o is ReviewVoteModel);
         }
 
-        public async override void SaveChanges()
+        public ReviewCommentViewModel(ReviewCommentModel comment) : base(comment) { }
+
+        public async override Task SaveChanges()
         {
             IsLoading = true;
             try
@@ -83,9 +102,45 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
+            Review?.OnCommentsCollectionChanged(null, new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Reset));
         }
 
-        public ReviewCommentViewModel(ReviewCommentModel comment) : base(comment) { }
+        public async override Task Refresh()
+        {
+            try
+            {
+                IsLoading = true;
+                var votesCategorieCollection = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
+                SetVoteCategoriesView(votesCategorieCollection);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            await base.Refresh();
+        }
+
+        private void SetVoteCategoriesView(object source)
+        {
+            VoteCategories = CollectionViewSource.GetDefaultView(source);
+            VoteCategories.SortDescriptions.Add(new SortDescription(nameof(VoteCategoryModel.Index), ListSortDirection.Ascending));
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            switch(propertyName)
+            {
+                case nameof(Model.CommentReviewVotes):
+                    base.OnPropertyChanged(nameof(Votes));
+                    break;
+            }
+
+            base.OnPropertyChanged(propertyName);
+        }
 
         public new ReviewCommentModel GetSource()
         {

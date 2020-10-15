@@ -1,4 +1,26 @@
-﻿using iRLeagueManager.Interfaces;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using iRLeagueManager.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +31,7 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Attributes;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Models.Members;
+using iRLeagueManager.Locations;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -50,6 +73,9 @@ namespace iRLeagueManager.Models.Results
         private LeagueMember member;
         public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
 
+        private string teamName;
+        public string TeamName { get => teamName; set => SetValue(ref teamName, value); }
+
         public long? MemberId { get => Member?.MemberId; }
 
         private int carNumber;
@@ -90,6 +116,12 @@ namespace iRLeagueManager.Models.Results
 
         private LapTime fastestLapTime;
         public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
+
+        private Location location;
+        public Location Location { get => location; set => SetValue(ref location, value); }
+
+        private DateTime date;
+        public DateTime Date { get => date; set => SetValue(ref date, value); }
 
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 

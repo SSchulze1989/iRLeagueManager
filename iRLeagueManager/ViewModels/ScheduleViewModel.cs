@@ -1,10 +1,33 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 using System.IO;
 using Microsoft.Win32;
 
@@ -16,27 +39,15 @@ using iRLeagueManager.Interfaces;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Services;
 using iRLeagueManager.ViewModels.Collections;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
     public class ScheduleViewModel : LeagueContainerModel<ScheduleModel>
     {
-        //public ScheduleModel Model
-        //{
-        //    get => Source;
-        //    private set
-        //    {
-        //        if (SetSource(value))
-        //        {
-        //            //Sessions.UpdateSource(Model.Sessions);
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
-
-        //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions { get; } = new ObservableModelCollection<SessionViewModel, SessionModel>();
-
-        //public ObservableModelCollection<SessionViewModel, SessionModel> Sessions => new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
         private readonly ObservableModelCollection<SessionViewModel, SessionModel> sessions;
         public ObservableModelCollection<SessionViewModel, SessionModel> Sessions
         {
@@ -48,11 +59,22 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private bool expanded = true;
+        public bool Expanded 
+        { 
+            get => expanded; 
+            set => SetValue(ref expanded, value);
+        }
+
         public long? ScheduleId => Model?.ScheduleId;
 
         public string Name { get => Model?.Name; set => Model.Name = value; }
 
         public int SessionCount => (Model?.SessionCount).Value;
+
+        public DateTime? ScheduleStart => (Sessions?.Count > 0) ? (DateTime?)Sessions.Min(x => x.Date) : null;
+
+        public DateTime? ScheduleEnd => (Sessions?.Count > 0) ? (DateTime?)Sessions.Max(x => x.Date) : null;
 
         public ICommand AddSessionCmd { get; }
         public ICommand DeleteSessionsCmd { get; }
@@ -67,10 +89,12 @@ namespace iRLeagueManager.ViewModels
         {
             Model = ScheduleModel.GetTemplate();
             sessions = new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
+            ((INotifyCollectionChanged)sessions).CollectionChanged += OnSessionCollectionChange;
             Sessions.UpdateSource(new SessionModel[0]);
-            AddSessionCmd = new RelayCommand(o => AddSession(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
-            DeleteSessionsCmd = new RelayCommand(o => DeleteSessions(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
+            AddSessionCmd = new RelayCommand(async o => await AddSessionAsync(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());
+            DeleteSessionsCmd = new RelayCommand(async o => await DeleteSessionsAsync(o), o => SelectedSession != null && (!Model?.IsReadOnly).GetValueOrDefault());
             UploadFileCmd = new RelayCommand(o => UploadFile(o as SessionModel), o => false);
+            Expanded = true;
         }
 
         public ScheduleViewModel(ScheduleModel source) : this()
@@ -85,16 +109,34 @@ namespace iRLeagueManager.ViewModels
             //base.OnUpdateSource();
         }
 
-        public void AddSession()
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            switch(propertyName)
+            {
+                case nameof(Sessions):
+                    //OnSessionCollectionChange(null, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    break;
+            }
+            base.OnPropertyChanged(propertyName);
+        }
+
+        private void OnSessionCollectionChange(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(ScheduleStart));
+            OnPropertyChanged(nameof(ScheduleEnd));
+            OnPropertyChanged(nameof(SessionCount));
+        }
+
+        public async Task AddSessionAsync()
         {
             if (Model?.Sessions == null)
                 return;
 
             var newSession = new RaceSessionModel(Model);
-            AddSession(newSession);
+            await AddSessionAsync(newSession);
         }
 
-        public async void AddSession(SessionModel session)
+        public async Task AddSessionAsync(SessionModel session)
         {
             Model.Sessions.Add(session);
 
@@ -113,32 +155,48 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async void DeleteSessions(object selection)
+        public async Task DeleteSessionsAsync(object selection)
         {
             if (Model == null)
                 return;
             try
             {
+                if (MessageBox.Show("Would you really like to delete the selected Sessions?\nThis action can not be undone!", "Delete Sessions", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
+                var removeList = new List<SessionModel>();
                 if (selection is SessionViewModel session) {
                     await LeagueContext.DeleteModelsAsync(session.GetSource());
-                    //Model.Sessions.Remove(session.GetSource());
+                    removeList.Add(session.GetSource());
                 }
-                else if (selection is IEnumerable<SessionViewModel> sessions)
+                else if (selection is IList multiselection)
                 {
+                    var sessions = multiselection.OfType<SessionViewModel>();
                     await LeagueContext.DeleteModelsAsync(sessions.Select(x => x.GetSource()).ToArray());
-                    foreach (var s in sessions)
-                    {
-                        Model.Sessions.Remove(s.GetSource());
-                    }
+                    removeList.AddRange(sessions.Select(x => x.GetSource()));
                 }
                 else if (selection == null)
                 {
                     await LeagueContext.DeleteModelsAsync(SelectedSession.GetSource());
-                    Model.Sessions.Remove(SelectedSession.GetSource());
+                    removeList.Add(selectedSession.GetSource());
                 }
 
                 IsLoading = true;
-                await LeagueContext.UpdateModelAsync(Model);
+
+                if (Model.ContainsChanges)
+                {
+                    foreach (var removeSession in removeList)
+                    {
+                        Model.Sessions.Remove(removeSession);
+                    }
+                    await LeagueContext.UpdateModelAsync(Model);
+                }
+                else
+                {
+                    await LeagueContext.GetModelAsync<ScheduleModel>(Model.ModelId, update: false, reload: true);
+                }
             }
             catch (Exception e)
             {

@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +33,17 @@ using System.Runtime.CompilerServices;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.ViewModels;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows.Data;
+using System.Globalization;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
     public class ObservableModelCollection<TModel, TSource> : ReadOnlyObservableCollection<TModel>, IDisposable where TModel : class, IContainerModelBase<TSource>, new() where TSource : class, INotifyPropertyChanged
     {
-        private bool NotifyCollectionActv { get; set; }
+        private bool NotifyCollectionActive { get; set; }
+
+        public ICollectionView CollectionView { get; }
 
         private ObservableCollection<TModel> TargetCollection { get; }
 
@@ -38,6 +65,9 @@ namespace iRLeagueManager.ViewModels.Collections
                 }
             }
         }
+
+        private Func<TSource, TModel> _constructUsing;
+
         private Action<TModel> _constructorAction;
 
         private readonly bool AutoUpdateItemsSources;
@@ -48,8 +78,9 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(bool updateItemSources = true) : base(new ObservableCollection<TModel>())
         {
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             TargetCollection = Items as ObservableCollection<TModel>;
+            CollectionView = CollectionViewSource.GetDefaultView(TargetCollection);
             _collectionSource = new TSource[0];
             AutoUpdateItemsSources = updateItemSources;
         }
@@ -62,7 +93,7 @@ namespace iRLeagueManager.ViewModels.Collections
         public ObservableModelCollection(IEnumerable<TSource> collection, bool updateItemSources = true) : this(updateItemSources)
         {
             //_collectionSource = collection != null ? collection : new TSource[0];
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             UpdateSource(collection);
             AutoUpdateItemsSources = updateItemSources;
             if (collection.Count() > 0)
@@ -71,16 +102,21 @@ namespace iRLeagueManager.ViewModels.Collections
 
         public ObservableModelCollection(Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
         {
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             _constructorAction = constructorAction;
             //_collectionSource = new TSource[0];
             UpdateSource(new TSource[0]);
             AutoUpdateItemsSources = updateItemSources;
         }
 
+        public ObservableModelCollection(Func<TSource, TModel> constructUsing, Action<TModel> constructorAction = null, bool updateItemsSource = true) : this (constructorAction, updateItemsSource)
+        {
+            _constructUsing = constructUsing;
+        }
+
         public ObservableModelCollection(IEnumerable<TSource> collection, Action<TModel> constructorAction, bool updateItemSources = true) : this(updateItemSources)
         {
-            NotifyCollectionActv = true;
+            NotifyCollectionActive = true;
             _constructorAction = constructorAction;
             //_collectionSource = collection != null ? collection : new TSource[0];
             UpdateSource(collection);
@@ -90,7 +126,7 @@ namespace iRLeagueManager.ViewModels.Collections
         }
 
         ~ObservableModelCollection() {
-            NotifyCollectionActv = false;
+            NotifyCollectionActive = false;
             Dispose(false);
         }
 
@@ -130,7 +166,7 @@ namespace iRLeagueManager.ViewModels.Collections
 
         private void OnSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (NotifyCollectionActv && !disposedValue)
+            if (NotifyCollectionActive && !disposedValue)
                 UpdateCollection();
         }
 
@@ -144,34 +180,74 @@ namespace iRLeagueManager.ViewModels.Collections
             if (disposedValue)
                 return;
 
-            IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
-            IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
-            IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
-
-            foreach (TModel item in notInCollection)
+            for (int i = 0; i < CollectionSource.Count(); i++)
             {
-                item.Dispose();
+                var srcItem = CollectionSource.ElementAt(i);
+                var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
+
+                if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)
+                {
+                    var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
+                    if (findTrgItem == null)
+                    {
+                        if (_constructUsing == null)
+                            trgItem = new TModel();
+                        else
+                            trgItem = _constructUsing.Invoke(srcItem);
+
+                        trgItem.UpdateSource(srcItem);
+                        _constructorAction?.Invoke(trgItem);
+                        TargetCollection.Insert(i, trgItem);
+                    }
+                    else
+                    {
+                        trgItem = findTrgItem.item;
+                        TargetCollection.Move(findTrgItem.index, i);
+                    }
+                }
+
+                if (srcItem != trgItem.GetSource())
+                {
+                    trgItem.UpdateSource(srcItem);
+                }
+            }
+
+            var removeTrgItem = TargetCollection.Skip(CollectionSource.Count());
+            foreach (var item in removeTrgItem.ToList())
+            {
                 TargetCollection.Remove(item);
             }
 
-            foreach (TSource item in notInItems)
-            {
-                TModel newItem;
-                if (item is TModel)
-                {
-                    newItem = item as TModel;
-                }
-                else
-                {
-                    newItem = new TModel();
-                    newItem.UpdateSource(item);
-                    _constructorAction?.Invoke(newItem);
-                }
-                TargetCollection.Add(newItem);
-                //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            }
+            CollectionView.Refresh();
 
-            Sort();
+            //IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
+            //IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
+            //IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
+
+            //foreach (TModel item in notInCollection)
+            //{
+            //    item.Dispose();
+            //    TargetCollection.Remove(item);
+            //}
+
+            //foreach (TSource item in notInItems)
+            //{
+            //    TModel newItem;
+            //    if (item is TModel)
+            //    {
+            //        newItem = item as TModel;
+            //    }
+            //    else
+            //    {
+            //        newItem = new TModel();
+            //        newItem.UpdateSource(item);
+            //        _constructorAction?.Invoke(newItem);
+            //    }
+            //    TargetCollection.Add(newItem);
+            //    //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            //}
+
+            //Sort();
         }
 
         public void Sort()
@@ -216,7 +292,7 @@ namespace iRLeagueManager.ViewModels.Collections
                     // TODO: verwalteten Zustand (verwaltete Objekte) entsorgen.
                 }
 
-                NotifyCollectionActv = false;
+                NotifyCollectionActive = false;
                 for (int i=0; i<Items.Count(); i++)
                 {
                     var item = TargetCollection.ElementAt(i);

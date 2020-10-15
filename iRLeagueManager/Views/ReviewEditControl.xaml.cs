@@ -1,4 +1,26 @@
-﻿using iRLeagueManager.Models.Members;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using iRLeagueManager.Models.Members;
 using iRLeagueManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -7,6 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,9 +43,17 @@ namespace iRLeagueManager.Views
     /// <summary>
     /// Interaktionslogik für ReviewEditControl.xaml
     /// </summary>
-    public partial class ReviewEditControl : UserControl
+    public partial class ReviewEditControl : UserControl, IModalContent
     {
         public IncidentReviewViewModel IncidentReview => DataContext as IncidentReviewViewModel;
+
+        public string Header { get; set; } = "Edit Review";
+
+        public string SubmitText { get; set; } = "Save";
+
+        public string CancelText { get; set; } = "Cancel";
+
+        public bool IsLoading { get; set; }
 
         public ReviewEditControl()
         {
@@ -39,8 +70,7 @@ namespace iRLeagueManager.Views
                 {
                     foreach (var selectedMember in selectedMembers.ToList())
                     {
-                        if (IncidentReview.InvolvedMembers.Contains(selectedMember) == false)
-                            IncidentReview.InvolvedMembers.Add(selectedMember);
+                        IncidentReview.AddMember(selectedMember);
                     }
                 }
             }
@@ -56,11 +86,40 @@ namespace iRLeagueManager.Views
                 {
                     foreach (var selectedMember in selectedMembers.ToList())
                     {
-                        if (IncidentReview.InvolvedMembers.Contains(selectedMember))
-                            IncidentReview.InvolvedMembers.Remove(selectedMember);
+                        IncidentReview.RemoveMember(selectedMember);
                     }
                 }
             }
+        }
+
+        private void InvolvedMembers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveRightButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            e.Handled = true;
+        }
+
+        private void MemberSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveLeftButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            e.Handled = true;
+        }
+
+        public void OnLoad()
+        {
+        }
+
+        public bool CanSubmit()
+        {
+            return true;
+        }
+
+        public async Task<bool> OnSubmitAsync()
+        {
+            return true;
+        }
+
+        public void OnCancel()
+        {
         }
     }
 }

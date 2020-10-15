@@ -21,6 +21,7 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Interfaces;
 using System.Reflection;
 using System.Net.NetworkInformation;
+using System.Diagnostics;
 
 namespace iRLeagueManager
 {
@@ -37,6 +38,7 @@ namespace iRLeagueManager
         private ResultsPageViewModel ResultsPageViewModel { get; set; }// = new ResultsPageViewModel();
         private StandingsPageViewModel StandingsPageViewModel { get; set; }
         private ReviewsPageViewModel ReviewsPageViewModel { get; set; }
+        private TeamsPageViewModel TeamsPageViewModel { get; set; }
 
         public MainWindow()
         {
@@ -47,9 +49,9 @@ namespace iRLeagueManager
             Load();
         }
 
-        public void Load()
+        public async Task Load()
         {
-            mainViewModel.Load();
+            await mainViewModel.Load();
         }
 
         private void SchedulesButton_Click(object sender, RoutedEventArgs e)
@@ -137,6 +139,49 @@ namespace iRLeagueManager
                 MainContent.Content = vm;
                 _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
+        }
+
+        private async void RefreshButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel != null)
+            {
+                if (mainViewModel.SeasonList?.Count > 0)
+                {
+                    if (MainContent.Content is ViewModelBase contentViewModel)
+                    {
+                        await contentViewModel.Refresh();
+                    }
+                }
+                else
+                    await mainViewModel.Refresh();
+            }
+        }
+
+        private async void TeamsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel.CurrentSeason?.Schedules != null)
+            {
+                var vm = (MainContent.Content?.GetType().Equals(typeof(TeamsPageViewModel))).GetValueOrDefault() ? MainContent.Content as TeamsPageViewModel : TeamsPageViewModel;
+                if (vm == null)
+                    TeamsPageViewModel = vm = new TeamsPageViewModel();
+                MainContent.Content = vm;
+                await vm.Load();
+            }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            // for .NET Core you need to add UseShellExecute = true
+            // see https://docs.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.useshellexecute#property-value
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void GitHub_Click(object sender, RoutedEventArgs e)
+        {
+            var eventArgs = new RequestNavigateEventArgs(new Uri("https://github.com/SSchulze1989/iRLeagueManager"), "https://github.com/SSchulze1989/iRLeagueManager");
+            Hyperlink_RequestNavigate(sender, eventArgs);
+            e.Handled = true;
         }
     }
 }

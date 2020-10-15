@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +52,9 @@ namespace iRLeagueManager.Models.Reviews
         private SessionInfo session;
         public SessionInfo Session { get => session; internal set { SetValue(ref session, value); } }
 
+        private string incidentNr;
+        public string IncidentNr { get => incidentNr; set => SetValue(ref incidentNr, value); }
+
         private string incidentKind;
         public string IncidentKind { get => incidentKind; set => SetValue(ref incidentKind, value); }
 
@@ -56,6 +81,11 @@ namespace iRLeagueManager.Models.Reviews
 
         //private VoteState voteState;
         //public VoteState VoteState { get => voteState; set { SetValue(ref voteState, value); } }
+
+        private string resultLongText;
+        public string ResultLongText { get => resultLongText; set => SetValue(ref resultLongText, value); }
+
+        public override bool ContainsChanges { get => base.ContainsChanges || AcceptedReviewVotes.Any(x => x.ContainsChanges); protected set => base.ContainsChanges = value; }
 
         public IncidentReviewModel()
         {
@@ -94,18 +124,14 @@ namespace iRLeagueManager.Models.Reviews
         {
             if (!isInitialized)
             {
-                //if (Result != null)
-                //{
-                //    foreach (var comment in Comments)
-                //    {
-                //        comment.Review = this;
-                //        comment.InitializeModel();
-                //    }
-                //}
-                //else
-                //{
-                //    return;
-                //}
+                foreach (var comment in Comments)
+                {
+                    comment.InitializeModel();
+                }
+                foreach (var vote in AcceptedReviewVotes)
+                {
+                    vote.InitializeModel();
+                }
             }
             base.InitializeModel();
         }
@@ -116,9 +142,24 @@ namespace iRLeagueManager.Models.Reviews
 
             if (sourceObject is IncidentReviewModel reviewModel)
             {
+                InitReset();
                 InvolvedMembers = new ObservableCollection<LeagueMember>(reviewModel.InvolvedMembers.ToList());
-                Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.ToList());
-                AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewModel.AcceptedReviewVotes.ToList());
+                Comments = new ObservableCollection<ReviewCommentModel>(reviewModel.Comments.Select(x =>
+                    {
+                        var comment = new ReviewCommentModel();
+                        comment.CopyFrom(x);
+                        return comment;
+                    }).ToList());
+                AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(reviewModel.AcceptedReviewVotes.Select(x =>
+                {
+                    var vote = new ReviewVoteModel();
+                    vote.CopyFrom(x);
+                    return vote;
+                }).ToList());
+                if (reviewModel.isInitialized)
+                {
+                    InitializeModel();
+                }
             }
             OnPropertyChanged(null);
         }
@@ -129,9 +170,24 @@ namespace iRLeagueManager.Models.Reviews
 
             if (targetObject is IncidentReviewModel reviewModel)
             {
+                reviewModel.InitReset();
                 reviewModel.InvolvedMembers = new ObservableCollection<LeagueMember>(InvolvedMembers.ToList());
-                reviewModel.Comments = new ObservableCollection<ReviewCommentModel>(Comments.ToList());
-                reviewModel.AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(AcceptedReviewVotes.ToList());
+                reviewModel.Comments = new ObservableCollection<ReviewCommentModel>(Comments.Select(x =>
+                {
+                    var comment = new ReviewCommentModel();
+                    comment.CopyFrom(x);
+                    return comment;
+                }).ToList());
+                reviewModel.AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>(AcceptedReviewVotes.Select(x =>
+                {
+                    var vote = new ReviewVoteModel();
+                    vote.CopyFrom(x);
+                    return vote;
+                }).ToList());
+                if (isInitialized)
+                {
+                    reviewModel.InitializeModel();
+                }
             }
         }
 

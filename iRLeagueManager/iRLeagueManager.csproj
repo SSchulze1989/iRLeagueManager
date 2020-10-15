@@ -75,12 +75,34 @@
   <PropertyGroup>
     <StartupObject>iRLeagueManager.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Local|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Local\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoUpdater.NET, Version=1.6.3.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autoupdater.NET.Official.1.6.3\lib\net45\AutoUpdater.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="CredentialManagement, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CredentialManagement.1.0.2\lib\net35\CredentialManagement.dll</HintPath>
+    </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -99,12 +121,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ContentScrollViewer.cs" />
+    <Compile Include="Controls\ExtendScrollviewer.cs" />
+    <Compile Include="Controls\IconButton.cs" />
+    <Compile Include="Controls\IconToggleButton.cs" />
+    <Compile Include="Controls\StandingsTemplateSelector.cs" />
+    <Compile Include="Controls\WatermarkAdorner.cs" />
+    <Compile Include="Controls\WatermarkService.cs" />
+    <Compile Include="Controls\WatermarkTextBox.cs" />
+    <Compile Include="Converters\SafeNativeMethods.cs" />
+    <Compile Include="Converters\ColorComplementConverter.cs" />
     <Compile Include="Converters\CompareNumericalConverter.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\DateHasPassedConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\LapIntervalStringConverter.cs" />
     <Compile Include="Converters\ModelCollectionTemplateSelector.cs" />
+    <Compile Include="Converters\MultiValueEqualsConverter.cs" />
+    <Compile Include="Converters\NotNullConverter.cs" />
+    <Compile Include="Converters\RequiredSourceValueConverter.cs" />
+    <Compile Include="Converters\ToUpperConverter.cs" />
+    <Compile Include="Converters\UniversalColorConverter.cs" />
+    <Compile Include="Extensions\ItemsControlExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IMenuItemViewModel.cs" />
     <Compile Include="Interfaces\IModalViewModel.cs" />
     <Compile Include="Logging\ExceptionLogMessage.cs" />
@@ -133,11 +172,15 @@
     <Compile Include="ViewModels\ResultsPageViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\ReviewCommentViewModel.cs" />
+    <Compile Include="ViewModels\ReviewNavBarViewModel.cs" />
     <Compile Include="ViewModels\ReviewsPageViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultRowViewModel.cs" />
     <Compile Include="ViewModels\ScoredResultViewModel.cs" />
+    <Compile Include="ViewModels\ScoredTeamResultRowViewModel.cs" />
+    <Compile Include="ViewModels\ScoredTeamResultViewModel.cs" />
+    <Compile Include="ViewModels\ScoringTableViewModel.cs" />
     <Compile Include="ViewModels\ScoringViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
@@ -145,8 +188,9 @@
     <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
-    <Compile Include="ViewModels\StandingsRowViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
+    <Compile Include="ViewModels\TeamsPageViewModel.cs" />
+    <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ResultParserService.cs" />
@@ -156,7 +200,13 @@
     <Compile Include="Views\CommentEditControl.xaml.cs">
       <DependentUpon>CommentEditControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditTeamControl.xaml.cs">
+      <DependentUpon>EditTeamControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IModalContent.cs" />
+    <Compile Include="Views\ModalOkCancelControl.xaml.cs">
+      <DependentUpon>ModalOkCancelControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ModalOkCancelWindow.xaml.cs">
       <DependentUpon>ModalOkCancelWindow.xaml</DependentUpon>
     </Compile>
@@ -175,20 +225,32 @@
     <Compile Include="Views\ReviewsControl.xaml.cs">
       <DependentUpon>ReviewsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReviewsNavBarControl.xaml.cs">
+      <DependentUpon>ReviewsNavBarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SchedulerControl.xaml.cs">
       <DependentUpon>SchedulerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScoredResultControl.xaml.cs">
       <DependentUpon>ScoredResultControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SelectLeagueControl.xaml.cs">
+      <DependentUpon>SelectLeagueControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SessionEditControl.xaml.cs">
       <DependentUpon>SessionEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SessionSelectControl.xaml.cs">
+      <DependentUpon>SessionSelectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StandingsControl.xaml.cs">
       <DependentUpon>StandingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TeamsPageControl.xaml.cs">
+      <DependentUpon>TeamsPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestControl.xaml.cs">
       <DependentUpon>TestControl.xaml</DependentUpon>
@@ -212,11 +274,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\IconDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\ThemeDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CalendarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CommentEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditTeamControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ModalOkCancelControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -244,6 +322,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ReviewsNavBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SchedulerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -252,7 +334,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SelectLeagueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SessionEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SessionSelectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -261,6 +351,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StandingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TeamsPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,6 +389,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Demo_ConeriaScript.ttf" />
+    <Resource Include="Fonts\FormulaOne_Display_Bold.ttf" />
+    <Resource Include="Fonts\Formula1-Bold_web_0.ttf" />
+    <Resource Include="Fonts\Formula1-Regular_web_0.ttf" />
+    <Resource Include="Fonts\Formula1-Wide_web_0.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -328,6 +427,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\Formula1-Bold.ttf" />
+    <Resource Include="Fonts\Formula1-Regular.ttf" />
     <None Include="Tracks.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -336,7 +437,7 @@
     <Resource Include="Graphics\Refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\TrackImages\Maps\Trackmap_BelleIsle_t.png">
@@ -373,6 +474,29 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\TrackImages\Maps\Trackmap_Zolder_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_bathurst_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_donington_gp_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_interlagos_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_limerock_classic_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_tsukuba_full_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_VIR_grand_west_t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\TrackImages\Maps\Trackmap_watkinsglen_classic_t.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

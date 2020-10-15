@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +31,7 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
 using System.Windows.Input;
+using iRLeagueManager.Locations;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -28,6 +51,8 @@ namespace iRLeagueManager.ViewModels
         public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
 
         public LeagueMember Member => Source.Member;
+
+        public string TeamName => Model.TeamName;
 
         public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
         public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }
@@ -52,6 +77,8 @@ namespace iRLeagueManager.ViewModels
         public int FinalPosition { get => Model.FinalPosition; set => Model.FinalPosition = value; }
         public int TotalPoints { get => Model.TotalPoints; }
 
+        public Location Location => Model.Location;
+
         private AddPenaltyModel addPenalty;
         public AddPenaltyModel AddPenalty { get => addPenalty; set => SetValue(ref addPenalty, value); }
         private bool isPenaltyEdit;
@@ -71,7 +98,7 @@ namespace iRLeagueManager.ViewModels
             {
                 try
                 {
-                    AddPenalty = await LeagueContext.GetModelAsync<AddPenaltyModel>(Model.ScoredResultRowId.GetValueOrDefault());
+                    AddPenalty = await LeagueContext.GetModelAsync<AddPenaltyModel>(new long[] { Model.ScoredResultRowId.GetValueOrDefault() }, update: false, reload: true);
                 }
                 catch (Exception e)
                 {

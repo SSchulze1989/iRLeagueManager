@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,22 +51,14 @@ namespace iRLeagueManager.Models
         public ObservableCollection<ScoringModel> Scorings { get => scorings; internal set => SetNotifyCollection(ref scorings, value); }
         //ReadOnlyObservableCollection<IScoringInfo> ISeason.Scorings => new ReadOnlyObservableCollection<IScoringInfo>(Scorings);
 
-        private long? mainScoringId;
+        private ObservableCollection<ScoringTableModel> scoringTables;
+        public ObservableCollection<ScoringTableModel> ScoringTables { get => scoringTables; internal set => SetNotifyCollection(ref scoringTables, value); }
+
+        private ScoringModel mainScoring;
         public ScoringModel MainScoring
         {
-            get => Scorings.SingleOrDefault(x => x.ScoringId == mainScoringId);
-            set {
-                if (Scorings.Any(x => x.ScoringId == value.ScoringId))
-                {
-                    var index = Scorings.IndexOf(Scorings.SingleOrDefault(x => x.ScoringId == value.ScoringId));
-                    Scorings[index] = value;
-                }
-                else
-                {
-                    Scorings.Add(value);
-                }
-                SetValue(ref mainScoringId, value.ScoringId);
-            }
+            get => mainScoring;
+            set => SetValue(ref mainScoring, value);
         }
 
         //private ObservableCollection<IncidentReviewInfo> reviews;
@@ -61,6 +75,15 @@ namespace iRLeagueManager.Models
 
         private DateTime seasonEnd;
         public DateTime SeasonEnd { get => seasonEnd; internal set => SetValue(ref seasonEnd, value); }
+        
+        private ObservableCollection<VoteCategoryModel> voteCategories;
+        public ObservableCollection<VoteCategoryModel> VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
+        private ObservableCollection<CustomIncidentModel> customIncidents;
+        public ObservableCollection<CustomIncidentModel> CustomIncidents { get => customIncidents; set => SetValue(ref customIncidents, value); }
+
+        private bool hideCommentsBeforeVoted;
+        public bool HideCommentsBeforeVoted { get => hideCommentsBeforeVoted; set => SetValue(ref hideCommentsBeforeVoted, value); }
 
         IEnumerable<object> IHierarchicalModel.Children => new List<IEnumerable<object>> { Schedules.Cast<object>() };
 
@@ -82,9 +105,8 @@ namespace iRLeagueManager.Models
         {
             Schedules = new ObservableCollection<ScheduleInfo>();
             Scorings = new ObservableCollection<ScoringModel>();
-            //Results = new ObservableCollection<ResultInfo>();
-            //Reviews = new ObservableCollection<IncidentReviewInfo>();
-            //Scorings = new ObservableCollection<IScoringInfo>();
+            VoteCategories = new ObservableCollection<VoteCategoryModel>();
+            customIncidents = new ObservableCollection<CustomIncidentModel>();
         }
 
         public SeasonModel(long? seasonId) : this()
@@ -141,6 +163,18 @@ namespace iRLeagueManager.Models
                     scoring.Season = this;
                     scoring.InitializeModel();
                 }
+                foreach (var scoringTable in ScoringTables)
+                {
+                    //for (int i = 0; i < scoringTable.Scorings.Count(); i++)
+                    //{
+                    //    var scoring = Scorings.SingleOrDefault(x => x.ScoringId == scoringTable.Scorings.ElementAt(i).Key.ScoringId);
+                    //    if (scoring != null)
+                    //    {
+                    //        scoringTable.Scorings.ElementAt(i).Key = scoring;
+                    //    }
+                    //}
+                    scoringTable.InitializeModel();
+                }
 
                 //foreach (var result in Results)
                 //{
@@ -157,11 +191,7 @@ namespace iRLeagueManager.Models
 
         public static SeasonModel GetTemplate()
         {
-            return new SeasonModel()
-            {
-                SeasonId = 0,
-                SeasonName = "Season Name"
-            };
+            return new SeasonModel();
         }
 
         public static SeasonModel GetTemplate(SeasonModel seasonInfo)

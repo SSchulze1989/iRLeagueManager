@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +35,8 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using System.Windows.Data;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -72,28 +96,12 @@ namespace iRLeagueManager.ViewModels
                 }
             }
         }
-        
-        //private ObservableModelCollection<SessionViewModel, SessionModel> sessionList;
-        //public ObservableModelCollection<SessionViewModel, SessionModel> SessionList { get => sessionList; set => SetValue(ref sessionList, value); 
 
         private ObservableCollection<ResultInfo> resultList;
         public ObservableCollection<ResultInfo> ResultList { get => resultList; set => SetValue(ref resultList, value); }
 
-        private ScoredResultViewModel selectedResult;
-        public ScoredResultViewModel SelectedResult { get => selectedResult; set => SetValue(ref selectedResult, value); }
-
         private ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> currentResults;
-        public ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> CurrentResults
-        {
-            get => currentResults;
-            set
-            {
-                if (SetValue(ref currentResults, value, (t, v) => t.GetSource().Equals(v.GetSource())))
-                {
-                    OnPropertyChanged(null);
-                }
-            }
-        }
+        public ICollectionView CurrentResults => currentResults.CollectionView;
 
         public SessionViewModel SelectedSession { get => SessionSelect?.SelectedSession; set => SessionSelect.SelectedSession = value; }
 
@@ -116,15 +124,33 @@ namespace iRLeagueManager.ViewModels
         {
             ScheduleList = new ScheduleVMCollection();
             resultList = new ObservableCollection<ResultInfo>();
-            CurrentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>();
+            currentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>(src =>
+                {
+                    if (src is ScoredTeamResultModel)
+                        return new ScoredTeamResultViewModel();
+                    else
+                        return new ScoredResultViewModel();
+                },
+                x => x.Scoring = ScoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
             ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
             {
                 SessionFilter = x => x.ResultAvailable
             };
-            SelectedResult = null;
+            //SelectedResult = null;
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
+        }
+
+        private void SetCurrentResultsView()
+        {
+            //var currentResultsViewSource = new CollectionViewSource()
+            //{
+            //    Source = currentResultsList
+            //};
+
+            //CurrentResults = currentResultsViewSource.View;
+            //CurrentResults.Filter = x => (x != null && ((x as ScoredResultModel)?.FinalResults?.Count > 0 || (x as ScoredTeamResultModel)?.TeamResults?.Count > 0));
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -220,15 +246,15 @@ namespace iRLeagueManager.ViewModels
         {
             if (SelectedSession == null)
             {
-                CurrentResults.UpdateSource(new ScoredResultModel[0]);
-                SelectedResult = null;
+                currentResults.UpdateSource(new ScoredResultModel[0]);
+                //SelectedResult = null;
                 StatusMsg = "No sessions available!";
                 return;
             }
             else if (SelectedSession.Model.SessionResult == null)
             {
-                CurrentResults.UpdateSource(new ScoredResultModel[0]);
-                SelectedResult = null;
+                currentResults.UpdateSource(new ScoredResultModel[0]);
+                //SelectedResult = null;
                 StatusMsg = "Results not yet available!";
                 return;
             }
@@ -238,15 +264,19 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 // Load current Result
                 var scoredResultModelIds = new List<long[]>();
-                SelectedResult = null;
+                //SelectedResult = null;
                 foreach (var scoring in ScoringList)
                 {
                     var modelId = new long[] { SelectedSession.SessionId, scoring.ScoringId.GetValueOrDefault() };
                     scoredResultModelIds.Add(modelId);
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
-                CurrentResults.UpdateSource(scoredResultModels);
-                SelectedResult = CurrentResults.Where(x => x.FinalResults != null && x.FinalResults.Count() > 0).FirstOrDefault();
+
+                var previousPosition = CurrentResults.CurrentPosition;
+                currentResults.UpdateSource(scoredResultModels.Where(x => x != null && (x.FinalResults?.Count > 0 || (x as ScoredTeamResultModel)?.TeamResults?.Count > 0)));
+                CurrentResults.MoveCurrentToPosition(previousPosition);
+                if (CurrentResults.CurrentItem == null)
+                    CurrentResults.MoveCurrentToFirst();
                 StatusMsg = "";
             }
             catch (Exception e)
@@ -290,10 +320,12 @@ namespace iRLeagueManager.ViewModels
             OnPropertyChanged(null);
         }
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
-            _ = Load(season);
-            base.Refresh(propertyName);
+            LeagueContext.ModelManager.ForceExpireModels<ResultModel>();
+            LeagueContext.ModelManager.ForceExpireModels<AddPenaltyModel>();
+            await Load(season);
+            await base.Refresh();
         }
 
         protected override void Dispose(bool disposing)

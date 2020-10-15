@@ -1,4 +1,26 @@
-﻿using iRLeagueManager.Data;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using iRLeagueManager.Data;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Sessions;
@@ -40,6 +62,8 @@ namespace iRLeagueManager.ViewModels
         public ICommand DeleteScheduleCmd { get; protected set; }
         public ICommand CreateScheduleCmd { get; protected set; }
 
+        public ICommand SaveChangesCmd { get; }
+
         //public event NotifyCollectionChangedEventHandler CollectionChanged
         //{
         //    add
@@ -64,13 +88,14 @@ namespace iRLeagueManager.ViewModels
             }, o => CurrentResult?.Session != null);
             //UploadFileCmd = new RelayCommand(o => { }, o => false);
             DeleteScheduleCmd = new RelayCommand(o => DeleteSchedule(o as ScheduleModel), o => o != null);
+            SaveChangesCmd = new RelayCommand(async o => await SaveChanges(), o => CanSaveChanges());
         }
 
         public async void CreateSchedule()
         {
             var newSchedule = new ScheduleModel()
             {
-                Name = "New Schedule"
+                Name = "New Schedule",
             };
 
             Season.Schedules.Add(newSchedule);
@@ -90,21 +115,22 @@ namespace iRLeagueManager.ViewModels
             await Load(Season);
         }
 
-        public async Task Load(SeasonModel season)
+        public async Task Load(SeasonModel season, bool forceReload = false)
         {
             var loadedModels = new List<ScheduleModel>();
             Season = season;
             if (season == null || season.Schedules.Count == 0)
             {
-                Schedules.UpdateSource(new ScheduleModel[] { ScheduleModel.GetTemplate() });
+                Schedules.UpdateSource(new ScheduleModel[0]);
                 return;
             }
             else
             {
-                loadedModels = Schedules.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
+                //loadedModels = Schedules.Select(x => x.GetSource()).Where(x => season.Schedules.Select(y => y.ScheduleId).Contains(x.ScheduleId)).ToList();
+                loadedModels = new List<ScheduleModel>();
             }
 
-            var newIds = season.Schedules.Select(x => x.ScheduleId.GetValueOrDefault()).Except(loadedModels.Select(x => x.ScheduleId.GetValueOrDefault())).ToList();
+            var newIds = season.Schedules.Select(x => x.ModelId).ToList();
 
             List<ScheduleModel> updateSchedules = new List<ScheduleModel>();
 
@@ -118,7 +144,7 @@ namespace iRLeagueManager.ViewModels
                 }
                 if (newIds.Count() > 0)
                 {
-                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds.ToArray());
+                    var add = await LeagueContext.GetModelsAsync<ScheduleModel>(newIds.ToArray(), reload: forceReload);
                     updateSchedules.AddRange(add);
                 }
             }
@@ -218,10 +244,47 @@ namespace iRLeagueManager.ViewModels
         //    return ((IEnumerable<ScheduleViewModel>)Schedules).GetEnumerator();
         //}
 
-        public override void Refresh(string propertyName = "")
+        public override async Task Refresh()
         {
-            _ = Load(Season);
-            base.Refresh(propertyName);
+            await LeagueContext.GetModelAsync<SeasonModel>(Season.ModelId, reload: true);
+            await Load(Season, forceReload: true);
+            await base.Refresh();
+        }
+
+        public async Task SaveChanges()
+        {
+            if (CanSaveChanges() == false)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.GetModelAsync<SeasonModel>(Season.ModelId, reload: true);
+                var saveSchedules = Schedules.Where(x => Season.Schedules.Any(y => y.ScheduleId == x.ScheduleId) && x.Model.ContainsChanges).ToList();
+                saveSchedules.ForEach(async x => await x.SaveChanges());
+                await Load(Season);
+                OnPropertyChanged(nameof(SaveChangesCmd));
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public bool CanSaveChanges()
+        {
+            var hasChanges = false;
+            foreach(var schedule in Schedules)
+            {
+                hasChanges |= schedule.Model.ContainsChanges;
+            }
+            return hasChanges;
         }
 
         protected override void Dispose(bool disposing)

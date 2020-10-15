@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +37,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 using iRLeagueManager.ViewModels;
+using System.Windows.Controls.Primitives;
 
 namespace iRLeagueManager.Views
 {
@@ -23,6 +46,7 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class SettingsControl : UserControl
     {
+        private SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
         private SeasonViewModel Season => (DataContext as SettingsPageViewModel)?.Season;
 
         private ReadOnlyObservableCollection<ScoringViewModel> Scorings => (DataContext as SettingsPageViewModel)?.Scorings;
@@ -36,9 +60,10 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button && button.Tag != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 250;
-                editWindow.Height = 500;
+                //var editWindow = new ModalOkCancelWindow();
+                //editWindow.Width = 250;
+                //editWindow.Height = 500;
+                var editWindow = EditPanel;
                 var content = new PointsEditControl();
 
                 editWindow.Title = "Edit Base points";
@@ -47,7 +72,7 @@ namespace iRLeagueManager.Views
                 {
                     var editBasePoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BasePointsValue>(scoring.BasePoints.ToList());
                     content.DataContext = editBasePoints;
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
 
                     if (editWindow.ShowDialog() == true)
                     {
@@ -71,9 +96,10 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button && button.Tag != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 250;
-                editWindow.Height = 500;
+                //var editWindow = new ModalOkCancelWindow();
+                //editWindow.Width = 250;
+                //editWindow.Height = 500;
+                var editWindow = EditPanel;
                 var content = new PointsEditControl();
 
                 editWindow.Title = "Edit Bonus points";
@@ -82,7 +108,7 @@ namespace iRLeagueManager.Views
                 {
                     var editBonusPoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BonusPointsValue>(scoring.BonusPoints.ToList());
                     content.DataContext = editBonusPoints;
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
 
                     if (editWindow.ShowDialog() == true)
                     {
@@ -100,6 +126,51 @@ namespace iRLeagueManager.Views
                         }
                     }
                 }
+            }
+        }
+
+        private void DeleteScoringButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is ScoringViewModel scoringViewModel && ViewModel != null)
+            {
+                if (MessageBox.Show($"Would you really like to delete th Scoring \"{scoringViewModel.Name}\"?\nThis action can not be undone!", "Delete Scoring", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
+                    ViewModel.DeleteScoring(scoringViewModel.Model);
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void MoveLeftButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MoveRightButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ScoringList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveRightButton.Command.Execute(MoveRightButton.CommandParameter);
+            e.Handled = true;
+        }
+
+        private void ScoringSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveLeftButton.Command.Execute(MoveLeftButton.CommandParameter);
+            e.Handled = true;
+        }
+
+        private void DeleteScoringTableButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is ScoringTableViewModel scoringTableViewModel && ViewModel != null)
+            {
+                if (MessageBox.Show($"Would you really like to delete the Scoring Table \"{ scoringTableViewModel.Name}\"?\nThis action can not be undone!", "Delete ScoringTable", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    ViewModel.DeleteScoringTable(scoringTableViewModel.Model);
+                }
+                e.Handled = true;
             }
         }
     }

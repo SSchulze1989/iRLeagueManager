@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +37,7 @@ using iRLeagueManager.Models.Sessions;
 //using iRLeagueManager.User;
 using iRLeagueManager.Logging;
 using System.Runtime.CompilerServices;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -34,7 +57,7 @@ namespace iRLeagueManager.ViewModels
         //public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
 
         private UserViewModel currentUser;
-        public UserViewModel CurrentUser
+        public new UserViewModel CurrentUser
         {
             get
             {
@@ -45,6 +68,8 @@ namespace iRLeagueManager.ViewModels
                 return currentUser;
             }
         }
+
+        public string CurrentLeagueName => LeagueContext.LeagueName;
 
         //private bool isUserLoggedIn;
         //public bool IsUserLoggedIn { get => isUserLoggedIn; set => SetValue(ref isUserLoggedIn, value); }
@@ -58,7 +83,12 @@ namespace iRLeagueManager.ViewModels
         private ObservableCollection<SeasonModel> seasonList;
         public ObservableCollection<SeasonModel> SeasonList { get => seasonList; set => SetValue(ref seasonList, value); }
 
+        private bool isErrorsOpen;
+        public bool IsErrorsOpen { get => isErrorsOpen; set => SetValue(ref isErrorsOpen, value); }
+
         public ICommand SchedulesButtonCmd { get; }
+
+        public ICommand CloseErrorsCmd { get; }
 
         private SeasonModel selectedSeason;
         public SeasonModel SelectedSeason
@@ -83,9 +113,24 @@ namespace iRLeagueManager.ViewModels
             CurrentSeason = new SeasonViewModel();
             //UserLogin = new LoginViewModel(this);
             currentUser = new UserViewModel();
+            CloseErrorsCmd = new RelayCommand(o => IsErrorsOpen = false, o => true);
+            ((INotifyCollectionChanged)ErrorLog).CollectionChanged += OnErrorLogChanged;
+            IsErrorsOpen = false;
         }
 
-        public async void Load()
+        private void OnErrorLogChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ErrorLog.Count > 0)
+                IsErrorsOpen = true;
+        }
+
+        public override async Task Refresh()
+        {
+            await Load();
+            await base.Refresh();
+        }
+
+        public async Task Load()
         {
             if (LeagueContext == null)
             {

@@ -37,6 +37,16 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Local|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Local\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DEBUG_WEB</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
@@ -70,6 +80,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,21 +91,11 @@
   <ItemGroup>
     <Compile Include="Data\DatabaseStatusService.cs" />
     <Compile Include="Data\IDatabaseStatusService.cs" />
+    <Compile Include="Data\ILeagueDataProvider.cs" />
     <Compile Include="Data\IModelActionProvider.cs" />
     <Compile Include="Data\ASPRestAPIClientWrapper.cs" />
     <Compile Include="CollectionHelper.cs" />
-    <Compile Include="Connected Services\LeagueDBServiceRef\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Connected Services\UserDBServiceRef\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Converters\BonusPointsConverter.cs" />
-    <Compile Include="DatabaseToken.cs" />
     <Compile Include="Data\IModelDatabase.cs" />
     <Compile Include="Data\IUserCredentialsManager.cs" />
     <Compile Include="Data\IUserDatabaseClient.cs" />
@@ -102,10 +103,8 @@
     <Compile Include="Data\UserCredentialsManager.cs" />
     <Compile Include="Data\UserDatabaseClient.cs" />
     <Compile Include="Data\UserManager.cs" />
-    <Compile Include="DbHttpRESTClient.cs" />
     <Compile Include="Exceptions\ModelInitializeException.cs" />
     <Compile Include="Data\ICredentialsProvider.cs" />
-    <Compile Include="ILeagueDbServiceClient.cs" />
     <Compile Include="IModelIdentifier.cs" />
     <Compile Include="LeagueContext.cs" />
     <Compile Include="LocationMapperProfile.cs" />
@@ -116,18 +115,16 @@
     <Compile Include="Models\IModelCache.cs" />
     <Compile Include="Models\IModelManager.cs" />
     <Compile Include="Data\IModelDataProvider.cs" />
+    <Compile Include="Models\Members\TeamModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\ModelCache.cs" />
-    <Compile Include="ModelMapperConfiguration.cs" />
     <Compile Include="ModelMapperProfile.cs" />
     <Compile Include="ModelRegister.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\Database\DatabaseStatusModel.cs" />
-    <Compile Include="DbLeagueServiceClient.cs" />
     <Compile Include="Models\Database\DatabaseUserModel.cs" />
     <Compile Include="Models\Members\Admin.cs" />
     <Compile Include="Models\Members\LeagueMember.cs" />
-    <Compile Include="Models\Members\Team.cs" />
     <Compile Include="Models\MappableModel.cs" />
     <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Models\Results\AddPenaltyModel.cs" />
@@ -137,21 +134,27 @@
     <Compile Include="Models\Results\ResultRowModel.cs" />
     <Compile Include="Models\Results\ScoredResultModel.cs" />
     <Compile Include="Models\Results\ScoredResultRowModel.cs" />
+    <Compile Include="Models\Results\ScoredTeamResultModel.cs" />
+    <Compile Include="Models\Results\ScoredTeamResultRowModel.cs" />
     <Compile Include="Models\Results\ScoringInfo.cs" />
     <Compile Include="Models\Results\ScoringModel.cs" />
     <Compile Include="Models\Results\ScoringRuleBase.cs" />
+    <Compile Include="Models\Results\ScoringTableModel.cs" />
     <Compile Include="Models\Results\StandardScoringRule.cs" />
     <Compile Include="Models\Results\StandingsModel.cs" />
     <Compile Include="Models\Results\StandingsRowModel.cs" />
+    <Compile Include="Models\Results\TeamStandingsModel.cs" />
+    <Compile Include="Models\Results\TeamStandingsRowModel.cs" />
     <Compile Include="Models\Reviews\CommentBase.cs" />
     <Compile Include="Models\Reviews\CommentInfo.cs" />
+    <Compile Include="Models\Reviews\CustomIncidentModel.cs" />
     <Compile Include="Models\Reviews\IncidentReviewInfo.cs" />
     <Compile Include="Models\Reviews\IncidentReviewModel.cs" />
     <Compile Include="Models\Reviews\ReviewCommentModel.cs" />
     <Compile Include="Models\Reviews\ReviewVoteModel.cs" />
+    <Compile Include="Models\Reviews\VoteCategoryModel.cs" />
     <Compile Include="Models\SeasonModel.cs" />
     <Compile Include="Models\SeasonInfo.cs" />
-    <Compile Include="DbServiceClientBase.cs" />
     <Compile Include="Models\Sessions\RaceSessionModel.cs" />
     <Compile Include="Models\Sessions\ScheduleModel.cs" />
     <Compile Include="Models\Sessions\ScheduleInfo.cs" />
@@ -162,85 +165,12 @@
     <Compile Include="Models\VersionModel.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RESTHttpClient.cs" />
-    <Compile Include="SeasonContext.cs" />
-    <Compile Include="UserContext.cs" />
-    <Compile Include="DbUserServiceClient.cs" />
-    <Compile Include="WCFLeagueDbClientWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.DELItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.GETItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.MappableDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.POSTItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.PUTItemsResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\iRLeagueManager.LeagueDBServiceRef.ResponseMessage.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\LeagueDBService1.wsdl" />
-    <None Include="Connected Services\LeagueDBServiceRef\Service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service210.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service211.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service212.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service213.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service214.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service215.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service216.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service217.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service218.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LeagueDBServiceRef\Service29.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\UserDBServiceRef\iRLeagueManager.UserDBServiceRef.UserDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\UserDBServiceRef\service.wsdl" />
-    <None Include="Connected Services\UserDBServiceRef\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\UserDBServiceRef\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\UserDBServiceRef\UserDBService.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -250,37 +180,6 @@
       <Project>{0afd7545-de7f-44d0-a3b0-daf3a1e0844f}</Project>
       <Name>Communication</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\LeagueDBServiceRef\" />
-    <WCFMetadataStorage Include="Connected Services\UserDBServiceRef\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LeagueDBServiceRef\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LeagueDBServiceRef\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LeagueDBServiceRef\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\UserDBServiceRef\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\UserDBServiceRef\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\UserDBServiceRef\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LeagueDBServiceRef\Service1.disco" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

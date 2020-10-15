@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +51,11 @@ namespace iRLeagueManager.Models
             //this.leagueContext = leagueContext;
         }
 
+        private ModelIdentifier GetIdentifier(Type type, object[] modelId)
+        {
+            return new ModelIdentifier(type, modelId);
+        }
+
         public void CleanReferences()
         {
             var iterator = referenceList.ToList();
@@ -46,13 +73,19 @@ namespace iRLeagueManager.Models
         public T GetModel<T>(params object[] modelId) where T : class, ICacheableModel
         {
             CleanReferences();
-            var identifier = new ModelIdentifier(typeof(T), modelId.Select(x => (object)x).ToArray());
+            var identifier = GetIdentifier(typeof(T), modelId);
             if (referenceList.ContainsKey(identifier))
             {
                 T model = referenceList[identifier].Target as T;
                 return model;
             }
             return null;
+        }
+
+        public void RemoveReference<T>(object[] modelId) where T: class, ICacheableModel
+        {
+            var identifier = GetIdentifier(typeof(T), modelId);
+            referenceList.Remove(identifier);
         }
 
         public T PutOrGetModel<T>(T model) where T : class, ICacheableModel
@@ -116,6 +149,15 @@ namespace iRLeagueManager.Models
             {
                 registeredModelTypes.Add(type, new ModelRegister(type, getFuncAsync, updateFuncAsync));
             }
+        }
+
+        IEnumerable<T> IModelCache<ICacheableModel, object>.GetOfType<T>()
+        {
+            var resultList = referenceList
+                .Where(x => x.Key.ModelType.Equals(typeof(T)))
+                .Select(x => (T)x.Value.Target);
+
+            return resultList;
         }
     }
 }

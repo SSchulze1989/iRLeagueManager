@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.-->
 <ArrayOfRaceTrack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <RaceTrack>
     <TrackId>1</TrackId>
@@ -15,7 +36,7 @@
     <TrackId>2</TrackId>
     <TrackName>Autódromo José Carlos Pace</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Grand Prix" length="4.307" turns="15" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.307" turns="15" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_interlagos_t.png"/>
       <TrackConfig config_id="2" config_name="Moto" length="4.307" turns="16" type="RoadCourse" night_lighting="false" />
     </Configs>
   </RaceTrack>
@@ -219,7 +240,7 @@
     <TrackId>25</TrackId>
     <TrackName>Donington Park Racing Circuit</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Grand Prix" length="4.02" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.02" turns="12" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_donington_gp_t.png"/>
       <TrackConfig config_id="2" config_name="National" length="3.149" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Donington_National_t.png"/>
     </Configs>
   </RaceTrack>
@@ -425,7 +446,7 @@
     <TrackId>50</TrackId>
     <TrackName>Mount Panorama Circuit</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="6.437" turns="23" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="" length="6.437" turns="23" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_bathurst_t.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -737,7 +758,7 @@
     <TrackName>Tsukuba Circuit</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="1000 Chicane" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="2" config_name="1000 Full" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="1000 Full" length="3.219" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_tsukuba_full_t.png"/>
       <TrackConfig config_id="3" config_name="1000 Full Reverse" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="4" config_name="1000 Outer" length="3.219" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="5" config_name="2000 Full" length="3.331" turns="10" type="RoadCourse" night_lighting="false" />
@@ -769,7 +790,7 @@
     <Configs>
       <TrackConfig config_id="1" config_name="Full Course" length="5.263" turns="17" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="2" config_name="Grand East" length="6.55" turns="29" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="3" config_name="Grand West" length="6.389" turns="26" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="Grand West" length="6.389" turns="26" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_VIR_grand_west_t.png"/>
       <TrackConfig config_id="4" config_name="North" length="3.621" turns="17" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_VIR_North_t.png"/>
       <TrackConfig config_id="5" config_name="Patriot" length="1.77" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="6" config_name="Patriot Reverse" length="1.77" turns="10" type="RoadCourse" night_lighting="false" />
@@ -788,7 +809,7 @@
     <TrackName>Watkins Glen International</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Boot" length="5.472" turns="12" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="2" config_name="Classic" length="3.943" turns="7" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Classic" length="3.943" turns="7" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_watkinsglen_classic_t.png"/>
       <TrackConfig config_id="3" config_name="Classic Boot" length="5.472" turns="11" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="4" config_name="Cup" length="3.943" turns="8" type="RoadCourse" night_lighting="false" />
     </Configs>
@@ -822,7 +843,7 @@
     <TrackName>Lime Rock Park</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Grand Prix" length="2.46" turns="7" type="RoadCourse" night_lighting="true" />
-      <TrackConfig config_id="2" config_name="Classic" length="2.46" turns="9" type="RoadCourse" night_lighting="true" />
+      <TrackConfig config_id="2" config_name="Classic" length="2.46" turns="9" type="RoadCourse" night_lighting="true" map_img_src="Trackmap_limerock_classic_t.png"/>
       <TrackConfig config_id="1" config_name="Chicanes" length="2.46" turns="11" type="RoadCourse" night_lighting="true" />
       <TrackConfig config_id="1" config_name="West Bend Chicane" length="2.46" turns="9" type="RoadCourse" night_lighting="true" />
     </Configs>

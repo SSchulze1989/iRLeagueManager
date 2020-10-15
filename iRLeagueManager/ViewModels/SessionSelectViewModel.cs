@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,11 +86,15 @@ namespace iRLeagueManager.ViewModels
 
         public ICommand NextSessionCmd { get; }
         public ICommand PreviousSessionCmd { get; }
+        public ICommand FirstSessionCmd { get; }
+        public ICommand LastSessionCmd { get; }
 
         public SessionSelectViewModel()
         {
             NextSessionCmd = new RelayCommand(o => SelectNextSession(), o => CanSelectNextSession());
             PreviousSessionCmd = new RelayCommand(o => SelectPreviousSession(), o => CanSelectPreviousSession());
+            FirstSessionCmd = new RelayCommand(o => SelectFirstSession(), o => CanSelectPreviousSession());
+            LastSessionCmd = new RelayCommand(o => SelectLastSession(), o => CanSelectNextSession());
             SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
         }
 
@@ -107,6 +133,13 @@ namespace iRLeagueManager.ViewModels
                 SelectedSession = filteredSessions.ElementAt(currentSessionIndex);
         }
 
+        public void SelectLastSession()
+        {
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            SelectedSession = filteredSessions.LastOrDefault();
+        }
+
         public bool CanSelectNextSession()
         {
             if (SessionList == null)
@@ -135,6 +168,13 @@ namespace iRLeagueManager.ViewModels
                 SelectedSession = filteredSessions.LastOrDefault();
             else
                 SelectedSession = filteredSessions.ElementAt(currentSessionIndex);
+        }
+
+        public void SelectFirstSession()
+        {
+            var filteredSessions = SessionList.Where(SessionFilter).ToList();
+
+            SelectedSession = filteredSessions.FirstOrDefault();
         }
 
         public bool CanSelectPreviousSession()

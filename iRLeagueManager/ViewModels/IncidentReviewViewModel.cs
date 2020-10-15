@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -15,6 +37,9 @@ using iRLeagueManager.Models.Results;
 using System.Diagnostics;
 using System.Windows.Input;
 using iRLeagueManager.Models;
+using System.Windows.Data;
+using iRLeagueManager.Converters;
+using iRLeagueManager.Extensions;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -22,12 +47,22 @@ namespace iRLeagueManager.ViewModels
     {
         //public IncidentReviewModel Model { get => Source; set => SetSource(value); }
 
-        public string Description => string.Format("Lap: {0}\t|\tCorner: {1}\t-\tIncident: {2}\t-\tInvolved: {3}", Model.OnLap, Model.Corner, "Incident description", (Model.InvolvedMembers.Count() > 0) ? Model.InvolvedMembers.Select(x => x.ShortName).Aggregate((x, y) => x + ", " + y) : "");
-        public int OnLap { get => Model.OnLap; set => Model.OnLap = value; }
-        public int Corner { get => Model.Corner; set => Model.Corner = value; }
+        public string Description => string.Format("{0} | Lap: {1}\t|\tCorner: {2}\t-\tIncident: {3}\t-\tInvolved: {4}", IncidentNr, Model.OnLap, Model.Corner, "Incident description", (Model.InvolvedMembers.Count() > 0) ? Model.InvolvedMembers.Select(x => x.ShortName).Aggregate((x, y) => x + ", " + y) : "");
+        public string OnLap { get => Model.OnLap; set => Model.OnLap = value; }
+        public string OnLapSortingString => OnLap.AddLeadingZeroesToNumbers(10);
+        public string Corner { get => Model.Corner; set => Model.Corner = value; }
+        public string CornerSortingString => Corner.AddLeadingZeroesToNumbers(10);
         public ObservableCollection<LeagueMember> InvolvedMembers => Model.InvolvedMembers;
         public string IncidentKind { get => Model.IncidentKind; set => Model.IncidentKind = value; }
         public string FullDescription { get => Model.FullDescription; set => Model.FullDescription = value; }
+
+        public string IncidentNr { get => Model.IncidentNr; set => Model.IncidentNr = value; }
+
+        private bool forceShowComments;
+        public bool ForceShowComments { get => forceShowComments; set => SetValue(ref forceShowComments, value); }
+
+        private bool isExpanded;
+        public bool IsExpanded { get => isExpanded; set => SetValue(ref isExpanded, value); }
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> votes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> Votes 
@@ -40,9 +75,23 @@ namespace iRLeagueManager.ViewModels
             set => SetValue(ref votes, value);
         }
 
+        private int votesCount;
+        public int VotesCount { get => votesCount; set => SetValue(ref votesCount, value); }
+        public int CommentCount => comments.Count;
+
         public ObservableCollection<ReviewVoteModel> AcceptedVotes => Model?.AcceptedReviewVotes;
 
+        public string ResultLongText { get => Model.ResultLongText; set => Model.ResultLongText = value; }
+
         public IEnumerable<VoteEnum> VoteEnums => Enum.GetValues(typeof(VoteEnum)).Cast<VoteEnum>();
+
+
+        private ICollectionView voteCategories;
+        public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+
+        private ICollectionView incidentKinds;
+        public ICollectionView IncidentKinds { get => incidentKinds; set => SetValue(ref incidentKinds, value); }
+
 
         private IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> countAcceptedVotes;
         public IEnumerable<MyKeyValuePair<ReviewVoteModel, int>> CountAcceptedVotes 
@@ -77,6 +126,10 @@ namespace iRLeagueManager.ViewModels
         public MemberListViewModel MemberList { get => memberList; set => SetValue(ref memberList, value); }
 
         public bool CanUserAddComment => Comments.Any(x => x.IsUserAuthor) == false;
+        public bool UserHasVoted => Comments.Any(x => x.IsUserAuthor && x.Votes.Count > 0) == true;
+
+        private VoteState voteState;
+        public VoteState VoteState { get => voteState; set => SetValue(ref voteState, value); }
 
         protected override IncidentReviewModel Template => new IncidentReviewModel();
         //...
@@ -91,16 +144,49 @@ namespace iRLeagueManager.ViewModels
             ((INotifyCollectionChanged)comments).CollectionChanged += OnCommentsCollectionChanged;
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null && o is ReviewVoteModel);
+            MemberList.CustomFilters.Add(x => InvolvedMembers.Contains(x) == false);
         }
 
-        public void Hold()
+        public override async Task Refresh()
         {
-            int i = 1;
+            CalculateVotes();
+            try
+            {
+                IsLoading = true;
+                await LoadMemberListAsync();
+                var votesCategorieCollection = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
+                SetVoteCategoriesView(votesCategorieCollection);
+                var incidentKinds = await LeagueContext.GetModelsAsync<CustomIncidentModel>();
+                SetIncidentKindsView(incidentKinds);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            await base.Refresh();
+        }
+
+        private void SetVoteCategoriesView(object source)
+        {
+            VoteCategories = CollectionViewSource.GetDefaultView(source);
+            VoteCategories.SortDescriptions.Add(new SortDescription(nameof(VoteCategoryModel.Index), ListSortDirection.Ascending));
+        }
+
+        private void SetIncidentKindsView(object source)
+        {
+            IncidentKinds = CollectionViewSource.GetDefaultView(source);
+            IncidentKinds.SortDescriptions.Add(new SortDescription(nameof(CustomIncidentModel.Index), ListSortDirection.Ascending));
         }
 
         public void OnCommentsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(CanUserAddComment));
+            OnPropertyChanged(nameof(UserHasVoted));
+            OnPropertyChanged(nameof(CommentCount));
             CalculateVotes();
         }
 
@@ -110,6 +196,7 @@ namespace iRLeagueManager.ViewModels
             {
                 case nameof(Comments):
                     OnPropertyChanged(nameof(CanUserAddComment));
+                    OnPropertyChanged(nameof(UserHasVoted));
                     break;
             }
 
@@ -120,6 +207,7 @@ namespace iRLeagueManager.ViewModels
         {
             var votes = new List<MyKeyValuePair<ReviewVoteModel, int>>();
             var acceptedVotes = new List<MyKeyValuePair<ReviewVoteModel, int>>();
+            var votesCount = 0;
 
             if (comments == null)
                 return;
@@ -128,20 +216,25 @@ namespace iRLeagueManager.ViewModels
             {
                 foreach(var currentVote in comment.Votes)
                 {
-                    var existingVote = votes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
+                    var existingVote = votes.SingleOrDefault(x => x.Key.MemberAtFault?.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
                     if (existingVote == null)
                     {
                         existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
                         votes.Add(existingVote);
                     }
-                    existingVote.Value += 1;
+                    existingVote.Value++;
+                }
+                if (comment.Votes.Count > 0)
+                {
+                    votesCount++;
                 }
             }
-            this.votes = votes;
+            this.Votes = votes;
+            this.VotesCount = votesCount;
 
             foreach (var currentVote in AcceptedVotes)
             {
-                var existingVote = acceptedVotes.SingleOrDefault(x => x.Key.MemberAtFault.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
+                var existingVote = acceptedVotes.SingleOrDefault(x => x.Key.MemberAtFault?.MemberId == currentVote.MemberAtFault?.MemberId && x.Key.Vote == currentVote.Vote);
                 if (existingVote == null)
                 {
                     existingVote = new MyKeyValuePair<ReviewVoteModel, int>(currentVote, 0);
@@ -149,7 +242,32 @@ namespace iRLeagueManager.ViewModels
                 }
                 existingVote.Value += 1;
             }
-            this.countAcceptedVotes = acceptedVotes;
+            this.CountAcceptedVotes = acceptedVotes;
+
+            if (AcceptedVotes?.Count() > 0)
+            {
+                VoteState = VoteState.Closed;
+            }
+            else if (votes.Count() == 0)
+            {
+                VoteState = VoteState.NoVote;
+            }
+            else if (votes.Count() < 2)
+            {
+                VoteState = VoteState.Open;
+            }
+            else if (votes.Max(x => x.Value) == votes.Count())
+            {
+                VoteState = VoteState.Agreed;
+            }
+            else if (votes.Max(x => x.Value) > votes.Count() / 2)
+            {
+                VoteState = VoteState.MajorityVote;
+            }
+            else
+            {
+                VoteState = VoteState.Conflict;
+            }
         }
 
         public async Task<ReviewCommentModel> AddCommentAsync(ReviewCommentModel comment)
@@ -196,6 +314,24 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public async void AddMember(LeagueMember member)
+        {
+            if (InvolvedMembers.Contains(member) == false)
+            {
+                InvolvedMembers.Add(member);
+                await MemberList.Refresh();
+            }
+        }
+
+        public async void RemoveMember(LeagueMember member)
+        {
+            if (InvolvedMembers.Contains(member))
+            {
+                InvolvedMembers.Remove(member);
+                await memberList.Refresh();
+            }
+        }
+
         public void AddVote(ReviewVoteModel vote)
         {
             if (Model == null)
@@ -236,7 +372,7 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 var result = await LeagueContext.GetModelAsync<ResultModel>(Model.Session.SessionId.GetValueOrDefault());
                 var members = result.RawResults.Select(x => x.Member);
-                MemberList.SetCollectionViewSourc(members);
+                MemberList.SetCollectionViewSource(members);
             }
             catch (Exception e)
             {
@@ -245,6 +381,19 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public sealed class CustomStringComparer : IComparer<object>
+        {
+            public int Compare(object a, object b)
+            {
+                if (a is IncidentReviewViewModel lhs && b is IncidentReviewViewModel rhs)
+                {//APPLY ALGORITHM LOGIC HERE
+                    var compLap = SafeNativeMethods.StrCmpLogicalW(lhs.OnLap, rhs.OnLap);
+                    return compLap;
+                }
+                return 0;
             }
         }
     }

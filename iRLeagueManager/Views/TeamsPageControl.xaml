@@ -1,0 +1,185 @@
+﻿<!--MIT License
+
+Copyright (c) 2020 Simon Schulze
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.-->
+
+<UserControl x:Class="iRLeagueManager.Views.TeamsPageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iRLeagueManager.Views"
+             xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+             xmlns:conv="clr-namespace:iRLeagueManager.Converters"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             FontSize="{StaticResource Global.FontSizeMedium}"
+             FontFamily="{StaticResource Global.FontFamily}" Background="White">
+    <UserControl.Resources>
+        <conv:ColorComplementConverter x:Key="ColorComplementConverter"/>
+    </UserControl.Resources>
+    
+    <Grid ClipToBounds="True">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="topRow" Height="Auto"/>
+            <RowDefinition x:Name="centerRow"/>
+            <RowDefinition x:Name="bottomRow" Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Background="{StaticResource ThemeColor_Back0}" ClipToBounds="True">
+            <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" 
+                                  VerticalScrollBarVisibility="Visible" Template="{DynamicResource ContentScrollViewerControlTemplate}" 
+                                  VerticalAlignment="Stretch"
+                                  SnapsToDevicePixels="True">
+                <ItemsControl ItemsSource="{Binding Teams}" Margin="20,5,20,50" Background="Transparent">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:TeamViewModel}">
+                            <Grid Margin="0,6">
+                                <Border BorderThickness="0" Background="DarkGray" 
+                                            x:Name="templateDropShadowBorder">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="4" Color="DarkGray"/>
+                                    </Border.Effect>
+                                </Border>
+                                <Border BorderBrush="DarkGray" BorderThickness="0.5">
+                                    <StackPanel x:Name="stackpanel" Background="White">
+                                        <Border BorderBrush="{StaticResource ThemeColor_Back3}" 
+                                                    BorderThickness="0,0,0,0" CornerRadius="0"
+                                                    Background="Transparent" Margin="0,0,0,8"
+                                                    SnapsToDevicePixels="True">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" x:Name="HeaderRow"/>
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="Auto" x:Name="FooterRow"/>
+                                                </Grid.RowDefinitions>
+
+                                                <Border Grid.Row="0" Padding="10,4,10,2.5" BorderThickness="0,0,0,0" 
+                                                            TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
+                                                            TextElement.FontSize="{StaticResource Global.FontSizeMedium}"
+                                                            x:Name="headerBorder">
+                                                    <DockPanel Margin="0">
+                                                        <controls:IconButton x:Name="TeamDeleteButton" DockPanel.Dock="Right"
+                                                                             Click="TeamDeleteButton_Click"
+                                                                             Tag="{Binding}"
+                                                                             IconContent="{DynamicResource closeThick}"
+                                                                             IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                             IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
+                                                                             CornerRadius="0">
+                                                            <controls:IconButton.ToolTip>
+                                                                <ToolTip>Delete Review</ToolTip>
+                                                            </controls:IconButton.ToolTip>
+
+                                                            <controls:IconButton.Style>
+                                                                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                    <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="{StaticResource ThemeColor_Red}"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </controls:IconButton.Style>
+                                                        </controls:IconButton>
+                                                        <controls:IconButton x:Name="reviewEditButton" DockPanel.Dock="Right"
+                                                                                     Click="EditButton_Click" Tag="{Binding}"
+                                                                                     IconContent="{DynamicResource pencilOutline}"  
+                                                                                     IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                                     IconMargin="0,-5,4,0" Margin="0" Width="30" Height="30"
+                                                                                     CornerRadius="0">
+                                                            <controls:IconButton.ToolTip>
+                                                                <ToolTip>Edit Review</ToolTip>
+                                                            </controls:IconButton.ToolTip>
+                                                            <controls:IconButton.Style>
+                                                                <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                    <Setter Property="IconFill" Value="{Binding TeamColor, Converter={StaticResource ColorComplementConverter}, ConverterParameter=0.49}"/>
+                                                                </Style>
+                                                            </controls:IconButton.Style>
+                                                        </controls:IconButton>
+
+                                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                                    </DockPanel>
+
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="{Binding TeamColor}"/>
+                                                            <Setter Property="BorderBrush" Value="{Binding TeamColor, Converter={StaticResource ColorComplementConverter}, ConverterParameter=0.49}"/>
+                                                            <Setter Property="TextElement.Foreground" Value="{Binding TeamColor, Converter={StaticResource ColorComplementConverter}, ConverterParameter=0.49}"/>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Members: " Grid.Column="0" Margin="12,2,5,8" FontWeight="Black"/>
+                                            <ItemsControl Grid.Column="1" ItemsSource="{Binding Members}" Margin="5,2,5,8">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text=", " x:Name="commaTextBlock"/>
+                                                            <TextBlock Text="{Binding FullName}"/>
+                                                        </StackPanel>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" TargetName="commaTextBlock"/>
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <StackPanel Margin="25,8" Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <controls:IconButton Content="Add Team" IconContent="{StaticResource PlusThick}" Click="AddButton_Click"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="-2,-6,2,0"
+                                 Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
+                                 IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
+                                 Foreground="{StaticResource ThemeColor_Back0}"
+                                 Height="Auto" Width="Auto"
+                                 Margin="5,2,5,2" ToolTip="Create new Team">
+                    <controls:IconButton.Effect>
+                        <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+                    </controls:IconButton.Effect>
+                </controls:IconButton>
+            </StackPanel>
+        </Grid>
+        <local:ModalOkCancelControl Grid.Row="1" Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+    </Grid>
+</UserControl>

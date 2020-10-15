@@ -1,4 +1,26 @@
-﻿<UserControl x:Class="iRLeagueManager.Views.SessionEditControl"
+﻿<!--MIT License
+
+Copyright (c) 2020 Simon Schulze
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.-->
+
+<UserControl x:Class="iRLeagueManager.Views.SessionEditControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -22,159 +44,162 @@
         <converter:TimeComponentConverter x:Key="TimeComponentConverter" />
     </UserControl.Resources>
 
-    <Grid>
-        <StackPanel Orientation="Vertical" TextBlock.FontSize="20">
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="5">
-                <TextBlock Text="{Binding Schedule.Name}" />
-                <TextBlock Text=" - Session: " />
-                <TextBlock Text="{Binding SessionNumber}" />
-                <TextBlock Text=" of " />
-                <TextBlock Text="{Binding Schedule.SessionCount}" />
-            </StackPanel>
+    <Grid MinWidth="300" HorizontalAlignment="Stretch">
+        <Border Width="700" Visibility="Hidden"/>
+        <Grid Margin="10">
+            <StackPanel Orientation="Vertical" TextBlock.FontSize="{StaticResource Global.FontSizeLarge}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{Binding Schedule.Name}" />
+                    <TextBlock Text=" - Session: " />
+                    <TextBlock Text="{Binding SessionNumber}" />
+                    <TextBlock Text=" of " />
+                    <TextBlock Text="{Binding Schedule.SessionCount}" />
+                </StackPanel>
 
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="100*"/>
-                    <ColumnDefinition Width="0*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Date: " />
-                <!--<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Date}" />-->
-                <DatePicker Grid.Column="2" Grid.Row="0" SelectedDate="{Binding Date}" />
-
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="Session Start: " />
-                <Grid Grid.Column="2" Grid.Row="1">
+                <Grid Margin="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="0*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Hours:" />
-                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Minutes:" />
-                    <ComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding TimeOfDayComponents.Hours, Converter={StaticResource TimeComponentConverter}, UpdateSourceTrigger=PropertyChanged}" />
-                    <ComboBox Grid.Column="2" Grid.Row="1" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding TimeOfDayComponents.Minutes, Converter={StaticResource TimeComponentConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Date: " />
+                    <!--<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Date}" />-->
+                    <DatePicker Grid.Column="2" Grid.Row="0" SelectedDate="{Binding Date}" />
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Session Start: " />
+                    <Grid Grid.Column="2" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Hours:"/>
+                        <TextBlock Grid.Column="2" Grid.Row="0" Text="Minutes:"/>
+                        <ComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding TimeOfDayComponents.Hours, Converter={StaticResource TimeComponentConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox Grid.Column="2" Grid.Row="1" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding TimeOfDayComponents.Minutes, Converter={StaticResource TimeComponentConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Track: " />
+                    <ComboBox Grid.Column="2" Grid.Row="2" ItemsSource="{StaticResource TrackCollection}" SelectedValue="{Binding TrackId}" SelectedValuePath="TrackId" DisplayMemberPath="TrackName"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Configuration: " />
+                    <ComboBox Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Track.Configs, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ConfigIndex, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ConfigName"/>
+                    <TextBlock Grid.Column="3" Grid.Row="3" Text="{Binding ConfigIndex}" />
+
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Laps:" />
+                    <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding Laps}" />
+
+                    <Grid Grid.Column="2" Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Hours:" />
+                        <TextBlock Grid.Column="2" Text="Minutes:" />
+                    </Grid>
+                    <TextBlock Grid.Column="0" Grid.Row="6" Text="Practice Length" />
+                    <!--<TextBox Grid.Column="2" Grid.Row="5" Text="{Binding PracticeLength}" />-->
+                    <Grid Grid.Column="2" Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox Grid.Column="0" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding PracticeLenghtComponents.Hours, Converter={StaticResource TimeComponentConverter}}" />
+                        <ComboBox Grid.Column="2" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding PracticeLenghtComponents.Minutes, Converter={StaticResource TimeComponentConverter}}" />
+                    </Grid>
+
+                    <Grid Grid.Column="2" Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Hours:" />
+                        <TextBlock Grid.Column="2" Text="Minutes:" />
+                    </Grid>
+                    <TextBlock Grid.Column="0" Grid.Row="8" Text="Qualy Length: " />
+                    <Grid Grid.Column="2" Grid.Row="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox Grid.Column="0" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding QualyLengthComponents.Hours, Converter={StaticResource TimeComponentConverter}}" />
+                        <ComboBox Grid.Column="2" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding QualyLengthComponents.Minutes, Converter={StaticResource TimeComponentConverter}}" />
+                    </Grid>
+
+                    <Grid Grid.Column="2" Grid.Row="9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Hours:" />
+                        <TextBlock Grid.Column="2" Text="Minutes:" />
+                    </Grid>
+                    <TextBlock Grid.Column="0" Grid.Row="10" Text="Race Length:" />
+                    <Grid Grid.Column="2" Grid.Row="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox Grid.Column="0" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding RaceLengthComponents.Hours, Converter={StaticResource TimeComponentConverter}}" />
+                        <ComboBox Grid.Column="2" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding RaceLengthComponents.Minutes, Converter={StaticResource TimeComponentConverter}}" />
+                    </Grid>
+
+                    <Grid.Resources>
+                        <Style TargetType="TextBox" >
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Margin" Value="5" />
+                            <Setter Property="IsEditable" Value="True" />
+                            <Setter Property="IsTextSearchEnabled" Value="True" />
+                        </Style>
+                        <Style TargetType="TextBlock" >
+                            <Setter Property="Margin" Value="5,5,0,5" />
+                        </Style>
+                        <Style TargetType="DatePicker" >
+                            <Setter Property="Margin" Value="5,0" />
+                        </Style>
+                    </Grid.Resources>
                 </Grid>
-
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Track: " />
-                <ComboBox Grid.Column="2" Grid.Row="2" ItemsSource="{StaticResource TrackCollection}" SelectedValue="{Binding TrackId}" SelectedValuePath="TrackId" DisplayMemberPath="TrackName"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="3" Text="Configuration: " />
-                <ComboBox Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Track.Configs, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ConfigIndex, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ConfigName"/>
-                <TextBlock Grid.Column="3" Grid.Row="3" Text="{Binding ConfigIndex}" />
-
-                <TextBlock Grid.Column="0" Grid.Row="4" Text="Laps:" />
-                <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding Laps}" />
-
-                <Grid Grid.Column="2" Grid.Row="5">
+                <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Hours:" />
-                    <TextBlock Grid.Column="2" Text="Minutes:" />
+                    <Grid.Resources>
+                        <Style TargetType="Button" >
+                            <Setter Property="Margin" Value="10" />
+                            <Setter Property="Padding" Value="20,5" />
+                        </Style>
+                    </Grid.Resources>
                 </Grid>
-                <TextBlock Grid.Column="0" Grid.Row="6" Text="Practice Length" />
-                <!--<TextBox Grid.Column="2" Grid.Row="5" Text="{Binding PracticeLength}" />-->
-                <Grid Grid.Column="2" Grid.Row="6">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <ComboBox Grid.Column="0" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding PracticeLenghtComponents.Hours, Converter={StaticResource TimeComponentConverter}}" />
-                    <ComboBox Grid.Column="2" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding PracticeLenghtComponents.Minutes, Converter={StaticResource TimeComponentConverter}}" />
-                </Grid>
-
-                <Grid Grid.Column="2" Grid.Row="7">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Text="Hours:" />
-                    <TextBlock Grid.Column="2" Text="Minutes:" />
-                </Grid>
-                <TextBlock Grid.Column="0" Grid.Row="8" Text="Qualy Length: " />
-                <Grid Grid.Column="2" Grid.Row="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <ComboBox Grid.Column="0" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding QualyLengthComponents.Hours, Converter={StaticResource TimeComponentConverter}}" />
-                    <ComboBox Grid.Column="2" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding QualyLengthComponents.Minutes, Converter={StaticResource TimeComponentConverter}}" />
-                </Grid>
-
-                <Grid Grid.Column="2" Grid.Row="9">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Text="Hours:" />
-                    <TextBlock Grid.Column="2" Text="Minutes:" />
-                </Grid>
-                <TextBlock Grid.Column="0" Grid.Row="10" Text="Race Length:" />
-                <Grid Grid.Column="2" Grid.Row="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <ComboBox Grid.Column="0" ItemsSource="{StaticResource HoursCollection}" SelectedItem="{Binding RaceLengthComponents.Hours, Converter={StaticResource TimeComponentConverter}}" />
-                    <ComboBox Grid.Column="2" ItemsSource="{StaticResource MinutesCollection}" SelectedItem="{Binding RaceLengthComponents.Minutes, Converter={StaticResource TimeComponentConverter}}" />
-                </Grid>
-
-                <Grid.Resources>
-                    <Style TargetType="TextBox" >
-                        <Setter Property="Margin" Value="5" />
-                    </Style>
-                    <Style TargetType="ComboBox">
-                        <Setter Property="Margin" Value="5" />
-                        <Setter Property="IsEditable" Value="True" />
-                        <Setter Property="IsTextSearchEnabled" Value="True" />
-                    </Style>
-                    <Style TargetType="TextBlock" >
-                        <Setter Property="Margin" Value="5,0" />
-                    </Style>
-                    <Style TargetType="DatePicker" >
-                        <Setter Property="Margin" Value="5,0" />
-                    </Style>
-                </Grid.Resources>
-            </Grid>
-            <Grid HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*" />
-                    <ColumnDefinition Width="50*" />
-                </Grid.ColumnDefinitions>
-
-                <Grid.Resources>
-                    <Style TargetType="Button" >
-                        <Setter Property="Margin" Value="10" />
-                        <Setter Property="Padding" Value="20,5" />
-                    </Style>
-                </Grid.Resources>
-            </Grid>
-        </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

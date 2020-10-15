@@ -1,4 +1,26 @@
-﻿using System;
+﻿// MIT License
+
+// Copyright (c) 2020 Simon Schulze
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +34,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using iRLeagueManager.Controls;
 using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.Views
@@ -22,18 +44,21 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class SchedulerControl : UserControl
     {
+        private SchedulerViewModel ViewModel => DataContext as SchedulerViewModel;
+
         public SchedulerControl()
         {
             InitializeComponent();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 700;
-                editWindow.Height = 650;
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 650;
+                editWindow.Title = "Add New Session";
                 var content = new SessionEditControl();
                 var Schedule = button.DataContext as ScheduleViewModel;
 
@@ -41,22 +66,22 @@ namespace iRLeagueManager.Views
                 {
                     editVM.Schedule = Schedule;
 
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
-                        Schedule.AddSession(editVM.Model);
+                        await Schedule.AddSessionAsync(editVM.Model);
                     }
                 }
             }
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag != null)
             {
-                var editWindow = new ModalOkCancelWindow();
-                editWindow.Width = 700;
-                editWindow.Height = 650;
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 650;
                 var content = new SessionEditControl();
 
                 editWindow.Title = "Edit Session";
@@ -70,11 +95,11 @@ namespace iRLeagueManager.Views
                     editVM.Model.CopyFrom(sessionVM.Model);
                     editVM.Schedule = sessionVM.Schedule;
                     
-                    editWindow.ModalContent.Content = content;
+                    editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)
                     {
                         sessionVM.Model.CopyFrom(editVM.Model);
-                        sessionVM.SaveChanges();
+                        await sessionVM.SaveChanges();
                     }
                 }
             }
@@ -152,12 +177,38 @@ namespace iRLeagueManager.Views
 
                 content.Content = stackPanel;
 
-                editWindow.ModalContent.Content = content;
+                editWindow.ModalContent = content;
                 //editWindow.Content = content;
                 if (editWindow.ShowDialog() == true)
                 {
                     var targetSchedule = comboBox.SelectedItem as ScheduleViewModel;
                     schedulerVM.MoveSessionToSchedule(sessionVM.Model, currentScheduleVM.Model, targetSchedule.Model);
+                }
+            }
+        }
+
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = e.Source;
+
+            ScrollViewer scv = verticalContentScroll;
+            scv.RaiseEvent(eventArg);
+            e.Handled = true;
+        }
+
+        private void SchedulePanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                if (e.ClickCount >= 2)
+                {
+                    var button = element.FindName("expandButton") as IconToggleButton;
+                    if (button != null)
+                    {
+                        button.IsChecked = !button.IsChecked;
+                    }
                 }
             }
         }

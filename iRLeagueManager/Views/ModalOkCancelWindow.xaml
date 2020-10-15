@@ -1,29 +1,138 @@
-﻿<Window x:Class="iRLeagueManager.Views.ModalOkCancelWindow"
+﻿<!--MIT License
+
+Copyright (c) 2020 Simon Schulze
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.-->
+
+<Window x:Class="iRLeagueManager.Views.ModalOkCancelWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iRLeagueManager.Views"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+        xmlns:conv="clr-namespace:iRLeagueManager.Converters"
         mc:Ignorable="d"
-        Title="ModalOkCancelWindow" Height="Auto" Width="Auto">
+        Title="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ModalContent.(local:IModalContent.Header), FallbackValue='Modal Control'}" Height="Auto" Width="Auto"
+        FontFamily="{StaticResource Global.FontFamily}"
+        FontSize="{StaticResource Global.FontSizeMedium}"
+        x:Name="ModalWindow">
+    <Window.Resources>
+        <DropShadowEffect x:Key="borderDropShadow" ShadowDepth="10" BlurRadius="25" Color="Black" Opacity="0.75"/>
+        <conv:RequiredSourceValueConverter x:Key="RequiredSourceValueConverter"/>
+    </Window.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0" x:Name="ModalContent" />
-        <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Ok" x:Name="OkButton" Click="OkButton_Click"/>
-            <Button Content="Cancel" x:Name="CancelButton" Click="CancelButton_Click"/>
-            <StackPanel.Resources>
-                <Style TargetType="Button" >
-                    <Setter Property="Padding" Value="10,5" />
-                    <Setter Property="Margin" Value="10,5" />
-                    <Setter Property="TextElement.FontSize" Value="16" />
+            <Border Grid.Row="0" BorderBrush="{StaticResource ThemeColor_Back2}" BorderThickness="0,0,0,1" SnapsToDevicePixels="True">
+                <DockPanel>
+                    <!--<controls:IconButton IconContent="{StaticResource closeThick}" DockPanel.Dock="Right" Margin="5,8"
+                                                 IconMargin="-2,-4,2,0" CornerRadius="5" Padding="6,8"
+                                                 Foreground="White" Click="CancelButton_Click" ToolTip="Close Window">
+                        <controls:IconButton.Style>
+                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource ThemeColor_CloseBackground}"/>
+                                        <Setter Property="IconFill" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconButton.Style>
+
+                    </controls:IconButton>-->
+                    <controls:IconButton DockPanel.Dock="Right" Margin="5,8"
+                                                 CornerRadius="5"
+                                                 Foreground="White" Click="ReAttachButton_Click" ToolTip="ReAttach Window">
+                        <controls:IconButton.IconContent>
+                            <fa:ImageAwesome Icon="LevelDown"  Height="25"/>
+                        </controls:IconButton.IconContent>
+                        <controls:IconButton.Style>
+                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource ThemeColor_CloseBackground}"/>
+                                        <Setter Property="IconFill" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconButton.Style>
+                    </controls:IconButton>
+                    <TextBlock DockPanel.Dock="Left" Margin="25,8" FontSize="{StaticResource MediumHeader.FontSize}" FontWeight="Bold"
+                                       FontFamily="{StaticResource Global.FontFamily}">
+                        <TextBlock.Text>
+                            <PriorityBinding>
+                                <Binding ElementName="ModalWindow" Path="ModalContent.(local:IModalContent.Header)" Converter="{StaticResource RequiredSourceValueConverter}" UpdateSourceTrigger="PropertyChanged"/>
+                                <Binding Path="Title"/>
+                            </PriorityBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DockPanel>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=ModalWindow, Path=ShowHeader}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <ScrollViewer Grid.Row="1" Template="{StaticResource ContentScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto" Margin="1,0">
+                <ContentControl x:Name="ModalContentControl" Content="{Binding ModalContent, ElementName=ModalWindow}"/>
+            </ScrollViewer>
+            <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"/>
+                <Button Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
+                <StackPanel.Resources>
+                    <Style TargetType="Button" >
+                        <Setter Property="Padding" Value="10,5" />
+                        <Setter Property="Margin" Value="10,5" />
+                        <Setter Property="TextElement.FontSize" Value="16" />
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+        </Grid>
+        <Grid>
+            <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="DarkGray" Opacity="0.5"/>
+            <fa:ImageAwesome Icon="CircleOutlineNotch" Height="60" Width="60" Spin="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#353535"/>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.IsLoading), FallbackValue=False}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
-            </StackPanel.Resources>
-        </StackPanel>
+            </Grid.Style>
+        </Grid>
     </Grid>
 </Window>
