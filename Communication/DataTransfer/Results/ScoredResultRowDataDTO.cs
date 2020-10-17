@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using iRLeagueDatabase.DataTransfer.Reviews;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
@@ -46,6 +47,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int FinalPosition { get; set; }
         [DataMember]
         public int FinalPositionChange { get; set; }
+        [DataMember]
+        public ReviewPenaltyDTO[] ReviewPenalties { get; set; }
 
         public override object MappingId => ScoredResultRowId;
 

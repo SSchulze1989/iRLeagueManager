@@ -861,6 +861,52 @@ SOFTWARE.-->
                                     <DataGridTextColumn.CellStyle>
                                         <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}">
                                             <Setter Property="Foreground" Value="Red"/>
+                                            <Setter Property="ToolTip">
+                                                <Setter.Value>
+                                                    <ToolTip Placement="Relative" VerticalOffset="30">
+                                                        <ItemsControl ItemsSource="{Binding ReviewPenalties}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Vertical"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate DataType="{x:Type vmodel:ReviewPenaltyViewModel}">
+                                                                    <TextBlock>
+                                                                        <TextBlock.Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="Text">
+                                                                                    <Setter.Value>
+                                                                                        <MultiBinding StringFormat="{}#{0} | {1}: -{2} pts.">
+                                                                                            <Binding Path="IncidentNr"/>
+                                                                                            <Binding Path="VoteCategory.Text" FallbackValue="(category not found)"/>
+                                                                                            <Binding Path="PenaltyPoints"/>
+                                                                                        </MultiBinding>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </Style>
+                                                                        </TextBlock.Style>
+                                                                    </TextBlock>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                        <ToolTip.Style>
+                                                            <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                <Setter Property="StaysOpen" Value="True"/>
+                                                                <Setter Property="Background" Value="{StaticResource ThemeColor_Yellow}"/>
+                                                                <Setter Property="ToolTipService.InitialShowDelay" Value="3000"/>
+                                                                <Setter Property="ToolTipService.BetweenShowDelay" Value="2000"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding ReviewPenalties.Count}" Value="0">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ToolTip.Style>
+                                                    </ToolTip>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding PenaltyPoints}" Value="0">
                                                     <Setter Property="Foreground" Value="Black"/>

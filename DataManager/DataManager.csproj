@@ -151,6 +151,7 @@
     <Compile Include="Models\Reviews\IncidentReviewInfo.cs" />
     <Compile Include="Models\Reviews\IncidentReviewModel.cs" />
     <Compile Include="Models\Reviews\ReviewCommentModel.cs" />
+    <Compile Include="Models\Reviews\ReviewPenaltyModel.cs" />
     <Compile Include="Models\Reviews\ReviewVoteModel.cs" />
     <Compile Include="Models\Reviews\VoteCategoryModel.cs" />
     <Compile Include="Models\SeasonModel.cs" />
