@@ -158,6 +158,8 @@
     <Compile Include="ViewModels\HoursCollection.cs" />
     <Compile Include="ViewModels\IContainerModelBase.cs" />
     <Compile Include="ViewModels\IncidentReviewViewModel.cs" />
+    <Compile Include="ViewModels\IPageViewModel.cs" />
+    <Compile Include="ViewModels\ISeasonPageViewModel.cs" />
     <Compile Include="ViewModels\LeagueContainerModel.cs" />
     <Compile Include="ViewModels\LocationCollection.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\ReviewCommentViewModel.cs" />
     <Compile Include="ViewModels\ReviewNavBarViewModel.cs" />
+    <Compile Include="ViewModels\ReviewPenaltyViewModel.cs" />
     <Compile Include="ViewModels\ReviewsPageViewModel.cs" />
     <Compile Include="ViewModels\SchedulerViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />

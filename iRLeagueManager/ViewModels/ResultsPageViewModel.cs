@@ -40,7 +40,7 @@ using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class ResultsPageViewModel : ViewModelBase
+    public class ResultsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
         //private ScheduleVMCollection scheduleList;
         //public ScheduleVMCollection ScheduleList

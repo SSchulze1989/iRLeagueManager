@@ -34,17 +34,17 @@ namespace iRLeagueManager
     public class MyKeyValuePair : INotifyPropertyChanged
     {
         private object key;
-        public object Key { get => key; protected set { key = value; OnPropertyChanged(); } }
+        public object KeyObject { get => key; protected set { key = value; OnPropertyChanged(); } }
 
         private object value;
-        public object Value { get => value; set { this.value = value; OnPropertyChanged(); } }
+        public object ValueObject { get => value; set { this.value = value; OnPropertyChanged(); } }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MyKeyValuePair(object key, object value)
         {
-            Key = key;
-            Value = value;
+            KeyObject = key;
+            ValueObject = value;
         }
         protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")
         {
@@ -53,8 +53,8 @@ namespace iRLeagueManager
     }
     public class MyKeyValuePair<TKey, TValue> : MyKeyValuePair, INotifyPropertyChanged
     {
-        public new TKey Key { get => (TKey)base.Key; set { base.Key = value; } }
-        public new TValue Value { get => (TValue)base.Value; set { base.Value = value; } }
+        public TKey Key { get => (TKey)base.KeyObject; set { base.KeyObject = value; } }
+        public TValue Value { get => (TValue)base.ValueObject; set { base.ValueObject = value; } }
 
         public MyKeyValuePair(TKey key, TValue value) : base(key, value) { }
     }

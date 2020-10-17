@@ -57,7 +57,7 @@ namespace iRLeagueManager.ViewModels
         //public LoginViewModel UserLogin { get => userLogin; set => SetValue(ref userLogin, value); }
 
         private UserViewModel currentUser;
-        public new UserViewModel CurrentUser
+        public UserViewModel CurrentUser
         {
             get
             {
@@ -99,9 +99,12 @@ namespace iRLeagueManager.ViewModels
                 if (SetValue(ref selectedSeason, value) && selectedSeason?.SeasonId != null)
                 {
                     CurrentSeason.Load(selectedSeason);
+                    SeasonChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
+
+        public event EventHandler SeasonChanged;
 
         public SeasonViewModel CurrentSeason { get; }
 

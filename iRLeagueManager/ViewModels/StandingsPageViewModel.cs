@@ -35,7 +35,7 @@ using System.Windows.Input;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class StandingsPageViewModel : ViewModelBase
+    public class StandingsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
         private SeasonModel season;
 

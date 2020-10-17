@@ -36,10 +36,12 @@ SOFTWARE.-->
     <sys:Double x:Key="MediumHeader.FontSize">27</sys:Double>
     <sys:Double x:Key="SmallHeader.Fontsize">18</sys:Double>
 
-    <FontFamily x:Key="Global.FontFamily">Bahnschrift</FontFamily>
+    <FontFamily x:Key="Global.FontFamily">Trebuchet MS</FontFamily>
+    <!--<FontFamily x:Key="Global.FontFamily">Bahnschrift</FontFamily>-->
     <sys:Double x:Key="Global.FontSizeLarge">20</sys:Double>
-    <sys:Double x:Key="Global.FontSizeMedium">16</sys:Double>
-    <sys:Double x:Key="Global.FontSizeSmall">14</sys:Double>
+    <sys:Double x:Key="Global.FontSizeMedium">15</sys:Double>
+    <sys:Double x:Key="Global.FontSizeSmallMedium">13.5</sys:Double>
+    <sys:Double x:Key="Global.FontSizeSmall">12</sys:Double>
 
     <sys:Double x:Key="Menu.FontSizeLarge">18</sys:Double>
     <FontFamily x:Key="Menu.FontFamily">pack://application,,,/Fonts/#Formula1 Display Regular</FontFamily>
@@ -62,6 +64,9 @@ SOFTWARE.-->
     <SolidColorBrush x:Key="ThemeColor_Back2" Color="#d6dbdf"/>
     <SolidColorBrush x:Key="ThemeColor_Back1" Color="#ebedef"/>
     <SolidColorBrush x:Key="ThemeColor_Back0" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ThemeColor_TableBorder" Color="Gray"/>
+    <SolidColorBrush x:Key="ThemeColor_TableVerticalGrid" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ThemeColor_TableHorizontalGrid" Color="DarkGray"/>
 
     <!-- Override System Values-->
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowColorKey}" Color="Red"/>
@@ -947,6 +952,8 @@ SOFTWARE.-->
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource ThemeColor_TableHorizontalGrid}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource ThemeColor_TableVerticalGrid}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
