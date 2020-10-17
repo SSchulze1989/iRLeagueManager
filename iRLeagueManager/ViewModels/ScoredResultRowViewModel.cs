@@ -32,12 +32,18 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
 using System.Windows.Input;
 using iRLeagueManager.Locations;
+using iRLeagueManager.ViewModels.Collections;
+using iRLeagueManager.Models.Reviews;
+using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
     public class ScoredResultRowViewModel : LeagueContainerModel<ScoredResultRowModel>
     {
         protected override ScoredResultRowModel Template => new ScoredResultRowModel();
+
+        private ScoredResultModel result;
+        public ScoredResultModel Result { get => result; set => SetValue(ref result, value); }
 
         public ICommand AddPenaltyCmd { get; }
         public ICommand StartEditPenaltyCmd { get; }
@@ -81,8 +87,22 @@ namespace iRLeagueManager.ViewModels
 
         private AddPenaltyModel addPenalty;
         public AddPenaltyModel AddPenalty { get => addPenalty; set => SetValue(ref addPenalty, value); }
+        
         private bool isPenaltyEdit;
         public bool IsPenaltyEdit { get => isPenaltyEdit; set => SetValue(ref isPenaltyEdit, value); }
+
+        private ObservableModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel> reviewPenalties;
+        public ICollectionView ReviewPenalties
+        {
+            get
+            {
+                if (reviewPenalties.GetSource() != Model.ReviewPenalties)
+                {
+                    reviewPenalties.UpdateSource(Model.ReviewPenalties);
+                }
+                return reviewPenalties.CollectionView;
+            }
+        }
 
         public ScoredResultRowViewModel()
         {
@@ -90,6 +110,7 @@ namespace iRLeagueManager.ViewModels
             StartEditPenaltyCmd = new RelayCommand(o => StartEditRowPenalty(), o => AddPenalty != null);
             EndEditPenaltyCmd = new RelayCommand(async o => await EndEditRowPenalty(), o => AddPenalty != null);
             DeletePenaltyCmd = new RelayCommand(async o => await DeleteRowPenalty(), o => AddPenalty != null);
+            reviewPenalties = new ObservableModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel>();
         }
 
         public override async void OnUpdateSource()

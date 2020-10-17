@@ -861,6 +861,31 @@ SOFTWARE.-->
                                     <DataGridTextColumn.CellStyle>
                                         <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}">
                                             <Setter Property="Foreground" Value="Red"/>
+                                            <Setter Property="ToolTip">
+                                                <Setter.Value>
+                                                    <ToolTip>
+                                                        <ItemsControl>
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Vertical"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate DataType="{x:Type vmodel:IncidentReviewViewModel}">
+                                                                    <TextBlock>
+                                                                        <TextBlock.Text>
+                                                                            <MultiBinding StringFormat="{}- {0}: -{1} pts.">
+                                                                                <Binding Path="VoteCategory.Text"/>
+                                                                                <Binding Path="PenaltyPoints"/>
+                                                                            </MultiBinding>
+                                                                        </TextBlock.Text>
+                                                                    </TextBlock>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ToolTip>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding PenaltyPoints}" Value="0">
                                                     <Setter Property="Foreground" Value="Black"/>
