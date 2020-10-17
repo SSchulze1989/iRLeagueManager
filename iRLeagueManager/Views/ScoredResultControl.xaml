@@ -849,7 +849,13 @@ SOFTWARE.-->
                                         <TextBlock Text="Bonus Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;+#;-}}" IsReadOnly="True" Width="50" MinWidth="50">
+                                <DataGridTextColumn IsReadOnly="True" Width="50" MinWidth="50">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding StringFormat="{}{0:-#;#;-} {1:[#];[#];''}">
+                                            <Binding Path="PenaltyPoints"/>
+                                            <Binding Path="ReviewPenalties.Count"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
