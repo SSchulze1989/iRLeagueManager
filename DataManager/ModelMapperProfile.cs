@@ -477,6 +477,11 @@ namespace iRLeagueManager
                 .ConstructUsing(src => ModelCache.PutOrGetModel(new CustomIncidentModel() { IncidentId = src.IncidentId }))
                 .EqualityComparison((src, dest) => src.IncidentId == dest.IncidentId)
                 .ReverseMap();
+
+            CreateMap<ReviewPenaltyDTO, ReviewPenaltyModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new ReviewPenaltyModel() { ResultRowId = src.ResultRowId, ReviewId = src.ReviewId }))
+                .EqualityComparison((src, dest) => src.ResultRowId == dest.ResultRowId && src.ReviewId == dest.ReviewId)
+                .ReverseMap();
         }
 
         private void SortObservableCollection<T, TKey>(ObservableCollection<T> collection, Func<T, TKey> key)

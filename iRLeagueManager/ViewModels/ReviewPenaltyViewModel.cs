@@ -16,12 +16,12 @@ namespace iRLeagueManager.ViewModels
         public ReviewVoteModel ReviewVote => Model.ReviewVote;
         public VoteCategoryModel VoteCategory => Model.ReviewVote?.VoteCategory;
         public LeagueMember Member => Model.ReviewVote?.MemberAtFault;
+        public string IncidentNr => Model.IncidentNr;
 
         protected override ReviewPenaltyModel Template => new ReviewPenaltyModel();
 
         public ReviewPenaltyViewModel()
         {
-
         }
     }
 }

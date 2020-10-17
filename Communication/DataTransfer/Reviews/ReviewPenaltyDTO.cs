@@ -18,6 +18,8 @@ namespace iRLeagueDatabase.DataTransfer.Reviews
         public int PenaltyPoints { get; set; }
         [DataMember]
         public ReviewVoteDataDTO ReviewVote { get; set; }
+        [DataMember]
+        public string IncidentNr { get; set; }
 
         public override object[] Keys => new object[] { ResultRowId, ReviewId };
     }

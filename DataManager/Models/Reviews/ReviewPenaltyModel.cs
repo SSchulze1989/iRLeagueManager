@@ -20,6 +20,9 @@ namespace iRLeagueManager.Models.Reviews
         private ReviewVoteModel reviewVote;
         public ReviewVoteModel ReviewVote { get => reviewVote; set => SetValue(ref reviewVote, value); }
 
+        private string incidentNr;
+        public string IncidentNr { get => incidentNr; set => SetValue(ref incidentNr, value); }
+
         public override long[] ModelId => new long[] { ResultRowId, ReviewId };
     }
 }
