@@ -58,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\EqualtyCheckPropertyAttribute.cs" />
+    <Compile Include="DataTransfer\Filters\FilterValueBaseDTO.cs" />
+    <Compile Include="DataTransfer\Filters\IntFilterValue.cs" />
+    <Compile Include="DataTransfer\Filters\ResultsFilterOptionDTO.cs" />
+    <Compile Include="DataTransfer\Filters\StringFilterValueDTO.cs" />
     <Compile Include="DataTransfer\IMappableDTO.cs" />
     <Compile Include="DataTransfer\LeagueDTOBase.cs" />
     <Compile Include="DataTransfer\MappableDTO.cs" />
@@ -121,6 +125,8 @@
     <Compile Include="Enums\VoteEnum.cs" />
     <Compile Include="Enums\VoteState.cs" />
     <Compile Include="Enums\WeekDaysFlag.cs" />
+    <Compile Include="Extensions\NestedPropertyInfo.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Filters\ColumnPropertyFilterDescription.cs" />
     <Compile Include="Filters\IResultsFilterDescription.cs" />
     <Compile Include="Filters\MemberListFilterDescription.cs" />

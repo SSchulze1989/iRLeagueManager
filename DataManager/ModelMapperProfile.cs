@@ -51,6 +51,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using System.Globalization;
 using System.Security.Cryptography;
+using iRLeagueDatabase.DataTransfer.Filters;
+using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.Extensions;
+using System.Web.Hosting;
 
 namespace iRLeagueManager
 {
@@ -482,6 +486,30 @@ namespace iRLeagueManager
                 .ConstructUsing(src => ModelCache.PutOrGetModel(new ReviewPenaltyModel() { ResultRowId = src.ResultRowId, ReviewId = src.ReviewId }))
                 .EqualityComparison((src, dest) => src.ResultRowId == dest.ResultRowId && src.ReviewId == dest.ReviewId)
                 .ReverseMap();
+
+            CreateMap<ResultsFilterOptionDTO, ResultsFilterOptionModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new ResultsFilterOptionModel(src.ResultsFilterId, src.ScoringId)))
+                .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId && src.ResultsFilterId == dest.ResultsFilterId)
+                .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var targetColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(dest.ColumnPropertyName);
+                    var sourceColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(src.ColumnPropertyName);
+                    var targetPropertyType = targetColumnProperty.PropertyType;
+                    var sourcePropertyType = sourceColumnProperty.PropertyType;
+                    return new ObservableCollection<object>(src.FilterValues
+                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x));
+                }))
+                .ReverseMap()
+                .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var targetColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(dest.ColumnPropertyName);
+                    var sourceColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(src.ColumnPropertyName);
+                    var targetPropertyType = targetColumnProperty.PropertyType;
+                    var sourcePropertyType = sourceColumnProperty.PropertyType;
+                    return src.FilterValues
+                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x)
+                        .ToArray();
+                }));
         }
 
         private void SortObservableCollection<T, TKey>(ObservableCollection<T> collection, Func<T, TKey> key)

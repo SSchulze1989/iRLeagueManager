@@ -64,6 +64,8 @@ namespace iRLeagueManager.Models.Results
         public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
         ILeagueMember IResultRow.Member => Member;
 
+        public string TeamName => Member?.Team?.Name;
+
         public long? MemberId { get => Member?.MemberId; }
 
         private int carNumber;
@@ -80,6 +82,9 @@ namespace iRLeagueManager.Models.Results
 
         public int completedLaps;
         public int CompletedLaps { get => completedLaps; set { completedLaps = value; OnPropertyChanged(); } }
+
+        private double completedPct;
+        public double CompletedPct { get => completedPct; set => SetValue(ref completedPct, value); }
 
         private int leadLaps;
         public int LeadLaps { get => leadLaps; set { leadLaps = value; OnPropertyChanged(); } }

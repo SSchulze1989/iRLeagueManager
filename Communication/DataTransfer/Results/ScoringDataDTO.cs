@@ -31,6 +31,7 @@ using System.Runtime.Serialization;
 using iRLeagueManager.Enums;
 using iRLeagueDatabase.DataTransfer.Sessions;
 using iRLeagueDatabase.DataTransfer.Members;
+using iRLeagueDatabase.DataTransfer.Filters;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
@@ -77,6 +78,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public ScoringInfoDTO ExtScoringSource { get; set; }
         [DataMember]
         public bool TakeResultsFromExtSource { get; set; }
+        [DataMember]
+        public long[] ResultsFilterOptionIds { get; set; }
 
         public ScoringDataDTO() { }
     }

@@ -111,6 +111,7 @@
     <Compile Include="ModelDictionary.cs" />
     <Compile Include="ModelIdentifier.cs" />
     <Compile Include="Data\IActionProvider.cs" />
+    <Compile Include="Models\Filters\ResultsFilterOptionModel.cs" />
     <Compile Include="Models\ICacheableModel.cs" />
     <Compile Include="Models\IModelCache.cs" />
     <Compile Include="Models\IModelManager.cs" />
