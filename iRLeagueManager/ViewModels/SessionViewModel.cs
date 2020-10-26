@@ -192,7 +192,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                await parserService.ReadStreamAsync(new StreamReader(stream, Encoding.Default));
+                await parserService.ReadStreamAsync(new StreamReader(stream, Encoding.UTF8));
             }
             catch (Exception e)
             {
@@ -230,7 +230,8 @@ namespace iRLeagueManager.ViewModels
                 if (session.SessionResult != null)
                 {
                     result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
-                    await LeagueContext.DeleteModelsAsync(result.RawResults.ToArray());
+                    resultRows = result.RawResults.MapToCollection(resultRows);                    
+                    await LeagueContext.DeleteModelsAsync(result.RawResults.Except(resultRows).ToArray());
                     resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
                     resultRows = (await LeagueContext.AddModelsAsync(resultRows.ToArray()));
                     result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);

@@ -146,7 +146,7 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int WarmupGripCompound { get; set; }
         [DataMember]
         public int RaceGripCompound { get; set; }
-
+        [DataMember]
         public IEnumerable<ResultRowDataDTO> RawResults { get; set; }
         [DataMember]
         public IEnumerable<IncidentReviewInfoDTO> Reviews { get; set; }
