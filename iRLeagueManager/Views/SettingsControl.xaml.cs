@@ -175,12 +175,13 @@ namespace iRLeagueManager.Views
             }
         }
 
-        private void EditFiltersButton_Click(object sender, RoutedEventArgs e)
+        private async void EditFiltersButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is ScoringViewModel scoringViewModel)
             {
                 var editWindow = EditPanel;
                 var filterEdit = new FiltersEditControl();
+                await filterEdit.ViewModel.Load(scoringViewModel.Model);
                 editWindow.ModalContent = filterEdit;
 
                 editWindow.ShowDialog();

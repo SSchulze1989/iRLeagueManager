@@ -174,7 +174,7 @@
             </ListView>
             <controls:IconButton IconContent="{StaticResource PlusThick}" IconFill="Green" Foreground="{StaticResource ThemeColor_Back3}"
                                  CornerRadius="5" HorizontalAlignment="Left" IconMargin="0,-2,0,2"
-                                 Content="Add Filter"/>
+                                 Content="Add Filter" Command="{Binding AddFilterCmd}"/>
         </StackPanel>
 
         <!--<ItemsControl>

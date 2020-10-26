@@ -23,7 +23,7 @@ namespace iRLeagueManager.Views
     /// </summary>
     public partial class FiltersEditControl : UserControl, IModalContent
     {
-        private FilterEditViewModel ViewModel => DataContext as FilterEditViewModel;
+        public FilterEditViewModel ViewModel => DataContext as FilterEditViewModel;
 
         public string Header { get; set; } = "Edit results Filters";
 
@@ -72,7 +72,12 @@ namespace iRLeagueManager.Views
 
         public async Task<bool> OnSubmitAsync()
         {
-            return ViewModel != null && this.IsValid();
+            if (ViewModel == null || this.IsValid() == false)
+            {
+                return false;
+            }
+            await ViewModel.SaveChanges();
+            return true;
         }
 
         private void Comparator_SelectionChanged(object sender, SelectionChangedEventArgs e)
