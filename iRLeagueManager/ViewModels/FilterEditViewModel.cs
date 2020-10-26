@@ -18,14 +18,30 @@ namespace iRLeagueManager.ViewModels
     {
         private ScoringModel Scoring { get; set; }
 
+        private List<ResultsFilterOptionModel> filterOptionsSource;
+        private List<ResultsFilterOptionModel> FilterOptionsSource
+        {
+            get => filterOptionsSource;
+            set
+            {
+                if (SetValue(ref filterOptionsSource, value))
+                {
+                    resultsFilterOptions.UpdateSource(value);
+                }
+            }
+        }
         private readonly ObservableModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel> resultsFilterOptions;
         public ICollectionView ResultsFilterOptions => resultsFilterOptions.CollectionView;
         public IEnumerable<string> FilterTypes { get; }
         public IEnumerable<string> FilterProperties { get; }
 
         public ICommand RemoveFilterCmd { get; }
+        public ICommand AddFilterCmd { get; }
 
         public event ActionDialogEventHandler<FilterEditViewModel> ViewOpenActionDialog;
+
+        private List<ResultsFilterOptionModel> addFilters { get; } = new List<ResultsFilterOptionModel>();
+        private List<ResultsFilterOptionModel> removeFilters { get; } = new List<ResultsFilterOptionModel>();
 
         public FilterEditViewModel()
         {
@@ -47,17 +63,19 @@ namespace iRLeagueManager.ViewModels
                     FilterValues = new System.Collections.ObjectModel.ObservableCollection<object>(new string[] { "Test", "Test2"} )
                 }
             };
-            resultsFilterOptions.UpdateSource(filters);
+            //resultsFilterOptions.UpdateSource(filters);
+            FilterOptionsSource = filters;
 
+            AddFilterCmd = new RelayCommand(o => AddFilter(), o => Scoring != null);
             RemoveFilterCmd = new RelayCommand(async o =>
             {
                 if (ViewOpenActionDialog != null)
                 {
-                    ViewOpenActionDialog.Invoke(this, "Delete Filter", "Really delete Filter?", async x => await x.RemoveFilter(((ResultsFilterOptionViewModel)o).Model));
+                    ViewOpenActionDialog.Invoke(this, "Delete Filter", "Really delete Filter?", x => x.RemoveFilter(((ResultsFilterOptionViewModel)o).Model));
                 }
                 else
                 {
-                    await RemoveFilter(((ResultsFilterOptionViewModel)o).Model);
+                    RemoveFilter(((ResultsFilterOptionViewModel)o).Model);
                 }
             }, o => o != null && o is ResultsFilterOptionViewModel);
         }
@@ -87,7 +105,7 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public async Task AddFilter()
+        public void AddFilter()
         {
             if (Scoring == null)
             {
@@ -103,7 +121,9 @@ namespace iRLeagueManager.ViewModels
                     ColumnPropertyName = FilterProperties.First(),
                     Comparator = Enums.ComparatorTypeEnum.IsEqual
                 };
-                await LeagueContext.AddModelAsync(newFilter);
+                //await LeagueContext.AddModelAsync(newFilter);
+                addFilters.Add(newFilter);
+                FilterOptionsSource.Add(newFilter);
             }
             catch (Exception e)
             {
@@ -113,15 +133,27 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-            await Load(Scoring);
         }
 
-        public async Task RemoveFilter(ResultsFilterOptionModel filter)
+        public void RemoveFilter(ResultsFilterOptionModel filter)
         {
             try
             {
                 IsLoading = true;
-                await LeagueContext.DeleteModelAsync<ResultsFilterOptionModel>(filter.ModelId);
+                //await LeagueContext.DeleteModelAsync<ResultsFilterOptionModel>(filter.ModelId);
+                if (addFilters.Contains(filter))
+                {
+                    addFilters.Remove(filter);
+                }
+                else if (removeFilters.Contains(filter) == false)
+                {
+                    removeFilters.Add(filter);
+                }
+
+                if (FilterOptionsSource.Contains(filter))
+                {
+                    FilterOptionsSource.Remove(filter);
+                }
             }
             catch (Exception e)
             {
@@ -131,7 +163,34 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-            await Load(Scoring);
+        }
+
+        public async Task<bool> SaveChanges()
+        {
+            if (Scoring == null)
+            {
+                return true;
+            }
+
+            try
+            {
+                IsLoading = true;
+                List<Task> taskList = new List<Task>();
+                taskList.Add(LeagueContext.AddModelsAsync(addFilters.ToArray()));
+                taskList.Add(LeagueContext.DeleteModelsAsync(removeFilters.ToArray()));
+                await Task.WhenAll(taskList.ToArray());
+                await LeagueContext.UpdateModelAsync(Scoring);
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            return true;
         }
     }
 }
