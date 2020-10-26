@@ -82,6 +82,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public int CompletedLaps { get; set; }
         [DataMember]
+        public double CompletedPct { get; set; }
+        [DataMember]
         public int LeadLaps { get; set; }
         [DataMember]
         public int FastLapNr { get; set; }

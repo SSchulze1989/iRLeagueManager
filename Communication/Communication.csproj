@@ -58,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\EqualtyCheckPropertyAttribute.cs" />
+    <Compile Include="DataTransfer\Filters\FilterValueBaseDTO.cs" />
+    <Compile Include="DataTransfer\Filters\IntFilterValue.cs" />
+    <Compile Include="DataTransfer\Filters\ResultsFilterOptionDTO.cs" />
+    <Compile Include="DataTransfer\Filters\StringFilterValueDTO.cs" />
     <Compile Include="DataTransfer\IMappableDTO.cs" />
     <Compile Include="DataTransfer\LeagueDTOBase.cs" />
     <Compile Include="DataTransfer\MappableDTO.cs" />
@@ -87,6 +91,7 @@
     <Compile Include="DataTransfer\Reviews\CommentDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CommentInfoDTO.cs" />
     <Compile Include="DataTransfer\Reviews\CustomIncidentDTO.cs" />
+    <Compile Include="DataTransfer\Reviews\ReviewPenaltyDTO.cs" />
     <Compile Include="DataTransfer\Reviews\VoteCategoryDTO.cs" />
     <Compile Include="DataTransfer\Reviews\IncidentReviewDataDTO.cs" />
     <Compile Include="DataTransfer\Reviews\IncidentReviewInfoDTO.cs" />
@@ -105,6 +110,7 @@
     <Compile Include="DataTransfer\VersionDTO.cs" />
     <Compile Include="DataTransfer\VersionInfoDTO.cs" />
     <Compile Include="Enums\AdminRights.cs" />
+    <Compile Include="Enums\ComparatorTypeEnum.cs" />
     <Compile Include="Enums\DatabaseStatusEnum.cs" />
     <Compile Include="Enums\ConnectionStatusEnum.cs" />
     <Compile Include="Enums\DropRacesOption.cs" />
@@ -119,7 +125,12 @@
     <Compile Include="Enums\VoteEnum.cs" />
     <Compile Include="Enums\VoteState.cs" />
     <Compile Include="Enums\WeekDaysFlag.cs" />
+    <Compile Include="Extensions\NestedPropertyInfo.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Filters\ColumnPropertyFilterDescription.cs" />
     <Compile Include="Filters\IResultsFilterDescription.cs" />
+    <Compile Include="Filters\MemberListFilterDescription.cs" />
+    <Compile Include="Filters\SeasonStartIRatingFilterDescription.cs" />
     <Compile Include="Interfaces\IAdmin.cs" />
     <Compile Include="Interfaces\IAdminData.cs" />
     <Compile Include="Interfaces\IComment.cs" />

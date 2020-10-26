@@ -37,7 +37,8 @@ SOFTWARE.-->
         mc:Ignorable="d"
         WindowState="Normal" Height="800" Width="1400" Background="White"
         FontFamily="{StaticResource Global.FontFamily}"
-        FontSize="{StaticResource Global.FontSizeMedium}">
+        FontSize="{StaticResource Global.FontSizeMedium}"
+        ClipToBounds="False">
 
     <Window.Resources>
         <conv:ToUpperConverter x:Key="ToUpperConverter"/>
@@ -175,15 +176,39 @@ SOFTWARE.-->
     <Window.DataContext>
         <vmodel:MainWindowViewModel/>
     </Window.DataContext>
-    
+
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="Topmost" Value="{Binding ElementName=AlwaysOnTopToggle, Path=IsChecked}"/>
+        </Style>
+    </Window.Style>
+
     <Grid>
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_DarkBlue}">
-                <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
+                <DockPanel>
+                    <controls:IconToggleButton DockPanel.Dock="Right" VerticalAlignment="Stretch" Background="Transparent" Foreground="{StaticResource ThemeColor_Back0}"
+                                               IconMargin="5" ToolTip="Always on Top" x:Name="AlwaysOnTopToggle">
+                        <controls:IconToggleButton.IconContent>
+                            <fa:ImageAwesome Icon="ThumbTack" Width="15"/>
+                        </controls:IconToggleButton.IconContent>
+                        <controls:IconToggleButton.Style>
+                            <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
+                                <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back3}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back0}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconToggleButton.Style>
+                    </controls:IconToggleButton>
+                    <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
                            HorizontalAlignment="Center" 
                            Margin="15,0"/>
+                </DockPanel>
             </Grid>
             <DockPanel DockPanel.Dock="Bottom">
                 <Grid DockPanel.Dock="Bottom" Height="30" Background="{StaticResource ThemeColor_Back2}">
@@ -309,6 +334,16 @@ SOFTWARE.-->
                             <Setter Property="BorderThickness" Value="0,0,0,0" />
                         </Style>
                     </StackPanel.Resources>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                 </StackPanel>
 
                 <Grid VerticalAlignment="Bottom">

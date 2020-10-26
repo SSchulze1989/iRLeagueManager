@@ -82,9 +82,10 @@ namespace iRLeagueManager.Views
                         Close();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
                     ViewModel.StatusMessage = "Login failed - could not connect to Server.";
+                    GlobalSettings.LogError(ex);
                 }
             }
         }

@@ -32,6 +32,7 @@ using iRLeagueManager.Attributes;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Locations;
+using iRLeagueManager.Models.Reviews;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -122,6 +123,9 @@ namespace iRLeagueManager.Models.Results
 
         private DateTime date;
         public DateTime Date { get => date; set => SetValue(ref date, value); }
+
+        private List<ReviewPenaltyModel> reviewPenalties;
+        public List<ReviewPenaltyModel> ReviewPenalties { get => reviewPenalties; internal set => SetValue(ref reviewPenalties, value); }
 
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 

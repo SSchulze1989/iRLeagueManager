@@ -38,6 +38,7 @@ using System.Collections.ObjectModel;
 
 using iRLeagueManager.ViewModels;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics.Eventing.Reader;
 
 namespace iRLeagueManager.Views
 {
@@ -171,6 +172,18 @@ namespace iRLeagueManager.Views
                     ViewModel.DeleteScoringTable(scoringTableViewModel.Model);
                 }
                 e.Handled = true;
+            }
+        }
+
+        private void EditFiltersButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is ScoringViewModel scoringViewModel)
+            {
+                var editWindow = EditPanel;
+                var filterEdit = new FiltersEditControl();
+                editWindow.ModalContent = filterEdit;
+
+                editWindow.ShowDialog();
             }
         }
     }

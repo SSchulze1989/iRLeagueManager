@@ -37,6 +37,7 @@ using System.ComponentModel;
 using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
 using iRLeagueManager.Enums;
+using iRLeagueManager.Models.Filters;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -60,6 +61,7 @@ namespace iRLeagueManager.ViewModels
         public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
         public ScoringInfo ExtScoringSource { get => Model.ExtScoringSource; set => Model.ExtScoringSource = value; }
         public bool TakeResultsFromExtSource { get => Model.TakeResultsFromExtSource; set => Model.TakeResultsFromExtSource = value; }
+        public ObservableCollection<long> ResultsFilterOptionIds => Model.ResultsFilterOptionIds;
 
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList

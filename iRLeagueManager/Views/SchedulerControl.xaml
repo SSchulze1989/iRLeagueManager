@@ -201,7 +201,9 @@ SOFTWARE.-->
                                                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                                                       ScrollViewer.CanContentScroll="False" PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                                                       AlternatingRowBackground="{StaticResource ThemeColor_Back0}"
-                                                                      AlternationCount="2" x:Name="SessionDataGrid">
+                                                                      AlternationCount="2" x:Name="SessionDataGrid"
+                                                                      HorizontalGridLinesBrush="{StaticResource ThemeColor_TableBorder}"
+                                                                      VerticalGridLinesBrush="{StaticResource ThemeColor_TableBorder}">
                                                                 <DataGrid.CellStyle>
                                                                     <Style TargetType="DataGridCell">
                                                                         <Setter Property="Padding" Value="4,0"/>

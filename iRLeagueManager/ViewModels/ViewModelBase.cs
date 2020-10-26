@@ -42,7 +42,7 @@ namespace iRLeagueManager.ViewModels
     {
         protected LeagueContext LeagueContext => GlobalSettings.LeagueContext;
 
-        public UserModel CurrentUser => LeagueContext?.UserManager?.CurrentUser;
+        public UserModel CurrentUserModel => LeagueContext?.UserManager?.CurrentUser;
 
         private bool isLoading = false;
         public bool IsLoading { get => isLoading; protected set => SetValue(ref isLoading, value); }
@@ -54,6 +54,8 @@ namespace iRLeagueManager.ViewModels
 
         private bool suppressPropertyChangedEvent;
         protected bool SuppressPropertyChangedEvent { get => suppressPropertyChangedEvent; set => SetValue(ref suppressPropertyChangedEvent, value); }
+
+        public delegate void ActionDialogEventHandler<T>(T sender, string title, string message, Action<T> okAction);
 
         public ICommand RefreshCmd { get; protected set; }
 
