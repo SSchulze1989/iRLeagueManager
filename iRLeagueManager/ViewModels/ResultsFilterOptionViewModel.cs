@@ -18,7 +18,7 @@ namespace iRLeagueManager.ViewModels
 {
     public class ResultsFilterOptionViewModel : LeagueContainerModel<ResultsFilterOptionModel>
     {
-        protected override ResultsFilterOptionModel Template => new ResultsFilterOptionModel();
+        protected override ResultsFilterOptionModel Template => new ResultsFilterOptionModel() { FilterValues = new ObservableCollection<object>() };
 
         public long ResultsFilterId => Model.ResultsFilterId;
         public long ScoringId => Model.ScoringId;

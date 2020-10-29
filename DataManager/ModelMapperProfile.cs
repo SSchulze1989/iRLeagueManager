@@ -496,8 +496,9 @@ namespace iRLeagueManager
                     var sourceColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(src.ColumnPropertyName);
                     var targetPropertyType = targetColumnProperty.PropertyType;
                     var sourcePropertyType = sourceColumnProperty.PropertyType;
-                    return new ObservableCollection<object>(src.FilterValues
-                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x));
+                    return new ObservableCollection<object>(src.FilterValues?
+                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x)
+                        ?? new object[0]);
                 }))
                 .ReverseMap()
                 .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
@@ -506,9 +507,10 @@ namespace iRLeagueManager
                     var sourceColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(src.ColumnPropertyName);
                     var targetPropertyType = targetColumnProperty.PropertyType;
                     var sourcePropertyType = sourceColumnProperty.PropertyType;
-                    return src.FilterValues
+                    return src.FilterValues?
                         .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x)
-                        .ToArray();
+                        .ToArray()
+                        ?? new object[0];
                 }));
         }
 

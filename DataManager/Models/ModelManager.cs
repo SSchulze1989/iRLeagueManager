@@ -39,6 +39,8 @@ using iRLeagueDatabase.DataTransfer.Results;
 using iRLeagueDatabase.DataTransfer.Reviews;
 using iRLeagueDatabase.DataTransfer.Sessions;
 using iRLeagueDatabase.DataTransfer.User;
+using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.DataTransfer.Filters;
 
 namespace iRLeagueManager.Models
 {
@@ -190,6 +192,10 @@ namespace iRLeagueManager.Models
                 else if (typeof(T).Equals(typeof(CustomIncidentModel)))
                 {
                     data = await ModelDataProvider.GetAsync<CustomIncidentDTO>(getModelIds?.ToArray());
+                }
+                else if (typeof(T).Equals(typeof(ResultsFilterOptionModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<ResultsFilterOptionDTO>(getModelIds?.ToArray());
                 }
                 else
                 {
@@ -368,6 +374,11 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<CustomIncidentDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<CustomIncidentDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(ResultsFilterOptionModel)))
+            {
+                data = mapper.Map <IEnumerable<ResultsFilterOptionDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<ResultsFilterOptionDTO>().ToArray());
+            }
             else
             {
                 throw new UnknownModelTypeException("Could not put Model of type " + typeof(T).ToString() + ". Model type not known.");
@@ -493,6 +504,10 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<CustomIncidentDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(ResultsFilterOptionModel)))
+            {
+                return await ModelDataProvider.DelAsync<ResultsFilterOptionDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -592,6 +607,11 @@ namespace iRLeagueManager.Models
             {
                 data = mapper.Map<IEnumerable<CustomIncidentDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<CustomIncidentDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(ResultsFilterOptionModel)))
+            {
+                data = mapper.Map<IEnumerable<ResultsFilterOptionDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<ResultsFilterOptionDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {

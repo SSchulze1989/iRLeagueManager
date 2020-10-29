@@ -76,8 +76,7 @@ namespace iRLeagueManager.Views
             {
                 return false;
             }
-            await ViewModel.SaveChanges();
-            return true;
+            return await ViewModel.SaveChanges();
         }
 
         private void Comparator_SelectionChanged(object sender, SelectionChangedEventArgs e)

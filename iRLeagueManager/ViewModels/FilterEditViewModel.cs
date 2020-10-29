@@ -5,6 +5,7 @@ using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -18,15 +19,15 @@ namespace iRLeagueManager.ViewModels
     {
         private ScoringModel Scoring { get; set; }
 
-        private List<ResultsFilterOptionModel> filterOptionsSource;
-        private List<ResultsFilterOptionModel> FilterOptionsSource
+        private ObservableCollection<ResultsFilterOptionModel> filterOptionsSource;
+        private ObservableCollection<ResultsFilterOptionModel> FilterOptionsSource
         {
             get => filterOptionsSource;
             set
             {
                 if (SetValue(ref filterOptionsSource, value))
                 {
-                    resultsFilterOptions.UpdateSource(value);
+                    resultsFilterOptions.UpdateSource(FilterOptionsSource);
                 }
             }
         }
@@ -64,7 +65,7 @@ namespace iRLeagueManager.ViewModels
                 }
             };
             //resultsFilterOptions.UpdateSource(filters);
-            FilterOptionsSource = filters;
+            FilterOptionsSource = new ObservableCollection<ResultsFilterOptionModel>(filters);
 
             AddFilterCmd = new RelayCommand(o => AddFilter(), o => Scoring != null);
             RemoveFilterCmd = new RelayCommand(async o =>
@@ -93,7 +94,7 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = true;
                 var filters = await LeagueContext.GetModelsAsync<ResultsFilterOptionModel>(Scoring.ResultsFilterOptionIds.Select(x => new long[] { Scoring.ScoringId.GetValueOrDefault(), x }));
-                resultsFilterOptions.UpdateSource(filters);
+                FilterOptionsSource = new ObservableCollection<ResultsFilterOptionModel>(filters);
             }
             catch (Exception e)
             {
@@ -119,7 +120,8 @@ namespace iRLeagueManager.ViewModels
                 {
                     ResultsFilterType = "ColumnPropertyFilter",
                     ColumnPropertyName = FilterProperties.First(),
-                    Comparator = Enums.ComparatorTypeEnum.IsEqual
+                    Comparator = Enums.ComparatorTypeEnum.IsEqual,
+                    FilterValues = new ObservableCollection<object>()
                 };
                 //await LeagueContext.AddModelAsync(newFilter);
                 addFilters.Add(newFilter);
