@@ -37,6 +37,42 @@ namespace iRLeagueManager.ViewModels
     { 
         public virtual TSource Model { get => Source; set => SetSource(value); }
 
+        public DateTime CreateDate => (Model?.CreatedOn).GetValueOrDefault();
+        public readonly UserViewModel createUser = new UserViewModel();
+        public UserViewModel CreateUser
+        {
+            get
+            {
+                if (createUser.UserId != Model?.CreatedByUserId)
+                {
+                    if (createUser.UpdateSource(LeagueContext.UserManager.GetUserModel(Model?.CreatedByUserId)))
+                    {
+                        OnPropertyChanged();
+                    }
+                }
+                return createUser;
+            }
+        }
+
+        public DateTime LastEdit => (Model?.LastModifiedOn).GetValueOrDefault();
+        private readonly UserViewModel lastEditUser = new UserViewModel();
+        public UserViewModel LastEditUser
+        {
+            get
+            {
+                if (lastEditUser.UserId != Model?.LastModifiedByUserId)
+                {
+                    if (lastEditUser.UpdateSource(LeagueContext.UserManager.GetUserModel(Model?.LastModifiedByUserId)))
+                    {
+                        OnPropertyChanged();
+                    }
+                }
+                return lastEditUser;
+            }
+        }
+
+        public bool HasEdits => LastEdit > CreateDate;
+
         public ICommand SaveChangesCmd { get; protected set; }
 
         public LeagueContainerModel()
