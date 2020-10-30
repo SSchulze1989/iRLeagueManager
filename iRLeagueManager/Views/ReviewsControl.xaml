@@ -378,7 +378,7 @@ SOFTWARE.-->
                                                                 </Style>
                                                             </Grid.Style>
 
-                                                            <Border Grid.Row="0" Padding="10,4,10,2.5" BorderThickness="0,0,0,0" 
+                                                            <Border Grid.Row="0" Padding="10,2.5,10,2.5" BorderThickness="0,0,0,0" 
                                                                     TextElement.FontWeight="Bold" Margin="0,0" SnapsToDevicePixels="True"
                                                                     TextElement.FontSize="{StaticResource Global.FontSizeMedium}"
                                                                     x:Name="headerBorder">
@@ -453,6 +453,43 @@ SOFTWARE.-->
                                                                         <controls:IconButton.Style>
                                                                             <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
                                                                                 <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                            </Style>
+                                                                        </controls:IconButton.Style>
+                                                                    </controls:IconButton>
+                                                                    <controls:IconButton x:Name="infoButton" DockPanel.Dock="Right"
+                                                                                         IconStroke="Transparent" IconStrokeThickness="0.5"
+                                                                                         IconMargin="0,0,0,0" Margin="0" Width="30" Height="30"
+                                                                                         CornerRadius="0">
+                                                                        <controls:IconButton.ToolTip>
+                                                                            <ToolTip>
+                                                                                <StackPanel>
+                                                                                    <TextBlock FontStyle="Italic">
+                                                                                        <TextBlock.Text>
+                                                                                            <MultiBinding StringFormat="{}Created on {0: dd.MM.yy - hh:mm } by {1}">
+                                                                                                <Binding Path="CreateDate"/>
+                                                                                                <Binding Path="CreateUser.FullName"/>
+                                                                                            </MultiBinding>
+                                                                                        </TextBlock.Text>
+                                                                                    </TextBlock>
+                                                                                    <TextBlock FontStyle="Italic">
+                                                                                        <TextBlock.Text>
+                                                                                            <MultiBinding StringFormat="{}Last edit on {0: dd.MM.yy - hh:mm } by {1}">
+                                                                                                <Binding Path="LastEdit"/>
+                                                                                                <Binding Path="LastEditUser.FullName"/>
+                                                                                            </MultiBinding>
+                                                                                        </TextBlock.Text>
+                                                                                    </TextBlock>
+                                                                                </StackPanel>
+                                                                            </ToolTip>
+                                                                        </controls:IconButton.ToolTip>
+                                                                        <controls:IconButton.Style>
+                                                                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                                                <Setter Property="IconFill" Value="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                                                <Setter Property="IconContent">
+                                                                                    <Setter.Value>
+                                                                                        <fa:ImageAwesome Icon="InfoCircle" Width="15"/>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
                                                                             </Style>
                                                                         </controls:IconButton.Style>
                                                                     </controls:IconButton>
@@ -769,8 +806,25 @@ SOFTWARE.-->
                                                                                                 <RowDefinition />
                                                                                                 <RowDefinition />
                                                                                             </Grid.RowDefinitions>
-                                                                                            <TextBox Grid.Row="0" Text="{Binding Author.FullName, Mode=OneWay}" FontWeight="Bold" Margin="4,0"
-                                                                                                       FontSize="{StaticResource Global.FontSizeMedium}" HorizontalAlignment="Left"/>
+                                                                                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="4,0">
+                                                                                                <TextBox Text="{Binding Author.FullName, Mode=OneWay}" FontWeight="Bold"
+                                                                                                       FontSize="{StaticResource Global.FontSizeMedium}"/>
+                                                                                                <TextBlock Margin="5,0,0,1" Text="{Binding CreateDate, StringFormat='{}  {0:dd.MM.yy  hh:mm}'}" 
+                                                                                                           FontSize="10" FontStyle="Italic" VerticalAlignment="Bottom"/>
+                                                                                                <TextBlock Margin="5,0,0,1" Text="{Binding LastEdit, StringFormat='{}(edit: {0:dd.MM.yy  hh:mm})'}"
+                                                                                                           FontSize="10" FontStyle="Italic" VerticalAlignment="Bottom"  Foreground="{StaticResource ThemeColor_Back3}">
+                                                                                                    <TextBlock.Style>
+                                                                                                        <Style TargetType="TextBlock">
+                                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                                            <Style.Triggers>
+                                                                                                                <DataTrigger Binding="{Binding HasEdits}" Value="True">
+                                                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                                                </DataTrigger>
+                                                                                                            </Style.Triggers>
+                                                                                                        </Style>
+                                                                                                    </TextBlock.Style>
+                                                                                                </TextBlock>
+                                                                                            </StackPanel>
                                                                                             <TextBox Grid.Row="1" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" Margin="15,4,15,0"/>
                                                                                         </Grid>
                                                                                         <Grid Grid.Row="1">
@@ -863,7 +917,24 @@ SOFTWARE.-->
                                                                                             <RowDefinition />
                                                                                             <RowDefinition />
                                                                                         </Grid.RowDefinitions>
-                                                                                        <TextBlock Grid.Row="0" Text="{Binding Author.FullName}" FontWeight="Bold" Margin="4,1"/>
+                                                                                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="4,0">
+                                                                                            <TextBlock Text="{Binding Author.FullName, Mode=OneWay}" FontWeight="Bold"/>
+                                                                                            <TextBlock Margin="5,0,0,1" Text="{Binding CreateDate, StringFormat='{}  {0:dd.MM.yy  hh:mm}'}" 
+                                                                                                           FontSize="10" FontStyle="Italic" VerticalAlignment="Bottom"/>
+                                                                                            <TextBlock Margin="5,0,0,1" Text="{Binding LastEdit, StringFormat='{}(edit: {0:dd.MM.yy  hh:mm})'}"
+                                                                                                           FontSize="10" FontStyle="Italic" VerticalAlignment="Bottom" Foreground="{StaticResource ThemeColor_Back3}">
+                                                                                                <TextBlock.Style>
+                                                                                                    <Style TargetType="TextBlock">
+                                                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                                        <Style.Triggers>
+                                                                                                            <DataTrigger Binding="{Binding HasEdits}" Value="True">
+                                                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                                            </DataTrigger>
+                                                                                                        </Style.Triggers>
+                                                                                                    </Style>
+                                                                                                </TextBlock.Style>
+                                                                                            </TextBlock>
+                                                                                        </StackPanel>
                                                                                         <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="8,1"/>
                                                                                         <Grid Grid.Row="2">
                                                                                             <Grid.ColumnDefinitions>
@@ -1051,6 +1122,7 @@ SOFTWARE.-->
                                                 <Setter Property="Opacity" TargetName="reviewEditButton" Value="0.25"/>
                                                 <Setter Property="Opacity" TargetName="expandButton" Value="0.25"/>
                                                 <Setter Property="Opacity" TargetName="reviewDeleteButton" Value="0.25"/>
+                                                <Setter Property="Opacity" TargetName="infoButton" Value="0.25"/>
                                             </Trigger>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Effect" TargetName="templateDropShadowBorder">
