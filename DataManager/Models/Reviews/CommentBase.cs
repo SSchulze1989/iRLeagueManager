@@ -46,7 +46,7 @@ namespace iRLeagueManager.Models.Reviews
 
         private ObservableCollection<CommentModel> replies = new ObservableCollection<CommentModel>();
         public ObservableCollection<CommentModel> Replies { get => replies; set => SetNotifyCollection(ref replies, value); }
-
+        
         public CommentModel() { }
 
         public CommentModel(long commentId, string authorName) : base(commentId, authorName)
