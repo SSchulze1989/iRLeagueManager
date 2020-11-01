@@ -28,7 +28,7 @@ namespace iRLeagueManager.Models.Filters
         private ObservableCollection<object> filterValues;
         public ObservableCollection<object> FilterValues { get => filterValues; set => SetNotifyCollection(ref filterValues, value); }
 
-        public override long[] ModelId => new long[] { ScoringId, ResultsFilterId };
+        public override long[] ModelId => new long[] { ResultsFilterId };
 
         public ResultsFilterOptionModel() { }
 

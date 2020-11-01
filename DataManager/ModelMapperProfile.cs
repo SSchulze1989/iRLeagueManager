@@ -489,7 +489,7 @@ namespace iRLeagueManager
 
             CreateMap<ResultsFilterOptionDTO, ResultsFilterOptionModel>()
                 .ConstructUsing(src => ModelCache.PutOrGetModel(new ResultsFilterOptionModel(src.ResultsFilterId, src.ScoringId)))
-                .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId && src.ResultsFilterId == dest.ResultsFilterId)
+                .EqualityComparison((src, dest) => src.ResultsFilterId == dest.ResultsFilterId)
                 .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
                 {
                     var targetColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(dest.ColumnPropertyName);

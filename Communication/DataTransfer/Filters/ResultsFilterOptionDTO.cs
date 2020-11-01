@@ -26,8 +26,8 @@ namespace iRLeagueDatabase.DataTransfer.Filters
         [DataMember]
         public object[] FilterValues { get; set; }
 
-        public override object MappingId => new { ScoringId, ResultsFilterId };
+        public override object MappingId => ResultsFilterId;
 
-        public override object[] Keys => new object[] { ScoringId, ResultsFilterId };
+        public override object[] Keys => new object[] { ResultsFilterId };
     }
 }

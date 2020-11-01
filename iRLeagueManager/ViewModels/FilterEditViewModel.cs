@@ -93,7 +93,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var filters = await LeagueContext.GetModelsAsync<ResultsFilterOptionModel>(Scoring.ResultsFilterOptionIds.Select(x => new long[] { Scoring.ScoringId.GetValueOrDefault(), x }));
+                var filters = await LeagueContext.GetModelsAsync<ResultsFilterOptionModel>(Scoring.ResultsFilterOptionIds);
                 FilterOptionsSource = new ObservableCollection<ResultsFilterOptionModel>(filters);
             }
             catch (Exception e)
@@ -116,7 +116,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var newFilter = new ResultsFilterOptionModel(Scoring.ScoringId.GetValueOrDefault())
+                var newFilter = new ResultsFilterOptionModel(-FilterOptionsSource.Count,  Scoring.ScoringId.GetValueOrDefault())
                 {
                     ResultsFilterType = "ColumnPropertyFilter",
                     ColumnPropertyName = FilterProperties.First(),
@@ -180,6 +180,7 @@ namespace iRLeagueManager.ViewModels
                 List<Task> taskList = new List<Task>();
                 taskList.Add(LeagueContext.AddModelsAsync(addFilters.ToArray()));
                 taskList.Add(LeagueContext.DeleteModelsAsync(removeFilters.ToArray()));
+                taskList.Add(LeagueContext.UpdateModelsAsync(FilterOptionsSource.Where(x => x.ContainsChanges)));
                 await Task.WhenAll(taskList.ToArray());
                 await LeagueContext.UpdateModelAsync(Scoring);
             }
