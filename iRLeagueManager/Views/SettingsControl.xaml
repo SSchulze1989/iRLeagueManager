@@ -55,7 +55,7 @@ SOFTWARE.-->
         </ObjectDataProvider>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -552,6 +552,6 @@ SOFTWARE.-->
                 </Style>
             </controls:IconButton.Style>
         </controls:IconButton>
-        <local:ModalOkCancelControl Grid.Row="1" Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <!--<local:ModalOkCancelControl Grid.Row="1" Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
     </Grid>
 </UserControl>
