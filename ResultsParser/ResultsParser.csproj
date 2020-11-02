@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="iracing-result-35437235.json" />
     <None Include="testresult.json" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -388,7 +388,8 @@ namespace iRLeagueManager
                 //.ConstructUsing(source => ModelCache.PutOrGetModel(new ScoredResultRowModel() { ScoredResultRowId = source.ScoredResultRowId}))
                 .ConstructUsing(source => new ScoredResultRowModel() { ScoredResultRowId = source.ScoredResultRowId })
                 .ForMember(dest => dest.Location, opt => opt.MapFrom((src, trg) => LeagueContext.Locations.FirstOrDefault(x => x.LocationId == src.LocationId)))
-                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId);
+                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
+                .IncludeBase<ResultRowDataDTO, ResultRowModel>();
                 //.EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
 
             CreateMap<ScoredResultDataDTO, ScoredResultModel>()

@@ -57,9 +57,9 @@ namespace iRLeagueManager.ResultsParser
                 IRacingResultRow row = new IRacingResultRow
                 {
                     //FinalPosition = int.Parse(line["FinPos"]),
-                    StartPosition = resultRow.starting_position,
+                    StartPosition = (int)resultRow.starting_position + 1,
                     IRacingId = (string)resultRow.cust_id,
-                    FinishPosition = resultRow.finish_position,
+                    FinishPosition = (int)resultRow.finish_position + 1,
                     CarNumber = resultRow.livery.car_number,
                     ClassId = resultRow.car_class_id,
                     Car = "",
@@ -71,6 +71,8 @@ namespace iRLeagueManager.ResultsParser
                     Status = Enum.TryParse((string)resultRow.reason_out, out RaceStatusEnum statusEnum) ? statusEnum : RaceStatusEnum.Unknown,
                     QualifyingTime = new LapTime(TimeSpan.Zero)
                 };
+                var eventLaps = (int)ResultData.event_laps_complete;
+                row.CompletedPct = eventLaps >= row.CompletedLaps ? (row.CompletedLaps / eventLaps)*100 : 100;
                 //if (!LeagueClient.LeagueMembers.ToList().Exists(x => x.IRacingId == row.IRacingId))
                 if (MemberList.Any(x => x.IRacingId == (string)resultRow.cust_id))
                 {
@@ -88,6 +90,8 @@ namespace iRLeagueManager.ResultsParser
                 //row.PositionChange = row.StartPosition - row.FinishPosition;
                 row.OldIRating = resultRow.oldi_rating;
                 row.NewIRating = resultRow.newi_rating;
+                row.OldSafetyRating = ((double)resultRow.old_sub_level) / 100;
+                row.NewSafetyRating = ((double)resultRow.new_sub_level) / 100;
 
                 resultRows.Add(row);
             }

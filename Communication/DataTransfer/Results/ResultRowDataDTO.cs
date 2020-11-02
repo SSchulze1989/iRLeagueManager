@@ -58,7 +58,9 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public string License { get; set; }
         [DataMember]
-        public double SafetyRating { get; set; }
+        public double OldSafetyRating { get; set; }
+        [DataMember]
+        public double NewSafetyRating { get; set; }
         [DataMember]
         public int OldCpi { get; set; }
         [DataMember]
@@ -111,6 +113,7 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int OldLicenseLevel { get; set; }
         [DataMember]
         public int NewLicenseLevel { get; set; }
+
 
         public override object MappingId => ResultRowId;
 

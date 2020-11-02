@@ -38,9 +38,9 @@ using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
-    public class ScoredResultRowViewModel : LeagueContainerModel<ScoredResultRowModel>
+    public class ScoredResultRowViewModel : ResultRowViewModel, IContainerModelBase<ScoredResultRowModel>
     {
-        protected override ScoredResultRowModel Template => new ScoredResultRowModel();
+        protected new ScoredResultRowModel Template => new ScoredResultRowModel();
 
         private ScoredResultModel result;
         public ScoredResultModel Result { get => result; set => SetValue(ref result, value); }
@@ -50,32 +50,33 @@ namespace iRLeagueManager.ViewModels
         public ICommand EndEditPenaltyCmd { get; }
         public ICommand DeletePenaltyCmd { get; }
 
-        public long ResultRowId => Source.ResultRowId.GetValueOrDefault();
-        public long ScoredResultRowId => Source.ScoredResultRowId.GetValueOrDefault();
-        //public int FinalPosition { get => Source.FinalPosition; set => Source.FinalPosition = value; }
-        public int StartPosition { get => Source.StartPosition; set => Source.StartPosition = value; }
-        public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
+        //public long ResultRowId => Source.ResultRowId.GetValueOrDefault();
+        //public long ScoredResultRowId => Source.ScoredResultRowId.GetValueOrDefault();
+        ////public int FinalPosition { get => Source.FinalPosition; set => Source.FinalPosition = value; }
+        //public int StartPosition { get => Source.StartPosition; set => Source.StartPosition = value; }
+        //public int FinishPosition { get => Source.FinishPosition; set => Source.FinishPosition = value; }
 
-        public LeagueMember Member => Source.Member;
+        //public LeagueMember Member => Source.Member;
 
-        public string TeamName => Model.TeamName;
+        public string TeamName => Model?.TeamName;
 
-        public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
-        public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }
-        public string Car { get => Source.Car; set => Source.Car = value; }
-        public string CarClass { get => Source.CarClass; set => Source.CarClass = value; }
-        public int CompletedLaps { get => Source.CompletedLaps; set => Source.CompletedLaps = value; }
-        public int LeadLaps { get => Source.LeadLaps; set => Source.LeadLaps = value; }
-        public int FastLapNr { get => Source.FastLapNr; set => Source.FastLapNr = value; }
-        public int Incidents { get => Source.Incidents; set => Source.Incidents = value; }
-        public RaceStatusEnum Status { get => Source.Status; set => Source.Status = value; }
-        //public int RacePoints { get => Source.RacePoints; set => Source.RacePoints = value; }
-        //public int BonusPoints { get => Source.BonusPoints; set => Source.BonusPoints = value; }
-        public LapTime QualifyingTime { get => Source.QualifyingTime; set => Source.QualifyingTime = value; }
-        public LapInterval Interval { get => Source.Interval; set => Source.Interval = value; }
-        public LapTime AvgLapTime { get => Source.AvgLapTime; set => Source.AvgLapTime = value; }
-        public LapTime FastestLapTime { get => Source.FastestLapTime; set => Source.FastestLapTime = value; }
-        public int PositionChange { get => Source.PositionChange; }
+        //public int CarNumber { get => Source.CarNumber; set => Source.CarNumber = value; }
+        //public int ClassId { get => Source.ClassId; set => Source.ClassId = value; }
+        //public string Car { get => Source.Car; set => Source.Car = value; }
+        //public string CarClass { get => Source.CarClass; set => Source.CarClass = value; }
+        //public int CompletedLaps { get => Source.CompletedLaps; set => Source.CompletedLaps = value; }
+        //public int LeadLaps { get => Source.LeadLaps; set => Source.LeadLaps = value; }
+        //public int FastLapNr { get => Source.FastLapNr; set => Source.FastLapNr = value; }
+        //public int Incidents { get => Source.Incidents; set => Source.Incidents = value; }
+        //public RaceStatusEnum Status { get => Source.Status; set => Source.Status = value; }
+        ////public int RacePoints { get => Source.RacePoints; set => Source.RacePoints = value; }
+        ////public int BonusPoints { get => Source.BonusPoints; set => Source.BonusPoints = value; }
+        //public LapTime QualifyingTime { get => Source.QualifyingTime; set => Source.QualifyingTime = value; }
+        //public LapInterval Interval { get => Source.Interval; set => Source.Interval = value; }
+        //public LapTime AvgLapTime { get => Source.AvgLapTime; set => Source.AvgLapTime = value; }
+        //public LapTime FastestLapTime { get => Source.FastestLapTime; set => Source.FastestLapTime = value; }
+        //public int PositionChange { get => Source.PositionChange; }
+        public new ScoredResultRowModel Model => (base.Model as ScoredResultRowModel) ?? new ScoredResultRowModel();
 
         public int RacePoints { get => Model.RacePoints; set => Model.RacePoints = value; }
         public int BonusPoints { get => Model.BonusPoints; set => Model.BonusPoints = value; }
@@ -115,7 +116,7 @@ namespace iRLeagueManager.ViewModels
 
         public override async void OnUpdateSource()
         {
-            if (Model.PenaltyPoints != 0)
+            if (Model != null && Model?.PenaltyPoints != 0)
             {
                 try
                 {
@@ -194,6 +195,16 @@ namespace iRLeagueManager.ViewModels
             {
 
             }
+        }
+
+        ScoredResultRowModel IContainerModelBase<ScoredResultRowModel>.GetSource()
+        {
+            return Model;
+        }
+
+        public bool UpdateSource(ScoredResultRowModel source)
+        {
+            return base.UpdateSource(source);
         }
     }
 }
