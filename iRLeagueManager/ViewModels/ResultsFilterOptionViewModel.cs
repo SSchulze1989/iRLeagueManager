@@ -1,6 +1,7 @@
 ﻿using iRLeagueManager.Enums;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Filters;
+using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
 using System;
@@ -30,6 +31,7 @@ namespace iRLeagueManager.ViewModels
         public IEnumerable<int> IntFilterValues => Model.FilterValues.OfType<int>();
         public Type ColumnPropertyType => Model.ColumnPropertyType;
         public MemberListViewModel MemberList => new MemberListViewModel();
+        public bool IsMemberType => ColumnPropertyType == typeof(LeagueMember);
 
         public string FilterValueString 
         { 
@@ -71,6 +73,9 @@ namespace iRLeagueManager.ViewModels
             {
                 case nameof(ColumnPropertyName):
                     OnPropertyChanged(nameof(ColumnPropertyType));
+                    break;
+                case nameof(ColumnPropertyType):
+                    OnPropertyChanged(nameof(IsMemberType));
                     break;
             }
         }

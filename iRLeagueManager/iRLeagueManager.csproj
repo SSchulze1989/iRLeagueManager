@@ -143,6 +143,7 @@
     <Compile Include="Converters\RequiredSourceValueConverter.cs" />
     <Compile Include="Converters\ToUpperConverter.cs" />
     <Compile Include="Converters\UniversalColorConverter.cs" />
+    <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="Extensions\ItemsControlExtensions.cs" />
     <Compile Include="Extensions\ModalExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
