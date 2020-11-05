@@ -44,6 +44,8 @@ namespace iRLeagueManager.ViewModels
         private List<ResultsFilterOptionModel> addFilters { get; } = new List<ResultsFilterOptionModel>();
         private List<ResultsFilterOptionModel> removeFilters { get; } = new List<ResultsFilterOptionModel>();
 
+        public static MemberListViewModel MemberList => new MemberListViewModel();
+
         public FilterEditViewModel()
         {
             List<string> excludeProperties = typeof(MappableModel).GetProperties().Select(x => x.Name).ToList();
@@ -51,6 +53,7 @@ namespace iRLeagueManager.ViewModels
             excludeProperties.Add(nameof(ResultRowModel.ResultRowId));
             excludeProperties.Add(nameof(ResultRowModel.SimSessionType));
             excludeProperties.Add(nameof(ResultRowModel.Location));
+            excludeProperties.Add(nameof(ResultRowModel.MemberId));
             FilterProperties = typeof(ResultRowModel).GetProperties().Select(x => x.Name).Except(excludeProperties);
 
             resultsFilterOptions = new ObservableModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel>();
@@ -61,9 +64,14 @@ namespace iRLeagueManager.ViewModels
                     ResultsFilterType = "ColumnPropertyFilter",
                     Comparator = Enums.ComparatorTypeEnum.IsEqual,
                     ColumnPropertyName = FilterProperties.First(),
-                    FilterValues = new System.Collections.ObjectModel.ObservableCollection<object>(new string[] { "Test", "Test2"} )
                 }
             };
+            filters.First().FilterValues = new ObservableCollection<FilterValueModel>(new FilterValueModel[]
+            {
+                new FilterValueModel() { ValueType = filters.First().ColumnPropertyType, Value = "Test1" },
+                new FilterValueModel() { ValueType = filters.First().ColumnPropertyType, Value = "Test2" }
+            });
+
             //resultsFilterOptions.UpdateSource(filters);
             FilterOptionsSource = new ObservableCollection<ResultsFilterOptionModel>(filters);
 
@@ -106,6 +114,12 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public override async Task Refresh()
+        {
+            LeagueContext.ModelManager.ForceExpireModels<ResultsFilterOptionModel>(Scoring.ResultsFilterOptionIds.Select(x => new long[] { x }));
+            await Load(Scoring);
+        }
+
         public void AddFilter()
         {
             if (Scoring == null)
@@ -121,7 +135,7 @@ namespace iRLeagueManager.ViewModels
                     ResultsFilterType = "ColumnPropertyFilter",
                     ColumnPropertyName = FilterProperties.First(),
                     Comparator = Enums.ComparatorTypeEnum.IsEqual,
-                    FilterValues = new ObservableCollection<object>()
+                    FilterValues = new ObservableCollection<FilterValueModel>()
                 };
                 //await LeagueContext.AddModelAsync(newFilter);
                 addFilters.Add(newFilter);

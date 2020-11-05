@@ -1,4 +1,5 @@
 ﻿using iRLeagueManager.Enums;
+using iRLeagueManager.Models.Results;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,8 +26,10 @@ namespace iRLeagueManager.Models.Filters
         private bool exclude;
         public bool Exclude { get => exclude; set => SetValue(ref exclude, value); }
 
-        private ObservableCollection<object> filterValues;
-        public ObservableCollection<object> FilterValues { get => filterValues; set => SetNotifyCollection(ref filterValues, value); }
+        private ObservableCollection<FilterValueModel> filterValues;
+        public ObservableCollection<FilterValueModel> FilterValues { get => filterValues; set => SetNotifyCollection(ref filterValues, value); }
+
+        public Type ColumnPropertyType => typeof(ResultRowModel).GetProperty(ColumnPropertyName ?? "")?.PropertyType;
 
         public override long[] ModelId => new long[] { ResultsFilterId };
 

@@ -44,7 +44,7 @@ namespace iRLeagueManager.ViewModels
     public class ScoringViewModel : LeagueContainerModel<ScoringModel>
     {
         protected override ScoringModel Template => new ScoringModel();
-        public long? ScoringId => Model?.ScoringId; 
+        public long? ScoringId => Model?.ScoringId;
         public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }

@@ -18,7 +18,7 @@ namespace iRLeagueManager.ViewModels
 {
     public class ResultsFilterOptionViewModel : LeagueContainerModel<ResultsFilterOptionModel>
     {
-        protected override ResultsFilterOptionModel Template => new ResultsFilterOptionModel() { FilterValues = new ObservableCollection<object>() };
+        protected override ResultsFilterOptionModel Template => new ResultsFilterOptionModel() { FilterValues = new ObservableCollection<FilterValueModel>() };
 
         public long ResultsFilterId => Model.ResultsFilterId;
         public long ScoringId => Model.ScoringId;
@@ -26,11 +26,14 @@ namespace iRLeagueManager.ViewModels
         public string ColumnPropertyName { get => Model.ColumnPropertyName; set => Model.ColumnPropertyName = value; }
         public ComparatorTypeEnum Comparator { get => Model.Comparator; set => Model.Comparator = value; }
         public bool Exclude { get => Model.Exclude; set => Model.Exclude = value; }
-        public ObservableCollection<object> FilterValues => Model.FilterValues;
-        public Type ColumnPropertyType => typeof(ResultRowModel).GetProperty(ColumnPropertyName ?? "")?.PropertyType;
+        public ObservableCollection<FilterValueModel> FilterValues => Model.FilterValues;
+        public IEnumerable<int> IntFilterValues => Model.FilterValues.OfType<int>();
+        public Type ColumnPropertyType => Model.ColumnPropertyType;
+        public MemberListViewModel MemberList => new MemberListViewModel();
+
         public string FilterValueString 
         { 
-            get => string.Join(";", FilterValues); 
+            get => string.Join(";", FilterValues.Select(x => x.Value)); 
             set 
             {
                 try
@@ -42,7 +45,7 @@ namespace iRLeagueManager.ViewModels
                     throw new ArgumentException("Invalid value", e);
                 }
                 FilterValues.Clear();
-                FilterValues.Add(value);
+                FilterValues.Add(new FilterValueModel(ColumnPropertyType, value));
             }
         }
 

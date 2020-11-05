@@ -148,6 +148,10 @@ namespace iRLeagueManager.Views
             }
             else
             {
+                if (ModalContent is IModalContent modalContent)
+                {
+                    modalContent.OnLoad();
+                }
                 var frame = new DispatcherFrame();
                 this.DialogClosed += (sender, args) =>
                 {

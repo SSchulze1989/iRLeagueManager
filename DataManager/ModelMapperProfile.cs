@@ -497,9 +497,9 @@ namespace iRLeagueManager
                     var sourceColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(src.ColumnPropertyName);
                     var targetPropertyType = targetColumnProperty.PropertyType;
                     var sourcePropertyType = sourceColumnProperty.PropertyType;
-                    return new ObservableCollection<object>(src.FilterValues?
-                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x)
-                        ?? new object[0]);
+                    return new ObservableCollection<FilterValueModel>(src.FilterValues?
+                        .Select(x => new FilterValueModel(targetPropertyType, targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x))
+                        ?? new FilterValueModel[0]);
                 }))
                 .ReverseMap()
                 .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
@@ -509,7 +509,7 @@ namespace iRLeagueManager
                     var targetPropertyType = targetColumnProperty.PropertyType;
                     var sourcePropertyType = sourceColumnProperty.PropertyType;
                     return src.FilterValues?
-                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x)
+                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x.Value, sourcePropertyType, targetPropertyType) : x.Value)
                         .ToArray()
                         ?? new object[0];
                 }));

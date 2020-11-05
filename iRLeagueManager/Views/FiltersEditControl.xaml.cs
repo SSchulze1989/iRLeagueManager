@@ -1,4 +1,5 @@
-﻿using iRLeagueManager.Extensions;
+﻿using iRLeagueManager.Controls;
+using iRLeagueManager.Extensions;
 using iRLeagueManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -65,8 +67,10 @@ namespace iRLeagueManager.Views
             return;
         }
 
-        public void OnLoad()
+        public async void OnLoad()
         {
+            await ViewModel?.Refresh();
+            await GlobalSettings.LeagueContext.UpdateMemberList();
             return;
         }
 
@@ -84,6 +88,27 @@ namespace iRLeagueManager.Views
             if (sender is ComboBox comboBox && comboBox.Tag is ContentControl contentControl)
             {
                 contentControl.InvalidateProperty(ContentTemplateSelectorProperty);
+            }
+        }
+
+        private void expandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is IconToggleButton button && button.Tag is Popup popup)
+            {
+                popup.IsOpen = button.IsChecked;
+            }
+        }
+
+        private void ListPopup_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void ListPopup_Closed(object sender, EventArgs e)
+        {
+            if (sender is Popup popup && popup.Tag is IconToggleButton button)
+            {
+                button.IsChecked = false;
             }
         }
     }

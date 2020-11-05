@@ -653,5 +653,10 @@ namespace iRLeagueManager.Models
 
             expireList.ForEach(x => x.IsExpired = true);
         }
+
+        public void ForceExpireModels<T>(IEnumerable<long[]> modelIds) where T : MappableModel
+        {
+            ForceExpireModels<T>(ModelCache.GetOfType<T>().Where(x => modelIds.Any(y => y.SequenceEqual(x.ModelId))).ToList());
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace iRLeagueManager.Controls
             {
                 if (filterOption.Comparator == Enums.ComparatorTypeEnum.InList)
                 {
-                    return element.FindResource("FlterValueListSelection") as DataTemplate;
+                    return element.FindResource("FilterValueListSelection") as DataTemplate;
                 }
                 else
                 {

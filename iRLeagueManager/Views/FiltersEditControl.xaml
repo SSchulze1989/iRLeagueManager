@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:model="clr-namespace:iRLeagueManager.Models.Members;assembly=DataManager"
              xmlns:vmodel="clr-namespace:iRLeagueManager.ViewModels"
              xmlns:enum="clr-namespace:iRLeagueManager.Enums;assembly=Communication"
              xmlns:controls="clr-namespace:iRLeagueManager.Controls"
@@ -20,16 +21,42 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <controls:FilterValueSelectTemplateSelector x:Key="FilterValueSelectTemplateSelector"/>
-        <DataTemplate x:Key="FilterValueEdit">
-            <TextBox Text="{Binding FilterValues[0]}" Margin="5"/>
-        </DataTemplate>
-        <DataTemplate x:Key="FilterValueListSelection">
-            <ComboBox />
-        </DataTemplate>
         <Style TargetType="TextBlock" x:Key="HeaderTextBlockStyle">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Foreground" Value="{StaticResource ThemeColor_Back4}"/>
         </Style>
+        <DataTemplate x:Key="FilterValueListSelection">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="194" Text="{Binding FilterValueString, ValidatesOnExceptions=True}" IsReadOnly="True"/>
+                    <controls:IconToggleButton Content="..." x:Name="expandButton" BorderBrush="{StaticResource ThemeColor_Back5}" BorderThickness="1" Margin="2" Padding="2"
+                                         Click="expandButton_Click" Tag="{Binding ElementName=ListPopup}"/>
+                </StackPanel>
+                <Popup Width="250" Height="300" StaysOpen="False" x:Name="ListPopup" MouseDown="ListPopup_MouseDown" Tag="{Binding ElementName=expandButton}" Closed="ListPopup_Closed">
+                    <DataGrid ItemsSource="{Binding FilterValues}" CanUserAddRows="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                            <DataGridTemplateColumn Header="Members">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Value.FullName}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding Source={x:Static vmodel:FilterEditViewModel.MemberList}, Path=MemberList}" SelectedItem="{Binding Value}" DisplayMemberPath="FullName"
+                                                  IsTextSearchEnabled="True" IsEditable="True"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Popup>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="FilterValueEdit">
+            <TextBox Width="228" Text="{Binding FilterValueString, ValidatesOnExceptions=True}"/>
+        </DataTemplate>
         <!--<DataTemplate DataType="{x:Type vmodel:ResultsFilterOptionViewModel}">
             <Grid x:Name="FilterGrid" Margin="5">
                 <Grid.ColumnDefinitions>
@@ -133,11 +160,11 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Method" Width="120">
+                            <GridViewColumn Header="Method" Width="170">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Source={StaticResource ComparatorTypeEnum}}" SelectedItem="{Binding Comparator}"
-                                              Width="108" Margin="0,0"/>
+                                              Width="158" Margin="0,0"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -149,10 +176,23 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Type" DisplayMemberBinding="{Binding ColumnPropertyType.Name}" Width="75"/>
-                            <GridViewColumn Header="Values" Width="200">
+                            <GridViewColumn Header="Values" Width="240">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Width="188" Text="{Binding FilterValueString, ValidatesOnExceptions=True}"/>
+                                        <ContentControl x:Name="content" Content="{Binding}">
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource FilterValueEdit}"/>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Comparator}" Value="{x:Static enum:ComparatorTypeEnum.InList}">
+                                                <Setter TargetName="content" Property="ContentTemplate" Value="{StaticResource FilterValueListSelection}"/>
+                                            </DataTrigger>
+
+                                            <!--<TextBox Width="198" Text="{Binding FilterValueString, ValidatesOnExceptions=True}"/>-->
+                                        </DataTemplate.Triggers>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
