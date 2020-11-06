@@ -132,7 +132,7 @@ namespace iRLeagueManager.ViewModels
                         return new ScoredResultViewModel();
                 },
                 x => x.Scoring = ScoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
-            ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>();
+            ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>(x => x.Season = season);
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
             {
