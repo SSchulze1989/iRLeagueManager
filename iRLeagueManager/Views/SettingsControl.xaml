@@ -53,6 +53,16 @@ SOFTWARE.-->
                 <x:Type TypeName="enum:DropRacesOption"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{StaticResource ThemeColor_Back4}"/>
+            <Setter Property="Background" Value="{StaticResource ThemeColor_Back0}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid x:Name="MainGrid">
@@ -97,11 +107,15 @@ SOFTWARE.-->
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <ListBox Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" DisplayMemberPath="Name" Width="400"/>
+                            <ListView Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" DisplayMemberPath="Name" Width="350"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                <Button Content="-" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteScoringButton_Click" Tag="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
+                                <controls:IconButton FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Click="DeleteScoringButton_Click" Tag="{Binding ElementName=ScoringsListBox, Path=SelectedItem}"
+                                                     BorderThickness="1" IconFill="{StaticResource ThemeColor_Red}" ToolTip="Remove Scoring">
+                                    <controls:IconButton.IconContent>
+                                        <fa:ImageAwesome Icon="Minus" Stretch="Uniform" Width="25"/>
+                                    </controls:IconButton.IconContent>
+                                    <controls:IconButton.Style>
+                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
                                             <Setter Property="IsEnabled" Value="True"/>
                                             <Style.Triggers>
                                                 <Trigger Property="Tag" Value="{x:Null}">
@@ -109,9 +123,14 @@ SOFTWARE.-->
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button Content="+" FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding AddScoringCmd}"/>
+                                    </controls:IconButton.Style>
+                                </controls:IconButton>
+                                <controls:IconButton FontSize="20" FontWeight="Bold" Width="30" Height="30" Margin="5" Command="{Binding AddScoringCmd}"
+                                                     IconFill="{StaticResource ThemeColor_Green}" ToolTip="Add Scoring">
+                                    <controls:IconButton.IconContent>
+                                        <fa:ImageAwesome Icon="Plus"/>
+                                    </controls:IconButton.IconContent>
+                                </controls:IconButton>
                             </StackPanel>
                         </Grid>
                         <Grid DockPanel.Dock="Right" DataContext="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
@@ -536,6 +555,7 @@ SOFTWARE.-->
                              Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
                              IconFill="{StaticResource ThemeColor_Green}" IconStrokeThickness="0" 
                              Foreground="{StaticResource ThemeColor_Green}"
+                             BorderBrush="{StaticResource ThemeColor_DarkBlue}"
                              Height="Auto" Width="Auto"
                              Margin="25,10,15,10" ToolTip="Save changes">
             <controls:IconButton.Effect>
