@@ -37,13 +37,14 @@ using System.ComponentModel;
 using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
 using iRLeagueManager.Enums;
+using iRLeagueManager.Models.Filters;
 
 namespace iRLeagueManager.ViewModels
 {
     public class ScoringViewModel : LeagueContainerModel<ScoringModel>
     {
         protected override ScoringModel Template => new ScoringModel();
-        public long? ScoringId => Model?.ScoringId; 
+        public long? ScoringId => Model?.ScoringId;
         public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
@@ -60,6 +61,7 @@ namespace iRLeagueManager.ViewModels
         public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
         public ScoringInfo ExtScoringSource { get => Model.ExtScoringSource; set => Model.ExtScoringSource = value; }
         public bool TakeResultsFromExtSource { get => Model.TakeResultsFromExtSource; set => Model.TakeResultsFromExtSource = value; }
+        public ObservableCollection<long> ResultsFilterOptionIds => Model.ResultsFilterOptionIds;
 
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList

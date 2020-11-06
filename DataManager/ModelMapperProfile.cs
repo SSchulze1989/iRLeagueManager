@@ -51,6 +51,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using System.Globalization;
 using System.Security.Cryptography;
+using iRLeagueDatabase.DataTransfer.Filters;
+using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.Extensions;
+using System.Web.Hosting;
 
 namespace iRLeagueManager
 {
@@ -384,7 +388,8 @@ namespace iRLeagueManager
                 //.ConstructUsing(source => ModelCache.PutOrGetModel(new ScoredResultRowModel() { ScoredResultRowId = source.ScoredResultRowId}))
                 .ConstructUsing(source => new ScoredResultRowModel() { ScoredResultRowId = source.ScoredResultRowId })
                 .ForMember(dest => dest.Location, opt => opt.MapFrom((src, trg) => LeagueContext.Locations.FirstOrDefault(x => x.LocationId == src.LocationId)))
-                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId);
+                .EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
+                .IncludeBase<ResultRowDataDTO, ResultRowModel>();
                 //.EqualityComparison((src, dest) => src.ScoredResultRowId == dest.ScoredResultRowId)
 
             CreateMap<ScoredResultDataDTO, ScoredResultModel>()
@@ -482,6 +487,32 @@ namespace iRLeagueManager
                 .ConstructUsing(src => ModelCache.PutOrGetModel(new ReviewPenaltyModel() { ResultRowId = src.ResultRowId, ReviewId = src.ReviewId }))
                 .EqualityComparison((src, dest) => src.ResultRowId == dest.ResultRowId && src.ReviewId == dest.ReviewId)
                 .ReverseMap();
+
+            CreateMap<ResultsFilterOptionDTO, ResultsFilterOptionModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new ResultsFilterOptionModel(src.ResultsFilterId, src.ScoringId)))
+                .EqualityComparison((src, dest) => src.ResultsFilterId == dest.ResultsFilterId)
+                .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var targetColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(dest.ColumnPropertyName);
+                    var sourceColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(src.ColumnPropertyName);
+                    var targetPropertyType = targetColumnProperty.PropertyType;
+                    var sourcePropertyType = sourceColumnProperty.PropertyType;
+                    return new ObservableCollection<FilterValueModel>(src.FilterValues?
+                        .Select(x => new FilterValueModel(targetPropertyType, targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x))
+                        ?? new FilterValueModel[0]);
+                }))
+                .ReverseMap()
+                .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var targetColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(dest.ColumnPropertyName);
+                    var sourceColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(src.ColumnPropertyName);
+                    var targetPropertyType = targetColumnProperty.PropertyType;
+                    var sourcePropertyType = sourceColumnProperty.PropertyType;
+                    return src.FilterValues?
+                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x.Value, sourcePropertyType, targetPropertyType) : x.Value)
+                        .ToArray()
+                        ?? new object[0];
+                }));
         }
 
         private void SortObservableCollection<T, TKey>(ObservableCollection<T> collection, Func<T, TKey> key)

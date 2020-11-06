@@ -40,15 +40,35 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public long? ResultRowId { get; set; }
         [DataMember]
         public long ResultId { get; set; }
-        //[DataMember]
-        //public int FinalPosition { get; set; }
+        [DataMember]
+        public SimSessionTypeEnum SimSessionType { get; set; }
         [DataMember]
         public int StartPosition { get; set; }
         [DataMember]
         public int FinishPosition { get; set; }
         [DataMember]
-        //public int MemberId { get; set; }
         public LeagueMemberInfoDTO Member { get; set; }
+
+        [DataMember]
+        public int OldIRating { get; set; }
+        [DataMember]
+        public int NewIRating { get; set; }
+        [DataMember]
+        public int SeasonStartIRating { get; set; }
+        [DataMember]
+        public string License { get; set; }
+        [DataMember]
+        public double OldSafetyRating { get; set; }
+        [DataMember]
+        public double NewSafetyRating { get; set; }
+        [DataMember]
+        public int OldCpi { get; set; }
+        [DataMember]
+        public int NewCpi { get; set; }
+        [DataMember]
+        public int ClubId { get; set; }
+        [DataMember]
+        public string ClubName { get; set; }
         [DataMember]
         public string TeamName { get; set; }
         [DataMember]
@@ -58,9 +78,13 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public string Car { get; set; }
         [DataMember]
+        public int CarId { get; set; }
+        [DataMember]
         public string CarClass { get; set; }
         [DataMember]
         public int CompletedLaps { get; set; }
+        [DataMember]
+        public double CompletedPct { get; set; }
         [DataMember]
         public int LeadLaps { get; set; }
         [DataMember]
@@ -69,10 +93,6 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int Incidents { get; set; }
         [DataMember]
         public RaceStatusEnum Status { get; set; }
-        //[DataMember]
-        //public int RacePoints { get; set; }
-        //[DataMember]
-        //public int BonusPoints { get; set; }
         [DataMember]
         public TimeSpan QualifyingTime { get; set; }
         [DataMember]
@@ -87,6 +107,13 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public string LocationId { get; set; }
         [DataMember]
         public DateTime Date { get; set; }
+        [DataMember]
+        public int Division { get; set; }
+        [DataMember]
+        public int OldLicenseLevel { get; set; }
+        [DataMember]
+        public int NewLicenseLevel { get; set; }
+
 
         public override object MappingId => ResultRowId;
 

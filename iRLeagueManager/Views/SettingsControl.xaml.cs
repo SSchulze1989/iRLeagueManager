@@ -38,6 +38,7 @@ using System.Collections.ObjectModel;
 
 using iRLeagueManager.ViewModels;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics.Eventing.Reader;
 
 namespace iRLeagueManager.Views
 {
@@ -63,32 +64,41 @@ namespace iRLeagueManager.Views
                 //var editWindow = new ModalOkCancelWindow();
                 //editWindow.Width = 250;
                 //editWindow.Height = 500;
+                var EditPanel = new ModalOkCancelControl();
+                MainGrid.Children.Add(EditPanel);
                 var editWindow = EditPanel;
                 var content = new PointsEditControl();
 
                 editWindow.Title = "Edit Base points";
 
-                if (button.Tag is ScoringViewModel scoring && scoring != null)
+                try
                 {
-                    var editBasePoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BasePointsValue>(scoring.BasePoints.ToList());
-                    content.DataContext = editBasePoints;
-                    editWindow.ModalContent = content;
-
-                    if (editWindow.ShowDialog() == true)
+                    if (button.Tag is ScoringViewModel scoring && scoring != null)
                     {
-                        int i;
-                        for (i = 0; i < editBasePoints.Count(); i++)
+                        var editBasePoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BasePointsValue>(scoring.BasePoints.ToList());
+                        content.DataContext = editBasePoints;
+                        editWindow.ModalContent = content;
+
+                        if (editWindow.ShowDialog() == true)
                         {
-                            if (i >= scoring.BasePoints.Count())
-                                scoring.BasePoints.Add(editBasePoints[i]);
-                            else
-                                scoring.BasePoints[i] = editBasePoints[i];
-                        }
-                        for (i = editBasePoints.Count(); i < scoring.BasePoints.Count(); i++)
-                        {
-                            scoring.BasePoints.RemoveAt(i);
+                            int i;
+                            for (i = 0; i < editBasePoints.Count(); i++)
+                            {
+                                if (i >= scoring.BasePoints.Count())
+                                    scoring.BasePoints.Add(editBasePoints[i]);
+                                else
+                                    scoring.BasePoints[i] = editBasePoints[i];
+                            }
+                            for (i = editBasePoints.Count(); i < scoring.BasePoints.Count(); i++)
+                            {
+                                scoring.BasePoints.RemoveAt(i);
+                            }
                         }
                     }
+                }
+                finally
+                {
+                    MainGrid.Children.Remove(EditPanel);
                 }
             }
         }
@@ -99,32 +109,41 @@ namespace iRLeagueManager.Views
                 //var editWindow = new ModalOkCancelWindow();
                 //editWindow.Width = 250;
                 //editWindow.Height = 500;
+                var EditPanel = new ModalOkCancelControl();
+                MainGrid.Children.Add(EditPanel);
                 var editWindow = EditPanel;
                 var content = new PointsEditControl();
 
                 editWindow.Title = "Edit Bonus points";
 
-                if (button.Tag is ScoringViewModel scoring && scoring != null)
+                try
                 {
-                    var editBonusPoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BonusPointsValue>(scoring.BonusPoints.ToList());
-                    content.DataContext = editBonusPoints;
-                    editWindow.ModalContent = content;
-
-                    if (editWindow.ShowDialog() == true)
+                    if (button.Tag is ScoringViewModel scoring && scoring != null)
                     {
-                        int i;
-                        for (i = 0; i < editBonusPoints.Count(); i++)
+                        var editBonusPoints = new ObservableCollection<iRLeagueManager.Models.Results.ScoringModel.BonusPointsValue>(scoring.BonusPoints.ToList());
+                        content.DataContext = editBonusPoints;
+                        editWindow.ModalContent = content;
+
+                        if (editWindow.ShowDialog() == true)
                         {
-                            if (i >= scoring.BonusPoints.Count())
-                                scoring.BonusPoints.Add(editBonusPoints[i]);
-                            else
-                                scoring.BonusPoints[i] = editBonusPoints[i];
-                        }
-                        for (i = editBonusPoints.Count(); i < scoring.BonusPoints.Count(); i++)
-                        {
-                            scoring.BonusPoints.RemoveAt(i);
+                            int i;
+                            for (i = 0; i < editBonusPoints.Count(); i++)
+                            {
+                                if (i >= scoring.BonusPoints.Count())
+                                    scoring.BonusPoints.Add(editBonusPoints[i]);
+                                else
+                                    scoring.BonusPoints[i] = editBonusPoints[i];
+                            }
+                            for (i = editBonusPoints.Count(); i < scoring.BonusPoints.Count(); i++)
+                            {
+                                scoring.BonusPoints.RemoveAt(i);
+                            }
                         }
                     }
+                }
+                finally
+                {
+                    MainGrid.Children.Remove(EditPanel);
                 }
             }
         }
@@ -171,6 +190,28 @@ namespace iRLeagueManager.Views
                     ViewModel.DeleteScoringTable(scoringTableViewModel.Model);
                 }
                 e.Handled = true;
+            }
+        }
+
+        private async void EditFiltersButton_Click(object sender, RoutedEventArgs e)
+        {
+            var EditPanel = new ModalOkCancelControl();
+            MainGrid.Children.Add(EditPanel);
+            try
+            {
+                if (sender is Button button && button.Tag is ScoringViewModel scoringViewModel)
+                {
+                    var editWindow = EditPanel;
+                    var filterEdit = new FiltersEditControl();
+                    await filterEdit.ViewModel.Load(scoringViewModel.Model);
+                    editWindow.ModalContent = filterEdit;
+
+                    editWindow.ShowDialog();
+                }
+            }
+            finally
+            {
+                MainGrid.Children.Remove(EditPanel);
             }
         }
     }

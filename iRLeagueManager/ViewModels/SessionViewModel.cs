@@ -34,7 +34,7 @@ using Microsoft.Win32;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models;
 using iRLeagueManager.Interfaces;
-using iRLeagueManager.Services;
+using iRLeagueManager.ResultsParser;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Locations;
@@ -158,7 +158,7 @@ namespace iRLeagueManager.ViewModels
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
-                Filter = "CSV Dateien (*.csv)|*.csv",
+                Filter = "CSV Dateien (*.csv)|*.csv|Json Dateien (*.json)|*.json",
                 Multiselect = false
             };
             if (openDialog.ShowDialog() == false)
@@ -169,13 +169,30 @@ namespace iRLeagueManager.ViewModels
             var fileName = openDialog.FileName;
 
             Stream stream = null;
-            ResultParserService parserService = new ResultParserService(GlobalSettings.LeagueContext);
-            IEnumerable<Dictionary<string, string>> lines = null; 
+
+            // get file type from extension
+            var ext = fileName.Split('.').Last().ToLower();
+
+            ResultsFileTypeEnum resultsFileType;
+            switch (ext)
+            {
+                case "csv":
+                    resultsFileType = ResultsFileTypeEnum.CSV;
+                    break;
+                case "json":
+                    resultsFileType = ResultsFileTypeEnum.Json;
+                    break;
+                default:
+                    resultsFileType = ResultsFileTypeEnum.CSV;
+                    break;
+            }
+            var parserService = ResultsParserFactory.GetResultsParser(resultsFileType);
+            //IEnumerable<Dictionary<string, string>> lines = null; 
 
             try
             {
                 stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                lines = parserService.ParseCSV(new StreamReader(stream, Encoding.Default));
+                await parserService.ReadStreamAsync(new StreamReader(stream, Encoding.UTF8));
             }
             catch (Exception e)
             {
@@ -194,7 +211,7 @@ namespace iRLeagueManager.ViewModels
                 await LeagueContext.UpdateMemberList();
                 var memberList = LeagueContext.MemberList;
                 parserService.MemberList = memberList;
-                var newMembers = parserService.GetNewMemberList(lines).Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
+                var newMembers = parserService.GetNewMemberList().Where(x => !memberList.Any(y => y.IRacingId == x.IRacingId));
 
                 newMembers = await LeagueContext.AddModelsAsync(newMembers.ToArray());
                 foreach(var member in newMembers)
@@ -208,12 +225,13 @@ namespace iRLeagueManager.ViewModels
                 if (session == null)
                     return;
 
-                var resultRows = parserService.GetResultRows(lines);
+                var resultRows = parserService.GetResultRows();
                 ResultModel result;
                 if (session.SessionResult != null)
                 {
                     result = await LeagueContext.GetModelAsync<ResultModel>(session.SessionResult.ResultId.GetValueOrDefault());
-                    await LeagueContext.DeleteModelsAsync(result.RawResults.ToArray());
+                    resultRows = result.RawResults.MapToCollection(resultRows);                    
+                    await LeagueContext.DeleteModelsAsync(result.RawResults.Except(resultRows).ToArray());
                     resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
                     resultRows = (await LeagueContext.AddModelsAsync(resultRows.ToArray()));
                     result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
@@ -234,7 +252,7 @@ namespace iRLeagueManager.ViewModels
                     //await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                     await GlobalSettings.LeagueContext.UpdateModelAsync(session);
                 }
-                //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
+            //CurrentResult = await LeagueContext.GetModelAsync<ResultModel>(season.Results.OrderBy(x => x.Session.Date).LastOrDefault().ResultId);
             }
             catch (Exception e)
             {

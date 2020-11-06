@@ -20,73 +20,80 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using iRLeagueManager.Data;
+using iRLeagueManager.Enums;
+using iRLeagueManager.Models.Members;
+using iRLeagueManager.Models.Results;
+using iRLeagueManager.Timing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using iRLeagueManager.Data;
-using iRLeagueManager.Interfaces;
-using iRLeagueManager.Enums;
-using iRLeagueManager.Timing;
-using iRLeagueManager.Models.Results;
-using iRLeagueManager.Models.Members;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace iRLeagueManager.Services
+namespace iRLeagueManager.ResultsParser
 {
-    public class ResultParserService
+    public class CSVParser : IResultsParser
     {
         //public ILeague LeagueClient { get; set; }
 
-        public LeagueContext LeagueContext { get; set; }
+        //public LeagueContext LeagueContext { get; set; }
+
+        private IEnumerable<IDictionary<string, string>> DataLines { get; set; }
+
         public IEnumerable<LeagueMember> MemberList { get; set; }
+
+        public IEnumerable<TeamModel> TeamList { get; set; }
+
+        public int HeaderLine { get; set; } = 9;
+
+        public int FirstDataLine { get; set; } = 10;
 
         public char Delimiter { get; set; } = ',';
 
-        public ResultParserService() { }
+        public CSVParser() { }
 
-        public ResultParserService(LeagueContext context)
-        {
-            //LeagueClient = leagueClient;
-            LeagueContext = context;
-        }
+        //public CSVParser(LeagueContext context)
+        //{
+        //    //LeagueClient = leagueClient;
+        //    LeagueContext = context;
+        //}
 
-        public IEnumerable<Dictionary<string, string>> ParseCSV(StreamReader reader, int headerLine = 9, int firstDataLine = 10)
+        public async Task ReadStreamAsync(StreamReader reader)
         {
             int currentLine = 0;
 
-            if (firstDataLine <= headerLine)
+            if (FirstDataLine <= HeaderLine)
             {
                 throw new ArgumentException("First data line is before header line. Header must always be above data!");
             }
 
             IEnumerable<string> Header = new string[0];
-            List<Dictionary<string, string>> DataLines = new List<Dictionary<string, string>>();
+            var dataLines = new List<Dictionary<string, string>>();
 
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine();
                 currentLine++;
-                if (currentLine == headerLine)
+                if (currentLine == HeaderLine)
                 {
                     Header = line.Split(Delimiter).Select(x => x.Replace(" ", "").Replace("\"", ""));
                 }
-                if (currentLine >= firstDataLine)
+                if (currentLine >= FirstDataLine)
                 {
                     IEnumerable<string> data = line.Replace("\"", "").Split(Delimiter);
-                    DataLines.Add(data.Select((x, i) => new { k = Header.ElementAt(i), v = x }).ToDictionary(x => x.k, x => x.v));
+                    dataLines.Add(data.Select((x, i) => new { k = Header.ElementAt(i), v = x }).ToDictionary(x => x.k, x => x.v));
                 }
             }
 
-            return DataLines;
+            DataLines = dataLines;
         }
 
-        public IEnumerable<LeagueMember> GetNewMemberList(IEnumerable<Dictionary<string, string>> dataLines)
+        public IEnumerable<LeagueMember> GetNewMemberList()
         {
             var memberList = new List<LeagueMember>();
 
-            foreach (var line in dataLines)
+            foreach (var line in DataLines)
             {
                 IRacingResultRow row = new IRacingResultRow();
                 if (!MemberList.Any(x => x.IRacingId == line["CustID"]))
@@ -110,13 +117,13 @@ namespace iRLeagueManager.Services
             return memberList;
         }
 
-        public IEnumerable<ResultRowModel> GetResultRows(IEnumerable<Dictionary<string, string>> dataLines)
+        public IEnumerable<ResultRowModel> GetResultRows()
         {
             List<IRacingResultRow> resultRows = new List<IRacingResultRow>();
 
             var culture = System.Globalization.CultureInfo.GetCultureInfo("de-EN");
 
-            foreach (var line in dataLines)
+            foreach (var line in DataLines)
             {
                 IRacingResultRow row = new IRacingResultRow
                 {
