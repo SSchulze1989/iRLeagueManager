@@ -55,7 +55,8 @@
                                 </DataGridTemplateColumn.Visibility>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Value.FullName}"/>
+                                        <ComboBox ItemsSource="{Binding Source={x:Static vmodel:FilterEditViewModel.MemberList}, Path=MemberList}" SelectedItem="{Binding Value}" DisplayMemberPath="FullName"
+                                                  IsTextSearchEnabled="True" IsEditable="True"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
@@ -163,7 +164,7 @@
             </DataGrid.Columns>
         </DataGrid>-->
 
-        <StackPanel>
+        <StackPanel MinHeight="120">
             <ListView ItemsSource="{Binding ResultsFilterOptions}">
                 <ListView.View>
                     <GridView>

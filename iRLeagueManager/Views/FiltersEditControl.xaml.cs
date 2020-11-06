@@ -70,7 +70,6 @@ namespace iRLeagueManager.Views
         public async void OnLoad()
         {
             await ViewModel?.Refresh();
-            await GlobalSettings.LeagueContext.UpdateMemberList();
             return;
         }
 

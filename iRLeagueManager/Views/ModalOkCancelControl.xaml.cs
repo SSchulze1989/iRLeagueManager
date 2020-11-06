@@ -96,6 +96,14 @@ namespace iRLeagueManager.Views
 
         public bool? ShowDialog()
         {
+            if (IsDialogOpen == false)
+            {
+                if (ModalContent is IModalContent modalContent)
+                {
+                    modalContent.OnLoad();
+                }
+            }
+
             IsDialogOpen = true;
             InvalidateVisual();
             UpdateLayout();
@@ -104,10 +112,11 @@ namespace iRLeagueManager.Views
                 var window = new ModalOkCancelWindow()
                 {
                     Title = Title,
-                    WindowStartupLocation = WindowStartupLocation.Manual
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    IsDialogOpen = true
                 };
-                window.Height = popupGrid.ActualHeight + 40;
-                window.Width = popupGrid.ActualWidth;
+                window.Height = popupGrid.ActualHeight + 60;
+                window.Width = popupGrid.ActualWidth + 15;
 
                 PresentationSource source = PresentationSource.FromVisual(this);
 
@@ -143,15 +152,12 @@ namespace iRLeagueManager.Views
                 }
                 else
                 {
+                    IsDialogOpen = true;
                     return ShowDialog();
                 }
             }
             else
             {
-                if (ModalContent is IModalContent modalContent)
-                {
-                    modalContent.OnLoad();
-                }
                 var frame = new DispatcherFrame();
                 this.DialogClosed += (sender, args) =>
                 {
@@ -165,6 +171,7 @@ namespace iRLeagueManager.Views
                 }
                 else
                 {
+                    IsDialogOpen = true;
                     return ShowDialog();
                 }
             }
