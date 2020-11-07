@@ -105,18 +105,8 @@ namespace iRLeagueManager.ViewModels
 
         public SessionViewModel SelectedSession { get => SessionSelect?.SelectedSession; set => SessionSelect.SelectedSession = value; }
 
-        private ObservableModelCollection<ScoringViewModel, ScoringModel> scoringList;
-        public ObservableModelCollection<ScoringViewModel, ScoringModel> ScoringList
-        {
-            get => scoringList;
-            protected set
-            {
-                if (SetValue(ref scoringList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
-                {
-                    OnPropertyChanged(null);
-                }
-            }
-        }
+        private readonly ObservableModelCollection<ScoringViewModel, ScoringModel> scoringList;
+        public ICollectionView ScoringList => scoringList.CollectionView;
 
         public ICommand CalculateResultsCmd { get; }
 
@@ -131,8 +121,8 @@ namespace iRLeagueManager.ViewModels
                     else
                         return new ScoredResultViewModel();
                 },
-                x => x.Scoring = ScoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
-            ScoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>(x => x.Season = season);
+                x => x.Scoring = scoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
+            scoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>(x => x.Season = season);
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
             {
@@ -172,7 +162,7 @@ namespace iRLeagueManager.ViewModels
 
                 // Set scorings List
                 var scoringModels = await LeagueContext.GetModelsAsync<ScoringModel>(scoringsInfo.Select(x => x.ModelId));
-                ScoringList.UpdateSource(scoringModels);
+                scoringList.UpdateSource(scoringModels);
 
                 // Set session List
                 //var sessionsInfo = ScoringList.SelectMany(x => x.Sessions);
@@ -265,7 +255,7 @@ namespace iRLeagueManager.ViewModels
                 // Load current Result
                 var scoredResultModelIds = new List<long[]>();
                 //SelectedResult = null;
-                foreach (var scoring in ScoringList)
+                foreach (var scoring in scoringList)
                 {
                     var modelId = new long[] { SelectedSession.SessionId, scoring.ScoringId.GetValueOrDefault() };
                     scoredResultModelIds.Add(modelId);
