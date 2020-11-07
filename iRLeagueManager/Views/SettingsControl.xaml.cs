@@ -150,7 +150,7 @@ namespace iRLeagueManager.Views
 
         private void DeleteScoringButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is ScoringViewModel scoringViewModel && ViewModel != null)
+            if (sender is Control control && control.Tag is ScoringViewModel scoringViewModel && ViewModel != null)
             {
                 if (MessageBox.Show($"Would you really like to delete th Scoring \"{scoringViewModel.Name}\"?\nThis action can not be undone!", "Delete Scoring", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
                     ViewModel.DeleteScoring(scoringViewModel.Model);
@@ -183,7 +183,7 @@ namespace iRLeagueManager.Views
 
         private void DeleteScoringTableButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is ScoringTableViewModel scoringTableViewModel && ViewModel != null)
+            if (sender is Control control && control.Tag is ScoringTableViewModel scoringTableViewModel && ViewModel != null)
             {
                 if (MessageBox.Show($"Would you really like to delete the Scoring Table \"{ scoringTableViewModel.Name}\"?\nThis action can not be undone!", "Delete ScoringTable", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
