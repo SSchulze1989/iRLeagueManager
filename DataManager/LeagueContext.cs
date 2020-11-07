@@ -193,6 +193,11 @@ namespace iRLeagueManager.Data
             return this.ModelManager.GetModelsAsync<T>(modelIds, update, reload);
         }
 
+        public Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<T> models, bool update = false, bool reload = false) where T : MappableModel
+        {
+            return GetModelsAsync<T>(models.Select(x => x.ModelId), update, reload);
+        }
+
         public Task<T> UpdateModelAsync<T>(T model) where T : MappableModel
         {
             return this.ModelManager.UpdateModelAsync<T>(model);
