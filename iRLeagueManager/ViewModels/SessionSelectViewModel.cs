@@ -31,6 +31,7 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels.Collections;
 using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
+using iRLeagueManager.Models;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -71,6 +72,8 @@ namespace iRLeagueManager.ViewModels
 
         public IEnumerable<SessionViewModel> FilteredSessions => SessionList.Where(SessionFilter);
 
+        public event EventHandler SelectedSessionChanged;
+
         private Func<SessionViewModel, bool> sessionFilter;
         public Func<SessionViewModel, bool> SessionFilter 
         { 
@@ -96,6 +99,32 @@ namespace iRLeagueManager.ViewModels
             FirstSessionCmd = new RelayCommand(o => SelectFirstSession(), o => CanSelectPreviousSession());
             LastSessionCmd = new RelayCommand(o => SelectLastSession(), o => CanSelectNextSession());
             SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
+        }
+
+        public async Task LoadSessions(SeasonModel season)
+        {
+            if (season == null)
+            {
+                SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>());
+            }
+
+            try
+            {
+                IsLoading = true;
+                var scheduleList = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>();
+                var schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ModelId));
+                scheduleList.UpdateSource(schedules);
+
+                SessionList = new ReadOnlyObservableCollection<SessionViewModel>(new ObservableCollection<SessionViewModel>(scheduleList.SelectMany(x => x.Sessions).OrderBy(x => x.Date).ToList()));
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         public async Task LoadSessions(IEnumerable<SessionInfo> sessions)
@@ -196,6 +225,7 @@ namespace iRLeagueManager.ViewModels
         {
             if (propertyName == nameof(SelectedSession))
             {
+                SelectedSessionChanged?.Invoke(this, new EventArgs());
             }
 
             base.OnPropertyChanged(propertyName);
