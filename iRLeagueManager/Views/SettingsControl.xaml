@@ -622,6 +622,16 @@ SOFTWARE.-->
                         </controls:HeaderedBorder>
                     </Grid>
                 </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="Stats" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
+                    </TabItem.Header>
+                    <Grid>
+                        <controls:HeaderedBorder Header="Statistics Options" VerticalAlignment="Top">
+                            <TextBlock Text="This feature is not yet implemented. Release of statistics is aimed for v0.8 release."/>
+                        </controls:HeaderedBorder>
+                    </Grid>
+                </TabItem>
                 <TabControl.Resources>
                 </TabControl.Resources>
             </TabControl>
