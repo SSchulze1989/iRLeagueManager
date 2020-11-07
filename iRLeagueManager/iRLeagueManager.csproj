@@ -123,6 +123,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\ContentScrollViewer.cs" />
     <Compile Include="Controls\ExtendScrollviewer.cs" />
+    <Compile Include="Controls\HeaderedBorder.cs" />
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\IconToggleButton.cs" />
     <Compile Include="Controls\StandingsTemplateSelector.cs" />
