@@ -364,5 +364,30 @@ namespace iRLeagueManager.Views
                 ReviewsItemsControl.ScrollIntoView(newSelection);
             }
         }
+
+        private async void ChoseResultButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
+            {
+                //var editWindow = new ModalOkCancelWindow();
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 700;
+                var content = new ReviewResultControl();
+
+                if (content.DataContext is IncidentReviewViewModel editVM)
+                {
+                    editVM.Model.CopyFrom(reviewVM.Model);
+                    await editVM.Refresh();
+
+                    editWindow.ModalContent = content;
+                    if (editWindow.ShowDialog() == true)
+                    {
+                        reviewVM.Model.CopyFrom(editVM.Model);
+                        await reviewVM.SaveChanges();
+                    }
+                }
+            }
+        }
     }
 }

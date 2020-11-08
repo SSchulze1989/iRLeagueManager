@@ -53,14 +53,6 @@ namespace iRLeagueManager.Views
 
         public async Task<bool> OnSubmitAsync()
         {
-            try
-            {
-                await ViewModel.SaveChanges();
-            }
-            catch
-            {
-                return false;
-            }
             return true;
         }
     }
