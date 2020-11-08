@@ -365,7 +365,7 @@ namespace iRLeagueManager.Views
             }
         }
 
-        private async void ChoseResultButton_Click(object sender, RoutedEventArgs e)
+        private async void EditResultButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
             {

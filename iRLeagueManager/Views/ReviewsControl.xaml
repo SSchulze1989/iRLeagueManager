@@ -716,8 +716,8 @@ SOFTWARE.-->
                                                                     <StackPanel Orientation="Horizontal">
                                                                         <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
                                                                                        FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
-                                                                        <controls:IconButton Content="Choose Result" x:Name="ChooseResultButton" VerticalAlignment="Center" Margin="10,0"
-                                                                                             BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="4,2" Click="ChoseResultButton_Click"
+                                                                        <controls:IconButton Content="Edit Result" x:Name="EditResultButton" VerticalAlignment="Center" Margin="10,0"
+                                                                                             BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="4,2" Click="EditResultButton_Click"
                                                                                              Tag="{Binding}"/>
                                                                     </StackPanel>
                                                                     <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">

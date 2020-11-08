@@ -28,7 +28,7 @@ namespace iRLeagueManager.Views
             InitializeComponent();
         }
 
-        public string Header => "Chose Result";
+        public string Header => "Edit Result";
 
         public string SubmitText => "Save";
 
