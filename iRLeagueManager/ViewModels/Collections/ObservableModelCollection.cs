@@ -308,12 +308,13 @@ namespace iRLeagueManager.ViewModels.Collections
                 }
 
                 NotifyCollectionActive = false;
-                for (int i=0; i<Items.Count(); i++)
-                {
-                    var item = TargetCollection.ElementAt(i);
-                    item.Dispose();
-                    //TargetCollection.Remove(item);
-                }
+                //for (int i=0; i<Items.Count(); i++)
+                //{
+                //    var item = TargetCollection.ElementAt(i);
+                //    //item.Dispose();
+                //    TargetCollection.Remove(item);
+                //}
+                _collectionSource = new TSource[0];
 
                 disposedValue = true;
             }

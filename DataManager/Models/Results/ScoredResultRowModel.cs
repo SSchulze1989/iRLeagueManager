@@ -55,6 +55,8 @@ namespace iRLeagueManager.Models.Results
 
         public int TotalPoints => RacePoints + BonusPoints - PenaltyPoints;
 
+        public override int PositionChange => StartPosition - FinalPosition;
+
         //public int PositionChange => StartPosition - FinalPosition;
 
         //public long? ResultRowId { get; internal set; }

@@ -103,14 +103,53 @@ SOFTWARE.-->
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition  Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="1" ItemsSource="{Binding ScoringTableList}" IsSynchronizedWithCurrentItem="True">
+        <TextBlock Text="Select Session:" Margin="5" FontWeight="Bold" FontSize="{StaticResource Global.FontSizeLarge}"/>
+        <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="0,0,0,0.5">
+            <Grid Grid.Row="1" DataContext="{Binding SessionSelect}" Margin="0,0,8,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="900"/>
+                </Grid.ColumnDefinitions>
+                <local:SessionSelectControl Grid.Row="1" HorizontalAlignment="Stretch">
+                    <local:SessionSelectControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} - {1} ({2})">
+                                            <Binding Path="RaceDate" StringFormat="Date"/>
+                                            <Binding Path="Location.FullName"/>
+                                            <Binding Path="Schedule.Name"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Text="    (Current)">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsCurrentSession}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </local:SessionSelectControl.ItemTemplate>
+                </local:SessionSelectControl >
+            </Grid>
+        </Border>        
+
+        <TabControl Grid.Row="2" ItemsSource="{Binding ScoringTableList}" IsSynchronizedWithCurrentItem="True">
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Name}" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
@@ -121,7 +160,7 @@ SOFTWARE.-->
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         
-                        <local:SessionSelectControl Grid.Row="0" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
+                        <!--<local:SessionSelectControl Grid.Row="0" HorizontalAlignment="Stretch" DataContext="{Binding SessionSelect}">
                             <local:SessionSelectControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type ComboBoxItem}">
                                     <StackPanel Orientation="Horizontal">
@@ -148,7 +187,7 @@ SOFTWARE.-->
                                     </StackPanel>
                                 </DataTemplate>
                             </local:SessionSelectControl.ItemTemplate>
-                        </local:SessionSelectControl>
+                        </local:SessionSelectControl>-->
 
                         <ContentControl Grid.Row="1" Content="{Binding}" ContentTemplateSelector="{StaticResource StandingsTemplateSelector}">
                             <ContentControl.Resources>
