@@ -125,6 +125,7 @@
     <Compile Include="Enums\VoteEnum.cs" />
     <Compile Include="Enums\VoteState.cs" />
     <Compile Include="Enums\WeekDaysFlag.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\NestedPropertyInfo.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Filters\ColumnPropertyFilterDescription.cs" />
