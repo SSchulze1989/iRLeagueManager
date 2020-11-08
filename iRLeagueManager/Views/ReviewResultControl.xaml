@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="iRLeagueManager.Views.ReviewResultControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:iRLeagueManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500" Background="White" 
+             FontSize="{StaticResource Global.FontSizeMedium}"
+             FontFamily="{StaticResource Global.FontFamily}">
+    <Grid x:Name="MainGrid" MinWidth="300" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Width="500" Visibility="Hidden"/>
+
+        <TextBlock Text="Voting Result:" Grid.Row="0"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid x:Name="VoteGrid" Grid.Column="0" ItemsSource="{Binding AcceptedVotes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5"
+                          CanUserDeleteRows="False" MinHeight="110">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Vote" MinWidth="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteCategories}"
+                                          SelectedItem="{Binding VoteCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DisplayMemberPath="Text"
+                                          Width="Auto" Margin="5,2"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Member" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.InvolvedMembers}" SelectedItem="{Binding MemberAtFault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,2"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
+                <Button Content="Add" Command="{Binding AddVoteCmd}" Margin="0,0,0,5" Padding="2"/>
+                <Button Content="Remove" Command="{Binding DeleteVoteCmd}" CommandParameter="{Binding ElementName=VoteGrid, Path=SelectedItem}" Margin="0,0,0,5" Padding="2"/>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Text="Add info text:" Grid.Row="2"/>
+        <TextBox AcceptsReturn="True" Text="{Binding ResultLongText}" AcceptsTab="True" Height="135" Grid.Row="3"/>
+
+        <Grid.Resources>
+            <Style TargetType="TextBox" >
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="ListBox" >
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="IsEditable" Value="True" />
+                <Setter Property="IsTextSearchEnabled" Value="True" />
+            </Style>
+            <Style TargetType="TextBlock" >
+                <Setter Property="Margin" Value="5,0" />
+            </Style>
+        </Grid.Resources>
+    </Grid>
+</UserControl>

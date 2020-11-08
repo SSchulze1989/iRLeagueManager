@@ -233,6 +233,9 @@
     <Compile Include="Views\ReviewEditControl.xaml.cs">
       <DependentUpon>ReviewEditControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReviewResultControl.xaml.cs">
+      <DependentUpon>ReviewResultControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReviewsControl.xaml.cs">
       <DependentUpon>ReviewsControl.xaml</DependentUpon>
     </Compile>
@@ -330,6 +333,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReviewEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewResultControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
