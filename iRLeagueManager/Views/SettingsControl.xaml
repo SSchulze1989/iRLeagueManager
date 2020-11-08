@@ -62,7 +62,7 @@ SOFTWARE.-->
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TabControl Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
-                <TabItem>
+                <TabItem DataContext="{Binding Season}">
                     <TabItem.Header>
                         <TextBlock Text="Season" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
                     </TabItem.Header>
