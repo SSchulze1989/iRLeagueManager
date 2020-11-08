@@ -34,6 +34,7 @@ using iRLeagueDatabase.DataTransfer.Results;
 using iRLeagueDatabase.DataTransfer.Reviews;
 using iRLeagueDatabase.DataTransfer.Sessions;
 using System.Xml.Serialization;
+using iRLeagueDatabase.DataTransfer.Filters;
 
 namespace iRLeagueDatabase.DataTransfer
 {
@@ -95,7 +96,9 @@ namespace iRLeagueDatabase.DataTransfer
         KnownType(typeof(TeamStandingsDataDTO)),
         KnownType(typeof(TeamStandingsRowDataDTO)),
         KnownType(typeof(VoteCategoryDTO)),
-        KnownType(typeof(CustomIncidentDTO))]
+        KnownType(typeof(CustomIncidentDTO)),
+        KnownType(typeof(ReviewPenaltyDTO)),
+        KnownType(typeof(ResultsFilterOptionDTO))]
     public abstract class MappableDTO : IMappableDTO
     {
         public bool IsReadOnly { get; set; }

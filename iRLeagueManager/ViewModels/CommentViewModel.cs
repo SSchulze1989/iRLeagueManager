@@ -56,10 +56,10 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-
         public string AuthorName => Model?.AuthorName;
         public string Text { get => Model?.Text; set => Model.Text = value; }
         public DateTime Date => (Model?.Date).GetValueOrDefault();
+
         protected override CommentModel Template => new ReviewCommentModel(new UserModel("", "MemberTwo"))
         {
             Text = "This is a reply!\nAlso with a line break!"

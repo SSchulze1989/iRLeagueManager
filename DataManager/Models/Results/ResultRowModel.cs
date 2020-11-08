@@ -45,6 +45,9 @@ namespace iRLeagueManager.Models.Results
         [EqualityCheckProperty]
         public long ResultId { get; set; }
 
+        private SimSessionTypeEnum simSessionType;
+        public SimSessionTypeEnum SimSessionType { get => simSessionType; set => SetValue(ref simSessionType, value); }
+
         //public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
         public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault() };
 
@@ -60,6 +63,8 @@ namespace iRLeagueManager.Models.Results
         private LeagueMember member;
         public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
         ILeagueMember IResultRow.Member => Member;
+
+        public string TeamName => Member?.Team?.Name;
 
         public long? MemberId { get => Member?.MemberId; }
 
@@ -77,6 +82,9 @@ namespace iRLeagueManager.Models.Results
 
         public int completedLaps;
         public int CompletedLaps { get => completedLaps; set { completedLaps = value; OnPropertyChanged(); } }
+
+        private double completedPct;
+        public double CompletedPct { get => completedPct; set => SetValue(ref completedPct, value); }
 
         private int leadLaps;
         public int LeadLaps { get => leadLaps; set { leadLaps = value; OnPropertyChanged(); } }
@@ -113,6 +121,30 @@ namespace iRLeagueManager.Models.Results
 
         //private int positionChange;
         public virtual int PositionChange => StartPosition - FinishPosition;
+
+        private int oldIRating;
+        public int OldIRating { get => oldIRating; set => SetValue(ref oldIRating, value); }
+
+        private int newIRating;
+        public int NewIRating { get => newIRating; set => SetValue(ref newIRating, value); }
+
+        private double oldSafetyRating;
+        public double OldSafetyRating { get => oldSafetyRating; set => SetValue(ref oldSafetyRating, value); }
+
+        private double newSafetyRating;
+        public double NewSafetyRating { get => newSafetyRating; set => SetValue(ref newSafetyRating, value); }
+
+        private int seasonStartIRating;
+        public int SeasonStartIRating { get => seasonStartIRating; set => SetValue(ref seasonStartIRating, value); }
+
+        private int clubId;
+        public int ClubId { get => clubId; set => SetValue(ref clubId, value); }
+
+        private string clubName;
+        public string ClubName { get => clubName; set => SetValue(ref clubName, value); }
+
+        private int division;
+        public int Division { get => division; set => SetValue(ref division, value); }
 
         public ResultRowModel()
         {

@@ -32,10 +32,11 @@ using iRLeagueManager.Attributes;
 using iRLeagueManager.Timing;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Locations;
+using iRLeagueManager.Models.Reviews;
 
 namespace iRLeagueManager.Models.Results
 {
-    public class ScoredResultRowModel : MappableModel
+    public class ScoredResultRowModel : ResultRowModel
     {
         [EqualityCheckProperty]
         public long? ScoredResultRowId { get; internal set; }
@@ -54,80 +55,85 @@ namespace iRLeagueManager.Models.Results
 
         public int TotalPoints => RacePoints + BonusPoints - PenaltyPoints;
 
-        public int PositionChange => StartPosition - FinalPosition;
+        public override int PositionChange => StartPosition - FinalPosition;
 
-        public long? ResultRowId { get; internal set; }
-        public long ResultId { get; set; }
+        //public int PositionChange => StartPosition - FinalPosition;
 
-        //public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
+        //public long? ResultRowId { get; internal set; }
+        //public long ResultId { get; set; }
 
-        //private int finalPosition;
-        //public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }
+        ////public override long[] ModelId => new long[] { ResultRowId.GetValueOrDefault(), ResultId };
 
-        private int startPosition;
-        public int StartPosition { get => startPosition; set { startPosition = value; OnPropertyChanged(); } }
+        ////private int finalPosition;
+        ////public int FinalPosition { get => finalPosition; set { finalPosition = value; OnPropertyChanged(); } }
 
-        private int finishPosition;
-        public int FinishPosition { get => finishPosition; set { finishPosition = value; OnPropertyChanged(); } }
+        //private int startPosition;
+        //public int StartPosition { get => startPosition; set { startPosition = value; OnPropertyChanged(); } }
 
-        private LeagueMember member;
-        public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
+        //private int finishPosition;
+        //public int FinishPosition { get => finishPosition; set { finishPosition = value; OnPropertyChanged(); } }
 
-        private string teamName;
-        public string TeamName { get => teamName; set => SetValue(ref teamName, value); }
+        //private LeagueMember member;
+        //public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
 
-        public long? MemberId { get => Member?.MemberId; }
+        //private string teamName;
+        //public string TeamName { get => teamName; set => SetValue(ref teamName, value); }
 
-        private int carNumber;
-        public int CarNumber { get => carNumber; set { carNumber = value; OnPropertyChanged(); } }
+        //public long? MemberId { get => Member?.MemberId; }
 
-        private int classId;
-        public int ClassId { get => classId; set { classId = value; OnPropertyChanged(); } }
+        //private int carNumber;
+        //public int CarNumber { get => carNumber; set { carNumber = value; OnPropertyChanged(); } }
 
-        private string car;
-        public string Car { get => car; set { car = value; OnPropertyChanged(); } }
+        //private int classId;
+        //public int ClassId { get => classId; set { classId = value; OnPropertyChanged(); } }
 
-        private string carClass;
-        public string CarClass { get => carClass; set { carClass = value; OnPropertyChanged(); } }
+        //private string car;
+        //public string Car { get => car; set { car = value; OnPropertyChanged(); } }
 
-        public int completedLaps;
-        public int CompletedLaps { get => completedLaps; set { completedLaps = value; OnPropertyChanged(); } }
+        //private string carClass;
+        //public string CarClass { get => carClass; set { carClass = value; OnPropertyChanged(); } }
 
-        private int leadLaps;
-        public int LeadLaps { get => leadLaps; set { leadLaps = value; OnPropertyChanged(); } }
+        //public int completedLaps;
+        //public int CompletedLaps { get => completedLaps; set { completedLaps = value; OnPropertyChanged(); } }
 
-        private int fastLapNr;
-        public int FastLapNr { get => fastLapNr; set { fastLapNr = value; OnPropertyChanged(); } }
+        //private int leadLaps;
+        //public int LeadLaps { get => leadLaps; set { leadLaps = value; OnPropertyChanged(); } }
 
-        private int incidents;
-        public int Incidents { get => incidents; set { incidents = value; OnPropertyChanged(); } }
+        //private int fastLapNr;
+        //public int FastLapNr { get => fastLapNr; set { fastLapNr = value; OnPropertyChanged(); } }
 
-        private RaceStatusEnum status;
-        public RaceStatusEnum Status { get => status; set { status = value; OnPropertyChanged(); } }
+        //private int incidents;
+        //public int Incidents { get => incidents; set { incidents = value; OnPropertyChanged(); } }
 
-        private LapTime qualifyingTime = new LapTime();
-        public LapTime QualifyingTime { get => qualifyingTime; set { qualifyingTime = value; OnPropertyChanged(); } }
+        //private RaceStatusEnum status;
+        //public RaceStatusEnum Status { get => status; set { status = value; OnPropertyChanged(); } }
 
-        private LapInterval interval;
-        public LapInterval Interval { get => interval; set { interval = value; OnPropertyChanged(); } }
+        //private LapTime qualifyingTime = new LapTime();
+        //public LapTime QualifyingTime { get => qualifyingTime; set { qualifyingTime = value; OnPropertyChanged(); } }
 
-        private LapTime avgLapTime;
-        public LapTime AvgLapTime { get => avgLapTime; set { avgLapTime = value; OnPropertyChanged(); } }
+        //private LapInterval interval;
+        //public LapInterval Interval { get => interval; set { interval = value; OnPropertyChanged(); } }
 
-        private LapTime fastestLapTime;
-        public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
+        //private LapTime avgLapTime;
+        //public LapTime AvgLapTime { get => avgLapTime; set { avgLapTime = value; OnPropertyChanged(); } }
 
-        private Location location;
-        public Location Location { get => location; set => SetValue(ref location, value); }
+        //private LapTime fastestLapTime;
+        //public LapTime FastestLapTime { get => fastestLapTime; set { fastestLapTime = value; OnPropertyChanged(); } }
+
+        //private Location location;
+        //public Location Location { get => location; set => SetValue(ref location, value); }
 
         private DateTime date;
         public DateTime Date { get => date; set => SetValue(ref date, value); }
+
+        private List<ReviewPenaltyModel> reviewPenalties;
+        public List<ReviewPenaltyModel> ReviewPenalties { get => reviewPenalties; internal set => SetValue(ref reviewPenalties, value); }
 
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 
         public ScoredResultRowModel() : base() { }
 
-        public static ScoredResultRowModel GetTemplate()
+        public new static ScoredResultRowModel GetTemplate()
         {
             var template = new ScoredResultRowModel
             {

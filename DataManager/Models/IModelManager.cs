@@ -39,6 +39,7 @@ namespace iRLeagueManager.Models
         /// <typeparam name="T">Type of Model</typeparam>
         /// <param name="models">Specific model to expire. Default = null for expiring all models of this type.</param>
         void ForceExpireModels<T>(IEnumerable<T> models = null) where T : TModel;
+        void ForceExpireModels<T>(IEnumerable<TKey[]> modelIds) where T : TModel;
         Task<T> GetModelAsync<T>(params TKey[] modelId) where T : TModel;
         Task<T> GetModelAsync<T>(TKey[] modelId, bool update = true, bool reload = false) where T : TModel;
         Task<IEnumerable<T>> GetModelsAsync<T>(IEnumerable<TKey> modelIds) where T : TModel;

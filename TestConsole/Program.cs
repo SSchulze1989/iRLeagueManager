@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using System.Windows;
 using iRLeagueManager;
 using iRLeagueManager.Data;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Results;
+using iRLeagueManager.ResultsParser;
+using Microsoft.Win32;
 
 namespace TestConsole
 {
@@ -16,12 +18,29 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var context = new LeagueContext();
-            context.UserLoginAsync("Administrator", "administrator").Wait();
+            var fileName = @"C:\Users\simon\Documents\iracing-result-34832620.json";
 
-            var season = context.GetModelAsync<SeasonModel>(1).Result;
-            var table = context.GetModelAsync<ScoringTableModel>(1).Result;
-            var standings = context.GetModelAsync<StandingsModel>(table.ScoringTableId, table.Sessions.ElementAt(10).SessionId.GetValueOrDefault()).Result;
+            Stream stream = null;
+
+            var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.Json);
+
+            try
+            {
+                stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+                parserService.ReadStreamAsync(new StreamReader(stream, Encoding.Default)).Wait();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "Error parsing result File", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
+
+            var newMembers = parserService.GetNewMemberList();
+            var result = parserService.GetResultRows();
 
             Console.ReadKey();
             //var dbClient = new LeagueDBServiceClient();

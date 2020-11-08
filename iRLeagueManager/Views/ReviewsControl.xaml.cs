@@ -48,10 +48,12 @@ namespace iRLeagueManager.Views
     public partial class ReviewsControl : UserControl
     {
         public ReviewsPageViewModel ViewModel => DataContext as ReviewsPageViewModel;
+        private ModalOkCancelControl EditPanel { get; } = new ModalOkCancelControl();
 
         public ReviewsControl()
         {
             InitializeComponent();
+            MainGrid.Children.Add(EditPanel);
         }
 
         private async void EditButton_Click(object sender, RoutedEventArgs e)
@@ -89,7 +91,7 @@ namespace iRLeagueManager.Views
                 //var editWindow = new ModalOkCancelWindow();
                 //editWindow.Width = 500;
                 //editWindow.Height = 600;
-                var editWindow = EditPanel;
+                var editWindow = new ModalOkCancelControl();
                 var content = new ReviewCommentEditControl();
 
                 content.Header = "Add new Comment";
@@ -360,6 +362,31 @@ namespace iRLeagueManager.Views
             {
                 newSelection.IsExpanded = true;
                 ReviewsItemsControl.ScrollIntoView(newSelection);
+            }
+        }
+
+        private async void EditResultButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is IncidentReviewViewModel reviewVM)
+            {
+                //var editWindow = new ModalOkCancelWindow();
+                var editWindow = EditPanel;
+                //editWindow.Width = 700;
+                //editWindow.Height = 700;
+                var content = new ReviewResultControl();
+
+                if (content.DataContext is IncidentReviewViewModel editVM)
+                {
+                    editVM.Model.CopyFrom(reviewVM.Model);
+                    await editVM.Refresh();
+
+                    editWindow.ModalContent = content;
+                    if (editWindow.ShowDialog() == true)
+                    {
+                        reviewVM.Model.CopyFrom(editVM.Model);
+                        await reviewVM.SaveChanges();
+                    }
+                }
             }
         }
     }

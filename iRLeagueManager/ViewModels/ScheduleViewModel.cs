@@ -37,7 +37,7 @@ using iRLeagueManager.Data;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Interfaces;
 using iRLeagueManager.Models.Results;
-using iRLeagueManager.Services;
+using iRLeagueManager.ResultsParser;
 using iRLeagueManager.ViewModels.Collections;
 using System.ComponentModel;
 using System.Collections.Specialized;
@@ -240,7 +240,7 @@ namespace iRLeagueManager.ViewModels
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
-                Filter = "CSV Dateien (*.csv)|*.csv",
+                Filter = "Json Dateien (*.json)|*.json|CSV Dateien (*.csv)|*.csv",
                 Multiselect = false
             };
             if (openDialog.ShowDialog() == false)
@@ -251,12 +251,12 @@ namespace iRLeagueManager.ViewModels
             var fileName = openDialog.FileName;
 
             Stream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-            ResultParserService parserService = new ResultParserService(GlobalSettings.LeagueContext);
-            var lines = parserService.ParseCSV(new StreamReader(stream));
+            var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.CSV);
+            await parserService.ReadStreamAsync(new StreamReader(stream));
             stream.Dispose();
 
             //Update LeagueMember database
-            var newMembers = parserService.GetNewMemberList(lines);
+            var newMembers = parserService.GetNewMemberList();
             foreach (var member in newMembers)
             {
                 await GlobalSettings.LeagueContext.UpdateModelsAsync(newMembers);
@@ -265,7 +265,7 @@ namespace iRLeagueManager.ViewModels
             if (session == null)
                 return;
 
-            var resultRows = parserService.GetResultRows(lines);
+            var resultRows = parserService.GetResultRows();
             ResultModel result;
             if (session.SessionResult != null)
             {

@@ -164,7 +164,7 @@ namespace iRLeagueManager.ViewModels
 
             //var scheduleIds = season.Schedules.Select(x => x.ScheduleId.Value);
             //schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(scheduleIds);
-            updateSchedules = updateSchedules.OrderBy(x => x.ScheduleId).ToList();
+            updateSchedules = updateSchedules.OrderBy(x => x?.ScheduleId).ToList();
 
             Schedules.UpdateSource(updateSchedules);
             OnPropertyChanged(null);

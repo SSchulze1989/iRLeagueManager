@@ -51,6 +51,9 @@ namespace iRLeagueManager.ViewModels
         public DropRacesOption DropRacesOption { get => Model.DropRacesOption; set => Model.DropRacesOption = value; }
         public int ResultsPerRaceCount { get => Model.ResultsPerRaceCount; set => Model.ResultsPerRaceCount = value; }
 
+        private bool supressReloadStandings;
+        public bool SupressReloadStandings { get => supressReloadStandings; set => SetValue(ref supressReloadStandings, value); }
+
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList
         {
@@ -63,27 +66,29 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        private SessionSelectViewModel sessionSelect;
-        public SessionSelectViewModel SessionSelect
-        {
-            get
-            {
-                if (sessionSelect != null)
-                    _ = sessionSelect.LoadSessions(Sessions);
-                return sessionSelect;
-            }
-            set
-            {
-                var temp = sessionSelect;
-                if (SetValue(ref sessionSelect, value))
-                {
-                    if (temp != null)
-                        temp.PropertyChanged -= OnSessionSelectChanged;
-                    if (sessionSelect != null)
-                        sessionSelect.PropertyChanged += OnSessionSelectChanged;
-                }
-            }
-        }
+        //private SessionSelectViewModel sessionSelect;
+        //public SessionSelectViewModel SessionSelect
+        //{
+        //    get
+        //    {
+        //        if (sessionSelect != null)
+        //            _ = sessionSelect.LoadSessions(Sessions);
+        //        return sessionSelect;
+        //    }
+        //    set
+        //    {
+        //        var temp = sessionSelect;
+        //        if (SetValue(ref sessionSelect, value))
+        //        {
+        //            if (temp != null)
+        //                temp.PropertyChanged -= OnSessionSelectChanged;
+        //            if (sessionSelect != null)
+        //                sessionSelect.PropertyChanged += OnSessionSelectChanged;
+        //        }
+        //    }
+        //}
+        private SessionViewModel selectedSession;
+        public SessionViewModel SelectedSession { get => selectedSession; set => SetValue(ref selectedSession, value); }
 
         //private StandingsViewModel standings;
         //public StandingsViewModel Standings
@@ -107,10 +112,6 @@ namespace iRLeagueManager.ViewModels
 
         public ScoringTableViewModel()
         {
-            SessionSelect = new SessionSelectViewModel()
-            {
-                SessionFilter = session => session.ResultAvailable
-            };
             Model = Template;
             AddScoringCmd = new RelayCommand(o =>
             {
@@ -151,19 +152,25 @@ namespace iRLeagueManager.ViewModels
             ScoringList.Refresh();
         }
 
-        protected async void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(SessionSelect.SelectedSession))
-                await LoadStandings();
-        }
+        //protected async void OnSessionSelectChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == nameof(SelectedSession))
+        //        await LoadStandings();
+        //}
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected async override void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             switch (propertyName)
             {
                 case nameof(ScoringKind):
                     if (ScoringList.CanFilter)
                         ScoringList.Refresh();
+                    break;
+                case nameof(SelectedSession):
+                    if (SupressReloadStandings == false)
+                    {
+                        await LoadStandings();
+                    }
                     break;
             }
             base.OnPropertyChanged(propertyName);
@@ -196,15 +203,12 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 //await standings.Load(ScoringId.GetValueOrDefault());
-                if (SessionSelect?.SelectedSession != null)
+                if (SelectedSession != null)
                 {
-                    if (SessionSelect.FilteredSessions.Contains(SessionSelect.SelectedSession) == false)
-                        SessionSelect.SelectedSession = SessionSelect.FilteredSessions.LastOrDefault();
-                    
-                    await Standings.Load(ScoringTableId, (SessionSelect.SelectedSession?.SessionId).GetValueOrDefault());
+                    await Standings.Load(ScoringTableId, (SelectedSession?.SessionId).GetValueOrDefault());
                 }
                 else
-                    await Standings.Load(ScoringTableId, 0);
+                    Standings.UpdateSource(new StandingsModel());
             }
             catch (Exception e)
             {

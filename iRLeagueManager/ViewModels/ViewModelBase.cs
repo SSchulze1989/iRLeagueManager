@@ -55,6 +55,8 @@ namespace iRLeagueManager.ViewModels
         private bool suppressPropertyChangedEvent;
         protected bool SuppressPropertyChangedEvent { get => suppressPropertyChangedEvent; set => SetValue(ref suppressPropertyChangedEvent, value); }
 
+        public delegate void ActionDialogEventHandler<T>(T sender, string title, string message, Action<T> okAction);
+
         public ICommand RefreshCmd { get; protected set; }
 
         public ViewModelBase()

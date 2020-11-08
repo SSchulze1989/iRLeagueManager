@@ -26,6 +26,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using iRLeagueManager.Enums;
+using iRLeagueManager.Models.Filters;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -86,6 +87,9 @@ namespace iRLeagueManager.Models.Results
 
         private ObservableCollection<StandingsRowModel> standings;
         public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
+
+        private ObservableCollection<long> resultsFilterOptionIds;
+        public ObservableCollection<long> ResultsFilterOptionIds { get => resultsFilterOptionIds; set => SetValue(ref resultsFilterOptionIds, value); }
 
         private ScheduleInfo connectedschedule;
         public ScheduleInfo ConnectedSchedule

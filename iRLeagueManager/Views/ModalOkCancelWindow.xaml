@@ -66,20 +66,14 @@ SOFTWARE.-->
 
                     </controls:IconButton>-->
                     <controls:IconButton DockPanel.Dock="Right" Margin="5,8"
-                                                 CornerRadius="5"
-                                                 Foreground="White" Click="ReAttachButton_Click" ToolTip="ReAttach Window">
+                                                 CornerRadius="5" Height="32" Width="32"
+                                                 Foreground="Black" Click="ReAttachButton_Click" ToolTip="ReAttach Window">
                         <controls:IconButton.IconContent>
-                            <fa:ImageAwesome Icon="LevelDown"  Height="25"/>
+                            <fa:ImageAwesome Icon="LevelDown"  Height="18" Width="18"/>
                         </controls:IconButton.IconContent>
                         <controls:IconButton.Style>
                             <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
                                 <Setter Property="IconFill" Value="{StaticResource ThemeColor_Back4}"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource ThemeColor_CloseBackground}"/>
-                                        <Setter Property="IconFill" Value="White"/>
-                                    </Trigger>
-                                </Style.Triggers>
                             </Style>
                         </controls:IconButton.Style>
                     </controls:IconButton>
@@ -108,17 +102,42 @@ SOFTWARE.-->
                           VerticalScrollBarVisibility="Auto" Margin="1,0">
                 <ContentControl x:Name="ModalContentControl" Content="{Binding ModalContent, ElementName=ModalWindow}"/>
             </ScrollViewer>
-            <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"/>
-                <Button Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
-                <StackPanel.Resources>
-                    <Style TargetType="Button" >
-                        <Setter Property="Padding" Value="10,5" />
-                        <Setter Property="Margin" Value="10,5" />
-                        <Setter Property="TextElement.FontSize" Value="16" />
-                    </Style>
-                </StackPanel.Resources>
-            </StackPanel>
+            <Border Grid.Row="2" BorderBrush="{StaticResource ThemeColor_Back2}" BorderThickness="0,1,0,0">
+                <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <controls:IconButton Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.SubmitText), FallbackValue=Ok}" x:Name="OkButton" Click="OkButton_Click"
+                                                 Background="{StaticResource ThemeColor_Back5}" Foreground="White">
+                        <controls:IconButton.Style>
+                            <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="15,0" />
+                                <Setter Property="Height" Value="35" />
+                                <Setter Property="Margin" Value="10,5" />
+                                <Setter Property="TextElement.FontSize" Value="16" />
+                                <Setter Property="BorderBrush" Value="DarkGray"/>
+                                <Setter Property="CornerRadius" Value="17.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                        <Setter Property="Padding" Value="13,0" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconButton.Style>
+                    </controls:IconButton>
+                    <controls:IconButton Content="{Binding ElementName=ModalWindow, Path=ModalContent.(local:IModalContent.CancelText), FallbackValue=Cancel}" x:Name="CancelButton" Click="CancelButton_Click"/>
+                    <StackPanel.Resources>
+                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                            <Setter Property="Padding" Value="15,0" />
+                            <Setter Property="Height" Value="35" />
+                            <Setter Property="Margin" Value="10,5" />
+                            <Setter Property="TextElement.FontSize" Value="16" />
+                            <Setter Property="BorderBrush" Value="DarkGray"/>
+                            <Setter Property="BorderThickness" Value="2" />
+                            <Setter Property="CornerRadius" Value="17.5"/>
+                        </Style>
+                    </StackPanel.Resources>
+                </StackPanel>
+            </Border>
         </Grid>
         <Grid>
             <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="DarkGray" Opacity="0.5"/>

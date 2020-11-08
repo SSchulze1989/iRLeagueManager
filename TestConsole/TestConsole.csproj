@@ -65,6 +65,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -91,6 +92,10 @@
       <Project>{65822b2c-229c-4e8c-a38c-6cf87f16d8fe}</Project>
       <Name>DataManager</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultsParser\ResultsParser.csproj">
+      <Project>{9f176fda-0e7b-46e3-b6e1-d162d60aeaaf}</Project>
+      <Name>ResultsParser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

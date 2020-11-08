@@ -44,7 +44,7 @@ namespace iRLeagueManager.Models
             isInitialized = false;
         }
 
-        public virtual void CopyTo(ModelBase targetObject)
+        public virtual void CopyTo(ModelBase targetObject, params string[] excludeProperties)
         {
             Type sourceType = this.GetType();
             Type targetType = targetObject.GetType();
@@ -56,6 +56,8 @@ namespace iRLeagueManager.Models
 
             foreach (var property in targetType.GetProperties())
             {
+                if (excludeProperties.Contains(property.Name))
+                    continue;
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
 
@@ -66,7 +68,7 @@ namespace iRLeagueManager.Models
                 targetObject.InitializeModel();
         }
 
-        public virtual void CopyFrom(ModelBase sourceObject)
+        public virtual void CopyFrom(ModelBase sourceObject, params string[] excludeProperties)
         {
             Type targetType = this.GetType();
             Type sourceType = sourceObject.GetType();
@@ -78,6 +80,8 @@ namespace iRLeagueManager.Models
 
             foreach (var property in targetType.GetProperties())
             {
+                if (excludeProperties.Contains(property.Name))
+                    continue;
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
 
