@@ -48,10 +48,12 @@ namespace iRLeagueManager.Views
     public partial class ReviewsControl : UserControl
     {
         public ReviewsPageViewModel ViewModel => DataContext as ReviewsPageViewModel;
+        private ModalOkCancelControl EditPanel { get; } = new ModalOkCancelControl();
 
         public ReviewsControl()
         {
             InitializeComponent();
+            MainGrid.Children.Add(EditPanel);
         }
 
         private async void EditButton_Click(object sender, RoutedEventArgs e)
@@ -89,7 +91,7 @@ namespace iRLeagueManager.Views
                 //var editWindow = new ModalOkCancelWindow();
                 //editWindow.Width = 500;
                 //editWindow.Height = 600;
-                var editWindow = EditPanel;
+                var editWindow = new ModalOkCancelControl();
                 var content = new ReviewCommentEditControl();
 
                 content.Header = "Add new Comment";

@@ -290,7 +290,7 @@ SOFTWARE.-->
 		</Style>
 	</UserControl.Resources>
 
-    <Grid ClipToBounds="True">
+    <Grid ClipToBounds="True" x:Name="MainGrid">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -1203,6 +1203,6 @@ SOFTWARE.-->
                 </Grid>
             </DockPanel>
         </Grid>
-        <local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <!--<local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
     </Grid>
 </UserControl>
