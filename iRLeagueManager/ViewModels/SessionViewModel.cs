@@ -158,7 +158,7 @@ namespace iRLeagueManager.ViewModels
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
-                Filter = "CSV Dateien (*.csv)|*.csv|Json Dateien (*.json)|*.json",
+                Filter = "Json Dateien (*.json)|*.json|CSV Dateien (*.csv)|*.csv",
                 Multiselect = false
             };
             if (openDialog.ShowDialog() == false)
