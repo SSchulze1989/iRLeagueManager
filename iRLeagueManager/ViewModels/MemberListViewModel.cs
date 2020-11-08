@@ -59,8 +59,8 @@ namespace iRLeagueManager.ViewModels
             };
             MemberList = memberListCollectionViewSource.View;
             MemberList.Filter = ApplyFilter;
-            MemberList.SortDescriptions.Add(new SortDescription(nameof(LeagueMember.Lastname), ListSortDirection.Ascending));
             MemberList.SortDescriptions.Add(new SortDescription(nameof(LeagueMember.Firstname), ListSortDirection.Ascending));
+            MemberList.SortDescriptions.Add(new SortDescription(nameof(LeagueMember.Lastname), ListSortDirection.Ascending));
         }
 
         private bool ApplyFilter(object item)

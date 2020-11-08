@@ -290,7 +290,7 @@ SOFTWARE.-->
 		</Style>
 	</UserControl.Resources>
 
-    <Grid ClipToBounds="True">
+    <Grid ClipToBounds="True" x:Name="MainGrid">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -713,8 +713,13 @@ SOFTWARE.-->
                                                                     </StackPanel.Style>
                                                                 </StackPanel>
                                                                 <StackPanel Grid.Row="2" Margin="10,5" MaxWidth="8000" HorizontalAlignment="Left">
-                                                                    <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                       FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
+                                                                                       FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
+                                                                        <controls:IconButton Content="Edit Result" x:Name="EditResultButton" VerticalAlignment="Center" Margin="10,0"
+                                                                                             BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="4,2" Click="EditResultButton_Click"
+                                                                                             Tag="{Binding}"/>
+                                                                    </StackPanel>
                                                                     <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
                                                                         <ItemsControl.ItemTemplate>
                                                                             <DataTemplate>
@@ -735,7 +740,7 @@ SOFTWARE.-->
                                                                     </ItemsControl>
                                                                     <TextBox Text="{Binding ResultLongText}" Margin="5,0" TextWrapping="WrapWithOverflow" IsReadOnly="True" Padding="3"
                                                                              BorderThickness="0"/>
-                                                                    <StackPanel.Style>
+                                                                    <!--<StackPanel.Style>
                                                                         <Style TargetType="StackPanel">
                                                                             <Setter Property="Visibility" Value="Visible"/>
                                                                             <Style.Triggers>
@@ -744,7 +749,7 @@ SOFTWARE.-->
                                                                                 </DataTrigger>
                                                                             </Style.Triggers>
                                                                         </Style>
-                                                                    </StackPanel.Style>
+                                                                    </StackPanel.Style>-->
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Row="3" Margin="10,5">
@@ -752,7 +757,7 @@ SOFTWARE.-->
                                                                         <TextBlock Text="Comments" FontSize="{StaticResource Global.FontSizeMedium}"
                                                                                    FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}" VerticalAlignment="Center"/>
                                                                         <controls:IconToggleButton x:Name="ToggleShowComments" IsChecked="{Binding ForceShowComments}" VerticalAlignment="Center" Margin="5"
-                                                                                                   BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="2">
+                                                                                                   BorderBrush="DarkGray" CornerRadius="2" BorderThickness="1" Padding="4,2">
                                                                             <controls:IconToggleButton.Style>
                                                                                 <Style TargetType="controls:IconToggleButton" BasedOn="{StaticResource {x:Type controls:IconToggleButton}}">
                                                                                     <Setter Property="Content" Value="Show"/>
@@ -1203,6 +1208,6 @@ SOFTWARE.-->
                 </Grid>
             </DockPanel>
         </Grid>
-        <local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <!--<local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
     </Grid>
 </UserControl>

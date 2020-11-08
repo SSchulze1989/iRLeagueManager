@@ -49,6 +49,8 @@ namespace iRLeagueManager.Views
             DependencyProperty.Register(nameof(ModalContent), typeof(UserControl), typeof(ModalOkCancelWindow),
                 new PropertyMetadata(null));
 
+        public bool IsDialogOpen { get; set; }
+
         public UserControl ModalContent
         {
             get => (UserControl)GetValue(ModalContentProperty);
@@ -82,11 +84,13 @@ namespace iRLeagueManager.Views
         {
             base.OnContentRendered(e);
 
+            if (IsDialogOpen == false && ModalContent is IModalContent modalContent)
+                modalContent.OnLoad();
+
+            IsDialogOpen = true;
+
             if (isRendered)
                 return;
-
-            if (ModalContent is IModalContent modalContent)
-                modalContent.OnLoad();
 
             isRendered = true;
         }

@@ -136,9 +136,9 @@ namespace iRLeagueManager.Models.Reviews
             base.InitializeModel();
         }
 
-        public override void CopyFrom(ModelBase sourceObject)
+        public override void CopyFrom(ModelBase sourceObject, params string[] excludeProperties)
         {
-            base.CopyFrom(sourceObject);
+            base.CopyFrom(sourceObject, excludeProperties);
 
             if (sourceObject is IncidentReviewModel reviewModel)
             {
@@ -164,9 +164,9 @@ namespace iRLeagueManager.Models.Reviews
             OnPropertyChanged(null);
         }
 
-        public override void CopyTo(ModelBase targetObject)
+        public override void CopyTo(ModelBase targetObject, params string[] excludeProperties)
         {
-            base.CopyTo(targetObject);
+            base.CopyTo(targetObject, excludeProperties);
 
             if (targetObject is IncidentReviewModel reviewModel)
             {

@@ -296,17 +296,23 @@ SOFTWARE.-->
                                                                         </DataGridTextColumn.Binding>
                                                                     </DataGridTextColumn>
                                                                     <DataGridTemplateColumn Header="Results"  
-                                                                                            MinWidth="150" Width="150">
+                                                                                            MinWidth="110" Width="110">
                                                                         <DataGridTemplateColumn.CellTemplate>
                                                                             <DataTemplate DataType="DataGridCell">
                                                                                 <StackPanel Orientation="Horizontal">
                                                                                     <controls:IconButton Command="{Binding UploadFileCmd}" CommandParameter="{Binding}" 
                                                                                                          VerticalAlignment="Center"
-                                                                                                         IconFill="Green" IconStroke="Black" IconStrokeThickness="0.25"
-                                                                                                         IconContent="{StaticResource TableArrowUp}"
-                                                                                                         Content=".csv" ToolTip="Upload Result set from csv"/>
+                                                                                                         IconFill="{StaticResource ThemeColor_DarkBlue}" IconStroke="Black" IconStrokeThickness="0.25"
+                                                                                                         Content="" ToolTip="Upload Result set from json">
+                                                                                        <controls:IconButton.IconContent>
+                                                                                            <Viewbox Height="18">
+                                                                                                <fa:ImageAwesome Icon="Upload" />
+                                                                                            </Viewbox>
+                                                                                        </controls:IconButton.IconContent>
+                                                                                    </controls:IconButton>
 
-                                                                                    <ContentControl Foreground="{StaticResource ThemeColor_Green}" Margin="5,0" VerticalAlignment="Center">
+                                                                                    <ContentControl Foreground="{StaticResource ThemeColor_Green}" Margin="5,0" VerticalAlignment="Center"
+                                                                                                    ToolTip="Results Available">
                                                                                         <!--<StaticResource ResourceKey="checkBold"/>-->
                                                                                         <Viewbox Height="18" VerticalAlignment="Center">
                                                                                             <fa:ImageAwesome Icon="CheckCircle" Foreground="Green"/>
@@ -323,9 +329,13 @@ SOFTWARE.-->
                                                                                         </ContentControl.Style>
                                                                                     </ContentControl>
                                                                                     <controls:IconButton Click="DeleteResultButton_Click" VerticalAlignment="Center"
-                                                                                         Tag="{Binding}" IconContent="{StaticResource closeThick}"
-                                                                                         IconFill="{StaticResource ThemeColor_Red}" IconStroke="Red" IconStrokeThickness="0.5"
-                                                                                                 ToolTip="Delete Result set" IconMargin="-2,-2,0,0" Margin="4,0">
+                                                                                                         Tag="{Binding}" IconFill="{StaticResource ThemeColor_Red}"
+                                                                                                         ToolTip="Delete Result set" IconMargin="-2,-2,0,0" Margin="4,0">
+                                                                                        <controls:IconButton.IconContent>
+                                                                                            <Viewbox Height="18">
+                                                                                                <fa:ImageAwesome Icon="Remove" />
+                                                                                            </Viewbox>
+                                                                                        </controls:IconButton.IconContent>
                                                                                         <controls:IconButton.Style>
                                                                                             <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
                                                                                                 <Setter Property="Visibility" Value="Visible"/>

@@ -232,7 +232,7 @@ SOFTWARE.-->
         </Border>
 
         <Grid ClipToBounds="True" Grid.Row="2" VerticalAlignment="Stretch" Background="Transparent">
-            <TabControl ItemsSource="{Binding CurrentResults}" Margin="0,10,0,0" 
+            <TabControl ItemsSource="{Binding CurrentResults}" Margin="0" 
                         VerticalContentAlignment="Stretch" IsSynchronizedWithCurrentItem="True">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
@@ -781,7 +781,41 @@ SOFTWARE.-->
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="*" MinWidth="150"
-                                                    ElementStyle="{StaticResource TextColumnElementStyle}" FontWeight="Bold"/>
+                                                    ElementStyle="{StaticResource TextColumnElementStyle}" FontWeight="Bold">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}">
+                                            <Setter Property="ToolTip">
+                                                <Setter.Value>
+                                                    <ToolTip>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Text="iRacing id: " Grid.Row="0" Grid.Column="0"/>
+                                                            <TextBlock Text="{Binding Member.IRacingId, FallbackValue=''}" Grid.Row="0" Grid.Column="1"/>
+
+                                                            <TextBlock Text="iRating Start: " Grid.Row="1" Grid.Column="0"/>
+                                                            <TextBlock Text="{Binding OldIRating, FallbackValue=0}" Grid.Row="1" Grid.Column="1"/>
+                                                            
+                                                            <TextBlock Text="iRating End: " Grid.Row="2" Grid.Column="0"/>
+                                                            <TextBlock Text="{Binding NewIRating, FallbackValue=0}" Grid.Row="2" Grid.Column="1"/>
+
+                                                            <TextBlock Text="Safety Rating: " Grid.Row="3" Grid.Column="0"/>
+                                                            <TextBlock Text="{Binding NewSafetyRating, FallbackValue=0}" Grid.Row="3" Grid.Column="1"/>
+                                                        </Grid>
+                                                    </ToolTip>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
                                 <!--<DataGridTextColumn Header="Team" Binding="{Binding Member.Team.TeamColor}" IsReadOnly="True" Width="*" MinWidth="150"
                                                                 ElementStyle="{StaticResource TextColumnElementStyle}" Foreground="{Binding Member.Team.TeamColor}"/>-->
                                 <DataGridTemplateColumn Header="Team" IsReadOnly="True" Width="15*"
@@ -829,7 +863,27 @@ SOFTWARE.-->
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding RacePoints}" IsReadOnly="True" Width="50" MinWidth="50">
+                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding LeadLaps}" Width="60" MinWidth="50">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Lead Laps" TextWrapping="Wrap"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding CompletedLaps}" Width="60" MinWidth="55">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Compl. Laps" TextWrapping="WrapWithOverflow"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding RacePoints}" IsReadOnly="True" Width="60" MinWidth="50">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -897,7 +951,7 @@ SOFTWARE.-->
                                                             </ItemsControl.ItemTemplate>
                                                         </ItemsControl>
                                                         <ToolTip.Style>
-                                                            <Style TargetType="ToolTip" BasedOn="{StaticResource {x:Type ToolTip}}">
+                                                            <Style TargetType="ToolTip">
                                                                 <Setter Property="Visibility" Value="Visible"/>
                                                                 <Setter Property="StaysOpen" Value="True"/>
                                                                 <Setter Property="Background" Value="{StaticResource ThemeColor_Yellow}"/>
@@ -931,7 +985,7 @@ SOFTWARE.-->
                                         <TextBlock Text="Total Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105">
+                                <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105" Visibility="Collapsed">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -1052,17 +1106,21 @@ SOFTWARE.-->
                     </DataTemplate>
                 </TabControl.Resources>
             </TabControl>
-            <controls:IconButton Content="Calculate" IconContent="{StaticResource CogRefresh}" Command="{Binding CalculateResultsCmd}"
-                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
-                                    Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
-                                    IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
-                                    Foreground="{StaticResource ThemeColor_Back0}"
+            <StackPanel Margin="0,10,3,10" Orientation="Horizontal" FlowDirection="RightToLeft">
+                <!-- Calculate Results button. Can be removed if automated result calculation works properly
+                
+                <controls:IconButton Content="Calculate" IconContent="{StaticResource CogRefresh}" Command="{Binding CalculateResultsCmd}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IconMargin="0,-4,0,0"
+                                     Background="{StaticResource  ThemeColor_DarkBlue}" CornerRadius="15" Padding="10,10,10,8"
+                                     IconFill="{StaticResource ThemeColor_Back0}" IconStrokeThickness="0" 
+                                     Foreground="{StaticResource ThemeColor_Back0}"
                                      Height="Auto" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                     Margin="5,10,8,10" ToolTip="Create new Schedule">
-                <controls:IconButton.Effect>
-                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
-                </controls:IconButton.Effect>
-            </controls:IconButton>
+                                     ToolTip="Calculate Results" Margin="5,0">
+                    <controls:IconButton.Effect>
+                        <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="1"/>
+                    </controls:IconButton.Effect>
+                </controls:IconButton>-->
+            </StackPanel>
         </Grid>
         <TextBox Grid.Row="1" Margin="10" Text="{Binding StatusMsg}" VerticalAlignment="Top">
             <TextBox.Style>

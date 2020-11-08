@@ -48,8 +48,10 @@ namespace iRLeagueManager
                 GlobalSettings.LogError(eventArgs.ExceptionObject as Exception);
             };
 
+#if !(DEBUG)
             AutoUpdater.UpdateMode = Mode.ForcedDownload;
             AutoUpdater.Start("http://144.91.113.195/updates/update.xml");
+#endif
 
             if (Current != null)
             {

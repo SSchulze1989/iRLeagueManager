@@ -123,45 +123,7 @@ SOFTWARE.-->
             </Grid>
 
             <TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
-            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="70" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
-
-            <TextBlock Text="Voting Result:" Grid.Column="0" Grid.Row="7"/>
-            <Grid Grid.Row="8" Grid.ColumnSpan="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <DataGrid x:Name="VoteGrid" Grid.Column="0" ItemsSource="{Binding AcceptedVotes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5"
-                          CanUserDeleteRows="False" MinHeight="95">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Vote" MinWidth="80">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteCategories}"
-                                              SelectedItem="{Binding VoteCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Text"
-                                              Width="Auto" Margin="5,2"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Member" MinWidth="120">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.InvolvedMembers}" SelectedItem="{Binding MemberAtFault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,2"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
-                    <Button Content="Add" Command="{Binding AddVoteCmd}" Margin="0,0,0,5" Padding="2"/>
-                    <Button Content="Remove" Command="{Binding DeleteVoteCmd}" CommandParameter="{Binding ElementName=VoteGrid, Path=SelectedItem}" Margin="0,0,0,5" Padding="2"/>
-                </StackPanel>
-            </Grid>
-
-            <TextBlock Text="Add info text:" Grid.Column="0" Grid.Row="9"/>
-            <TextBox AcceptsReturn="True" Text="{Binding ResultLongText}" AcceptsTab="True" Height="70" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="10"/>
+            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="120" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
 
             <Grid.Resources>
                 <Style TargetType="TextBox" >
