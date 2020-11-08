@@ -740,7 +740,7 @@ SOFTWARE.-->
                                                                     </ItemsControl>
                                                                     <TextBox Text="{Binding ResultLongText}" Margin="5,0" TextWrapping="WrapWithOverflow" IsReadOnly="True" Padding="3"
                                                                              BorderThickness="0"/>
-                                                                    <StackPanel.Style>
+                                                                    <!--<StackPanel.Style>
                                                                         <Style TargetType="StackPanel">
                                                                             <Setter Property="Visibility" Value="Visible"/>
                                                                             <Style.Triggers>
@@ -749,7 +749,7 @@ SOFTWARE.-->
                                                                                 </DataTrigger>
                                                                             </Style.Triggers>
                                                                         </Style>
-                                                                    </StackPanel.Style>
+                                                                    </StackPanel.Style>-->
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Row="3" Margin="10,5">
