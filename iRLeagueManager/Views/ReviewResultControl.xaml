@@ -13,7 +13,7 @@
         <vmodel:IncidentReviewViewModel/>
     </UserControl.DataContext>
     
-    <Grid x:Name="MainGrid" MinWidth="300" HorizontalAlignment="Stretch">
+    <Grid x:Name="MainGrid" MinWidth="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -24,14 +24,15 @@
         <Border Width="500" Visibility="Hidden"/>
 
         <TextBlock Text="Voting Result:" Grid.Row="0"/>
-        <Grid Grid.Row="1" MaxWidth="500">
+        <Grid Grid.Row="1" MaxWidth="600">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <DataGrid x:Name="VoteGrid" Grid.Column="0" ItemsSource="{Binding AcceptedVotes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5"
-                          CanUserDeleteRows="False" MinHeight="110">
+                      HorizontalScrollBarVisibility="Disabled"
+                      CanUserDeleteRows="False" MinHeight="110">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Vote" MinWidth="100">
                         <DataGridTemplateColumn.CellTemplate>
@@ -61,7 +62,7 @@
         </Grid>
 
         <TextBlock Text="Add info text:" Grid.Row="2"/>
-        <TextBox AcceptsReturn="True" Text="{Binding ResultLongText}" AcceptsTab="True" Height="135" Grid.Row="3" MaxWidth="500"
+        <TextBox AcceptsReturn="True" Text="{Binding ResultLongText}" AcceptsTab="True" Height="135" Grid.Row="3" MaxWidth="600"
                  TextWrapping="WrapWithOverflow"/>
 
         <Grid.Resources>

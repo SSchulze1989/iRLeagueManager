@@ -49,7 +49,8 @@ SOFTWARE.-->
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="Edit Comment Text:" FontSize="18" FontWeight="Bold" Margin="5"/>
-            <TextBox Grid.Row="1" FontSize="16" Text="{Binding Text}" Height="150" Padding="2" Margin="5" AcceptsReturn="True" AcceptsTab="True"/>
+            <TextBox Grid.Row="1" FontSize="16" Text="{Binding Text}" Height="150" Padding="2" Margin="5" AcceptsReturn="True" AcceptsTab="True"
+                     TextWrapping="WrapWithOverflow" MaxWidth="600"/>
 
             <TextBlock Grid.Row="2" Text="Review Votes:" FontSize="18" FontWeight="Bold" Margin="5"/>
             <!--<ListBox ItemsSource="{Binding Votes}" Grid.Row="4">
