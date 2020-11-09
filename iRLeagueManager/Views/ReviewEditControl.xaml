@@ -123,7 +123,8 @@ SOFTWARE.-->
             </Grid>
 
             <TextBlock Text="Description:" Grid.Column="0" Grid.Row="5"/>
-            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="120" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"/>
+            <TextBox AcceptsReturn="True" Text="{Binding FullDescription}" AcceptsTab="True" Height="120" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"
+                     TextWrapping="WrapWithOverflow" MaxWidth="600"/>
 
             <Grid.Resources>
                 <Style TargetType="TextBox" >
