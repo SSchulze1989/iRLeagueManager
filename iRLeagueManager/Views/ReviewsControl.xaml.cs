@@ -91,11 +91,12 @@ namespace iRLeagueManager.Views
                 //var editWindow = new ModalOkCancelWindow();
                 //editWindow.Width = 500;
                 //editWindow.Height = 600;
-                var editWindow = new ModalOkCancelControl();
-                var content = new ReviewCommentEditControl();
-
-                content.Header = "Add new Comment";
-                content.SubmitText = "Add";
+                var editWindow = EditPanel;
+                var content = new ReviewCommentEditControl
+                {
+                    Header = "Add new Comment",
+                    SubmitText = "Add"
+                };
 
                 IncidentReviewViewModel reviewVM = null;
                 if (content.DataContext is ReviewCommentViewModel editVM)
