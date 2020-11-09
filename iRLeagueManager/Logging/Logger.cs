@@ -27,6 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 
 namespace iRLeagueManager.Logging
 {
@@ -59,17 +60,25 @@ namespace iRLeagueManager.Logging
 
         public void Log(LogMessage msg)
         {
-            if (!File.Exists(LogFilename))
+            try
             {
-                using (var log = File.CreateText(LogFilename))
+                if (!File.Exists(LogFilename))
                 {
-                    log.WriteLine("## Session startet: " + DateTime.Now.ToString() + " - Log Messages ##");
+                    using (var log = File.CreateText(LogFilename))
+                    {
+                        log.WriteLine("## Session startet: " + DateTime.Now.ToString() + " - Log Messages ##");
+                    }
+                }
+                messages.Add(msg);
+                using (var log = File.AppendText(LogFilename))
+                {
+                    log.WriteLine(msg.Timestamp.ToShortTimeString() + " :: " + msg.Message + " -- attch: " + msg.Tag.ToString());
                 }
             }
-            messages.Add(msg);
-            using (var log = File.AppendText(LogFilename))
+            catch (Exception e)
             {
-                log.WriteLine(msg.Timestamp.ToShortTimeString() + " :: " + msg.Message + " -- attch: " + msg.Tag.ToString());
+                errorMessages.Add(new ExceptionLogMessage(e));
+                //MessageBox.Show(e.Message);
             }
         }
 
