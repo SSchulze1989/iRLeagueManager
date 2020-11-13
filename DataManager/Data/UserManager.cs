@@ -157,5 +157,61 @@ namespace iRLeagueManager.Data
                 throw new Exception("Failed to Add User");
             }
         }
+
+        public async Task<UserModel> PutUserModelAsync(UserModel user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userDto = new UserProfileDTO()
+            {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                Email = user.Email,
+                ProfileText = user.ProfileText
+            };
+
+            userDto = await UserDatabaseClient.PutUserAsync(userDto);
+
+            if (userDto != null)
+            {
+                user.UserId = userDto.UserId;
+                user.Firstname = userDto.Firstname;
+                user.UserName = userDto.UserName;
+                user.Lastname = userDto.Lastname;
+                user.Email = userDto.Email;
+                user.ProfileText = userDto.ProfileText;
+            }
+
+            return user;
+        }
+
+        public async Task<bool> ChangeUserPassword(string userId, string userName, string oldPassword, string newPassword)
+        {
+            if (string.IsNullOrEmpty(newPassword))
+            {
+                throw new ArgumentException("New passwort may not be null or empty");
+            }
+
+            try
+            {
+                var userDto = new AddUserDTO()
+                {
+                    UserId = userId,
+                    UserName = userName,
+                    Password = newPassword
+                };
+                var result = await UserDatabaseClient.ChangePassword(userName, oldPassword, userDto);
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
