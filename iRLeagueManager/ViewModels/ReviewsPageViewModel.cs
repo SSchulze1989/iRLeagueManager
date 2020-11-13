@@ -34,6 +34,7 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Data;
+using iRLeagueManager.Extensions;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -99,6 +100,7 @@ namespace iRLeagueManager.ViewModels
             ReviewNavBar = new ReviewNavBarViewModel() { ReviewsPageViewModel = this };
             //RefreshCmd = new RelayCommand(o => { OnPropertyChanged(null); SelectedReview.Hold(); }, o => SelectedReview != null);
             CurrentReviews.CurrentChanged += OnCurrentReviewChange;
+            CurrentReviews.SortDescriptions.Add(new SortDescription(nameof(IncidentReviewViewModel.IncidentNrSortString), ListSortDirection.Ascending));
             CurrentReviews.SortDescriptions.Add(new SortDescription(nameof(IncidentReviewViewModel.OnLapSortingString), ListSortDirection.Ascending));
             CurrentReviews.SortDescriptions.Add(new SortDescription(nameof(IncidentReviewViewModel.CornerSortingString), ListSortDirection.Ascending));
         }

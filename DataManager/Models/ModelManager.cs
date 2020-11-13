@@ -41,6 +41,7 @@ using iRLeagueDatabase.DataTransfer.Sessions;
 using iRLeagueDatabase.DataTransfer.User;
 using iRLeagueManager.Models.Filters;
 using iRLeagueDatabase.DataTransfer.Filters;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.Models
 {
@@ -651,7 +652,7 @@ namespace iRLeagueManager.Models
                 expireList = ModelCache.GetOfType<T>().ToList();
             }
 
-            expireList.ForEach(x => x.IsExpired = true);
+            expireList.Where(x => x != null).ForEach(x => x.IsExpired = true);
         }
 
         public void ForceExpireModels<T>(IEnumerable<long[]> modelIds) where T : MappableModel

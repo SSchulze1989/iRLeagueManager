@@ -22,6 +22,7 @@ using iRLeagueManager.Interfaces;
 using System.Reflection;
 using System.Net.NetworkInformation;
 using System.Diagnostics;
+using iRLeagueManager.Views;
 
 namespace iRLeagueManager
 {
@@ -40,9 +41,14 @@ namespace iRLeagueManager
         private ReviewsPageViewModel ReviewsPageViewModel { get; set; }
         private TeamsPageViewModel TeamsPageViewModel { get; set; }
 
+        private ModalOkCancelControl EditPanel { get; }
+
         public MainWindow()
         {
             InitializeComponent();
+            EditPanel = new ModalOkCancelControl();
+            MainGrid.Children.Add(EditPanel);
+
             mainViewModel = DataContext as MainWindowViewModel;
 
             if (mainViewModel != null)
@@ -209,6 +215,27 @@ namespace iRLeagueManager
             var eventArgs = new RequestNavigateEventArgs(new Uri("https://github.com/SSchulze1989/iRLeagueManager"), "https://github.com/SSchulze1989/iRLeagueManager");
             Hyperlink_RequestNavigate(sender, eventArgs);
             e.Handled = true;
+        }
+
+        private void ChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            var content = new PasswordEditControl();
+            EditPanel.ModalContent = content;
+
+            if (EditPanel.ShowDialog() == true)
+            {
+                MessageBox.Show("Password succesfully changed!", "Passwor changed", MessageBoxButton.OK);
+            }
+        }
+
+        private void EditUser_Click(object sender, RoutedEventArgs e)
+        {
+            var content = new UserEditControl();
+            EditPanel.ModalContent = content;
+
+            if (EditPanel.ShowDialog() == true)
+            {
+            }
         }
     }
 }
