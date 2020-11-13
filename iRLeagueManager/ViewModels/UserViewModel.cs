@@ -36,15 +36,57 @@ namespace iRLeagueManager.ViewModels
     {
         internal UserModel Model => Source;
         public string UserId => (Model?.UserId);
-        public string UserName => Model?.UserName;
+        public string UserName
+        {
+            get => Model?.UserName;
+            set
+            {
+                if (CheckUserName(value))
+                {
+                    Model.UserName = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid Username");
+                }
+            }
+        }
 
         public long? MemberId { get => Model?.MemberId; set => Model.MemberId = value; }
 
         public AdminRights AdminRights => (Model?.AdminRights).GetValueOrDefault();
 
-        public string Firstname { get => Model?.Firstname; set => Model.Firstname = value; }
+        public string Firstname 
+        { 
+            get => Model?.Firstname; 
+            set
+            {
+                if (CheckName(value))
+                {
+                    Model.Firstname = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid Firstname");
+                }
+            }
+        }
 
-        public string Lastname { get => Model?.Lastname; set => Model.Lastname = value; }
+        public string Lastname 
+        { 
+            get => Model?.Lastname; 
+            set
+            {
+                if (CheckName(value))
+                {
+                    Model.Lastname = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid Lastname");
+                }
+            }
+        }
 
         public string Email { get => Model?.Email; set => Model.Email = value; }
 
@@ -71,6 +113,50 @@ namespace iRLeagueManager.ViewModels
         public UserViewModel()
         {
 
+        }
+
+        public async Task<bool> SaveChanges()
+        {
+            if (Model == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.UserManager.PutUserModelAsync(Model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private bool CheckUserName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                StatusMsg = "Please enter valid username";
+                return false;
+            }
+            else if (name.Contains(' '))
+            {
+                StatusMsg = "Username cannot contain any spaces";
+                return false;
+            }
+            return true;
+        }
+
+        private bool CheckName(string name)
+        {
+            return string.IsNullOrEmpty(name) == false;
         }
     }
 }

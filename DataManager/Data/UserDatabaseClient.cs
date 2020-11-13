@@ -114,6 +114,59 @@ namespace iRLeagueManager.Data
             return null;
         }
 
+        public async Task<UserProfileDTO> PutUserAsync(UserProfileDTO user)
+        {
+            if (user == null)
+                return null;
+
+            var requestString = BaseUri.AbsoluteUri + "/User";
+
+            using (var client = new HttpClient(new HttpClientHandler() { Credentials = userCredentials })) 
+            {
+                var request = await DatabaseStatusService.StartRequestWhenReady(async () => await client.PutAsXmlAsync(requestString, user), Enums.UpdateKind.Saving);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    var result = await request.Content.ReadAsAsync<UserProfileDTO>();
+                    return result;
+                }
+                else if (request.StatusCode == HttpStatusCode.Conflict)
+                {
+                    throw new UserExistsException();
+                }
+            }
+            return null;
+        }
+
+        public async Task<bool> ChangePassword(string userName, string oldPw, AddUserDTO user)
+        {
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(oldPw) || user == null)
+            {
+                return false;
+            }
+
+            var requestString = BaseUri.AbsoluteUri + "/ChangePassword";
+            var credentials = new NetworkCredential(userName, oldPw);
+
+            using (var client = new HttpClient(new HttpClientHandler() { Credentials = credentials }))
+            {
+                var result = await DatabaseStatusService.StartRequestWhenReady(async () => await client.PostAsXmlAsync(requestString, user), Enums.UpdateKind.Saving);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else if (result.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UserNotAuthorizedException("Could not change password - old password incorrect");
+                }
+                else
+                {
+                    throw new WebException("Could not change password - " + result.StatusCode);
+                }
+            }
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
 

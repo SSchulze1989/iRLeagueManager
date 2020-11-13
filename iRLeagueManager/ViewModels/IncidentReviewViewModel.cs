@@ -58,6 +58,8 @@ namespace iRLeagueManager.ViewModels
 
         public string IncidentNr { get => Model.IncidentNr; set => Model.IncidentNr = value; }
 
+        public string IncidentNrSortString => IncidentNr.AddLeadingZeroesToNumbers(10);
+
         private bool forceShowComments;
         public bool ForceShowComments { get => forceShowComments; set => SetValue(ref forceShowComments, value); }
 
