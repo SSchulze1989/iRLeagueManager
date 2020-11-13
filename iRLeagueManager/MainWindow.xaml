@@ -34,6 +34,7 @@ SOFTWARE.-->
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowState="Normal" Height="800" Width="1400" Background="White"
         FontFamily="{StaticResource Global.FontFamily}"
@@ -183,7 +184,7 @@ SOFTWARE.-->
         </Style>
     </Window.Style>
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_DarkBlue}">
                 <DockPanel>
@@ -372,11 +373,21 @@ SOFTWARE.-->
                             <Hyperlink NavigateUri="https://github.com/SSchulze1989/iRLeagueManager/issues/new?assignees=&amp;labels=enhancement&amp;template=feature_request.md&amp;title="
                                        RequestNavigate="Hyperlink_RequestNavigate" ToolTip="Create a featrure Request on GitHub">Feature Request</Hyperlink>
                         </TextBlock>
-                    </StackPanel>                  
+                    </StackPanel>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" 
-                               Foreground="{StaticResource ThemeColor_Blue}" 
-                               FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Margin="0,20" HorizontalAlignment="Center"/>
+                    <controls:IconButton Grid.Row="1" Grid.Column="0" Content="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" 
+                                         Foreground="{StaticResource ThemeColor_Blue}" 
+                                         FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Padding="0,20" HorizontalAlignment="Stretch">
+                        <behaviors:Interaction.Behaviors>
+                            <local:DropDownButtonBehavior/>
+                        </behaviors:Interaction.Behaviors>
+                        <controls:IconButton.ContextMenu>
+                            <ContextMenu Placement="Top">
+                                <MenuItem Header="Edit User profile" Click="EditUser_Click"/>
+                                <MenuItem Header="Change Password" Click="ChangePassword_Click"/>
+                            </ContextMenu>
+                        </controls:IconButton.ContextMenu>
+                    </controls:IconButton>
                     <controls:IconButton Grid.Row="1" Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
                                          Foreground="{StaticResource ThemeColor_Back0}" Margin="0" Padding="15"
                                          Click="RefreshButtonClick">

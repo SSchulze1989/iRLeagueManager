@@ -36,5 +36,8 @@ namespace iRLeagueManager.Data
         Task<UserDTO> GetUserAsync(string UserId);
 
         Task<UserProfileDTO> AddUserAsync(AddUserDTO user);
+        Task<UserProfileDTO> PutUserAsync(UserProfileDTO user);
+
+        Task<bool> ChangePassword(string userName, string oldPassword, AddUserDTO user);
     }
 }
