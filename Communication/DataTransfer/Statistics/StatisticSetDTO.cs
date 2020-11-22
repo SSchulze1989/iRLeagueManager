@@ -19,5 +19,6 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         public DateTime UpdateTime { get; set; }
 
         public override object[] Keys => new object[] { Id };
+        public override object MappingId => Id;
     }
 }

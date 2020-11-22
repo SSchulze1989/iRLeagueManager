@@ -38,5 +38,6 @@ namespace iRLeagueManager.ResultsParser
         Task ReadStreamAsync(StreamReader reader);
         IEnumerable<LeagueMember> GetNewMemberList();
         IEnumerable<ResultRowModel> GetResultRows();
+        SimSessionDetails GetSessionDetails();
     }
 }

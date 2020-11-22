@@ -58,6 +58,8 @@ namespace iRLeagueManager.Models.Results
 
         //IEnumerable<IResultRow> IResult.FinalResults => RawResults;
 
+        public SimSessionDetails SimSessionDetails { get; set; }
+
         public string Description { get; set; }
 
         //string IHierarchicalModel.Description => Description;

@@ -199,6 +199,11 @@ namespace iRLeagueManager.ResultsParser
                 return TimeSpan.Zero;
             }
         }
+
+        public SimSessionDetails GetSessionDetails()
+        {
+            return null;
+        }
     }
 
 

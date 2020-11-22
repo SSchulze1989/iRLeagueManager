@@ -131,6 +131,7 @@
     <Compile Include="Models\ModelManager.cs" />
     <Compile Include="Models\Results\AddPenaltyModel.cs" />
     <Compile Include="Models\Results\IRacingResultRow.cs" />
+    <Compile Include="Models\Results\SimSessionDetails.cs" />
     <Compile Include="Models\Results\ResultInfo.cs" />
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultRowModel.cs" />

@@ -280,11 +280,15 @@ namespace iRLeagueManager
                 .ConstructUsing(source => new SessionInfo(source.SessionId, source.SessionType))
                 .ReverseMap();
 
-            // Mapping result data
+            //Mapping result data
             CreateMap<ResultDataDTO, ResultModel>()
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new ResultModel(source.ResultId.GetValueOrDefault())))
                 .EqualityComparison((src, dest) => src.ResultId == dest.ResultId)
                 .ReverseMap();
+
+            CreateMap<SimSessionDetailsDTO, SimSessionDetails>()
+                .ReverseMap();
+
             CreateMap<ResultInfoDTO, ResultInfo>()
                 .ConstructUsing(source => new ResultInfo(source.ResultId.GetValueOrDefault()))
                 .ReverseMap()

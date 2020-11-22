@@ -25,13 +25,21 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         [DataMember]
         public long? FirstSessionId { get; set; }
         [DataMember]
+        public DateTime? FirstSessionDate { get; set; }
+        [DataMember]
         public long? FirstRaceId { get; set; }
+        [DataMember]
+        public DateTime? FirstRaceDate { get; set; }
         [DataMember]
         public long? FirstResultRowId { get; set; }
         [DataMember]
         public long? LastSessionId { get; set; }
         [DataMember]
+        public DateTime? LastSessionDate { get; set; }
+        [DataMember]
         public long? LastRaceId { get; set; }
+        [DataMember]
+        public DateTime? LastRaceDate { get; set; }
         [DataMember]
         public long? LastResultRowId { get; set; }
         [DataMember]
@@ -130,5 +138,6 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         public int LastRaceStartPosition { get; set; }
 
         public override object[] Keys => new object[] { StatisticSetId, MemberId };
+        public override object MappingId => new { StatisticSetId, MemberId };
     }
 }
