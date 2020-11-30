@@ -44,17 +44,19 @@ namespace iRLeagueManager.Models.Reviews
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }
 
-        private ObservableCollection<CommentModel> replies = new ObservableCollection<CommentModel>();
+        private ObservableCollection<CommentModel> replies;
         public ObservableCollection<CommentModel> Replies { get => replies; set => SetNotifyCollection(ref replies, value); }
         
         public CommentModel() { }
 
         public CommentModel(long commentId, string authorName) : base(commentId, authorName)
         {
+            Replies = new ObservableCollection<CommentModel>();
         }
 
         public CommentModel(UserModel author) : base(author)
         {
+            Replies = new ObservableCollection<CommentModel>();
         }
 
         public CommentModel(UserModel author, CommentInfo replyTo) : this(author)

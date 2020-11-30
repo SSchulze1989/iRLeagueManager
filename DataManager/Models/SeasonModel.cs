@@ -77,10 +77,10 @@ namespace iRLeagueManager.Models
         public DateTime SeasonEnd { get => seasonEnd; internal set => SetValue(ref seasonEnd, value); }
         
         private ObservableCollection<VoteCategoryModel> voteCategories;
-        public ObservableCollection<VoteCategoryModel> VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
+        public ObservableCollection<VoteCategoryModel> VoteCategories { get => voteCategories; set => SetNotifyCollection(ref voteCategories, value); }
 
         private ObservableCollection<CustomIncidentModel> customIncidents;
-        public ObservableCollection<CustomIncidentModel> CustomIncidents { get => customIncidents; set => SetValue(ref customIncidents, value); }
+        public ObservableCollection<CustomIncidentModel> CustomIncidents { get => customIncidents; set => SetNotifyCollection(ref customIncidents, value); }
 
         private bool hideCommentsBeforeVoted;
         public bool HideCommentsBeforeVoted { get => hideCommentsBeforeVoted; set => SetValue(ref hideCommentsBeforeVoted, value); }
@@ -106,7 +106,8 @@ namespace iRLeagueManager.Models
             Schedules = new ObservableCollection<ScheduleInfo>();
             Scorings = new ObservableCollection<ScoringModel>();
             VoteCategories = new ObservableCollection<VoteCategoryModel>();
-            customIncidents = new ObservableCollection<CustomIncidentModel>();
+            CustomIncidents = new ObservableCollection<CustomIncidentModel>();
+            ScoringTables = new ObservableCollection<ScoringTableModel>();
         }
 
         public SeasonModel(long? seasonId) : this()
