@@ -62,7 +62,7 @@ namespace iRLeagueManager.Models.Results
 
         public StandingsModel()
         {
-            StandingsRows = new ObservableCollection<StandingsRowModel><StandingsRowModel>();
+            StandingsRows = new ObservableCollection<StandingsRowModel>();
         }
     }
 }
