@@ -177,7 +177,7 @@
     <Compile Include="ViewModels\MemberListViewModel.cs" />
     <Compile Include="ViewModels\MenuBarViewModel.cs" />
     <Compile Include="ViewModels\MinutesCollection.cs" />
-    <Compile Include="ViewModels\Collections\ObservableModelCollection.cs" />
+    <Compile Include="ViewModels\Collections\ObservableViewModelCollection.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\Collections\ModelCollectionViewModel.cs" />
     <Compile Include="ViewModels\ResultRowViewModel.cs" />
@@ -196,6 +196,7 @@
     <Compile Include="ViewModels\ScoredTeamResultViewModel.cs" />
     <Compile Include="ViewModels\ScoringTableViewModel.cs" />
     <Compile Include="ViewModels\ScoringViewModel.cs" />
+    <Compile Include="ViewModels\SeasonStatisticSetViewModel.cs" />
     <Compile Include="ViewModels\SeasonViewModel.cs" />
     <Compile Include="ViewModels\SessionModalViewModel.cs" />
     <Compile Include="ViewModels\SessionSelectViewModel.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticSetViewModel.cs" />
     <Compile Include="ViewModels\TeamsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

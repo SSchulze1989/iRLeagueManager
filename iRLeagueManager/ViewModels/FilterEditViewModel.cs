@@ -31,7 +31,7 @@ namespace iRLeagueManager.ViewModels
                 }
             }
         }
-        private readonly ObservableModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel> resultsFilterOptions;
+        private readonly ObservableViewModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel> resultsFilterOptions;
         public ICollectionView ResultsFilterOptions => resultsFilterOptions.CollectionView;
         public IEnumerable<string> FilterTypes { get; }
         public IEnumerable<string> FilterProperties { get; }
@@ -56,7 +56,7 @@ namespace iRLeagueManager.ViewModels
             excludeProperties.Add(nameof(ResultRowModel.MemberId));
             FilterProperties = typeof(ResultRowModel).GetProperties().Select(x => x.Name).Except(excludeProperties);
 
-            resultsFilterOptions = new ObservableModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel>();
+            resultsFilterOptions = new ObservableViewModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel>();
             var filters = new List<ResultsFilterOptionModel>()
             {
                 new ResultsFilterOptionModel()

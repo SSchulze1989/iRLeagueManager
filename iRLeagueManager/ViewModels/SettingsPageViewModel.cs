@@ -35,6 +35,7 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using System.Collections.ObjectModel;
+using iRLeagueManager.Models.Statistics;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -43,25 +44,43 @@ namespace iRLeagueManager.ViewModels
         private SeasonViewModel season;
         public SeasonViewModel Season { get => season; set => SetValue(ref season, value); }
 
-        private readonly ObservableModelCollection<ScoringViewModel,ScoringModel> scorings;
-        public ObservableModelCollection<ScoringViewModel, ScoringModel> Scorings
+        private readonly ObservableViewModelCollection<ScoringViewModel,ScoringModel> scorings;
+        //public ObservableModelCollection<ScoringViewModel, ScoringModel> Scorings
+        //{
+        //    get
+        //    {
+        //        if (scorings.GetSource() != Season?.Scorings)
+        //            scorings.UpdateSource(Season?.Scorings);
+        //        return scorings;
+        //    }
+        //}
+        public ICollectionView Scorings
         {
             get
             {
                 if (scorings.GetSource() != Season?.Scorings)
                     scorings.UpdateSource(Season?.Scorings);
-                return scorings;
+                return scorings.CollectionView;
             }
         }
 
-        private readonly ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTables;
-        public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTables
+        private readonly ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTables;
+        //public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTables
+        //{
+        //    get
+        //    {
+        //        if (scoringTables.GetSource() != Season?.ScoringTables)
+        //            scoringTables.UpdateSource(Season?.ScoringTables);
+        //        return scoringTables;
+        //    }
+        //}
+        public ICollectionView ScoringTables
         {
             get
             {
                 if (scoringTables.GetSource() != Season?.ScoringTables)
                     scoringTables.UpdateSource(Season?.ScoringTables);
-                return scoringTables;
+                return scoringTables.CollectionView;
             }
         }
 
@@ -87,8 +106,8 @@ namespace iRLeagueManager.ViewModels
 
         public SettingsPageViewModel() : base()
         {
-            scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(Scorings.GetSource()));
-            scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(Scorings));
+            scorings = new ObservableViewModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(scorings.GetSource()));
+            scoringTables = new ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(scorings));
             Season = new SeasonViewModel();
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
             AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
@@ -262,7 +281,7 @@ namespace iRLeagueManager.ViewModels
                 scoring = await LeagueContext.AddModelAsync(scoring);
                 Season.Scorings.Add(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                Scorings.UpdateCollection();
+                scorings.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -285,7 +304,7 @@ namespace iRLeagueManager.ViewModels
                 await LeagueContext.DeleteModelsAsync(scoring);
                 Season.Scorings.Remove(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                Scorings.UpdateCollection();
+                scorings.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -306,7 +325,7 @@ namespace iRLeagueManager.ViewModels
                 //scoringTable = await LeagueContext.AddModelAsync(scoringTable);
                 Season.ScoringTables.Add(scoringTable);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                ScoringTables.UpdateCollection();
+                scoringTables.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -329,7 +348,7 @@ namespace iRLeagueManager.ViewModels
                 await LeagueContext.DeleteModelsAsync(scoringTable);
                 Season.ScoringTables.Remove(scoringTable);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                ScoringTables.UpdateCollection();
+                scoringTables.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -351,11 +370,11 @@ namespace iRLeagueManager.ViewModels
                     await Season.SaveChanges();
                 }
 
-                foreach (var scoring in Scorings)
+                foreach (var scoring in scorings)
                 {
                     await scoring.SaveChanges();
                 }
-                foreach (var scoringTable in ScoringTables)
+                foreach (var scoringTable in scoringTables)
                 {
                     await scoringTable.SaveChanges();
                 }
@@ -389,11 +408,11 @@ namespace iRLeagueManager.ViewModels
             }
 
             var hasChanges = Season.Model.ContainsChanges;
-            foreach (var scoring in Scorings)
+            foreach (var scoring in scorings)
             {
                 hasChanges |= scoring.Model.ContainsChanges;
             }
-            foreach (var scoringTable in ScoringTables)
+            foreach (var scoringTable in scoringTables)
             {
                 hasChanges |= scoringTable.Model.ContainsChanges;
             }

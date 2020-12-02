@@ -39,8 +39,8 @@ namespace iRLeagueManager.ViewModels
     {
         public new ScoredTeamResultModel Model { get => base.Model as ScoredTeamResultModel; set => base.Model = value; }
 
-        private readonly ObservableModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel> teamResults;
-        public ObservableModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel> TeamResults
+        private readonly ObservableViewModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel> teamResults;
+        public ObservableViewModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel> TeamResults
         {
             get
             {
@@ -52,7 +52,7 @@ namespace iRLeagueManager.ViewModels
 
         public ScoredTeamResultViewModel()
         {
-            teamResults = new ObservableModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel>();
+            teamResults = new ObservableViewModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel>();
         }
 
         public bool UpdateSource(ScoredTeamResultModel source)

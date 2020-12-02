@@ -35,8 +35,8 @@ namespace iRLeagueManager.ViewModels
 {
     public class TeamsPageViewModel : ViewModelBase, IPageViewModel
     {
-        private ObservableModelCollection<TeamViewModel, TeamModel> teams;
-        public ObservableModelCollection<TeamViewModel, TeamModel> Teams { get => teams; private set => SetValue(ref teams, value); }
+        private ObservableViewModelCollection<TeamViewModel, TeamModel> teams;
+        public ObservableViewModelCollection<TeamViewModel, TeamModel> Teams { get => teams; private set => SetValue(ref teams, value); }
 
         private TeamViewModel selectedTeam;
         public TeamViewModel SelectedTeam { get => selectedTeam; set => SetValue(ref selectedTeam, value); }
@@ -46,7 +46,7 @@ namespace iRLeagueManager.ViewModels
 
         public TeamsPageViewModel()
         {
-            Teams = new ObservableModelCollection<TeamViewModel, TeamModel>();
+            Teams = new ObservableViewModelCollection<TeamViewModel, TeamModel>();
             AddTeamCmd = new RelayCommand(async o => await AddTeam(), o => true);
             RemoveTeamCmd = new RelayCommand(async o => await RemoveTeam(o as TeamModel), o => o != null);
         }

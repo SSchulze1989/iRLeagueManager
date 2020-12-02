@@ -55,6 +55,8 @@ using iRLeagueDatabase.DataTransfer.Filters;
 using iRLeagueManager.Models.Filters;
 using iRLeagueDatabase.Extensions;
 using System.Web.Hosting;
+using iRLeagueDatabase.DataTransfer.Statistics;
+using iRLeagueManager.Models.Statistics;
 
 namespace iRLeagueManager
 {
@@ -81,6 +83,7 @@ namespace iRLeagueManager
             CreateMap<SeasonDataDTO, SeasonModel>()
                 .EqualityComparison((src, dest) => src.SeasonId == dest.SeasonId)
                 .ConstructUsing(source => ModelCache.PutOrGetModel(new SeasonModel(source.SeasonId)))
+                .ForMember(dest => dest.SeasonStatisticSets, opt => opt.MapFrom(src => src.SeasonStatisticSetIds.Select(x => new StatisticSetInfo() { Id = x })))
                 .AfterMap((src, dest) =>
                 {
                     CurrentSchedules = null;
@@ -517,6 +520,40 @@ namespace iRLeagueManager
                         .ToArray()
                         ?? new object[0];
                 }));
+
+            #region statistic mapping
+            CreateMap<StatisticSetDTO, StatisticSetInfo>();
+
+            CreateMap<StatisticSetDTO, StatisticSetModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new StatisticSetModel() { Id = src.Id }))
+                .EqualityComparison((src, dest) => src.Id == dest.Id)
+                .Include<SeasonStatisticSetDTO, SeasonStatisticSetModel>()
+                .ReverseMap();
+
+            CreateMap<SeasonStatisticSetDTO, SeasonStatisticSetModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new SeasonStatisticSetModel() { Id = src.Id}))
+                .EqualityComparison((src, dest) => src.Id == dest.Id)
+                .ReverseMap();
+
+            CreateMap<LeagueStatisticSetDTO, LeagueStatisticSetModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new LeagueStatisticSetModel() { Id = src.Id }))
+                .EqualityComparison((src, dest) => src.Id == dest.Id)
+                .ReverseMap();
+
+            CreateMap<ImportedStatisticSetDTO, ImportedStatisticSetModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new ImportedStatisticSetModel() { Id = src.Id }))
+                .EqualityComparison((src, dest) => src.Id == dest.Id)
+                .ReverseMap();
+
+            CreateMap<DriverStatisticDTO, DriverStatisticModel>()
+                .ConstructUsing(src => ModelCache.PutOrGetModel(new DriverStatisticModel() { StatisticSetId = src.StatisticSetId }))
+                .EqualityComparison((src, dest) => src.StatisticSetId == dest.StatisticSetId)
+                .ReverseMap();
+
+            CreateMap<DriverStatisticRowDTO, DriverStatisticRowModel>()
+                .EqualityComparison((src, dest) => src.StatisticSetId == dest.StatisticSetId && src.MemberId == dest.MemberId)
+                .ReverseMap();
+            #endregion
         }
 
         private void SortObservableCollection<T, TKey>(ObservableCollection<T> collection, Func<T, TKey> key)

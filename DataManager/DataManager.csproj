@@ -164,6 +164,13 @@
     <Compile Include="Models\Sessions\ScheduleInfo.cs" />
     <Compile Include="Models\Sessions\SessionModel.cs" />
     <Compile Include="Models\Sessions\SessionInfo.cs" />
+    <Compile Include="Models\Statistics\DriverStatisticModel.cs" />
+    <Compile Include="Models\Statistics\DriverStatisticRowModel.cs" />
+    <Compile Include="Models\Statistics\ImportedStatisticSetModel.cs" />
+    <Compile Include="Models\Statistics\LeagueStatisticSetModel.cs" />
+    <Compile Include="Models\Statistics\SeasonStatisticSetModel.cs" />
+    <Compile Include="Models\Statistics\StatisticSetInfo.cs" />
+    <Compile Include="Models\Statistics\StatisticSetModel.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
     <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Models\VersionModel.cs" />

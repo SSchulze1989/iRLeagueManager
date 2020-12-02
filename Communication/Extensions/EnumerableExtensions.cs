@@ -56,5 +56,18 @@ namespace iRLeagueDatabase.Extensions
             var totalWeight = enumerable.Sum(x => weight(x));
             return (enumerable.Sum(x => value(x) * weight(x)) / totalWeight).GetZeroWhenInvalid();
         }
+
+        public static IEnumerable<T> Concat<T>(this IEnumerable<T> first, params IEnumerable<T>[] others)
+        {
+            if (others == null || others.Count() == 0)
+            {
+                return first;
+            }
+            if (others.Count() == 1)
+            {
+                return Enumerable.Concat(first, others[0]);
+            }
+            return first.Concat(others[0].Concat(others.Skip(1).ToArray()));
+        }
     }
 }

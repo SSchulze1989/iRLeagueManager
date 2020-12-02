@@ -49,8 +49,8 @@ namespace iRLeagueManager.ViewModels
         private IncidentReviewViewModel review;
         public IncidentReviewViewModel Review { get => review; set => SetValue(ref review, value); }
         
-        public ObservableModelCollection<CommentViewModel, CommentModel> replies;
-        public ObservableModelCollection<CommentViewModel, CommentModel> Replies
+        public ObservableViewModelCollection<CommentViewModel, CommentModel> replies;
+        public ObservableViewModelCollection<CommentViewModel, CommentModel> Replies
         {
             get
             {
@@ -79,7 +79,7 @@ namespace iRLeagueManager.ViewModels
         public ReviewCommentViewModel()
         {
             ReplyCmd = new RelayCommand(o => { }, o => false);
-            replies = new ObservableModelCollection<CommentViewModel, CommentModel>(x => x.ReplyTo = this);
+            replies = new ObservableViewModelCollection<CommentViewModel, CommentModel>(x => x.ReplyTo = this);
             SetSource(Template);
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.CommentReviewVotes != null && o is ReviewVoteModel);

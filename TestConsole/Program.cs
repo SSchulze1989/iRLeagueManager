@@ -20,6 +20,13 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
+            var list1 = new List<int> { 1, 2, 3 };
+            var list2 = new List<int> { 4, 5 };
+            var list3 = new List<int> { 6, 7 };
+            var list4 = new List<int> { 5 };
+
+            var list5 = list1.Concat(list2, list3, list4);
+
             //var fileName = @"C:\Users\simon\Documents\iracing-result-34832620.json";
 
             //Stream stream = null;
@@ -45,12 +52,12 @@ namespace TestConsole
             //var result = parserService.GetResultRows();
 
             // Test Statistics loading from API
-            var context = new LeagueContext();
-            context.SetLeagueName("SkippyCup");
-            context.UserLoginAsync("simonschulze", "ollgass").Wait();
+            //var context = new LeagueContext();
+            //context.SetLeagueName("SkippyCup");
+            //context.UserLoginAsync("simonschulze", "ollgass").Wait();
 
-            var statsSets = context.ModelDatabase.GetAsync<SeasonStatisticSetDTO>(null).Result;
-            var stats = context.ModelDatabase.GetAsync<DriverStatisticDTO>(new long[][] { new long[] { statsSets.First().Id } }).Result.FirstOrDefault();
+            //var statsSets = context.ModelDatabase.GetAsync<SeasonStatisticSetDTO>(null).Result;
+            //var stats = context.ModelDatabase.GetAsync<DriverStatisticDTO>(new long[][] { new long[] { statsSets.First().Id } }).Result.FirstOrDefault();
 
             //var importStat = new ImportedStatisticSetDTO()
             //{
@@ -61,13 +68,13 @@ namespace TestConsole
             //};
             //importStat = context.ModelDatabase.PostAsync(new ImportedStatisticSetDTO[] { importStat }).Result.FirstOrDefault();
 
-            var importStat = context.ModelDatabase.GetAsync<ImportedStatisticSetDTO>(new long[][] { new long[] { 6 } });
+            //var importStat = context.ModelDatabase.GetAsync<ImportedStatisticSetDTO>(new long[][] { new long[] { 6 } });
 
-            stats.StatisticSetId = 6;
-            stats.DriverStatisticRows.ForEach(x => x.StatisticSetId = 0);
-            stats = context.ModelDatabase.PostAsync(new DriverStatisticDTO[] { stats }).Result.FirstOrDefault();
+            //stats.StatisticSetId = 6;
+            //stats.DriverStatisticRows.ForEach(x => x.StatisticSetId = 0);
+            //stats = context.ModelDatabase.PostAsync(new DriverStatisticDTO[] { stats }).Result.FirstOrDefault();
 
-            Console.ReadKey();
+            //Console.ReadKey();
             //var dbClient = new LeagueDBServiceClient();
             //dbClient.SetDatabaseName("TestDatabase");
 

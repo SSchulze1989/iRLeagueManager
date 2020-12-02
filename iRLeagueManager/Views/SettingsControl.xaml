@@ -627,8 +627,26 @@ SOFTWARE.-->
                         <TextBlock Text="Stats" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
                     </TabItem.Header>
                     <Grid>
-                        <controls:HeaderedBorder Header="Statistics Options" VerticalAlignment="Top">
-                            <TextBlock Text="This feature is not yet implemented. Release of statistics is aimed for v0.8 release."/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="60*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="50*"/>
+                            <RowDefinition Height="50*"/>
+                        </Grid.RowDefinitions>
+                        <controls:HeaderedBorder Header="Season Statistics Sets" Grid.Column="0" Grid.Row="0">
+                            <ListView ItemsSource="{Binding}">
+                                
+                            </ListView>
+                        </controls:HeaderedBorder>
+
+                        <controls:HeaderedBorder Header="League Statistic Sets" Grid.Column="0" Grid.Row="1">
+                            
+                        </controls:HeaderedBorder>
+
+                        <controls:HeaderedBorder Header="Settings" Grid.Column="1" Grid.RowSpan="2">
+                            
                         </controls:HeaderedBorder>
                     </Grid>
                 </TabItem>

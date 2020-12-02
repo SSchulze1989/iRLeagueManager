@@ -44,8 +44,8 @@ namespace iRLeagueManager.ViewModels
         private SessionViewModel session;
         public SessionViewModel Session { get => session; set => SetValue(ref session, value); }
 
-        public ObservableModelCollection<ResultRowViewModel, ResultRowModel> RawResults => 
-            new ObservableModelCollection<ResultRowViewModel, ResultRowModel>(Model?.RawResults);
+        public ObservableViewModelCollection<ResultRowViewModel, ResultRowModel> RawResults => 
+            new ObservableViewModelCollection<ResultRowViewModel, ResultRowModel>(Model?.RawResults);
         public ObservableCollection<IncidentReviewInfo> Reviews => Model?.Reviews;
 
         private ScoringViewModel scoring;
@@ -55,8 +55,8 @@ namespace iRLeagueManager.ViewModels
 
         public string ScoringName => Model?.ScoringName;
 
-        private readonly ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> finalResults;
-        public ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
+        private readonly ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> finalResults;
+        public ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
         {
             get
             {
@@ -73,7 +73,7 @@ namespace iRLeagueManager.ViewModels
             Model = Template;
             Session = new SessionViewModel();
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(), o => (Session != null && Scoring != null));
-            finalResults = new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
+            finalResults = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
         }
 
         //public async Task Load()
