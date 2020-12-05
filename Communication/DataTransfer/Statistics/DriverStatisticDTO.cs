@@ -23,43 +23,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.ComponentModel;
-using System.Runtime.Serialization;
-using iRLeagueDatabase.DataTransfer.Reviews;
-using iRLeagueDatabase.DataTransfer.Members;
-using iRLeagueDatabase.DataTransfer.Sessions;
 
-
-namespace iRLeagueDatabase.DataTransfer.Results
+namespace iRLeagueDatabase.DataTransfer.Statistics
 {
     [DataContract]
-    [KnownType(typeof(ScoredResultDataDTO))]
-    public class ResultDataDTO : ResultInfoDTO, IMappableDTO
+    public class DriverStatisticDTO : MappableDTO
     {
-        public override Type Type => typeof(ResultDataDTO);
-
         [DataMember]
-        public SeasonInfoDTO Season { get; set; }
-
-        // Detailed information from iracing JSON result
-        // Session details
+        public long StatisticSetId { get; set; }
         [DataMember]
-        public SimSessionDetailsDTO SimSessionDetails { get; set; }
+        public DriverStatisticRowDTO[] DriverStatisticRows { get; set; }
 
-
-        [DataMember]
-        public IEnumerable<ResultRowDataDTO> RawResults { get; set; }
-        [DataMember]
-        public IEnumerable<IncidentReviewInfoDTO> Reviews { get; set; }
-
-        [DataMember]
-        public LeagueMemberInfoDTO CreatedBy { get; set; }
-        [DataMember]
-        public LeagueMemberInfoDTO LastModifiedBy { get; set; }
-
-        public ResultDataDTO() {  }
+        public override object[] Keys => new object[] { StatisticSetId };
+        public override object MappingId => StatisticSetId;
     }
 }

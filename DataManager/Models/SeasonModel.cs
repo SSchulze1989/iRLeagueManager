@@ -34,6 +34,7 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.Models.Statistics;
 
 namespace iRLeagueManager.Models
 {
@@ -53,6 +54,9 @@ namespace iRLeagueManager.Models
 
         private ObservableCollection<ScoringTableModel> scoringTables;
         public ObservableCollection<ScoringTableModel> ScoringTables { get => scoringTables; internal set => SetNotifyCollection(ref scoringTables, value); }
+
+        private ObservableCollection<StatisticSetInfo> seasonStatisticSets;
+        public ObservableCollection<StatisticSetInfo> SeasonStatisticSets { get => seasonStatisticSets; set => SetNotifyCollection(ref seasonStatisticSets, value); }
 
         private ScoringModel mainScoring;
         public ScoringModel MainScoring

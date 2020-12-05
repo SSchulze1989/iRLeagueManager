@@ -203,5 +203,59 @@ namespace iRLeagueManager.ResultsParser
             ResultData = dynResult;
             SessionResults = ResultData.session_results[0].results;
         }
+
+        public SimSessionDetails GetSessionDetails()
+        {
+            var details = new SimSessionDetails();
+            details.Category = ResultData.track.category;
+            details.ConfigName = ResultData.track.track_name;
+            details.CornersPerLap = ResultData.corners_per_lap;
+            details.EventLapsComplete = ResultData.event_laps_complete;
+            details.EndTime = ResultData.end_time;
+            details.EventStrengthOfField = ResultData.event_strength_of_field;
+            details.Fog = ResultData.weather.fog;
+            details.DamageModel = ResultData.damage_model;
+            details.LeaveMarbles = ResultData.track_state.leave_marbles;
+            details.LicenseCategory = ResultData.license_category_id;
+            details.NumCautionLaps = ResultData.num_caution_laps;
+            details.NumCautions = ResultData.num_cautions;
+            details.NumLeadChanges = ResultData.num_lead_changes;
+            details.MaxWeeks = ResultData.max_weeks;
+            details.PracticeGripCompound = ResultData.track_state.practice_grip_compound;
+            details.PracticeRubber = ResultData.track_state.practice_rubber;
+            details.QualifyGripCompund = ResultData.track_state.qualify_grip_compound;
+            details.QualifyRubber = ResultData.track_state.qualify_rubber;
+            details.RaceGripCompound = ResultData.track_state.race_grip_compound;
+            details.RaceRubber = ResultData.track_state.race_rubber;
+            details.RelHumidity = ResultData.weather.rel_humidity;
+            details.TimeOfDay = ResultData.time_of_day;
+            details.TempUnits = ResultData.weather.temp_units;
+            details.TempValue = ResultData.weather.temp_value;
+            details.TrackCategoryId = ResultData.track.category_id;
+            details.TrackName = ResultData.track.track_name;
+            details.IRTrackId = ResultData.track.track_id;
+            //details.SimStartUTCTime = DateTime.TryParse(ResultData.weather.simulated_start_utc_time, out DateTime simStartUTCTime) ? (DateTime?)simStartUTCTime : null;
+            details.SimStartUTCTime = ResultData.weather.simulated_start_utc_time;
+            details.SimStartUTCOffset = ResultData.weather.simulated_start_utc_offset;
+            details.SessionName = ResultData.session_name;
+            details.Skies = ResultData.weather.skies;
+            details.StartTime = ResultData.start_time;
+            details.IRSeasonId = ResultData.season_id;
+            details.IRRaceWeek = ResultData.race_week_num;
+            details.IRSeasonName = ResultData.season_name;
+            details.IRSeasonQuarter = ResultData.season_quarter;
+            details.IRSeasonYear = ResultData.season_year;
+            details.IRSessionId = ResultData.session_id;
+            details.IRSubsessionId = ResultData.subsession_id;
+            details.WarmupGripCompound = ResultData.track_state.warmup_grip_compound;
+            details.WarmupRubber = ResultData.track_state.warmup_rubber;
+            details.WeatherType = ResultData.weather.type;
+            details.WeatherVarInitial = ResultData.weather.weather_var_initial;
+            details.WeatherVarOngoing = ResultData.weather.weather_var_ongoing;
+            details.WindDir = ResultData.weather.wind_dir;
+            details.WindUnits = ResultData.weather.wind_units;
+
+            return details;
+        }
     }
 }

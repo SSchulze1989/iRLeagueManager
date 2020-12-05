@@ -107,8 +107,8 @@ namespace iRLeagueManager.ViewModels
         }
 
 
-        private readonly ObservableModelCollection<ReviewCommentViewModel, ReviewCommentModel> comments;
-        public ObservableModelCollection<ReviewCommentViewModel, ReviewCommentModel> Comments
+        private readonly ObservableViewModelCollection<ReviewCommentViewModel, ReviewCommentModel> comments;
+        public ObservableViewModelCollection<ReviewCommentViewModel, ReviewCommentModel> Comments
         {
             get
             {
@@ -142,7 +142,7 @@ namespace iRLeagueManager.ViewModels
         public IncidentReviewViewModel() : base()
         {
             memberList = new MemberListViewModel();
-            comments = new ObservableModelCollection<ReviewCommentViewModel, ReviewCommentModel>(x => x.Review = this);
+            comments = new ObservableViewModelCollection<ReviewCommentViewModel, ReviewCommentModel>(x => x.Review = this);
             ((INotifyCollectionChanged)comments).CollectionChanged += OnCommentsCollectionChanged;
             AddVoteCmd = new RelayCommand(o => AddVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null);
             DeleteVoteCmd = new RelayCommand(o => DeleteVote(o as ReviewVoteModel), o => Model?.AcceptedReviewVotes != null && o is ReviewVoteModel);

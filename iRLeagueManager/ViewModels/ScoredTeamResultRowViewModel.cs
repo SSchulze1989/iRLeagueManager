@@ -43,7 +43,7 @@ namespace iRLeagueManager.ViewModels
 
         public TeamModel Team => Model?.Team;
 
-        private readonly ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> scoredResultRows;
+        private readonly ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> scoredResultRows;
         public ICollectionView ScoredResultRows
         {
             get
@@ -56,7 +56,7 @@ namespace iRLeagueManager.ViewModels
 
         public ScoredTeamResultRowViewModel()
         {
-            scoredResultRows = new ObservableModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
+            scoredResultRows = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
             ScoredResultRows.SortDescriptions.Add(new SortDescription(nameof(FinalPosition), ListSortDirection.Ascending));
         }
 

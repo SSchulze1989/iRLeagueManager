@@ -226,6 +226,8 @@ namespace iRLeagueManager.ViewModels
                     return;
 
                 var resultRows = parserService.GetResultRows();
+                var details = parserService.GetSessionDetails();
+                details.KmDistPerLap = Location.GetConfigInfo().LengthKm;
                 ResultModel result;
                 if (session.SessionResult != null)
                 {
@@ -235,12 +237,16 @@ namespace iRLeagueManager.ViewModels
                     resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
                     resultRows = (await LeagueContext.AddModelsAsync(resultRows.ToArray()));
                     result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+                    result.SimSessionDetails = details;
                     await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                 }
                 else
                 {
                     //result = await GlobalSettings.LeagueContext.CreateResultAsync(sessionModel);
-                    result = new ResultModel(session);
+                    result = new ResultModel(session)
+                    {
+                        SimSessionDetails = details
+                    };
                     result = await LeagueContext.AddModelAsync(result);
                     session.SessionResult = result;
                     //result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);

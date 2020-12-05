@@ -100,12 +100,12 @@ namespace iRLeagueManager.ViewModels
         private ObservableCollection<ResultInfo> resultList;
         public ObservableCollection<ResultInfo> ResultList { get => resultList; set => SetValue(ref resultList, value); }
 
-        private ObservableModelCollection<ScoredResultViewModel, ScoredResultModel> currentResults;
+        private ObservableViewModelCollection<ScoredResultViewModel, ScoredResultModel> currentResults;
         public ICollectionView CurrentResults => currentResults.CollectionView;
 
         public SessionViewModel SelectedSession { get => SessionSelect?.SelectedSession; set => SessionSelect.SelectedSession = value; }
 
-        private readonly ObservableModelCollection<ScoringViewModel, ScoringModel> scoringList;
+        private readonly ObservableViewModelCollection<ScoringViewModel, ScoringModel> scoringList;
         public ICollectionView ScoringList => scoringList.CollectionView;
 
         public ICommand CalculateResultsCmd { get; }
@@ -114,7 +114,7 @@ namespace iRLeagueManager.ViewModels
         {
             ScheduleList = new ScheduleVMCollection();
             resultList = new ObservableCollection<ResultInfo>();
-            currentResults = new ObservableModelCollection<ScoredResultViewModel, ScoredResultModel>(src =>
+            currentResults = new ObservableViewModelCollection<ScoredResultViewModel, ScoredResultModel>(src =>
                 {
                     if (src is ScoredTeamResultModel)
                         return new ScoredTeamResultViewModel();
@@ -122,7 +122,7 @@ namespace iRLeagueManager.ViewModels
                         return new ScoredResultViewModel();
                 },
                 x => x.Scoring = scoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
-            scoringList = new ObservableModelCollection<ScoringViewModel, ScoringModel>(x => x.Season = season);
+            scoringList = new ObservableViewModelCollection<ScoringViewModel, ScoringModel>(x => x.Season = season);
             //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
             {

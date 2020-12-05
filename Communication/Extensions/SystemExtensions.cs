@@ -25,41 +25,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.ComponentModel;
-using System.Runtime.Serialization;
-using iRLeagueDatabase.DataTransfer.Reviews;
-using iRLeagueDatabase.DataTransfer.Members;
-using iRLeagueDatabase.DataTransfer.Sessions;
 
-
-namespace iRLeagueDatabase.DataTransfer.Results
+namespace iRLeagueDatabase.Extensions
 {
-    [DataContract]
-    [KnownType(typeof(ScoredResultDataDTO))]
-    public class ResultDataDTO : ResultInfoDTO, IMappableDTO
+    public static class SystemExtensions
     {
-        public override Type Type => typeof(ResultDataDTO);
-
-        [DataMember]
-        public SeasonInfoDTO Season { get; set; }
-
-        // Detailed information from iracing JSON result
-        // Session details
-        [DataMember]
-        public SimSessionDetailsDTO SimSessionDetails { get; set; }
-
-
-        [DataMember]
-        public IEnumerable<ResultRowDataDTO> RawResults { get; set; }
-        [DataMember]
-        public IEnumerable<IncidentReviewInfoDTO> Reviews { get; set; }
-
-        [DataMember]
-        public LeagueMemberInfoDTO CreatedBy { get; set; }
-        [DataMember]
-        public LeagueMemberInfoDTO LastModifiedBy { get; set; }
-
-        public ResultDataDTO() {  }
+        /// <summary>
+        /// Check if value is either Infinity or NaN and returns null in that case.
+        /// </summary>
+        /// <returns>0 or <paramref name="number"/></returns>
+        public static double GetZeroWhenInvalid(this double number)
+        {
+            if (double.IsInfinity(number) || double.IsNaN(number))
+            {
+                return 0;
+            }
+            return number;
+        }
     }
 }

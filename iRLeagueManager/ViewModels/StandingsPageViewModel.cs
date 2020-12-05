@@ -41,7 +41,7 @@ namespace iRLeagueManager.ViewModels
     {
         private SeasonModel season;
 
-        private readonly ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTableList;
+        private readonly ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTableList;
         public ICollectionView ScoringTableList
         {
             get => scoringTableList.CollectionView;
@@ -51,7 +51,7 @@ namespace iRLeagueManager.ViewModels
 
         public StandingsPageViewModel()
         {
-            scoringTableList = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
+            scoringTableList = new ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel>();
             ScoringTableList.CurrentChanged += async (sender, args) =>
             {
                 if (ScoringTableList.CurrentItem is ScoringTableViewModel current)

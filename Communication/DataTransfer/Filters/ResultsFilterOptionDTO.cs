@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 namespace iRLeagueDatabase.DataTransfer.Filters
 {
     [DataContract]
-    public class ResultsFilterOptionDTO : MappableDTO
+    public class ResultsFilterOptionDTO : VersionDTO
     {
         [DataMember]
         public long ResultsFilterId { get; set; }

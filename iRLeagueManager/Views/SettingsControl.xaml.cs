@@ -50,7 +50,7 @@ namespace iRLeagueManager.Views
         private SettingsPageViewModel ViewModel => DataContext as SettingsPageViewModel;
         private SeasonViewModel Season => (DataContext as SettingsPageViewModel)?.Season;
 
-        private ReadOnlyObservableCollection<ScoringViewModel> Scorings => (DataContext as SettingsPageViewModel)?.Scorings;
+        //private ReadOnlyObservableCollection<ScoringViewModel> Scorings => (DataContext as SettingsPageViewModel)?.Scorings;
 
         public SettingsControl()
         {
