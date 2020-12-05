@@ -45,8 +45,8 @@ namespace iRLeagueManager.Models.Results
 
         public override long[] ModelId => new long[] { ScoringTableId, sessionId.GetValueOrDefault() };
 
-        private List<StandingsRowModel> standingsRows;
-        public List<StandingsRowModel> StandingsRows { get => standingsRows; internal set => SetValue(ref standingsRows, value); }
+        private ObservableCollection<StandingsRowModel> standingsRows;
+        public ObservableCollection<StandingsRowModel> StandingsRows { get => standingsRows; internal set => SetValue(ref standingsRows, value); }
 
         private LeagueMember mostWinsDriver;
         public LeagueMember MostWinsDriver { get => mostWinsDriver; internal set => SetValue(ref mostWinsDriver, value); }
@@ -62,7 +62,7 @@ namespace iRLeagueManager.Models.Results
 
         public StandingsModel()
         {
-            StandingsRows = new List<StandingsRowModel>();
+            StandingsRows = new ObservableCollection<StandingsRowModel>();
         }
     }
 }

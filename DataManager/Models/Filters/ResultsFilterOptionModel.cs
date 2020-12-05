@@ -55,9 +55,12 @@ namespace iRLeagueManager.Models.Filters
 
         public override long[] ModelId => new long[] { ResultsFilterId };
 
-        public ResultsFilterOptionModel() { }
+        public ResultsFilterOptionModel() 
+        {
+            FilterValues = new ObservableCollection<FilterValueModel>();
+        }
 
-        public ResultsFilterOptionModel(long scoringId)
+        public ResultsFilterOptionModel(long scoringId) : this()
         {
             ScoringId = scoringId;
         }
