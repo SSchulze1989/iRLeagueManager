@@ -156,6 +156,7 @@ namespace iRLeagueManager.Models.Sessions
         {
             Date = DateTime.Today;
             SessionType = sessionType;
+            Reviews = new ObservableCollection<IncidentReviewInfo>();
             //LocationId = "";
             //Laps = 0;
             //Duration = TimeSpan.FromMinutes(120);
@@ -169,6 +170,7 @@ namespace iRLeagueManager.Models.Sessions
             //Schedule = schedule;
             SessionType = sessionType;
             Date = DateTime.Today;
+            Reviews = new ObservableCollection<IncidentReviewInfo>();
             //LocationId = "";
             //Laps = 0;
             //Duration = TimeSpan.FromMinutes(120);

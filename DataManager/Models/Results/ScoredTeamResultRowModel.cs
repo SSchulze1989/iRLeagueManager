@@ -37,5 +37,10 @@ namespace iRLeagueManager.Models.Results
 
         private ObservableCollection<ScoredResultRowModel> scoredResultRows;
         public ObservableCollection<ScoredResultRowModel> ScoredResultRows { get => scoredResultRows; internal set => SetNotifyCollection(ref scoredResultRows, value); }
+
+        public ScoredTeamResultRowModel()
+        {
+            ScoredResultRows = new ObservableCollection<ScoredResultRowModel>();
+        }
     }
 }

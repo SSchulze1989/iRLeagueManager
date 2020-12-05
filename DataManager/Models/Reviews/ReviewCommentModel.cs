@@ -50,18 +50,22 @@ namespace iRLeagueManager.Models.Reviews
         private IncidentReviewInfo review;
         public IncidentReviewInfo Review { get => review; internal set => SetValue(ref review, value); }
 
-        private ObservableCollection<ReviewVoteModel> commentReviewVotes = new ObservableCollection<ReviewVoteModel>();
+        private ObservableCollection<ReviewVoteModel> commentReviewVotes;
         public ObservableCollection<ReviewVoteModel> CommentReviewVotes { get => commentReviewVotes; set => SetNotifyCollection(ref commentReviewVotes, value); }
 
-        public ReviewCommentModel () { }
+        public ReviewCommentModel () 
+        {
+            CommentReviewVotes = new ObservableCollection<ReviewVoteModel>();
+        }
 
         public ReviewCommentModel(long commentId, string authorName) : base(commentId, authorName) 
         {
-            Review = review;
+            CommentReviewVotes = new ObservableCollection<ReviewVoteModel>();
         }
 
         public ReviewCommentModel(UserModel author) : base(author)
         {
+            CommentReviewVotes = new ObservableCollection<ReviewVoteModel>();
         }
 
         public ReviewCommentModel(UserModel author, IncidentReviewInfo review) : this(author) 
