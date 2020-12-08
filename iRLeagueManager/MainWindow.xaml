@@ -251,6 +251,11 @@ SOFTWARE.-->
                     <TabControl Grid.Row="0" DockPanel.Dock="Top" Height="200">
                         <TabItem Header="Errors" TextElement.FontSize="12" Height="25">
                             <DataGrid ItemsSource="{Binding ErrorLog}" HorizontalAlignment="Stretch" AutoGenerateColumns="False">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                                    </Style>
+                                </DataGrid.RowStyle>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding Timestamp}" Header="Time" IsReadOnly="True" Width="75"/>
                                     <DataGridTextColumn Binding="{Binding Message}" Header="Message" IsReadOnly="True" Width="*"/>
