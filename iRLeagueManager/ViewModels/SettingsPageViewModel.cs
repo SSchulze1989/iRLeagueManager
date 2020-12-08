@@ -36,13 +36,34 @@ using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Models.Statistics;
+using System.Windows;
 
 namespace iRLeagueManager.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
         private SeasonViewModel season;
-        public SeasonViewModel Season { get => season; set => SetValue(ref season, value); }
+        public SeasonViewModel Season
+        {
+            get => season;
+            set
+            {
+                var tmp = season;
+                if (SetValue(ref season, value))
+                {
+                    if (tmp != null)
+                    {
+                        tmp.PropertyChanged -= Season_PropertyChanged;
+                        tmp.ModelChanged -= Season_ModelChanged;
+                    }
+                    if (season != null)
+                    {
+                        season.PropertyChanged += Season_PropertyChanged;
+                        season.ModelChanged += Season_ModelChanged;
+                    }
+                }
+            }
+        }
 
         private readonly ObservableViewModelCollection<ScoringViewModel,ScoringModel> scorings;
         //public ObservableModelCollection<ScoringViewModel, ScoringModel> Scorings
@@ -84,6 +105,9 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
+        public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
+
         private ObservableCollection<VoteCategoryModel> voteCategoriesCollection;
         private ICollectionView voteCategories;
         public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
@@ -118,6 +142,23 @@ namespace iRLeagueManager.ViewModels
             RemoveIncidentKindCmd = new RelayCommand(async o => await RemoveIncidentKind(o as CustomIncidentModel), o => o != null && o is CustomIncidentModel);
             AddVoteCategoryCmd = new RelayCommand(async o => await AddVoteCategory());
             RemoveVoteCategoryCmd = new RelayCommand(async o => await RemoveVoteCategory(o as VoteCategoryModel), o => o != null && o is VoteCategoryModel);
+            seasonStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
+        }
+
+        private void Season_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SeasonModel.SeasonStatisticSets):
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Season_ModelChanged()
+        {
+            
         }
 
         public async Task Load(SeasonModel season)
@@ -144,6 +185,7 @@ namespace iRLeagueManager.ViewModels
                 var voteCategories = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
                 voteCategoriesCollection = new ObservableCollection<VoteCategoryModel>(voteCategories);
                 SetVoteCategoriesView(voteCategoriesCollection);
+                await LoadStatisticSets();
             }
             catch (Exception e)
             {
@@ -261,6 +303,29 @@ namespace iRLeagueManager.ViewModels
                 LeagueContext.ModelManager.ForceExpireModels<VoteCategoryModel>();
                 await Load(Season.Model);
                 await base.Refresh();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task LoadStatisticSets()
+        {
+            if (season?.Model?.SeasonStatisticSets == null || season.Model.SeasonStatisticSets.Count == 0)
+            {
+                return;
+            }
+            
+            try
+            {
+                IsLoading = true;
+                var statisticSets = await LeagueContext.GetModelsAsync<StatisticSetModel>(season.Model.SeasonStatisticSets.Select(x => x.ModelId));
+                seasonStatistics.UpdateSource(statisticSets);
             }
             catch (Exception e)
             {

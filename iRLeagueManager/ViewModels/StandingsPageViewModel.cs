@@ -105,11 +105,14 @@ namespace iRLeagueManager.ViewModels
                 if (lastSelectedSession == null || !SessionSelect.SessionList.Contains(lastSelectedSession))
                     SessionSelect.SelectedSession = SessionSelect.SessionList.Where(x => x.ResultAvailable).LastOrDefault();
 
-                if (ScoringTableList.CurrentItem is ScoringTableViewModel current == false)
+                if (scoringTableList.Count > 0)
                 {
-                    ScoringTableList.MoveCurrentToFirst();
+                    if (ScoringTableList.CurrentItem is ScoringTableViewModel current == false)
+                    {
+                        ScoringTableList.MoveCurrentToFirst();
+                    }
+                    await (ScoringTableList.CurrentItem as ScoringTableViewModel)?.LoadStandings();
                 }
-                await (ScoringTableList.CurrentItem as ScoringTableViewModel)?.LoadStandings();
                 //else
                 //await LoadResults();
 

@@ -468,6 +468,7 @@ namespace iRLeagueManager
             CreateMap<StandingsRowDataDTO, StandingsRowModel>()
                 //.ConstructUsing(source => ModelCache.PutOrGetModel(new StandingsRowModel() { Scoring = new ScoringInfo(source.Scoring.ScoringId), Member = new LeagueMember(source.Member.MemberId) }))
                 .ConstructUsing(source => new StandingsRowModel())
+                .ForMember(dest => dest.CountedResults, opt => opt.MapFrom(src => src.CountedResults.OrderBy(x => x.Date)))
                 .EqualityComparison((src, dest) => src.Member.MemberId == dest.Member.MemberId)
                 .Include<TeamStandingsRowDataDTO, TeamStandingsRowModel>();
 

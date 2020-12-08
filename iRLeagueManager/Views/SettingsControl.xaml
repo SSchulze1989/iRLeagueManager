@@ -636,7 +636,7 @@ SOFTWARE.-->
                             <RowDefinition Height="50*"/>
                         </Grid.RowDefinitions>
                         <controls:HeaderedBorder Header="Season Statistics Sets" Grid.Column="0" Grid.Row="0">
-                            <ListView ItemsSource="{Binding}">
+                            <ListView ItemsSource="{Binding SeasonStatistics}">
                                 
                             </ListView>
                         </controls:HeaderedBorder>
