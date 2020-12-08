@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Net.NetworkInformation;
 using System.Diagnostics;
 using iRLeagueManager.Views;
+using iRLeagueManager.Logging;
 
 namespace iRLeagueManager
 {
@@ -235,6 +236,17 @@ namespace iRLeagueManager
 
             if (EditPanel.ShowDialog() == true)
             {
+            }
+        }
+
+        private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGridRow row)
+            {
+                if (row.Item is ExceptionLogMessage msg)
+                {
+                    MessageBox.Show(msg.Exception.ToString(), $"Error - {msg.Message}", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
