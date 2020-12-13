@@ -69,17 +69,29 @@ namespace iRLeagueManager.Timing
 
         private void TimeSpanSetHours(int hours)
         {
-            setTime(Time.Subtract(TimeSpan.FromHours(Time.Hours)).Add(TimeSpan.FromHours(hours)));
+            if (Time.Hours != hours)
+            {
+                setTime(Time.Subtract(TimeSpan.FromHours(Time.Hours)).Add(TimeSpan.FromHours(hours)));
+                OnPropertyChanged(nameof(Hours));
+            }
         }
 
         private void TimeSpanSetMinutes(int minutes)
         {
-            setTime(Time.Subtract(TimeSpan.FromMinutes(Time.Minutes)).Add(TimeSpan.FromMinutes(minutes)));
+            if (Time.Minutes != minutes)
+            {
+                setTime(Time.Subtract(TimeSpan.FromMinutes(Time.Minutes)).Add(TimeSpan.FromMinutes(minutes)));
+                OnPropertyChanged(nameof(Minutes));
+            }
         }
 
         private void TimeSpanSetSeconds(int seconds)
         {
-            setTime(Time.Subtract(TimeSpan.FromSeconds(Time.Seconds)).Add(TimeSpan.FromSeconds(seconds)));
+            if (Time.Seconds != seconds)
+            {
+                setTime(Time.Subtract(TimeSpan.FromSeconds(Time.Seconds)).Add(TimeSpan.FromSeconds(seconds)));
+                OnPropertyChanged(nameof(Seconds));
+            }
         }
     }
 }
