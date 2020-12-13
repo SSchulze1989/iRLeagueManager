@@ -22,16 +22,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iRLeagueManager.Timing
 {
     /// <summary>
-    /// Set a Timespan Hours, Minutes and Seconds components directly
+    /// Set a Timespan Hours, Minutes and Seconds components directly.
+    /// All components will notify changes through propertyChanged event.
     /// </summary>
-    public class TimeComponentVector
+    public class TimeComponentVector : INotifyPropertyChanged
     {
         private readonly Func<TimeSpan> getTime;
         private readonly Action<TimeSpan> setTime;
@@ -41,6 +44,8 @@ namespace iRLeagueManager.Timing
         public int Hours { get => Time.Hours; set { TimeSpanSetHours(value); } }
         public int Minutes { get => Time.Minutes; set { TimeSpanSetMinutes(value); } }
         public int Seconds { get => Time.Seconds; set { TimeSpanSetSeconds(value);  } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Create a new component vector
@@ -55,6 +60,11 @@ namespace iRLeagueManager.Timing
             {
                 setTime(TimeSpan.Zero);
             }
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void TimeSpanSetHours(int hours)
