@@ -108,6 +108,9 @@ namespace iRLeagueManager.ViewModels
         private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
         public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
 
+        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> leagueStatistics;
+        public ICollectionView LeagueStatistics => leagueStatistics.CollectionView;
+
         private ObservableCollection<VoteCategoryModel> voteCategoriesCollection;
         private ICollectionView voteCategories;
         public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
@@ -143,6 +146,21 @@ namespace iRLeagueManager.ViewModels
             AddVoteCategoryCmd = new RelayCommand(async o => await AddVoteCategory());
             RemoveVoteCategoryCmd = new RelayCommand(async o => await RemoveVoteCategory(o as VoteCategoryModel), o => o != null && o is VoteCategoryModel);
             seasonStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
+            leagueStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
+        }
+
+        private StatisticSetViewModel GetStatisticSetViewModel(StatisticSetModel model)
+        {
+            var type = model.GetType();
+
+            if (type.Equals(typeof(SeasonStatisticSetModel)))
+            {
+                return new SeasonStatisticSetViewModel();
+            }
+            else if (type.Equals(typeof(LeagueStatisticSetModel)))
+            {
+                return new LeagueStatisticSetViewModel();
+            }
         }
 
         private void Season_PropertyChanged(object sender, PropertyChangedEventArgs e)
