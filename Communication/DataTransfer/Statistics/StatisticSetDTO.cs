@@ -14,6 +14,8 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         [DataMember]
         public long Id { get; set; }
         [DataMember]
+        public string Name { get; set; }
+        [DataMember]
         public TimeSpan UpdateInterval { get; set; }
         [DataMember]
         public DateTime UpdateTime { get; set; }

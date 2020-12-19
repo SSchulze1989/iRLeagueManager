@@ -636,13 +636,15 @@ SOFTWARE.-->
                             <RowDefinition Height="50*"/>
                         </Grid.RowDefinitions>
                         <controls:HeaderedBorder Header="Season Statistics Sets" Grid.Column="0" Grid.Row="0">
-                            <ListView ItemsSource="{Binding SeasonStatistics}">
+                            <ListView ItemsSource="{Binding SeasonStatistics}" DisplayMemberPath="Name">
                                 
                             </ListView>
                         </controls:HeaderedBorder>
 
                         <controls:HeaderedBorder Header="League Statistic Sets" Grid.Column="0" Grid.Row="1">
-                            
+                            <ListView ItemsSource="{Binding LeagueStatistics}" DisplayMemberPath="Name">
+                                
+                            </ListView>
                         </controls:HeaderedBorder>
 
                         <controls:HeaderedBorder Header="Settings" Grid.Column="1" Grid.RowSpan="2">

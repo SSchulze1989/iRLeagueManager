@@ -10,6 +10,7 @@ namespace iRLeagueManager.ViewModels
     public class StatisticSetViewModel : LeagueContainerModel<StatisticSetModel>
     {
         public long Id => Model.Id;
+        public string Name => Model.Name;
         public TimeSpan UpdateInterval { get => Model.UpdateInterval; set => Model.UpdateInterval = value; }
         public DateTime UpdateTime { get => Model.Updatetime; set => Model.Updatetime = value; }
 

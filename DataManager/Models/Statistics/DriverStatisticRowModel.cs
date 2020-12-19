@@ -197,6 +197,15 @@ namespace iRLeagueManager.Models.Statistics
         private int lastRaceStartPosition;
         public int LastRaceStartPosition { get => lastRaceStartPosition; set => SetValue(ref lastRaceStartPosition, value); }
 
+        private int titles;
+        public int Titles { get => titles; set => SetValue(ref titles, value); }
+
+        private int hardChargerAwards;
+        public int HardChargerAwards { get => hardChargerAwards; set => SetValue(ref hardChargerAwards, value); }
+
+        private int cleanestDriverAwards;
+        public int CleanestDriverAwards { get => cleanestDriverAwards; set => SetValue(ref cleanestDriverAwards, value); }
+
         public override long[] ModelId => new long[] { StatisticSetId, MemberId };
     }
 }

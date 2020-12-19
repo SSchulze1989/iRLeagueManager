@@ -164,13 +164,16 @@
     <Compile Include="ViewModels\ContainerEqualityComparer.cs" />
     <Compile Include="ViewModels\ContainerModelBase.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
+    <Compile Include="ViewModels\DriverStatisticViewModel.cs" />
     <Compile Include="ViewModels\FilterEditViewModel.cs" />
     <Compile Include="ViewModels\HoursCollection.cs" />
     <Compile Include="ViewModels\IContainerModelBase.cs" />
+    <Compile Include="ViewModels\ImportedStatisticSetViewModel.cs" />
     <Compile Include="ViewModels\IncidentReviewViewModel.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\ISeasonPageViewModel.cs" />
     <Compile Include="ViewModels\LeagueContainerModel.cs" />
+    <Compile Include="ViewModels\LeagueStatisticSetViewModel.cs" />
     <Compile Include="ViewModels\LocationCollection.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

@@ -108,6 +108,9 @@ namespace iRLeagueManager.ViewModels
         private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
         public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
 
+        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> leagueStatistics;
+        public ICollectionView LeagueStatistics => leagueStatistics.CollectionView;
+
         private ObservableCollection<VoteCategoryModel> voteCategoriesCollection;
         private ICollectionView voteCategories;
         public ICollectionView VoteCategories { get => voteCategories; set => SetValue(ref voteCategories, value); }
@@ -143,6 +146,26 @@ namespace iRLeagueManager.ViewModels
             AddVoteCategoryCmd = new RelayCommand(async o => await AddVoteCategory());
             RemoveVoteCategoryCmd = new RelayCommand(async o => await RemoveVoteCategory(o as VoteCategoryModel), o => o != null && o is VoteCategoryModel);
             seasonStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
+            leagueStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
+        }
+
+        private StatisticSetViewModel GetStatisticSetViewModel(StatisticSetModel model)
+        {
+            var type = model.GetType();
+
+            if (type.Equals(typeof(SeasonStatisticSetModel)))
+            {
+                return new SeasonStatisticSetViewModel();
+            }
+            else if (type.Equals(typeof(LeagueStatisticSetModel)))
+            {
+                return new LeagueStatisticSetViewModel();
+            } else if (type.Equals(typeof(ImportedStatisticSetModel)))
+            {
+                return new ImportedStatisticSetViewModel();
+            }
+
+            return new StatisticSetViewModel();
         }
 
         private void Season_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -301,6 +324,7 @@ namespace iRLeagueManager.ViewModels
                 LeagueContext.ModelManager.ForceExpireModels<ScoringTableModel>();
                 LeagueContext.ModelManager.ForceExpireModels<CustomIncidentModel>();
                 LeagueContext.ModelManager.ForceExpireModels<VoteCategoryModel>();
+                LeagueContext.ModelManager.ForceExpireModels<StatisticSetModel>();
                 await Load(Season.Model);
                 await base.Refresh();
             }
@@ -324,8 +348,11 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var statisticSets = await LeagueContext.GetModelsAsync<StatisticSetModel>(season.Model.SeasonStatisticSets.Select(x => x.ModelId));
-                seasonStatistics.UpdateSource(statisticSets);
+                var statisticSets = await LeagueContext.GetModelsAsync<StatisticSetModel>();
+                var seasonStatIds = season.Model.SeasonStatisticSets.Select(x => x.Id);
+                var seasonStatisticSets = statisticSets.Where(x => seasonStatIds.Contains(x.Id));
+                seasonStatistics.UpdateSource(seasonStatisticSets);
+                leagueStatistics.UpdateSource(statisticSets.Except(seasonStatisticSets));
             }
             catch (Exception e)
             {

@@ -13,5 +13,8 @@ namespace iRLeagueManager.Models.Statistics
 
         private DateTime updatetime;
         public DateTime Updatetime { get => updatetime; set => SetValue(ref updatetime, value); }
+
+        private string name;
+        public string Name { get => name; set => SetValue(ref name, value); }
     }
 }
