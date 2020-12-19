@@ -41,6 +41,7 @@ namespace iRLeagueManager.Timing
 
         private TimeSpan Time => getTime();
 
+        public int Days { get => Time.Days; set { TimeSpanSetDays(value); } }
         public int Hours { get => Time.Hours; set { TimeSpanSetHours(value); } }
         public int Minutes { get => Time.Minutes; set { TimeSpanSetMinutes(value); } }
         public int Seconds { get => Time.Seconds; set { TimeSpanSetSeconds(value);  } }
@@ -65,6 +66,15 @@ namespace iRLeagueManager.Timing
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void TimeSpanSetDays(int days)
+        {
+            if (Time.Days != days)
+            {
+                setTime(Time.Subtract(TimeSpan.FromDays(Time.Days)).Add(TimeSpan.FromDays(days)));
+                OnPropertyChanged(nameof(Days));
+            }
         }
 
         private void TimeSpanSetHours(int hours)
