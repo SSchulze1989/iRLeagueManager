@@ -161,6 +161,9 @@ namespace iRLeagueManager.Models.Statistics
         private double avgSRating;
         public double AvgSRating { get => avgSRating; set => SetValue(ref avgSRating, value); }
 
+        private double racesCompletedPct;
+        public double RacesCompletedPct { get => racesCompletedPct; set => SetValue(ref racesCompletedPct, value); }
+
         private int bestFinishPosition;
         public int BestFinishPosition { get => bestFinishPosition; set => SetValue(ref bestFinishPosition, value); }
 
