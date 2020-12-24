@@ -27,29 +27,29 @@ namespace TestConsole
 
             var list5 = list1.Concat(list2, list3, list4);
 
-            //var fileName = @"C:\Users\simon\Documents\iracing-result-34832620.json";
+            var fileName = @"C:\iRLeagueManager\ResultsParser\testresult.json";
 
-            //Stream stream = null;
+            Stream stream = null;
 
-            //var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.Json);
+            var parserService = ResultsParserFactory.GetResultsParser(ResultsFileTypeEnum.Json);
 
-            //try
-            //{
-            //    stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-            //    parserService.ReadStreamAsync(new StreamReader(stream, Encoding.Default)).Wait();
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.ToString(), "Error parsing result File", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
-            //finally
-            //{
-            //    stream?.Dispose();
-            //}
+            try
+            {
+                stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+                parserService.ReadStreamAsync(new StreamReader(stream, Encoding.Default)).Wait();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "Error parsing result File", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
 
-            //var newMembers = parserService.GetNewMemberList();
-            //var result = parserService.GetResultRows();
+            var newMembers = parserService.GetNewMemberList();
+            var result = parserService.GetResultRows();
 
             // Test Statistics loading from API
             //var context = new LeagueContext();
