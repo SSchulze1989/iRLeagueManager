@@ -38,6 +38,7 @@ namespace iRLeagueManager.ResultsParser
     {
         private dynamic ResultData { get; set; }
         private dynamic SessionResults { get; set; }
+        private dynamic QualifyingResults { get; set; }
 
         public IEnumerable<LeagueMember> MemberList { get; set; } = new List<LeagueMember>();
         public IEnumerable<TeamModel> TeamList { get; set; }
@@ -116,6 +117,20 @@ namespace iRLeagueManager.ResultsParser
                 row.NewSafetyRating = ((double)resultRow.new_sub_level) / 100;
 
                 resultRows.Add(row);
+            }
+
+            if (QualifyingResults != null)
+            {
+                foreach(var qualyRow in QualifyingResults)
+                {
+                    var row = resultRows.SingleOrDefault(x => x.IRacingId == (string)qualyRow.cust_id);
+                    if (row == null)
+                    {
+                        continue;
+                    }
+
+                    row.QualifyingTime = new LapTime(new TimeSpan((long)qualyRow.best_qual_lap_time * (TimeSpan.TicksPerMillisecond / 10)));
+                }
             }
             return resultRows;
         }
@@ -202,6 +217,7 @@ namespace iRLeagueManager.ResultsParser
 
             ResultData = dynResult;
             SessionResults = ResultData.session_results[0].results;
+            QualifyingResults = ((IEnumerable<object>)ResultData.session_results).Cast<dynamic>().SingleOrDefault(x => (string)x.simsession_name == "QUALIFY")?.results;
         }
 
         public SimSessionDetails GetSessionDetails()
