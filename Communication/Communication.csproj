@@ -176,9 +176,10 @@
     <Compile Include="DataTransfer\Statistics\StatisticSetDTO.cs" />
     <Compile Include="Timing\IInterval.cs" />
     <Compile Include="Timing\ILapTime.cs" />
-    <Compile Include="Timing\Interval.cs" />
+    <Compile Include="Timing\LapInterval.cs" />
     <Compile Include="Timing\LapTime.cs" />
     <Compile Include="Timing\TimeComponentVector.cs" />
+    <Compile Include="Timing\TimeSpanConverter.cs" />
     <Compile Include="TrackCollection.cs" />
     <Compile Include="TrackConfig.cs" />
   </ItemGroup>
