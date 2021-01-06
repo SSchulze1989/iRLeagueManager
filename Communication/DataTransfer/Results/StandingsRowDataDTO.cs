@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,43 +32,76 @@ using iRLeagueDatabase.DataTransfer.Members;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
+    [DataContract]
     public class StandingsRowDataDTO : MappableDTO
     {
+        [DataMember]
         public ScoringInfoDTO Scoring { get; set; }
         public override object MappingId => new long[] { Scoring.ScoringId.GetValueOrDefault(), Member.MemberId.GetValueOrDefault() };
         public override object[] Keys => new object[] { Scoring.ScoringId.GetValueOrDefault(), Member.MemberId.GetValueOrDefault() };
+        [DataMember]
         public int Position { get; set; }
+        [DataMember]
         public int LastPosition { get; set; }
         //[ForeignKey(nameof(Member))]
         //public int MemberId { get; set; }
+        [DataMember]
         public virtual LeagueMemberInfoDTO Member { get; set; }
+        [DataMember]
         public int ClassId { get; set; }
+        [DataMember]
         public string CarClass { get; set; }
+        [DataMember]
         public int RacePoints { get; set; }
+        [DataMember]
         public int RacePointsChange { get; set; }
+        [DataMember]
         public int PenaltyPoints { get; set; }
+        [DataMember]
         public int PenaltyPointsChange { get; set; }
+        [DataMember]
         public int TotalPoints { get; set; }
+        [DataMember]
         public int TotalPointsChange { get; set; }
+        [DataMember]
         public int Races { get; set; }
+        [DataMember]
         public int RacesCounted { get; set; }
+        [DataMember]
         public int DroppedResults { get; set; }
+        [DataMember]
         public int CompletedLaps { get; set; }
+        [DataMember]
         public int CompletedLapsChange { get; set; }
+        [DataMember]
         public int LeadLaps { get; set; }
+        [DataMember]
         public int LeadLapsChange { get; set; }
+        [DataMember]
         public int FastestLaps { get; set; }
+        [DataMember]
         public int FastestLapsChange { get; set; }
+        [DataMember]
         public int PolePositions { get; set; }
+        [DataMember]
         public int PolePositionsChange { get; set; }
+        [DataMember]
         public int Wins { get; set; }
+        [DataMember]
         public int WinsChange { get; set; }
+        [DataMember]
         public int Top3 { get; set; }
+        [DataMember]
         public int Top5 { get; set; }
+        [DataMember]
         public int Top10 { get; set; }
+        [DataMember]
         public int Incidents { get; set; }
+        [DataMember]
         public int IncidentsChange { get; set; }
+        [DataMember]
         public int PositionChange { get; set; }
+        [DataMember]
         public ScoredResultRowDataDTO[] CountedResults { get; set; }
     }
 }

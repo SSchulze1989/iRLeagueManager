@@ -23,14 +23,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
+    [DataContract]
     public class AddPenaltyDTO : MappableDTO
     {
+        [DataMember]
         public long? ScoredResultRowId { get; set; }
+        [DataMember]
         public int PenaltyPoints { get; set; }
 
         public override object MappingId => ScoredResultRowId;
