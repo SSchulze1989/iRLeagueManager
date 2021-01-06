@@ -1,6 +1,8 @@
-﻿using iRLeagueManager.Models.Statistics;
+﻿using iRLeagueManager.Models.Results;
+using iRLeagueManager.Models.Statistics;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +13,32 @@ namespace iRLeagueManager.ViewModels
     {
         public new SeasonStatisticSetModel Model => (SeasonStatisticSetModel)base.Model;
 
+        public ScoringTableModel ScoringTable 
+        { 
+            get => Model.ScoringTable; 
+            set => Model.ScoringTable = value; 
+        }
+
+        private readonly SeasonViewModel season;
         public SeasonViewModel Season
         {
             get
             {
-                if (Season.Model.SeasonId != Model.Season.SeasonId)
+                if (season.Model.SeasonId != Model.Season.SeasonId)
                 {
-                    _ = Season.Load(Model.Season.SeasonId.GetValueOrDefault());
+                    _ = season.Load(Model.Season.SeasonId.GetValueOrDefault());
                 }
-                return Season;
+                return season;
             }
+        }
+
+        public override string ShortDescription => $"{base.ShortDescription} ({Season.SeasonName})";
+
+        protected override StatisticSetModel Template => new SeasonStatisticSetModel();
+
+        public SeasonStatisticSetViewModel()
+        {
+            season = new SeasonViewModel();
         }
 
         public bool UpdateSource(SeasonStatisticSetModel source)

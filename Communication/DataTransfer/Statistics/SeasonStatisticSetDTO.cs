@@ -13,6 +13,10 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         [DataMember]
         public long SeasonId { get; set; }
         [DataMember]
-        public long[] ScoringIds { get; set; }
+        public long? ScoringTableId { get; set; }
+        [DataMember]
+        public int FinishedRaces { get; set; }
+        [DataMember]
+        public bool IsSeasonFinished { get; set; }
     }
 }

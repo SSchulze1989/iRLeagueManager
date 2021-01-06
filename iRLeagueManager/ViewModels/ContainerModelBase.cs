@@ -43,6 +43,8 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public event Action ModelChanged;
+
         public ContainerModelBase() { }
 
         public ContainerModelBase(TSource source)
@@ -80,7 +82,10 @@ namespace iRLeagueManager.ViewModels
             OnPropertyChanged(null);
 
             if (hasChanged)
+            {
                 OnUpdateSource();
+                ModelChanged?.Invoke();
+            }
 
             return hasChanged;
         }
@@ -91,6 +96,11 @@ namespace iRLeagueManager.ViewModels
         }
 
         public virtual void OnUpdateSource() { }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}[{Source.ToString()}]";
+        }
 
         protected override void Dispose(bool disposing)
         {

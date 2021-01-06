@@ -38,6 +38,7 @@ namespace iRLeagueManager.ResultsParser
     {
         private dynamic ResultData { get; set; }
         private dynamic SessionResults { get; set; }
+        private dynamic QualifyingResults { get; set; }
 
         public IEnumerable<LeagueMember> MemberList { get; set; } = new List<LeagueMember>();
         public IEnumerable<TeamModel> TeamList { get; set; }
@@ -51,13 +52,21 @@ namespace iRLeagueManager.ResultsParser
                 IRacingResultRow row = new IRacingResultRow();
                 if (!MemberList.Any(x => x.IRacingId == (string)result.cust_id))
                 {
-                    //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
-                    var newMember = new LeagueMember(0, ((string)result.display_name).Split(' ').First(), ((string)result.display_name).Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
-                    //LeagueContext.MemberList.Add(newMember);
-                    newMember.IRacingId = (string)result.cust_id;
-                    //row.MemberId = newMember.MemberId;
-                    row.Member = newMember;
-                    memberList.Add(newMember);
+                    if (MemberList.Any(x => x.IRacingId == "" && x.FullName == (string)result.display_name))
+                    {
+                        var member = MemberList.SingleOrDefault(x => x.FullName == (string)result.display_name);
+                        member.IRacingId = (string)result.cust_id;
+                    }
+                    else
+                    {
+                        //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
+                        var newMember = new LeagueMember(0, ((string)result.display_name).Split(' ').First(), ((string)result.display_name).Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
+                        //LeagueContext.MemberList.Add(newMember);
+                        newMember.IRacingId = (string)result.cust_id;
+                        //row.MemberId = newMember.MemberId;
+                        row.Member = newMember;
+                        memberList.Add(newMember);
+                    }
                 }
                 else
                 {
@@ -116,6 +125,20 @@ namespace iRLeagueManager.ResultsParser
                 row.NewSafetyRating = ((double)resultRow.new_sub_level) / 100;
 
                 resultRows.Add(row);
+            }
+
+            if (QualifyingResults != null)
+            {
+                foreach(var qualyRow in QualifyingResults)
+                {
+                    var row = resultRows.SingleOrDefault(x => x.IRacingId == (string)qualyRow.cust_id);
+                    if (row == null)
+                    {
+                        continue;
+                    }
+
+                    row.QualifyingTime = new LapTime(new TimeSpan((long)qualyRow.best_qual_lap_time * (TimeSpan.TicksPerMillisecond / 10)));
+                }
             }
             return resultRows;
         }
@@ -202,6 +225,7 @@ namespace iRLeagueManager.ResultsParser
 
             ResultData = dynResult;
             SessionResults = ResultData.session_results[0].results;
+            QualifyingResults = ((IEnumerable<object>)ResultData.session_results).Cast<dynamic>().SingleOrDefault(x => (string)x.simsession_name == "QUALIFY")?.results;
         }
 
         public SimSessionDetails GetSessionDetails()

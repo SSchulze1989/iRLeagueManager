@@ -322,7 +322,7 @@ SOFTWARE.-->
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Foreground="{StaticResource ThemeColor_Back4}" Height="2" Margin="15,4"/>
                     <RadioButton GroupName="Menu" Content="Calendar" Click="RaceCalendarButton_Click" />
                     <RadioButton GroupName="Menu" Content="Teams" Click="TeamsButton_Click" IsEnabled="True"/>
-                    <RadioButton GroupName="Menu" Content="Stats" IsEnabled="False"/>
+                    <RadioButton GroupName="Menu" Content="Stats" Click="StatsButton_Click" IsEnabled="True"/>
                     <StackPanel.Resources>
                         <Style TargetType="Button">
                             <Setter Property="Template" Value="{StaticResource MenuButtonTemplate}" />
@@ -426,6 +426,9 @@ SOFTWARE.-->
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type vmodel:TeamsPageViewModel}">
                             <views:TeamsPageControl/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vmodel:StatsPageViewModel}">
+                            <views:StatsPageControl/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

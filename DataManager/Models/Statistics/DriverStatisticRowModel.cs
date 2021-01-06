@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRLeagueManager.Models.Members;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,9 @@ namespace iRLeagueManager.Models.Statistics
     {
         private long statisticSetId;
         public long StatisticSetId { get => statisticSetId; set => SetValue(ref statisticSetId, value); }
+
+        private LeagueMember member;
+        public LeagueMember LeagueMember { get => member; set => SetValue(ref member, value); }
 
         private long memberId;
         public long MemberId { get => memberId; set => SetValue(ref memberId, value); }
@@ -109,7 +113,7 @@ namespace iRLeagueManager.Models.Statistics
 
         private int incidentsUnderInvestigation;
         public int IncidentsUnderInvestigation { get => incidentsUnderInvestigation; set => SetValue(ref incidentsUnderInvestigation, value); }
-
+        
         private int incidentsWithPenalty;
         public int IncidentsWithPenalty { get => incidentsWithPenalty; set => SetValue(ref incidentsWithPenalty, value); }
 
@@ -118,6 +122,9 @@ namespace iRLeagueManager.Models.Statistics
 
         private int completedLaps;
         public int CompletedLaps { get => completedLaps; set => SetValue(ref completedLaps, value); }
+
+        private int currentSeasonPosition;
+        public int CurrentSeasonPosition { get => currentSeasonPosition; set => SetValue(ref currentSeasonPosition, value); }
 
         private double drivenKm;
         public double DrivenKm { get => drivenKm; set => SetValue(ref drivenKm, value); }
@@ -161,6 +168,9 @@ namespace iRLeagueManager.Models.Statistics
         private double avgSRating;
         public double AvgSRating { get => avgSRating; set => SetValue(ref avgSRating, value); }
 
+        private double racesCompletedPct;
+        public double RacesCompletedPct { get => racesCompletedPct; set => SetValue(ref racesCompletedPct, value); }
+
         private int bestFinishPosition;
         public int BestFinishPosition { get => bestFinishPosition; set => SetValue(ref bestFinishPosition, value); }
 
@@ -196,6 +206,15 @@ namespace iRLeagueManager.Models.Statistics
 
         private int lastRaceStartPosition;
         public int LastRaceStartPosition { get => lastRaceStartPosition; set => SetValue(ref lastRaceStartPosition, value); }
+
+        private int titles;
+        public int Titles { get => titles; set => SetValue(ref titles, value); }
+
+        private int hardChargerAwards;
+        public int HardChargerAwards { get => hardChargerAwards; set => SetValue(ref hardChargerAwards, value); }
+
+        private int cleanestDriverAwards;
+        public int CleanestDriverAwards { get => cleanestDriverAwards; set => SetValue(ref cleanestDriverAwards, value); }
 
         public override long[] ModelId => new long[] { StatisticSetId, MemberId };
     }

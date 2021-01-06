@@ -69,5 +69,15 @@ namespace iRLeagueDatabase.Extensions
             }
             return first.Concat(others[0].Concat(others.Skip(1).ToArray()));
         }
+
+        public static bool Remove<T>(this ICollection<T> enumerable, IEnumerable<T> items)
+        {
+            bool result = true;
+            foreach(var item in items)
+            {
+                result &= enumerable.Remove(item);
+            }
+            return result;
+        }
     }
 }

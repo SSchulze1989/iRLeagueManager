@@ -20,27 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using iRLeagueManager.Models.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using iRLeagueDatabase.DataTransfer.Members;
-
-namespace iRLeagueDatabase.DataTransfer.Results
+namespace iRLeagueManager.ViewModels
 {
-    public class StandingsDataDTO : MappableDTO
+    public class ImportedStatisticSetViewModel : StatisticSetViewModel, IContainerModelBase<ImportedStatisticSetModel>
     {
-        public ScoringInfoDTO Scoring { get; set; }
-        public long ScoringTableId { get; set; }
-        public override object MappingId => new long[] { ScoringTableId };
-        public long? SessionId { get; set; }
-        public override object[] Keys => new object[] { ScoringTableId };
-        public virtual StandingsRowDataDTO[] StandingsRows { get; set; }
-        public virtual LeagueMemberInfoDTO MostWinsDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPolesDriver { get; set; }
-        public virtual LeagueMemberInfoDTO CleanestDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPenaltiesDriver { get; set; }
+        public new ImportedStatisticSetModel Model => base.Model as ImportedStatisticSetModel;
+
+        public DateTime? FirstDate => Model.FirstDate;
+        public DateTime? LastDate => Model.LastDate;
+
+        public ImportedStatisticSetViewModel()
+        {
+
+        }
+
+        public bool UpdateSource(ImportedStatisticSetModel source)
+        {
+            return UpdateSource(source);
+        }
+
+        ImportedStatisticSetModel IContainerModelBase<ImportedStatisticSetModel>.GetSource()
+        {
+            return Model;
+        }
     }
 }

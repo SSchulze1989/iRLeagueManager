@@ -44,6 +44,8 @@ namespace iRLeagueDatabase.DataTransfer
 
         //[DataMember]
         //public int SeasonId { get; set; }
+        [DataMember]
+        public bool Finished { get; set; }
 
         [DataMember]
         public IEnumerable<ScheduleInfoDTO> Schedules { get; set; }

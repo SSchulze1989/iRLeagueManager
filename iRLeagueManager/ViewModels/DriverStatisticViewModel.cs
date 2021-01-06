@@ -20,27 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using iRLeagueManager.Models.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using iRLeagueDatabase.DataTransfer.Members;
-
-namespace iRLeagueDatabase.DataTransfer.Results
+namespace iRLeagueManager.ViewModels
 {
-    public class StandingsDataDTO : MappableDTO
+    public class DriverStatisticViewModel : LeagueContainerModel<DriverStatisticModel>
     {
-        public ScoringInfoDTO Scoring { get; set; }
-        public long ScoringTableId { get; set; }
-        public override object MappingId => new long[] { ScoringTableId };
-        public long? SessionId { get; set; }
-        public override object[] Keys => new object[] { ScoringTableId };
-        public virtual StandingsRowDataDTO[] StandingsRows { get; set; }
-        public virtual LeagueMemberInfoDTO MostWinsDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPolesDriver { get; set; }
-        public virtual LeagueMemberInfoDTO CleanestDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPenaltiesDriver { get; set; }
+        protected override DriverStatisticModel Template => new DriverStatisticModel();
+
+        public IEnumerable<DriverStatisticRowModel> DriverStatisticRows => Model.DriverStatisticRows;
+
+        public DriverStatisticViewModel()
+        {
+
+        }
     }
 }

@@ -25,22 +25,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-using iRLeagueDatabase.DataTransfer.Members;
-
-namespace iRLeagueDatabase.DataTransfer.Results
+namespace iRLeagueManager.Views
 {
-    public class StandingsDataDTO : MappableDTO
+    /// <summary>
+    /// Interaktionslogik für StatsPageControl.xaml
+    /// </summary>
+    public partial class StatsPageControl : UserControl
     {
-        public ScoringInfoDTO Scoring { get; set; }
-        public long ScoringTableId { get; set; }
-        public override object MappingId => new long[] { ScoringTableId };
-        public long? SessionId { get; set; }
-        public override object[] Keys => new object[] { ScoringTableId };
-        public virtual StandingsRowDataDTO[] StandingsRows { get; set; }
-        public virtual LeagueMemberInfoDTO MostWinsDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPolesDriver { get; set; }
-        public virtual LeagueMemberInfoDTO CleanestDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPenaltiesDriver { get; set; }
+        public StatsPageControl()
+        {
+            InitializeComponent();
+        }
     }
 }

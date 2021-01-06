@@ -633,24 +633,237 @@ SOFTWARE.-->
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions >
                             <RowDefinition Height="50*"/>
-                            <RowDefinition Height="50*"/>
+                            <!--<RowDefinition Height="50*"/>-->
                         </Grid.RowDefinitions>
-                        <controls:HeaderedBorder Header="Season Statistics Sets" Grid.Column="0" Grid.Row="0">
-                            <ListView ItemsSource="{Binding}">
+                        <controls:HeaderedBorder Header="Statistic Sets">
+                            <ListView ItemsSource="{Binding StatisticSets}" IsSynchronizedWithCurrentItem="True"
+                                      DisplayMemberPath="Name">
+                                <ListView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add Set">
+                                            <MenuItem Header="Season Stats" Command="{Binding AddSeasonStatisticSetCmd}"/>
+                                            <MenuItem Header="League Stats" Command="{Binding AddLeagueStatisticSetCmd}"/>
+                                            <MenuItem Header="Imported Stats" Command="{Binding AddImportedStatisticSetCmd}"/>
+                                        </MenuItem>
+                                        <MenuItem Header="Remove Set" Command="{Binding RemoveStatisticSetCmd}" CommandParameter="{Binding StatisticSets.CurrentItem}"/>
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
+                                <ListView.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GroupStyle.HeaderTemplate>
+                                    </GroupStyle>
+                                </ListView.GroupStyle>
+                            </ListView>
+                        </controls:HeaderedBorder>
+                        <!--<controls:HeaderedBorder Header="Season Statistics Sets" Grid.Column="0" Grid.Row="0">
+                            <ListView ItemsSource="{Binding SeasonStatistics}" DisplayMemberPath="Name"
+                                      SelectedItem="{Binding SelectedStatisticSet}">
                                 
                             </ListView>
                         </controls:HeaderedBorder>
 
                         <controls:HeaderedBorder Header="League Statistic Sets" Grid.Column="0" Grid.Row="1">
-                            
-                        </controls:HeaderedBorder>
+                            <ListView ItemsSource="{Binding LeagueStatistics}" DisplayMemberPath="Name"
+                                      SelectedItem="{Binding SelectedStatisticSet}">
+                                
+                            </ListView>
+                        </controls:HeaderedBorder>-->
 
-                        <controls:HeaderedBorder Header="Settings" Grid.Column="1" Grid.RowSpan="2">
-                            
+                        <controls:HeaderedBorder Header="Settings" Grid.Column="1" Grid.RowSpan="2" DataContext="{Binding StatisticSets.CurrentItem}">
+                            <StackPanel>
+                                <controls:HeaderedBorder Header="General Settings" Margin="5,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Text="Id:" Grid.Row="0" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Id}" Grid.Row="0" Grid.Column="1"/>
+
+                                        <TextBlock Text="Name:" Grid.Row="1" Grid.Column="0"/>
+                                        <TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="1"/>
+                                    </Grid>
+                                </controls:HeaderedBorder>
+                                <controls:HeaderedBorder Header="Update Interval" Margin="5,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Text="Date:" Grid.Row="0" Grid.Column="0"/>
+                                        <DatePicker Text="{Binding UpdateTimeDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+                                        <TextBlock Text="Time of Day" Grid.Row="1" Grid.Column="0"/>
+                                        <Grid Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*"/>
+                                                <ColumnDefinition Width="10*"/>
+                                                <ColumnDefinition Width="5*"/>
+                                                <ColumnDefinition Width="10*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="Hrs:" Grid.Column="0" Margin="0"/>
+                                            <TextBox Text="{Binding UpdateTimeComponents.Hours}" Grid.Column="1"/>
+
+                                            <TextBlock Text="Min:" Grid.Column="2" Margin="0"/>
+                                            <TextBox Text="{Binding UpdateTimeComponents.Minutes}" Grid.Column="3"/>
+                                        </Grid>
+
+                                        <TextBlock Text="Interval" Grid.Row="2" Grid.Column="0"/>
+                                        <Grid Grid.Row="2" Grid.Column="1" Margin="5,0,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*"/>
+                                                <ColumnDefinition Width="10*"/>
+                                                <ColumnDefinition Width="5*"/>
+                                                <ColumnDefinition Width="10*"/>
+                                                <ColumnDefinition Width="5*"/>
+                                                <ColumnDefinition Width="10*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="Days:" Grid.Column="0" Margin="0"/>
+                                            <TextBox Text="{Binding UpdateIntervalComponents.Days}" Grid.Column="1"/>
+
+                                            <TextBlock Text="Hrs:" Grid.Column="2" Margin="0"/>
+                                            <TextBox Text="{Binding UpdateIntervalComponents.Hours}" Grid.Column="3"/>
+
+                                            <TextBlock Text="Min:" Grid.Column="4" Margin="0"/>
+                                            <TextBox Text="{Binding UpdateIntervalComponents.Minutes}" Grid.Column="5"/>
+                                        </Grid>
+                                    </Grid>
+                                    <controls:HeaderedBorder.Style>
+                                        <Style TargetType="controls:HeaderedBorder" BasedOn="{StaticResource {x:Type controls:HeaderedBorder}}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.StatisticSetType}" Value="Imported">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controls:HeaderedBorder.Style>
+                                </controls:HeaderedBorder>
+                                <ContentControl x:Name="SpecificStatisticSettings" Content="{Binding}">
+                                <!--<ContentControl>
+                                    <ContentControl.Content>
+                                        <vmodel:LeagueStatisticSetViewModel/>
+                                    </ContentControl.Content>-->
+                                    <ContentControl.Resources>
+                                        <DataTemplate DataType="{x:Type vmodel:SeasonStatisticSetViewModel}">
+                                            <controls:HeaderedBorder Header="Season Statistic Settings" Margin="5,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="40*"/>
+                                                        <ColumnDefinition Width="60*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions >
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Text="Scoring Table:" Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center"/>
+                                                    <ComboBox Grid.Row="0" Grid.Column="1"
+                                                              ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.ScoringTables}"
+                                                              SelectedValue="{Binding ScoringTable}" SelectedValuePath="Model" DisplayMemberPath="Model" Margin="5"/>
+                                                </Grid>
+                                            </controls:HeaderedBorder>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type vmodel:LeagueStatisticSetViewModel}">
+                                            <controls:HeaderedBorder Header="League Statistic Settings" Margin="5,10">
+                                                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <ListView x:Name="StatisticList" ItemsSource="{Binding StatisticSets}" Grid.Column="0" 
+                                                              Margin="5" MinHeight="140" VerticalAlignment="Stretch"
+                                                              SelectionMode="Extended" MouseDoubleClick="StatisticSetSelect_MouseDoubleClick_1"
+                                                              Tag="{Binding ElementName=StatisticMoveRightButton}"
+                                                              DisplayMemberPath="ShortDescription">
+                                                        <ListView.GroupStyle>
+                                                            <GroupStyle>
+                                                                <GroupStyle.HeaderTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel>
+                                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </GroupStyle.HeaderTemplate>
+                                                            </GroupStyle>
+                                                        </ListView.GroupStyle>
+                                                    </ListView>
+                                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
+                                                        <Button Content="&lt;" Margin="5" Padding="5" Command="{Binding AddToSelectionCmd}" 
+                                                            CommandParameter="{Binding ElementName=StatisticSelect, Path=SelectedItems}" x:Name="StatisticMoveLeftButton"/>
+                                                        <Button Content="&gt;" Margin="5" Padding="5" Command="{Binding RemoveFromSelectionCmd}"
+                                                            CommandParameter="{Binding ElementName=StatisticList, Path=SelectedItems}" x:Name="StatisticMoveRightButton"/>
+                                                    </StackPanel>
+                                                    <ListView x:Name="StatisticSelect" ItemsSource="{Binding StatisticSetSelection}"
+                                                              MouseDoubleClick="StatisticSetSelect_MouseDoubleClick_1" Tag="{Binding ElementName=StatisticMoveLeftButton}"
+                                                              SelectionMode="Extended" Height="140" Grid.Column="2">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding}" />
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                        <ListView.GroupStyle>
+                                                            <GroupStyle>
+                                                                <GroupStyle.HeaderTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel>
+                                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </GroupStyle.HeaderTemplate>
+                                                            </GroupStyle>
+                                                        </ListView.GroupStyle>
+                                                    </ListView>
+                                                    <Grid.Resources>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Margin" Value="5,0" />
+                                                        </Style>
+                                                    </Grid.Resources>
+                                                </Grid>
+                                            </controls:HeaderedBorder>
+                                        </DataTemplate>
+                                        <DataTemplate DataType="{x:Type vmodel:StatisticSetViewModel}">
+                                        </DataTemplate>
+                                    </ContentControl.Resources>
+                                </ContentControl>
+                            </StackPanel>
                         </controls:HeaderedBorder>
                     </Grid>
                 </TabItem>
                 <TabControl.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
                 </TabControl.Resources>
             </TabControl>
         </Grid>

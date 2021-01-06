@@ -22,25 +22,31 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iRLeagueManager.Timing
 {
     /// <summary>
-    /// Set a Timespan Hours, Minutes and Seconds components directly
+    /// Set a Timespan Hours, Minutes and Seconds components directly.
+    /// All components will notify changes through propertyChanged event.
     /// </summary>
-    public class TimeComponentVector
+    public class TimeComponentVector : INotifyPropertyChanged
     {
         private readonly Func<TimeSpan> getTime;
         private readonly Action<TimeSpan> setTime;
 
         private TimeSpan Time => getTime();
 
+        public int Days { get => Time.Days; set { TimeSpanSetDays(value); } }
         public int Hours { get => Time.Hours; set { TimeSpanSetHours(value); } }
         public int Minutes { get => Time.Minutes; set { TimeSpanSetMinutes(value); } }
         public int Seconds { get => Time.Seconds; set { TimeSpanSetSeconds(value);  } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Create a new component vector
@@ -57,19 +63,45 @@ namespace iRLeagueManager.Timing
             }
         }
 
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void TimeSpanSetDays(int days)
+        {
+            if (Time.Days != days)
+            {
+                setTime(Time.Subtract(TimeSpan.FromDays(Time.Days)).Add(TimeSpan.FromDays(days)));
+                OnPropertyChanged(nameof(Days));
+            }
+        }
+
         private void TimeSpanSetHours(int hours)
         {
-            setTime(Time.Subtract(TimeSpan.FromHours(Time.Hours)).Add(TimeSpan.FromHours(hours)));
+            if (Time.Hours != hours)
+            {
+                setTime(Time.Subtract(TimeSpan.FromHours(Time.Hours)).Add(TimeSpan.FromHours(hours)));
+                OnPropertyChanged(nameof(Hours));
+            }
         }
 
         private void TimeSpanSetMinutes(int minutes)
         {
-            setTime(Time.Subtract(TimeSpan.FromMinutes(Time.Minutes)).Add(TimeSpan.FromMinutes(minutes)));
+            if (Time.Minutes != minutes)
+            {
+                setTime(Time.Subtract(TimeSpan.FromMinutes(Time.Minutes)).Add(TimeSpan.FromMinutes(minutes)));
+                OnPropertyChanged(nameof(Minutes));
+            }
         }
 
         private void TimeSpanSetSeconds(int seconds)
         {
-            setTime(Time.Subtract(TimeSpan.FromSeconds(Time.Seconds)).Add(TimeSpan.FromSeconds(seconds)));
+            if (Time.Seconds != seconds)
+            {
+                setTime(Time.Subtract(TimeSpan.FromSeconds(Time.Seconds)).Add(TimeSpan.FromSeconds(seconds)));
+                OnPropertyChanged(nameof(Seconds));
+            }
         }
     }
 }

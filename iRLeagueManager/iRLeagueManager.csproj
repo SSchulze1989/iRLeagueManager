@@ -164,13 +164,16 @@
     <Compile Include="ViewModels\ContainerEqualityComparer.cs" />
     <Compile Include="ViewModels\ContainerModelBase.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
+    <Compile Include="ViewModels\DriverStatisticViewModel.cs" />
     <Compile Include="ViewModels\FilterEditViewModel.cs" />
     <Compile Include="ViewModels\HoursCollection.cs" />
     <Compile Include="ViewModels\IContainerModelBase.cs" />
+    <Compile Include="ViewModels\ImportedStatisticSetViewModel.cs" />
     <Compile Include="ViewModels\IncidentReviewViewModel.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\ISeasonPageViewModel.cs" />
     <Compile Include="ViewModels\LeagueContainerModel.cs" />
+    <Compile Include="ViewModels\LeagueStatisticSetViewModel.cs" />
     <Compile Include="ViewModels\LocationCollection.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -205,6 +208,7 @@
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
     <Compile Include="ViewModels\StatisticSetViewModel.cs" />
+    <Compile Include="ViewModels\StatsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -272,6 +276,9 @@
     </Compile>
     <Compile Include="Views\StandingsControl.xaml.cs">
       <DependentUpon>StandingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatsPageControl.xaml.cs">
+      <DependentUpon>StatsPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TeamsPageControl.xaml.cs">
       <DependentUpon>TeamsPageControl.xaml</DependentUpon>
@@ -390,6 +397,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StandingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatsPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

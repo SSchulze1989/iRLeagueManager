@@ -58,13 +58,16 @@ namespace iRLeagueManager.Models
 
         public void CleanReferences()
         {
-            var iterator = referenceList.ToList();
-
-            foreach(var reference in iterator)
+            lock (referenceList)
             {
-                if (!reference.Value.IsAlive)
+                var iterator = referenceList.ToList();
+
+                foreach (var reference in iterator)
                 {
-                    referenceList.Remove(reference.Key);
+                    if (!reference.Value.IsAlive)
+                    {
+                        referenceList.Remove(reference.Key);
+                    }
                 }
             }
             modelBuffer.RemoveAll(x => x.Key < DateTime.Now.Subtract(TimeSpan.FromMinutes(bufferKeepMinutes)));
@@ -72,12 +75,15 @@ namespace iRLeagueManager.Models
 
         public T GetModel<T>(params object[] modelId) where T : class, ICacheableModel
         {
-            CleanReferences();
-            var identifier = GetIdentifier(typeof(T), modelId);
-            if (referenceList.ContainsKey(identifier))
+            lock (referenceList)
             {
-                T model = referenceList[identifier].Target as T;
-                return model;
+                CleanReferences();
+                var identifier = GetIdentifier(typeof(T), modelId);
+                if (referenceList.ContainsKey(identifier))
+                {
+                    T model = referenceList[identifier].Target as T;
+                    return model;
+                }
             }
             return null;
         }
@@ -91,46 +97,61 @@ namespace iRLeagueManager.Models
         public T PutOrGetModel<T>(T model) where T : class, ICacheableModel
         {
             CleanReferences();
-            var getModel = GetModel<T>(model.ModelId);
-            if (getModel != null)
+
+            lock (referenceList)
+            lock (modelBuffer)
             {
-                return getModel;
-            }
-            else
-            {
-                referenceList.Add(model);
-                modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
-                return model;
+                var getModel = GetModel<T>(model.ModelId);
+                if (getModel != null)
+                {
+                    return getModel;
+                }
+                else
+                {
+                    referenceList.Add(model);
+                    modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
+                    return model;
+                }
             }
         }
 
         public void PutModel<T>(T model) where T : class, ICacheableModel
         {
             CleanReferences();
-            var identfier = new ModelIdentifier(model);
-            if (referenceList.ContainsKey(identfier))
+
+            lock (referenceList)
+            lock (modelBuffer)
             {
-                throw new ArgumentException("Model is already registered in Model Manager! Consider using this function with \"ref\" keyword to prevent this Error.");
-            }
-            else
-            {
-                referenceList.Add(model);
-                modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
+                var identfier = new ModelIdentifier(model);
+                if (referenceList.ContainsKey(identfier))
+                {
+                    throw new ArgumentException("Model is already registered in Model Manager! Consider using this function with \"ref\" keyword to prevent this Error.");
+                }
+                else
+                {
+                    referenceList.Add(model);
+                    modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
+                }
             }
         }
 
         public void PutModel<T>(ref T model) where T : class, ICacheableModel
         {
             CleanReferences();
-            var identfier = new ModelIdentifier(model);
-            if (referenceList.ContainsKey(identfier))
+
+            lock (referenceList)
+            lock (modelBuffer)
             {
-                model = referenceList[identfier].Target as T;
-            }
-            else
-            {
-                referenceList.Add(model);
-                modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
+                var identfier = new ModelIdentifier(model);
+                if (referenceList.ContainsKey(identfier))
+                {
+                    model = referenceList[identfier].Target as T;
+                }
+                else
+                {
+                    referenceList.Add(model);
+                    modelBuffer.Add(new KeyValuePair<DateTime, object>(DateTime.Now, model));
+                }
             }
         }
 
@@ -141,13 +162,16 @@ namespace iRLeagueManager.Models
 
         public void RegisterModelType(Type type, Func<object[], Task<ICacheableModel>> getFuncAsync, Func<ICacheableModel, Task<ICacheableModel>> updateFuncAsync)
         {
-            if (registeredModelTypes.ContainsKey(type))
+            lock (registeredModelTypes)
             {
-                throw new InvalidOperationException("Could not register Model type. Model already registered");
-            }
-            else
-            {
-                registeredModelTypes.Add(type, new ModelRegister(type, getFuncAsync, updateFuncAsync));
+                if (registeredModelTypes.ContainsKey(type))
+                {
+                    throw new InvalidOperationException("Could not register Model type. Model already registered");
+                }
+                else
+                {
+                    registeredModelTypes.Add(type, new ModelRegister(type, getFuncAsync, updateFuncAsync));
+                }
             }
         }
 

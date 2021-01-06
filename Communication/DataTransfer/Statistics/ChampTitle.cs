@@ -26,21 +26,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using iRLeagueDatabase.DataTransfer.Members;
-
-namespace iRLeagueDatabase.DataTransfer.Results
+namespace iRLeagueDatabase.DataTransfer.Statistics
 {
-    public class StandingsDataDTO : MappableDTO
+    public class ChampTitle
     {
-        public ScoringInfoDTO Scoring { get; set; }
-        public long ScoringTableId { get; set; }
-        public override object MappingId => new long[] { ScoringTableId };
-        public long? SessionId { get; set; }
-        public override object[] Keys => new object[] { ScoringTableId };
-        public virtual StandingsRowDataDTO[] StandingsRows { get; set; }
-        public virtual LeagueMemberInfoDTO MostWinsDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPolesDriver { get; set; }
-        public virtual LeagueMemberInfoDTO CleanestDriver { get; set; }
-        public virtual LeagueMemberInfoDTO MostPenaltiesDriver { get; set; }
+        /// <summary>
+        /// Name of the championship
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Number of times this championship was won
+        /// </summary>
+        public int Count { get; set; }
     }
 }
