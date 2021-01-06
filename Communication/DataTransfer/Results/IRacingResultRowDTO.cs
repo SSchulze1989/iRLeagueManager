@@ -23,16 +23,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
+    [DataContract]
     public class IRacingResultRowDTO : ResultRowDataDTO
     {
+        [DataMember]
         public string IRacingId { get; set; }
-
+        
         public IRacingResultRowDTO() : base() { }
     }
 }

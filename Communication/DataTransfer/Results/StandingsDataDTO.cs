@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,17 +31,27 @@ using iRLeagueDatabase.DataTransfer.Members;
 
 namespace iRLeagueDatabase.DataTransfer.Results
 {
+    [DataContract]
     public class StandingsDataDTO : MappableDTO
     {
+        [DataMember]
         public ScoringInfoDTO Scoring { get; set; }
+        [DataMember]
         public long ScoringTableId { get; set; }
-        public override object MappingId => new long[] { ScoringTableId };
+        public override object MappingId => new long[] { ScoringTableId, SessionId.GetValueOrDefault() };
+        [DataMember]
         public long? SessionId { get; set; }
-        public override object[] Keys => new object[] { ScoringTableId };
+
+        public override object[] Keys => new object[] { ScoringTableId, SessionId.GetValueOrDefault() };
+        [DataMember]
         public virtual StandingsRowDataDTO[] StandingsRows { get; set; }
+        [DataMember]
         public virtual LeagueMemberInfoDTO MostWinsDriver { get; set; }
+        [DataMember]
         public virtual LeagueMemberInfoDTO MostPolesDriver { get; set; }
+        [DataMember]
         public virtual LeagueMemberInfoDTO CleanestDriver { get; set; }
+        [DataMember]
         public virtual LeagueMemberInfoDTO MostPenaltiesDriver { get; set; }
     }
 }

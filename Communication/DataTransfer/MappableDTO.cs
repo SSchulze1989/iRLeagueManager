@@ -36,6 +36,7 @@ using iRLeagueDatabase.DataTransfer.Sessions;
 using System.Xml.Serialization;
 using iRLeagueDatabase.DataTransfer.Filters;
 using iRLeagueDatabase.DataTransfer.Statistics;
+using System.Collections;
 
 namespace iRLeagueDatabase.DataTransfer
 {
@@ -111,5 +112,19 @@ namespace iRLeagueDatabase.DataTransfer
         public bool IsReadOnly { get; set; }
         public virtual object MappingId { get; } = null;
         public abstract object[] Keys { get; }
+
+        public override string ToString()
+        {
+            string id;
+            if (MappingId?.GetType().IsArray == true)
+            {
+                id = string.Join(",", ((IEnumerable)MappingId).Cast<object>());
+            }
+            else
+            {
+                id = MappingId?.ToString();
+            }
+            return $"{this.GetType()}/id[{id}]";
+        }
     }
 }
