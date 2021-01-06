@@ -27,15 +27,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.ServiceModel;
 
 namespace iRLeagueManager.Locations
 {
     [Serializable]
+    [DataContract]
+    [XmlSerializerFormat]
     public class RaceTrack
     {
+        [DataMember]
         public int TrackId { get; set; }
+        [DataMember]
         public string TrackName { get; set; }
         public string ShortName => TrackName.Substring(0, Math.Min(20, TrackName.Length));
+        [DataMember]
         public ObservableCollection<TrackConfig> Configs { get; set; }
         //Race track data
 

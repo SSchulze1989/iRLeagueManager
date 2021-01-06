@@ -37,26 +37,14 @@ namespace iRLeagueManager.Locations
     {
         private List<Location> locations;
 
-        public LocationCollection()
-        {
-            //List<RaceTrack> tracks = new List<RaceTrack>()
-            //{
-            //    new RaceTrack(1, "Silverstone"),
-            //    new RaceTrack(2, "Spa Franchorchamps"),
-            //    new RaceTrack(3, "Suzuka")
-            //};
-            //tracks[0].AddConfig(1, "Stowe Circuit");
-            //tracks[0].AddConfig(2, "West Layout");
-            //tracks[0].AddConfig(3, "GP");
-            //tracks[1].AddConfig(1, "Classic Pits");
-            //tracks[1].AddConfig(2, "GP");
-            //tracks[2].AddConfig(1, "West");
-            //tracks[2].AddConfig(2, "GP");
+        public LocationCollection() : this("Tracks.xml") { }
 
+        public LocationCollection(string filePath)
+        {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<RaceTrack>));
-            if (File.Exists("Tracks.xml"))
+            if (File.Exists(filePath))
             {
-                StreamReader streamReader = new StreamReader("Tracks.xml");
+                StreamReader streamReader = new StreamReader(filePath);
                 List<RaceTrack> tracks = xmlSerializer.Deserialize(streamReader) as List<RaceTrack>;
                 foreach (var track in tracks)
                 {
