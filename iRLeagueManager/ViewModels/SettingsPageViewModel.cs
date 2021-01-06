@@ -38,6 +38,7 @@ using System.Collections.ObjectModel;
 using iRLeagueManager.Models.Statistics;
 using System.Windows;
 using System.Collections.Specialized;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -270,6 +271,29 @@ namespace iRLeagueManager.ViewModels
                 {
                     statisticSet = await LeagueContext.AddModelAsync(importedStatisticSet);
                 }
+                await LoadStatisticSets();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task RemoveStatisticSet(StatisticSetModel statisticSet)
+        {
+            if (statisticSet == null)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.DeleteModelAsync<StatisticSetModel>(statisticSet.ModelId);
                 await LoadStatisticSets();
             }
             catch (Exception e)
