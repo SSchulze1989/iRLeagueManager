@@ -30,27 +30,38 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Runtime.Serialization;
+using System.ServiceModel;
 
 namespace iRLeagueManager.Locations
 {
     [Serializable]
+    [DataContract]
+    [XmlSerializerFormat]
     public class TrackConfig
     {
         [XmlIgnore]
         public RaceTrack Track { get; set; }
         [XmlAttribute("config_id")]
+        [DataMember(Name = "config_id")]
         public int ConfigId { get; set; }
         [XmlAttribute("config_name")]
+        [DataMember(Name = "config_name")]
         public string ConfigName { get; set; }
         [XmlAttribute("length")]
+        [DataMember(Name = "length")]
         public double LengthKm { get; set; }
         [XmlAttribute("turns")]
+        [DataMember(Name = "turns")]
         public int Turns { get; set; }
         [XmlAttribute("type")]
+        [DataMember(Name = "type")]
         public ConfigType ConfigType { get; set; }
         [XmlAttribute("night_lighting")]
+        [DataMember(Name = "night_lighting")]
         public bool HasNigtLigthing { get; set; }
         [XmlAttribute("map_img_src")]
+        [DataMember(Name = "map_img_src")]
         public string MapImageSrc { get; set; }
 
         private BitmapImage mapImage = null;
