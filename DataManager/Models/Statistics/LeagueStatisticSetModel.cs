@@ -9,12 +9,14 @@ namespace iRLeagueManager.Models.Statistics
 {
     public class LeagueStatisticSetModel : StatisticSetModel
     {
-        private ObservableCollection<StatisticSetInfo> seasonStatisticSets;
-        public ObservableCollection<StatisticSetInfo> SeasonStatisticSets { get => seasonStatisticSets; set => SetValue(ref seasonStatisticSets, value); }
+        private ObservableCollection<StatisticSetModel> statisticSets;
+        public ObservableCollection<StatisticSetModel> StatisticSets { get => statisticSets; set => SetNotifyCollection(ref statisticSets, value); }
+
+        public override string StatisticSetType => "League";
 
         public LeagueStatisticSetModel()
         {
-            SeasonStatisticSets = new ObservableCollection<StatisticSetInfo>();
+            StatisticSets = new ObservableCollection<StatisticSetModel>();
         }
     }
 }

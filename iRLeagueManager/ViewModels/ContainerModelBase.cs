@@ -97,6 +97,11 @@ namespace iRLeagueManager.ViewModels
 
         public virtual void OnUpdateSource() { }
 
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}[{Source.ToString()}]";
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (_source != null)

@@ -13,12 +13,18 @@ namespace iRLeagueManager.Models.Statistics
         private SeasonInfo season;
         public SeasonInfo Season { get => season; set => SetValue(ref season, value); }
 
-        private ObservableCollection<ScoringInfo> scorings;
-        public ObservableCollection<ScoringInfo> Scorings { get => scorings; set => SetNotifyCollection(ref scorings, value); }
+        private ScoringTableModel scoringTable;
+        public ScoringTableModel ScoringTable { get => scoringTable; set => SetValue(ref scoringTable, value); }
+
+        public override string StatisticSetType => "Season";
 
         public SeasonStatisticSetModel()
         {
-            Scorings = new ObservableCollection<ScoringInfo>();
+        }
+
+        public SeasonStatisticSetModel(SeasonInfo season)
+        {
+            Season = season;
         }
     }
 }

@@ -52,13 +52,21 @@ namespace iRLeagueManager.ResultsParser
                 IRacingResultRow row = new IRacingResultRow();
                 if (!MemberList.Any(x => x.IRacingId == (string)result.cust_id))
                 {
-                    //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
-                    var newMember = new LeagueMember(0, ((string)result.display_name).Split(' ').First(), ((string)result.display_name).Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
-                    //LeagueContext.MemberList.Add(newMember);
-                    newMember.IRacingId = (string)result.cust_id;
-                    //row.MemberId = newMember.MemberId;
-                    row.Member = newMember;
-                    memberList.Add(newMember);
+                    if (MemberList.Any(x => x.IRacingId == "" && x.FullName == (string)result.display_name))
+                    {
+                        var member = MemberList.SingleOrDefault(x => x.FullName == (string)result.display_name);
+                        member.IRacingId = (string)result.cust_id;
+                    }
+                    else
+                    {
+                        //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
+                        var newMember = new LeagueMember(0, ((string)result.display_name).Split(' ').First(), ((string)result.display_name).Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
+                        //LeagueContext.MemberList.Add(newMember);
+                        newMember.IRacingId = (string)result.cust_id;
+                        //row.MemberId = newMember.MemberId;
+                        row.Member = newMember;
+                        memberList.Add(newMember);
+                    }
                 }
                 else
                 {

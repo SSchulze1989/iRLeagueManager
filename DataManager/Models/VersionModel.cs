@@ -43,15 +43,18 @@ namespace iRLeagueManager.Models
         public string LastModifiedByUserId { get; set; }
 
         private bool containsChanges;
-        public virtual bool ContainsChanges { get => containsChanges; protected set { containsChanges = value; OnPropertyChanged(); } }
+        public virtual bool ContainsChanges { get => containsChanges; protected set { if (TrackChanges) { containsChanges = value; OnPropertyChanged(); } } }
 
         private int version;
         public int Version { get => version; internal set { version = value; OnPropertyChanged(); } }
+
+        private bool TrackChanges { get; set; }
 
         public VersionModel()
         {
             CreatedOn = DateTime.Now;
             lastModifiedOn = DateTime.Now;
+            TrackChanges = false;
         }
 
         protected override bool SetValue<T>(ref T targetProperty, T value, [CallerMemberName] string propertyName = "")
@@ -92,9 +95,28 @@ namespace iRLeagueManager.Models
             base.OnCollectionChanged(sender, e);
         }
 
+        internal override void InitializeModel()
+        {
+            base.InitializeModel();
+            TrackChanges = true;
+        }
+
+        public void StopTrackChanges()
+        {
+            TrackChanges = false;
+        }
+
+        public void StartTrackChanges()
+        {
+            TrackChanges = true;
+        }
+
         public void ResetChangedState()
         {
+            var tmp = TrackChanges;
+            TrackChanges = true;
             ContainsChanges = false;
+            TrackChanges = tmp;
         }
     }
 }

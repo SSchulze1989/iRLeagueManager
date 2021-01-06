@@ -214,5 +214,13 @@ namespace iRLeagueManager.Views
                 MainGrid.Children.Remove(EditPanel);
             }
         }
+
+        private void StatisticSetSelect_MouseDoubleClick_1(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.Tag is Button button)
+            {
+                button.Command?.Execute(button.CommandParameter);
+            }
+        }
     }
 }

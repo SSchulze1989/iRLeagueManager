@@ -235,7 +235,7 @@ namespace iRLeagueManager.ViewModels
                     resultRows = result.RawResults.MapToCollection(resultRows);                    
                     await LeagueContext.DeleteModelsAsync(result.RawResults.Except(resultRows).ToArray());
                     resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
-                    resultRows = (await LeagueContext.AddModelsAsync(resultRows.ToArray()));
+                    //resultRows = (await LeagueContext.AddModelsAsync(resultRows.ToArray()));
                     result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
                     result.SimSessionDetails = details;
                     await GlobalSettings.LeagueContext.UpdateModelAsync(result);
@@ -247,13 +247,13 @@ namespace iRLeagueManager.ViewModels
                     {
                         SimSessionDetails = details
                     };
+                    result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
                     result = await LeagueContext.AddModelAsync(result);
                     session.SessionResult = result;
                     //result = await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                     //session = await GlobalSettings.LeagueContext.UpdateModelAsync(session);
                     resultRows.ToList().ForEach(x => x.ResultId = result.ResultId.GetValueOrDefault());
-                    await LeagueContext.AddModelsAsync(resultRows.ToArray());
-                    result.RawResults = new ObservableCollection<ResultRowModel>(resultRows);
+                    //await LeagueContext.AddModelsAsync(resultRows.ToArray());
 
                     //await GlobalSettings.LeagueContext.UpdateModelAsync(result);
                     await GlobalSettings.LeagueContext.UpdateModelAsync(session);

@@ -71,5 +71,10 @@ namespace iRLeagueManager.Models
         {
             return typeof(MappableModel);
         }
+
+        public override string ToString()
+        {
+            return this.GetType().ToString() + $"/id:[{string.Join(",", ModelId)}]";
+        }
     }
 }

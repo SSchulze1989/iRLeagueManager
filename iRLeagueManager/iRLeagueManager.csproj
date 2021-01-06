@@ -208,6 +208,7 @@
     <Compile Include="ViewModels\StandingsPageViewModel.cs" />
     <Compile Include="ViewModels\StandingsViewModel.cs" />
     <Compile Include="ViewModels\StatisticSetViewModel.cs" />
+    <Compile Include="ViewModels\StatsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamsPageViewModel.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -275,6 +276,9 @@
     </Compile>
     <Compile Include="Views\StandingsControl.xaml.cs">
       <DependentUpon>StandingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatsPageControl.xaml.cs">
+      <DependentUpon>StatsPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TeamsPageControl.xaml.cs">
       <DependentUpon>TeamsPageControl.xaml</DependentUpon>
@@ -393,6 +397,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StandingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatsPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

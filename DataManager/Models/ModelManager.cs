@@ -208,9 +208,17 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<LeagueStatisticSetDTO>(getModelIds?.ToArray());
                 }
+                else if (typeof(T).Equals(typeof(ImportedStatisticSetModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<ImportedStatisticSetDTO>(getModelIds?.ToArray());
+                }
                 else if (typeof(T).Equals(typeof(StatisticSetModel)))
                 {
                     data = await ModelDataProvider.GetAsync<StatisticSetDTO>(getModelIds?.ToArray());
+                }
+                else if (typeof(T).Equals(typeof(DriverStatisticModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<DriverStatisticDTO>(getModelIds?.ToArray());
                 }
                 else
                 {
@@ -404,10 +412,20 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<LeagueStatisticSetDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<LeagueStatisticSetDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(ImportedStatisticSetModel)))
+            {
+                data = mapper.Map<IEnumerable<ImportedStatisticSetDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<ImportedStatisticSetDTO>().ToArray());
+            }
             else if (typeof(T).Equals(typeof(StatisticSetModel)))
             {
                 data = mapper.Map<IEnumerable<StatisticSetDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<StatisticSetDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(DriverStatisticModel)))
+            {
+                data = mapper.Map<IEnumerable<DriverStatisticDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<DriverStatisticDTO>().ToArray());
             }
             else
             {
@@ -542,6 +560,22 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<SeasonStatisticSetDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(LeagueStatisticSetModel)))
+            {
+                return await ModelDataProvider.DelAsync<LeagueStatisticSetDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(ImportedStatisticSetModel)))
+            {
+                return await ModelDataProvider.DelAsync<ImportedStatisticSetDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(StatisticSetModel)))
+            {
+                return await ModelDataProvider.DelAsync<StatisticSetDTO>(modelIds);
+            }
+            else if (typeof(T).Equals(typeof(DriverStatisticModel)))
+            {
+                return await ModelDataProvider.DelAsync<DriverStatisticDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {
                 throw new NotImplementedException("Loading of model from type " + typeof(T).ToString() + " not yet supported.");
@@ -657,10 +691,20 @@ namespace iRLeagueManager.Models
                 data = mapper.Map<IEnumerable<LeagueStatisticSetDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<LeagueStatisticSetDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(ImportedStatisticSetModel)))
+            {
+                data = mapper.Map<IEnumerable<ImportedStatisticSetDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<ImportedStatisticSetDTO>().ToArray());
+            }
             else if (typeof(T).Equals(typeof(StatisticSetModel)))
             {
                 data = mapper.Map<IEnumerable<StatisticSetDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<StatisticSetDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(DriverStatisticModel)))
+            {
+                data = mapper.Map<IEnumerable<DriverStatisticDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<DriverStatisticDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(ScoringRuleBase)))
             {

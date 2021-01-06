@@ -19,5 +19,13 @@ namespace iRLeagueManager.Models.Statistics
 
         private DateTime lastDate;
         public DateTime LastDate { get => lastDate; set => SetValue(ref lastDate, value); }
+
+        public override string StatisticSetType => "Imported";
+
+        public ImportedStatisticSetModel()
+        {
+            FirstDate = DateTime.Now;
+            LastDate = DateTime.Now;
+        }
     }
 }

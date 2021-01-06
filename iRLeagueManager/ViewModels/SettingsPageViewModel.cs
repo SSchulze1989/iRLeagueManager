@@ -37,6 +37,7 @@ using iRLeagueManager.Models.Reviews;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Models.Statistics;
 using System.Windows;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -65,7 +66,7 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        private readonly ObservableViewModelCollection<ScoringViewModel,ScoringModel> scorings;
+        private readonly ObservableViewModelCollection<ScoringViewModel, ScoringModel> scorings;
         //public ObservableModelCollection<ScoringViewModel, ScoringModel> Scorings
         //{
         //    get
@@ -105,11 +106,17 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
-        public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
+        //private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
+        //public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
 
-        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> leagueStatistics;
-        public ICollectionView LeagueStatistics => leagueStatistics.CollectionView;
+        //private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> leagueStatistics;
+        //public ICollectionView LeagueStatistics => leagueStatistics.CollectionView;
+
+        //private StatisticSetViewModel selectedStatisticSet;
+        //public StatisticSetViewModel SelectedStatisticSet { get => selectedStatisticSet; set => SetValue(ref selectedStatisticSet, value); }
+
+        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> statisticSets;
+        public ICollectionView StatisticSets => statisticSets.CollectionView;
 
         private ObservableCollection<VoteCategoryModel> voteCategoriesCollection;
         private ICollectionView voteCategories;
@@ -129,6 +136,10 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddVoteCategoryCmd { get; }
         public ICommand RemoveVoteCategoryCmd { get; }
 
+        public ICommand AddSeasonStatisticSetCmd { get; }
+        public ICommand AddLeagueStatisticSetCmd { get; }
+        public ICommand AddImportedStatisticSetCmd { get; }
+
         public ICommand SaveChangesCmd { get; }
 
         public SettingsPageViewModel() : base()
@@ -145,8 +156,13 @@ namespace iRLeagueManager.ViewModels
             RemoveIncidentKindCmd = new RelayCommand(async o => await RemoveIncidentKind(o as CustomIncidentModel), o => o != null && o is CustomIncidentModel);
             AddVoteCategoryCmd = new RelayCommand(async o => await AddVoteCategory());
             RemoveVoteCategoryCmd = new RelayCommand(async o => await RemoveVoteCategory(o as VoteCategoryModel), o => o != null && o is VoteCategoryModel);
-            seasonStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
-            leagueStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>();
+            //seasonStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>(x => GetStatisticSetViewModel(x));
+            //leagueStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>(x => GetStatisticSetViewModel(x));
+            statisticSets = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>(x => GetStatisticSetViewModel(x));
+            StatisticSets.GroupDescriptions.Add(new PropertyGroupDescription("StatisticSetType"));
+            AddSeasonStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new SeasonStatisticSetModel(Season.Model)), o => Season.Model != null);
+            AddLeagueStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new LeagueStatisticSetModel()), o => true);
+            AddImportedStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new ImportedStatisticSetModel()), o => true);
         }
 
         private StatisticSetViewModel GetStatisticSetViewModel(StatisticSetModel model)
@@ -230,6 +246,40 @@ namespace iRLeagueManager.ViewModels
         {
             IncidentKinds = CollectionViewSource.GetDefaultView(source);
             IncidentKinds.SortDescriptions.Add(new SortDescription(nameof(CustomIncidentModel.Index), ListSortDirection.Ascending));
+        }
+
+        private async Task AddStatisticSet(StatisticSetModel statisticSet)
+        {
+            if (statisticSet == null)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                if (statisticSet is SeasonStatisticSetModel seasonStatisticSet)
+                {
+                    statisticSet = await LeagueContext.AddModelAsync(seasonStatisticSet);
+                }
+                else if (statisticSet is LeagueStatisticSetModel leagueStatisticSet)
+                {
+                    statisticSet = await LeagueContext.AddModelAsync(leagueStatisticSet);
+                }
+                else if (statisticSet is ImportedStatisticSetModel importedStatisticSet)
+                {
+                    statisticSet = await LeagueContext.AddModelAsync(importedStatisticSet);
+                }
+                await LoadStatisticSets();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private async Task AddIncidentKind()
@@ -326,6 +376,10 @@ namespace iRLeagueManager.ViewModels
                 LeagueContext.ModelManager.ForceExpireModels<VoteCategoryModel>();
                 LeagueContext.ModelManager.ForceExpireModels<StatisticSetModel>();
                 await Load(Season.Model);
+                foreach(StatisticSetViewModel statisticSet in StatisticSets)
+                {
+                    await statisticSet.Refresh();
+                }
                 await base.Refresh();
             }
             catch (Exception e)
@@ -339,20 +393,26 @@ namespace iRLeagueManager.ViewModels
         }
 
         private async Task LoadStatisticSets()
-        {
-            if (season?.Model?.SeasonStatisticSets == null || season.Model.SeasonStatisticSets.Count == 0)
-            {
-                return;
-            }
-            
+        {   
             try
             {
                 IsLoading = true;
-                var statisticSets = await LeagueContext.GetModelsAsync<StatisticSetModel>();
-                var seasonStatIds = season.Model.SeasonStatisticSets.Select(x => x.Id);
-                var seasonStatisticSets = statisticSets.Where(x => seasonStatIds.Contains(x.Id));
-                seasonStatistics.UpdateSource(seasonStatisticSets);
-                leagueStatistics.UpdateSource(statisticSets.Except(seasonStatisticSets));
+                var statisticSetsSource = (await LeagueContext.GetModelsAsync<StatisticSetModel>())
+                    .Where(x => x is SeasonStatisticSetModel == false || ((SeasonStatisticSetModel)x).Season.SeasonId == Season?.SeasonId);
+                var leagueStatistics = statisticSetsSource.OfType<LeagueStatisticSetModel>();
+                foreach(var leagueStatistic in leagueStatistics)
+                {
+                    for (int i = 0; i < leagueStatistic.StatisticSets.Count; i++)
+                    {
+                        leagueStatistic.StopTrackChanges();
+                        leagueStatistic.StatisticSets[i] = LeagueContext.ModelManager.ModelCache.PutOrGetModel(leagueStatistic.StatisticSets[i]);
+                        leagueStatistic.StartTrackChanges();
+                    }
+                }
+                //seasonStatistics.UpdateSource(seasonStatisticSets);
+                //leagueStatistics.UpdateSource(statisticSets.Except(seasonStatisticSets));
+                statisticSets.UpdateSource(statisticSetsSource);
+                SetStatisticSetSelection();
             }
             catch (Exception e)
             {
@@ -361,6 +421,15 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public void SetStatisticSetSelection()
+        {
+            var source = statisticSets.Select(x => x.Model);
+            foreach (var leagueStatistic in statisticSets.OfType<LeagueStatisticSetViewModel>())
+            {
+                leagueStatistic.SetStatisticSetSelection(source);
             }
         }
 
@@ -470,6 +539,10 @@ namespace iRLeagueManager.ViewModels
                 {
                     await scoringTable.SaveChanges();
                 }
+                foreach (var statisticSet in statisticSets)
+                {
+                    await statisticSet.SaveChanges();
+                }
 
                 var updateIncidenKinds = incidentKindsCollection.Where(x => x.ContainsChanges);
                 if (updateIncidenKinds.Count() > 0)
@@ -508,6 +581,7 @@ namespace iRLeagueManager.ViewModels
             {
                 hasChanges |= scoringTable.Model.ContainsChanges;
             }
+            hasChanges |= statisticSets.Select(x => x.Model.ContainsChanges).Any(x => x);
             if (incidentKindsCollection != null)
             {
                 hasChanges |= incidentKindsCollection.Any(x => x.ContainsChanges);

@@ -41,6 +41,7 @@ namespace iRLeagueManager
         private StandingsPageViewModel StandingsPageViewModel { get; set; }
         private ReviewsPageViewModel ReviewsPageViewModel { get; set; }
         private TeamsPageViewModel TeamsPageViewModel { get; set; }
+        private StatsPageViewModel StatsPageViewModel { get; set; }
 
         private ModalOkCancelControl EditPanel { get; }
 
@@ -247,6 +248,16 @@ namespace iRLeagueManager
                 {
                     MessageBox.Show(msg.Exception.ToString(), $"Error - {msg.Message}", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private void StatsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainViewModel?.CurrentSeason != null)
+            {
+                var vm = StatsPageViewModel ?? new StatsPageViewModel();
+                MainContent.Content = vm;
+                _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
         }
     }

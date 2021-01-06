@@ -85,6 +85,8 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         [DataMember]
         public int CompletedLaps { get; set; }
         [DataMember]
+        public int CurrentSeasonPosition { get; set; }
+        [DataMember]
         public double DrivenKm { get; set; }
         [DataMember]
         public double LeadingKm { get; set; }
@@ -112,6 +114,8 @@ namespace iRLeagueDatabase.DataTransfer.Statistics
         public double AvgIRating { get; set; }
         [DataMember]
         public double AvgSRating { get; set; }
+        [DataMember]
+        public double RacesCompletedPct { get; set; }
         [DataMember]
         public int BestFinishPosition { get; set; }
         [DataMember]
