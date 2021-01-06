@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
 	<version>0.7.2.0</version>
-    <url>http://irleaguemanager.hopto.org/updates/v0.7.2-alpha/iRLeagueManager.zip</url>
+    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.7.2-alpha/iRLeagueManager.zip</url>
     <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
     <mandatory>true</mandatory>
 </item>
