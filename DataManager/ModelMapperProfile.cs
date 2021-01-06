@@ -331,7 +331,7 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom((src, dest, result) =>
                 {
-                    ObservableCollection<ScoringModel.BasePointsValue> pairs = dest.BasePoints;
+                    ObservableCollection<ScoringModel.BasePointsValue> pairs = new ObservableCollection<ScoringModel.BasePointsValue>();
                     pairs.Clear();
                     if (src.BasePoints == null || src.BasePoints == "" || src.BasePoints == " ")
                     {
