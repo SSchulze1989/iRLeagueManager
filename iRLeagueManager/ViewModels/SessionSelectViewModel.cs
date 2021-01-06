@@ -111,7 +111,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                var scheduleList = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>();
+                var scheduleList = new ObservableViewModelCollection<ScheduleViewModel, ScheduleModel>();
                 var schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ModelId));
                 scheduleList.UpdateSource(schedules);
 
@@ -129,10 +129,10 @@ namespace iRLeagueManager.ViewModels
 
         public async Task LoadSessions(IEnumerable<SessionInfo> sessions)
         {
-            ObservableModelCollection<SessionViewModel, SessionModel> sessionCollection = SessionList as ObservableModelCollection<SessionViewModel, SessionModel>;
+            ObservableViewModelCollection<SessionViewModel, SessionModel> sessionCollection = SessionList as ObservableViewModelCollection<SessionViewModel, SessionModel>;
 
             if (sessionCollection == null)
-                SessionList = sessionCollection = new ObservableModelCollection<SessionViewModel, SessionModel>();
+                SessionList = sessionCollection = new ObservableViewModelCollection<SessionViewModel, SessionModel>();
 
             IsLoading = true;
             var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(sessions.Select(x => x.ModelId), update: false, reload: false);

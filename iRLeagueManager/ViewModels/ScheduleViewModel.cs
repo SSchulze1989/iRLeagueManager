@@ -48,8 +48,8 @@ namespace iRLeagueManager.ViewModels
 {
     public class ScheduleViewModel : LeagueContainerModel<ScheduleModel>
     {
-        private readonly ObservableModelCollection<SessionViewModel, SessionModel> sessions;
-        public ObservableModelCollection<SessionViewModel, SessionModel> Sessions
+        private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> sessions;
+        public ObservableViewModelCollection<SessionViewModel, SessionModel> Sessions
         {
             get
             {
@@ -88,7 +88,7 @@ namespace iRLeagueManager.ViewModels
         public ScheduleViewModel() : base()
         {
             Model = ScheduleModel.GetTemplate();
-            sessions = new ObservableModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
+            sessions = new ObservableViewModelCollection<SessionViewModel, SessionModel>(Model?.Sessions, x => x.Schedule = this);
             ((INotifyCollectionChanged)sessions).CollectionChanged += OnSessionCollectionChange;
             Sessions.UpdateSource(new SessionModel[0]);
             AddSessionCmd = new RelayCommand(async o => await AddSessionAsync(), o => Model?.Sessions != null && (!Model?.IsReadOnly).GetValueOrDefault());

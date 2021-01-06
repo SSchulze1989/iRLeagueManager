@@ -39,8 +39,8 @@ namespace iRLeagueManager.ViewModels
 {
     public class SchedulerViewModel : ViewModelBase, ISeasonPageViewModel, INotifyPropertyChanged//, INotifyCollectionChanged, IEnumerable<ScheduleViewModel>
     {
-        private ObservableModelCollection<ScheduleViewModel, ScheduleModel> schedules;
-        public ObservableModelCollection<ScheduleViewModel, ScheduleModel> Schedules
+        private ObservableViewModelCollection<ScheduleViewModel, ScheduleModel> schedules;
+        public ObservableViewModelCollection<ScheduleViewModel, ScheduleModel> Schedules
         {
             get => schedules;
             protected set
@@ -79,7 +79,7 @@ namespace iRLeagueManager.ViewModels
 
         public SchedulerViewModel()
         {
-            Schedules = new ObservableModelCollection<ScheduleViewModel, ScheduleModel>();
+            Schedules = new ObservableViewModelCollection<ScheduleViewModel, ScheduleModel>();
             CreateScheduleCmd = new RelayCommand(o => CreateSchedule(), o => Season != null);
 
             UploadFileCmd = new RelayCommand(o =>

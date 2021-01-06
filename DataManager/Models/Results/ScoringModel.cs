@@ -106,6 +106,7 @@ namespace iRLeagueManager.Models.Results
             IncPenaltyPoints = new ObservableCollection<IncidentPointsValue>();
             MultiScoringResults = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
+            ResultsFilterOptionIds = new ObservableCollection<long>();
             //Schedules = new ObservableCollection<ScheduleInfo>();
         }
 

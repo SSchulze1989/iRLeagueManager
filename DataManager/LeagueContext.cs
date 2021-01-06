@@ -241,11 +241,11 @@ namespace iRLeagueManager.Data
         public static string GetApiAddress()
         {
 #if DEBUG_WEB
-            return "http://144.91.113.195/iRLeagueRESTService/api";
+            return "https://irleaguemanager.ddns.net/iRLeagueRESTService/api";
 #elif DEBUG
             return "https://localhost:44369/api";
 #else
-            return "http://144.91.113.195/iRLeagueRESTService/api";
+            return "https://irleaguemanager.ddns.net/iRLeagueRESTService/api";
 #endif
         }
 

@@ -62,6 +62,18 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetValue(ref sessions, value); }
 
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(Name) == false)
+            {
+                return Name;
+            }
+            else
+            {
+                return base.ToString();
+            }
+        }
+
         public ScoringTableModel() : base()
         {
             Scorings = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();

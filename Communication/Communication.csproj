@@ -84,6 +84,7 @@
     <Compile Include="DataTransfer\Results\ScoringRuleBaseDTO.cs" />
     <Compile Include="DataTransfer\Results\ScoringTableDTO.cs" />
     <Compile Include="DataTransfer\Results\ScoringTableInfoDTO.cs" />
+    <Compile Include="DataTransfer\Results\SimSessionDetailsDTO.cs" />
     <Compile Include="DataTransfer\Results\StandardScoringRuleDTO.cs" />
     <Compile Include="DataTransfer\Results\StandingsDataDTO.cs" />
     <Compile Include="DataTransfer\Results\StandingsRowDataDTO.cs" />
@@ -105,6 +106,11 @@
     <Compile Include="DataTransfer\Sessions\ScheduleInfoDTO.cs" />
     <Compile Include="DataTransfer\Sessions\SessionDataDTO.cs" />
     <Compile Include="DataTransfer\Sessions\SessionInfoDTO.cs" />
+    <Compile Include="DataTransfer\Statistics\DriverStatisticDTO.cs" />
+    <Compile Include="DataTransfer\Statistics\DriverStatisticRowDTO.cs" />
+    <Compile Include="DataTransfer\Statistics\ImportedStatisticSetDTO.cs" />
+    <Compile Include="DataTransfer\Statistics\LeagueStatisticSetDTO.cs" />
+    <Compile Include="DataTransfer\Statistics\SeasonStatisticSetDTO.cs" />
     <Compile Include="DataTransfer\User\AddUserDTO.cs" />
     <Compile Include="DataTransfer\User\UserDataDTO.cs" />
     <Compile Include="DataTransfer\User\UserProfileDTO.cs" />
@@ -126,8 +132,10 @@
     <Compile Include="Enums\VoteEnum.cs" />
     <Compile Include="Enums\VoteState.cs" />
     <Compile Include="Enums\WeekDaysFlag.cs" />
-    <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\NestedPropertyInfo.cs" />
+    <Compile Include="Extensions\SystemExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Filters\ColumnPropertyFilterDescription.cs" />
     <Compile Include="Filters\IResultsFilterDescription.cs" />
@@ -167,11 +175,13 @@
     <Compile Include="LocationCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RaceTrack.cs" />
+    <Compile Include="DataTransfer\Statistics\StatisticSetDTO.cs" />
     <Compile Include="Timing\IInterval.cs" />
     <Compile Include="Timing\ILapTime.cs" />
-    <Compile Include="Timing\Interval.cs" />
+    <Compile Include="Timing\LapInterval.cs" />
     <Compile Include="Timing\LapTime.cs" />
     <Compile Include="Timing\TimeComponentVector.cs" />
+    <Compile Include="Timing\TimeSpanConverter.cs" />
     <Compile Include="TrackCollection.cs" />
     <Compile Include="TrackConfig.cs" />
   </ItemGroup>

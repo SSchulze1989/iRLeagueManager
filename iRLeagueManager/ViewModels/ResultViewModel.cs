@@ -39,7 +39,7 @@ namespace iRLeagueManager.ViewModels
 
         protected override ResultModel Template => new ResultModel();
 
-        public ObservableModelCollection<ResultRowViewModel, ResultRowModel> RawResults => new ObservableModelCollection<ResultRowViewModel, ResultRowModel>(Model?.RawResults);
+        public ObservableViewModelCollection<ResultRowViewModel, ResultRowModel> RawResults => new ObservableViewModelCollection<ResultRowViewModel, ResultRowModel>(Model?.RawResults);
 
         public ObservableCollection<IncidentReviewInfo> Reviews => Model?.Reviews;
     }

@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using iRLeagueManager.Data;
 using iRLeagueManager.Enums;
+using iRLeagueManager.Data;
 using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Timing;
@@ -98,13 +98,21 @@ namespace iRLeagueManager.ResultsParser
                 IRacingResultRow row = new IRacingResultRow();
                 if (!MemberList.Any(x => x.IRacingId == line["CustID"]))
                 {
-                    //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
-                    var newMember = new LeagueMember(0, line["Name"].Split(' ').First(), line["Name"].Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
-                    //LeagueContext.MemberList.Add(newMember);
-                    newMember.IRacingId = line["CustID"];
-                    //row.MemberId = newMember.MemberId;
-                    row.Member = newMember;
-                    memberList.Add(newMember);
+                    if (MemberList.Any(x => x.IRacingId == "" && x.FullName == line["Name"]))
+                    {
+                        var member = memberList.SingleOrDefault(x => x.FullName == line["Name"]);
+                        member.IRacingId = line["CustID"];
+                    }
+                    else
+                    {
+                        //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
+                        var newMember = new LeagueMember(0, line["Name"].Split(' ').First(), line["Name"].Split(' ').Skip(1).Aggregate((x, y) => x + " " + y));
+                        //LeagueContext.MemberList.Add(newMember);
+                        newMember.IRacingId = line["CustID"];
+                        //row.MemberId = newMember.MemberId;
+                        row.Member = newMember;
+                        memberList.Add(newMember);
+                    }
                 }
                 else
                 {
@@ -198,6 +206,11 @@ namespace iRLeagueManager.ResultsParser
             {
                 return TimeSpan.Zero;
             }
+        }
+
+        public SimSessionDetails GetSessionDetails()
+        {
+            return null;
         }
     }
 

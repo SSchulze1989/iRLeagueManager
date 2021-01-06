@@ -41,7 +41,7 @@ namespace iRLeagueManager.ViewModels
     {
         private SeasonModel season;
 
-        private readonly ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTableList;
+        private readonly ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTableList;
         public ICollectionView ScoringTableList
         {
             get => scoringTableList.CollectionView;
@@ -51,7 +51,7 @@ namespace iRLeagueManager.ViewModels
 
         public StandingsPageViewModel()
         {
-            scoringTableList = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>();
+            scoringTableList = new ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel>();
             ScoringTableList.CurrentChanged += async (sender, args) =>
             {
                 if (ScoringTableList.CurrentItem is ScoringTableViewModel current)
@@ -105,11 +105,14 @@ namespace iRLeagueManager.ViewModels
                 if (lastSelectedSession == null || !SessionSelect.SessionList.Contains(lastSelectedSession))
                     SessionSelect.SelectedSession = SessionSelect.SessionList.Where(x => x.ResultAvailable).LastOrDefault();
 
-                if (ScoringTableList.CurrentItem is ScoringTableViewModel current == false)
+                if (scoringTableList.Count > 0)
                 {
-                    ScoringTableList.MoveCurrentToFirst();
+                    if (ScoringTableList.CurrentItem is ScoringTableViewModel current == false)
+                    {
+                        ScoringTableList.MoveCurrentToFirst();
+                    }
+                    await (ScoringTableList.CurrentItem as ScoringTableViewModel)?.LoadStandings();
                 }
-                await (ScoringTableList.CurrentItem as ScoringTableViewModel)?.LoadStandings();
                 //else
                 //await LoadResults();
 

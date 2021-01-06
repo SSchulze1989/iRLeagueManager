@@ -92,7 +92,7 @@ namespace iRLeagueManager.ViewModels
         private bool isPenaltyEdit;
         public bool IsPenaltyEdit { get => isPenaltyEdit; set => SetValue(ref isPenaltyEdit, value); }
 
-        private ObservableModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel> reviewPenalties;
+        private ObservableViewModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel> reviewPenalties;
         public ICollectionView ReviewPenalties
         {
             get
@@ -111,7 +111,7 @@ namespace iRLeagueManager.ViewModels
             StartEditPenaltyCmd = new RelayCommand(o => StartEditRowPenalty(), o => AddPenalty != null);
             EndEditPenaltyCmd = new RelayCommand(async o => await EndEditRowPenalty(), o => AddPenalty != null);
             DeletePenaltyCmd = new RelayCommand(async o => await DeleteRowPenalty(), o => AddPenalty != null);
-            reviewPenalties = new ObservableModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel>();
+            reviewPenalties = new ObservableViewModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel>();
         }
 
         public override async void OnUpdateSource()

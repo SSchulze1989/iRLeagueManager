@@ -62,7 +62,7 @@ namespace iRLeagueManager.ViewModels
         private ReviewNavBarViewModel reviewNavBar;
         public ReviewNavBarViewModel ReviewNavBar { get => reviewNavBar; set => SetValue(ref reviewNavBar, value); }
 
-        private ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel> currentReviews;
+        private ObservableViewModelCollection<IncidentReviewViewModel, IncidentReviewModel> currentReviews;
         //public ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel> CurrentReviews
         //{
         //    get => currentReviews;
@@ -93,7 +93,7 @@ namespace iRLeagueManager.ViewModels
             {
                 SessionFilter = x => x.ResultAvailable
             };
-            currentReviews = new ObservableModelCollection<IncidentReviewViewModel, IncidentReviewModel>(x => 
+            currentReviews = new ObservableViewModelCollection<IncidentReviewViewModel, IncidentReviewModel>(x => 
                 x.Session = SessionSelect?.SessionList.SingleOrDefault(y => y.SessionId == x.Model.Session.SessionId));
             AddReviewCmd = new RelayCommand(async o => await AddReviewAsync(), o => SessionSelect?.SelectedSession != null);
             RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(o as IncidentReviewModel), o => SelectedReview != null || o is IncidentReviewModel);

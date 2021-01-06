@@ -43,7 +43,7 @@ SOFTWARE.-->
         <conv:LapIntervalStringConverter x:Key="LapIntervalStringConverter"/>
         <conv:CompareNumericalConverter x:Key="CompareNumericalConverter"/>
         <conv:UniversalColorConverter x:Key="UniversalColorConverter"/>
-        <model:StandingsModel x:Key="StandingsModel"/>
+        <!--<model:StandingsModel x:Key="StandingsModel"/>-->
         <controls:StandingsTemplateSelector x:Key="StandingsTemplateSelector"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>

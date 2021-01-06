@@ -31,7 +31,7 @@ using iRLeagueManager.Models.Sessions;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
-    public class ScheduleVMCollection : ObservableModelCollection<ScheduleViewModel, ScheduleModel>
+    public class ScheduleVMCollection : ObservableViewModelCollection<ScheduleViewModel, ScheduleModel>
     {
         public ScheduleVMCollection() : base(new ScheduleModel[] { ScheduleModel.GetTemplate() }) { }
     }

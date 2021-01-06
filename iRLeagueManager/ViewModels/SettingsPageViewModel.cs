@@ -35,35 +35,89 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using System.Collections.ObjectModel;
+using iRLeagueManager.Models.Statistics;
+using System.Windows;
+using System.Collections.Specialized;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
         private SeasonViewModel season;
-        public SeasonViewModel Season { get => season; set => SetValue(ref season, value); }
+        public SeasonViewModel Season
+        {
+            get => season;
+            set
+            {
+                var tmp = season;
+                if (SetValue(ref season, value))
+                {
+                    if (tmp != null)
+                    {
+                        tmp.PropertyChanged -= Season_PropertyChanged;
+                        tmp.ModelChanged -= Season_ModelChanged;
+                    }
+                    if (season != null)
+                    {
+                        season.PropertyChanged += Season_PropertyChanged;
+                        season.ModelChanged += Season_ModelChanged;
+                    }
+                }
+            }
+        }
 
-        private readonly ObservableModelCollection<ScoringViewModel,ScoringModel> scorings;
-        public ObservableModelCollection<ScoringViewModel, ScoringModel> Scorings
+        private readonly ObservableViewModelCollection<ScoringViewModel, ScoringModel> scorings;
+        //public ObservableModelCollection<ScoringViewModel, ScoringModel> Scorings
+        //{
+        //    get
+        //    {
+        //        if (scorings.GetSource() != Season?.Scorings)
+        //            scorings.UpdateSource(Season?.Scorings);
+        //        return scorings;
+        //    }
+        //}
+        public ICollectionView Scorings
         {
             get
             {
                 if (scorings.GetSource() != Season?.Scorings)
                     scorings.UpdateSource(Season?.Scorings);
-                return scorings;
+                return scorings.CollectionView;
             }
         }
 
-        private readonly ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTables;
-        public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTables
+        private readonly ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel> scoringTables;
+        //public ObservableModelCollection<ScoringTableViewModel, ScoringTableModel> ScoringTables
+        //{
+        //    get
+        //    {
+        //        if (scoringTables.GetSource() != Season?.ScoringTables)
+        //            scoringTables.UpdateSource(Season?.ScoringTables);
+        //        return scoringTables;
+        //    }
+        //}
+        public ICollectionView ScoringTables
         {
             get
             {
                 if (scoringTables.GetSource() != Season?.ScoringTables)
                     scoringTables.UpdateSource(Season?.ScoringTables);
-                return scoringTables;
+                return scoringTables.CollectionView;
             }
         }
+
+        //private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
+        //public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
+
+        //private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> leagueStatistics;
+        //public ICollectionView LeagueStatistics => leagueStatistics.CollectionView;
+
+        //private StatisticSetViewModel selectedStatisticSet;
+        //public StatisticSetViewModel SelectedStatisticSet { get => selectedStatisticSet; set => SetValue(ref selectedStatisticSet, value); }
+
+        private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> statisticSets;
+        public ICollectionView StatisticSets => statisticSets.CollectionView;
 
         private ObservableCollection<VoteCategoryModel> voteCategoriesCollection;
         private ICollectionView voteCategories;
@@ -83,12 +137,16 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddVoteCategoryCmd { get; }
         public ICommand RemoveVoteCategoryCmd { get; }
 
+        public ICommand AddSeasonStatisticSetCmd { get; }
+        public ICommand AddLeagueStatisticSetCmd { get; }
+        public ICommand AddImportedStatisticSetCmd { get; }
+
         public ICommand SaveChangesCmd { get; }
 
         public SettingsPageViewModel() : base()
         {
-            scorings = new ObservableModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(Scorings.GetSource()));
-            scoringTables = new ObservableModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(Scorings));
+            scorings = new ObservableViewModelCollection<ScoringViewModel, ScoringModel>(constructorAction: x => x.SetScoringsList(scorings.GetSource()));
+            scoringTables = new ObservableViewModelCollection<ScoringTableViewModel, ScoringTableModel>(x => x.SetScoringsList(scorings));
             Season = new SeasonViewModel();
             AddScoringCmd = new RelayCommand(o => AddScoring(), o => Season != null);
             AddScoringTableCmd = new RelayCommand(o => AddScoringTable(), o => Season != null);
@@ -99,6 +157,48 @@ namespace iRLeagueManager.ViewModels
             RemoveIncidentKindCmd = new RelayCommand(async o => await RemoveIncidentKind(o as CustomIncidentModel), o => o != null && o is CustomIncidentModel);
             AddVoteCategoryCmd = new RelayCommand(async o => await AddVoteCategory());
             RemoveVoteCategoryCmd = new RelayCommand(async o => await RemoveVoteCategory(o as VoteCategoryModel), o => o != null && o is VoteCategoryModel);
+            //seasonStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>(x => GetStatisticSetViewModel(x));
+            //leagueStatistics = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>(x => GetStatisticSetViewModel(x));
+            statisticSets = new ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel>(x => GetStatisticSetViewModel(x));
+            StatisticSets.GroupDescriptions.Add(new PropertyGroupDescription("StatisticSetType"));
+            AddSeasonStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new SeasonStatisticSetModel(Season.Model)), o => Season.Model != null);
+            AddLeagueStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new LeagueStatisticSetModel()), o => true);
+            AddImportedStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new ImportedStatisticSetModel()), o => true);
+        }
+
+        private StatisticSetViewModel GetStatisticSetViewModel(StatisticSetModel model)
+        {
+            var type = model.GetType();
+
+            if (type.Equals(typeof(SeasonStatisticSetModel)))
+            {
+                return new SeasonStatisticSetViewModel();
+            }
+            else if (type.Equals(typeof(LeagueStatisticSetModel)))
+            {
+                return new LeagueStatisticSetViewModel();
+            } else if (type.Equals(typeof(ImportedStatisticSetModel)))
+            {
+                return new ImportedStatisticSetViewModel();
+            }
+
+            return new StatisticSetViewModel();
+        }
+
+        private void Season_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SeasonModel.SeasonStatisticSets):
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Season_ModelChanged()
+        {
+            
         }
 
         public async Task Load(SeasonModel season)
@@ -125,6 +225,7 @@ namespace iRLeagueManager.ViewModels
                 var voteCategories = await LeagueContext.GetModelsAsync<VoteCategoryModel>();
                 voteCategoriesCollection = new ObservableCollection<VoteCategoryModel>(voteCategories);
                 SetVoteCategoriesView(voteCategoriesCollection);
+                await LoadStatisticSets();
             }
             catch (Exception e)
             {
@@ -146,6 +247,63 @@ namespace iRLeagueManager.ViewModels
         {
             IncidentKinds = CollectionViewSource.GetDefaultView(source);
             IncidentKinds.SortDescriptions.Add(new SortDescription(nameof(CustomIncidentModel.Index), ListSortDirection.Ascending));
+        }
+
+        private async Task AddStatisticSet(StatisticSetModel statisticSet)
+        {
+            if (statisticSet == null)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                if (statisticSet is SeasonStatisticSetModel seasonStatisticSet)
+                {
+                    statisticSet = await LeagueContext.AddModelAsync(seasonStatisticSet);
+                }
+                else if (statisticSet is LeagueStatisticSetModel leagueStatisticSet)
+                {
+                    statisticSet = await LeagueContext.AddModelAsync(leagueStatisticSet);
+                }
+                else if (statisticSet is ImportedStatisticSetModel importedStatisticSet)
+                {
+                    statisticSet = await LeagueContext.AddModelAsync(importedStatisticSet);
+                }
+                await LoadStatisticSets();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task RemoveStatisticSet(StatisticSetModel statisticSet)
+        {
+            if (statisticSet == null)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.DeleteModelAsync<StatisticSetModel>(statisticSet.ModelId);
+                await LoadStatisticSets();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private async Task AddIncidentKind()
@@ -240,7 +398,12 @@ namespace iRLeagueManager.ViewModels
                 LeagueContext.ModelManager.ForceExpireModels<ScoringTableModel>();
                 LeagueContext.ModelManager.ForceExpireModels<CustomIncidentModel>();
                 LeagueContext.ModelManager.ForceExpireModels<VoteCategoryModel>();
+                LeagueContext.ModelManager.ForceExpireModels<StatisticSetModel>();
                 await Load(Season.Model);
+                foreach(StatisticSetViewModel statisticSet in StatisticSets)
+                {
+                    await statisticSet.Refresh();
+                }
                 await base.Refresh();
             }
             catch (Exception e)
@@ -253,6 +416,47 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private async Task LoadStatisticSets()
+        {   
+            try
+            {
+                IsLoading = true;
+                var statisticSetsSource = (await LeagueContext.GetModelsAsync<StatisticSetModel>())
+                    .Where(x => x is SeasonStatisticSetModel == false || ((SeasonStatisticSetModel)x).Season.SeasonId == Season?.SeasonId);
+                var leagueStatistics = statisticSetsSource.OfType<LeagueStatisticSetModel>();
+                foreach(var leagueStatistic in leagueStatistics)
+                {
+                    for (int i = 0; i < leagueStatistic.StatisticSets.Count; i++)
+                    {
+                        leagueStatistic.StopTrackChanges();
+                        leagueStatistic.StatisticSets[i] = LeagueContext.ModelManager.ModelCache.PutOrGetModel(leagueStatistic.StatisticSets[i]);
+                        leagueStatistic.StartTrackChanges();
+                    }
+                }
+                //seasonStatistics.UpdateSource(seasonStatisticSets);
+                //leagueStatistics.UpdateSource(statisticSets.Except(seasonStatisticSets));
+                statisticSets.UpdateSource(statisticSetsSource);
+                SetStatisticSetSelection();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public void SetStatisticSetSelection()
+        {
+            var source = statisticSets.Select(x => x.Model);
+            foreach (var leagueStatistic in statisticSets.OfType<LeagueStatisticSetViewModel>())
+            {
+                leagueStatistic.SetStatisticSetSelection(source);
+            }
+        }
+
         public async void AddScoring()
         {
             try
@@ -262,7 +466,7 @@ namespace iRLeagueManager.ViewModels
                 scoring = await LeagueContext.AddModelAsync(scoring);
                 Season.Scorings.Add(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                Scorings.UpdateCollection();
+                scorings.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -285,7 +489,7 @@ namespace iRLeagueManager.ViewModels
                 await LeagueContext.DeleteModelsAsync(scoring);
                 Season.Scorings.Remove(scoring);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                Scorings.UpdateCollection();
+                scorings.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -306,7 +510,7 @@ namespace iRLeagueManager.ViewModels
                 //scoringTable = await LeagueContext.AddModelAsync(scoringTable);
                 Season.ScoringTables.Add(scoringTable);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                ScoringTables.UpdateCollection();
+                scoringTables.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -329,7 +533,7 @@ namespace iRLeagueManager.ViewModels
                 await LeagueContext.DeleteModelsAsync(scoringTable);
                 Season.ScoringTables.Remove(scoringTable);
                 await LeagueContext.UpdateModelAsync(Season.Model);
-                ScoringTables.UpdateCollection();
+                scoringTables.UpdateCollection();
             }
             catch (Exception e)
             {
@@ -351,13 +555,17 @@ namespace iRLeagueManager.ViewModels
                     await Season.SaveChanges();
                 }
 
-                foreach (var scoring in Scorings)
+                foreach (var scoring in scorings)
                 {
                     await scoring.SaveChanges();
                 }
-                foreach (var scoringTable in ScoringTables)
+                foreach (var scoringTable in scoringTables)
                 {
                     await scoringTable.SaveChanges();
+                }
+                foreach (var statisticSet in statisticSets)
+                {
+                    await statisticSet.SaveChanges();
                 }
 
                 var updateIncidenKinds = incidentKindsCollection.Where(x => x.ContainsChanges);
@@ -389,14 +597,15 @@ namespace iRLeagueManager.ViewModels
             }
 
             var hasChanges = Season.Model.ContainsChanges;
-            foreach (var scoring in Scorings)
+            foreach (var scoring in scorings)
             {
                 hasChanges |= scoring.Model.ContainsChanges;
             }
-            foreach (var scoringTable in ScoringTables)
+            foreach (var scoringTable in scoringTables)
             {
                 hasChanges |= scoringTable.Model.ContainsChanges;
             }
+            hasChanges |= statisticSets.Select(x => x.Model.ContainsChanges).Any(x => x);
             if (incidentKindsCollection != null)
             {
                 hasChanges |= incidentKindsCollection.Any(x => x.ContainsChanges);

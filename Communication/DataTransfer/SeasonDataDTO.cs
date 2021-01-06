@@ -33,6 +33,7 @@ using iRLeagueDatabase.DataTransfer.Results;
 using iRLeagueDatabase.DataTransfer.Reviews;
 using System.Runtime.Serialization;
 using iRLeagueDatabase.DataTransfer.Members;
+using iRLeagueDatabase.DataTransfer.Statistics;
 
 namespace iRLeagueDatabase.DataTransfer
 {
@@ -43,6 +44,8 @@ namespace iRLeagueDatabase.DataTransfer
 
         //[DataMember]
         //public int SeasonId { get; set; }
+        [DataMember]
+        public bool Finished { get; set; }
 
         [DataMember]
         public IEnumerable<ScheduleInfoDTO> Schedules { get; set; }
@@ -58,6 +61,9 @@ namespace iRLeagueDatabase.DataTransfer
 
         [DataMember]
         public IEnumerable<ResultInfoDTO> Results { get; set; }
+
+        [DataMember]
+        public long[] SeasonStatisticSetIds { get; set; }
 
         [DataMember]
         public DateTime SeasonStart { get; set; }

@@ -124,11 +124,11 @@ namespace iRLeagueManager.ViewModels
 
         public ScoringViewModel()
         {
+            Model = Template;
             SessionSelect = new SessionSelectViewModel()
             {
                 SessionFilter = session => session.ResultAvailable
             };
-            Model = Template;
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
