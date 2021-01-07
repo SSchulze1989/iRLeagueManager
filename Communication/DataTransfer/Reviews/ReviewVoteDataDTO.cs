@@ -27,15 +27,25 @@ using System.Text;
 using System.Threading.Tasks;
 using iRLeagueManager.Enums;
 using iRLeagueDatabase.DataTransfer.Members;
+using System.Runtime.Serialization;
 
 namespace iRLeagueDatabase.DataTransfer.Reviews
 {
+    [DataContract]
     public class ReviewVoteDataDTO : MappableDTO
     {
+        [DataMember]
         public long ReviewVoteId { get; set; }
+        [DataMember]
         public VoteEnum Vote { get; set; }
+        [DataMember]
         public LeagueMemberInfoDTO MemberAtFault { get; set; }
+        [DataMember]
         public long? VoteCategoryId { get; set; }
+        [DataMember]
+        public string CatText { get; set; }
+        [DataMember]
+        public int CatPenalty { get; set; }
 
         public override object MappingId => ReviewVoteId;
         public override object[] Keys => new object[] { ReviewVoteId };

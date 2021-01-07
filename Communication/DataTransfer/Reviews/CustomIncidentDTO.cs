@@ -23,15 +23,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iRLeagueDatabase.DataTransfer.Reviews
 {
+    [DataContract]
     public class CustomIncidentDTO : MappableDTO
     {
+        [DataMember]
         public long IncidentId { get; set; }
+        [DataMember]
         public string Text { get; set; }
+        [DataMember]
         public int Index { get; set; }
 
         public override object MappingId => IncidentId;
