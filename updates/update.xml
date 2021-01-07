@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
+	<version>0.8.1.0</version>
+    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.8.1-alpha/iRLeagueManager.zip</url>
+    <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
+    <mandatory>true</mandatory>
+</item>
+<item>
+	<version>0.8.0.0</version>
+    <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.8.0-alpha/iRLeagueManager.zip</url>
+    <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
+    <mandatory>true</mandatory>
+</item>
+<item>
 	<version>0.7.2.0</version>
     <url>https://github.com/SSchulze1989/iRLeagueManager/releases/download/v0.7.2-alpha/iRLeagueManager.zip</url>
     <changelog>https://github.com/SSchulze1989/iRLeagueManager/releases/</changelog>
