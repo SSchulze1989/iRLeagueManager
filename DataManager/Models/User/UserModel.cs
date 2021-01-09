@@ -78,6 +78,14 @@ namespace iRLeagueManager.Models.User
         //public string FullName { get => Firstname + " " + Lastname;  }
         public string FullName => UserName;
 
+        public static UserModel Template = new UserModel("0", "Unknown");
+
+        public UserModel()
+        {
+            UserId = Template.UserId;
+            UserName = Template.userName;
+        }
+
         public UserModel(string userId)
         {
             UserId = userId;

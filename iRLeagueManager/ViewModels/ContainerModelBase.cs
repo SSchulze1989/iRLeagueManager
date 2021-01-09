@@ -29,15 +29,19 @@ using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
-    public abstract class ContainerModelBase<TSource> : ViewModelBase, IContainerModelBase<TSource>, IDisposable where TSource : class, INotifyPropertyChanged
+    public abstract class ContainerModelBase<TSource> : ViewModelBase, IContainerModelBase<TSource>, IDisposable where TSource : class, INotifyPropertyChanged, new()
     {
-        private TSource _source;
+        private TSource _source = new TSource();
         //[NotifyParentProperty(true)]
         protected TSource Source
         {
             get => _source;
             private set
             {
+                if (value == null)
+                {
+                    int i = 1;
+                }
                 if (SetValue(ref _source, value))
                     OnPropertyChanged(null);
             }

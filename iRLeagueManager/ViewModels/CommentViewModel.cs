@@ -49,7 +49,7 @@ namespace iRLeagueManager.ViewModels
             {
                 if (author.UserId != Model?.Author?.UserId)
                 {
-                    if (author.UpdateSource(Model.Author))
+                    if (author.UpdateSource(Model.Author ?? new UserModel("", "Unknown")))
                         OnPropertyChanged();
                 }
                 return author;
@@ -72,7 +72,7 @@ namespace iRLeagueManager.ViewModels
 
         public ICommand EditCmd { get; private set; }
 
-        public CommentViewModel() : this(null)
+        public CommentViewModel() : this(new CommentModel())
         {
             SetSource(Template);
         }
