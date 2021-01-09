@@ -106,7 +106,8 @@ namespace iRLeagueDatabase.DataTransfer
         KnownType(typeof(LeagueStatisticSetDTO)),
         KnownType(typeof(ImportedStatisticSetDTO)),
         KnownType(typeof(DriverStatisticDTO)),
-        KnownType(typeof(DriverStatisticRowDTO))]
+        KnownType(typeof(DriverStatisticRowDTO)),
+        KnownType(typeof(SimSessionDetailsDTO))]
     public abstract class MappableDTO : IMappableDTO
     {
         public bool IsReadOnly { get; set; }

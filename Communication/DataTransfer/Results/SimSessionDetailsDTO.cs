@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 namespace iRLeagueDatabase.DataTransfer.Results
 {
     [DataContract]
-    public class SimSessionDetailsDTO
+    public class SimSessionDetailsDTO : MappableDTO
     {
+        [DataMember]
+        public long ResultId { get; set; }
         [DataMember]
         public long IRSubsessionId { get; set; }
         [DataMember]
@@ -112,5 +114,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         public int WarmupGripCompound { get; set; }
         [DataMember]
         public int RaceGripCompound { get; set; }
+
+        public override object MappingId => ResultId;
+        public override object[] Keys => new object[] { ResultId };
     }
 }
