@@ -110,9 +110,8 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        public UserViewModel()
-        {
-
+        public UserViewModel() : base(new UserModel("", ""))
+        { 
         }
 
         public async Task<bool> SaveChanges()

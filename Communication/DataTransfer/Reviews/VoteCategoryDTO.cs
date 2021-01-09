@@ -23,16 +23,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iRLeagueDatabase.DataTransfer.Reviews
 {
+    [DataContract]
     public class VoteCategoryDTO : MappableDTO
     {
+        [DataMember]
         public long CatId { get; set; }
+        [DataMember]
         public string Text { get; set; }
+        [DataMember]
         public int Index { get; set; }
+        [DataMember]
         public int DefaultPenalty { get; set; }
 
         public override object MappingId => CatId;

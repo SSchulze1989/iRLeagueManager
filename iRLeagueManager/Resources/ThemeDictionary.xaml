@@ -30,6 +30,9 @@ SOFTWARE.-->
 
     <conv:MultiValueEqualsConverter x:Key="MultiValueEqualsConverter"/>
 
+    <BitmapImage x:Key="Logo_Bright" UriSource="../Graphics/iRLM_Logo_19.png" />
+    <BitmapImage x:Key="Logo_Dark" UriSource="../Graphics/iRLM_Logo_17_darkbg.png" />
+
     <!-- Global Font Style-->
     <FontFamily x:Key="Header.FontFamily">pack://application,,,/Fonts/#Formula1 Display Wide</FontFamily>
     <sys:Double x:Key="Header.FontSize">36</sys:Double>
