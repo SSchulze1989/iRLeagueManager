@@ -44,6 +44,8 @@ namespace iRLeagueDatabase.DataTransfer.Results
         [DataMember]
         public int PenaltyPoints { get; set; }
         [DataMember]
+        public int TotalPoints { get; set; }
+        [DataMember]
         public int FinalPosition { get; set; }
         [DataMember]
         public int FinalPositionChange { get; set; }

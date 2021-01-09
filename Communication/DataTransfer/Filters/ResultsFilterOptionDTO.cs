@@ -46,6 +46,8 @@ namespace iRLeagueDatabase.DataTransfer.Filters
         [DataMember]
         public bool Exclude { get; set; }
         [DataMember]
+        public bool FilterPointsOnly { get; set; }
+        [DataMember]
         public object[] FilterValues { get; set; }
 
         public override object MappingId => ResultsFilterId;

@@ -99,6 +99,7 @@ namespace iRLeagueManager.Models.Results
         }
         public ScoringModel() : base()
         {
+            Season = new SeasonModel();
             ScoringId = null;
             Sessions = new ObservableCollection<SessionInfo>();
             BonusPoints = new ObservableCollection<BonusPointsValue>();

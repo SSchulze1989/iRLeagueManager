@@ -53,7 +53,8 @@ namespace iRLeagueManager.Models.Results
         private int finalPosition;
         public int FinalPosition { get => finalPosition; set => SetValue(ref finalPosition, value); }
 
-        public int TotalPoints => RacePoints + BonusPoints - PenaltyPoints;
+        private int totalPoints;
+        public int TotalPoints { get => totalPoints; set => SetValue(ref totalPoints, value); }
 
         public override int PositionChange => StartPosition - FinalPosition;
 

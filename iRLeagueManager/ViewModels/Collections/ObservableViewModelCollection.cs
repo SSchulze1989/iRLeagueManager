@@ -39,7 +39,7 @@ using System.Collections;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
-    public class ObservableViewModelCollection<TViewModel, TModel> : ReadOnlyObservableCollection<TViewModel>, IDisposable where TViewModel : class, IContainerModelBase<TModel>, new() where TModel : class, INotifyPropertyChanged
+    public class ObservableViewModelCollection<TViewModel, TModel> : ReadOnlyObservableCollection<TViewModel>, IDisposable where TViewModel : class, IContainerModelBase<TModel>, new() where TModel : class, INotifyPropertyChanged, new()
     {
         private bool NotifyCollectionActive { get; set; }
 
@@ -200,7 +200,7 @@ namespace iRLeagueManager.ViewModels.Collections
                 {
                     for (int i = 0; i < CollectionSource.Count(); i++)
                     {
-                        var srcItem = CollectionSource.ElementAt(i);
+                        var srcItem = CollectionSource.ElementAt(i) ?? new TModel();
                         var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
 
                         if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)

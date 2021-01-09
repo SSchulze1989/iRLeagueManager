@@ -214,6 +214,13 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            <GridViewColumn Header="OnlyPoints" Width="75">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding FilterPointsOnly}" Margin="20,0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Type" DisplayMemberBinding="{Binding ColumnPropertyType.Name}" Width="75"/>
                             <GridViewColumn Header="Values" Width="240">
                                 <GridViewColumn.CellTemplate>

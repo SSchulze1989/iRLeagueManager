@@ -69,9 +69,12 @@ namespace TestConsole
             //};
             //importStat = context.ModelDatabase.PostAsync(new ImportedStatisticSetDTO[] { importStat }).Result.FirstOrDefault();
 
-            var importStat = context.ModelDatabase.GetAsync<ImportedStatisticSetDTO>(new long[][] { new long[] { 7 } });
-            stats.StatisticSetId = 7;
-            stats.DriverStatisticRows.ForEach(x => x.StatisticSetId = 0);
+            var importStat = context.ModelDatabase.GetAsync<ImportedStatisticSetDTO>(new long[][] { new long[] { 4 } });
+            stats = new DriverStatisticDTO
+            {
+                StatisticSetId = 4,
+                DriverStatisticRows = new DriverStatisticRowDTO[0]
+            };
             stats = context.ModelDatabase.PostAsync(new DriverStatisticDTO[] { stats }).Result.FirstOrDefault();
 
             var parserService = new QuickStatsImportParser
@@ -86,7 +89,7 @@ namespace TestConsole
             context.AddModelsAsync(newMembers.ToArray()).Wait();
 
             var statModel = parserService.GetDriverStatistic();
-            statModel.StatisticSetId = 7;
+            statModel.StatisticSetId = 4;
             statModel = context.UpdateModelAsync(statModel).Result;
 
             //Console.ReadKey();

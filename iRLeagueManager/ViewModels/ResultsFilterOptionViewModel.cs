@@ -27,6 +27,7 @@ namespace iRLeagueManager.ViewModels
         public string ColumnPropertyName { get => Model.ColumnPropertyName; set => Model.ColumnPropertyName = value; }
         public ComparatorTypeEnum Comparator { get => Model.Comparator; set => Model.Comparator = value; }
         public bool Exclude { get => Model.Exclude; set => Model.Exclude = value; }
+        public bool FilterPointsOnly { get => Model.FilterPointsOnly; set => Model.FilterPointsOnly = value; }
         public ObservableCollection<FilterValueModel> FilterValues => Model.FilterValues;
         public IEnumerable<int> IntFilterValues => Model.FilterValues.OfType<int>();
         public Type ColumnPropertyType => Model.ColumnPropertyType;
