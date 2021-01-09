@@ -75,7 +75,7 @@ namespace iRLeagueManager.Locations
 
                 if (mapImage == null)
                 {
-                    var uri = "Graphics/TrackImages/Maps/" + MapImageSrc;
+                    var uri = "pack://application,,,/Graphics/TrackImages/Maps/" + MapImageSrc;
                     mapImage = CreateImageFromPng(uri);
                 }
                 return mapImage;
@@ -119,7 +119,7 @@ namespace iRLeagueManager.Locations
 
             BitmapImage image = new BitmapImage();
             image.BeginInit();
-            image.UriSource = new Uri(source, UriKind.Relative);
+            image.UriSource = new Uri(source, UriKind.Absolute);
             image.CacheOption = BitmapCacheOption.OnLoad;
             image.EndInit();
 
