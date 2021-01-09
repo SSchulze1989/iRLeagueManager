@@ -30,10 +30,11 @@ using System.Windows.Input;
 using iRLeagueManager.Models;
 using iRLeagueManager.Data;
 using iRLeagueManager;
+using System.Windows;
 
 namespace iRLeagueManager.ViewModels
 {
-    public abstract class LeagueContainerModel<TSource> : ContainerModelBase<TSource> where TSource : MappableModel, INotifyPropertyChanged
+    public abstract class LeagueContainerModel<TSource> : ContainerModelBase<TSource> where TSource : MappableModel, INotifyPropertyChanged, new()
     { 
         public virtual TSource Model { get => Source; set => SetSource(value); }
 
@@ -75,14 +76,13 @@ namespace iRLeagueManager.ViewModels
 
         public ICommand SaveChangesCmd { get; protected set; }
 
-        public LeagueContainerModel()
+        public LeagueContainerModel() : this(new TSource())
         {
-            Model = Template;
-            SaveChangesCmd = new RelayCommand(async o => await SaveChanges(), o => (Model?.ContainsChanges).GetValueOrDefault());
         }
 
         public LeagueContainerModel(TSource source) : base(source)
         {
+            SaveChangesCmd = new RelayCommand(async o => await SaveChanges(), o => (Model?.ContainsChanges).GetValueOrDefault());
         }
 
         protected abstract TSource Template { get; }

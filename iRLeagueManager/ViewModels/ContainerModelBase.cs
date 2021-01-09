@@ -45,8 +45,6 @@ namespace iRLeagueManager.ViewModels
 
         public event Action ModelChanged;
 
-        public ContainerModelBase() { }
-
         public ContainerModelBase(TSource source)
         {
             Source = source;
@@ -69,14 +67,23 @@ namespace iRLeagueManager.ViewModels
 
         public virtual bool UpdateSource(TSource source)
         {
-            if (_source != null)
+            if (source == null)
             {
-                _source.PropertyChanged -= this.FwdPropertyChanged;
+                throw new ArgumentNullException(nameof(source));
             }
-            bool hasChanged = SetValue(ref this._source, source);
-            if (_source != null)
+
+            bool hasChanged;
+            lock (_source)
             {
-                _source.PropertyChanged += this.FwdPropertyChanged;
+                if (_source != null)
+                {
+                    _source.PropertyChanged -= this.FwdPropertyChanged;
+                }
+                hasChanged = SetValue(ref this._source, source);
+                if (_source != null)
+                {
+                    _source.PropertyChanged += this.FwdPropertyChanged;
+                }
             }
 
             OnPropertyChanged(null);

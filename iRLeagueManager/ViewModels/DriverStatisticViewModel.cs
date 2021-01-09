@@ -35,7 +35,7 @@ namespace iRLeagueManager.ViewModels
 
         public IEnumerable<DriverStatisticRowModel> DriverStatisticRows => Model.DriverStatisticRows;
 
-        public DriverStatisticViewModel()
+        public DriverStatisticViewModel() : base(new DriverStatisticModel())
         {
 
         }

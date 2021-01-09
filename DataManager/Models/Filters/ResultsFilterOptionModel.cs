@@ -48,6 +48,9 @@ namespace iRLeagueManager.Models.Filters
         private bool exclude;
         public bool Exclude { get => exclude; set => SetValue(ref exclude, value); }
 
+        private bool filterOnlyPoints;
+        public bool FilterPointsOnly { get => filterOnlyPoints; set => SetValue(ref filterOnlyPoints, value); }
+
         private ObservableCollection<FilterValueModel> filterValues;
         public ObservableCollection<FilterValueModel> FilterValues { get => filterValues; set => SetNotifyCollection(ref filterValues, value); }
 

@@ -38,7 +38,7 @@ using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
-    public class ModelCollectionViewModel<TViewModel, TModel> : ObservableViewModelCollection<TViewModel, TModel>, IMenuItemViewModel, INotifyPropertyChanged where TViewModel : ContainerModelBase<TModel>, new() where TModel : class, INotifyPropertyChanged
+    public class ModelCollectionViewModel<TViewModel, TModel> : ObservableViewModelCollection<TViewModel, TModel>, IMenuItemViewModel, INotifyPropertyChanged where TViewModel : ContainerModelBase<TModel>, new() where TModel : class, INotifyPropertyChanged, new()
     {
         private string text;
         public string Text { get => text; set => SetValue(ref text, value); }
