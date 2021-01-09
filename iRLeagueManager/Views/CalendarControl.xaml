@@ -95,7 +95,7 @@ SOFTWARE.-->
                                 <Grid DockPanel.Dock="Left">
                                     <!--<TextBlock Text="Track Preview" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
                                     <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#252525"/>-->
-                                    <Image Source="{Binding Location.MapImageSrc}" Width="450" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                                    <Image Source="{Binding Location.MapImage}" Width="450" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
                                 </Grid>
 
                                 <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
