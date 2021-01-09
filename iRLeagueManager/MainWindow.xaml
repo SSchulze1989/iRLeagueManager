@@ -186,10 +186,10 @@ SOFTWARE.-->
 
     <Grid x:Name="MainGrid">
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Grid DockPanel.Dock="Top" Height="50" Background="{StaticResource ThemeColor_DarkBlue}">
+            <Grid DockPanel.Dock="Top" Height="75" Background="{StaticResource ThemeColor_DarkBlue}">
                 <DockPanel>
                     <controls:IconToggleButton DockPanel.Dock="Right" VerticalAlignment="Stretch" Background="Transparent" Foreground="{StaticResource ThemeColor_Back0}"
-                                               IconMargin="5" ToolTip="Always on Top" x:Name="AlwaysOnTopToggle">
+                                               IconMargin="10,5" ToolTip="Always on Top" x:Name="AlwaysOnTopToggle">
                         <controls:IconToggleButton.IconContent>
                             <fa:ImageAwesome Icon="ThumbTack" Width="15"/>
                         </controls:IconToggleButton.IconContent>
@@ -204,6 +204,7 @@ SOFTWARE.-->
                             </Style>
                         </controls:IconToggleButton.Style>
                     </controls:IconToggleButton>
+                    <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5"/>
                     <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
@@ -404,6 +405,7 @@ SOFTWARE.-->
                 <!--<GridSplitter Grid.Column="0" Width="5"/>-->
             </Grid>
             <Grid>
+                <Image Source="{StaticResource Logo_Bright}" VerticalAlignment="Center" HorizontalAlignment="Center" MaxHeight="200" Margin="10"/>
                 <ContentControl x:Name="MainContent">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type vmodel:CalendarViewModel}">

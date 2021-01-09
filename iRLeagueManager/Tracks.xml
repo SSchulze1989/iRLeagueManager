@@ -36,7 +36,7 @@
     <TrackId>2</TrackId>
     <TrackName>Autódromo José Carlos Pace</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Grand Prix" length="4.307" turns="15" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_interlagos_t.png"/>
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.307" turns="15" type="RoadCourse" night_lighting="false" map_img_src="interlagos-gp.png"/>
       <TrackConfig config_id="2" config_name="Moto" length="4.307" turns="16" type="RoadCourse" night_lighting="false" />
     </Configs>
   </RaceTrack>
@@ -54,7 +54,7 @@
     <TrackId>4</TrackId>
     <TrackName>Autodromo Internazionale Enzo e Dino Ferrari</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Grand Prix" length="4.908" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Grand Prix" length="4.908" turns="17" type="RoadCourse" night_lighting="false" map_img_src="imola-gp.png"/>
       <TrackConfig config_id="2" config_name="Moto" length="4.941" turns="22" type="RoadCourse" night_lighting="false" />
     </Configs>
   </RaceTrack>
@@ -101,7 +101,7 @@
     <TrackId>9</TrackId>
     <TrackName>Canadian Tire Motorsports Park</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="3.957" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Mosport_t.png"/>
+      <TrackConfig config_id="1" config_name="" length="3.957" turns="10" type="RoadCourse" night_lighting="false" map_img_src="mosport.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -189,7 +189,7 @@
     <TrackId>19</TrackId>
     <TrackName>Circuit Zolder</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Alternate" length="4.01" turns="10" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Alternate" length="4.01" turns="10" type="RoadCourse" night_lighting="false" map_img_src="zolder-alternate.png"/>
       <TrackConfig config_id="2" config_name="Grand Prix" length="4.01" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Zolder_t.png"/>
     </Configs>
   </RaceTrack>
@@ -241,7 +241,7 @@
     <TrackName>Donington Park Racing Circuit</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Grand Prix" length="4.02" turns="12" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_donington_gp_t.png"/>
-      <TrackConfig config_id="2" config_name="National" length="3.149" turns="10" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_Donington_National_t.png"/>
+      <TrackConfig config_id="2" config_name="National" length="3.149" turns="10" type="RoadCourse" night_lighting="false" map_img_src="donington-national.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -399,7 +399,7 @@
     <TrackId>44</TrackId>
     <TrackName>Long Beach Street Circuit</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="3.167" turns="11" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="" length="3.167" turns="11" type="RoadCourse" night_lighting="false" map_img_src="longbeach-gp.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -446,7 +446,7 @@
     <TrackId>50</TrackId>
     <TrackName>Mount Panorama Circuit</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="6.437" turns="23" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_bathurst_t.png"/>
+      <TrackConfig config_id="1" config_name="" length="6.437" turns="23" type="RoadCourse" night_lighting="false" map_img_src="bathurst.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -540,7 +540,7 @@
     <Configs>
       <TrackConfig config_id="1" config_name="Fosters" length="2.672" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="2" config_name="Fosters w/Hislop" length="2.672" turns="12" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="3" config_name="International" length="4.332" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="3" config_name="International" length="4.332" turns="17" type="RoadCourse" night_lighting="false" map_img_src="oultonpark-int.png"/>
       <TrackConfig config_id="4" config_name="Intl w/no Chicanes" length="4.184" turns="12" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="5" config_name="Intl w/out Brittens" length="4.332" turns="14" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="6" config_name="Intl w/out Hislop" length="4.332" turns="15" type="RoadCourse" night_lighting="false" />
@@ -657,7 +657,7 @@
     <TrackName>Sonoma Raceway</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="Cup" length="3.203" turns="10" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="2" config_name="IRL" length="3.573" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="IRL" length="3.573" turns="12" type="RoadCourse" night_lighting="false" map_img_src="sonoma-irl.png"/>
       <TrackConfig config_id="3" config_name="IRL 2007" length="3.573" turns="12" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="4" config_name="Long" length="4.072" turns="12" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="5" config_name="Rallycross" length="1.497" turns="6" type="Rallycross" night_lighting="false" />
@@ -700,7 +700,7 @@
     <TrackName>Suzuka International Racing Course</TrackName>
     <Configs>
       <TrackConfig config_id="1" config_name="East" length="2.243" turns="9" type="RoadCourse" night_lighting="false" />
-      <TrackConfig config_id="2" config_name="Grand Prix" length="5.808" turns="17" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="2" config_name="Grand Prix" length="5.808" turns="17" type="RoadCourse" night_lighting="false" map_img_src="suzuka-gp.png" />
       <TrackConfig config_id="3" config_name="Moto" length="5.821" turns="17" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="4" config_name="West" length="3.467" turns="10" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="5" config_name="West w/chicane" length="3.467" turns="10" type="RoadCourse" night_lighting="false" />
@@ -736,7 +736,7 @@
     <TrackId>82</TrackId>
     <TrackName>The Dirt Track at Charlotte</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="" length="0.644" turns="4" type="DirtOval" night_lighting="true" />
+      <TrackConfig config_id="1" config_name="" length="0.644" turns="4" type="DirtOval" night_lighting="true" map_img_src="charlotte-roval.png"/>
     </Configs>
   </RaceTrack>
   <RaceTrack>
@@ -808,7 +808,7 @@
     <TrackId>90</TrackId>
     <TrackName>Watkins Glen International</TrackName>
     <Configs>
-      <TrackConfig config_id="1" config_name="Boot" length="5.472" turns="12" type="RoadCourse" night_lighting="false" />
+      <TrackConfig config_id="1" config_name="Boot" length="5.472" turns="12" type="RoadCourse" night_lighting="false" map_img_src="watkinsglen-boot.png"/>
       <TrackConfig config_id="2" config_name="Classic" length="3.943" turns="7" type="RoadCourse" night_lighting="false" map_img_src="Trackmap_watkinsglen_classic_t.png"/>
       <TrackConfig config_id="3" config_name="Classic Boot" length="5.472" turns="11" type="RoadCourse" night_lighting="false" />
       <TrackConfig config_id="4" config_name="Cup" length="3.943" turns="8" type="RoadCourse" night_lighting="false" />
