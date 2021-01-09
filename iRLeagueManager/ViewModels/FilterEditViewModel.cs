@@ -76,7 +76,7 @@ namespace iRLeagueManager.ViewModels
             FilterOptionsSource = new ObservableCollection<ResultsFilterOptionModel>(filters);
 
             AddFilterCmd = new RelayCommand(o => AddFilter(), o => Scoring != null);
-            RemoveFilterCmd = new RelayCommand(async o =>
+            RemoveFilterCmd = new RelayCommand(o =>
             {
                 if (ViewOpenActionDialog != null)
                 {

@@ -73,7 +73,7 @@ namespace iRLeagueManager.ResultsParser
 
             while (!reader.EndOfStream)
             {
-                string line = reader.ReadLine();
+                string line = await reader.ReadLineAsync();
                 currentLine++;
                 if (currentLine == HeaderLine)
                 {
