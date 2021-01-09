@@ -58,7 +58,7 @@
     <Compile Include="ResultsParserFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Communication\Communication.csproj">
+    <ProjectReference Include="..\..\iRLeagueDatabaseService\Communication\Communication.csproj">
       <Project>{0afd7545-de7f-44d0-a3b0-daf3a1e0844f}</Project>
       <Name>Communication</Name>
     </ProjectReference>

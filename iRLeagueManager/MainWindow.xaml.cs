@@ -81,7 +81,7 @@ namespace iRLeagueManager
             }
             var assembly = Assembly.GetExecutingAssembly();
             Title = "iRLeagueManager v" + assembly.GetName().Version.ToString(3);
-            Load();
+            _ = Load();
         }
 
         public async Task Load()

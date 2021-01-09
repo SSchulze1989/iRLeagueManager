@@ -46,7 +46,7 @@ namespace iRLeagueManager.ViewModels
             {
                 if (createUser.UserId != Model?.CreatedByUserId)
                 {
-                    if (createUser.UpdateSource(LeagueContext.UserManager.GetUserModel(Model?.CreatedByUserId)))
+                    if (createUser.UpdateSource(LeagueContext.UserManager.GetUserModel(Model?.CreatedByUserId) ?? Models.User.UserModel.Template))
                     {
                         OnPropertyChanged();
                     }
@@ -63,7 +63,7 @@ namespace iRLeagueManager.ViewModels
             {
                 if (lastEditUser.UserId != Model?.LastModifiedByUserId)
                 {
-                    if (lastEditUser.UpdateSource(LeagueContext.UserManager.GetUserModel(Model?.LastModifiedByUserId)))
+                    if (lastEditUser.UpdateSource(LeagueContext.UserManager.GetUserModel(Model?.LastModifiedByUserId) ?? Models.User.UserModel.Template))
                     {
                         OnPropertyChanged();
                     }

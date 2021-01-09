@@ -51,9 +51,9 @@ namespace iRLeagueManager.Views
             
         }
 
-        public async Task<bool> OnSubmitAsync()
+        public Task<bool> OnSubmitAsync()
         {
-            return true;
+            return Task.FromResult(true);
         }
     }
 }

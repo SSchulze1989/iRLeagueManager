@@ -99,9 +99,10 @@ namespace iRLeagueManager.ViewModels
             base.OnPropertyChanged(propertyName);
         }
 
-        public override async Task Refresh()
+        public override Task Refresh()
         {
             MemberList.Refresh();
+            return Task.CompletedTask;
         }
     }
 }

@@ -85,14 +85,14 @@ namespace iRLeagueManager.Views
             .All(IsValid);
         }
 
-        public async Task<bool> OnSubmitAsync()
+        public Task<bool> OnSubmitAsync()
         {
             if (DataContext is TeamViewModel teamViewModel)
             {
                 if (teamViewModel.TeamColor == null || teamViewModel.TeamColor == "")
                     teamViewModel.TeamColor = "#666666";
             }
-            return true;
+            return Task.FromResult(true);
         }
 
         private void MoveLeftButton_Click(object sender, RoutedEventArgs e)

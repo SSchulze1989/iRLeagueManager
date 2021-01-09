@@ -148,7 +148,7 @@ namespace iRLeagueManager.ViewModels.Collections
                             {
                                 foreach (TModel item in _collectionSource)
                                 {
-                                    Items.SingleOrDefault(x => comparer.Equals(x.GetSource(), item))?.UpdateSource(item);
+                                    Items.SingleOrDefault(x => comparer.Equals(x.GetSource(), item))?.UpdateSource(item ?? new TModel());
                                 }
                             }
                         }
