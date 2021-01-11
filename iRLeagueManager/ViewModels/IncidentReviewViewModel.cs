@@ -361,6 +361,7 @@ namespace iRLeagueManager.ViewModels
         public override void OnUpdateSource()
         {
             base.OnUpdateSource();
+            OnPropertyChanged(nameof(AcceptedVotes));
             CalculateVotes();
         }
 
