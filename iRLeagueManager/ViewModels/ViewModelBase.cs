@@ -73,6 +73,7 @@ namespace iRLeagueManager.ViewModels
         public virtual async Task Refresh()
 #pragma warning restore CS1998 // Bei der asynchronen Methode fehlen "await"-Operatoren. Die Methode wird synchron ausgeführt.
         {
+            OnPropertyChanged(null);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] String propertyName = "")
