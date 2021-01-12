@@ -231,13 +231,6 @@ namespace iRLeagueManager.ViewModels.Collections
                                     var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
                                     if (findTrgItem == null)
                                     {
-                                        //if (_constructUsing == null)
-                                        //    trgItem = new TViewModel();
-                                        //else
-                                        //    trgItem = _constructUsing.Invoke(srcItem);
-
-                                        //trgItem.UpdateSource(srcItem);
-                                        //_constructorAction?.Invoke(trgItem);
                                         trgItem = ConstructViewModel(srcItem);
                                         if (i < TargetCollection.Count())
                                         {
@@ -285,35 +278,6 @@ namespace iRLeagueManager.ViewModels.Collections
             }
 
             CollectionView.Refresh();
-
-            //IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
-            //IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
-            //IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
-
-            //foreach (TModel item in notInCollection)
-            //{
-            //    item.Dispose();
-            //    TargetCollection.Remove(item);
-            //}
-
-            //foreach (TSource item in notInItems)
-            //{
-            //    TModel newItem;
-            //    if (item is TModel)
-            //    {
-            //        newItem = item as TModel;
-            //    }
-            //    else
-            //    {
-            //        newItem = new TModel();
-            //        newItem.UpdateSource(item);
-            //        _constructorAction?.Invoke(newItem);
-            //    }
-            //    TargetCollection.Add(newItem);
-            //    //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            //}
-
-            //Sort();
         }
 
         private TViewModel ConstructViewModel(TModel srcItem)
