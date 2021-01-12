@@ -35,6 +35,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Interfaces;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Models.User;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.Models.Reviews
 {
@@ -84,13 +85,13 @@ namespace iRLeagueManager.Models.Reviews
 
         public override void CopyFrom(ModelBase sourceObject, params string[] excludeProperties)
         {
-            base.CopyFrom(sourceObject, excludeProperties);
+            base.CopyFrom(sourceObject, excludeProperties.Concat(new string[] { nameof(CommentReviewVotes) }).ToArray());
 
             if (sourceObject is ReviewCommentModel commentModel)
             {
                 InitReset();
 
-                CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(commentModel.CommentReviewVotes.Select(x =>
+                CommentReviewVotes.MapCollection(commentModel.CommentReviewVotes.Select(x =>
                 {
                     var vote = new ReviewVoteModel();
                     vote.CopyFrom(x);
@@ -106,12 +107,12 @@ namespace iRLeagueManager.Models.Reviews
 
         public override void CopyTo(ModelBase targetObject, params string[] excludeProperties)
         {
-            base.CopyTo(targetObject, excludeProperties);
+            base.CopyTo(targetObject, excludeProperties.Concat(new string[] { nameof(CommentReviewVotes) }).ToArray());
 
             if (targetObject is ReviewCommentModel commentModel)
             {
                 commentModel.InitReset();
-                commentModel.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(CommentReviewVotes.Select(x =>
+                commentModel.CommentReviewVotes.MapCollection(CommentReviewVotes.Select(x =>
                 {
                     var vote = new ReviewVoteModel();
                     vote.CopyFrom(x);

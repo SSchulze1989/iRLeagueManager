@@ -52,7 +52,10 @@ namespace iRLeagueManager.ViewModels
 
         public ScoredTeamResultViewModel()
         {
-            teamResults = new ObservableViewModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel>();
+            teamResults = new ObservableViewModelCollection<ScoredTeamResultRowViewModel, ScoredTeamResultRowModel>()
+            {
+                PreserveViewModels = false
+            };
         }
 
         public bool UpdateSource(ScoredTeamResultModel source)
