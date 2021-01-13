@@ -94,7 +94,7 @@ namespace iRLeagueManager.ViewModels
                 SessionFilter = x => x.ResultAvailable
             };
             currentReviews = new ObservableViewModelCollection<IncidentReviewViewModel, IncidentReviewModel>(x => 
-                x.Session = SessionSelect?.SessionList.SingleOrDefault(y => y.SessionId == x.Model.Session.SessionId));
+                x.SessionId = (SessionSelect?.SessionList.SingleOrDefault(y => y.SessionId == x.Model.SessionId).SessionId).GetValueOrDefault());
             AddReviewCmd = new RelayCommand(async o => await AddReviewAsync(), o => SessionSelect?.SelectedSession != null);
             RemoveReviewCmd = new RelayCommand(async o => await RemoveReviewAsync(o as IncidentReviewModel), o => SelectedReview != null || o is IncidentReviewModel);
             ReviewNavBar = new ReviewNavBarViewModel() { ReviewsPageViewModel = this };

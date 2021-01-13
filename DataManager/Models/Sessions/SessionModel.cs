@@ -42,7 +42,7 @@ namespace iRLeagueManager.Models.Sessions
     /// Base type for league sessions.
     /// </summary>
     [Serializable()]
-    public class SessionModel : SessionInfo, IHierarchicalModel, ISession //IRaceSession
+    public class SessionModel : SessionInfo, ISession //IRaceSession
     {
         //private ScheduleModel schedule;
         //public ScheduleModel Schedule { get => schedule; internal set => SetValue(ref schedule, value); }
@@ -73,84 +73,6 @@ namespace iRLeagueManager.Models.Sessions
         /// </summary>
         [XmlIgnore]
         public TimeSpan Duration { get => duration; set => SetValue(ref duration, value); }
-
-        //string IHierarchicalModel.Description => Date.ToShortDateString() + " - " + Location?.ShortName;
-
-        IEnumerable<object> IHierarchicalModel.Children => (SessionResult != null) ? new object[] { SessionResult } : new object[0];
-
-        //private int raceId;
-        ///// <summary>
-        ///// Unique race id for the league
-        ///// </summary>
-        //public int RaceId { get => raceId; set { raceId, value); }
-
-        //private int laps;
-        ///// <summary>
-        ///// Number of laps for the race. Set to 0 for time based races.
-        ///// </summary>
-        //public int Laps { get => laps; set { laps, value); }
-
-        ///// <summary>
-        ///// Xml data of TimeSpan element
-        ///// </summary>
-        //private TimeSpan practiceLength;
-        ///// <summary>
-        ///// Length of the free practice. Set to 0:00:00 for no practice or warmup.
-        ///// </summary>
-        //public TimeSpan PracticeLength { get => practiceLength; set { practiceLength, value); }
-
-        ///// <summary>
-        ///// Xml data of TimeSpan element
-        ///// </summary>
-        //private TimeSpan qualyLength;
-        ///// <summary>
-        ///// Length of the attached qualifying. Set to 0:00:00 for no attached qualy.
-        ///// </summary>
-        //public TimeSpan QualyLength { get => qualyLength; set { qualyLength, value); }
-
-        ///// <summary>
-        ///// Xml data of TimeSpan element
-        ///// </summary>
-        //private TimeSpan raceLength;
-        ///// <summary>
-        ///// Length of the race. If length is not time limited - set to 0:00:00
-        ///// </summary>
-        //public TimeSpan RaceLength { get => raceLength; set { raceLength, value); }
-
-        //private string irSessionId;
-        ///// <summary>
-        ///// Session id from iracing.com service
-        ///// </summary>
-        //public string IrSessionId { get => irSessionId; set { irSessionId, value); }
-
-        //private string irResultLink;
-        ///// <summary>
-        ///// Link to the iracing.com results page.
-        ///// </summary>
-        //public string IrResultLink { get => irResultLink; set { irResultLink, value); }
-
-        //private bool qualyAttached;
-        ///// <summary>
-        ///// Check if session has attached qualifying
-        ///// </summary>
-        //public bool QualyAttached { get => qualyAttached; set { qualyAttached, value); }
-
-        //private bool practiceAttached;
-        ///// <summary>
-        ///// Check if session has attached free-practice or warmup
-        ///// </summary>
-        //public bool PracticeAttached { get => practiceAttached; set { practiceAttached, value); }
-
-
-        //public XmlTimeSpan Duration { get; set; }
-
-        /// <summary>
-        /// Create a new Session object
-        /// </summary>
-        //public SessionBase()
-        //{
-        //    SessionType = SessionType.Undefined;
-        //}
 
         public SessionModel() : this(0, SessionType.Undefined)
         {
