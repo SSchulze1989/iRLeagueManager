@@ -91,6 +91,7 @@ namespace iRLeagueManager.Views
                 if (content.DataContext is TeamViewModel editVM)
                 {
                     editVM.Model.CopyFrom(teamVM.Model);
+                    await editVM.Refresh();
 
                     editWindow.ModalContent = content;
                     if (editWindow.ShowDialog() == true)

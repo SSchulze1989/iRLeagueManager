@@ -73,7 +73,10 @@ namespace iRLeagueManager.ViewModels
             Model = Template;
             Session = new SessionViewModel();
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(), o => (Session != null && Scoring != null));
-            finalResults = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
+            finalResults = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>()
+            {
+                PreserveViewModels = false
+            };
         }
 
         //public async Task Load()
