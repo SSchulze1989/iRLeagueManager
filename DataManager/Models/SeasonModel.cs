@@ -38,7 +38,7 @@ using iRLeagueManager.Models.Statistics;
 
 namespace iRLeagueManager.Models
 {
-    public class SeasonModel : SeasonInfo, IHierarchicalModel //, ISeason
+    public class SeasonModel : SeasonInfo //, ISeason
     {        
         private ObservableCollection<ScheduleInfo> schedules;
         public ObservableCollection<ScheduleInfo> Schedules
@@ -72,8 +72,6 @@ namespace iRLeagueManager.Models
         //private ObservableCollection<ResultInfo> results;
         //public ObservableCollection<ResultInfo> Results { get => results; internal set => SetNotifyCollection(ref results, value); }
 
-        string IHierarchicalModel.Description => SeasonName;
-
         private DateTime seasonStart;
         public DateTime SeasonStart { get => seasonStart; internal set => SetValue(ref seasonStart, value); }
 
@@ -89,12 +87,6 @@ namespace iRLeagueManager.Models
         private bool hideCommentsBeforeVoted;
         public bool HideCommentsBeforeVoted { get => hideCommentsBeforeVoted; set => SetValue(ref hideCommentsBeforeVoted, value); }
 
-        IEnumerable<object> IHierarchicalModel.Children => new List<IEnumerable<object>> { Schedules.Cast<object>() };
-
-        public IEnumerable<ResultModel> GetResults()
-        {
-            return null;
-        }
         // client.Results.Where(x => Sessions.Select(y => y.SessionId).Contains(x.SessionId));
 
         //public IEnumerable<ISession> Sessions => Schedules.Select(x => x.Sessions.AsEnumerable()).Aggregate((x, y) => x.Concat(y));
@@ -119,41 +111,6 @@ namespace iRLeagueManager.Models
             SeasonId = seasonId;
         }
 
-        //public IEnumerable<SessionInfo> GetSessions()
-        //{
-        //    return Schedules.Select(x => x.Sessions.AsEnumerable()).Aggregate((x, y) => x.Concat(y));
-        //}
-
-        //public int GetSessionCount()
-        //{
-        //    return GetSessions().Count();
-        //}
-
-        //public SessionInfo GetLastSession()
-        //{
-        //    return GetSessions().OrderBy(x => x.Date).Last();
-        //}
-
-        //internal override void InitReset()
-        //{
-        //    foreach (var schedule in Schedules)
-        //    {
-        //        schedule.Season = this;
-        //        schedule.InitReset();
-        //    }
-
-        //    foreach (var result in Results)
-        //    {
-        //        result.InitReset();
-        //    }
-
-        //    foreach (var review in Reviews)
-        //    {
-        //        review.InitReset();
-        //    }
-        //    base.InitReset();
-        //}
-
         internal override void InitializeModel()
         {
             if (!isInitialized)
@@ -170,26 +127,8 @@ namespace iRLeagueManager.Models
                 }
                 foreach (var scoringTable in ScoringTables)
                 {
-                    //for (int i = 0; i < scoringTable.Scorings.Count(); i++)
-                    //{
-                    //    var scoring = Scorings.SingleOrDefault(x => x.ScoringId == scoringTable.Scorings.ElementAt(i).Key.ScoringId);
-                    //    if (scoring != null)
-                    //    {
-                    //        scoringTable.Scorings.ElementAt(i).Key = scoring;
-                    //    }
-                    //}
                     scoringTable.InitializeModel();
                 }
-
-                //foreach (var result in Results)
-                //{
-                //    result.InitializeModel();
-                //}
-
-                //foreach (var review in Reviews)
-                //{
-                //    review.InitializeModel();
-                //}
             }
             base.InitializeModel();
         }

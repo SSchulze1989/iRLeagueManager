@@ -367,13 +367,13 @@ namespace iRLeagueManager.ViewModels
 
         public async Task LoadMemberListAsync()
         {
-            if (Model?.Session == null)
+            if (Model == null)
                 return;
 
             try
             {
                 IsLoading = true;
-                var result = await LeagueContext.GetModelAsync<ResultModel>(Model.Session.SessionId.GetValueOrDefault());
+                var result = await LeagueContext.GetModelAsync<ResultModel>(Model.SessionId);
                 var members = result.RawResults.Select(x => x.Member);
                 MemberList.SetCollectionViewSource(members);
             }

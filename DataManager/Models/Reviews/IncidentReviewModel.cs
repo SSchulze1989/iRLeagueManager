@@ -50,8 +50,10 @@ namespace iRLeagueManager.Models.Reviews
         //public ScheduleModel Schedule => Session?.Schedule;
         //public SeasonModel Season => Schedule?.Season;
 
-        private SessionInfo session;
-        public SessionInfo Session { get => session; internal set { SetValue(ref session, value); } }
+        //private SessionInfo session;
+        //public SessionInfo Session { get => session; internal set { SetValue(ref session, value); } }
+        private long sessionId;
+        public long SessionId { get => sessionId; internal set => SetValue(ref sessionId, value); }
 
         private string incidentNr;
         public string IncidentNr { get => incidentNr; set => SetValue(ref incidentNr, value); }
@@ -103,7 +105,7 @@ namespace iRLeagueManager.Models.Reviews
             Comments = new ObservableCollection<ReviewCommentModel>();
             AcceptedReviewVotes = new ObservableCollection<ReviewVoteModel>();
 
-            Session = session;
+            SessionId = session.SessionId.GetValueOrDefault();
         }
 
         //public IncidentReviewModel(ResultModel result) : this ()
