@@ -121,9 +121,9 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
-        //private SessionViewModel session;
-        //public SessionViewModel Session { get => session; set => SetValue(ref session, value); }
-        public long SessionId => SessionId;
+        private SessionViewModel session;
+        public SessionViewModel Session { get => session; set => SetValue(ref session, value); }
+        //public long SessionId => SessionId;
 
         private MemberListViewModel memberList;
         public MemberListViewModel MemberList { get => memberList; set => SetValue(ref memberList, value); }
