@@ -123,6 +123,7 @@ namespace iRLeagueManager.ViewModels
 
         private SessionViewModel session;
         public SessionViewModel Session { get => session; set => SetValue(ref session, value); }
+        //public long SessionId => SessionId;
 
         private MemberListViewModel memberList;
         public MemberListViewModel MemberList { get => memberList; set => SetValue(ref memberList, value); }
@@ -367,13 +368,13 @@ namespace iRLeagueManager.ViewModels
 
         public async Task LoadMemberListAsync()
         {
-            if (Model?.Session == null)
+            if (Model == null)
                 return;
 
             try
             {
                 IsLoading = true;
-                var result = await LeagueContext.GetModelAsync<ResultModel>(Model.Session.SessionId.GetValueOrDefault());
+                var result = await LeagueContext.GetModelAsync<ResultModel>(Model.SessionId);
                 var members = result.RawResults.Select(x => x.Member);
                 MemberList.SetCollectionViewSource(members);
             }

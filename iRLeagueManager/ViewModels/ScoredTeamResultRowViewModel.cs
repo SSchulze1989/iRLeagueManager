@@ -56,7 +56,10 @@ namespace iRLeagueManager.ViewModels
 
         public ScoredTeamResultRowViewModel()
         {
-            scoredResultRows = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>();
+            scoredResultRows = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>()
+            {
+                PreserveViewModels = false
+            };
             ScoredResultRows.SortDescriptions.Add(new SortDescription(nameof(FinalPosition), ListSortDirection.Ascending));
         }
 

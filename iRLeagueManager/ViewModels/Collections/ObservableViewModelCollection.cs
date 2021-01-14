@@ -36,6 +36,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Data;
 using System.Globalization;
 using System.Collections;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.ViewModels.Collections
 {
@@ -75,6 +76,9 @@ namespace iRLeagueManager.ViewModels.Collections
         public Type ModelType => typeof(TViewModel);
 
         private ContainerModelEqualityComparer<TModel> comparer = new ContainerModelEqualityComparer<TModel>();
+
+        public bool PreserveViewModels { get; set; } = true;
+        public bool AllowDuplicates { get; set; } = false;
 
         public ObservableViewModelCollection(bool updateItemSources = true) : base(new ObservableCollection<TViewModel>())
         {
@@ -148,7 +152,9 @@ namespace iRLeagueManager.ViewModels.Collections
                             {
                                 foreach (TModel item in _collectionSource)
                                 {
-                                    Items.SingleOrDefault(x => comparer.Equals(x.GetSource(), item))?.UpdateSource(item ?? new TModel());
+                                    Items
+                                        .Where(x => comparer.Equals(x.GetSource(), item))
+                                        .ForEach(x => x.UpdateSource(item ?? new TModel()));
                                 }
                             }
                         }
@@ -163,7 +169,7 @@ namespace iRLeagueManager.ViewModels.Collections
             catch (Exception e)
             {
                 GlobalSettings.LogError(e);
-                throw e;
+                throw;
             }
         }
 
@@ -193,86 +199,98 @@ namespace iRLeagueManager.ViewModels.Collections
         {
             if (disposedValue)
                 return;
+
+            if (PreserveViewModels && AllowDuplicates)
+            {
+                throw new InvalidOperationException($"{nameof(PreserveViewModels)} and {nameof(AllowDuplicates)} cannot both be set true at the same time");
+            }
+
             lock (_collectionSource)
             lock (TargetCollection)
             {
-                try
-                {
-                    for (int i = 0; i < CollectionSource.Count(); i++)
+                    IEnumerable<TModel> localSource;
+                    if (AllowDuplicates == false)
                     {
-                        var srcItem = CollectionSource.ElementAt(i) ?? new TModel();
-                        var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
-
-                        if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)
+                        localSource = _collectionSource.Distinct(comparer);
+                    }
+                    else
+                    {
+                        localSource = _collectionSource;
+                    }
+                    try
+                    {
+                        if (PreserveViewModels)
                         {
-                            var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
-                            if (findTrgItem == null)
+                            for (int i = 0; i < localSource.Count(); i++)
                             {
-                                if (_constructUsing == null)
-                                    trgItem = new TViewModel();
-                                else
-                                    trgItem = _constructUsing.Invoke(srcItem);
+                                var srcItem = localSource.ElementAt(i) ?? new TModel();
+                                var trgItem = (i < TargetCollection.Count()) ? TargetCollection.ElementAt(i) : null;
 
-                                trgItem.UpdateSource(srcItem);
-                                _constructorAction?.Invoke(trgItem);
-                                TargetCollection.Insert(i, trgItem);
+                                if (trgItem == null || comparer.Equals(srcItem, trgItem.GetSource()) == false)
+                                {
+                                    var findTrgItem = TargetCollection.Select((item, index) => new { item, index }).SingleOrDefault(x => comparer.Equals(srcItem, x.item.GetSource()));
+                                    if (findTrgItem == null)
+                                    {
+                                        trgItem = ConstructViewModel(srcItem);
+                                        if (i < TargetCollection.Count())
+                                        {
+                                            TargetCollection.Insert(i, trgItem);
+                                        }
+                                        else
+                                        {
+                                            TargetCollection.Add(trgItem);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        trgItem = findTrgItem.item;
+                                        TargetCollection.Move(findTrgItem.index, i);
+                                    }
+                                }
+
+                                if (srcItem != trgItem.GetSource())
+                                {
+                                    trgItem.UpdateSource(srcItem);
+                                }
                             }
-                            else
+
+                            var removeTrgItem = TargetCollection.Skip(_collectionSource.Count());
+                            foreach (var item in removeTrgItem.ToList())
                             {
-                                trgItem = findTrgItem.item;
-                                TargetCollection.Move(findTrgItem.index, i);
+                                TargetCollection.Remove(item);
                             }
                         }
-
-                        if (srcItem != trgItem.GetSource())
+                        else
                         {
-                            trgItem.UpdateSource(srcItem);
+                            TargetCollection.Clear();
+                            foreach (var srcItem in localSource)
+                            {
+                                var trgItem = ConstructViewModel(srcItem);
+                                TargetCollection.Add(trgItem);
+                            }
                         }
                     }
-
-                    var removeTrgItem = TargetCollection.Skip(CollectionSource.Count());
-                    foreach (var item in removeTrgItem.ToList())
+                    catch (Exception e)
                     {
-                        TargetCollection.Remove(item);
+                        GlobalSettings.LogError(e);
+                        throw;
                     }
-                }
-                catch (Exception e)
-                {
-                    GlobalSettings.LogError(e);
-                    throw e;
-                }
             }
 
-            CollectionView.Refresh();
+            CollectionView?.Refresh();
+        }
 
-            //IEnumerable<TSource> except = Items.Select(x => x.GetSource()).Except(_collectionSource, comparer);
-            //IEnumerable<TModel> notInCollection = Items.Where(m => except.Contains(m.GetSource())).ToList();
-            //IEnumerable<TSource> notInItems = _collectionSource.Except(Items.Select(x => x.GetSource()), comparer).Where(x => x != null).ToList();
+        private TViewModel ConstructViewModel(TModel srcItem)
+        {
+            TViewModel trgItem;
+            if (_constructUsing == null)
+                trgItem = new TViewModel();
+            else
+                trgItem = _constructUsing.Invoke(srcItem);
 
-            //foreach (TModel item in notInCollection)
-            //{
-            //    item.Dispose();
-            //    TargetCollection.Remove(item);
-            //}
-
-            //foreach (TSource item in notInItems)
-            //{
-            //    TModel newItem;
-            //    if (item is TModel)
-            //    {
-            //        newItem = item as TModel;
-            //    }
-            //    else
-            //    {
-            //        newItem = new TModel();
-            //        newItem.UpdateSource(item);
-            //        _constructorAction?.Invoke(newItem);
-            //    }
-            //    TargetCollection.Add(newItem);
-            //    //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            //}
-
-            //Sort();
+            trgItem.UpdateSource(srcItem);
+            _constructorAction?.Invoke(trgItem);
+            return trgItem;
         }
 
         public void Sort()

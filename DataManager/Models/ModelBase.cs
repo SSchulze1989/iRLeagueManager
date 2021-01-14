@@ -29,6 +29,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
 using System.Collections;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.Models
 {
@@ -61,7 +62,30 @@ namespace iRLeagueManager.Models
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
 
-                property.SetValue(targetObject, property.GetValue(this));
+                if (property.PropertyType.IsGenericType &&
+                    property.PropertyType.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
+                {
+                    var interfaceType = property.PropertyType.GetInterfaces().SingleOrDefault(x => x == typeof(ICollection<>));
+                    // If target type implements ICollection use target collection instead of overwriting property
+                    dynamic targetCollection = property.GetValue(targetObject);
+                    IEnumerable sourceCollection = property.GetValue(this) as IEnumerable;
+                    if (targetCollection == null || sourceCollection == null)
+                    {
+                        property.SetValue(targetObject, sourceCollection);
+                    }
+                    else
+                    {
+                        targetCollection.Clear();
+                        foreach(var item in sourceCollection)
+                        {
+                            targetCollection.Add(item);
+                        }
+                    }
+                }
+                else
+                { 
+                    property.SetValue(targetObject, property.GetValue(this)); 
+                }
             }
 
             if (isInitialized)
@@ -85,7 +109,30 @@ namespace iRLeagueManager.Models
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
 
-                property.SetValue(this, property.GetValue(sourceObject));
+                if (property.PropertyType.IsGenericType &&
+                    property.PropertyType.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
+                {
+                    var interfaceType = property.PropertyType.GetInterfaces().SingleOrDefault(x => x == typeof(ICollection<>));
+                    // If target type implements ICollection use target collection instead of overwriting property
+                    dynamic targetCollection = property.GetValue(this);
+                    IEnumerable sourceCollection = property.GetValue(sourceObject) as IEnumerable;
+                    if (targetCollection == null || sourceCollection == null)
+                    {
+                        property.SetValue(this, sourceCollection);
+                    }
+                    else
+                    {
+                        targetCollection.Clear();
+                        foreach (dynamic item in sourceCollection)
+                        {
+                            targetCollection.Add(item);
+                        }
+                    }
+                }
+                else
+                {
+                    property.SetValue(this, property.GetValue(sourceObject));
+                }
             }
 
             if (sourceObject.isInitialized)

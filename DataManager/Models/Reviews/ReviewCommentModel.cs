@@ -35,6 +35,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Interfaces;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Models.User;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.Models.Reviews
 {
@@ -47,8 +48,10 @@ namespace iRLeagueManager.Models.Reviews
         //public ScheduleModel Schedule => Review?.Schedule;
 
         //public override SeasonModel Season => Schedule?.Season;
-        private IncidentReviewInfo review;
-        public IncidentReviewInfo Review { get => review; internal set => SetValue(ref review, value); }
+        //private IncidentReviewInfo review;
+        //public IncidentReviewInfo Review { get => review; internal set => SetValue(ref review, value); }
+        private long? reviewId;
+        public long? ReviewId { get => reviewId; internal set => SetValue(ref reviewId, value); }
 
         private ObservableCollection<ReviewVoteModel> commentReviewVotes;
         public ObservableCollection<ReviewVoteModel> CommentReviewVotes { get => commentReviewVotes; set => SetNotifyCollection(ref commentReviewVotes, value); }
@@ -70,7 +73,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public ReviewCommentModel(UserModel author, IncidentReviewInfo review) : this(author) 
         {
-            Review = review;
+            ReviewId = review.ReviewId;
         }
 
         internal override void InitializeModel()
@@ -84,13 +87,13 @@ namespace iRLeagueManager.Models.Reviews
 
         public override void CopyFrom(ModelBase sourceObject, params string[] excludeProperties)
         {
-            base.CopyFrom(sourceObject, excludeProperties);
+            base.CopyFrom(sourceObject, excludeProperties.Concat(new string[] { nameof(CommentReviewVotes) }).ToArray());
 
             if (sourceObject is ReviewCommentModel commentModel)
             {
                 InitReset();
 
-                CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(commentModel.CommentReviewVotes.Select(x =>
+                CommentReviewVotes.MapCollection(commentModel.CommentReviewVotes.Select(x =>
                 {
                     var vote = new ReviewVoteModel();
                     vote.CopyFrom(x);
@@ -106,12 +109,12 @@ namespace iRLeagueManager.Models.Reviews
 
         public override void CopyTo(ModelBase targetObject, params string[] excludeProperties)
         {
-            base.CopyTo(targetObject, excludeProperties);
+            base.CopyTo(targetObject, excludeProperties.Concat(new string[] { nameof(CommentReviewVotes) }).ToArray());
 
             if (targetObject is ReviewCommentModel commentModel)
             {
                 commentModel.InitReset();
-                commentModel.CommentReviewVotes = new ObservableCollection<ReviewVoteModel>(CommentReviewVotes.Select(x =>
+                commentModel.CommentReviewVotes.MapCollection(CommentReviewVotes.Select(x =>
                 {
                     var vote = new ReviewVoteModel();
                     vote.CopyFrom(x);
