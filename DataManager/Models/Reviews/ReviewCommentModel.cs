@@ -48,8 +48,10 @@ namespace iRLeagueManager.Models.Reviews
         //public ScheduleModel Schedule => Review?.Schedule;
 
         //public override SeasonModel Season => Schedule?.Season;
-        private IncidentReviewInfo review;
-        public IncidentReviewInfo Review { get => review; internal set => SetValue(ref review, value); }
+        //private IncidentReviewInfo review;
+        //public IncidentReviewInfo Review { get => review; internal set => SetValue(ref review, value); }
+        private long? reviewId;
+        public long? ReviewId { get => reviewId; internal set => SetValue(ref reviewId, value); }
 
         private ObservableCollection<ReviewVoteModel> commentReviewVotes;
         public ObservableCollection<ReviewVoteModel> CommentReviewVotes { get => commentReviewVotes; set => SetNotifyCollection(ref commentReviewVotes, value); }
@@ -71,7 +73,7 @@ namespace iRLeagueManager.Models.Reviews
 
         public ReviewCommentModel(UserModel author, IncidentReviewInfo review) : this(author) 
         {
-            Review = review;
+            ReviewId = review.ReviewId;
         }
 
         internal override void InitializeModel()

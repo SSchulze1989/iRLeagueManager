@@ -277,7 +277,7 @@ namespace iRLeagueManager.ViewModels.Collections
                     }
             }
 
-            CollectionView.Refresh();
+            CollectionView?.Refresh();
         }
 
         private TViewModel ConstructViewModel(TModel srcItem)
