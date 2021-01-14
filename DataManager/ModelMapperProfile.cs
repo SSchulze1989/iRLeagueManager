@@ -423,7 +423,7 @@ namespace iRLeagueManager
                     }
 
                     var mapper = context.Mapper;
-                    var destMultiScorings = src.ScoringIds.Select((x, i) => new MyKeyValuePair<ScoringInfo, double>(mapper.Map<ScoringInfo>(modelCache.PutOrGetModel(new ScoringInfo(x))), factors.ElementAt(i)));
+                    var destMultiScorings = src.Scorings.Select((x, i) => new MyKeyValuePair<ScoringInfo, double>(mapper.Map<ScoringModel>(x), factors.ElementAt(i)));
                     return new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>(destMultiScorings);
                 }))
                 .ForMember(dest => dest.Scorings, opt => opt.UseDestinationValue())
