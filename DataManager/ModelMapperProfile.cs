@@ -64,7 +64,6 @@ namespace iRLeagueManager
     {
         public List<LeagueMember> MemberList => LeagueContext.MemberList.ToList();
         public LeagueContext LeagueContext { get; internal set; }
-        //private SeasonModel CurrentSeason { get; set; }
         private static IEnumerable<ScheduleModel> CurrentSchedules { get; set; }
         private static IEnumerable<SessionModel> CurrentSessions { get; set; }
 
@@ -235,15 +234,7 @@ namespace iRLeagueManager
                     }
                 })
                 .ReverseMap();
-            //CreateMap<ScheduleInfoDTO, ScheduleModel>()
-            //    .EqualityComparison((src, dest) => src.ScheduleId == dest.ScheduleId)
-            //    .ConstructUsing(source => new ScheduleModel(source.ScheduleId))
-            //    .AfterMap((src, dest) =>
-            //    {
-            //        dest.InitReset();
-            //    })
-            //    .ReverseMap()
-            //    .As<ScheduleDataDTO>();
+
             CreateMap<ScheduleInfoDTO, ScheduleInfo>()
                 .EqualityComparison((src, dest) => src.ScheduleId == dest.ScheduleId)
                 .ReverseMap()
@@ -277,9 +268,6 @@ namespace iRLeagueManager
                         CurrentSessions = new SessionModel[0];
                     }
                 })
-                //.ForMember(dest => dest.Season, opt => opt.Ignore())
-                //.ForMember(dest => dest.Schedule, opt => opt.Ignore())
-                //.ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.LocationId))
                 .EqualityComparison((src, dest) => src.SessionId == dest.SessionId)
                 .ForMember(dest => dest.Reviews, opt => opt.UseDestinationValue())
                 .ConstructUsing(source => modelCache.PutOrGetModel(new RaceSessionModel(source.SessionId, source.RaceId)))
@@ -296,13 +284,6 @@ namespace iRLeagueManager
             CreateMap<RaceSessionModel, RaceSessionDataDTO>();
                 //.ForMember(dest => dest.LocationId, opt => opt.MapFrom(source => source.Location));
             CreateMap<SessionInfoDTO, SessionInfo>()
-                //.BeforeMap((src, dest) =>
-                //{
-                //    if (CurrentSessions == null)
-                //    {
-                //        CurrentSessions = new SessionInfo[0];
-                //    }
-                //})
                 .ConstructUsing(source => new SessionInfo(source.SessionId, source.SessionType))
                 .ReverseMap();
 
@@ -528,13 +509,6 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.MemberAtFaultId, opt => opt.MapFrom(src => src.MemberAtFault != null ? src.MemberAtFault.MemberId : null))
                 .ForMember(dest => dest.VoteCategoryId, opt => opt.MapFrom(src => src.VoteCategory != null ? src.VoteCategory.CatId : (long?)null));
 
-            //.ForMember(dest => dest.AdminId, opt => opt.MapFrom(src => (src.Admin != null) ? (int?)src.Admin.AdminId : null))
-            //.ForMember(dest => dest.IsOwner, opt => opt.MapFrom(src => (src.Admin != null) ? (bool?)src.Admin.IsOwner : null))
-            //.ForMember(dest => dest.LeagueName, opt => opt.MapFrom(src => (src.Admin != null) ? src.Admin.LeagueName : null))
-            //.ForMember(dest => dest.Rights, opt => opt.MapFrom(src => (src.Admin != null) ? src.Admin.Rights : 0));
-
-            //CreateMap<UserDTO, AdminModel>()
-            //    .ConstructUsing(src => (LeagueContext.CurrentUser.Admin.AdminId == src.AdminId) ? LeagueContext.CurrentUser.Admin : new AdminModel((src.AdminId == null) ? 0 : (int)src.AdminId));
             CreateMap<TimeSpan, LapTime>()
                 .ConvertUsing<LapTimeConverter>();
             CreateMap<TimeSpan, LapInterval>()
@@ -664,101 +638,6 @@ namespace iRLeagueManager
             return memberId != null ? modelCache.PutOrGetModel(new LeagueMember(memberId)) : null;
         }
     }
-
-    public static class MappingExpressions
-    {
-        public static IMappingExpression<TSource, TDestination> MapOnlyIfChanged<TSource, TDestination>(this IMappingExpression<TSource, TDestination> map)
-        {
-            map.ForAllMembers(source =>
-            {
-                source.Condition((sourceObject, destObject, sourceProperty, destProperty) =>
-                {
-                    if (sourceProperty == null)
-                        return !(destProperty == null);
-                    return !sourceProperty.Equals(destProperty);
-                });
-            });
-            return map;
-        }
-
-        //public static IMappingExpression<TSource, TDest> GetModelsFromCollection<TSource, TDest>(this IMappingExpression<TSource, TDest> map, IEnumerable<TDest> sourceCollection, System.Linq.Expressions.Expression<Func<TSource, TDest, bool>> comparer, System.Linq.Expressions.Expression<Func<TDest>> constructor)
-        //{
-        //    map.ConstructUsing((source) =>
-        //    {
-        //        var dest = sourceCollection.SingleOrDefault(x => comparer.Com)
-        //        return dest;
-        //    });
-        //    return map;
-        //}
-
-        private static TDest ConditionalConstructor<TSource, TDest>(TSource source, IEnumerable<TDest> sourceCollection, Func<TSource, TDest, bool> comparer, Func<TDest> constructor)
-        {
-            TDest dest = sourceCollection.SingleOrDefault(x => comparer.Invoke(source, x));
-            if (dest != null)
-                return dest;
-            return constructor.Invoke();
-        }
-
-        //public static IMappingExpression<TSource, TDest> UpdateModelValues<TSource, TDest>(this IMappingExpression<TSource, TDest> map)
-        //{
-        //    map.ForAllMembers(cfg =>
-        //    {
-        //        cfg.MapFrom((src, dest, srcMember, context) => 
-        //        {
-        //            var mapper = context.Mapper;
-
-        //            if (dest is SeasonModel season && src is SeasonInfoDTO seasonData)
-        //            {
-        //                if (seasonData.SeasonId == season.SeasonId)
-        //                {
-        //                    mapper.Map(src, dest);
-        //                    return dest;
-        //                }
-        //                else
-        //                    return mapper.Map<TDest>(src);
-        //            }
-        //            else if (dest is ScheduleModel schedule && src is ScheduleInfoDTO scheduleData)
-        //            {
-        //                if (scheduleData.ScheduleId == schedule.ScheduleId)
-        //                {
-        //                    mapper.Map(src, dest);
-        //                    return dest;
-        //                }
-        //                else
-        //                    return mapper.Map<TDest>(src);
-        //            }
-        //            else if (dest is SessionModel session && src is SessionInfoDTO sessionData)
-        //            {
-        //                if (sessionData.SessionId == session.SessionId)
-        //                {
-        //                    mapper.Map(src, dest);
-        //                    return dest;
-        //                }
-        //                else
-        //                    return mapper.Map<TDest>(src);
-        //            }
-        //            else
-        //            {
-        //                return mapper.Map<TDest>(src);
-        //            }
-        //        });
-        //    });
-        //    return map;
-        //}
-    }
-
-    //public class SessionTypeConverter : IValueConverter<LeagueDBServiceRef.SessionType, Enums.SessionType>, IValueConverter<Enums.SessionType, LeagueDBServiceRef.SessionType>
-    //{
-    //    Enums.SessionType IValueConverter<LeagueDBServiceRef.SessionType, Enums.SessionType>.Convert(LeagueDBServiceRef.SessionType sourceMember, ResolutionContext context)
-    //    {
-    //        return (Enums.SessionType)sourceMember;
-    //    }
-
-    //    LeagueDBServiceRef.SessionType IValueConverter<Enums.SessionType, LeagueDBServiceRef.SessionType>.Convert(Enums.SessionType sourceMember, ResolutionContext context)
-    //    {
-    //        return (LeagueDBServiceRef.SessionType)sourceMember;
-    //    }
-    //}
 
     public class LapTimeConverter : ITypeConverter<TimeSpan, LapTime>, ITypeConverter<LapTime, TimeSpan>
     {
