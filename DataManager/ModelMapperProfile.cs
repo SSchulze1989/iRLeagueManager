@@ -483,6 +483,8 @@ namespace iRLeagueManager
                 {
                     return modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId });
                 }))
+                .ForMember(dest => dest.DriverStandingsRows, opt => opt.MapFrom(src => src.DriverStandingsRows.OrderBy(x => -x.TotalPoints).ThenBy(x => -x.PenaltyPoints)))
+                .ForMember(dest => dest.DriverStandingsRows, opt => opt.UseDestinationValue())
                 .EqualityComparison((src, dest) => src.TeamId == dest.Team.TeamId);
 
             CreateMap<AddPenaltyDTO, AddPenaltyModel>()

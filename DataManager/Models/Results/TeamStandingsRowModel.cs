@@ -38,7 +38,12 @@ namespace iRLeagueManager.Models.Results
         private TeamModel team;
         public TeamModel Team { get => team; set => SetValue(ref team, value); }
 
-        private IEnumerable<StandingsRowModel> driverStandingsRows;
-        public IEnumerable<StandingsRowModel> DriverStandingsRows { get => driverStandingsRows.OrderBy(x => -x.TotalPoints); set => SetValue(ref driverStandingsRows, value); }
+        private ObservableCollection<StandingsRowModel> driverStandingsRows;
+        public ObservableCollection<StandingsRowModel> DriverStandingsRows { get => driverStandingsRows; set => SetValue(ref driverStandingsRows, value); }
+
+        public TeamStandingsRowModel()
+        {
+            DriverStandingsRows = new ObservableCollection<StandingsRowModel>();
+        }
     }
 }
