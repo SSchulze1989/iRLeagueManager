@@ -94,8 +94,9 @@ SOFTWARE.-->
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <Grid DataContext="{Binding DriverStatistic}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <DataGrid ItemsSource="{Binding DriverStatisticRows}">
+                    <Grid DataContext="{Binding DriverStatistic}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <DataGrid ItemsSource="{Binding DriverStatisticRows}" AutoGenerateColumns="False">
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}"/>
                             </DataGrid.CellStyle>
@@ -105,6 +106,41 @@ SOFTWARE.-->
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}"/>
                             </DataGrid.ColumnHeaderStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Driver" Binding="{Binding LeagueMember.FullName}"/>
+                                <DataGridTextColumn Header="Team" Binding="{Binding LeagueMember.Team.Name}"/>
+                                <DataGridTextColumn Header="IRating" Binding="{Binding EndIRating}"/>
+                                <DataGridTextColumn Header="SR" Binding="{Binding EndSRating}"/>
+                                <DataGridTextColumn Header="First Race" Binding="{Binding FirstRaceDate}"/>
+                                <DataGridTextColumn Header="Last Race" Binding="{Binding LastRaceDate}"/>
+                                <DataGridTextColumn Header="Last Pos." Binding="{Binding LastRaceFinalPosition}"/>
+                                <DataGridTextColumn Header="Avg. Pos" Binding="{Binding AvgFinalPosition, StringFormat={} {0:0.00}}"/>
+                                <DataGridTextColumn Header="Poles" Binding="{Binding Poles}"/>
+                                <DataGridTextColumn Header="Races" Binding="{Binding Races}"/>
+                                <DataGridTextColumn Header="Finished" Binding="{Binding RacesCompleted}"/>
+                                <DataGridTextColumn Header="Finished Pct." Binding="{Binding RacesCompletedPct, StringFormat={} {0:0.00}}"/>
+                                <DataGridTextColumn Header="Titles" Binding="{Binding Titles}"/>
+                                <DataGridTextColumn Header="Driven km" Binding="{Binding DrivenKm, StringFormat={} {0:0.0}}"/>
+                                <DataGridTextColumn Header="Leading km" Binding="{Binding LeadingKm}"/>
+                                <DataGridTextColumn Header="Incs" Binding="{Binding Incidents}"/>
+                                <DataGridTextColumn Header="Race Pts." Binding="{Binding RacePoints}"/>
+                                <DataGridTextColumn Header="Bonus Pts." Binding="{Binding BonusPoints}"/>
+                                <DataGridTextColumn Header="Total Pts." Binding="{Binding TotalPoints}"/>
+                                <DataGridTextColumn Header="Penalty Pts." Binding="{Binding PenaltyPoints}"/>
+                                <DataGridTextColumn Header="Pts. per Race" Binding="{Binding AvgPointsPerRace, StringFormat={} {0:0.00}}"/>
+                                <DataGridTextColumn Header="Best Qualy" Binding="{Binding BestStartPosition}"/>
+                                <DataGridTextColumn Header="Best Race" Binding="{Binding BestFinalPosition}"/>
+                                <DataGridTextColumn Header="Wins" Binding="{Binding Wins}"/>
+                                <DataGridTextColumn Header="Top3" Binding="{Binding Top3}"/>
+                                <DataGridTextColumn Header="Top5" Binding="{Binding Top5}"/>
+                                <DataGridTextColumn Header="Top10" Binding="{Binding Top10}"/>
+                                <DataGridTextColumn Header="Top15" Binding="{Binding Top15}"/>
+                                <DataGridTextColumn Header="Top20" Binding="{Binding Top20}"/>
+                                <DataGridTextColumn Header="CleanestDriver" Binding="{Binding CleanestDriverAwards}"/>
+                                <DataGridTextColumn Header="HardCharger" Binding="{Binding HardChargerAwards}"/>
+                                <DataGridTextColumn Header="FastestLaps" Binding="{Binding FastestLaps}"/>
+                                <DataGridTextColumn Header="Season Pos." Binding="{Binding CurrentSeasonPosition}"/>
+                            </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
                 </DataTemplate>

@@ -73,6 +73,8 @@ namespace iRLeagueManager.ViewModels
 
         public bool HideCommentsBeforeVoted { get => Model.HideCommentsBeforeVoted; set => Model.HideCommentsBeforeVoted = value; }
 
+        public bool Finished { get => Model.Finished; set => Model.Finished = value; }
+
         public SeasonViewModel() : base()
         {
             SeasonModel.GetTemplate();

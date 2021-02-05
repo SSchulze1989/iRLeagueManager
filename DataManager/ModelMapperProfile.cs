@@ -310,11 +310,13 @@ namespace iRLeagueManager
             CreateMap<ResultRowDataDTO, ResultRowModel>()
                 .ConstructUsing(source => modelCache.PutOrGetModel(new ResultRowModel(source.ResultRowId)))
                 .ForMember(dest => dest.Member, opt => opt.MapFrom(src => GetLeagueMember(src.MemberId, modelCache)))
+                .ForMember(dest => dest.Team, opt => opt.MapFrom(src => src.TeamId != null ? modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId.GetValueOrDefault() }) : null))
                 .ForMember(dest => dest.Location, opt => opt.MapFrom((src, trg) => LeagueContext.Locations.FirstOrDefault(x => x.LocationId == src.LocationId)))
                 .EqualityComparison((src, dest) => src.ResultRowId == dest.ResultRowId)
                 .ReverseMap()
                 .ForMember(dest => dest.MemberId, opt => opt.MapFrom(src => src.Member.MemberId))
-                .ForMember(dest => dest.LocationId, opt => opt.MapFrom(src => src.Location != null ? src.Location.LocationId : null));
+                .ForMember(dest => dest.LocationId, opt => opt.MapFrom(src => src.Location != null ? src.Location.LocationId : null))
+                .ForMember(dest => dest.TeamId, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamId : (long?)null));
 
             CreateMap<ScoringDataDTO, ScoringModel>()
                 .ConstructUsing(source => modelCache.PutOrGetModel(new ScoringModel(source.ScoringId)))
@@ -435,12 +437,18 @@ namespace iRLeagueManager
                 .ConstructUsing(source => modelCache.PutOrGetModel(new ScoredResultModel() { Scoring = new ScoringInfo(source.ScoringId), ResultId = source.ResultId }))
                 .EqualityComparison((src, dest) => src.SessionId == dest.Session.SessionId && src.ScoringId == dest.Scoring.ScoringId)
                 .ForMember(dest => dest.Scoring, opt => opt.MapFrom(src => new ScoringInfo(src.ScoringId)))
+                .ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.FinalResults.OrderBy(x => x.FinalPosition)))
                 .ForMember(dest => dest.FinalResults, opt => opt.UseDestinationValue())
+                .ForMember(dest => dest.HardChargers, opt => opt.MapFrom(src => src.HardChargerMemberIds.Select(x => GetLeagueMember(x, modelCache))))
+                .ForMember(dest => dest.CleanestDrivers, opt => opt.MapFrom(src => src.CleanesDriverMemberIds.Select(x => GetLeagueMember(x, modelCache))))
+                .ForMember(dest => dest.HardChargers, opt => opt.UseDestinationValue())
+                .ForMember(dest => dest.CleanestDrivers, opt => opt.UseDestinationValue())
                 .Include<ScoredTeamResultDataDTO, ScoredTeamResultModel>();
 
             CreateMap<ScoredTeamResultDataDTO, ScoredTeamResultModel>()
                 .ConstructUsing(source => modelCache.PutOrGetModel(new ScoredTeamResultModel() { Scoring = new ScoringInfo(source.ScoringId), ResultId = source.ResultId }))
                 .EqualityComparison((src, dest) => src.SessionId == dest.Session.SessionId && src.ScoringId == dest.Scoring.ScoringId)
+                .ForMember(dest => dest.FinalResults, opt => opt.MapFrom(src => src.FinalResults.OrderBy(x => x.FinalPosition)))
                 .ForMember(dest => dest.FinalResults, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.TeamResults, opt => opt.MapFrom((src, trg) => src.TeamResults.OrderBy(x => x.FinalPosition)))
                 .ForMember(dest => dest.TeamResults, opt => opt.UseDestinationValue())
@@ -452,7 +460,7 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.ScoredResultRows, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.Team, opt => opt.MapFrom((src, dst) =>
                 {
-                    return modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId });
+                    return modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId.GetValueOrDefault() });
                 }));
 
             CreateMap<StandingsDataDTO, StandingsModel>()
@@ -470,6 +478,7 @@ namespace iRLeagueManager
                 .ConstructUsing(source => new StandingsRowModel())
                 .ForMember(dest => dest.Member, opt => opt.MapFrom(src => GetLeagueMember(src.MemberId, modelCache)))
                 .ForMember(dest => dest.CountedResults, opt => opt.MapFrom(src => src.CountedResults.OrderBy(x => x.Date)))
+                .ForMember(dest => dest.Team, opt => opt.MapFrom(src => src.TeamId != null ? modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId.Value}) : null))
                 .EqualityComparison((src, dest) => src.MemberId == dest.Member.MemberId)
                 .Include<TeamStandingsRowDataDTO, TeamStandingsRowModel>();
 

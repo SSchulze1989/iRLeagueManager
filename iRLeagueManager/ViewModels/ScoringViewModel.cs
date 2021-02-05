@@ -62,6 +62,9 @@ namespace iRLeagueManager.ViewModels
         public ScoringInfo ExtScoringSource { get => Model.ExtScoringSource; set => Model.ExtScoringSource = value; }
         public bool TakeResultsFromExtSource { get => Model.TakeResultsFromExtSource; set => Model.TakeResultsFromExtSource = value; }
         public ObservableCollection<long> ResultsFilterOptionIds => Model.ResultsFilterOptionIds;
+        public bool UseResultSetTeam { get => Model.UseResultSetTeam; set => Model.UseResultSetTeam = value; }
+        public bool UpdateTeamOnRecalculation { get => Model.UpdateTeamOnRecalculation; set => Model.UpdateTeamOnRecalculation = value; }
+
 
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList

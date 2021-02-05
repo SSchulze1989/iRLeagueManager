@@ -31,6 +31,7 @@ using iRLeagueManager.Models;
 using iRLeagueManager.Data;
 using iRLeagueManager;
 using System.Windows;
+using System.CodeDom;
 
 namespace iRLeagueManager.ViewModels
 {

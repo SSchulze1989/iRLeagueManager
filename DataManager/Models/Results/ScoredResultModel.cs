@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using iRLeagueManager.Attributes;
+using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -46,12 +47,20 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<ScoredResultRowModel> finalResults;
         public ObservableCollection<ScoredResultRowModel> FinalResults { get => finalResults; set => SetNotifyCollection(ref finalResults, value); }
 
+        private ObservableCollection<LeagueMember> hardChargers;
+        public ObservableCollection<LeagueMember> HardChargers { get => hardChargers; set => SetNotifyCollection(ref hardChargers, value); }
+
+        private ObservableCollection<LeagueMember> cleanestDrivers;
+        public ObservableCollection<LeagueMember> CleanestDrivers { get => cleanestDrivers; set => SetNotifyCollection(ref cleanestDrivers, value); }
+
         public override long[] ModelId => new long[] { ResultId.GetValueOrDefault(), ScoringId.GetValueOrDefault() };
         //public override long[] ModelId => new long[] { ScoredResultId.GetValueOrDefault() };
 
         public  ScoredResultModel() : base()
         {
             FinalResults = new ObservableCollection<ScoredResultRowModel>();
+            CleanestDrivers = new ObservableCollection<LeagueMember>();
+            HardChargers = new ObservableCollection<LeagueMember>();
         }
 
         public static ScoredResultModel GetTemplate()

@@ -75,6 +75,7 @@ SOFTWARE.-->
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Season Id:" Margin="5"/>
@@ -83,6 +84,9 @@ SOFTWARE.-->
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Season Name:" Margin="5"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SeasonName}" Margin="5"/>
 
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Finished:" Margin="5"/>
+                            <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Finished}" Margin="5"
+                                      VerticalAlignment="Center"/>
                         </Grid>
                     </controls:HeaderedBorder>
                 </TabItem>
@@ -91,7 +95,6 @@ SOFTWARE.-->
                         <TextBlock Text="Results" FontSize="{StaticResource Global.FontSizeLarge}" FontWeight="Bold" Margin="4,8"/>
                     </TabItem.Header>
                     <DockPanel Grid.Row="1" Margin="0" VerticalAlignment="Stretch">
-                        <!--<TextBlock Text="Scorings" FontSize="18" FontWeight="Bold" Margin="5" DockPanel.Dock="Top"/>-->
                         <controls:HeaderedBorder DockPanel.Dock="Left" BorderBrush="DarkGray" BorderThickness="1" Margin="10" Padding="5"
                                                  Header="Scorings">
                             <Grid>
@@ -186,7 +189,7 @@ SOFTWARE.-->
                                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Member or Team Scoring:" Margin="5"/>
                                         <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
 
-                                        <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding TakeResultsFromExtSource}" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding TakeResultsFromExtSource}" Margin="5" VerticalAlignment="Center"/>
                                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Take Results from other Scoring" Margin="5" TextWrapping="WrapWithOverflow"/>
 
                                         <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="10,0,0,0">
@@ -211,6 +214,12 @@ SOFTWARE.-->
                                                 </Style>
                                             </Grid.Style>
                                         </Grid>
+
+                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Get Teams from raw Result" Margin="5" TextWrapping="WrapWithOverflow"/>
+                                        <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding UseResultSetTeam}" VerticalAlignment="Center" Margin="5"/>
+
+                                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Update Teams on recalculation" Margin="5" TextWrapping="WrapWithOverflow"/>
+                                        <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding UpdateTeamOnRecalculation}" VerticalAlignment="Center" Margin="5"/>
                                     </Grid>
                                 </controls:HeaderedBorder>
                                 <controls:HeaderedBorder Margin="5,10" Header="Results Calculation">
