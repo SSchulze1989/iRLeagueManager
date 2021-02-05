@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using iRLeagueManager.Exceptions;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -73,7 +74,8 @@ namespace iRLeagueManager.ViewModels
         {
             if (source == null)
             {
-                throw new ArgumentNullException(nameof(source));
+                //throw new ArgumentNullException(nameof(source));
+                throw new ModelSourceNullException(typeof(TSource), this.GetType(), _source);
             }
 
             bool hasChanged;

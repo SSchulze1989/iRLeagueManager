@@ -91,6 +91,13 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<long> resultsFilterOptionIds;
         public ObservableCollection<long> ResultsFilterOptionIds { get => resultsFilterOptionIds; set => SetValue(ref resultsFilterOptionIds, value); }
 
+        private bool useResultSetTeam;
+        public bool UseResultSetTeam { get => useResultSetTeam; set => SetValue(ref useResultSetTeam, value); }
+
+        private bool updateTeamOnRecalculation;
+        public bool UpdateTeamOnRecalculation { get => updateTeamOnRecalculation; set => SetValue(ref updateTeamOnRecalculation, value); }
+
+
         private ScheduleInfo connectedschedule;
         public ScheduleInfo ConnectedSchedule
         {

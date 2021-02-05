@@ -34,6 +34,8 @@ using System.Windows.Input;
 using iRLeagueManager.Data;
 
 using iRLeagueManager.ViewModels.Collections;
+using System.ComponentModel;
+using iRLeagueManager.Models.Members;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -55,14 +57,26 @@ namespace iRLeagueManager.ViewModels
 
         public string ScoringName => Model?.ScoringName;
 
+        public ObservableCollection<LeagueMember> HardChargers => Model.HardChargers;
+        public ObservableCollection<LeagueMember> CleanestDrivers => Model.CleanestDrivers;
+
         private readonly ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> finalResults;
-        public ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
+        //public ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
+        //{
+        //    get
+        //    {
+        //        if (finalResults.GetSource() != Model?.FinalResults)
+        //            finalResults.UpdateSource(Model?.FinalResults);
+        //        return finalResults;
+        //    }
+        //}
+        public ICollectionView FinalResults
         {
             get
             {
                 if (finalResults.GetSource() != Model?.FinalResults)
                     finalResults.UpdateSource(Model?.FinalResults);
-                return finalResults;
+                return finalResults.CollectionView;
             }
         }
 
@@ -73,10 +87,12 @@ namespace iRLeagueManager.ViewModels
             Model = Template;
             Session = new SessionViewModel();
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(), o => (Session != null && Scoring != null));
-            finalResults = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>()
+            finalResults = new ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel>(x => x.Result = this)
             {
                 PreserveViewModels = false
             };
+            finalResults.CollectionView.SortDescriptions.Add(
+                new SortDescription(nameof(ScoredResultRowViewModel.FinalPosition), ListSortDirection.Ascending));
         }
 
         //public async Task Load()
@@ -114,6 +130,15 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = false;
             }
             await base.Load(modelId);
+        }
+
+        public override Task Refresh()
+        {
+            if (FinalResults.CanSort)
+            {
+                FinalResults.Refresh();
+            }
+            return base.Refresh();
         }
 
         public async void CalculateResults()

@@ -281,7 +281,7 @@ SOFTWARE.-->
                                                         MaxWidth="300" MinWidth="100">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Member.Team.Name}" Foreground="{Binding Member.Team.TeamColor}" 
+                                                        <TextBlock Text="{Binding Team.Name}" Foreground="{Binding Team.TeamColor}" 
                                                        FontWeight="DemiBold" VerticalAlignment="Center" Margin="5,0"/>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>

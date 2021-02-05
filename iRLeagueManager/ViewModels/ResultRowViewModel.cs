@@ -68,6 +68,7 @@ namespace iRLeagueManager.ViewModels
         public LapTime AvgLapTime { get => Source.AvgLapTime; set => Source.AvgLapTime = value; }
         public LapTime FastestLapTime { get => Source.FastestLapTime; set => Source.FastestLapTime = value; }
         public int PositionChange { get => Source.PositionChange; }
+        public TeamModel Team { get => Model.Team; set => Model.Team = value; }
 
         public int OldIRating => Model.OldIRating;
         public int NewIRating => Model.NewIRating;
