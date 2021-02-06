@@ -64,7 +64,10 @@ namespace iRLeagueManager.Models.Results
         public LeagueMember Member { get => member; set { member = value; OnPropertyChanged(); OnPropertyChanged(nameof(MemberId)); } }
         ILeagueMember IResultRow.Member => Member;
 
-        public string TeamName => Member?.Team?.Name;
+        private TeamModel team;
+        public TeamModel Team { get => team; set => SetValue(ref team, value); }
+
+        public string TeamName => Team?.Name;
 
         public long? MemberId { get => Member?.MemberId; }
 

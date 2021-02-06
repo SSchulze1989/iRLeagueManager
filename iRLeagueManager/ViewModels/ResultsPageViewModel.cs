@@ -42,23 +42,6 @@ namespace iRLeagueManager.ViewModels
 {
     public class ResultsPageViewModel : ViewModelBase, ISeasonPageViewModel
     {
-        //private ScheduleVMCollection scheduleList;
-        //public ScheduleVMCollection ScheduleList
-        //{
-        //    get => scheduleList;
-        //    protected set
-        //    {
-        //        if (SetValue(ref scheduleList, value, (t, v) => t.GetSource().Equals(v.GetSource())))
-        //        {
-        //            OnPropertyChanged(null);
-        //        }
-        //    }
-        //}
-
-        //private LeagueContext LeagueContext => GlobalSettings.LeagueContext;
-
-        //private ObservableCollection<ScheduleInfo> scheduleList;
-        //public ObservableCollection<ScheduleInfo> ScheduleList { get => scheduleList; set => SetValue(ref scheduleList, value); }
         private SeasonModel season;
 
         private ScheduleVMCollection scheduleList;
@@ -123,24 +106,12 @@ namespace iRLeagueManager.ViewModels
                 },
                 x => x.Scoring = scoringList?.SingleOrDefault(y => y.ScoringId == x.Model?.Scoring?.ScoringId));
             scoringList = new ObservableViewModelCollection<ScoringViewModel, ScoringModel>(x => x.Season = season);
-            //SessionList = new ObservableModelCollection<SessionViewModel, SessionModel>();
             SessionSelect = new SessionSelectViewModel()
             {
                 SessionFilter = x => x.ResultAvailable
             };
-            //SelectedResult = null;
+
             CalculateResultsCmd = new RelayCommand(o => CalculateResults(SelectedSession), o => SelectedSession != null && SelectedSession.ResultAvailable);
-        }
-
-        private void SetCurrentResultsView()
-        {
-            //var currentResultsViewSource = new CollectionViewSource()
-            //{
-            //    Source = currentResultsList
-            //};
-
-            //CurrentResults = currentResultsViewSource.View;
-            //CurrentResults.Filter = x => (x != null && ((x as ScoredResultModel)?.FinalResults?.Count > 0 || (x as ScoredTeamResultModel)?.TeamResults?.Count > 0));
         }
 
         public async Task Load(iRLeagueManager.Models.SeasonModel season)
@@ -153,7 +124,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                //await LeagueContext.UpdateMemberList();
+                
                 var schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ModelId));
                 var scoringsInfo = season.Scorings;
 
@@ -164,11 +135,6 @@ namespace iRLeagueManager.ViewModels
                 var scoringModels = await LeagueContext.GetModelsAsync<ScoringModel>(scoringsInfo.Select(x => x.ModelId));
                 scoringList.UpdateSource(scoringModels);
 
-                // Set session List
-                //var sessionsInfo = ScoringList.SelectMany(x => x.Sessions);
-                //var sessionModelIds = sessionsInfo.Select(x => x.ModelId);
-                //var sessionModels = await LeagueContext.GetModelsAsync<SessionModel>(sessionModelIds);
-
                 var lastSelectedSession = SelectedSession;
 
                 if (SelectedSchedule == null)
@@ -177,23 +143,11 @@ namespace iRLeagueManager.ViewModels
                     SessionSelect.SessionList = SelectedSchedule.Sessions;
 
                 // Set results List
-                //ResultList = new ObservableCollection<ResultInfo>(scoringModels.Select(x => x.Results.AsEnumerable()).Aggregate((x, y) => x.Concat(y)));
-
                 if (lastSelectedSession == null || !SessionSelect.SessionList.Contains(lastSelectedSession))
                     SelectedSession = SessionSelect.SessionList.Where(x => x.ResultAvailable).LastOrDefault();
                 else
                     await LoadResults();
 
-                //// Load current Result
-                //var scoredResultModelIds = new List<long[]>();
-                //foreach (var scoring in ScoringList)
-                //{
-                //    var modelId = new long[] { SelectedSession.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault() };
-                //    scoredResultModelIds.Add(modelId);
-                //}
-                //var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
-                //CurrentResults.UpdateSource(scoredResultModels);
-                //SelectedResult = CurrentResults.FirstOrDefault();
                 OnPropertyChanged(null);
             }
             catch (Exception e)
@@ -204,32 +158,6 @@ namespace iRLeagueManager.ViewModels
             {
                 IsLoading = false;
             }
-
-            //if (schedules.Count > 0)
-            //{
-            //    List<Task> waitTasks = new List<Task>();
-            //    var scoring = new ScoringViewModel();
-
-            //    waitTasks.Add(scoring.Load(1));
-            //    //waitTasks.ForEach(x => x.Start());
-            //    await Task.WhenAll(waitTasks);
-
-            //    //var session = schedule.Sessions.OrderBy(x => x.Date).LastOrDefault();
-            //    var sessions = scoring.Sessions.Select(async x => { var s = new SessionViewModel(); await s.Load(x.SessionId.GetValueOrDefault()); return s; });
-            //    var session = await sessions.Last();
-
-            //    ScoredResultViewModel scoredResult;
-            //    if (CurrentResults.Count == 0)
-            //    {
-            //        scoredResult = new ScoredResultViewModel();
-            //        CurrentResults.Add(scoredResult);
-            //    }
-            //    else
-            //    {
-            //        scoredResult = CurrentResults.First();
-            //    }
-            //    await scoredResult.Load(session.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault());
-            //}
         }
 
         public async Task LoadResults()
@@ -315,6 +243,10 @@ namespace iRLeagueManager.ViewModels
             LeagueContext.ModelManager.ForceExpireModels<ResultModel>();
             LeagueContext.ModelManager.ForceExpireModels<AddPenaltyModel>();
             await Load(season);
+            foreach(var result in currentResults)
+            {
+                await result.Refresh();
+            }
             await base.Refresh();
         }
 

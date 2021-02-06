@@ -87,6 +87,9 @@ namespace iRLeagueManager.Models
         private bool hideCommentsBeforeVoted;
         public bool HideCommentsBeforeVoted { get => hideCommentsBeforeVoted; set => SetValue(ref hideCommentsBeforeVoted, value); }
 
+        private bool finished;
+        public bool Finished { get => finished; set => SetValue(ref finished, value); }
+
         // client.Results.Where(x => Sessions.Select(y => y.SessionId).Contains(x.SessionId));
 
         //public IEnumerable<ISession> Sessions => Schedules.Select(x => x.Sessions.AsEnumerable()).Aggregate((x, y) => x.Concat(y));

@@ -35,6 +35,7 @@ using iRLeagueManager.Locations;
 using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -42,8 +43,8 @@ namespace iRLeagueManager.ViewModels
     {
         protected new ScoredResultRowModel Template => new ScoredResultRowModel();
 
-        private ScoredResultModel result;
-        public ScoredResultModel Result { get => result; set => SetValue(ref result, value); }
+        private ScoredResultViewModel result;
+        public ScoredResultViewModel Result { get => result; set => SetValue(ref result, value); }
 
         public ICommand AddPenaltyCmd { get; }
         public ICommand StartEditPenaltyCmd { get; }
@@ -105,6 +106,11 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        public bool CleanestDriver => Result.CleanestDrivers.Any(x => x.MemberId == Member.MemberId);
+        public bool HardCharger => Result.HardChargers.Any(x => x.MemberId == Member.MemberId);
+
+        public bool IsDroppedResult => Model.IsDroppedResult;
+
         public ScoredResultRowViewModel()
         {
             AddPenaltyCmd = new RelayCommand(async o => { await AddPenaltyToRow(Model); StartEditRowPenalty(); }, o => Model != null);
@@ -112,6 +118,28 @@ namespace iRLeagueManager.ViewModels
             EndEditPenaltyCmd = new RelayCommand(async o => await EndEditRowPenalty(), o => AddPenalty != null);
             DeletePenaltyCmd = new RelayCommand(async o => await DeleteRowPenalty(), o => AddPenalty != null);
             reviewPenalties = new ObservableViewModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel>();
+        }
+
+        public override async Task Load(params long[] modelId)
+        {
+            if (Model == null || !Model.ModelId.SequenceEqual(modelId))
+            {
+                 SetSource(Template);
+            }
+
+            try
+            {
+                IsLoading = true;
+                SetSource(await LeagueContext.GetModelAsync<ScoredResultRowModel>(modelId));
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         public override async void OnUpdateSource()

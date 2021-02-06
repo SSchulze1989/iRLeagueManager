@@ -66,6 +66,9 @@ namespace iRLeagueManager.Models.Results
 
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
 
+        private bool isDroppedResult;
+        public bool IsDroppedResult { get => isDroppedResult; set => SetValue(ref isDroppedResult, value); }
+
         public ScoredResultRowModel() : base() { }
 
         public new static ScoredResultRowModel GetTemplate()

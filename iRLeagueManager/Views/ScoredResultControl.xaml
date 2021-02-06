@@ -302,31 +302,6 @@ SOFTWARE.-->
                                                     </Style>
                                                 </DataGridTextColumn.ElementStyle>
                                             </DataGridTextColumn>
-                                            <!--<DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" 
-                                                                IsReadOnly="True" Width="45" MinWidth="45">
-                                                <DataGridTextColumn.ElementStyle>
-                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
-                                                        <Setter Property="TextAlignment" Value="Center"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding PositionChange, 
-                                                                         Converter={StaticResource CompareNumericalConverter}, ConverterParameter=0}" Value="1">
-                                                                <Setter Property="Foreground" Value="Green"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding PositionChange, 
-                                                                         Converter={StaticResource CompareNumericalConverter}, ConverterParameter=0}" Value="-1">
-                                                                <Setter Property="Foreground" Value="Red"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </DataGridTextColumn.ElementStyle>
-                                            </DataGridTextColumn>
-                                            <DataGridTextColumn Header="Start" Binding="{Binding StartPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="50" MinWidth="50">
-                                                <DataGridTextColumn.ElementStyle>
-                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
-                                                        <Setter Property="TextAlignment" Value="Center"/>
-                                                    </Style>
-                                                </DataGridTextColumn.ElementStyle>
-                                            </DataGridTextColumn>-->
                                             <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="*" MinWidth="150"
                                                                 ElementStyle="{StaticResource TextColumnElementStyle}" MaxWidth="550"/>
                                             <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="100" MinWidth="90">
@@ -513,21 +488,6 @@ SOFTWARE.-->
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <!--<DataGridTemplateColumn Width="30" MinWidth="30">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <controls:IconButton Click="DeleteRowButton_Click" Tag="{Binding}"
-                                                                             Width="28" Height="25" Margin="-5,0,0,0" Padding="2"
-                                                                             IconFill="{StaticResource ThemeColor_Back5}">
-                                                            <controls:IconButton.IconContent>
-                                                                <Viewbox>
-                                                                    <ContentControl Content="{StaticResource delete}"/>
-                                                                </Viewbox>
-                                                            </controls:IconButton.IconContent>
-                                                        </controls:IconButton>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>-->
                                         </DataGrid.Columns>
                                     </DataGrid>
                                     <DataTemplate.Triggers>
@@ -550,7 +510,8 @@ SOFTWARE.-->
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                                 <DataGridTemplateColumn Header="Team" IsReadOnly="True" Width="15*"
-                                                        MaxWidth="550" MinWidth="150" x:Name="TeamTeamNameColumn">
+                                                        MaxWidth="550" MinWidth="150" x:Name="TeamTeamNameColumn"
+                                                        SortMemberPath="Team.Name">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -582,7 +543,8 @@ SOFTWARE.-->
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="100" MinWidth="90" x:Name="TeamFastLapColumn">
+                                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="100" MinWidth="90" x:Name="TeamFastLapColumn"
+                                                    SortMemberPath="FastestLapTime">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -596,7 +558,8 @@ SOFTWARE.-->
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="100" MinWidth="90">
+                                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="100" MinWidth="90"
+                                                    SortMemberPath="AvgLapTime">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -610,7 +573,8 @@ SOFTWARE.-->
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTemplateColumn Header="Interval" IsReadOnly="True" Width="100" MinWidth="90">
+                                <DataGridTemplateColumn Header="Interval" IsReadOnly="True" Width="100" MinWidth="90"
+                                                        SortMemberPath="Interval">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="---" HorizontalAlignment="Center"/>
@@ -627,7 +591,8 @@ SOFTWARE.-->
                                         <TextBlock Text="Race Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding BonusPoints, StringFormat={}{0:+#;-#;-}}" IsReadOnly="True" Width="90" MinWidth="58">
+                                <DataGridTextColumn Binding="{Binding BonusPoints, StringFormat={}{0:+#;-#;-}}" IsReadOnly="True" Width="90" MinWidth="58"
+                                                    SortMemberPath="BonusPoints">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -638,7 +603,7 @@ SOFTWARE.-->
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Binding="{Binding PenaltyPoints, StringFormat={}{0:-#;+#;-}}" IsReadOnly="True" 
-                                                    Width="90" MinWidth="50">
+                                                    Width="90" MinWidth="50" SortMemberPath="PenaltyPoints">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -736,19 +701,19 @@ SOFTWARE.-->
                                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                     <!--<Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>-->
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>-->
                                 </Style>
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Pos." Binding="{Binding FinalPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="45" 
-                                                    MinWidth="45" TextElement.FontWeight="Bold">
+                                                    MinWidth="45" TextElement.FontWeight="Bold" SortMemberPath="FinalPosition" SortDirection="Ascending">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -756,7 +721,7 @@ SOFTWARE.-->
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="Chg." Binding="{Binding PositionChange, StringFormat={}{0:+#;-#;' - '}}" 
-                                                                IsReadOnly="True" Width="45" MinWidth="45">
+                                                                IsReadOnly="True" Width="45" MinWidth="45" SortMemberPath="PositionChange">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -773,16 +738,68 @@ SOFTWARE.-->
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="50" MinWidth="50">
+                                <DataGridTextColumn Header="Start" Binding="{Binding StartPosition, StringFormat={}{0}.}" IsReadOnly="True" Width="50" MinWidth="50"
+                                                    SortMemberPath="StartPosition">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Member.FullName}" IsReadOnly="True" Width="*" MinWidth="150"
-                                                    ElementStyle="{StaticResource TextColumnElementStyle}" FontWeight="Bold">
-                                    <DataGridTextColumn.CellStyle>
+                                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="*" MinWidth="150"
+                                                    SortMemberPath="Member.FullName">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <TextBlock Text="{Binding Member.FullName}" FontWeight="Bold" />
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                    <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray" Width="16" Height="16" 
+                                                            Background="LightGoldenrodYellow">
+                                                        <TextBlock Text="H" ToolTip="Hard Charger" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding HardCharger}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+                                                    <Border CornerRadius="8" BorderThickness="1" BorderBrush="DarkGray" Width="16" Height="16"
+                                                            Background="PaleGreen">
+                                                        <TextBlock Text="C" ToolTip="Cleanest Driver" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding CleanestDriver}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding CleanestDriver}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+                                                    <StackPanel.RenderTransform>
+                                                        <TranslateTransform X="4" Y="-4"/>
+                                                    </StackPanel.RenderTransform>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellStyle>
                                         <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}">
                                             <Setter Property="ToolTip">
                                                 <Setter.Value>
@@ -797,37 +814,60 @@ SOFTWARE.-->
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="Auto"/>
                                                                 <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition Height="Auto"/>
                                                             </Grid.RowDefinitions>
                                                             <TextBlock Text="iRacing id: " Grid.Row="0" Grid.Column="0"/>
                                                             <TextBlock Text="{Binding Member.IRacingId, FallbackValue=''}" Grid.Row="0" Grid.Column="1"/>
 
                                                             <TextBlock Text="iRating Start: " Grid.Row="1" Grid.Column="0"/>
                                                             <TextBlock Text="{Binding OldIRating, FallbackValue=0}" Grid.Row="1" Grid.Column="1"/>
-                                                            
+
                                                             <TextBlock Text="iRating End: " Grid.Row="2" Grid.Column="0"/>
                                                             <TextBlock Text="{Binding NewIRating, FallbackValue=0}" Grid.Row="2" Grid.Column="1"/>
 
                                                             <TextBlock Text="Safety Rating: " Grid.Row="3" Grid.Column="0"/>
                                                             <TextBlock Text="{Binding NewSafetyRating, FallbackValue=0}" Grid.Row="3" Grid.Column="1"/>
+
+                                                            <TextBlock Text="Hard Charger: " Grid.Row="4" Grid.Column="0"/>
+                                                            <TextBlock Text="{Binding HardCharger}" Grid.Row="4" Grid.Column="1"/>
+
+                                                            <TextBlock Text="Cleanest Driver: " Grid.Row="5" Grid.Column="0"/>
+                                                            <TextBlock Text="{Binding CleanestDriver}" Grid.Row="5" Grid.Column="1"/>
                                                         </Grid>
                                                     </ToolTip>
                                                 </Setter.Value>
                                             </Setter>
                                         </Style>
-                                    </DataGridTextColumn.CellStyle>
-                                </DataGridTextColumn>
+                                    </DataGridTemplateColumn.CellStyle>
+                                </DataGridTemplateColumn>
                                 <!--<DataGridTextColumn Header="Team" Binding="{Binding Member.Team.TeamColor}" IsReadOnly="True" Width="*" MinWidth="150"
                                                                 ElementStyle="{StaticResource TextColumnElementStyle}" Foreground="{Binding Member.Team.TeamColor}"/>-->
                                 <DataGridTemplateColumn Header="Team" IsReadOnly="True" Width="15*"
-                                                        MaxWidth="450" MinWidth="150">
+                                                        MaxWidth="450" MinWidth="150"
+                                                        SortMemberPath="Member.Team.Name">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Member.Team.Name}" Foreground="{Binding Member.Team.TeamColor}" 
+                                            <TextBlock Text="{Binding Team.Name}" Foreground="{Binding Team.TeamColor}" 
                                                        FontWeight="DemiBold"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="80" MinWidth="80">
+                                <DataGridTextColumn Header="Qualy Lap" IsReadOnly="True" Width="80" MinWidth="80" SortMemberPath="QualifyingTime">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+                                            <Binding Path="QualifyingTime.Minutes"/>
+                                            <Binding Path="QualifyingTime.Seconds"/>
+                                            <Binding Path="QualifyingTime.Milliseconds"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="80" MinWidth="80" SortMemberPath="FastestLapTime">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -841,7 +881,7 @@ SOFTWARE.-->
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="80" MinWidth="80">
+                                <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="80" MinWidth="80" SortMemberPath="AvgLapTime">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -856,7 +896,7 @@ SOFTWARE.-->
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" 
-                                                    Width="80" MinWidth="80">
+                                                    Width="80" MinWidth="80" SortMemberPath="Interval">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
@@ -903,7 +943,7 @@ SOFTWARE.-->
                                         <TextBlock Text="Bonus Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn IsReadOnly="True" Width="50" MinWidth="50">
+                                <DataGridTextColumn IsReadOnly="True" Width="50" MinWidth="50" SortMemberPath="PenaltyPoints">
                                     <DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0:-#;#;-} {1:[#];[#];''}">
                                             <Binding Path="PenaltyPoints"/>
@@ -975,6 +1015,14 @@ SOFTWARE.-->
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Incidents}" IsReadOnly="True" Width="50" MinWidth="50"
+                                                    Header="Incs.">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Binding="{Binding TotalPoints}" IsReadOnly="True" Width="50" MinWidth="50">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
@@ -985,13 +1033,13 @@ SOFTWARE.-->
                                         <TextBlock Text="Total Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105" Visibility="Collapsed">
+                                <DataGridTemplateColumn Header="Add Penalty" Width="105" MinWidth="105" Visibility="Visible">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
                                                 <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
                                                           DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
-                                                          Margin="0" Height="25">
+                                                          Margin="0" Height="25" IsEditable="True">
                                                     <ComboBox.Style>
                                                         <Style TargetType="ComboBox">
                                                             <Setter Property="IsReadOnly" Value="True"/>
