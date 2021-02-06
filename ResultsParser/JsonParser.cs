@@ -108,6 +108,7 @@ namespace iRLeagueManager.ResultsParser
                 if (MemberList.Any(x => x.IRacingId == (string)resultRow.cust_id))
                 {
                     row.Member = MemberList.SingleOrDefault(x => x.IRacingId == (string)resultRow.cust_id);
+                    row.Team = row.Member.Team;
                 }
                 //row.Interval = new LapInterval(
                 //    TimeSpan.TryParse("0:" + line["Interval"].Replace("-",""), culture, out TimeSpan intvTime) ? intvTime : TimeSpan.Zero,
