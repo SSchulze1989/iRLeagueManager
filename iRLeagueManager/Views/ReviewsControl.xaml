@@ -841,14 +841,35 @@ SOFTWARE.-->
                                                                                             <ItemsControl Grid.Column="0" ItemsSource="{Binding Votes}" Margin="12,0">
                                                                                                 <ItemsControl.ItemsPanel>
                                                                                                     <ItemsPanelTemplate>
-                                                                                                        <WrapPanel Orientation="Horizontal"/>
+                                                                                                        <WrapPanel Orientation="Vertical"/>
                                                                                                     </ItemsPanelTemplate>
                                                                                                 </ItemsControl.ItemsPanel>
                                                                                                 <ItemsControl.ItemTemplate>
                                                                                                     <DataTemplate>
                                                                                                         <StackPanel Orientation="Horizontal">
-                                                                                                            <TextBox x:Name="CommaTextBlock" Text=", "/>
-                                                                                                            <TextBox Text="{Binding Mode=OneWay}" Foreground="Red" FontWeight="Bold"/>
+                                                                                                            <TextBox x:Name="CommaTextBlock" Text=", " Visibility="Collapsed"/>
+                                                                                                            <TextBox Foreground="Red" FontWeight="Bold" IsReadOnly="True">
+                                                                                                                <TextBox.Style>
+                                                                                                                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                                                                                                        <Setter Property="Text">
+                                                                                                                            <Setter.Value>
+                                                                                                                                <MultiBinding StringFormat="{}{0}  -  {1}">
+                                                                                                                                    <Binding Path="" Mode="OneWay"/>
+                                                                                                                                    <Binding Path="Description"/>
+                                                                                                                                </MultiBinding>
+                                                                                                                            </Setter.Value>
+                                                                                                                        </Setter>
+                                                                                                                        <Style.Triggers>
+                                                                                                                            <DataTrigger Binding="{Binding Description}" Value="{x:Null}">
+                                                                                                                                <Setter Property="Text" Value="{Binding Mode=OneWay}"/>
+                                                                                                                            </DataTrigger>
+                                                                                                                            <DataTrigger Binding="{Binding Description}" Value="">
+                                                                                                                                <Setter Property="Text" Value="{Binding Mode=OneWay}"/>
+                                                                                                                            </DataTrigger>
+                                                                                                                        </Style.Triggers>
+                                                                                                                    </Style>
+                                                                                                                </TextBox.Style>
+                                                                                                            </TextBox>
                                                                                                         </StackPanel>
                                                                                                         <DataTemplate.Triggers>
                                                                                                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">

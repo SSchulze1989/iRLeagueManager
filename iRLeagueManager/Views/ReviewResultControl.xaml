@@ -44,7 +44,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Member" Width="*">
+                    <DataGridTemplateColumn Header="Member" MinWidth="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.InvolvedMembers}" 
@@ -52,6 +52,8 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Description" Width="*">
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
