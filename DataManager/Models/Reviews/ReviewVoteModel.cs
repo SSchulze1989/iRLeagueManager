@@ -45,6 +45,9 @@ namespace iRLeagueManager.Models.Reviews
         private VoteCategoryModel voteCategory;
         public VoteCategoryModel VoteCategory { get => voteCategory; set => SetValue(ref voteCategory, value); }
 
+        private string description;
+        public string Description { get => description; set => SetValue(ref description, value); }
+
         public ReviewVoteModel() : base()
         {
         }

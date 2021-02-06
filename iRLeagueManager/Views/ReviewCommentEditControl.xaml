@@ -72,7 +72,7 @@ SOFTWARE.-->
                 <DataGrid x:Name="VoteGrid" Grid.Column="0" Height="150" ItemsSource="{Binding Votes}" CanUserAddRows="False" AutoGenerateColumns="False" Margin="5"
                           CanUserDeleteRows="False">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Vote" MinWidth="80">
+                        <DataGridTemplateColumn Header="Vote" MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding ElementName=MainGrid, Path=DataContext.VoteCategories}" 
@@ -89,6 +89,9 @@ SOFTWARE.-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}">
+                            
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5">
