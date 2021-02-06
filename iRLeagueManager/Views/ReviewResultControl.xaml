@@ -52,7 +52,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Description" Width="*">
+                    <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>

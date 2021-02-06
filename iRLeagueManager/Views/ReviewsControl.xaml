@@ -734,6 +734,8 @@ SOFTWARE.-->
                                                                                     </TextBlock>
                                                                                     <TextBlock Text=": "/>
                                                                                     <TextBlock Text="{Binding MemberAtFault.FullName}"/>
+                                                                                    <TextBlock Text=" - "/>
+                                                                                    <TextBlock Text="{Binding Description}"/>
                                                                                 </StackPanel>
                                                                             </DataTemplate>
                                                                         </ItemsControl.ItemTemplate>
