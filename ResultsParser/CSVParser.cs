@@ -154,6 +154,7 @@ namespace iRLeagueManager.ResultsParser
                 if (MemberList.Any(x => x.IRacingId == line["CustID"]))
                 {
                     row.Member = MemberList.SingleOrDefault(x => x.IRacingId == line["CustID"]);
+                    row.Team = row.Member.Team;
                 }
                 //row.Interval = new LapInterval(
                 //    TimeSpan.TryParse("0:" + line["Interval"].Replace("-",""), culture, out TimeSpan intvTime) ? intvTime : TimeSpan.Zero,
