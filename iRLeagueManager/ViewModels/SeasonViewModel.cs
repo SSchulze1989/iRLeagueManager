@@ -35,6 +35,7 @@ using iRLeagueManager.Models.User;
 using iRLeagueManager.Data;
 using iRLeagueManager.Interfaces;
 using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -120,6 +121,13 @@ namespace iRLeagueManager.ViewModels
         }
         public async void Load(SeasonModel season)
         {
+            if (season == null)
+            {
+                Model = SeasonModel.GetTemplate();
+                return;
+            }
+
+
             if (Model == null || Model?.SeasonId != season?.SeasonId)
             {
                 IsLoading = true;
@@ -137,9 +145,13 @@ namespace iRLeagueManager.ViewModels
                     IsLoading = false;
                 }
             }
-            else
+            else if (season.SeasonId != null)
             {
                 await Load(season.SeasonId.Value);
+            }
+            else
+            {
+                Model = season;
             }
         }
     }
