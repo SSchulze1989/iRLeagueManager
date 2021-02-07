@@ -294,8 +294,25 @@ SOFTWARE.-->
                 <StackPanel x:Name="Menu" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
                     <StackPanel Orientation="Vertical" MinHeight="40">
                         <ComboBox ItemsSource="{Binding SeasonList}" SelectedItem="{Binding SelectedSeason}" 
-                                  Padding="10" HorizontalContentAlignment="Center"
-                                  DisplayMemberPath="SeasonName" />
+                                  Padding="10" HorizontalContentAlignment="Center">
+                            <ComboBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Create Season" Click="CreateSeason_Click"/>
+                                </ContextMenu>
+                            </ComboBox.ContextMenu>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SeasonName}">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Create Season" Click="CreateSeason_Click"/>
+                                                <MenuItem Header="Delete Season" Click="DeleteSeason_Click" Tag="{Binding}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <!--<StackPanel Orientation="Horizontal" DataContext="{Binding CurrentSeason}">
                             <TextBlock Text="{Binding SeasonStart, Converter={StaticResource DateTimeConverter}}" />
                             <TextBlock Text=" - " />
