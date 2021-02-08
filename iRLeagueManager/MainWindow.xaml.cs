@@ -260,5 +260,10 @@ namespace iRLeagueManager
                 _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
