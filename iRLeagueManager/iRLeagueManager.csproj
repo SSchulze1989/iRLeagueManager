@@ -223,6 +223,9 @@
     <Compile Include="Views\CommentEditControl.xaml.cs">
       <DependentUpon>CommentEditControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CreateSeasonControl.xaml.cs">
+      <DependentUpon>CreateSeasonControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditTeamControl.xaml.cs">
       <DependentUpon>EditTeamControl.xaml</DependentUpon>
     </Compile>
@@ -325,6 +328,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CommentEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateSeasonControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
