@@ -284,8 +284,13 @@ namespace iRLeagueManager
 
         private async void DeleteSeason_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is FrameworkElement element && mainViewModel != null && element.Tag is SeasonModel season)
+            if (sender is FrameworkElement element && mainViewModel != null)
             {
+                var season = element.Tag as SeasonModel;
+                if (season == null)
+                {
+                    season = mainViewModel.CurrentSeason.Model;
+                }
                 if (MessageBox.Show("Do you really want to delete this season?\n" +
                     $"  \"{season.SeasonName}\"\n" +
                     "Deleting a season will also remove all associated data such as:\n" +

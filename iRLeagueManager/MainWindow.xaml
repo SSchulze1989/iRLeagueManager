@@ -199,13 +199,13 @@ SOFTWARE.-->
                         <controls:IconButton.ContextMenu>
                             <ContextMenu Placement="Bottom">
                                 <MenuItem Header="Seasons">
-                                    <MenuItem Header="New">
+                                    <MenuItem Header="New" Click="CreateSeason_Click">
                                         <MenuItem.Icon>
                                             <fa:FontAwesome Icon="Plus" Foreground="{StaticResource ThemeColor_Green}" HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="Delete">
+                                    <MenuItem Header="Delete" Click="DeleteSeason_Click" Tag="{Binding CurrentSeason.Model}">
                                         <MenuItem.Icon>
                                             <fa:FontAwesome Icon="Remove" Foreground="{StaticResource ThemeColor_Red}" HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"/>
