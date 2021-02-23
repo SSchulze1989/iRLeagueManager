@@ -36,6 +36,7 @@ using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Reflection.Emit;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -84,6 +85,17 @@ namespace iRLeagueManager.ViewModels
         public int PenaltyPoints { get => Model.PenaltyPoints; set => Model.PenaltyPoints = value; }
         public int FinalPosition { get => Model.FinalPosition; set => Model.FinalPosition = value; }
         public int TotalPoints { get => Model.TotalPoints; }
+
+        public bool HasFastestLap => Result?.FastestLapDriver?.MemberId == Member.MemberId;
+        public bool HasPoleLap => Result?.FastestQualyLapDriver?.MemberId == Member.MemberId;
+        public bool HasFastestAvgLap => Result?.FastestAvgLapDriver?.MemberId == Member.MemberId;
+        public bool MostPositionChange => Result?.Model.FinalResults.Max(x => x.PositionChange) == PositionChange;
+        public bool MostTotalPoints => Result?.Model.FinalResults.Max(x => x.TotalPoints) == TotalPoints;
+        public bool MostLeadLaps => Result?.Model.FinalResults.Max(x => x.LeadLaps) == LeadLaps;
+        public bool MostRacePoints => Result?.Model.FinalResults.Max(x => x.RacePoints) == RacePoints;
+        public bool MostBonusPoints => Result?.Model.FinalResults.Max(x => x.BonusPoints) == BonusPoints;
+        public bool MostPenaltyPoints => Result?.Model.FinalResults.Max(x => x.PenaltyPoints) == PenaltyPoints;
+        public bool MostIncidents => Result?.Model.FinalResults.Max(x => x.Incidents) == Incidents;
 
         public Location Location => Model.Location;
 

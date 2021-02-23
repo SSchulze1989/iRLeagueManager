@@ -443,6 +443,7 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.CleanestDrivers, opt => opt.MapFrom(src => src.CleanesDriverMemberIds.Select(x => GetLeagueMember(x, modelCache))))
                 .ForMember(dest => dest.HardChargers, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.CleanestDrivers, opt => opt.UseDestinationValue())
+                .ForMember(dest => dest.FastestLapDriver, opt => opt.MapFrom(src => src.FastestLapDriverId))
                 .Include<ScoredTeamResultDataDTO, ScoredTeamResultModel>();
 
             CreateMap<ScoredTeamResultDataDTO, ScoredTeamResultModel>()
