@@ -89,6 +89,13 @@ namespace iRLeagueManager.ViewModels
         public bool HasFastestLap => Result?.FastestLapDriver?.MemberId == Member.MemberId;
         public bool HasPoleLap => Result?.FastestQualyLapDriver?.MemberId == Member.MemberId;
         public bool HasFastestAvgLap => Result?.FastestAvgLapDriver?.MemberId == Member.MemberId;
+        public bool MostPositionChange => Result?.Model.FinalResults.Max(x => x.PositionChange) == PositionChange;
+        public bool MostTotalPoints => Result?.Model.FinalResults.Max(x => x.TotalPoints) == TotalPoints;
+        public bool MostLeadLaps => Result?.Model.FinalResults.Max(x => x.LeadLaps) == LeadLaps;
+        public bool MostRacePoints => Result?.Model.FinalResults.Max(x => x.RacePoints) == RacePoints;
+        public bool MostBonusPoints => Result?.Model.FinalResults.Max(x => x.BonusPoints) == BonusPoints;
+        public bool MostPenaltyPoints => Result?.Model.FinalResults.Max(x => x.PenaltyPoints) == PenaltyPoints;
+        public bool MostIncidents => Result?.Model.FinalResults.Max(x => x.Incidents) == Incidents;
 
         public Location Location => Model.Location;
 
