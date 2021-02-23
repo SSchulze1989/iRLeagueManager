@@ -36,7 +36,7 @@ namespace iRLeagueManager
                     Interlocked.Increment(ref attachedCount);
                     // If there is a drop-down assigned to this button, then position and display it 
                     source.ContextMenu.PlacementTarget = source;
-                    source.ContextMenu.Placement = PlacementMode.Top;
+                    //source.ContextMenu.Placement = PlacementMode.Top;
                     source.ContextMenu.IsOpen = true;
                     isContextMenuOpen = true;
                 }
