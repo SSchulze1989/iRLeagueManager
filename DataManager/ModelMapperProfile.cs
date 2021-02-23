@@ -460,7 +460,7 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.ScoredResultRows, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.Team, opt => opt.MapFrom((src, dst) =>
                 {
-                    return modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId.GetValueOrDefault() });
+                    return modelCache.PutOrGetModel(new TeamModel() { TeamId = src.TeamId });
                 }));
 
             CreateMap<StandingsDataDTO, StandingsModel>()
