@@ -129,33 +129,8 @@ namespace iRLeagueManager.Models.Results
         private int positionChange;
         public int PositionChange { get => positionChange; internal set => SetValue(ref positionChange, value); }
 
-        private IEnumerable<ScoredResultRowModel> countedResults;
-        public IEnumerable<ScoredResultRowModel> CountedResults 
-        { 
-            get => countedResults;
-            set
-            {
-                if (SetValue(ref countedResults, value))
-                {
-                    OnPropertyChanged(nameof(AllResults));
-                }
-            }
-        }
-
-        private IEnumerable<ScoredResultRowModel> droppedResults;
-        public IEnumerable<ScoredResultRowModel> DroppedResults
-        {
-            get => droppedResults;
-            set
-            {
-                if (SetValue(ref droppedResults, value))
-                {
-                    OnPropertyChanged(nameof(AllResults));
-                }
-            }
-        }
-
-        public IEnumerable<ScoredResultRowModel> AllResults => countedResults.Concat(droppedResults).OrderBy(x => x.Date);
+        private IEnumerable<ScoredResultRowModel> driverResults;
+        public IEnumerable<ScoredResultRowModel> DriverResults { get => driverResults; set => SetValue(ref driverResults, value); }
 
         private TeamModel team;
         public TeamModel Team { get => team; set => SetValue(ref team, value); }
