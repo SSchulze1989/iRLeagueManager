@@ -36,6 +36,8 @@ using iRLeagueManager.Data;
 using iRLeagueManager.ViewModels.Collections;
 using System.ComponentModel;
 using iRLeagueManager.Models.Members;
+using iRLeagueManager.Timing;
+using System.Runtime.CompilerServices;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -60,6 +62,13 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<LeagueMember> HardChargers => Model.HardChargers;
         public ObservableCollection<LeagueMember> CleanestDrivers => Model.CleanestDrivers;
 
+        public LeagueMember FastestLapDriver => Model.FastestLapDriver;
+        public LapTime FastestLap => Model.RawResults.Min(x => x.FastestLapTime);
+        public LeagueMember FastestQualyLapDriver => Model.FastestQualyLapDriver;
+        public LapTime FastestQualyLap => Model.RawResults.Min(x => x.QualifyingTime);
+        public LeagueMember FastestAvgLapDriver => Model.FastestAvgLapDriver;
+        public LapTime FastestAvgLap => Model.RawResults.Min(x => x.AvgLapTime);
+
         private readonly ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> finalResults;
         //public ObservableViewModelCollection<ScoredResultRowViewModel, ScoredResultRowModel> FinalResults
         //{
@@ -81,6 +90,11 @@ namespace iRLeagueManager.ViewModels
         }
 
         public ICommand CalculateResultsCmd { get; private set; }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            base.OnPropertyChanged(propertyName);
+        }
 
         public ScoredResultViewModel() : base()
         {

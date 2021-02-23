@@ -53,6 +53,15 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<LeagueMember> cleanestDrivers;
         public ObservableCollection<LeagueMember> CleanestDrivers { get => cleanestDrivers; set => SetNotifyCollection(ref cleanestDrivers, value); }
 
+        private LeagueMember fastestLapDriver;
+        public LeagueMember FastestLapDriver { get => fastestLapDriver; set => SetValue(ref fastestLapDriver, value); }
+
+        private LeagueMember fastestQualyLapDriver;
+        public LeagueMember FastestQualyLapDriver { get => fastestQualyLapDriver; set => SetValue(ref fastestQualyLapDriver, value); }
+
+        private LeagueMember fastestAvgLapDriver;
+        public LeagueMember FastestAvgLapDriver { get => fastestAvgLapDriver; set => SetValue(ref fastestAvgLapDriver, value); }
+
         public override long[] ModelId => new long[] { ResultId.GetValueOrDefault(), ScoringId.GetValueOrDefault() };
         //public override long[] ModelId => new long[] { ScoredResultId.GetValueOrDefault() };
 

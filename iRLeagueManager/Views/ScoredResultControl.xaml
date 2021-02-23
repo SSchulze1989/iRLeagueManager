@@ -857,49 +857,106 @@ SOFTWARE.-->
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
+                                            <Setter Property="Text">
+                                                <Setter.Value>
+                                                    <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+                                                        <Binding Path="QualifyingTime.Minutes"/>
+                                                        <Binding Path="QualifyingTime.Seconds"/>
+                                                        <Binding Path="QualifyingTime.Milliseconds"/>
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding QualifyingTime.Minutes}" Value="0"/>
+                                                        <Condition Binding="{Binding QualifyingTime.Seconds}" Value="0"/>
+                                                        <Condition Binding="{Binding QualifyingTime.Milliseconds}" Value="0"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Text" Value="..."/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding HasPoleLap}" Value="True">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
-                                    <DataGridTextColumn.Binding>
+                                    <!--<DataGridTextColumn.Binding>
                                         <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
                                             <Binding Path="QualifyingTime.Minutes"/>
                                             <Binding Path="QualifyingTime.Seconds"/>
                                             <Binding Path="QualifyingTime.Milliseconds"/>
                                         </MultiBinding>
-                                    </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn.Binding>-->
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="80" MinWidth="80" SortMemberPath="FastestLapTime">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
+                                            <Setter Property="Text">
+                                                <Setter.Value>
+                                                    <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+                                                        <Binding Path="FastestLapTime.Minutes"/>
+                                                        <Binding Path="FastestLapTime.Seconds"/>
+                                                        <Binding Path="FastestLapTime.Milliseconds"/>
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding FastestLapTime.Minutes}" Value="0"/>
+                                                        <Condition Binding="{Binding FastestLapTime.Seconds}" Value="0"/>
+                                                        <Condition Binding="{Binding FastestLapTime.Milliseconds}" Value="0"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Text" Value="..."/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding HasFastestLap}" Value="True">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
-                                    <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
-                                            <Binding Path="FastestLapTime.Minutes"/>
-                                            <Binding Path="FastestLapTime.Seconds"/>
-                                            <Binding Path="FastestLapTime.Milliseconds"/>
-                                        </MultiBinding>
-                                    </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
                                 <DataGridTextColumn Header="Avg. Lap" IsReadOnly="True" Width="80" MinWidth="80" SortMemberPath="AvgLapTime">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
+                                            <Setter Property="Text">
+                                                <Setter.Value>
+                                                    <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
+                                                        <Binding Path="AvgLapTime.Minutes"/>
+                                                        <Binding Path="AvgLapTime.Seconds"/>
+                                                        <Binding Path="AvgLapTime.Milliseconds"/>
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding AvgLapTime.Minutes}" Value="0"/>
+                                                        <Condition Binding="{Binding AvgLapTime.Seconds}" Value="0"/>
+                                                        <Condition Binding="{Binding AvgLapTime.Milliseconds}" Value="0"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Text" Value="..."/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding HasFastestAvgLap}" Value="True">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
-                                    <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0:00}:{1:00},{2:000}">
-                                            <Binding Path="AvgLapTime.Minutes"/>
-                                            <Binding Path="AvgLapTime.Seconds"/>
-                                            <Binding Path="AvgLapTime.Milliseconds"/>
-                                        </MultiBinding>
-                                    </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Interval" Binding="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}" 
-                                                    Width="80" MinWidth="80" SortMemberPath="Interval">
+                                <DataGridTextColumn Header="Interval" Width="80" MinWidth="80" SortMemberPath="Interval">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
+                                            <Setter Property="Text" Value="{Binding Interval, Converter={StaticResource LapIntervalStringConverter}}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Interval.Time}" Value="0">
+                                                    <Setter Property="Text" Value="---"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
@@ -923,7 +980,7 @@ SOFTWARE.-->
                                         <TextBlock Text="Compl. Laps" TextWrapping="WrapWithOverflow"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding RacePoints}" IsReadOnly="True" Width="60" MinWidth="50">
+                                <DataGridTextColumn Binding="{Binding RacePoints, StringFormat={}{0:#;-#;-}}" IsReadOnly="True" Width="60" MinWidth="50">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">
                                             <Setter Property="TextAlignment" Value="Center"/>
