@@ -212,9 +212,9 @@ SOFTWARE.-->
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </MenuItem>
-                                <MenuItem Header="Leauge">
-                                    <MenuItem Header="Manage Members"/>
-                                    <MenuItem Header="Switch League"/>
+                                <MenuItem Header="Leauge" IsEnabled="False">
+                                    <MenuItem Header="Manage Members" IsEnabled="False"/>
+                                    <MenuItem Header="Switch League" IsEnabled="False"/>
                                 </MenuItem>
                                 <MenuItem Header="User">
                                     <MenuItem Header="Edit Profile" Click="EditUser_Click"/>
