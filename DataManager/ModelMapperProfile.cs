@@ -574,6 +574,8 @@ namespace iRLeagueManager
                         ?? new object[0];
                 }));
 
+            CreateMap<LeagueDTO, LeagueModel>();
+
             #region statistic mapping
             CreateMap<StatisticSetDTO, StatisticSetInfo>();
 

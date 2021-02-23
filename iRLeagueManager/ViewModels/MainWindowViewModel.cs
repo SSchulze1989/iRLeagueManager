@@ -109,6 +109,9 @@ namespace iRLeagueManager.ViewModels
 
         public SeasonViewModel CurrentSeason { get; }
 
+        private LeagueModel league;
+        public LeagueModel League { get => league; set => SetValue(ref league, value); }
+
         public MainWindowViewModel()
         {
             DbStatus = new DatabaseStatusModel();
@@ -136,6 +139,7 @@ namespace iRLeagueManager.ViewModels
 
         public async Task Load()
         {
+            IsLoading = true;
             if (LeagueContext == null)
             {
                 GlobalSettings.SetGlobalLeagueContext(new LeagueContext());
@@ -145,12 +149,19 @@ namespace iRLeagueManager.ViewModels
 
             LeagueContext.AddStatusItem(DbStatus);
 
+            try
+            {
+                League = await LeagueContext.GetLeagueDetails();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
             //UserLogin.Open();
 
             //LeagueContext.AddStatusItem(DbStatus);
             try
-            {
-                IsLoading = true;
+            { 
                 //await LeagueContext.UserLoginAsync("TestUser", "testuser");
                 await LeagueContext.UpdateMemberList();
                 SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetModelsAsync<SeasonModel>());

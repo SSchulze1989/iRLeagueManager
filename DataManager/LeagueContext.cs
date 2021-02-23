@@ -136,6 +136,20 @@ namespace iRLeagueManager.Data
             ModelDatabase.LeagueName = leagueName;
         }
 
+        public async Task<LeagueModel> GetLeagueDetails()
+        {
+            if (string.IsNullOrEmpty(LeagueName))
+            {
+                return null;
+            }
+
+            var leagueDTO = await LeagueDataProvider.GetLeague(LeagueName);
+            var mapper = MapperConfiguration.CreateMapper();
+            var league = mapper.Map<LeagueModel>(leagueDTO);
+
+            return league;
+        }
+
         public async Task UpdateMemberList()
         {
             var mapper = MapperConfiguration.CreateMapper();
