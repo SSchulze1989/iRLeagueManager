@@ -260,5 +260,54 @@ namespace iRLeagueManager
                 _ = vm.Load(mainViewModel.CurrentSeason.Model);
             }
         }
+
+        private void CreateSeason_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element && mainViewModel != null)
+            {
+                var createControl = new ModalOkCancelControl()
+                {
+                    ModalContent = new CreateSeasonControl(mainViewModel)
+                };
+
+                MainGrid.Children.Add(createControl);
+                try
+                {
+                    createControl.ShowDialog();
+                }
+                finally
+                {
+                    MainGrid.Children.Remove(createControl);
+                }
+            }
+        }
+
+        private async void DeleteSeason_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element && mainViewModel != null)
+            {
+                var season = element.Tag as SeasonModel;
+                if (season == null)
+                {
+                    season = mainViewModel.CurrentSeason.Model;
+                }
+                if (MessageBox.Show("Do you really want to delete this season?\n" +
+                    $"  \"{season.SeasonName}\"\n" +
+                    "Deleting a season will also remove all associated data such as:\n" +
+                    "- Sessions\n" +
+                    "- Results\n" +
+                    "- Reviews & Penalites\n\nThis action cannot be undone!", "Delete Season", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
+                await mainViewModel.RemoveSeason(season);
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

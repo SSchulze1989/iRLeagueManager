@@ -691,7 +691,7 @@ SOFTWARE.-->
                                     </DataGrid>
                                 </DataTemplate>
                                 <DataTemplate x:Key="StandingsRowModelDataGrid">
-                                    <DataGrid ItemsSource="{Binding AllResults}" AutoGenerateColumns="False" VerticalAlignment="Stretch"
+                                    <DataGrid ItemsSource="{Binding DriverResults}" AutoGenerateColumns="False" VerticalAlignment="Stretch"
                                               BorderBrush="Black" IsReadOnly="True"
                                               PreviewMouseWheel="DataGrid_PreviewMouseWheel"
                                               TextElement.FontSize="{StaticResource Global.FontSizeSmall}" 
@@ -741,7 +741,7 @@ SOFTWARE.-->
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>-->
-                                            <DataGridTextColumn Header="Drop" Binding="{Binding IsDroppedResult}" IsReadOnly="True" Width="50" MinWidth="50"/>
+                                            <!--<DataGridTextColumn Header="Drop" Binding="{Binding IsDroppedResult}" IsReadOnly="True" Width="50" MinWidth="50"/>-->
                                             <DataGridTextColumn Header="Fast Lap" IsReadOnly="True" Width="100" MinWidth="80">
                                                 <DataGridTextColumn.ElementStyle>
                                                     <Style TargetType="TextBlock" BasedOn="{StaticResource TextColumnElementStyle}">

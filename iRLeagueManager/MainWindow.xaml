@@ -188,6 +188,42 @@ SOFTWARE.-->
         <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid DockPanel.Dock="Top" Height="75" Background="{StaticResource ThemeColor_DarkBlue}">
                 <DockPanel>
+                    <controls:IconButton DockPanel.Dock="Left" VerticalAlignment="Stretch" Background="Transparent" Foreground="{StaticResource ThemeColor_Back0}"
+                                         IconMargin="10,5" ToolTip="Menu" x:Name="MenuButton"  IconFill="{StaticResource ThemeColor_Back0}">
+                        <controls:IconButton.IconContent>
+                            <fa:ImageAwesome Icon="Bars" Width="30"/>
+                        </controls:IconButton.IconContent>
+                        <behaviors:Interaction.Behaviors>
+                            <local:DropDownButtonBehavior/>
+                        </behaviors:Interaction.Behaviors>
+                        <controls:IconButton.ContextMenu>
+                            <ContextMenu Placement="Bottom">
+                                <MenuItem Header="Seasons">
+                                    <MenuItem Header="New" Click="CreateSeason_Click">
+                                        <MenuItem.Icon>
+                                            <fa:FontAwesome Icon="Plus" Foreground="{StaticResource ThemeColor_Green}" HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Delete" Click="DeleteSeason_Click" Tag="{Binding CurrentSeason.Model}">
+                                        <MenuItem.Icon>
+                                            <fa:FontAwesome Icon="Remove" Foreground="{StaticResource ThemeColor_Red}" HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                                <MenuItem Header="Leauge" IsEnabled="False">
+                                    <MenuItem Header="Manage Members" IsEnabled="False"/>
+                                    <MenuItem Header="Switch League" IsEnabled="False"/>
+                                </MenuItem>
+                                <MenuItem Header="User">
+                                    <MenuItem Header="Edit Profile" Click="EditUser_Click"/>
+                                    <MenuItem Header="Change Password" Click="ChangePassword_Click"/>
+                                </MenuItem>
+                                <MenuItem Header="Exit" Click="CloseButton_Click"/>
+                            </ContextMenu>
+                        </controls:IconButton.ContextMenu>
+                    </controls:IconButton>
                     <controls:IconToggleButton DockPanel.Dock="Right" VerticalAlignment="Stretch" Background="Transparent" Foreground="{StaticResource ThemeColor_Back0}"
                                                IconMargin="10,5" ToolTip="Always on Top" x:Name="AlwaysOnTopToggle">
                         <controls:IconToggleButton.IconContent>
@@ -205,11 +241,18 @@ SOFTWARE.-->
                         </controls:IconToggleButton.Style>
                     </controls:IconToggleButton>
                     <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5"/>
-                    <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
+                    <TextBlock FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
                            HorizontalAlignment="Center" 
-                           Margin="15,0"/>
+                           Margin="15,0">
+                        <TextBlock.Text>
+                            <PriorityBinding>
+                                <Binding Path="League.LongName"/>
+                                <Binding Path="CurrentLeagueName"/>
+                            </PriorityBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </DockPanel>
             </Grid>
             <DockPanel DockPanel.Dock="Bottom">
@@ -294,8 +337,25 @@ SOFTWARE.-->
                 <StackPanel x:Name="Menu" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
                     <StackPanel Orientation="Vertical" MinHeight="40">
                         <ComboBox ItemsSource="{Binding SeasonList}" SelectedItem="{Binding SelectedSeason}" 
-                                  Padding="10" HorizontalContentAlignment="Center"
-                                  DisplayMemberPath="SeasonName" />
+                                  Padding="10" HorizontalContentAlignment="Center">
+                            <ComboBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Create Season" Click="CreateSeason_Click"/>
+                                </ContextMenu>
+                            </ComboBox.ContextMenu>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SeasonName}">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Create Season" Click="CreateSeason_Click"/>
+                                                <MenuItem Header="Delete Season" Click="DeleteSeason_Click" Tag="{Binding}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <!--<StackPanel Orientation="Horizontal" DataContext="{Binding CurrentSeason}">
                             <TextBlock Text="{Binding SeasonStart, Converter={StaticResource DateTimeConverter}}" />
                             <TextBlock Text=" - " />

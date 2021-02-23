@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using iRLeagueDatabase.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,13 @@ namespace iRLeagueManager.Data
         /// <exception cref="UserNotAuthorizedException">User is not authorized for this league</exception>
         /// <exception cref="LeagueNotFoundException">League name not found in database</exception>
         Task<bool> CheckLeagueExists(string leagueName);
+
+        /// <summary>
+        /// Get details for a single league from the API
+        /// </summary>
+        /// <param name="leagueName">Shortname of the league</param>
+        /// <returns></returns>
+        Task<LeagueDTO> GetLeague(string leagueName);
     }
     public class UserNotAuthorizedException : Exception
     {

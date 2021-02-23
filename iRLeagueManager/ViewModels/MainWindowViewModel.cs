@@ -38,6 +38,7 @@ using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Logging;
 using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
+using System.Windows.Forms;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -96,7 +97,7 @@ namespace iRLeagueManager.ViewModels
             get => selectedSeason;
             set
             {
-                if (SetValue(ref selectedSeason, value) && selectedSeason?.SeasonId != null)
+                if (SetValue(ref selectedSeason, value))
                 {
                     CurrentSeason.Load(selectedSeason);
                     SeasonChanged?.Invoke(this, new EventArgs());
@@ -108,12 +109,15 @@ namespace iRLeagueManager.ViewModels
 
         public SeasonViewModel CurrentSeason { get; }
 
+        private LeagueModel league;
+        public LeagueModel League { get => league; set => SetValue(ref league, value); }
+
         public MainWindowViewModel()
         {
             DbStatus = new DatabaseStatusModel();
             SeasonList = new ObservableCollection<SeasonModel>(new List<SeasonModel>() { new SeasonModel() { SeasonName = "Loading..." } });
-            SelectedSeason = SeasonList.First();
             CurrentSeason = new SeasonViewModel();
+            SelectedSeason = SeasonList.FirstOrDefault();
             //UserLogin = new LoginViewModel(this);
             currentUser = new UserViewModel();
             CloseErrorsCmd = new RelayCommand(o => IsErrorsOpen = false, o => true);
@@ -135,6 +139,7 @@ namespace iRLeagueManager.ViewModels
 
         public async Task Load()
         {
+            IsLoading = true;
             if (LeagueContext == null)
             {
                 GlobalSettings.SetGlobalLeagueContext(new LeagueContext());
@@ -144,12 +149,19 @@ namespace iRLeagueManager.ViewModels
 
             LeagueContext.AddStatusItem(DbStatus);
 
+            try
+            {
+                League = await LeagueContext.GetLeagueDetails();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
             //UserLogin.Open();
 
             //LeagueContext.AddStatusItem(DbStatus);
             try
-            {
-                IsLoading = true;
+            { 
                 //await LeagueContext.UserLoginAsync("TestUser", "testuser");
                 await LeagueContext.UpdateMemberList();
                 SeasonList = new ObservableCollection<SeasonModel>(await LeagueContext.GetModelsAsync<SeasonModel>());
@@ -180,6 +192,58 @@ namespace iRLeagueManager.ViewModels
                 //UserLogin.Open();
             }
             OnPropertyChanged(null);
+        }
+
+        public async Task<SeasonModel> AddSeason(SeasonModel season)
+        {
+            if (season == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                IsLoading = true;
+                season = await LeagueContext.AddModelAsync(season);
+                SeasonList.Add(season);
+                SelectedSeason = season;
+                return season;
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            return null;
+        }
+
+        public async Task<bool> RemoveSeason(SeasonModel season)
+        {
+            if (season == null || SeasonList.Contains(season) == false)
+            {
+                return false;
+            }
+
+            try
+            {
+                IsLoading = true;
+                await LeagueContext.DeleteModelsAsync(season);
+                SeasonList.Remove(season);
+                SelectedSeason = SeasonList.LastOrDefault();
+                return true;
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+            return false;
         }
 
         protected override void Dispose(bool disposing)

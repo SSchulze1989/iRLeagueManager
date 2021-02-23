@@ -103,7 +103,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                Model = await LeagueContext.GetModelAsync<TSource>(modelId);
+                Model = (await LeagueContext.GetModelAsync<TSource>(modelId)) ?? Template;
             }
             catch (Exception e)
             {
@@ -123,7 +123,7 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 IsLoading = true;
-                Model = await LeagueContext.UpdateModelAsync(Model);
+                Model = (await LeagueContext.UpdateModelAsync(Model)) ?? Template;
             }
             catch (Exception e)
             {
