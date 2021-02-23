@@ -205,11 +205,18 @@ SOFTWARE.-->
                         </controls:IconToggleButton.Style>
                     </controls:IconToggleButton>
                     <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5"/>
-                    <TextBlock Text="{Binding CurrentLeagueName}" FontFamily="{DynamicResource Header.FontFamily}"
+                    <TextBlock FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
                            HorizontalAlignment="Center" 
-                           Margin="15,0"/>
+                           Margin="15,0">
+                        <TextBlock.Text>
+                            <PriorityBinding>
+                                <Binding Path="League.LongName"/>
+                                <Binding Path="CurrentLeagueName"/>
+                            </PriorityBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </DockPanel>
             </Grid>
             <DockPanel DockPanel.Dock="Bottom">

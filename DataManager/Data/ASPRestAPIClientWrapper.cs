@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
 using System.Runtime.Serialization;
+using iRLeagueManager.Models;
 
 //using iRLeagueDatabase.DataTransfer.Messages;
 
@@ -323,6 +324,30 @@ namespace iRLeagueManager.Data
                 }
             }
             return null;
+        }
+
+        public async Task<LeagueDTO> GetLeague(string leagueName)
+        {
+            var requestString = $"{BaseUri.AbsoluteUri}/CheckLeague?id={leagueName}";
+
+            using (var client = CreateClient())
+            {
+                var request = await client.GetAsync(requestString);
+
+                if (request.IsSuccessStatusCode)
+                {
+                    var league = await request.Content.ReadAsAsync<LeagueDTO>();
+                    return league;
+                }
+                else if (request.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UserNotAuthorizedException("User not authorized for the service");
+                }
+                else
+                {
+                    throw new LeagueNotFoundException($"League {leagueName} not found in database");
+                }
+            }
         }
     }
 }

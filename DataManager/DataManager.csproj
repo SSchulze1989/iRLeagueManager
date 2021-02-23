@@ -117,6 +117,7 @@
     <Compile Include="Models\IModelCache.cs" />
     <Compile Include="Models\IModelManager.cs" />
     <Compile Include="Data\IModelDataProvider.cs" />
+    <Compile Include="Models\LeagueModel.cs" />
     <Compile Include="Models\Members\TeamModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\ModelCache.cs" />
