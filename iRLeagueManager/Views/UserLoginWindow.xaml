@@ -179,9 +179,13 @@ SOFTWARE.-->
                                 </Style>
                             </controls:IconButton.Style>
                         </controls:IconButton>
+                        <DockPanel DockPanel.Dock="Left">
+                            <Image Source="{StaticResource Logo_Dark}" Height="45" Width="45" Stretch="UniformToFill" Margin="5,5,5,10" HorizontalAlignment="Left" 
+                                   RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </DockPanel>
                         <TextBlock Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType=Window}}" 
                                    FontSize="{StaticResource Global.FontSizeLarge}" Foreground="WhiteSmoke"
-                                   HorizontalAlignment="Left" Margin="15,10" VerticalAlignment="Center"/>
+                                   HorizontalAlignment="Left" Margin="5,5" VerticalAlignment="Center"/>
                     </DockPanel>
                 </Border>
                 <Grid ClipToBounds="True" Grid.Row="1">
