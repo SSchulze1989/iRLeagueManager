@@ -79,6 +79,7 @@ namespace iRLeagueManager.ViewModels
         
         public CommentViewModel(CommentModel source) : base(source) 
         {
+            IsExpanded = true;
             EditCmd = new RelayCommand(async o => await EditAsync(o as string), o => IsUserAuthor);
         }
 
