@@ -240,7 +240,7 @@ SOFTWARE.-->
                             </Style>
                         </controls:IconToggleButton.Style>
                     </controls:IconToggleButton>
-                    <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5"/>
+                    <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <TextBlock FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
