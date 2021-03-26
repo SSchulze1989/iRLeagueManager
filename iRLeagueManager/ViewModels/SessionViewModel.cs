@@ -95,6 +95,7 @@ namespace iRLeagueManager.ViewModels
         public int? SessionNumber => Schedule?.Sessions.IndexOf(x => x.SessionId == SessionId) + 1;
 
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
+        public string Name { get => Model.Name; set => Model.Name = value; }
         public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
         public DateTime Date { get => Model.Date.Date; set => Model.Date = value.Date.Add(Model.Date.TimeOfDay); }
         public DateTime RaceDate => Date.Add(RaceStart);
