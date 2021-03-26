@@ -140,6 +140,7 @@ namespace iRLeagueManager.ViewModels
         public ICommand AddSeasonStatisticSetCmd { get; }
         public ICommand AddLeagueStatisticSetCmd { get; }
         public ICommand AddImportedStatisticSetCmd { get; }
+        public ICommand RemoveStatisticSetCmd { get; }
 
         public ICommand SaveChangesCmd { get; }
 
@@ -164,6 +165,7 @@ namespace iRLeagueManager.ViewModels
             AddSeasonStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new SeasonStatisticSetModel(Season.Model)), o => Season.Model != null);
             AddLeagueStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new LeagueStatisticSetModel()), o => true);
             AddImportedStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new ImportedStatisticSetModel()), o => true);
+            RemoveStatisticSetCmd = new RelayCommand(async o => await RemoveStatisticSet((o as StatisticSetViewModel).Model), o => o is StatisticSetViewModel);
         }
 
         private StatisticSetViewModel GetStatisticSetViewModel(StatisticSetModel model)
