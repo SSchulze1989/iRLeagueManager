@@ -99,8 +99,8 @@ namespace iRLeagueManager.Models.Results
         private bool updateTeamOnRecalculation;
         public bool UpdateTeamOnRecalculation { get => updateTeamOnRecalculation; set => SetValue(ref updateTeamOnRecalculation, value); }
 
-        private ObservableCollection<ScoringInfo> subSessionScorings;
-        public ObservableCollection<ScoringInfo> SubSessionScorings { get => subSessionScorings; set => SetNotifyCollection(ref subSessionScorings, value); }
+        private ObservableCollection<ScoringModel> subSessionScorings;
+        public ObservableCollection<ScoringModel> SubSessionScorings { get => subSessionScorings; set => SetNotifyCollection(ref subSessionScorings, value); }
 
         private AccumulateByOption accumulateBy;
         public AccumulateByOption AccumulateBy { get => accumulateBy; set => SetValue(ref accumulateBy, value); }

@@ -74,8 +74,8 @@ namespace iRLeagueManager.Models.Sessions
         [XmlIgnore]
         public TimeSpan Duration { get => duration; set => SetValue(ref duration, value); }
 
-        private ObservableCollection<SessionInfo> subSessions;
-        public ObservableCollection<SessionInfo> SubSession { get => subSessions; set => SetNotifyCollection(ref subSessions, value); }
+        private ObservableCollection<SessionModel> subSessions;
+        public ObservableCollection<SessionModel> SubSessions { get => subSessions; set => SetNotifyCollection(ref subSessions, value); }
 
         public SessionModel() : this(0, SessionType.Undefined)
         {
@@ -86,7 +86,7 @@ namespace iRLeagueManager.Models.Sessions
             Date = DateTime.Today;
             SessionType = sessionType;
             Reviews = new ObservableCollection<IncidentReviewInfo>();
-            SubSession = new ObservableCollection<SessionInfo>();
+            SubSessions = new ObservableCollection<SessionModel>();
             //LocationId = "";
             //Laps = 0;
             //Duration = TimeSpan.FromMinutes(120);
@@ -101,7 +101,7 @@ namespace iRLeagueManager.Models.Sessions
             SessionType = sessionType;
             Date = DateTime.Today;
             Reviews = new ObservableCollection<IncidentReviewInfo>();
-            SubSession = new ObservableCollection<SessionInfo>();
+            SubSessions = new ObservableCollection<SessionModel>();
             //LocationId = "";
             //Laps = 0;
             //Duration = TimeSpan.FromMinutes(120);

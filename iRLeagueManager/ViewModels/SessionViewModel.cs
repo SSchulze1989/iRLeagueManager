@@ -45,6 +45,7 @@ using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.User;
 using System.Windows.Markup.Localizer;
+using System.ComponentModel;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -136,6 +137,26 @@ namespace iRLeagueManager.ViewModels
         public bool QualyAttached { get => ((Model as RaceSessionModel)?.QualyAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyAttached = value; } } }
         public bool PracticeAttached { get => ((Model as RaceSessionModel)?.PracticeAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeAttached = value; } } }
 
+        private SessionViewModel parentSession;
+        public SessionViewModel ParentSession { get => parentSession; set => SetValue(ref parentSession, value); }
+
+        private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> subSessions;
+        public ICollectionView SubSessions
+        {
+            get
+            {
+                if (subSessions.GetSource() != Model?.SubSessions)
+                {
+                    subSessions.UpdateSource(Model?.SubSessions);
+                    if (subSessions.CollectionView.CanFilter)
+                    {
+                        subSessions.CollectionView.Refresh();
+                    }
+                }
+                return subSessions.CollectionView;
+            }
+        }
+
         public long? RaceId => (Model as RaceSessionModel)?.RaceId;
 
         public bool ResultAvailable => Model?.SessionResult != null;
@@ -152,6 +173,7 @@ namespace iRLeagueManager.ViewModels
             QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
             RaceLengthComponents = new TimeComponentVector(() => RaceLength, x => RaceLength = x);
             UploadFileCmd = new RelayCommand(o => UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
+            subSessions = new ObservableViewModelCollection<SessionViewModel, SessionModel>(x => x.ParentSession = this);
         }
 
         public async void UploadFile(SessionModel session)

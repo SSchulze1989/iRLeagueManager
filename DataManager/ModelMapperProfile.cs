@@ -359,6 +359,12 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.Standings, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.ResultsFilterOptionIds, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
+                .ForMember(dest => dest.SubSessionScorings, opt => opt
+                    .MapFrom((src => src.SubSessionScoringIds
+                        .Select(x => modelCache.PutOrGetModel(new ScoringModel() { ScoringId = x }))
+                    ))
+                 )
+                .ForMember(dest => dest.SubSessionScorings, opt => opt.UseDestinationValue())
                 .ReverseMap()
                 .ForMember(dest => dest.ConnectedScheduleId, opt => opt.MapFrom(src => src.ConnectedSchedule != null ? src.ConnectedSchedule.ScheduleId : null))
                 .ForMember(dest => dest.SessionIds, opt => opt.MapFrom(src => src.Sessions.Select(x => x.SessionId)))
