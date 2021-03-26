@@ -38,6 +38,7 @@ using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.Enums;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -64,6 +65,9 @@ namespace iRLeagueManager.ViewModels
         public ObservableCollection<long> ResultsFilterOptionIds => Model.ResultsFilterOptionIds;
         public bool UseResultSetTeam { get => Model.UseResultSetTeam; set => Model.UseResultSetTeam = value; }
         public bool UpdateTeamOnRecalculation { get => Model.UpdateTeamOnRecalculation; set => Model.UpdateTeamOnRecalculation = value; }
+        public ObservableCollection<ScoringInfo> SubSessionScorings => Model.SubSessionScorings;
+        public AccumulateByOption AccumulateBy { get => Model.AccumulateBy; set => Model.AccumulateBy = value; }
+        public AccumulateResultsOption AccumulateResults { get => Model.AccumulateResults; set => Model.AccumulateResults = value; }
 
 
         private CollectionViewSource scoringListSource;

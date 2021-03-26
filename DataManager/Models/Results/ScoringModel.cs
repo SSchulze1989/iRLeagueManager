@@ -27,6 +27,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.Enums;
+using System.Web.Hosting;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -97,6 +99,14 @@ namespace iRLeagueManager.Models.Results
         private bool updateTeamOnRecalculation;
         public bool UpdateTeamOnRecalculation { get => updateTeamOnRecalculation; set => SetValue(ref updateTeamOnRecalculation, value); }
 
+        private ObservableCollection<ScoringInfo> subSessionScorings;
+        public ObservableCollection<ScoringInfo> SubSessionScorings { get => subSessionScorings; set => SetNotifyCollection(ref subSessionScorings, value); }
+
+        private AccumulateByOption accumulateBy;
+        public AccumulateByOption AccumulateBy { get => accumulateBy; set => SetValue(ref accumulateBy, value); }
+
+        private AccumulateResultsOption accumulateResults;
+        public AccumulateResultsOption AccumulateResults { get => accumulateResults; set => SetValue(ref accumulateResults, value); }
 
         private ScheduleInfo connectedschedule;
         public ScheduleInfo ConnectedSchedule
@@ -115,6 +125,7 @@ namespace iRLeagueManager.Models.Results
             MultiScoringResults = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
             ResultsFilterOptionIds = new ObservableCollection<long>();
+            SubSessionScorings = new ObservableCollection<ScoringInfo>();
             //Schedules = new ObservableCollection<ScheduleInfo>();
         }
 
