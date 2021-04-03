@@ -243,7 +243,13 @@ namespace iRLeagueManager.Models.Sessions
 
         public new static RaceSessionModel GetTemplate()
         {
-            return new RaceSessionModel((int?)null);
+            return new RaceSessionModel((int?)null)
+            {
+                Name = "Test",
+                SubSessionNr = 1,
+                Date = DateTime.Today.AddHours(19),
+                Duration = TimeSpan.FromMinutes(20)
+            };
         } 
     }
 }

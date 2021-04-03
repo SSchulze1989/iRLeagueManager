@@ -63,6 +63,8 @@ namespace iRLeagueManager.Models.Sessions
             }
         }
         //IResult ISession.Result => SessionResult;
+        private int subSessionNr;
+        public int SubSessionNr { get => subSessionNr; set => SetValue(ref subSessionNr, value); }
 
         private ObservableCollection<IncidentReviewInfo> reviews;
         public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; internal set => SetNotifyCollection(ref reviews, value); }
@@ -76,6 +78,9 @@ namespace iRLeagueManager.Models.Sessions
 
         private ObservableCollection<SessionModel> subSessions;
         public ObservableCollection<SessionModel> SubSessions { get => subSessions; set => SetNotifyCollection(ref subSessions, value); }
+
+        private SessionModel parentSession;
+        public SessionModel ParentSession { get => parentSession; set => SetValue(ref parentSession, value); }
 
         public SessionModel() : this(0, SessionType.Undefined)
         {
