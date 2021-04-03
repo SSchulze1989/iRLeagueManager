@@ -222,5 +222,13 @@ namespace iRLeagueManager.Views
                 button.Command?.Execute(button.CommandParameter);
             }
         }
+
+        private void SessionSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.Tag is Button button)
+            {
+                button.Command?.Execute(button.CommandParameter);
+            }
+        }
     }
 }

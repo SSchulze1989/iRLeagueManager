@@ -80,6 +80,8 @@ namespace iRLeagueManager.ViewModels
         //}
 
         public ICommand UploadFileCmd { get; }
+        public ICommand AddHeatCmd { get; }
+        public ICommand RemoveHeatCmd { get; }
 
         protected override SessionModel Template => SessionModel.GetTemplate();
 
@@ -141,6 +143,8 @@ namespace iRLeagueManager.ViewModels
         private SessionViewModel parentSession;
         public SessionViewModel ParentSession { get => parentSession; set => SetValue(ref parentSession, value); }
 
+        public string ParentSessionName => Model.ParentSession?.Name;
+
         private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> subSessions;
         public ICollectionView SubSessions
         {
@@ -165,6 +169,10 @@ namespace iRLeagueManager.ViewModels
         private bool isCurrentSession;
         public bool IsCurrentSession { get => isCurrentSession; set => SetValue(ref isCurrentSession, value); }
 
+        public int SubSessionNr { get => Model.SubSessionNr; set => Model.SubSessionNr = value; }
+
+
+
         public SessionViewModel() : base()
         {
             SetSource(RaceSessionModel.GetTemplate());
@@ -174,6 +182,8 @@ namespace iRLeagueManager.ViewModels
             QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
             RaceLengthComponents = new TimeComponentVector(() => RaceLength, x => RaceLength = x);
             UploadFileCmd = new RelayCommand(o => UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
+            AddHeatCmd = new RelayCommand(o => AddCreateHeat(), o => true);
+            RemoveHeatCmd = new RelayCommand(o => RemoveHeat(o as SessionModel), o => o is SessionModel);
             subSessions = new ObservableViewModelCollection<SessionViewModel, SessionModel>(x => x.ParentSession = this);
         }
 
@@ -310,6 +320,55 @@ namespace iRLeagueManager.ViewModels
             {
 
             }
+        }
+
+        /// <summary>
+        /// Create a new heat as subsession and add it to the SubSession collection
+        /// </summary>
+        /// <returns>Newly created heat SubSession</returns>
+        public SessionModel AddCreateHeat()
+        {
+            var heatNr = subSessions.Count + 1;
+            
+            var currentHeat = SubSessions.CurrentItem;
+            SubSessions.MoveCurrentToLast();
+            var lastHeat = SubSessions.CurrentItem as SessionViewModel;
+            SubSessions.MoveCurrentTo(currentHeat);
+            var schedule = Schedule?.Model;
+            if (schedule == null)
+            {
+                throw new InvalidOperationException("Could not add new Heat session. Schedule was null.");
+            }
+
+            DateTime date;
+            if (lastHeat == null)
+            {
+                date = Date.Date.Add(RaceStart);
+            }
+            else
+            {
+                date = Date.Date.Add(lastHeat.SessionEnd);
+            }
+
+            var heat = new SessionModel((long?)null, SessionType.Heat)
+            {
+                ConfigId = ConfigId,
+                Date = date,
+                Duration = TimeSpan.Zero,
+                Name = "New Heat",
+                SubSessionNr = heatNr,
+                SessionType = SessionType.Heat,
+                LocationId = Model.LocationId
+            };
+
+            Model.SubSessions.Add(heat);
+
+            return heat;
+        }
+
+        public void RemoveHeat(SessionModel model)
+        {
+            Model.SubSessions.Remove(model);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")

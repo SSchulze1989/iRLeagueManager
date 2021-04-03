@@ -35,6 +35,7 @@ SOFTWARE.-->
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         xmlns:controls="clr-namespace:iRLeagueManager.Controls"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:localbehaviors="clr-namespace:iRLeagueManager.Behaviors"
         mc:Ignorable="d"
         WindowState="Normal" Height="800" Width="1400" Background="White"
         FontFamily="{StaticResource Global.FontFamily}"
@@ -194,7 +195,7 @@ SOFTWARE.-->
                             <fa:ImageAwesome Icon="Bars" Width="30"/>
                         </controls:IconButton.IconContent>
                         <behaviors:Interaction.Behaviors>
-                            <local:DropDownButtonBehavior/>
+                            <localbehaviors:DropDownButtonBehavior/>
                         </behaviors:Interaction.Behaviors>
                         <controls:IconButton.ContextMenu>
                             <ContextMenu Placement="Bottom">
@@ -449,7 +450,7 @@ SOFTWARE.-->
                                          Foreground="{StaticResource ThemeColor_Blue}" 
                                          FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Padding="0,20" HorizontalAlignment="Stretch">
                         <behaviors:Interaction.Behaviors>
-                            <local:DropDownButtonBehavior/>
+                            <localbehaviors:DropDownButtonBehavior/>
                         </behaviors:Interaction.Behaviors>
                         <controls:IconButton.ContextMenu>
                             <ContextMenu Placement="Top">

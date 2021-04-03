@@ -107,6 +107,9 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> sessionList;
+        public ICollectionView SessionList => sessionList.CollectionView;
+
         //private readonly ObservableViewModelCollection<StatisticSetViewModel, StatisticSetModel> seasonStatistics;
         //public ICollectionView SeasonStatistics => seasonStatistics.CollectionView;
 
@@ -164,6 +167,49 @@ namespace iRLeagueManager.ViewModels
             AddSeasonStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new SeasonStatisticSetModel(Season.Model)), o => Season.Model != null);
             AddLeagueStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new LeagueStatisticSetModel()), o => true);
             AddImportedStatisticSetCmd = new RelayCommand(async o => await AddStatisticSet(new ImportedStatisticSetModel()), o => true);
+            sessionList = new ObservableViewModelCollection<SessionViewModel, SessionModel>();
+            SessionList.SortDescriptions.Add(new SortDescription(nameof(SessionViewModel.Date), ListSortDirection.Ascending));
+            SessionList.Filter = x => FilterSessionTypes(x as SessionViewModel);
+            var sessionGroupDescription = new PropertyGroupDescription(nameof(SessionViewModel.ParentSessionName));
+            SessionList.GroupDescriptions.Add(sessionGroupDescription);
+            Scorings.CurrentChanging += Scorings_CurrentChanging;
+            Scorings.CurrentChanged += Scorings_CurrentChanged;
+        }
+
+        private void Scorings_CurrentChanging(object sender, CurrentChangingEventArgs e)
+        {
+            // Unsubscribe property changed event
+            if (Scorings.CurrentItem is ScoringViewModel currentScoring)
+            {
+                currentScoring.PropertyChanged -= CurrentScoring_PropertyChanged;
+                currentScoring.Sessions.CollectionChanged -= Sessions_CollectionChanged;
+            }
+        }
+
+        private void Scorings_CurrentChanged(object sender, EventArgs e)
+        {
+            // Add change of Scoring session type to current scoring
+            if (Scorings.CurrentItem is ScoringViewModel currentScoring)
+            {
+                currentScoring.PropertyChanged += CurrentScoring_PropertyChanged;
+                currentScoring.Sessions.CollectionChanged += Sessions_CollectionChanged;
+            }
+            SessionList.Refresh();
+        }
+
+        private void Sessions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SessionList.Refresh();
+        }
+
+        private void CurrentScoring_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case nameof(ScoringViewModel.ScoringSessionType):
+                    SessionList.Refresh();
+                    break;
+            }
         }
 
         private StatisticSetViewModel GetStatisticSetViewModel(StatisticSetModel model)
@@ -196,6 +242,29 @@ namespace iRLeagueManager.ViewModels
             }
         }
 
+        private bool FilterSessionTypes(SessionViewModel session)
+        {
+            var scoring = Scorings.CurrentItem as ScoringViewModel;
+
+            if (scoring == null)
+            {
+                return false;
+            }
+
+            bool result = true;
+
+            result &= !scoring.Model.Sessions.Contains(session.Model);
+
+            if (scoring.ScoringSessionType == Enums.SessionType.Undefined)
+            {
+                return result;
+            }
+
+            result &= scoring.ScoringSessionType == session.SessionType;
+
+            return result;
+        }
+
         private void Season_ModelChanged()
         {
             
@@ -226,6 +295,7 @@ namespace iRLeagueManager.ViewModels
                 voteCategoriesCollection = new ObservableCollection<VoteCategoryModel>(voteCategories);
                 SetVoteCategoriesView(voteCategoriesCollection);
                 await LoadStatisticSets();
+                await LoadSessions();
             }
             catch (Exception e)
             {
@@ -437,6 +507,30 @@ namespace iRLeagueManager.ViewModels
                 //leagueStatistics.UpdateSource(statisticSets.Except(seasonStatisticSets));
                 statisticSets.UpdateSource(statisticSetsSource);
                 SetStatisticSetSelection();
+            }
+            catch (Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task LoadSessions()
+        {
+            if (season == null)
+            {
+                return;
+            }
+
+            try
+            {
+                IsLoading = true;
+                var schedules = await LeagueContext.GetModelsAsync<ScheduleModel>(season.Schedules.Select(x => x.ScheduleId.GetValueOrDefault()));
+                var sessions = schedules.SelectMany(x => x.Sessions.SelectMany(y => new SessionModel[] { y }.Concat(y.SubSessions)));
+                sessionList.UpdateSource(sessions);
             }
             catch (Exception e)
             {
