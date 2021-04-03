@@ -57,6 +57,7 @@ using iRLeagueDatabase.Extensions;
 using System.Web.Hosting;
 using iRLeagueDatabase.DataTransfer.Statistics;
 using iRLeagueManager.Models.Statistics;
+using iRLeagueDatabase.Enums;
 
 namespace iRLeagueManager
 {
@@ -227,7 +228,7 @@ namespace iRLeagueManager
                     CurrentSessions = null;
                     SortObservableCollection(dest.Sessions, x => x.Date);
                     int i = 1;
-                    foreach (var race in dest.Sessions.Where(x => x.SessionType == SessionType.Race).Cast<RaceSessionModel>())
+                    foreach (var race in dest.Sessions.Where(x => x.SessionType == SessionType.Race || x.SessionType == SessionType.HeatEvent).OfType<RaceSessionModel>())
                     {
                         race.RaceId = i;
                         i++;
@@ -252,6 +253,7 @@ namespace iRLeagueManager
                 .EqualityComparison((src, dest) => src.SessionId == dest.SessionId)
                 //.ConstructUsing(source => (source.SessionType == SessionType.Race) ? new RaceSessionModel(source.SessionId) : new SessionModel(source.SessionId, source.SessionType))
                 .ConstructUsing(source => modelCache.PutOrGetModel(new SessionModel(source.SessionId, source.SessionType)))
+                .ForMember(dest => dest.ParentSession, opt => opt.MapFrom(src => src.ParentSessionId != null ? modelCache.GetModel<SessionModel>(src.ParentSessionId.Value) : null))
                 .ForMember(dest => dest.SessionResult, opt => opt.MapFrom(src => src.SessionResultId != null ? new ResultInfo(src.SessionResultId) : null))
                 .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.ReviewIds.Select(x => new IncidentReviewInfo() { ReviewId = x })))
                 .ForMember(dest => dest.Reviews, opt => opt.UseDestinationValue())
@@ -322,8 +324,9 @@ namespace iRLeagueManager
                 .ConstructUsing(source => modelCache.PutOrGetModel(new ScoringModel(source.ScoringId)))
                 .EqualityComparison((src, dest) => src.ScoringId == dest.ScoringId)
                 .ForMember(dest => dest.ConnectedSchedule, opt => opt.MapFrom(src => src.ConnectedScheduleId != null ? new ScheduleInfo(src.ConnectedScheduleId) : null))
-                .ForMember(dest => dest.Sessions, opt => opt.MapFrom(src => src.SessionIds.Select(x => new SessionInfo(x, SessionType.Undefined))))
+                .ForMember(dest => dest.Sessions, opt => opt.MapFrom(src => src.SessionIds.Select(x => modelCache.PutOrGetModel(new SessionModel(x, SessionType.Undefined)))))
                 .ForMember(dest => dest.ExtScoringSource, opt => opt.MapFrom(src => src.ExtScoringSourceId != null ? new ScoringInfo(src.ExtScoringSourceId) : null))
+                .ForMember(dest => dest.AccumulateScoring, opt => opt.MapFrom(src => src.AccumulateResultsOption != AccumulateResultsOption.None ? true : false))
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom((src, dest, result) =>
                 {
                     ObservableCollection<ScoringModel.BasePointsValue> pairs = new ObservableCollection<ScoringModel.BasePointsValue>();
@@ -354,10 +357,14 @@ namespace iRLeagueManager
                     }
                     return pairs;
                 }))
+                .ForMember(dest => dest.ScoringWeights, opt => opt.MapFrom(src => src.SubSessionScoringIds
+                    .Select(x => modelCache.PutOrGetModel(new ScoringModel() { ScoringId = x}))
+                    .Zip(src.ScoringWeights, (scoring, weight) => new MyKeyValuePair<ScoringModel, double>(scoring, weight))))
                 .ForMember(dest => dest.BonusPoints, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.Sessions, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.Standings, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.ResultsFilterOptionIds, opt => opt.UseDestinationValue())
+                .ForMember(dest => dest.ScoringWeights, opt => opt.UseDestinationValue())
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore())
                 .ForMember(dest => dest.SubSessionScorings, opt => opt
                     .MapFrom((src => src.SubSessionScoringIds
@@ -371,6 +378,10 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.ExtScoringSourceId, opt => opt.MapFrom(src => src.ExtScoringSource != null ? src.ExtScoringSource.ScoringId : null))
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => (src.BasePoints.Count > 0) ? src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
                 .ForMember(dest => dest.BonusPoints, opt => opt.MapFrom(src => (src.BonusPoints.Count > 0) ? src.BonusPoints.Select(x => x.Key + ":" + x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
+                .ForMember(dest => dest.AccumulateResultsOption, opt => opt.MapFrom(src => src.AccumulateScoring == true ? src.AccumulateResults : AccumulateResultsOption.None))
+                .ForMember(dest => dest.SubSessionScoringIds, opt => opt.MapFrom(src => src.SubSessionScorings.Select(x => x.ScoringId)))
+                .ForMember(dest => dest.ScoringWeights, opt => opt.MapFrom(src => src.SubSessionScorings
+                    .Select(x => src.ScoringWeights.Any(y => y.Key == x) ? src.ScoringWeights.SingleOrDefault(y => y.Key == x).Value : 0)))
                 .ForMember(dest => dest.IncPenaltyPoints, opt => opt.Ignore());
             CreateMap<ScoringInfoDTO, ScoringModel>()
                 .ConstructUsing(source => modelCache.PutOrGetModel(new ScoringModel(source.ScoringId)))
