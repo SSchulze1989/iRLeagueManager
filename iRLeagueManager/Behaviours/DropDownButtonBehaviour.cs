@@ -10,7 +10,7 @@ using Microsoft.Xaml.Behaviors;
 // Older code uses System.Windows.Interactivity
 //using System.Windows.Interactivity;
 
-namespace iRLeagueManager
+namespace iRLeagueManager.Behaviors
 {
     public class DropDownButtonBehavior : Behavior<Button>
     {
