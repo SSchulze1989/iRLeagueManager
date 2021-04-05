@@ -106,6 +106,9 @@ namespace iRLeagueManager.Models.Results
         private bool updateTeamOnRecalculation;
         public bool UpdateTeamOnRecalculation { get => updateTeamOnRecalculation; set => SetValue(ref updateTeamOnRecalculation, value); }
 
+        private ScoringModel parentScoring;
+        public ScoringModel ParentScoring { get => parentScoring; set => SetValue(ref parentScoring, value); }
+
         private ObservableCollection<ScoringModel> subSessionScorings;
         public ObservableCollection<ScoringModel> SubSessionScorings { get => subSessionScorings; private set => SetNotifyCollection(ref subSessionScorings, value); }
 

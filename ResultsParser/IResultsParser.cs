@@ -37,7 +37,8 @@ namespace iRLeagueManager.ResultsParser
         IEnumerable<TeamModel> TeamList { get; set; }
         Task ReadStreamAsync(StreamReader reader);
         IEnumerable<LeagueMember> GetNewMemberList();
-        IEnumerable<ResultRowModel> GetResultRows();
+        IEnumerable<string> GetResultNames();
+        IEnumerable<ResultRowModel> GetResultRows(string resultName = null);
         SimSessionDetails GetSessionDetails();
     }
 }

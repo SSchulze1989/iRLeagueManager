@@ -164,14 +164,16 @@ namespace iRLeagueManager.ViewModels
 
         public long? RaceId => (Model as RaceSessionModel)?.RaceId;
 
-        public bool ResultAvailable => Model?.SessionResult != null;
+        public bool ResultAvailable => Model?.SessionResult != null == true || (Model?.SubSessions.Count > 0 == true && Model?.SubSessions.All(x => x.SessionResult != null) == true);
 
         private bool isCurrentSession;
         public bool IsCurrentSession { get => isCurrentSession; set => SetValue(ref isCurrentSession, value); }
 
         public int SubSessionNr { get => Model.SubSessionNr; set => Model.SubSessionNr = value; }
 
+        public event SelectionDialogEventHander<SessionViewModel, string> SelectResultNameDialog;
 
+        public event SelectionDialogEventHander<SessionViewModel, SessionModel> SelectSubSessionDialog;
 
         public SessionViewModel() : base()
         {
@@ -181,13 +183,13 @@ namespace iRLeagueManager.ViewModels
             PracticeLenghtComponents = new TimeComponentVector(() => PracticeLength, x => PracticeLength = x);
             QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
             RaceLengthComponents = new TimeComponentVector(() => RaceLength, x => RaceLength = x);
-            UploadFileCmd = new RelayCommand(o => UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
+            UploadFileCmd = new RelayCommand(async o => await UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
             AddHeatCmd = new RelayCommand(o => AddCreateHeat(), o => true);
             RemoveHeatCmd = new RelayCommand(o => RemoveHeat(o as SessionModel), o => o is SessionModel);
             subSessions = new ObservableViewModelCollection<SessionViewModel, SessionModel>(x => x.ParentSession = this);
         }
 
-        public async void UploadFile(SessionModel session)
+        public async Task UploadFile(SessionModel session)
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
@@ -237,9 +239,26 @@ namespace iRLeagueManager.ViewModels
                 stream?.Dispose();
             }
 
-
             try
             {
+                // Select result if multiple heats are found
+                var resultNames = parserService.GetResultNames();
+                string selectedResultName = resultNames.FirstOrDefault();
+                if (resultNames.Count() > 1 && SelectResultNameDialog != null)
+                {
+                    selectedResultName = SelectResultNameDialog.Invoke(this, "Select Result Set", "Multiple results found, select result for this session", resultNames);
+                }
+
+                // Select subsession
+                if (session.SessionType == SessionType.HeatEvent && session.SubSessions.Count() > 0 && SelectSubSessionDialog != null)
+                {
+                    session = SelectSubSessionDialog.Invoke(this, "Select Heat", "Select Heat from this Event", session.SubSessions);
+                }
+                if (session == null)
+                {
+                    throw new InvalidOperationException("Error while uploading Result: Session was NULL");
+                }
+
                 //Update LeagueMember database
                 await LeagueContext.UpdateMemberList();
                 var memberList = LeagueContext.MemberList;
@@ -258,7 +277,7 @@ namespace iRLeagueManager.ViewModels
                 if (session == null)
                     return;
 
-                var resultRows = parserService.GetResultRows();
+                var resultRows = parserService.GetResultRows(selectedResultName);
                 var details = parserService.GetSessionDetails();
                 details.KmDistPerLap = Location.GetConfigInfo().LengthKm;
                 ResultModel result;
@@ -310,6 +329,12 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 await LeagueContext.DeleteModelAsync<ResultModel>(SessionId);
+
+                if (Model.SubSessions.Count > 0)
+                {
+                    await LeagueContext.DeleteModelsAsync<ResultModel>(Model.SubSessions.Select(x => x.SessionId.GetValueOrDefault()).ToArray());
+                }
+
                 await LeagueContext.UpdateModelAsync(Model);
             }
             catch (Exception e)

@@ -372,6 +372,7 @@ namespace iRLeagueManager
                     ))
                  )
                 .ForMember(dest => dest.SubSessionScorings, opt => opt.UseDestinationValue())
+                .ForMember(dest => dest.ParentScoring, opt => opt.MapFrom(src => src.ParentScoringId != null ? modelCache.PutOrGetModel(new ScoringModel() { ScoringId = src.ParentScoringId} ) : null))
                 .ReverseMap()
                 .ForMember(dest => dest.ConnectedScheduleId, opt => opt.MapFrom(src => src.ConnectedSchedule != null ? src.ConnectedSchedule.ScheduleId : null))
                 .ForMember(dest => dest.SessionIds, opt => opt.MapFrom(src => src.Sessions.Select(x => x.SessionId)))
@@ -573,7 +574,7 @@ namespace iRLeagueManager
                     var targetPropertyType = targetColumnProperty.PropertyType;
                     var sourcePropertyType = sourceColumnProperty.PropertyType;
                     return new ObservableCollection<FilterValueModel>(src.FilterValues?
-                        .Select(x => new FilterValueModel(targetPropertyType, targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x, sourcePropertyType, targetPropertyType) : x))
+                        .Select(x => new FilterValueModel(targetPropertyType, Convert.ChangeType(x, targetPropertyType)))
                         ?? new FilterValueModel[0]);
                 }))
                 .ForMember(dest => dest.FilterValues, opt => opt.UseDestinationValue())
@@ -585,7 +586,7 @@ namespace iRLeagueManager
                     var targetPropertyType = targetColumnProperty.PropertyType;
                     var sourcePropertyType = sourceColumnProperty.PropertyType;
                     return src.FilterValues?
-                        .Select(x => targetPropertyType.Equals(sourcePropertyType) == false ? context.Mapper.Map(x.Value, sourcePropertyType, targetPropertyType) : x.Value)
+                        .Select(x => Convert.ChangeType(x.Value, targetPropertyType))
                         .ToArray()
                         ?? new object[0];
                 }));

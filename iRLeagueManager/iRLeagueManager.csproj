@@ -271,6 +271,9 @@
     <Compile Include="Views\ScoredResultControl.xaml.cs">
       <DependentUpon>ScoredResultControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SelectionControl.xaml.cs">
+      <DependentUpon>SelectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectLeagueControl.xaml.cs">
       <DependentUpon>SelectLeagueControl.xaml</DependentUpon>
     </Compile>
@@ -390,6 +393,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ScoredResultControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
