@@ -38,6 +38,9 @@ namespace iRLeagueManager.Models.Results
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }
 
+        private string description;
+        public string Description { get => description; set => SetValue(ref description, value); }
+
         private int dropWeeks;
         public int DropWeeks { get => dropWeeks; set => SetValue(ref dropWeeks, value); }
 
@@ -58,6 +61,9 @@ namespace iRLeagueManager.Models.Results
 
         private bool takeGroupAverage;
         public bool TakeGroupAverage { get => takeGroupAverage; set => SetValue(ref takeGroupAverage, value); }
+
+        private bool showResults;
+        public bool ShowResults { get => showResults; set => SetValue(ref showResults, value); }
 
         private ObservableCollection<SessionModel> sessions;
         public ObservableCollection<SessionModel> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }

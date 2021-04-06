@@ -55,6 +55,7 @@ namespace iRLeagueManager.ViewModels
         public SessionType ScoringSessionType { get => Model.ScoringSessionType; set => Model.ScoringSessionType = value; }
         public ScoringSessionSelectionEnum SessionSelectType { get => Model.SessionSelectType; set => Model.SessionSelectType = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
+        public string Description { get => Model.Description; set => Model.Description = value; }
         public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks = value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
         private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> sessions;
@@ -84,6 +85,7 @@ namespace iRLeagueManager.ViewModels
         public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
         public ScoringInfo ExtScoringSource { get => Model.ExtScoringSource; set => Model.ExtScoringSource = value; }
         public bool TakeResultsFromExtSource { get => Model.TakeResultsFromExtSource; set => Model.TakeResultsFromExtSource = value; }
+        public bool ShowResults { get => Model.ShowResults; set => Model.ShowResults = value; }
         public ObservableCollection<long> ResultsFilterOptionIds => Model.ResultsFilterOptionIds;
         public bool UseResultSetTeam { get => Model.UseResultSetTeam; set => Model.UseResultSetTeam = value; }
         public bool UpdateTeamOnRecalculation { get => Model.UpdateTeamOnRecalculation; set => Model.UpdateTeamOnRecalculation = value; }
