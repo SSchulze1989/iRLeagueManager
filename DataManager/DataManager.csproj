@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DeepCopyModelAttribute.cs" />
     <Compile Include="Data\DatabaseStatusService.cs" />
     <Compile Include="Data\IDatabaseStatusService.cs" />
     <Compile Include="Data\ILeagueDataProvider.cs" />
