@@ -223,6 +223,37 @@ namespace iRLeagueManager.Views
             }
         }
 
+        private void DeleteStatisticSet_Click(object sender, RoutedEventArgs e)
+        {
+            Action<StatisticSetViewModel> action = null;
+            StatisticSetViewModel statisticSetViewModel = null;
+            if (sender is Button button && button.Command != null && button.CommandParameter is StatisticSetViewModel)
+            {
+                statisticSetViewModel = (StatisticSetViewModel)button.CommandParameter;
+                action = button.Command.Execute;
+            }
+            else if (sender is Control control && control.Tag is StatisticSetViewModel && ViewModel != null)
+            {
+                statisticSetViewModel = (StatisticSetViewModel)control.Tag;
+                action = ViewModel.RemoveStatisticSetCmd.Execute;
+            }
+
+            if (action != null)
+            {
+                var message = $"Would you really like to delete the Statistic set \"{statisticSetViewModel.Name}\"?\nThis action can not be undone!";
+                var header = "Delete Statistic set";
+                if (MessageBox.Show(message, header, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    action.Invoke(statisticSetViewModel);
+                }
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
+
         private void SessionSelect_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (sender is FrameworkElement element && element.Tag is Button button)

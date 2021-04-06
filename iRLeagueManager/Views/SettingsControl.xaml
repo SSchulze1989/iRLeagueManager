@@ -919,7 +919,7 @@ SOFTWARE.-->
                                             <MenuItem Header="League Stats" Command="{Binding AddLeagueStatisticSetCmd}"/>
                                             <MenuItem Header="Imported Stats" Command="{Binding AddImportedStatisticSetCmd}"/>
                                         </MenuItem>
-                                        <MenuItem Header="Remove Set" Command="{Binding RemoveStatisticSetCmd}" CommandParameter="{Binding StatisticSets.CurrentItem}"/>
+                                        <MenuItem Header="Remove Set" Click="DeleteStatisticSet_Click" Tag="{Binding StatisticSets.CurrentItem}"/>
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                                 <ListView.GroupStyle>
