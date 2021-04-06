@@ -326,7 +326,7 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.ConnectedSchedule, opt => opt.MapFrom(src => src.ConnectedScheduleId != null ? new ScheduleInfo(src.ConnectedScheduleId) : null))
                 .ForMember(dest => dest.Sessions, opt => opt.MapFrom(src => src.SessionIds.Select(x => modelCache.PutOrGetModel(new SessionModel(x, SessionType.Undefined)))))
                 .ForMember(dest => dest.ExtScoringSource, opt => opt.MapFrom(src => src.ExtScoringSourceId != null ? new ScoringInfo(src.ExtScoringSourceId) : null))
-                .ForMember(dest => dest.AccumulateScoring, opt => opt.MapFrom(src => src.AccumulateResultsOption != AccumulateResultsOption.None ? true : false))
+                .ForMember(dest => dest.AccumulateScoring, opt => opt.MapFrom(src => src.AccumulateResults != AccumulateResultsOption.None ? true : false))
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom((src, dest, result) =>
                 {
                     ObservableCollection<ScoringModel.BasePointsValue> pairs = new ObservableCollection<ScoringModel.BasePointsValue>();
@@ -379,7 +379,7 @@ namespace iRLeagueManager
                 .ForMember(dest => dest.ExtScoringSourceId, opt => opt.MapFrom(src => src.ExtScoringSource != null ? src.ExtScoringSource.ScoringId : null))
                 .ForMember(dest => dest.BasePoints, opt => opt.MapFrom(src => (src.BasePoints.Count > 0) ? src.BasePoints.Select(x => x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
                 .ForMember(dest => dest.BonusPoints, opt => opt.MapFrom(src => (src.BonusPoints.Count > 0) ? src.BonusPoints.Select(x => x.Key + ":" + x.Value.ToString()).Aggregate((x, y) => x + " " + y) : ""))
-                .ForMember(dest => dest.AccumulateResultsOption, opt => opt.MapFrom(src => src.AccumulateScoring == true ? src.AccumulateResults : AccumulateResultsOption.None))
+                .ForMember(dest => dest.AccumulateResults, opt => opt.MapFrom(src => src.AccumulateScoring == true ? src.AccumulateResults : AccumulateResultsOption.None))
                 .ForMember(dest => dest.SubSessionScoringIds, opt => opt.MapFrom(src => src.SubSessionScorings.Select(x => x.ScoringId)))
                 .ForMember(dest => dest.ScoringWeights, opt => opt.MapFrom(src => src.SubSessionScorings
                     .Select(x => src.ScoringWeights.Any(y => y.Key == x) ? src.ScoringWeights.SingleOrDefault(y => y.Key == x).Value : 0)))
