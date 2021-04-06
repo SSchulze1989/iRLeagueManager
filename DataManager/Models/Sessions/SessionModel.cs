@@ -35,6 +35,8 @@ using iRLeagueManager.Models.Results;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Locations;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.Attributes;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.Models.Sessions
 {
@@ -81,6 +83,8 @@ namespace iRLeagueManager.Models.Sessions
 
         private SessionModel parentSession;
         public SessionModel ParentSession { get => parentSession; set => SetValue(ref parentSession, value); }
+
+        public override bool ContainsChanges { get => base.ContainsChanges || SubSessions.Any(x => x.ContainsChanges); protected set => base.ContainsChanges = value; }
 
         public SessionModel() : this(0, SessionType.Undefined)
         {
@@ -155,6 +159,7 @@ namespace iRLeagueManager.Models.Sessions
                 //{
                 //    return;
                 //}
+                SubSessions.ForEach(x => x.InitializeModel());
             }
             base.InitializeModel();
         }
