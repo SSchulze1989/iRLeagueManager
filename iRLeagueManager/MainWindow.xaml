@@ -35,6 +35,7 @@ SOFTWARE.-->
         xmlns:interface="clr-namespace:iRLeagueManager.Interfaces;assembly=Communication"
         xmlns:controls="clr-namespace:iRLeagueManager.Controls"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:localbehaviors="clr-namespace:iRLeagueManager.Behaviors"
         mc:Ignorable="d"
         WindowState="Normal" Height="800" Width="1400" Background="White"
         FontFamily="{StaticResource Global.FontFamily}"
@@ -194,7 +195,7 @@ SOFTWARE.-->
                             <fa:ImageAwesome Icon="Bars" Width="30"/>
                         </controls:IconButton.IconContent>
                         <behaviors:Interaction.Behaviors>
-                            <local:DropDownButtonBehavior/>
+                            <localbehaviors:DropDownButtonBehavior/>
                         </behaviors:Interaction.Behaviors>
                         <controls:IconButton.ContextMenu>
                             <ContextMenu Placement="Bottom">
@@ -240,7 +241,7 @@ SOFTWARE.-->
                             </Style>
                         </controls:IconToggleButton.Style>
                     </controls:IconToggleButton>
-                    <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5"/>
+                    <Image DockPanel.Dock="Left" Source="{StaticResource Logo_Dark}" Margin="25,5" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <TextBlock FontFamily="{DynamicResource Header.FontFamily}"
                            FontSize="{DynamicResource Header.FontSize}" 
                            Foreground="SeaShell" VerticalAlignment="Center" 
@@ -417,13 +418,14 @@ SOFTWARE.-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0" Grid.ColumnSpan="2">
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0" Grid.ColumnSpan="2">
                         <controls:IconButton Click="GitHub_Click" ToolTip="Open iRLeagueManger on GitHub" VerticalAlignment="Center" Margin="4">
                             <controls:IconButton.IconContent>
                                 <fa:ImageAwesome Icon="Github" Height="25" Foreground="{StaticResource ThemeColor_Back1}"/>
@@ -441,11 +443,14 @@ SOFTWARE.-->
                         </TextBlock>
                     </StackPanel>
 
-                    <controls:IconButton Grid.Row="1" Grid.Column="0" Content="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" 
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="© 2021 Simon Schulze" FontSize="{StaticResource Global.FontSizeSmallMedium}" Foreground="{StaticResource ThemeColor_Back4}"
+                               Margin="10,0" HorizontalAlignment="Center" FontFamily="{StaticResource Global.FontFamily}"/>
+
+                    <controls:IconButton Grid.Row="2" Grid.Column="0" Content="{Binding CurrentUser.FullName, Converter={StaticResource ToUpperConverter}}" 
                                          Foreground="{StaticResource ThemeColor_Blue}" 
                                          FontSize="{StaticResource Global.FontSizeSmall}" VerticalAlignment="Bottom" Padding="0,20" HorizontalAlignment="Stretch">
                         <behaviors:Interaction.Behaviors>
-                            <local:DropDownButtonBehavior/>
+                            <localbehaviors:DropDownButtonBehavior/>
                         </behaviors:Interaction.Behaviors>
                         <controls:IconButton.ContextMenu>
                             <ContextMenu Placement="Top">
@@ -454,7 +459,7 @@ SOFTWARE.-->
                             </ContextMenu>
                         </controls:IconButton.ContextMenu>
                     </controls:IconButton>
-                    <controls:IconButton Grid.Row="1" Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
+                    <controls:IconButton Grid.Row="2" Grid.Column="1" IconFill="{StaticResource ThemeColor_Blue}"
                                          Foreground="{StaticResource ThemeColor_Back0}" Margin="0" Padding="15"
                                          Click="RefreshButtonClick">
                         <controls:IconButton.IconContent>

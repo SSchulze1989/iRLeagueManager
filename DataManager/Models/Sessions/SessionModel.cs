@@ -35,6 +35,8 @@ using iRLeagueManager.Models.Results;
 using System.Collections.ObjectModel;
 using iRLeagueManager.Locations;
 using iRLeagueManager.Models.Reviews;
+using iRLeagueManager.Attributes;
+using iRLeagueDatabase.Extensions;
 
 namespace iRLeagueManager.Models.Sessions
 {
@@ -63,6 +65,8 @@ namespace iRLeagueManager.Models.Sessions
             }
         }
         //IResult ISession.Result => SessionResult;
+        private int subSessionNr;
+        public int SubSessionNr { get => subSessionNr; set => SetValue(ref subSessionNr, value); }
 
         private ObservableCollection<IncidentReviewInfo> reviews;
         public ObservableCollection<IncidentReviewInfo> Reviews { get => reviews; internal set => SetNotifyCollection(ref reviews, value); }
@@ -74,6 +78,14 @@ namespace iRLeagueManager.Models.Sessions
         [XmlIgnore]
         public TimeSpan Duration { get => duration; set => SetValue(ref duration, value); }
 
+        private ObservableCollection<SessionModel> subSessions;
+        public ObservableCollection<SessionModel> SubSessions { get => subSessions; set => SetNotifyCollection(ref subSessions, value); }
+
+        private SessionModel parentSession;
+        public SessionModel ParentSession { get => parentSession; set => SetValue(ref parentSession, value); }
+
+        public override bool ContainsChanges { get => base.ContainsChanges || SubSessions.Any(x => x.ContainsChanges); protected set => base.ContainsChanges = value; }
+
         public SessionModel() : this(0, SessionType.Undefined)
         {
         }
@@ -83,6 +95,7 @@ namespace iRLeagueManager.Models.Sessions
             Date = DateTime.Today;
             SessionType = sessionType;
             Reviews = new ObservableCollection<IncidentReviewInfo>();
+            SubSessions = new ObservableCollection<SessionModel>();
             //LocationId = "";
             //Laps = 0;
             //Duration = TimeSpan.FromMinutes(120);
@@ -97,6 +110,7 @@ namespace iRLeagueManager.Models.Sessions
             SessionType = sessionType;
             Date = DateTime.Today;
             Reviews = new ObservableCollection<IncidentReviewInfo>();
+            SubSessions = new ObservableCollection<SessionModel>();
             //LocationId = "";
             //Laps = 0;
             //Duration = TimeSpan.FromMinutes(120);
@@ -145,6 +159,7 @@ namespace iRLeagueManager.Models.Sessions
                 //{
                 //    return;
                 //}
+                SubSessions.ForEach(x => x.InitializeModel());
             }
             base.InitializeModel();
         }

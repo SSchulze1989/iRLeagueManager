@@ -31,6 +31,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Timing;
+using System.Collections;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace iRLeagueManager.ResultsParser
 {
@@ -38,6 +41,8 @@ namespace iRLeagueManager.ResultsParser
     {
         private dynamic ResultData { get; set; }
         private dynamic SessionResults { get; set; }
+        private dynamic RaceResults { get; set; }
+        private dynamic HeatResults { get; set; }
         private dynamic QualifyingResults { get; set; }
 
         public IEnumerable<LeagueMember> MemberList { get; set; } = new List<LeagueMember>();
@@ -45,9 +50,10 @@ namespace iRLeagueManager.ResultsParser
 
         public IEnumerable<LeagueMember> GetNewMemberList()
         {
-            var memberList = new List<LeagueMember>();
+            var newMemberList = new List<LeagueMember>();
 
-            foreach (var result in SessionResults)
+            var heatResults = ((IEnumerable)HeatResults).OfType<dynamic>();
+            foreach (var result in heatResults.SelectMany(x => ((IEnumerable)x.results).OfType<dynamic>()))
             {
                 IRacingResultRow row = new IRacingResultRow();
                 if (!MemberList.Any(x => x.IRacingId == (string)result.cust_id))
@@ -57,6 +63,13 @@ namespace iRLeagueManager.ResultsParser
                         var member = MemberList.SingleOrDefault(x => x.FullName == (string)result.display_name);
                         member.IRacingId = (string)result.cust_id;
                     }
+                    else if (newMemberList.Any(x => x.IRacingId == (string)result.cust_id))
+                    {
+                        var member = newMemberList.SingleOrDefault(x => x.IRacingId == (string)result.cust_id);
+                        var names = ((string)result.display_name).Split(' ');
+                        member.Firstname = names.First();
+                        member.Lastname = names.Skip(1).Aggregate((x, y) => x + " " + y);
+                    }
                     else
                     {
                         //var newMember = LeagueClient.AddNewMember(line["Name"].Split(' ').First(), line["Name"].Split(' ').Last());
@@ -65,7 +78,7 @@ namespace iRLeagueManager.ResultsParser
                         newMember.IRacingId = (string)result.cust_id;
                         //row.MemberId = newMember.MemberId;
                         row.Member = newMember;
-                        memberList.Add(newMember);
+                        newMemberList.Add(newMember);
                     }
                 }
                 else
@@ -76,14 +89,25 @@ namespace iRLeagueManager.ResultsParser
                     member.Lastname = names.Skip(1).Aggregate((x, y) => x + " " + y);
                 }
             }
-            return memberList;
+            return newMemberList;
         }
 
-        public IEnumerable<ResultRowModel> GetResultRows()
+        public IEnumerable<string> GetResultNames()
         {
+            return ((IEnumerable)HeatResults).OfType<dynamic>().Select(x => (string)x.simsession_name);
+        }
+
+        public IEnumerable<ResultRowModel> GetResultRows(string resultName)
+        {
+            // Select Race result based on name
+            if (string.IsNullOrEmpty(resultName) == false)
+            {
+                RaceResults = ((IEnumerable)HeatResults).OfType<dynamic>().FirstOrDefault(x => (string)x.simsession_name == resultName).results;
+            }
+
             List<IRacingResultRow> resultRows = new List<IRacingResultRow>();
 
-            foreach (var resultRow in SessionResults)
+            foreach (var resultRow in RaceResults)
             {
                 IRacingResultRow row = new IRacingResultRow
                 {
@@ -225,7 +249,9 @@ namespace iRLeagueManager.ResultsParser
             dynamic dynResult = JsonConvert.DeserializeObject(jsonString);
 
             ResultData = dynResult;
-            SessionResults = ResultData.session_results[0].results;
+            SessionResults = ResultData.session_results;
+            HeatResults = ((IEnumerable)SessionResults).OfType<dynamic>().Where(x => x.simsession_type == IRSimSessionTypeEnum.Race);
+            RaceResults = SessionResults[0].results;
             QualifyingResults = ((IEnumerable<object>)ResultData.session_results).Cast<dynamic>().SingleOrDefault(x => (string)x.simsession_name == "QUALIFY")?.results;
         }
 

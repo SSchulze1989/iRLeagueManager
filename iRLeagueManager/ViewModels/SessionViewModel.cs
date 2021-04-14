@@ -45,6 +45,8 @@ using iRLeagueManager.ViewModels.Collections;
 using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.User;
 using System.Windows.Markup.Localizer;
+using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -79,10 +81,14 @@ namespace iRLeagueManager.ViewModels
         //}
 
         public ICommand UploadFileCmd { get; }
+        public ICommand AddHeatCmd { get; }
+        public ICommand RemoveHeatCmd { get; }
 
         protected override SessionModel Template => SessionModel.GetTemplate();
 
         private LocationCollection Locations => GlobalSettings.Locations;
+
+        public IEnumerable<RaceTrack> TrackList => Locations.GetTrackList();
 
         private ScheduleViewModel schedule;
         public ScheduleViewModel Schedule { get => schedule; set => SetValue(ref schedule, value); }
@@ -94,6 +100,7 @@ namespace iRLeagueManager.ViewModels
         public int? SessionNumber => Schedule?.Sessions.IndexOf(x => x.SessionId == SessionId) + 1;
 
         public SessionType SessionType { get => Model.SessionType; set => Model.SessionType = value; }
+        public string Name { get => Model.Name; set => Model.Name = value; }
         public DateTime FullDate { get => Model.Date; set => Model.Date = value; }
         public DateTime Date { get => Model.Date.Date; set => Model.Date = value.Date.Add(Model.Date.TimeOfDay); }
         public DateTime RaceDate => Date.Add(RaceStart);
@@ -131,17 +138,45 @@ namespace iRLeagueManager.ViewModels
         public TimeSpan QualyEnd => QualyStart.Add(QualyLength);
         public TimeSpan RaceLength { get => ((Model as RaceSessionModel)?.RaceLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.RaceLength = value; } } }
         public TimeComponentVector RaceLengthComponents { get; }
-        public TimeSpan RaceStart => QualyStart.Add(QualyLength);
-        public TimeSpan RaceEnd => RaceStart.Add(RaceLength);
+        public TimeSpan RaceStart => Model.SubSessions.Count > 0 ? Model.SubSessions.Select(x => x.Date.TimeOfDay).OrderBy(x => x).FirstOrDefault(): QualyStart.Add(QualyLength);
+        public TimeSpan RaceEnd => Model.SubSessions.Count > 0 ? Model.SubSessions.Select(x => x.Date.TimeOfDay.Add(x.Duration)).OrderBy(x => x).LastOrDefault() : RaceStart.Add(RaceLength);
         public bool QualyAttached { get => ((Model as RaceSessionModel)?.QualyAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyAttached = value; } } }
         public bool PracticeAttached { get => ((Model as RaceSessionModel)?.PracticeAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeAttached = value; } } }
 
+        private SessionViewModel parentSession;
+        public SessionViewModel ParentSession { get => parentSession; set => SetValue(ref parentSession, value); }
+
+        public string ParentSessionName => Model.ParentSession?.Name;
+
+        private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> subSessions;
+        public ICollectionView SubSessions
+        {
+            get
+            {
+                if (subSessions.GetSource() != Model?.SubSessions)
+                {
+                    subSessions.UpdateSource(Model?.SubSessions);
+                    if (subSessions.CollectionView.CanFilter)
+                    {
+                        subSessions.CollectionView.Refresh();
+                    }
+                }
+                return subSessions.CollectionView;
+            }
+        }
+
         public long? RaceId => (Model as RaceSessionModel)?.RaceId;
 
-        public bool ResultAvailable => Model?.SessionResult != null;
+        public bool ResultAvailable => Model?.SessionResult != null == true || (Model?.SubSessions.Count > 0 == true && Model?.SubSessions.All(x => x.SessionResult != null) == true);
 
         private bool isCurrentSession;
         public bool IsCurrentSession { get => isCurrentSession; set => SetValue(ref isCurrentSession, value); }
+
+        public int SubSessionNr { get => Model.SubSessionNr; set => Model.SubSessionNr = value; }
+
+        public event SelectionDialogEventHander<SessionViewModel, string> SelectResultNameDialog;
+
+        public event SelectionDialogEventHander<SessionViewModel, SessionModel> SelectSubSessionDialog;
 
         public SessionViewModel() : base()
         {
@@ -151,10 +186,13 @@ namespace iRLeagueManager.ViewModels
             PracticeLenghtComponents = new TimeComponentVector(() => PracticeLength, x => PracticeLength = x);
             QualyLengthComponents = new TimeComponentVector(() => QualyLength, x => QualyLength = x);
             RaceLengthComponents = new TimeComponentVector(() => RaceLength, x => RaceLength = x);
-            UploadFileCmd = new RelayCommand(o => UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
+            UploadFileCmd = new RelayCommand(async o => await UploadFile(Model), o => !(Model?.IsReadOnly).GetValueOrDefault());
+            AddHeatCmd = new RelayCommand(o => AddCreateHeat(), o => true);
+            RemoveHeatCmd = new RelayCommand(o => RemoveHeat(o as SessionModel), o => o is SessionModel);
+            subSessions = new ObservableViewModelCollection<SessionViewModel, SessionModel>(x => x.ParentSession = this);
         }
 
-        public async void UploadFile(SessionModel session)
+        public async Task UploadFile(SessionModel session)
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
@@ -204,9 +242,26 @@ namespace iRLeagueManager.ViewModels
                 stream?.Dispose();
             }
 
-
             try
             {
+                // Select result if multiple heats are found
+                var resultNames = parserService.GetResultNames();
+                string selectedResultName = resultNames.FirstOrDefault();
+                if (resultNames.Count() > 1 && SelectResultNameDialog != null)
+                {
+                    selectedResultName = SelectResultNameDialog.Invoke(this, "Select Result Set", "Multiple results found, select result for this session", resultNames);
+                }
+
+                // Select subsession
+                if (session.SessionType == SessionType.HeatEvent && session.SubSessions.Count() > 0 && SelectSubSessionDialog != null)
+                {
+                    session = SelectSubSessionDialog.Invoke(this, "Select Heat", "Select Heat from this Event", session.SubSessions);
+                }
+                if (session == null)
+                {
+                    throw new InvalidOperationException("Error while uploading Result: Session was NULL");
+                }
+
                 //Update LeagueMember database
                 await LeagueContext.UpdateMemberList();
                 var memberList = LeagueContext.MemberList;
@@ -225,7 +280,7 @@ namespace iRLeagueManager.ViewModels
                 if (session == null)
                     return;
 
-                var resultRows = parserService.GetResultRows();
+                var resultRows = parserService.GetResultRows(selectedResultName);
                 var details = parserService.GetSessionDetails();
                 details.KmDistPerLap = Location.GetConfigInfo().LengthKm;
                 ResultModel result;
@@ -277,6 +332,12 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 await LeagueContext.DeleteModelAsync<ResultModel>(SessionId);
+
+                if (Model.SubSessions.Count > 0)
+                {
+                    await LeagueContext.DeleteModelsAsync<ResultModel>(Model.SubSessions.Select(x => x.SessionId.GetValueOrDefault()).ToArray());
+                }
+
                 await LeagueContext.UpdateModelAsync(Model);
             }
             catch (Exception e)
@@ -287,6 +348,55 @@ namespace iRLeagueManager.ViewModels
             {
 
             }
+        }
+
+        /// <summary>
+        /// Create a new heat as subsession and add it to the SubSession collection
+        /// </summary>
+        /// <returns>Newly created heat SubSession</returns>
+        public SessionModel AddCreateHeat()
+        {
+            var heatNr = subSessions.Count + 1;
+            
+            var currentHeat = SubSessions.CurrentItem;
+            SubSessions.MoveCurrentToLast();
+            var lastHeat = SubSessions.CurrentItem as SessionViewModel;
+            SubSessions.MoveCurrentTo(currentHeat);
+            var schedule = Schedule?.Model;
+            if (schedule == null)
+            {
+                throw new InvalidOperationException("Could not add new Heat session. Schedule was null.");
+            }
+
+            DateTime date;
+            if (lastHeat == null)
+            {
+                date = Date.Date.Add(RaceStart);
+            }
+            else
+            {
+                date = Date.Date.Add(lastHeat.SessionEnd);
+            }
+
+            var heat = new SessionModel((long?)null, SessionType.Heat)
+            {
+                ConfigId = ConfigId,
+                Date = date,
+                Duration = TimeSpan.Zero,
+                Name = "New Heat",
+                SubSessionNr = heatNr,
+                SessionType = SessionType.Heat,
+                LocationId = Model.LocationId
+            };
+
+            Model.SubSessions.Add(heat);
+
+            return heat;
+        }
+
+        public void RemoveHeat(SessionModel model)
+        {
+            Model.SubSessions.Remove(model);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")

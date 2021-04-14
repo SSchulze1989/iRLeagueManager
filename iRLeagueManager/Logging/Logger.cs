@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Runtime.InteropServices;
 
 namespace iRLeagueManager.Logging
 {
@@ -40,16 +41,19 @@ namespace iRLeagueManager.Logging
         public ReadOnlyObservableCollection<ExceptionLogMessage> ErrorMessages => new ReadOnlyObservableCollection<ExceptionLogMessage>(errorMessages);
         public string LogFilename { get; private set; }
         public DateTime SessionStart { get; } =  DateTime.Now;
+        public string Path { get; }
 
-        public Logger()
+        private static readonly string defaultPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "iRLeagueManager");
+
+        public Logger() : this(defaultPath)
         {
-            //Create log file:
-            LogFilename = DateTime.Now.ToString("dd_MM_yyyy-hh_mm_ss") + ".log";
+        }
 
-            //AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
-            //{
-            //    ErrLog(new ExceptionLogMessage(eventArgs.Exception));
-            //};
+        public Logger(string path)
+        {
+            LogFilename = DateTime.Now.ToString("dd_MM_yyyy-hh_mm_ss") + ".log";
+            Path = path;
+            Directory.CreateDirectory(Path);
         }
 
         public void Log(string message, object tag = null)

@@ -204,7 +204,9 @@ SOFTWARE.-->
 			<Setter Property="Padding" Value="1,0,0,0"/>
 			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 			<Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}"/>
-			<Setter Property="Template">
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+            <Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type TreeViewItem}">
 						<Grid Margin="2" HorizontalAlignment="Stretch">
@@ -658,36 +660,6 @@ SOFTWARE.-->
                                                                                 </ItemsControl.ItemTemplate>
                                                                             </ItemsControl>
                                                                         </StackPanel>
-
-                                                                        <!--<StackPanel Grid.Column="2" Margin="10,5" Grid.Row="0">
-                                                                            <TextBlock Text="Proposed" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                       FontWeight="DemiBold" Foreground="{StaticResource ThemeColor_SmallHeaderForeground}"/>
-                                                                        </StackPanel>-->
-                                                                        <!--<Separator Margin="10,4" Grid.Column="2" Grid.Row="1"/>
-                                                                        <StackPanel Margin="10,5" Grid.Row="2" Grid.Column="2">
-                                                                            <TextBlock Text="Result" FontSize="{StaticResource Global.FontSizeMedium}"
-                                                                                       FontWeight="DemiBold" Foreground="{StaticResource  ThemeColor_SmallHeaderForeground}"/>
-                                                                            <ItemsControl ItemsSource="{Binding AcceptedVotes}" Margin="15,2">
-                                                                                <ItemsControl.ItemTemplate>
-                                                                                    <DataTemplate>
-                                                                                        <StackPanel Orientation="Horizontal">
-                                                                                            --><!--<TextBlock Text="{Binding VoteCategory.Text, Converter={StaticResource ToUpperConverter},
-                                                                                                   StringFormat={}- {0}}"/>--><!--
-                                                                                            <TextBlock>
-                                                                                                <TextBlock.Text>
-                                                                                                    <PriorityBinding StringFormat="{}- {0}" FallbackValue="None">
-                                                                                                        <Binding Path="VoteCategory.Text" Converter="{StaticResource ToUpperConverter}"/>
-                                                                                                        <Binding Path="Vote" Converter="{StaticResource ToUpperConverter}"/>
-                                                                                                    </PriorityBinding>
-                                                                                                </TextBlock.Text>
-                                                                                            </TextBlock>
-                                                                                            <TextBlock Text=": "/>
-                                                                                            <TextBlock Text="{Binding MemberAtFault.FullName}"/>
-                                                                                        </StackPanel>
-                                                                                    </DataTemplate>
-                                                                                </ItemsControl.ItemTemplate>
-                                                                            </ItemsControl>
-                                                                        </StackPanel>-->
 
                                                                         <Separator Grid.Column="1" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,15" Width="1"
                                                                                    Grid.RowSpan="1"/>

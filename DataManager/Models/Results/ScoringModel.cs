@@ -27,6 +27,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.Enums;
+using System.Web.Hosting;
+using System.Collections.Generic;
 
 namespace iRLeagueManager.Models.Results
 {
@@ -34,6 +37,9 @@ namespace iRLeagueManager.Models.Results
     {
         private string name;
         public string Name { get => name; set => SetValue(ref name, value); }
+
+        private string description;
+        public string Description { get => description; set => SetValue(ref description, value); }
 
         private int dropWeeks;
         public int DropWeeks { get => dropWeeks; set => SetValue(ref dropWeeks, value); }
@@ -44,14 +50,23 @@ namespace iRLeagueManager.Models.Results
         private ScoringKindEnum scoringKind;
         public ScoringKindEnum ScoringKind { get => scoringKind; set => SetValue(ref scoringKind, value); }
 
+        private SessionType scoringSessionType;
+        public SessionType ScoringSessionType { get => scoringSessionType; set => SetValue(ref scoringSessionType, value); }
+
+        private ScoringSessionSelectionEnum sessionSelectType;
+        public ScoringSessionSelectionEnum SessionSelectType { get => sessionSelectType; set => SetValue(ref sessionSelectType, value); }
+
         private int maxResultsPerGroup;
         public int MaxResultsPerGroup { get => maxResultsPerGroup; set => SetValue(ref maxResultsPerGroup, value); }
 
         private bool takeGroupAverage;
         public bool TakeGroupAverage { get => takeGroupAverage; set => SetValue(ref takeGroupAverage, value); }
 
-        private ObservableCollection<SessionInfo> sessions;
-        public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }
+        private bool showResults;
+        public bool ShowResults { get => showResults; set => SetValue(ref showResults, value); }
+
+        private ObservableCollection<SessionModel> sessions;
+        public ObservableCollection<SessionModel> Sessions { get => sessions; set => SetNotifyCollection(ref sessions, value); }
 
         private ScoringInfo extScoringSource;
         public ScoringInfo ExtScoringSource { get => extScoringSource; set => SetValue(ref extScoringSource, value); }
@@ -83,10 +98,10 @@ namespace iRLeagueManager.Models.Results
         public bool IsMultiScoring { get => isMultiScoring; set => SetValue(ref isMultiScoring, value); }
 
         private ObservableCollection<MyKeyValuePair<ScoringInfo, double>> multiScoringResults;
-        public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults { get => multiScoringResults; set => SetNotifyCollection(ref multiScoringResults, value); }
+        public ObservableCollection<MyKeyValuePair<ScoringInfo, double>> MultiScoringResults { get => multiScoringResults; private set => SetNotifyCollection(ref multiScoringResults, value); }
 
         private ObservableCollection<StandingsRowModel> standings;
-        public ObservableCollection<StandingsRowModel> Standings { get => standings; set => SetNotifyCollection(ref standings, value); }
+        public ObservableCollection<StandingsRowModel> Standings { get => standings; private set => SetNotifyCollection(ref standings, value); }
 
         private ObservableCollection<long> resultsFilterOptionIds;
         public ObservableCollection<long> ResultsFilterOptionIds { get => resultsFilterOptionIds; set => SetValue(ref resultsFilterOptionIds, value); }
@@ -97,6 +112,23 @@ namespace iRLeagueManager.Models.Results
         private bool updateTeamOnRecalculation;
         public bool UpdateTeamOnRecalculation { get => updateTeamOnRecalculation; set => SetValue(ref updateTeamOnRecalculation, value); }
 
+        private ScoringModel parentScoring;
+        public ScoringModel ParentScoring { get => parentScoring; set => SetValue(ref parentScoring, value); }
+
+        private ObservableCollection<ScoringModel> subSessionScorings;
+        public ObservableCollection<ScoringModel> SubSessionScorings { get => subSessionScorings; private set => SetNotifyCollection(ref subSessionScorings, value); }
+
+        private ObservableCollection<MyKeyValuePair<ScoringModel,double>> scoringWeights;
+        public ObservableCollection<MyKeyValuePair<ScoringModel, double>> ScoringWeights { get => scoringWeights; private set => SetNotifyCollection(ref scoringWeights, value); }
+
+        private bool accumulateScoring;
+        public bool AccumulateScoring { get => accumulateScoring; set => SetValue(ref accumulateScoring, value); }
+
+        private AccumulateByOption accumulateBy;
+        public AccumulateByOption AccumulateBy { get => accumulateBy; set => SetValue(ref accumulateBy, value); }
+
+        private AccumulateResultsOption accumulateResults;
+        public AccumulateResultsOption AccumulateResults { get => accumulateResults; set => SetValue(ref accumulateResults, value); }
 
         private ScheduleInfo connectedschedule;
         public ScheduleInfo ConnectedSchedule
@@ -108,13 +140,15 @@ namespace iRLeagueManager.Models.Results
         {
             Season = new SeasonModel();
             ScoringId = null;
-            Sessions = new ObservableCollection<SessionInfo>();
+            Sessions = new ObservableCollection<SessionModel>();
             BonusPoints = new ObservableCollection<BonusPointsValue>();
             BasePoints = new ObservableCollection<BasePointsValue>();
             IncPenaltyPoints = new ObservableCollection<IncidentPointsValue>();
             MultiScoringResults = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();
             Standings = new ObservableCollection<StandingsRowModel>();
             ResultsFilterOptionIds = new ObservableCollection<long>();
+            SubSessionScorings = new ObservableCollection<ScoringModel>();
+            ScoringWeights = new ObservableCollection<MyKeyValuePair<ScoringModel, double>>();
             //Schedules = new ObservableCollection<ScheduleInfo>();
         }
 

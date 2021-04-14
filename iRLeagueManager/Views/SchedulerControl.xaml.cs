@@ -35,6 +35,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using iRLeagueManager.Controls;
+using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.ViewModels;
 
 namespace iRLeagueManager.Views
@@ -55,53 +56,77 @@ namespace iRLeagueManager.Views
         {
             if (sender is Button button)
             {
-                var editWindow = EditPanel;
-                //editWindow.Width = 700;
-                //editWindow.Height = 650;
-                editWindow.Title = "Add New Session";
-                var content = new SessionEditControl();
-                var Schedule = button.DataContext as ScheduleViewModel;
-
-                if (content.DataContext is SessionViewModel editVM && Schedule != null)
+                var editWindow = new ModalOkCancelControl();
+                try
                 {
-                    editVM.Schedule = Schedule;
+                    //editWindow.Width = 700;
+                    //editWindow.Height = 650;
+                    editWindow.Title = "Add New Session";
+                    var content = new SessionEditControl();
+                    var Schedule = button.DataContext as ScheduleViewModel;
+                    MainGrid.Children.Add(editWindow);
 
-                    editWindow.ModalContent = content;
-                    if (editWindow.ShowDialog() == true)
+                    if (content.DataContext is SessionViewModel editVM && Schedule != null)
                     {
-                        await Schedule.AddSessionAsync(editVM.Model);
+                        editVM.Schedule = Schedule;
+
+                        editWindow.ModalContent = content;
+                        if (editWindow.ShowDialog() == true)
+                        {
+                            await Schedule.AddSessionAsync(editVM.Model);
+                        }
                     }
+                }
+                finally
+                {
+                    MainGrid.Children.Remove(editWindow);
                 }
             }
         }
 
         private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag != null)
+            if (sender is Button button)
             {
-                var editWindow = EditPanel;
+                await EditSessionDialog(button.Tag as SessionViewModel);
+            }
+        }
+
+        private async Task EditSessionDialog(SessionViewModel sessionVM)
+        {
+            if (sessionVM == null)
+            {
+                return;
+            }
+
+            var editWindow = new ModalOkCancelControl();
+            try
+            {
                 //editWindow.Width = 700;
                 //editWindow.Height = 650;
                 var content = new SessionEditControl();
+                MainGrid.Children.Add(editWindow);
 
                 editWindow.Title = "Edit Session";
 
-                if (content.DataContext is SessionViewModel editVM && button.Tag is SessionViewModel sessionVM)
+                var editVM = content.DataContext as SessionViewModel;
+                if (sessionVM.SessionType == Enums.SessionType.Race)
                 {
-                    if (sessionVM.SessionType == Enums.SessionType.Race)
-                    {
-                        editVM.UpdateSource(Models.Sessions.RaceSessionModel.GetTemplate());
-                    }
-                    editVM.Model.CopyFrom(sessionVM.Model);
-                    editVM.Schedule = sessionVM.Schedule;
-                    
-                    editWindow.ModalContent = content;
-                    if (editWindow.ShowDialog() == true)
-                    {
-                        sessionVM.Model.CopyFrom(editVM.Model);
-                        await sessionVM.SaveChanges();
-                    }
+                    editVM.UpdateSource(Models.Sessions.RaceSessionModel.GetTemplate());
                 }
+                editVM.Model.CopyFrom(sessionVM.Model);
+                editVM.Schedule = sessionVM.Schedule;
+
+                editWindow.ModalContent = content;
+                if (editWindow.ShowDialog() == true)
+                {
+                    sessionVM.Model.CopyFrom(editVM.Model);
+                    await sessionVM.SaveChanges();
+                }
+            }
+            finally
+            {
+                MainGrid.Children.Remove(editWindow);
             }
         }
 
@@ -114,11 +139,6 @@ namespace iRLeagueManager.Views
                     
                 }
             }
-        }
-
-        private void UploadButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private async void DeleteResultButton_Click(object sender, RoutedEventArgs e)
@@ -210,6 +230,61 @@ namespace iRLeagueManager.Views
                         button.IsChecked = !button.IsChecked;
                     }
                 }
+            }
+        }
+
+        private async void UploadResultButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is SessionViewModel session)
+            {
+                try
+                {
+                    session.SelectResultNameDialog += OpenSelectDialog;
+                    session.SelectSubSessionDialog += OpenSelectDialog;
+                    await session.UploadFile(session.Model);
+                }
+                finally
+                {
+                    session.SelectResultNameDialog -= OpenSelectDialog;
+                    session.SelectSubSessionDialog -= OpenSelectDialog;
+                }
+            }
+        }
+
+        private T OpenSelectDialog<T>(SessionViewModel sender, string title, string message, IEnumerable<T> values) where T : class
+        {
+            var dialog = new ModalOkCancelControl();
+            try
+            {
+                var content = new SelectionControl()
+                {
+                    Header = title,
+                    Message = message,
+                    Items = CollectionViewSource.GetDefaultView(values),
+                    SubmitText = "Ok",
+                    CancelText = "Cancel"
+                };
+                dialog.ModalContent = content;
+                MainGrid.Children.Add(dialog);
+
+                if (dialog.ShowDialog() == true)
+                {
+                    return (T)content.Items.CurrentItem;
+                }
+                return null;
+            }
+            finally
+            {
+                MainGrid.Children.Remove(dialog);
+            }
+        }
+
+        private async void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGridRow row && row.DataContext is SessionViewModel sessionVM)
+            {
+                e.Handled = true;
+                await EditSessionDialog(sessionVM);
             }
         }
     }

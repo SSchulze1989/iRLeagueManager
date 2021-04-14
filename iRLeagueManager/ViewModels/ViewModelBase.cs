@@ -57,6 +57,11 @@ namespace iRLeagueManager.ViewModels
 
         public delegate void ActionDialogEventHandler<T>(T sender, string title, string message, Action<T> okAction);
 
+        public delegate TOut SelectionDialogEventHander<TIn, TOut>(TIn sender, string title, string message, IEnumerable<TOut> values);
+
+        public bool IsSelected { get; set; }
+        public bool IsExpanded { get; set; }
+
         public ICommand RefreshCmd { get; protected set; }
 
         public ViewModelBase()
