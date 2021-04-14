@@ -103,8 +103,9 @@ namespace iRLeagueManager.ViewModels
         {
             StatisticSetSelection = CollectionViewSource.GetDefaultView(source);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("StatisticSetType");
-            StatisticSetSelection.GroupDescriptions.Add(groupDescription);
             StatisticSetSelection.Filter = StatisticSetFilter;
+            StatisticSetSelection.GroupDescriptions.Clear();
+            StatisticSetSelection.GroupDescriptions.Add(groupDescription);
         }
 
         public bool StatisticSetFilter(object item)

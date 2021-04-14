@@ -89,6 +89,11 @@ namespace iRLeagueManager.ResultsParser
             DataLines = dataLines;
         }
 
+        public IEnumerable<string> GetResultNames()
+        {
+            return new string[] { "RACE" };
+        }
+
         public IEnumerable<LeagueMember> GetNewMemberList()
         {
             var memberList = new List<LeagueMember>();
@@ -125,7 +130,7 @@ namespace iRLeagueManager.ResultsParser
             return memberList;
         }
 
-        public IEnumerable<ResultRowModel> GetResultRows()
+        public IEnumerable<ResultRowModel> GetResultRows(string resultName)
         {
             List<IRacingResultRow> resultRows = new List<IRacingResultRow>();
 

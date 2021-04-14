@@ -38,6 +38,10 @@ using iRLeagueManager.ViewModels.Collections;
 using System.Security.Policy;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Filters;
+using iRLeagueDatabase.Enums;
+using iRLeagueManager.Extensions;
+using System.Windows.Input;
+using System.Collections;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -45,11 +49,31 @@ namespace iRLeagueManager.ViewModels
     {
         protected override ScoringModel Template => new ScoringModel();
         public long? ScoringId => Model?.ScoringId;
+        public ScoringViewModel parentScoring;
+        public ScoringViewModel ParentScoring { get => parentScoring; set => SetValue(ref parentScoring, value); }
         public ScoringKindEnum ScoringKind { get => Model.ScoringKind; set => Model.ScoringKind = value; }
+        public SessionType ScoringSessionType { get => Model.ScoringSessionType; set => Model.ScoringSessionType = value; }
+        public ScoringSessionSelectionEnum SessionSelectType { get => Model.SessionSelectType; set => Model.SessionSelectType = value; }
         public string Name { get => Model.Name; set => Model.Name = value; }
-        public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks =value; }
+        public string Description { get => Model.Description; set => Model.Description = value; }
+        public int DropWeeks { get => Model.DropWeeks; set => Model.DropWeeks = value; }
         public int AverageRaceNr { get => Model.AverageRaceNr; set => Model.AverageRaceNr = value; }
-        public ObservableCollection<SessionInfo> Sessions { get => Model?.Sessions; }
+        private readonly ObservableViewModelCollection<SessionViewModel, SessionModel> sessions;
+        public ICollectionView Sessions
+        {
+            get
+            {
+                if (sessions.GetSource() != Model.Sessions)
+                {
+                    sessions.UpdateSource(Model.Sessions);
+                    if (sessions.CollectionView.CanFilter)
+                    {
+                        sessions.CollectionView.Refresh();
+                    }
+                }
+                return sessions.CollectionView;
+            }
+        }
         public long SeasonId => Model.SeasonId;
         public SeasonModel Season { get => Model.Season; set => Model.Season = value; }
         public ObservableCollection<ScoringModel.BasePointsValue> BasePoints => Model.BasePoints;
@@ -61,10 +85,40 @@ namespace iRLeagueManager.ViewModels
         public bool TakeGroupAverage { get => Model.TakeGroupAverage; set => Model.TakeGroupAverage = value; }
         public ScoringInfo ExtScoringSource { get => Model.ExtScoringSource; set => Model.ExtScoringSource = value; }
         public bool TakeResultsFromExtSource { get => Model.TakeResultsFromExtSource; set => Model.TakeResultsFromExtSource = value; }
+        public bool ShowResults { get => Model.ShowResults; set => Model.ShowResults = value; }
         public ObservableCollection<long> ResultsFilterOptionIds => Model.ResultsFilterOptionIds;
         public bool UseResultSetTeam { get => Model.UseResultSetTeam; set => Model.UseResultSetTeam = value; }
         public bool UpdateTeamOnRecalculation { get => Model.UpdateTeamOnRecalculation; set => Model.UpdateTeamOnRecalculation = value; }
+        public ObservableViewModelCollection<ScoringViewModel, ScoringModel> subSessionScorings;
+        public ICollectionView SubSessionScorings
+        {
+            get
+            {
+                if (Model != null && subSessionScorings.GetSource() != Model.SubSessionScorings)
+                {
+                    subSessionScorings.UpdateSource(Model.SubSessionScorings);
+                }
+                return subSessionScorings.CollectionView;
+            }
+        }
+        public ObservableCollection<MyKeyValuePair<ScoringModel, double>> ScoringWeights => Model.ScoringWeights;
+        public bool AccumulateScoring { get => Model.AccumulateScoring; set => Model.AccumulateScoring = value; }
+        public AccumulateByOption AccumulateBy { get => Model.AccumulateBy; set => Model.AccumulateBy = value; }
+        public AccumulateResultsOption AccumulateResults { get => Model.AccumulateResults; set => Model.AccumulateResults = value; }
 
+        public MyKeyValuePair<ScoringModel, double> ScoringWeight
+        {
+            get
+            {
+                var weight = ParentScoring?.ScoringWeights.SingleOrDefault(x => x.Key == Model);
+                if (weight == null)
+                {
+                    weight = new MyKeyValuePair<ScoringModel, double>(Model, 0);
+                    ParentScoring?.ScoringWeights.Add(weight);
+                }
+                return weight;
+            }
+        }
 
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList
@@ -72,7 +126,7 @@ namespace iRLeagueManager.ViewModels
             get
             {
                 var view = scoringListSource.View;
-                view.Filter = x => ((ScoringModel)x).ScoringId != this.ScoringId;
+                view.Filter = x => ((ScoringModel)x).ScoringId != this.ScoringId && SubSessionScorings.Contains(x) == false;
                 return view;
             }
         }
@@ -83,7 +137,7 @@ namespace iRLeagueManager.ViewModels
             get
             {
                 if (sessionSelect != null)
-                    _ = sessionSelect.LoadSessions(Sessions);
+                    _ = sessionSelect.LoadSessions(Model?.Sessions);
                 return sessionSelect;
             }
             set
@@ -125,6 +179,11 @@ namespace iRLeagueManager.ViewModels
             set => Model.ConnectedSchedule = value;
         }
 
+        public ICommand AddSessionsCmd { get; }
+        public ICommand RemoveSessionsCmd { get; }
+        public ICommand AddSubScoringsCmd { get; }
+        public ICommand RemoveSubScoringsCmd { get; }
+
         public ScoringViewModel()
         {
             Model = Template;
@@ -132,6 +191,58 @@ namespace iRLeagueManager.ViewModels
             {
                 SessionFilter = session => session.ResultAvailable
             };
+            sessions = new ObservableViewModelCollection<SessionViewModel, SessionModel>();
+            var sessionGroupDescription = new PropertyGroupDescription(nameof(SessionViewModel.ParentSessionName));
+            Sessions.GroupDescriptions.Add(sessionGroupDescription);
+            subSessionScorings = new ObservableViewModelCollection<ScoringViewModel, ScoringModel>(x => x.ParentScoring = this);
+            AddSessionsCmd = new RelayCommand(o =>
+            {
+                if (o is IList selected)
+                {
+                    var sessions = selected.OfType<SessionViewModel>().Select(x => x.Model);
+                    AddSessions(sessions.ToArray());
+                }
+                else if (o is SessionViewModel sessionViewModel)
+                {
+                    AddSessions(sessionViewModel.Model);
+                }
+            }, o => o is SessionViewModel || (o is IList selected && selected.OfType<SessionViewModel>().Count() > 0));
+            RemoveSessionsCmd = new RelayCommand(o =>
+            {
+                if (o is IList selected)
+                {
+                    var sessions = selected.OfType<SessionViewModel>().Select(x => x.Model);
+                    RemoveSessions(sessions?.ToArray());
+                }
+                else if (o is SessionViewModel sessionViewModel)
+                {
+                    RemoveSessions(sessionViewModel.Model);
+                }
+            }, o => o is SessionViewModel || (o is IList selected && selected.OfType<SessionViewModel>().Count() > 0));
+            AddSubScoringsCmd = new RelayCommand(o =>
+            {
+                if (o is IList selected)
+                {
+                    var scorings = selected.OfType<ScoringModel>();
+                    AddSubScorings(scorings?.ToArray());
+                }
+                else if (o is ScoringModel scoringModel)
+                {
+                    AddSubScorings(scoringModel);
+                }
+            }, o => o is ScoringModel || (o is IList selected && selected.OfType<ScoringModel>().Count() > 0));
+            RemoveSubScoringsCmd = new RelayCommand(o =>
+            {
+                if (o is IList selected)
+                {
+                    var scorings = selected.OfType<ScoringViewModel>().Select(x => x.Model);
+                    RemoveSubScorings(scorings?.ToArray());
+                }
+                else if (o is ScoringViewModel scoringViewModel)
+                {
+                    RemoveSubScorings(scoringViewModel.Model);
+                }
+            }, o => o is ScoringViewModel || (o is IList selected && selected.OfType<ScoringViewModel>().Count() > 0));
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -176,6 +287,64 @@ namespace iRLeagueManager.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        public void AddSessions(params SessionModel[] sessions)
+        {
+            if (sessions == null || sessions.Count() == 0)
+            {
+                return;
+            }
+
+            foreach (var session in sessions)
+            {
+                if (Model.Sessions.Contains(session) == false)
+                {
+                    Model.Sessions.Add(session);
+                }
+            }
+        }
+
+        public void RemoveSessions(params SessionModel[] sessions)
+        {
+            if (sessions == null || sessions.Count() == 0)
+            {
+                return;
+            }
+
+            foreach(var session in sessions)
+            {
+                Model.Sessions.Remove(session);
+            }
+        }
+
+        public void AddSubScorings(params ScoringModel[] scorings)
+        {
+            if (scorings == null || scorings.Count() == 0)
+            {
+                return;
+            }
+
+            foreach(var scoring in scorings)
+            {
+                if (Model.SubSessionScorings.Contains(scoring) == false)
+                {
+                    Model.SubSessionScorings.Add(scoring);
+                }
+            }
+        }
+
+        public void RemoveSubScorings(params ScoringModel[] scorings)
+        {
+            if (scorings == null || scorings.Count() == 0)
+            {
+                return;
+            }
+
+            foreach(var scoring in scorings)
+            {
+                Model.SubSessionScorings.Remove(scoring);
             }
         }
 

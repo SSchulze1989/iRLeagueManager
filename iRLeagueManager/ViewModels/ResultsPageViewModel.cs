@@ -169,7 +169,7 @@ namespace iRLeagueManager.ViewModels
                 StatusMsg = "No sessions available!";
                 return;
             }
-            else if (SelectedSession.Model.SessionResult == null)
+            else if (SelectedSession.ResultAvailable == false)
             {
                 currentResults.UpdateSource(new ScoredResultModel[0]);
                 //SelectedResult = null;
@@ -187,6 +187,11 @@ namespace iRLeagueManager.ViewModels
                 {
                     var modelId = new long[] { SelectedSession.SessionId, scoring.ScoringId.GetValueOrDefault() };
                     scoredResultModelIds.Add(modelId);
+                    if (SelectedSession.SubSessions.IsEmpty == false && scoring.Model.ParentScoring != null)
+                    {
+                        var subScoringModelIds = SelectedSession.Model.SubSessions.Select(x => new long[] { x.SessionId.GetValueOrDefault(), scoring.ScoringId.GetValueOrDefault() });
+                        scoredResultModelIds.AddRange(subScoringModelIds);
+                    }
                 }
                 var scoredResultModels = await LeagueContext.GetModelsAsync<ScoredResultModel>(scoredResultModelIds);
 

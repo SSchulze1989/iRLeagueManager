@@ -30,6 +30,8 @@ using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
 using System.Collections;
 using iRLeagueDatabase.Extensions;
+using System.Reflection;
+using iRLeagueManager.Attributes;
 
 namespace iRLeagueManager.Models
 {
@@ -62,8 +64,26 @@ namespace iRLeagueManager.Models
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
 
-                if (property.PropertyType.IsGenericType &&
-                    property.PropertyType.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
+                // Deep copy models if type is Subclass of ModelBase
+                if (typeof(ModelBase).IsAssignableFrom(property.PropertyType) && property.GetCustomAttribute(typeof(DeepCopyModelAttribute)) != null)
+                {
+                    ModelBase sourceValue = (ModelBase)property.GetValue(this);
+                    ModelBase targetValue = (ModelBase)property.GetValue(targetObject);
+                    if (sourceValue == null)
+                    {
+                        targetValue = null;
+                    }
+                    else
+                    {
+                        if (targetValue == null)
+                        {
+                            var constructor = property.PropertyType.GetConstructor(new Type[0]);
+                            targetValue = (ModelBase)constructor.Invoke(new object[0]);
+                        }
+                        sourceValue.CopyTo(targetValue);
+                    }
+                }
+                else if (property.PropertyType.IsGenericType && property.PropertyType.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
                 {
                     var interfaceType = property.PropertyType.GetInterfaces().SingleOrDefault(x => x == typeof(ICollection<>));
                     // If target type implements ICollection use target collection instead of overwriting property
@@ -75,10 +95,21 @@ namespace iRLeagueManager.Models
                     }
                     else
                     {
+                        var itemType = property.PropertyType.GetGenericArguments().First();
+                        var constructor = itemType.GetConstructor(new Type[0]);
                         targetCollection.Clear();
-                        foreach(var item in sourceCollection)
+                        foreach (var item in sourceCollection)
                         {
-                            targetCollection.Add(item);
+                            if (typeof(ModelBase).IsAssignableFrom(itemType) && property.GetCustomAttribute(typeof(DeepCopyModelAttribute)) != null)
+                            {
+                                dynamic newItem = (ModelBase)constructor.Invoke(new object[0]);
+                                ((ModelBase)item).CopyTo((ModelBase)newItem);
+                                targetCollection.Add(newItem);
+                            }
+                            else
+                            {
+                                targetCollection.Add(item);
+                            }
                         }
                     }
                 }
@@ -109,6 +140,25 @@ namespace iRLeagueManager.Models
                 if (property.GetMethod == null || property.SetMethod == null)
                     continue;
 
+                // Deep copy models if type is Subclass of ModelBase
+                if (typeof(ModelBase).IsAssignableFrom(property.PropertyType) && property.GetCustomAttribute(typeof(DeepCopyModelAttribute)) != null)
+                {
+                    ModelBase sourceValue = (ModelBase)property.GetValue(sourceObject);
+                    ModelBase targetValue = (ModelBase)property.GetValue(this);
+                    if (sourceValue == null)
+                    {
+                        targetValue = null;
+                    }
+                    else
+                    {
+                        if (targetValue == null)
+                        {
+                            var constructor = property.PropertyType.GetConstructor(new Type[0]);
+                            targetValue = (ModelBase)constructor.Invoke(new object[0]);
+                        }
+                        targetValue.CopyFrom(sourceValue);
+                    }
+                }
                 if (property.PropertyType.IsGenericType &&
                     property.PropertyType.GetInterfaces().Any(x => x.GetGenericTypeDefinition() == typeof(ICollection<>)))
                 {
@@ -122,10 +172,21 @@ namespace iRLeagueManager.Models
                     }
                     else
                     {
+                        var itemType = property.PropertyType.GetGenericArguments().First();
+                        var constructor = itemType.GetConstructor(new Type[0]);
                         targetCollection.Clear();
                         foreach (dynamic item in sourceCollection)
                         {
-                            targetCollection.Add(item);
+                            if (typeof(ModelBase).IsAssignableFrom(itemType) && property.GetCustomAttribute(typeof(DeepCopyModelAttribute)) != null)
+                            {
+                                dynamic newItem = constructor.Invoke(new object[0]);
+                                ((ModelBase)newItem).CopyFrom((ModelBase)item);
+                                targetCollection.Add(newItem);
+                            }
+                            else
+                            {
+                                targetCollection.Add(item);
+                            }
                         }
                     }
                 }

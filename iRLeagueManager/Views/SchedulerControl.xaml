@@ -49,7 +49,7 @@ SOFTWARE.-->
         <vmodel:SchedulerViewModel/>
     </UserControl.DataContext>-->
 
-    <Grid >
+    <Grid x:Name="MainGrid">
         <DockPanel>
             <Grid ClipToBounds="True" FocusManager.FocusedElement="{Binding ElementName=verticalContentScroll}" Background="{StaticResource ThemeColor_Back0}">
                 <ScrollViewer x:Name="verticalContentScroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" 
@@ -219,6 +219,11 @@ SOFTWARE.-->
                                                                         <Setter Property="IsManipulationEnabled" Value="False"/>
                                                                     </Style>
                                                                 </DataGrid.CellStyle>
+                                                                <DataGrid.RowStyle>
+                                                                    <Style TargetType="DataGridRow">
+                                                                        <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                                                                    </Style>
+                                                                </DataGrid.RowStyle>
                                                                 <DataGrid.RowHeaderStyle>
                                                                     <Style TargetType="DataGridRowHeader">
                                                                         <Setter Property="Padding" Value="0"/>
@@ -300,7 +305,7 @@ SOFTWARE.-->
                                                                         <DataGridTemplateColumn.CellTemplate>
                                                                             <DataTemplate DataType="DataGridCell">
                                                                                 <StackPanel Orientation="Horizontal">
-                                                                                    <controls:IconButton Command="{Binding UploadFileCmd}" CommandParameter="{Binding}" 
+                                                                                    <controls:IconButton Click="UploadResultButton_Click" CommandParameter="{Binding}" Tag="{Binding}"
                                                                                                          VerticalAlignment="Center"
                                                                                                          IconFill="{StaticResource ThemeColor_DarkBlue}" IconStroke="Black" IconStrokeThickness="0.25"
                                                                                                          Content="" ToolTip="Upload Result set from json">
@@ -479,6 +484,5 @@ SOFTWARE.-->
                 <ContentControl Content="{StaticResource RefreshButton}" Visibility="Hidden"/>
             </Grid>
         </DockPanel>
-        <local:ModalOkCancelControl Margin="0" x:Name="EditPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

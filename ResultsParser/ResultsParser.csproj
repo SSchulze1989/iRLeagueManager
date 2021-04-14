@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IResultsParser.cs" />
+    <Compile Include="IRSimSessionTypeEnum.cs" />
     <Compile Include="JsonParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSVParser.cs" />
@@ -72,6 +73,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
+    <None Include="heattestresult.json" />
     <None Include="iracing-result-35437235.json" />
     <None Include="testresult.json" />
     <None Include="packages.config" />

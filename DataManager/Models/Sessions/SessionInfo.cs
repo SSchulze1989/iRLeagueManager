@@ -47,6 +47,9 @@ namespace iRLeagueManager.Models.Sessions
         //[XmlIgnore]
         public SessionType SessionType { get => sessionType; set => SetValue(ref sessionType, value); }
 
+        private string name;
+        public string Name { get => name; set => SetValue(ref name, value); }
+
         private DateTime date;
         /// <summary>
         /// Date of the session.

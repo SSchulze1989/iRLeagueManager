@@ -31,6 +31,7 @@ SOFTWARE.-->
              xmlns:enum="clr-namespace:iRLeagueManager.Enums;assembly=Communication"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:iRLeagueManager.Controls"
+             xmlns:conv="clr-namespace:iRLeagueManager.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Background="White">
@@ -40,17 +41,46 @@ SOFTWARE.-->
 
     <UserControl.Resources>
         <ObjectDataProvider MethodName="GetValues"
-                        ObjectType="{x:Type sys:Enum}"
-                        x:Key="ScoringKindValues">
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="ScoringKindValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="enum:ScoringKindEnum"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider MethodName="GetValues"
-                        ObjectType="{x:Type sys:Enum}"
-                        x:Key="DropRacesOptionsValues">
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="DropRacesOptionsValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="enum:DropRacesOption"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="ScoringSessionSelectionEnumValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:ScoringSessionSelectionEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="SessionTypeEnum">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:SessionType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <conv:RadioButtonEnumConverter x:Key="RadioButtonEnumConverter"/>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="AccumulateByOption">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:AccumulateByOption"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="AccumulateResultsOptionValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:AccumulateResultsOption"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
@@ -103,7 +133,8 @@ SOFTWARE.-->
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <ListView Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" Width="350">
+                                <ListView Grid.Row="0" x:Name="ScoringsListBox" ItemsSource="{Binding Scorings}" Width="350"
+                                          IsSynchronizedWithCurrentItem="True">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -156,107 +187,340 @@ SOFTWARE.-->
                                 </StackPanel>
                             </Grid>
                         </controls:HeaderedBorder>
-                        <controls:HeaderedBorder Header="Scoring Settings">
-                            <StackPanel DataContext="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
-                                <controls:HeaderedBorder Margin="5,10" Header="Base Options">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50*"/>
-                                            <ColumnDefinition Width="50*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                        <controls:HeaderedBorder Header="Scoring Settings" Margin="10,11,10,9">
+                            <ScrollViewer Padding="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel DataContext="{Binding ElementName=ScoringsListBox, Path=SelectedItem}">
+                                    <controls:HeaderedBorder Margin="5,10" Header="Base Options">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50*"/>
+                                                <ColumnDefinition Width="50*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Scoring Id:" Margin="5"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoringId}" Margin="5"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Scoring Id:" Margin="5"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ScoringId}" Margin="5"/>
 
-                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Scoring Name:" Margin="5"/>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Scoring Name:" Margin="5"/>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
 
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding Season.Schedules}" SelectedItem="{Binding ConnectedSchedule}" DisplayMemberPath="Name"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Description:" Margin="5"/>
+                                            <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Text="{Binding Description}"
+                                                     Height="80" TextWrapping="WrapWithOverflow" AcceptsReturn="True"
+                                                     VerticalScrollBarVisibility="Auto"/>
 
-                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Member or Team Scoring:" Margin="5"/>
-                                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Member or Team Scoring:" Margin="5"/>
+                                            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Source={StaticResource ScoringKindValues}}" SelectedItem="{Binding ScoringKind}" Margin="5"/>
 
-                                        <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding TakeResultsFromExtSource}" Margin="5" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Take Results from other Scoring" Margin="5" TextWrapping="WrapWithOverflow"/>
+                                            <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding TakeResultsFromExtSource}" Margin="5" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Take Results from other Scoring" Margin="5" TextWrapping="WrapWithOverflow"/>
 
-                                        <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="10,0,0,0">
+                                            <Grid Grid.Row="6" Grid.ColumnSpan="2" Margin="10,0,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="Results Source:" Margin="5"/>
+                                                <ComboBox Grid.Column="1" ItemsSource="{Binding ScoringList}" SelectedItem="{Binding ExtScoringSource}" Margin="5"
+                                                      DisplayMemberPath="Name">
+                                                </ComboBox>
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding TakeResultsFromExtSource}" Value="True">
+                                                                <Setter Property="IsEnabled" Value="True"/>
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+                                            </Grid>
+
+                                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Get Teams from raw Result" Margin="5" TextWrapping="WrapWithOverflow"/>
+                                            <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding UseResultSetTeam}" VerticalAlignment="Center" Margin="5"/>
+
+                                            <TextBlock Grid.Row="8" Grid.Column="0" Text="Update Teams on recalculation" Margin="5" TextWrapping="WrapWithOverflow"/>
+                                            <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding UpdateTeamOnRecalculation}" VerticalAlignment="Center" Margin="5"/>
+
+                                            <TextBlock Grid.Row="9" Grid.Column="0" Text="Show this Scoring on Results page" TextWrapping="WrapWithOverflow" Margin="5"/>
+                                            <CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding ShowResults}" VerticalAlignment="Center" Margin="5"/>
+                                        </Grid>
+                                    </controls:HeaderedBorder>
+                                    <controls:HeaderedBorder Margin="5,10" Header="Sessions">
+                                        <Grid Margin="-1,0,1,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="Results Source:" Margin="5"/>
-                                            <ComboBox Grid.Column="1" ItemsSource="{Binding ScoringList}" SelectedItem="{Binding ExtScoringSource}" Margin="5"
-                                                      DisplayMemberPath="Name">
-                                            </ComboBox>
-                                            <Grid.Style>
-                                                <Style TargetType="Grid">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Setter Property="IsEnabled" Value="False"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding TakeResultsFromExtSource}" Value="True">
-                                                            <Setter Property="IsEnabled" Value="True"/>
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Grid.Style>
+                                            <TextBlock Text="Session Type" Grid.Row="0" Grid.Column="0" />
+                                            <ComboBox Grid.Row="0" Grid.Column="1" Margin="5"
+                                                      SelectedItem="{Binding ScoringSessionType}" ItemsSource="{Binding Source={StaticResource SessionTypeEnum}}"/>
+                                            
+                                            <RadioButton Content="By Schedule" Grid.Row="1" Grid.Column="0" IsChecked="{Binding SessionSelectType, Converter={StaticResource RadioButtonEnumConverter}, 
+                                                     ConverterParameter={x:Static enum:ScoringSessionSelectionEnum.SelectSchedule}}" Margin="5"/>
+                                            <RadioButton Content="Select Sessions" Grid.Row="1" Grid.Column="1" IsChecked="{Binding SessionSelectType, Converter={StaticResource RadioButtonEnumConverter}, 
+                                                     ConverterParameter={x:Static enum:ScoringSessionSelectionEnum.SelectSessions}}" Margin="5"/>
+
+                                            <ContentControl Content="{Binding}" Grid.Row="2" Grid.ColumnSpan="2">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="ContentTemplate">
+                                                            <Setter.Value>
+                                                                <DataTemplate DataType="{x:Type vmodel:ScoringViewModel}">
+                                                                    <Grid>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Connected Schedule:" Margin="5"/>
+                                                                        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding Season.Schedules}" SelectedItem="{Binding ConnectedSchedule}" DisplayMemberPath="Name"/>
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SessionSelectType}" Value="{x:Static enum:ScoringSessionSelectionEnum.SelectSessions}">
+                                                                <!--<Trigger Property="IsEnabled" Value="False">-->
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate DataType="{x:Type vmodel:ScoringViewModel}">
+                                                                            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                    <ColumnDefinition Width="Auto"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+
+                                                                                <ListView x:Name="SessionSelect" ItemsSource="{Binding Sessions}" Grid.Column="0" 
+                                                                                         Margin="5" Height="140" VerticalAlignment="Stretch"
+                                                                                         SelectionMode="Extended"
+                                                                                         Tag="{Binding ElementName=MoveRightButton}"
+                                                                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                                                                    <ListView.ItemTemplate>
+                                                                                        <DataTemplate>
+                                                                                            <TextBlock Text="{Binding Name}"/>
+                                                                                        </DataTemplate>
+                                                                                    </ListView.ItemTemplate>
+                                                                                    <ListView.GroupStyle>
+                                                                                        <GroupStyle>
+                                                                                            <GroupStyle.HeaderTemplate>
+                                                                                                <DataTemplate>
+                                                                                                    <StackPanel>
+                                                                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                                                                        <StackPanel.Style>
+                                                                                                            <Style TargetType="StackPanel">
+                                                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                                                <Style.Triggers>
+                                                                                                                    <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                                                                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                                                    </DataTrigger>
+                                                                                                                </Style.Triggers>
+                                                                                                            </Style>
+                                                                                                        </StackPanel.Style>
+                                                                                                    </StackPanel>
+                                                                                                </DataTemplate>
+                                                                                            </GroupStyle.HeaderTemplate>
+                                                                                        </GroupStyle>
+                                                                                    </ListView.GroupStyle>
+                                                                                </ListView>
+                                                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
+                                                                                    <Button Content="&lt;" Margin="5" Padding="5" Command="{Binding AddSessionsCmd}" 
+                                                                                        CommandParameter="{Binding ElementName=SessionList, Path=SelectedItems}" x:Name="MoveLeftButton"/>
+                                                                                    <Button Content="&gt;" Margin="5" Padding="5" Command="{Binding RemoveSessionsCmd}"
+                                                                                        CommandParameter="{Binding ElementName=SessionSelect, Path=SelectedItems}" x:Name="MoveRightButton"/>
+                                                                                </StackPanel>
+                                                                                <ListView x:Name="SessionList" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.SessionList}"
+                                                                                         SelectionMode="Extended" Height="140" Grid.Column="2"
+                                                                                         Tag="{Binding ElementName=MoveLeftButton}">
+                                                                                    <ListView.ItemTemplate>
+                                                                                        <DataTemplate>
+                                                                                            <TextBlock Text="{Binding Name}"/>
+                                                                                        </DataTemplate>
+                                                                                    </ListView.ItemTemplate>
+                                                                                    <ListView.GroupStyle>
+                                                                                        <GroupStyle>
+                                                                                            <GroupStyle.HeaderTemplate>
+                                                                                                <DataTemplate>
+                                                                                                    <StackPanel>
+                                                                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                                                                        <StackPanel.Style>
+                                                                                                            <Style TargetType="StackPanel">
+                                                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                                                <Style.Triggers>
+                                                                                                                    <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                                                                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                                                    </DataTrigger>
+                                                                                                                </Style.Triggers>
+                                                                                                            </Style>
+                                                                                                        </StackPanel.Style>
+                                                                                                    </StackPanel>
+                                                                                                </DataTemplate>
+                                                                                            </GroupStyle.HeaderTemplate>
+                                                                                        </GroupStyle>
+                                                                                    </ListView.GroupStyle>
+                                                                                </ListView>
+                                                                                <Grid.Resources>
+                                                                                    <Style TargetType="TextBlock">
+                                                                                        <Setter Property="Margin" Value="5,0" />
+                                                                                    </Style>
+                                                                                </Grid.Resources>
+                                                                            </Grid>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <!--</Trigger>-->
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
                                         </Grid>
+                                    </controls:HeaderedBorder>
+                                    <controls:HeaderedBorder Margin="5,10" Header="Results Calculation">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Get Teams from raw Result" Margin="5" TextWrapping="WrapWithOverflow"/>
-                                        <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding UseResultSetTeam}" VerticalAlignment="Center" Margin="5"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Accumulate Results: " Margin="5"/>
+                                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding AccumulateScoring}" Margin="5"/>
 
-                                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Update Teams on recalculation" Margin="5" TextWrapping="WrapWithOverflow"/>
-                                        <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding UpdateTeamOnRecalculation}" VerticalAlignment="Center" Margin="5"/>
-                                    </Grid>
-                                </controls:HeaderedBorder>
-                                <controls:HeaderedBorder Margin="5,10" Header="Results Calculation">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Base Points:" Margin="5"/>
-                                        <Button Grid.Row="0" Grid.Column="1" Content="Edit" Click="EditBasePointsButton_Click" Tag="{Binding}" Margin="5"/>
+                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Accumulate Option: " Margin="5"/>
+                                                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource AccumulateResultsOptionValues}}"
+                                                          SelectedValue="{Binding AccumulateResults}" Margin="5"/>
 
-                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Bonus Points:" Margin="5"/>
-                                        <Button Grid.Row="1" Grid.Column="1" Content="Edit" Click="EditBonusPointsButton_Click" Tag="{Binding}" Margin="5"/>
+                                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Accumulate By: " Margin="5"/>
+                                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource AccumulateByOption}}"
+                                                          SelectedValue="{Binding AccumulateBy}" Margin="5"/>
 
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Filters:" Margin="5"/>
-                                        <Button Grid.Row="2" Grid.Column="1" Content="Edit" Click="EditFiltersButton_Click" Tag="{Binding}" Margin="5"/>
-                                    </Grid>
-                                    <controls:HeaderedBorder.Style>
-                                        <Style TargetType="controls:HeaderedBorder" BasedOn="{StaticResource {x:Type controls:HeaderedBorder}}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding TakeResultsFromExtSource}" Value="True">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </controls:HeaderedBorder.Style>
-                                </controls:HeaderedBorder>
-                                <controls:HeaderedBorder Header="Team Scoring Options" Margin="5,10">
+                                                <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Scorings to accumulate:"/>
+                                                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <ListView x:Name="SubScoringSelect" ItemsSource="{Binding SubSessionScorings}" Grid.Column="0" Grid.Row="0"
+                                                                                         Margin="5" Height="140" VerticalAlignment="Stretch"
+                                                                                         SelectionMode="Extended"
+                                                                                         Tag="{Binding ElementName=SubScoringMoveRightButton}"
+                                                                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                                        <ListView.View>
+                                                            <GridView>
+                                                                <GridViewColumn Header="Weight">
+                                                                    <GridViewColumn.CellTemplate>
+                                                                        <DataTemplate DataType="{x:Type vmodel:ScoringViewModel}">
+                                                                            <TextBox Text="{Binding ScoringWeight.Value}" MinWidth="30" Margin="0"/>
+                                                                        </DataTemplate>
+                                                                    </GridViewColumn.CellTemplate>
+                                                                </GridViewColumn>
+                                                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                                                            </GridView>
+                                                        </ListView.View>
+                                                    </ListView>
+                                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0">
+                                                        <Button Content="&lt;" Margin="5" Padding="5" Command="{Binding AddSubScoringsCmd}" 
+                                                                                        CommandParameter="{Binding ElementName=SubScoringList, Path=SelectedItems}" x:Name="SubScoringMoveLeftButton"/>
+                                                        <Button Content="&gt;" Margin="5" Padding="5" Command="{Binding RemoveSubScoringsCmd}"
+                                                                                        CommandParameter="{Binding ElementName=SubScoringSelect, Path=SelectedItems}" x:Name="SubScoringMoveRightButton"/>
+                                                    </StackPanel>
+                                                    <ListView x:Name="SubScoringList" ItemsSource="{Binding ScoringList}"
+                                                                                         SelectionMode="Extended" Height="140" Grid.Column="2" Grid.Row="0"
+                                                                                         Tag="{Binding ElementName=SubScoringMoveLeftButton}">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Name}"/>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                    <Grid.Resources>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Margin" Value="5,0" />
+                                                        </Style>
+                                                    </Grid.Resources>
+                                                </Grid>
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding AccumulateScoring}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+                                            </Grid>
+
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Base Points:" Margin="5"/>
+                                            <Button Grid.Row="3" Grid.Column="1" Content="Edit" Click="EditBasePointsButton_Click" Tag="{Binding}" Margin="5"/>
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Bonus Points:" Margin="5"/>
+                                            <Button Grid.Row="4" Grid.Column="1" Content="Edit" Click="EditBonusPointsButton_Click" Tag="{Binding}" Margin="5"/>
+
+                                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Filters:" Margin="5"/>
+                                            <Button Grid.Row="5" Grid.Column="1" Content="Edit" Click="EditFiltersButton_Click" Tag="{Binding}" Margin="5"/>
+                                        </Grid>
+                                        <controls:HeaderedBorder.Style>
+                                            <Style TargetType="controls:HeaderedBorder" BasedOn="{StaticResource {x:Type controls:HeaderedBorder}}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TakeResultsFromExtSource}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </controls:HeaderedBorder.Style>
+                                    </controls:HeaderedBorder>
+                                    <controls:HeaderedBorder Header="Team Scoring Options" Margin="5,10">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -264,32 +528,33 @@ SOFTWARE.-->
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Results per Race:" Margin="5"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Results per Race:" Margin="5"/>
                                             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MaxResultsPerGroup}" Margin="5"/>
 
                                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Take group average:" Margin="5" IsEnabled="False"/>
                                             <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding TakeGroupAverage}" Margin="5" IsEnabled="False"/>
                                         </Grid>
                                         <controls:HeaderedBorder.Style>
-                                        <Style TargetType="controls:HeaderedBorder" BasedOn="{StaticResource {x:Type controls:HeaderedBorder}}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ScoringKind}">
-                                                    <DataTrigger.Value>
-                                                        <enum:ScoringKindEnum>Team</enum:ScoringKindEnum>
-                                                    </DataTrigger.Value>
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </controls:HeaderedBorder.Style>
-                                </controls:HeaderedBorder>
-                            </StackPanel>
+                                            <Style TargetType="controls:HeaderedBorder" BasedOn="{StaticResource {x:Type controls:HeaderedBorder}}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ScoringKind}">
+                                                        <DataTrigger.Value>
+                                                            <enum:ScoringKindEnum>Team</enum:ScoringKindEnum>
+                                                        </DataTrigger.Value>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </controls:HeaderedBorder.Style>
+                                    </controls:HeaderedBorder>
+                                </StackPanel>
+                            </ScrollViewer>
                             <controls:HeaderedBorder.Style>
                                 <Style TargetType="controls:HeaderedBorder" BasedOn="{StaticResource {x:Type controls:HeaderedBorder}}">
                                     <Setter Property="IsEnabled" Value="True"/>
