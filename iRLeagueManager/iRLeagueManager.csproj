@@ -498,9 +498,6 @@
   <ItemGroup>
     <Resource Include="Fonts\Formula1-Bold.ttf" />
     <Resource Include="Fonts\Formula1-Regular.ttf" />
-    <None Include="Tracks.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Graphics\Refresh.png" />

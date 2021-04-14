@@ -152,6 +152,8 @@ namespace iRLeagueManager.ViewModels
             try
             {
                 League = await LeagueContext.GetLeagueDetails();
+                await LeagueContext.LoadTrackList();
+                GlobalSettings.SetLocationCollection(LeagueContext.Locations);
             }
             catch (Exception e)
             {
