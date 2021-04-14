@@ -86,39 +86,47 @@ namespace iRLeagueManager.Views
 
         private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag != null)
+            if (sender is Button button)
             {
-                var editWindow = new ModalOkCancelControl();
-                try
+                await EditSessionDialog(button.Tag as SessionViewModel);
+            }
+        }
+
+        private async Task EditSessionDialog(SessionViewModel sessionVM)
+        {
+            if (sessionVM == null)
+            {
+                return;
+            }
+
+            var editWindow = new ModalOkCancelControl();
+            try
+            {
+                //editWindow.Width = 700;
+                //editWindow.Height = 650;
+                var content = new SessionEditControl();
+                MainGrid.Children.Add(editWindow);
+
+                editWindow.Title = "Edit Session";
+
+                var editVM = content.DataContext as SessionViewModel;
+                if (sessionVM.SessionType == Enums.SessionType.Race)
                 {
-                    //editWindow.Width = 700;
-                    //editWindow.Height = 650;
-                    var content = new SessionEditControl();
-                    MainGrid.Children.Add(editWindow);
-
-                    editWindow.Title = "Edit Session";
-
-                    if (content.DataContext is SessionViewModel editVM && button.Tag is SessionViewModel sessionVM)
-                    {
-                        if (sessionVM.SessionType == Enums.SessionType.Race)
-                        {
-                            editVM.UpdateSource(Models.Sessions.RaceSessionModel.GetTemplate());
-                        }
-                        editVM.Model.CopyFrom(sessionVM.Model);
-                        editVM.Schedule = sessionVM.Schedule;
-
-                        editWindow.ModalContent = content;
-                        if (editWindow.ShowDialog() == true)
-                        {
-                            sessionVM.Model.CopyFrom(editVM.Model);
-                            await sessionVM.SaveChanges();
-                        }
-                    }
+                    editVM.UpdateSource(Models.Sessions.RaceSessionModel.GetTemplate());
                 }
-                finally
+                editVM.Model.CopyFrom(sessionVM.Model);
+                editVM.Schedule = sessionVM.Schedule;
+
+                editWindow.ModalContent = content;
+                if (editWindow.ShowDialog() == true)
                 {
-                    MainGrid.Children.Remove(editWindow);
+                    sessionVM.Model.CopyFrom(editVM.Model);
+                    await sessionVM.SaveChanges();
                 }
+            }
+            finally
+            {
+                MainGrid.Children.Remove(editWindow);
             }
         }
 
@@ -268,6 +276,15 @@ namespace iRLeagueManager.Views
             finally
             {
                 MainGrid.Children.Remove(dialog);
+            }
+        }
+
+        private async void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGridRow row && row.DataContext is SessionViewModel sessionVM)
+            {
+                e.Handled = true;
+                await EditSessionDialog(sessionVM);
             }
         }
     }
