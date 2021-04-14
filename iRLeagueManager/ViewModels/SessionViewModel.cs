@@ -46,6 +46,7 @@ using iRLeagueManager.Models.Reviews;
 using iRLeagueManager.Models.User;
 using System.Windows.Markup.Localizer;
 using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace iRLeagueManager.ViewModels
 {
@@ -135,8 +136,8 @@ namespace iRLeagueManager.ViewModels
         public TimeSpan QualyEnd => QualyStart.Add(QualyLength);
         public TimeSpan RaceLength { get => ((Model as RaceSessionModel)?.RaceLength).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.RaceLength = value; } } }
         public TimeComponentVector RaceLengthComponents { get; }
-        public TimeSpan RaceStart => QualyStart.Add(QualyLength);
-        public TimeSpan RaceEnd => RaceStart.Add(RaceLength);
+        public TimeSpan RaceStart => Model.SubSessions.Count > 0 ? Model.SubSessions.Select(x => x.Date.TimeOfDay).OrderBy(x => x).FirstOrDefault(): QualyStart.Add(QualyLength);
+        public TimeSpan RaceEnd => Model.SubSessions.Count > 0 ? Model.SubSessions.Select(x => x.Date.TimeOfDay.Add(x.Duration)).OrderBy(x => x).LastOrDefault() : RaceStart.Add(RaceLength);
         public bool QualyAttached { get => ((Model as RaceSessionModel)?.QualyAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.QualyAttached = value; } } }
         public bool PracticeAttached { get => ((Model as RaceSessionModel)?.PracticeAttached).GetValueOrDefault(); set { if (Model is RaceSessionModel race) { race.PracticeAttached = value; } } }
 
