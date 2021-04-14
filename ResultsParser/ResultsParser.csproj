@@ -69,9 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AllTimeStats.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="AllTimeStats.csv" />
     <None Include="app.config" />
     <None Include="heattestresult.json" />
     <None Include="iracing-result-35437235.json" />
