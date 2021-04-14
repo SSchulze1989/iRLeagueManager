@@ -98,6 +98,7 @@
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="Converters\BonusPointsConverter.cs" />
     <Compile Include="Data\IModelDatabase.cs" />
+    <Compile Include="Data\ITracksDataProvider.cs" />
     <Compile Include="Data\IUserCredentialsManager.cs" />
     <Compile Include="Data\IUserDatabaseClient.cs" />
     <Compile Include="Data\IUserManager.cs" />

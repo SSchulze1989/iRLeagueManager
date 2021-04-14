@@ -43,7 +43,7 @@ namespace iRLeagueManager
         public static ModelCache ModelCache { get; private set; }
         //public static UserContext UserContext { get; private set; }
 
-        public static LocationCollection Locations { get; } = new LocationCollection();
+        public static LocationCollection Locations { get; private set; } = new LocationCollection();
 
         private const int maxErrors = 10;
         private static int ErrorCount { get; set; }
@@ -54,6 +54,11 @@ namespace iRLeagueManager
         {
             LeagueContext = context;
             //ModelManager = new ModelManager(LeagueContext);
+        }
+
+        public static void SetLocationCollection(LocationCollection locations)
+        {
+            Locations = locations;
         }
 
         //public static void SetGlobalUserContext(UserContext context)

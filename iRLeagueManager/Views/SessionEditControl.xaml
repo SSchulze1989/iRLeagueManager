@@ -125,7 +125,7 @@ SOFTWARE.-->
                     </Grid>
 
                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Track: " />
-                    <ComboBox Grid.Column="2" Grid.Row="4" ItemsSource="{StaticResource TrackCollection}" SelectedValue="{Binding TrackId}" SelectedValuePath="TrackId" DisplayMemberPath="TrackName"/>
+                    <ComboBox Grid.Column="2" Grid.Row="4" ItemsSource="{Binding TrackList}" SelectedValue="{Binding TrackId}" SelectedValuePath="TrackId" DisplayMemberPath="TrackName"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="5" Text="Configuration: " />
                     <ComboBox Grid.Column="2" Grid.Row="5" ItemsSource="{Binding Track.Configs, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ConfigIndex, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="ConfigName"/>
