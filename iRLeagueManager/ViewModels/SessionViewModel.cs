@@ -84,6 +84,8 @@ namespace iRLeagueManager.ViewModels
 
         private LocationCollection Locations => GlobalSettings.Locations;
 
+        public IEnumerable<RaceTrack> TrackList => Locations.GetTrackList();
+
         private ScheduleViewModel schedule;
         public ScheduleViewModel Schedule { get => schedule; set => SetValue(ref schedule, value); }
 
