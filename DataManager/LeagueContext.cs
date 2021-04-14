@@ -58,7 +58,7 @@ namespace iRLeagueManager.Data
         //public DbLeagueServiceClient DbContext { get; }
         public IModelDatabase ModelDatabase { get; }
         public ILeagueDataProvider LeagueDataProvider { get; }
-        public LocationCollection Locations { get; } = new LocationCollection();
+        public LocationCollection Locations { get; private set; } = new LocationCollection();
         public IModelDataAndActionProvider ModelContext { get; }
 
         public IModelManager ModelManager { get; }
@@ -73,7 +73,8 @@ namespace iRLeagueManager.Data
 
         //public DatabaseStatusModel DbStatus => DbContext?.Status;
 
-        public LocationCollection LocationCollection { get; } = new LocationCollection();
+        public LocationCollection LocationCollection { get; private set; } = new LocationCollection();
+        public ITracksDataProvider TracksDataProvider { get; }
 
         public string LeagueName { get; private set; } = "TestDatabase";
 
@@ -122,6 +123,7 @@ namespace iRLeagueManager.Data
             ModelContext = ModelDatabase;
             ModelManager = new ModelManager(modelCache, ModelContext, MapperConfiguration);
             UserManager = new UserManager(modelCache, UserCredentialsManager, userDatabase);
+            TracksDataProvider = (ITracksDataProvider)ModelDatabase;
             //_ = UpdateMemberList();
         }
 
@@ -165,6 +167,13 @@ namespace iRLeagueManager.Data
         public async Task<bool> UserLoginAsync(string userName, string password)
         {
             return await UserManager.UserLoginAsync(userName, password);
+        }
+
+        public async Task LoadTrackList()
+        {
+            var tracks = await TracksDataProvider.GetRaceTracks();
+            Locations = new LocationCollection(tracks.AsEnumerable());
+            LocationCollection = Locations;
         }
 
         public void UserLogout()

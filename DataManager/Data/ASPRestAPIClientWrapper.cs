@@ -36,12 +36,13 @@ using iRLeagueManager.Enums;
 using iRLeagueManager.Interfaces;
 using System.Runtime.Serialization;
 using iRLeagueManager.Models;
+using iRLeagueManager.Locations;
 
 //using iRLeagueDatabase.DataTransfer.Messages;
 
 namespace iRLeagueManager.Data
 {
-    public class ASPRestAPIClientWrapper : NotifyPropertyChangedBase, IModelDatabase, IModelDataAndActionProvider, IModelDataProvider, IActionProvider, ILeagueDataProvider, IDisposable
+    public class ASPRestAPIClientWrapper : NotifyPropertyChangedBase, IModelDatabase, IModelDataAndActionProvider, IModelDataProvider, IActionProvider, ILeagueDataProvider, IDisposable, ITracksDataProvider
     {
         public Uri BaseUri { get; }
         private bool disposedValue;
@@ -346,6 +347,26 @@ namespace iRLeagueManager.Data
                 else
                 {
                     throw new LeagueNotFoundException($"League {leagueName} not found in database");
+                }
+            }
+        }
+
+        public async Task<RaceTrack[]> GetRaceTracks()
+        {
+            var requestString = $"{BaseUri.AbsoluteUri}/TrackInfo";
+
+            using (var client = CreateClient())
+            {
+                var result = await client.GetAsync(requestString);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var tracks = await result.Content.ReadAsAsync<RaceTrack[]>();
+                    return tracks;
+                }
+                else
+                {
+                    throw new WebException("Error while loading Track list - " + result.StatusCode);
                 }
             }
         }
