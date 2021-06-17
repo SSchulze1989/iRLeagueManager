@@ -515,51 +515,48 @@
     <Folder Include="Resources\Fonts\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_BelleIsle_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Donington_National_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_LagunaSeca_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Montreal_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Mosport_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Nordschleife_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_PhilipIsland_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Spa_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_SummitPoint_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_VIR_North_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Zandvoort_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_Zolder_t.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_bathurst_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_donington_gp_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_interlagos_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_limerock_classic_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_tsukuba_full_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_VIR_grand_west_t.png" />
-    <Resource Include="Graphics\TrackImages\Maps\Trackmap_watkinsglen_classic_t.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Graphics\iRLM_Logo_17_darkbg.png" />
     <Resource Include="Graphics\iRLM_Logo_19.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Graphics\TrackImages\Maps\100-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\112-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\112-4.png" />
+    <Resource Include="Graphics\TrackImages\Maps\115-2.png" />
+    <Resource Include="Graphics\TrackImages\Maps\19-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\25-2.png" />
+    <Resource Include="Graphics\TrackImages\Maps\4-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\44-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\49-3.png" />
+    <Resource Include="Graphics\TrackImages\Maps\49-5.png" />
+    <Resource Include="Graphics\TrackImages\Maps\50-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\53-2.png" />
+    <Resource Include="Graphics\TrackImages\Maps\58-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\59-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\60-3.png" />
+    <Resource Include="Graphics\TrackImages\Maps\68-2.png" />
+    <Resource Include="Graphics\TrackImages\Maps\68-3.png" />
+    <Resource Include="Graphics\TrackImages\Maps\72-3.png" />
+    <Resource Include="Graphics\TrackImages\Maps\73-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\73-2.png" />
+    <Resource Include="Graphics\TrackImages\Maps\73-4.png" />
+    <Resource Include="Graphics\TrackImages\Maps\77-5.png" />
+    <Resource Include="Graphics\TrackImages\Maps\78-2.png" />
+    <Resource Include="Graphics\TrackImages\Maps\78-4.png" />
+    <Resource Include="Graphics\TrackImages\Maps\85-5.png" />
+    <Resource Include="Graphics\TrackImages\Maps\9-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\90-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\90-4.png" />
+    <Resource Include="Graphics\TrackImages\Maps\99-1.png" />
     <Resource Include="iRLM_Logo_17_darkbg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\TrackImages\Maps\bathurst.png" />
-    <Resource Include="Graphics\TrackImages\Maps\charlotte-roval.png" />
-    <Resource Include="Graphics\TrackImages\Maps\donington-national.png" />
-    <Resource Include="Graphics\TrackImages\Maps\imola-gp.png" />
-    <Resource Include="Graphics\TrackImages\Maps\interlagos-gp.png" />
-    <Resource Include="Graphics\TrackImages\Maps\longbeach-gp.png" />
-    <Resource Include="Graphics\TrackImages\Maps\mosport.png" />
-    <Resource Include="Graphics\TrackImages\Maps\oultonpark-int.png" />
-    <Resource Include="Graphics\TrackImages\Maps\sonoma-irl.png" />
-    <Resource Include="Graphics\TrackImages\Maps\suzuka-gp.png" />
-    <Resource Include="Graphics\TrackImages\Maps\watkinsglen-boot.png" />
-    <Resource Include="Graphics\TrackImages\Maps\zolder-alternate.png" />
+    <Resource Include="irlm_logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="irlm_logo.ico" />
+    <Resource Include="Graphics\TrackImages\Maps\115-1.png" />
+    <Resource Include="Graphics\TrackImages\Maps\bathurst.png" />
+    <Resource Include="Graphics\TrackImages\Maps\charlotte-roval.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
