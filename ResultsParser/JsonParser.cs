@@ -279,7 +279,7 @@ namespace iRLeagueManager.ResultsParser
             details.RaceGripCompound = ResultData.track_state.race_grip_compound;
             details.RaceRubber = ResultData.track_state.race_rubber;
             details.RelHumidity = ResultData.weather.rel_humidity;
-            details.TimeOfDay = ResultData.time_of_day;
+            details.TimeOfDay = ResultData.weather.time_of_day;
             details.TempUnits = ResultData.weather.temp_units;
             details.TempValue = ResultData.weather.temp_value;
             details.TrackCategoryId = ResultData.track.category_id;
