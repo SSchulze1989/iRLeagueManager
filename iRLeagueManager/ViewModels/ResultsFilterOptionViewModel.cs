@@ -66,6 +66,11 @@ namespace iRLeagueManager.ViewModels
             return Enum.GetNames(enumType);
         }
 
+        public void RefreshFilterValueString()
+        {
+            OnPropertyChanged(nameof(FilterValueString));
+        }
+
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             base.OnPropertyChanged(propertyName);
