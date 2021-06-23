@@ -127,6 +127,11 @@ namespace iRLeagueManager.Views
 
         private void ListPopup_Closed(object sender, EventArgs e)
         {
+            if (sender is FrameworkElement element && element.DataContext is ResultsFilterOptionViewModel optionViewModel)
+            {
+                optionViewModel.RefreshFilterValueString();
+            }
+
             if (sender is Popup popup && popup.Tag is IconToggleButton button)
             {
                 button.IsChecked = false;

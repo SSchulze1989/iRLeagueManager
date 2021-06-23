@@ -1,6 +1,7 @@
 ﻿using iRLeagueDatabase.Filters;
 using iRLeagueManager.Models;
 using iRLeagueManager.Models.Filters;
+using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.ViewModels.Collections;
 using System;
@@ -54,7 +55,10 @@ namespace iRLeagueManager.ViewModels
             excludeProperties.Add(nameof(ResultRowModel.SimSessionType));
             excludeProperties.Add(nameof(ResultRowModel.Location));
             excludeProperties.Add(nameof(ResultRowModel.MemberId));
-            FilterProperties = typeof(ResultRowModel).GetProperties().Select(x => x.Name).Except(excludeProperties);
+            FilterProperties = typeof(ResultRowModel)
+                .GetProperties()
+                .Select(x => x.Name)
+                .Except(excludeProperties);
 
             resultsFilterOptions = new ObservableViewModelCollection<ResultsFilterOptionViewModel, ResultsFilterOptionModel>();
             var filters = new List<ResultsFilterOptionModel>()

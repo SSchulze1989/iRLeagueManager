@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using iRLeagueDatabase.Extensions;
 using iRLeagueManager.Enums;
 using iRLeagueManager.Models.Results;
 using System;
@@ -54,7 +55,7 @@ namespace iRLeagueManager.Models.Filters
         private ObservableCollection<FilterValueModel> filterValues;
         public ObservableCollection<FilterValueModel> FilterValues { get => filterValues; set => SetNotifyCollection(ref filterValues, value); }
 
-        public Type ColumnPropertyType => typeof(ResultRowModel).GetProperty(ColumnPropertyName ?? "")?.PropertyType;
+        public Type ColumnPropertyType => typeof(ResultRowModel).GetNestedPropertyInfo(ColumnPropertyName ?? "")?.PropertyType;
 
         public override long[] ModelId => new long[] { ResultsFilterId };
 
