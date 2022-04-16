@@ -261,5 +261,27 @@ namespace iRLeagueManager.Views
                 button.Command?.Execute(button.CommandParameter);
             }
         }
+
+        private async void EditStandingsFiltersButton_Click(object sender, RoutedEventArgs e)
+        {
+            var EditPanel = new ModalOkCancelControl();
+            MainGrid.Children.Add(EditPanel);
+            try
+            {
+                if (sender is Button button && button.Tag is ScoringTableViewModel scoringTableViewModel)
+                {
+                    var editWindow = EditPanel;
+                    var filterEdit = new StandingsFiltersEditControl();
+                    await filterEdit.ViewModel.Load(scoringTableViewModel.Model);
+                    editWindow.ModalContent = filterEdit;
+
+                    editWindow.ShowDialog();
+                }
+            }
+            finally
+            {
+                MainGrid.Children.Remove(EditPanel);
+            }
+        }
     }
 }

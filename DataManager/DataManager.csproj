@@ -114,6 +114,7 @@
     <Compile Include="ModelIdentifier.cs" />
     <Compile Include="Data\IActionProvider.cs" />
     <Compile Include="Models\Filters\FilterValueModel.cs" />
+    <Compile Include="Models\Filters\StandingsFilterOptionModel.cs" />
     <Compile Include="Models\Filters\ResultsFilterOptionModel.cs" />
     <Compile Include="Models\ICacheableModel.cs" />
     <Compile Include="Models\IModelCache.cs" />
