@@ -56,6 +56,11 @@ namespace iRLeagueManager.Models.Results
         private int totalPoints;
         public int TotalPoints { get => totalPoints; set => SetValue(ref totalPoints, value); }
 
+        private TimeSpan penaltyTime;
+        public TimeSpan PenaltyTime { get => penaltyTime; set => SetValue(ref penaltyTime, value); }
+
+        public new LapInterval Interval => base.Interval.Add(PenaltyTime);
+
         public override int PositionChange => StartPosition - FinalPosition;
 
         private DateTime date;

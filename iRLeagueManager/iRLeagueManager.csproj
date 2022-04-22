@@ -163,6 +163,7 @@
     <Compile Include="Logging\ExceptionLogMessage.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="ViewModels\AddPenaltyViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Collections\ScheduleVMCollection.cs" />
