@@ -28,12 +28,12 @@ namespace iRLeagueManager.ViewModels
             {
                 if (SetValue(ref filterOptionsSource, value))
                 {
-                    resultsFilterOptions.UpdateSource(FilterOptionsSource);
+                    filterOptions.UpdateSource(FilterOptionsSource);
                 }
             }
         }
-        private readonly ObservableViewModelCollection<StandingsFilterOptionViewModel, StandingsFilterOptionModel> resultsFilterOptions;
-        public ICollectionView ResultsFilterOptions => resultsFilterOptions.CollectionView;
+        private readonly ObservableViewModelCollection<StandingsFilterOptionViewModel, StandingsFilterOptionModel> filterOptions;
+        public ICollectionView FilterOptions => filterOptions.CollectionView;
         public IEnumerable<string> FilterTypes { get; }
         public IEnumerable<string> FilterProperties { get; }
 
@@ -60,12 +60,12 @@ namespace iRLeagueManager.ViewModels
                 .Select(x => x.Name)
                 .Except(excludeProperties);
 
-            resultsFilterOptions = new ObservableViewModelCollection<StandingsFilterOptionViewModel, StandingsFilterOptionModel>();
+            filterOptions = new ObservableViewModelCollection<StandingsFilterOptionViewModel, StandingsFilterOptionModel>();
             var filters = new List<StandingsFilterOptionModel>()
             {
                 new StandingsFilterOptionModel()
                 {
-                    FilterType = "ColumnPropertyFilter",
+                    ResultsFilterType = "ColumnPropertyFilter",
                     Comparator = Enums.ComparatorTypeEnum.IsEqual,
                     ColumnPropertyName = FilterProperties.First(),
                 }
@@ -98,7 +98,7 @@ namespace iRLeagueManager.ViewModels
             ScoringTable = scoring;
             if (scoring == null)
             {
-                resultsFilterOptions.UpdateSource(null);
+                filterOptions.UpdateSource(null);
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace iRLeagueManager.ViewModels
                 IsLoading = true;
                 var newFilter = new StandingsFilterOptionModel(-FilterOptionsSource.Count,  ScoringTable.ScoringTableId)
                 {
-                    FilterType = "ColumnPropertyFilter",
+                    ResultsFilterType = "ColumnPropertyFilter",
                     ColumnPropertyName = FilterProperties.First(),
                     Comparator = Enums.ComparatorTypeEnum.IsEqual,
                     FilterValues = new ObservableCollection<FilterValueModel>()

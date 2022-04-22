@@ -187,7 +187,7 @@
         </DataGrid>-->
 
         <StackPanel MinHeight="120">
-            <ListView ItemsSource="{Binding StandingsFilterOptions}">
+            <ListView ItemsSource="{Binding FilterOptions}">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>

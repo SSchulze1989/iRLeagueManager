@@ -37,8 +37,8 @@ namespace iRLeagueManager.Models.Filters
         public long FilterId { get; internal set; }
         public long ScoringTableId { get; internal set; }
 
-        private string filterType;
-        public string FilterType { get => filterType; set => SetValue(ref filterType, value); }
+        private string resultsFilterType;
+        public string ResultsFilterType { get => resultsFilterType; set => SetValue(ref resultsFilterType, value); }
 
         private string columnPropertyName;
         public string ColumnPropertyName { get => columnPropertyName; set => SetValue(ref columnPropertyName, value); }

@@ -23,7 +23,7 @@ namespace iRLeagueManager.ViewModels
 
         public long FilterId => Model.FilterId;
         public long ScoringTableId => Model.ScoringTableId;
-        public string FilterType { get => Model.FilterType; set => Model.FilterType = value; }
+        public string FilterType { get => Model.ResultsFilterType; set => Model.ResultsFilterType = value; }
         public string ColumnPropertyName { get => Model.ColumnPropertyName; set => Model.ColumnPropertyName = value; }
         public ComparatorTypeEnum Comparator { get => Model.Comparator; set => Model.Comparator = value; }
         public bool Exclude { get => Model.Exclude; set => Model.Exclude = value; }
