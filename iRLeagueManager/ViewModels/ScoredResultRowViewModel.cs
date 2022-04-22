@@ -51,6 +51,7 @@ namespace iRLeagueManager.ViewModels
         public ICommand StartEditPenaltyCmd { get; }
         public ICommand EndEditPenaltyCmd { get; }
         public ICommand DeletePenaltyCmd { get; }
+        public ICommand ToggleDSQCmd { get; }
 
         //public long ResultRowId => Source.ResultRowId.GetValueOrDefault();
         //public long ScoredResultRowId => Source.ScoredResultRowId.GetValueOrDefault();
@@ -83,6 +84,7 @@ namespace iRLeagueManager.ViewModels
         public int RacePoints { get => Model.RacePoints; set => Model.RacePoints = value; }
         public int BonusPoints { get => Model.BonusPoints; set => Model.BonusPoints = value; }
         public int PenaltyPoints { get => Model.PenaltyPoints; set => Model.PenaltyPoints = value; }
+        public TimeSpan PenaltyTime { get => Model.PenaltyTime; set => Model.PenaltyTime = value; }
         public int FinalPosition { get => Model.FinalPosition; set => Model.FinalPosition = value; }
         public int TotalPoints { get => Model.TotalPoints; }
 
@@ -97,10 +99,13 @@ namespace iRLeagueManager.ViewModels
         public bool MostPenaltyPoints => Result?.Model.FinalResults.Max(x => x.PenaltyPoints) == PenaltyPoints;
         public bool MostIncidents => Result?.Model.FinalResults.Max(x => x.Incidents) == Incidents;
 
+        public string PenaltyString => (PenaltyTime.TotalSeconds > 0) ? PenaltyTime.ToString(@"mm\:ss") : PenaltyPoints > 0 ? PenaltyPoints.ToString() : string.Empty;
+        public override LapInterval Interval => Model?.Interval;
+
         public Location Location => Model.Location;
 
-        private AddPenaltyModel addPenalty;
-        public AddPenaltyModel AddPenalty { get => addPenalty; set => SetValue(ref addPenalty, value); }
+        private AddPenaltyViewModel addPenalty;
+        public AddPenaltyViewModel AddPenalty { get => addPenalty; set => SetValue(ref addPenalty, value); }
         
         private bool isPenaltyEdit;
         public bool IsPenaltyEdit { get => isPenaltyEdit; set => SetValue(ref isPenaltyEdit, value); }
@@ -130,6 +135,7 @@ namespace iRLeagueManager.ViewModels
             EndEditPenaltyCmd = new RelayCommand(async o => await EndEditRowPenalty(), o => AddPenalty != null);
             DeletePenaltyCmd = new RelayCommand(async o => await DeleteRowPenalty(), o => AddPenalty != null);
             reviewPenalties = new ObservableViewModelCollection<ReviewPenaltyViewModel, ReviewPenaltyModel>();
+            ToggleDSQCmd = new RelayCommand(async o => await ToggleDisqualified(), o => Model != null);
         }
 
         public override async Task Load(params long[] modelId)
@@ -156,11 +162,16 @@ namespace iRLeagueManager.ViewModels
 
         public override async void OnUpdateSource()
         {
-            if (Model != null && Model?.PenaltyPoints != 0)
+            if (Model != null && (Model.PenaltyPoints != 0 || Model.PenaltyTime > TimeSpan.Zero))
             {
                 try
                 {
-                    AddPenalty = await LeagueContext.GetModelAsync<AddPenaltyModel>(new long[] { Model.ScoredResultRowId.GetValueOrDefault() }, update: false, reload: true);
+                    var addPenaltyModel = await LeagueContext.GetModelAsync<AddPenaltyModel>(new long[] { Model.ScoredResultRowId.GetValueOrDefault() }, update: false, reload: true);
+                    if (addPenaltyModel != null)
+                    {
+                        AddPenalty = new AddPenaltyViewModel();
+                        AddPenalty.UpdateSource(addPenaltyModel);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -179,7 +190,8 @@ namespace iRLeagueManager.ViewModels
             {
                 var newPenalty = new AddPenaltyModel(row.ScoredResultRowId);
                 newPenalty = await LeagueContext.AddModelAsync(newPenalty);
-                AddPenalty = newPenalty;
+                AddPenalty = new AddPenaltyViewModel();
+                AddPenalty.UpdateSource(newPenalty);
             }
             catch (Exception e)
             {
@@ -188,6 +200,24 @@ namespace iRLeagueManager.ViewModels
             finally
             {
 
+            }
+        }
+
+        public async Task ToggleDisqualified()
+        {
+            try
+            {
+                IsLoading = true;
+                Disqualified = !Disqualified;
+                await LeagueContext.UpdateModelAsync<ResultRowModel>(Model);
+            }
+            catch(Exception e)
+            {
+                GlobalSettings.LogError(e);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 
@@ -203,7 +233,10 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
-                AddPenalty = await LeagueContext.UpdateModelAsync(AddPenalty);
+                if (AddPenalty != null)
+                {
+                    await LeagueContext.UpdateModelAsync(AddPenalty?.Model);
+                }
                 await Load(Model.ModelId);
                 IsPenaltyEdit = false;
             }
@@ -224,7 +257,10 @@ namespace iRLeagueManager.ViewModels
 
             try
             {
-                await LeagueContext.DeleteModelsAsync(AddPenalty);
+                if (AddPenalty != null)
+                {
+                    await LeagueContext.DeleteModelsAsync(AddPenalty.Model);
+                }
                 AddPenalty = null;
             }
             catch (Exception e)

@@ -34,6 +34,10 @@ namespace iRLeagueManager.Models.Results
         public override long[] ModelId => new long[] { ScoredResultRowId.GetValueOrDefault() };
         private int penaltyPoints;
         public int PenaltyPoints { get => penaltyPoints; set => SetValue(ref penaltyPoints, value); }
+
+        private TimeSpan penaltyTime;
+        public TimeSpan PenaltyTime { get => penaltyTime; set => SetValue(ref penaltyTime, value); }
+
         public AddPenaltyModel() { }
 
         public AddPenaltyModel(long? modelId)

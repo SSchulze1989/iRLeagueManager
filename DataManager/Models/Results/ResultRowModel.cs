@@ -150,6 +150,9 @@ namespace iRLeagueManager.Models.Results
         private int division;
         public int Division { get => division; set => SetValue(ref division, value); }
 
+        private bool disqualified;
+        public bool Disqualified { get => disqualified; set => SetValue(ref disqualified, value); }
+
         public ResultRowModel()
         {
             ResultRowId = null;
