@@ -163,6 +163,7 @@
     <Compile Include="Logging\ExceptionLogMessage.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogMessage.cs" />
+    <Compile Include="ViewModels\AddPenaltyViewModel.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Collections\ScheduleVMCollection.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="ViewModels\ContainerModelBase.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\DriverStatisticViewModel.cs" />
+    <Compile Include="ViewModels\StandingsFilterEditViewModel.cs" />
     <Compile Include="ViewModels\FilterEditViewModel.cs" />
     <Compile Include="ViewModels\HoursCollection.cs" />
     <Compile Include="ViewModels\IContainerModelBase.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\Collections\ModelCollectionViewModel.cs" />
     <Compile Include="ViewModels\ResultRowViewModel.cs" />
+    <Compile Include="ViewModels\StandingsFilterOptionViewModel.cs" />
     <Compile Include="ViewModels\ResultsFilterOptionViewModel.cs" />
     <Compile Include="ViewModels\ResultsPageViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
@@ -230,6 +233,9 @@
     </Compile>
     <Compile Include="Views\EditTeamControl.xaml.cs">
       <DependentUpon>EditTeamControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StandingsFiltersEditControl.xaml.cs">
+      <DependentUpon>StandingsFiltersEditControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FiltersEditControl.xaml.cs">
       <DependentUpon>FiltersEditControl.xaml</DependentUpon>
@@ -343,6 +349,10 @@
     <Page Include="Views\EditTeamControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StandingsFiltersEditControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FiltersEditControl.xaml">
       <SubType>Designer</SubType>

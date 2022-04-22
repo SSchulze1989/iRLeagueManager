@@ -429,6 +429,7 @@ namespace iRLeagueManager
                     return new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>(destMultiScorings);
                 }))
                 .ForMember(dest => dest.Scorings, opt => opt.UseDestinationValue())
+                .ForMember(dest => dest.StandingsFilterOptionIds, opt => opt.UseDestinationValue())
                 .ReverseMap()
                 .ForMember(dest => dest.SessionIds, opt => opt.MapFrom(src => src.Sessions.Select(x => x.SessionId)))
                 .ForMember(dest => dest.ScoringFactors, opt => opt.MapFrom((src, dest, factors) =>
@@ -567,6 +568,33 @@ namespace iRLeagueManager
             CreateMap<ResultsFilterOptionDTO, ResultsFilterOptionModel>()
                 .ConstructUsing(src => modelCache.PutOrGetModel(new ResultsFilterOptionModel(src.ResultsFilterId, src.ScoringId)))
                 .EqualityComparison((src, dest) => src.ResultsFilterId == dest.ResultsFilterId)
+                .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var targetColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(dest.ColumnPropertyName);
+                    var sourceColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(src.ColumnPropertyName);
+                    var targetPropertyType = targetColumnProperty.PropertyType;
+                    var sourcePropertyType = sourceColumnProperty.PropertyType;
+                    return new ObservableCollection<FilterValueModel>(src.FilterValues?
+                        .Select(x => new FilterValueModel(targetPropertyType, Convert.ChangeType(x, targetPropertyType)))
+                        ?? new FilterValueModel[0]);
+                }))
+                .ForMember(dest => dest.FilterValues, opt => opt.UseDestinationValue())
+                .ReverseMap()
+                .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
+                {
+                    var targetColumnProperty = typeof(ResultRowDataDTO).GetNestedPropertyInfo(dest.ColumnPropertyName);
+                    var sourceColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(src.ColumnPropertyName);
+                    var targetPropertyType = targetColumnProperty.PropertyType;
+                    var sourcePropertyType = sourceColumnProperty.PropertyType;
+                    return src.FilterValues?
+                        .Select(x => Convert.ChangeType(x.Value, targetPropertyType))
+                        .ToArray()
+                        ?? new object[0];
+                }));
+
+            CreateMap<StandingsFilterOptionDTO, StandingsFilterOptionModel>()
+                .ConstructUsing(src => modelCache.PutOrGetModel(new StandingsFilterOptionModel(src.FilterId, src.ScoringTableId)))
+                .EqualityComparison((src, dest) => src.FilterId == dest.FilterId)
                 .ForMember(dest => dest.FilterValues, opt => opt.MapFrom((src, dest, destMember, context) =>
                 {
                     var targetColumnProperty = typeof(ResultRowModel).GetNestedPropertyInfo(dest.ColumnPropertyName);

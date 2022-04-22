@@ -200,6 +200,10 @@ namespace iRLeagueManager.Models
                 {
                     data = await ModelDataProvider.GetAsync<ResultsFilterOptionDTO>(getModelIds?.ToArray());
                 }
+                else if (typeof(T).Equals(typeof(StandingsFilterOptionModel)))
+                {
+                    data = await ModelDataProvider.GetAsync<StandingsFilterOptionDTO>(getModelIds?.ToArray());
+                }
                 else if (typeof(T).Equals(typeof(SeasonStatisticSetModel)))
                 {
                     data = await ModelDataProvider.GetAsync<SeasonStatisticSetDTO>(getModelIds?.ToArray());
@@ -402,6 +406,11 @@ namespace iRLeagueManager.Models
                 data = mapper.Map <IEnumerable<ResultsFilterOptionDTO>>(models).ToArray();
                 data = await ModelDataProvider.PutAsync(data.Cast<ResultsFilterOptionDTO>().ToArray());
             }
+            else if (typeof(T).Equals(typeof(StandingsFilterOptionModel)))
+            {
+                data = mapper.Map<IEnumerable<StandingsFilterOptionDTO>>(models).ToArray();
+                data = await ModelDataProvider.PutAsync(data.Cast<StandingsFilterOptionDTO>().ToArray());
+            }
             else if (typeof(T).Equals(typeof(SeasonStatisticSetModel)))
             {
                 data = mapper.Map <IEnumerable<SeasonStatisticSetDTO>>(models).ToArray();
@@ -556,6 +565,10 @@ namespace iRLeagueManager.Models
             {
                 return await ModelDataProvider.DelAsync<ResultsFilterOptionDTO>(modelIds);
             }
+            else if (typeof(T).Equals(typeof(StandingsFilterOptionModel)))
+            {
+                return await ModelDataProvider.DelAsync<StandingsFilterOptionDTO>(modelIds);
+            }
             else if (typeof(T).Equals(typeof(SeasonStatisticSetModel)))
             {
                 return await ModelDataProvider.DelAsync<SeasonStatisticSetDTO>(modelIds);
@@ -680,6 +693,11 @@ namespace iRLeagueManager.Models
             {
                 data = mapper.Map<IEnumerable<ResultsFilterOptionDTO>>(models).ToArray();
                 data = await ModelDataProvider.PostAsync(data.Cast<ResultsFilterOptionDTO>().ToArray());
+            }
+            else if (typeof(T).Equals(typeof(StandingsFilterOptionModel)))
+            {
+                data = mapper.Map<IEnumerable<StandingsFilterOptionDTO>>(models).ToArray();
+                data = await ModelDataProvider.PostAsync(data.Cast<StandingsFilterOptionDTO>().ToArray());
             }
             else if (typeof(T).Equals(typeof(SeasonStatisticSetModel)))
             {

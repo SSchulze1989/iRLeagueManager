@@ -64,7 +64,7 @@ namespace iRLeagueManager.ViewModels
         //public int RacePoints { get => Source.RacePoints; set => Source.RacePoints = value; }
         //public int BonusPoints { get => Source.BonusPoints; set => Source.BonusPoints = value; }
         public LapTime QualifyingTime { get => Source.QualifyingTime; set => Source.QualifyingTime = value; }
-        public LapInterval Interval { get => Source.Interval; set => Source.Interval = value; }
+        public virtual LapInterval Interval { get => Source.Interval; set => Source.Interval = value; }
         public LapTime AvgLapTime { get => Source.AvgLapTime; set => Source.AvgLapTime = value; }
         public LapTime FastestLapTime { get => Source.FastestLapTime; set => Source.FastestLapTime = value; }
         public int PositionChange { get => Source.PositionChange; }
@@ -74,5 +74,6 @@ namespace iRLeagueManager.ViewModels
         public int NewIRating => Model.NewIRating;
         public double OldSafetyRating => Model.OldSafetyRating;
         public double NewSafetyRating => Model.NewSafetyRating;
+        public bool Disqualified { get => Model.Disqualified; set => Model.Disqualified = value; }
     }
 }

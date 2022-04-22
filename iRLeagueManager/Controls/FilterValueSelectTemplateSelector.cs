@@ -41,9 +41,20 @@ namespace iRLeagueManager.Controls
             FrameworkElement element = container as FrameworkElement;
             var parent = element.Parent;
 
-            if (element != null && item != null && item is ResultsFilterOptionViewModel filterOption)
+            if (element != null && item != null && item is ResultsFilterOptionViewModel resultsFilterOption)
             {
-                if (filterOption.Comparator == Enums.ComparatorTypeEnum.InList)
+                if (resultsFilterOption.Comparator == Enums.ComparatorTypeEnum.InList)
+                {
+                    return element.FindResource("FilterValueListSelection") as DataTemplate;
+                }
+                else
+                {
+                    return element.FindResource("FilterValueEdit") as DataTemplate;
+                }
+            }
+            else if (element != null && item != null && item is StandingsFilterOptionViewModel standingsFilterOption)
+            {
+                if (standingsFilterOption.Comparator == Enums.ComparatorTypeEnum.InList)
                 {
                     return element.FindResource("FilterValueListSelection") as DataTemplate;
                 }

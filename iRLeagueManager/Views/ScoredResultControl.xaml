@@ -394,7 +394,25 @@ SOFTWARE.-->
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
+                                                            <TextBox Text="{Binding AddPenalty.Penalty}">
+                                                                <TextBox.Style>
+                                                                    <Style TargetType="TextBox">
+                                                                        <Setter Property="IsReadOnly" Value="True"/>
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
+                                                                                <Setter Property="IsReadOnly" Value="False"/>
+                                                                                <Setter Property="IsEnabled" Value="True"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBox.Style>
+                                                            </TextBox>
+                                                            <!--<ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
                                                                       DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
                                                                       Margin="0" Height="25">
                                                                 <ComboBox.Style>
@@ -426,7 +444,7 @@ SOFTWARE.-->
                                                                     <ComboBoxItem>9</ComboBoxItem>
                                                                     <ComboBoxItem>10</ComboBoxItem>
                                                                 </ComboBox.Items>
-                                                            </ComboBox>
+                                                            </ComboBox>-->
                                                             <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5">
                                                                 <controls:IconButton.Style>
                                                                     <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
@@ -1022,10 +1040,10 @@ SOFTWARE.-->
                                         <TextBlock Text="Bonus Pts." TextWrapping="Wrap"/>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn IsReadOnly="True" Width="50" MinWidth="50" SortMemberPath="PenaltyPoints">
+                                <DataGridTextColumn IsReadOnly="True" Width="55" MinWidth="55" SortMemberPath="PenaltyPoints">
                                     <DataGridTextColumn.Binding>
-                                        <MultiBinding StringFormat="{}{0:-#;#;-} {1:[#];[#];''}">
-                                            <Binding Path="PenaltyPoints"/>
+                                        <MultiBinding StringFormat="{}-{0} {1:[#];[#];''}">
+                                            <Binding Path="PenaltyString"/>
                                             <Binding Path="ReviewPenalties.Count"/>
                                         </MultiBinding>
                                     </DataGridTextColumn.Binding>
@@ -1035,7 +1053,7 @@ SOFTWARE.-->
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                     <DataGridTextColumn.Header>
-                                        <TextBlock Text="Pen. Pts." TextWrapping="WrapWithOverflow"/>
+                                        <TextBlock Text="Pen." TextWrapping="WrapWithOverflow"/>
                                     </DataGridTextColumn.Header>
                                     <DataGridTextColumn.CellStyle>
                                         <Style TargetType="DataGridCell" BasedOn="{StaticResource ResultsGridCellStyle}">
@@ -1087,9 +1105,15 @@ SOFTWARE.-->
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PenaltyPoints}" Value="0">
-                                                    <Setter Property="Foreground" Value="Black"/>
-                                                </DataTrigger>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding PenaltyPoints}" Value="0"/>
+                                                        <Condition Binding="{Binding PenaltyTime.TotalSeconds}" Value="0"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Foreground" Value="Black"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
@@ -1126,7 +1150,25 @@ SOFTWARE.-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
+                                                <TextBox Text="{Binding AddPenalty.Penalty, UpdateSourceTrigger=LostFocus}" MinWidth="40" Padding="2,5">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="TextBox">
+                                                            <Setter Property="IsReadOnly" Value="True"/>
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsPenaltyEdit}" Value="True">
+                                                                    <Setter Property="IsReadOnly" Value="False"/>
+                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding AddPenalty}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
+                                                <!--<ComboBox SelectedValue="{Binding AddPenalty.PenaltyPoints, UpdateSourceTrigger=PropertyChanged}" 
                                                           DisplayMemberPath="" SelectedValuePath="Content" Width="40" VerticalContentAlignment="Center"
                                                           Margin="0" Height="25" IsEditable="True">
                                                     <ComboBox.Style>
@@ -1158,7 +1200,7 @@ SOFTWARE.-->
                                                         <ComboBoxItem>9</ComboBoxItem>
                                                         <ComboBoxItem>10</ComboBoxItem>
                                                     </ComboBox.Items>
-                                                </ComboBox>
+                                                </ComboBox>-->
                                                 <controls:IconButton IconMargin="-2,-4,0,0" Width="28" Height="25" Padding="5">
                                                     <controls:IconButton.Style>
                                                         <Style TargetType="controls:IconButton" BasedOn="{StaticResource {x:Type controls:IconButton}}">
@@ -1220,19 +1262,59 @@ SOFTWARE.-->
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="30" MinWidth="30">
+                                <DataGridTemplateColumn Width="50" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <controls:IconButton Click="DeleteRowButton_Click" Tag="{Binding}"
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:IconButton Command="{Binding ToggleDSQCmd}"
+                                                                 Width="28" Height="25" Margin="-2,0,-2,0" Padding="2,2,4,2"
+                                                                 IconMargin="-5,-2,2,2" Background="Transparent" BorderBrush="Transparent"
+                                                                 IconFill="{StaticResource ThemeColor_Back5}"
+                                                                 ToolTip="Disqualify">
+                                                    <controls:IconButton.Content>
+                                                        <fa:ImageAwesome Icon="FlagOutline"/>
+                                                    </controls:IconButton.Content>
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Disqualified}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
+                                                <controls:IconButton Command="{Binding ToggleDSQCmd}"
+                                                                 Width="28" Height="25" Margin="-2,0,-2,0" Padding="2,2,4,2"
+                                                                 IconMargin="-5,-2,2,2" Background="Transparent" BorderBrush="Transparent"
+                                                                 IconFill="{StaticResource ThemeColor_Back5}"
+                                                                 ToolTip="Undo Disqualify">
+                                                    <controls:IconButton.Content>
+                                                        <fa:ImageAwesome Icon="Flag"/>
+                                                    </controls:IconButton.Content>
+                                                    <controls:IconButton.Style>
+                                                        <Style TargetType="controls:IconButton">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Disqualified}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </controls:IconButton.Style>
+                                                </controls:IconButton>
+                                                <controls:IconButton Click="DeleteRowButton_Click" Tag="{Binding}"
                                                                  Width="28" Height="25" Margin="-2,0,-2,0" Padding="2,2,4,2"
                                                                  IconMargin="-5,-2,2,2"
                                                                  IconFill="{StaticResource ThemeColor_Back5}">
-                                                <controls:IconButton.IconContent>
-                                                    <Viewbox>
-                                                        <ContentControl Content="{DynamicResource delete}"/>
-                                                    </Viewbox>
-                                                </controls:IconButton.IconContent>
-                                            </controls:IconButton>
+                                                    <controls:IconButton.IconContent>
+                                                        <Viewbox>
+                                                            <ContentControl Content="{DynamicResource delete}"/>
+                                                        </Viewbox>
+                                                    </controls:IconButton.IconContent>
+                                                </controls:IconButton>
+                                            </StackPanel>
                                             <!--<Button Content="{StaticResource delete}" Click="DeleteRowButton_Click" Tag="{Binding}"
                                 Style="{StaticResource IconButtonStyle}"/>-->
                                         </DataTemplate>
