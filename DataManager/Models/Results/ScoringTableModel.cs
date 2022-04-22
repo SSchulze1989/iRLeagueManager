@@ -62,6 +62,9 @@ namespace iRLeagueManager.Models.Results
         private ObservableCollection<SessionInfo> sessions;
         public ObservableCollection<SessionInfo> Sessions { get => sessions; set => SetValue(ref sessions, value); }
 
+        private ObservableCollection<long> standingsFilterOptionIds;
+        public ObservableCollection<long> StandingsFilterOptionIds { get => standingsFilterOptionIds; set => SetValue(ref standingsFilterOptionIds, value); }
+
         public override string ToString()
         {
             if (string.IsNullOrEmpty(Name) == false)
@@ -78,6 +81,7 @@ namespace iRLeagueManager.Models.Results
         {
             Scorings = new ObservableCollection<MyKeyValuePair<ScoringInfo, double>>();
             Sessions = new ObservableCollection<SessionInfo>();
+            StandingsFilterOptionIds = new ObservableCollection<long>();
         }
     }
 }

@@ -54,6 +54,8 @@ namespace iRLeagueManager.ViewModels
         private bool supressReloadStandings;
         public bool SupressReloadStandings { get => supressReloadStandings; set => SetValue(ref supressReloadStandings, value); }
 
+        public ObservableCollection<long> StandingsFilterOptionIds => Model.StandingsFilterOptionIds;
+
         private CollectionViewSource scoringListSource;
         public ICollectionView ScoringList
         {
