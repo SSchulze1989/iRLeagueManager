@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using iRLeagueManager.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,10 +36,9 @@ using iRLeagueManager.Models.Members;
 using iRLeagueManager.Models.Sessions;
 using iRLeagueManager.Models.Results;
 using iRLeagueManager.Models.Reviews;
-using iRLeagueManager.Enums;
+using iRLeagueApiCore.Communication.Enums;
 using iRLeagueManager.Models.Database;
-using iRLeagueDatabase.DataTransfer.Members;
-using iRLeagueManager.Locations;
+using iRLeagueApiCore.Communication.Models;
 using System.Data;
 using System.Collections;
 

@@ -27,8 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
-using iRLeagueManager.Enums;
-using iRLeagueManager.Interfaces;
+using iRLeagueApiCore.Communication.Enums;
 
 namespace iRLeagueManager.Data
 {

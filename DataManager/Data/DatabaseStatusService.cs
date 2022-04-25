@@ -20,8 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using iRLeagueManager.Enums;
-using iRLeagueManager.Interfaces;
+using iRLeagueApiCore.Communication.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

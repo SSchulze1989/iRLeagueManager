@@ -59,10 +59,6 @@
     <Compile Include="ResultsParserFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\iRLeagueDatabaseService\Communication\Communication.csproj">
-      <Project>{0afd7545-de7f-44d0-a3b0-daf3a1e0844f}</Project>
-      <Name>Communication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataManager\DataManager.csproj">
       <Project>{65822b2c-229c-4e8c-a38c-6cf87f16d8fe}</Project>
       <Name>DataManager</Name>
