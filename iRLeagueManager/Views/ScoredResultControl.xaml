@@ -1262,7 +1262,7 @@ SOFTWARE.-->
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="50" MinWidth="50">
+                                <DataGridTemplateColumn Width="55" MinWidth="55">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">

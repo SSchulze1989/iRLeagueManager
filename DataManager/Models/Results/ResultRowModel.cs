@@ -153,6 +153,9 @@ namespace iRLeagueManager.Models.Results
         private bool disqualified;
         public bool Disqualified { get => disqualified; set => SetValue(ref disqualified, value); }
 
+        private int racePoints;
+        public int RacePoints { get => racePoints; set => SetValue(ref racePoints, value); }
+
         public ResultRowModel()
         {
             ResultRowId = null;

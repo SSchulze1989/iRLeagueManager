@@ -124,7 +124,8 @@ namespace iRLeagueManager.ResultsParser
                     FastLapNr = resultRow.best_lap_num,
                     Incidents = resultRow.incidents,
                     Status = Enum.TryParse((string)resultRow.reason_out, out RaceStatusEnum statusEnum) ? statusEnum : RaceStatusEnum.Unknown,
-                    QualifyingTime = new LapTime(TimeSpan.Zero)
+                    QualifyingTime = new LapTime(TimeSpan.Zero),
+                    RacePoints = resultRow.champ_points,
                 };
                 var eventLaps = (int)ResultData.event_laps_complete;
                 row.CompletedPct = eventLaps >= row.CompletedLaps ? (row.CompletedLaps / eventLaps)*100 : 100;
