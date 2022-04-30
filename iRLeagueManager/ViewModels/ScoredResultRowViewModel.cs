@@ -81,7 +81,6 @@ namespace iRLeagueManager.ViewModels
         //public int PositionChange { get => Source.PositionChange; }
         public new ScoredResultRowModel Model => (base.Model as ScoredResultRowModel) ?? new ScoredResultRowModel();
 
-        public int RacePoints { get => Model.RacePoints; set => Model.RacePoints = value; }
         public int BonusPoints { get => Model.BonusPoints; set => Model.BonusPoints = value; }
         public int PenaltyPoints { get => Model.PenaltyPoints; set => Model.PenaltyPoints = value; }
         public TimeSpan PenaltyTime { get => Model.PenaltyTime; set => Model.PenaltyTime = value; }

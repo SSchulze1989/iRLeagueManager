@@ -41,8 +41,8 @@ namespace iRLeagueManager.Models.Results
         [EqualityCheckProperty]
         public long? ScoredResultRowId { get; internal set; }
 
-        private int racePoints;
-        public int RacePoints { get => racePoints; set => SetValue(ref racePoints, value); }
+        //private int racePoints;
+        //public int RacePoints { get => racePoints; set => SetValue(ref racePoints, value); }
 
         private int bonusPoints;
         public int BonusPoints { get => bonusPoints; set => SetValue(ref bonusPoints, value); }
