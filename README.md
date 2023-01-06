@@ -6,7 +6,7 @@
 > 
 > To visit the new home of iRLeaguemanager go to
 > 
-> https://github.com/SSchulze1989/iRLeagueApiCore
+> https://github.com/SSchulze1989/iRLeagueManager.Web
 
 # What is iRLeagueManager?
 As the name says it is an iRacing League Manager.
