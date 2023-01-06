@@ -1,3 +1,13 @@
+> **Warning**
+>
+> This project has been deprecated and will no longer be updated. The server and app has been shutdown.
+
+> **Note**
+> 
+> To visit the new home of iRLeaguemanager go to
+> 
+> https://github.com/SSchulze1989/iRLeagueApiCore
+
 # What is iRLeagueManager?
 As the name says it is an iRacing League Manager.
 A complete tool to manage your iRacing league schedules, 
